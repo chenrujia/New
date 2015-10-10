@@ -10,6 +10,8 @@
 
 #define KZAssertsIncluded true
 
+#import <Foundation/Foundation.h>
+
 extern const NSUInteger KZAssertFailedAssertionCode;
 
 typedef NSError *(*TKZAssertErrorFunction)(NSString *message, NSUInteger code, NSDictionary *userInfo);

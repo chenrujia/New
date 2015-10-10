@@ -6,6 +6,7 @@
 //  Copyright 2009 d3i. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
 @protocol MWTapDetectingViewDelegate;
