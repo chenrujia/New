@@ -7,6 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "BXTHomeViewController.h"
+#import "BXTHeaderFile.h"
+#import "BXTLoginViewController.h"
+#import "UINavigationController+YRBackGesture.h"
+#import "IQKeyboardManager.h"
 
 @interface AppDelegate ()
 
@@ -15,13 +20,34 @@
 @implementation AppDelegate
 
 
++ (AppDelegate *)appdelegete
+{
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+    //自动键盘
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.shouldResignOnTouchOutside = YES;
+    manager.shouldToolbarUsesTextFieldTintColor = YES;
+    manager.enableAutoToolbar = YES;
+    
+    BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    navigation.navigationBar.hidden = YES;
+    navigation.enableBackGesture = YES;
+    self.window.rootViewController = navigation;
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    
     return YES;
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

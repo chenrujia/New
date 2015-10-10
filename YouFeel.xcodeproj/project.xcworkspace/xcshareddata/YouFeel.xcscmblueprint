@@ -1,0 +1,32 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "C432623973BB4AF2C1E4A72F14A51A37A3BA9E86",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "17c7954a-47f6-4c9e-92fd-d534a35c2067++6528" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "C432623973BB4AF2C1E4A72F14A51A37A3BA9E86" : 0,
+    "17c7954a-47f6-4c9e-92fd-d534a35c2067++6528" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "36235475-625C-4275-B48E-2FB20E77B940",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "C432623973BB4AF2C1E4A72F14A51A37A3BA9E86" : "YouFeel\/",
+    "17c7954a-47f6-4c9e-92fd-d534a35c2067++6528" : "..\/YouFeel\/YouFeel\/Module\/AddOtherMan\/Views"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "YouFeel",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "YouFeel.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/192.168.1.115\/svn\/web",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "17c7954a-47f6-4c9e-92fd-d534a35c2067++6528"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Jason318\/New.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C432623973BB4AF2C1E4A72F14A51A37A3BA9E86"
+    }
+  ]
+}
