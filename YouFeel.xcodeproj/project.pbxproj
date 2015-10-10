@@ -13,6 +13,7 @@
 		9652AB0C1BC902DF009A666D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9652AB0A1BC902DF009A666D /* LaunchScreen.storyboard */; };
 		9652AB171BC902DF009A666D /* YouFeelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB161BC902DF009A666D /* YouFeelTests.m */; };
 		9652AB221BC902DF009A666D /* YouFeelUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB211BC902DF009A666D /* YouFeelUITests.m */; };
+		9652AB361BC9069B009A666D /* BXTGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB321BC9069B009A666D /* BXTGlobal.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,8 @@
 		9652AB1D1BC902DF009A666D /* YouFeelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YouFeelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9652AB211BC902DF009A666D /* YouFeelUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YouFeelUITests.m; sourceTree = "<group>"; };
 		9652AB231BC902DF009A666D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9652AB311BC9069B009A666D /* BXTGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTGlobal.h; sourceTree = "<group>"; };
+		9652AB321BC9069B009A666D /* BXTGlobal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTGlobal.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +101,10 @@
 			children = (
 				9652AB051BC902DF009A666D /* AppDelegate.h */,
 				9652AB061BC902DF009A666D /* AppDelegate.m */,
+				9652AB2F1BC9069B009A666D /* Help */,
+				9652AB331BC9069B009A666D /* Library */,
+				9652AB341BC9069B009A666D /* Module */,
+				9652AB351BC9069B009A666D /* Utilities */,
 				9652AB081BC902DF009A666D /* Assets.xcassets */,
 				9652AB0A1BC902DF009A666D /* LaunchScreen.storyboard */,
 				9652AB0D1BC902DF009A666D /* Info.plist */,
@@ -130,6 +137,44 @@
 				9652AB231BC902DF009A666D /* Info.plist */,
 			);
 			path = YouFeelUITests;
+			sourceTree = "<group>";
+		};
+		9652AB2F1BC9069B009A666D /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				9652AB301BC9069B009A666D /* Global */,
+			);
+			path = Help;
+			sourceTree = "<group>";
+		};
+		9652AB301BC9069B009A666D /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				9652AB311BC9069B009A666D /* BXTGlobal.h */,
+				9652AB321BC9069B009A666D /* BXTGlobal.m */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		9652AB331BC9069B009A666D /* Library */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		9652AB341BC9069B009A666D /* Module */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		9652AB351BC9069B009A666D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9652AB071BC902DF009A666D /* AppDelegate.m in Sources */,
+				9652AB361BC9069B009A666D /* BXTGlobal.m in Sources */,
 				9652AB041BC902DF009A666D /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
