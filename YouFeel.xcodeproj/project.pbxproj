@@ -56,6 +56,24 @@
 		9652ABBD1BC9092B009A666D /* DCReferenceKeyParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABA71BC9092B009A666D /* DCReferenceKeyParser.m */; settings = {ASSET_TAGS = (); }; };
 		9652ABBE1BC9092B009A666D /* DCSimpleConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABA91BC9092B009A666D /* DCSimpleConverter.m */; settings = {ASSET_TAGS = (); }; };
 		9652ABBF1BC9092B009A666D /* NSObject+DCKeyValueObjectMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABAC1BC9092B009A666D /* NSObject+DCKeyValueObjectMapping.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABEA1BC90DCC009A666D /* AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABC31BC90DCC009A666D /* AESCrypt.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABEB1BC90DCC009A666D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABC51BC90DCC009A666D /* NSData+Base64.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABEC1BC90DCC009A666D /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABC71BC90DCC009A666D /* NSData+CommonCrypto.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABED1BC90DCC009A666D /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABC91BC90DCC009A666D /* NSString+Base64.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABEE1BC90DCC009A666D /* ANKeyValueCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABCB1BC90DCC009A666D /* ANKeyValueCache.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABEF1BC90DCC009A666D /* ANKeyValueData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABCD1BC90DCC009A666D /* ANKeyValueData.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABF01BC90DCC009A666D /* ANKeyValueStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABCF1BC90DCC009A666D /* ANKeyValueStrategy.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABF11BC90DCC009A666D /* ANKeyValueTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABD11BC90DCC009A666D /* ANKeyValueTable.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABF21BC90DCC009A666D /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABD41BC90DCC009A666D /* AutoCoding.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABF31BC90DCC009A666D /* ANPersistentData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABD71BC90DCC009A666D /* ANPersistentData.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABF41BC90DCC009A666D /* ANPersistentStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABD91BC90DCC009A666D /* ANPersistentStrategy.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABDD1BC90DCC009A666D /* NSData+ANKeyValue.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABF61BC90DCC009A666D /* NSString+ANKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABDF1BC90DCC009A666D /* NSString+ANKeyValue.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABF71BC90DCC009A666D /* UIImage+ANKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABE11BC90DCC009A666D /* UIImage+ANKeyValue.m */; settings = {ASSET_TAGS = (); }; };
+		9652ABF81BC90DCC009A666D /* icon_chose_arrow_nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9652ABE41BC90DCC009A666D /* icon_chose_arrow_nor@2x.png */; settings = {ASSET_TAGS = (); }; };
+		9652ABF91BC90DCC009A666D /* icon_chose_arrow_sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9652ABE51BC90DCC009A666D /* icon_chose_arrow_sel@2x.png */; settings = {ASSET_TAGS = (); }; };
+		9652ABFA1BC90DCC009A666D /* icon_chose_bottom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9652ABE61BC90DCC009A666D /* icon_chose_bottom@2x.png */; settings = {ASSET_TAGS = (); }; };
+		9652ABFB1BC90DCC009A666D /* DOPDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652ABE91BC90DCC009A666D /* DOPDropDownMenu.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +197,40 @@
 		9652ABAA1BC9092B009A666D /* DCValueConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCValueConverter.h; sourceTree = "<group>"; };
 		9652ABAB1BC9092B009A666D /* NSObject+DCKeyValueObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DCKeyValueObjectMapping.h"; sourceTree = "<group>"; };
 		9652ABAC1BC9092B009A666D /* NSObject+DCKeyValueObjectMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DCKeyValueObjectMapping.m"; sourceTree = "<group>"; };
+		9652ABC21BC90DCC009A666D /* AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESCrypt.h; sourceTree = "<group>"; };
+		9652ABC31BC90DCC009A666D /* AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESCrypt.m; sourceTree = "<group>"; };
+		9652ABC41BC90DCC009A666D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		9652ABC51BC90DCC009A666D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		9652ABC61BC90DCC009A666D /* NSData+CommonCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CommonCrypto.h"; sourceTree = "<group>"; };
+		9652ABC71BC90DCC009A666D /* NSData+CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CommonCrypto.m"; sourceTree = "<group>"; };
+		9652ABC81BC90DCC009A666D /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
+		9652ABC91BC90DCC009A666D /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
+		9652ABCA1BC90DCC009A666D /* ANKeyValueCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANKeyValueCache.h; sourceTree = "<group>"; };
+		9652ABCB1BC90DCC009A666D /* ANKeyValueCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANKeyValueCache.m; sourceTree = "<group>"; };
+		9652ABCC1BC90DCC009A666D /* ANKeyValueData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANKeyValueData.h; sourceTree = "<group>"; };
+		9652ABCD1BC90DCC009A666D /* ANKeyValueData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANKeyValueData.m; sourceTree = "<group>"; };
+		9652ABCE1BC90DCC009A666D /* ANKeyValueStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANKeyValueStrategy.h; sourceTree = "<group>"; };
+		9652ABCF1BC90DCC009A666D /* ANKeyValueStrategy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANKeyValueStrategy.m; sourceTree = "<group>"; };
+		9652ABD01BC90DCC009A666D /* ANKeyValueTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANKeyValueTable.h; sourceTree = "<group>"; };
+		9652ABD11BC90DCC009A666D /* ANKeyValueTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANKeyValueTable.m; sourceTree = "<group>"; };
+		9652ABD31BC90DCC009A666D /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoCoding.h; sourceTree = "<group>"; };
+		9652ABD41BC90DCC009A666D /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoCoding.m; sourceTree = "<group>"; };
+		9652ABD61BC90DCC009A666D /* ANPersistentData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANPersistentData.h; sourceTree = "<group>"; };
+		9652ABD71BC90DCC009A666D /* ANPersistentData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANPersistentData.m; sourceTree = "<group>"; };
+		9652ABD81BC90DCC009A666D /* ANPersistentStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANPersistentStrategy.h; sourceTree = "<group>"; };
+		9652ABD91BC90DCC009A666D /* ANPersistentStrategy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANPersistentStrategy.m; sourceTree = "<group>"; };
+		9652ABDB1BC90DCC009A666D /* ANKeyValueProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANKeyValueProtocol.h; sourceTree = "<group>"; };
+		9652ABDC1BC90DCC009A666D /* NSData+ANKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ANKeyValue.h"; sourceTree = "<group>"; };
+		9652ABDD1BC90DCC009A666D /* NSData+ANKeyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ANKeyValue.m"; sourceTree = "<group>"; };
+		9652ABDE1BC90DCC009A666D /* NSString+ANKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ANKeyValue.h"; sourceTree = "<group>"; };
+		9652ABDF1BC90DCC009A666D /* NSString+ANKeyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ANKeyValue.m"; sourceTree = "<group>"; };
+		9652ABE01BC90DCC009A666D /* UIImage+ANKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ANKeyValue.h"; sourceTree = "<group>"; };
+		9652ABE11BC90DCC009A666D /* UIImage+ANKeyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ANKeyValue.m"; sourceTree = "<group>"; };
+		9652ABE41BC90DCC009A666D /* icon_chose_arrow_nor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_chose_arrow_nor@2x.png"; sourceTree = "<group>"; };
+		9652ABE51BC90DCC009A666D /* icon_chose_arrow_sel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_chose_arrow_sel@2x.png"; sourceTree = "<group>"; };
+		9652ABE61BC90DCC009A666D /* icon_chose_bottom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_chose_bottom@2x.png"; sourceTree = "<group>"; };
+		9652ABE81BC90DCC009A666D /* DOPDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOPDropDownMenu.h; sourceTree = "<group>"; };
+		9652ABE91BC90DCC009A666D /* DOPDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOPDropDownMenu.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,6 +345,8 @@
 		9652AB331BC9069B009A666D /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				9652ABC01BC90DCC009A666D /* ANKeyValue */,
+				9652ABE21BC90DCC009A666D /* DOPDropDownMenu */,
 				9652AB841BC9092B009A666D /* KeyValueObjectMapping */,
 				9652AB4E1BC908C7009A666D /* AFN */,
 				9652AB471BC9084A009A666D /* DACircularProgress */,
@@ -451,6 +505,102 @@
 			path = KeyValueObjectMapping;
 			sourceTree = "<group>";
 		};
+		9652ABC01BC90DCC009A666D /* ANKeyValue */ = {
+			isa = PBXGroup;
+			children = (
+				9652ABC11BC90DCC009A666D /* AESCrypt */,
+				9652ABCA1BC90DCC009A666D /* ANKeyValueCache.h */,
+				9652ABCB1BC90DCC009A666D /* ANKeyValueCache.m */,
+				9652ABCC1BC90DCC009A666D /* ANKeyValueData.h */,
+				9652ABCD1BC90DCC009A666D /* ANKeyValueData.m */,
+				9652ABCE1BC90DCC009A666D /* ANKeyValueStrategy.h */,
+				9652ABCF1BC90DCC009A666D /* ANKeyValueStrategy.m */,
+				9652ABD01BC90DCC009A666D /* ANKeyValueTable.h */,
+				9652ABD11BC90DCC009A666D /* ANKeyValueTable.m */,
+				9652ABD21BC90DCC009A666D /* AutoCoding */,
+				9652ABD51BC90DCC009A666D /* Persistent */,
+				9652ABDA1BC90DCC009A666D /* Protocol */,
+			);
+			path = ANKeyValue;
+			sourceTree = "<group>";
+		};
+		9652ABC11BC90DCC009A666D /* AESCrypt */ = {
+			isa = PBXGroup;
+			children = (
+				9652ABC21BC90DCC009A666D /* AESCrypt.h */,
+				9652ABC31BC90DCC009A666D /* AESCrypt.m */,
+				9652ABC41BC90DCC009A666D /* NSData+Base64.h */,
+				9652ABC51BC90DCC009A666D /* NSData+Base64.m */,
+				9652ABC61BC90DCC009A666D /* NSData+CommonCrypto.h */,
+				9652ABC71BC90DCC009A666D /* NSData+CommonCrypto.m */,
+				9652ABC81BC90DCC009A666D /* NSString+Base64.h */,
+				9652ABC91BC90DCC009A666D /* NSString+Base64.m */,
+			);
+			path = AESCrypt;
+			sourceTree = "<group>";
+		};
+		9652ABD21BC90DCC009A666D /* AutoCoding */ = {
+			isa = PBXGroup;
+			children = (
+				9652ABD31BC90DCC009A666D /* AutoCoding.h */,
+				9652ABD41BC90DCC009A666D /* AutoCoding.m */,
+			);
+			path = AutoCoding;
+			sourceTree = "<group>";
+		};
+		9652ABD51BC90DCC009A666D /* Persistent */ = {
+			isa = PBXGroup;
+			children = (
+				9652ABD61BC90DCC009A666D /* ANPersistentData.h */,
+				9652ABD71BC90DCC009A666D /* ANPersistentData.m */,
+				9652ABD81BC90DCC009A666D /* ANPersistentStrategy.h */,
+				9652ABD91BC90DCC009A666D /* ANPersistentStrategy.m */,
+			);
+			path = Persistent;
+			sourceTree = "<group>";
+		};
+		9652ABDA1BC90DCC009A666D /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				9652ABDB1BC90DCC009A666D /* ANKeyValueProtocol.h */,
+				9652ABDC1BC90DCC009A666D /* NSData+ANKeyValue.h */,
+				9652ABDD1BC90DCC009A666D /* NSData+ANKeyValue.m */,
+				9652ABDE1BC90DCC009A666D /* NSString+ANKeyValue.h */,
+				9652ABDF1BC90DCC009A666D /* NSString+ANKeyValue.m */,
+				9652ABE01BC90DCC009A666D /* UIImage+ANKeyValue.h */,
+				9652ABE11BC90DCC009A666D /* UIImage+ANKeyValue.m */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		9652ABE21BC90DCC009A666D /* DOPDropDownMenu */ = {
+			isa = PBXGroup;
+			children = (
+				9652ABE31BC90DCC009A666D /* Assets */,
+				9652ABE71BC90DCC009A666D /* Classes */,
+			);
+			path = DOPDropDownMenu;
+			sourceTree = "<group>";
+		};
+		9652ABE31BC90DCC009A666D /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				9652ABE41BC90DCC009A666D /* icon_chose_arrow_nor@2x.png */,
+				9652ABE51BC90DCC009A666D /* icon_chose_arrow_sel@2x.png */,
+				9652ABE61BC90DCC009A666D /* icon_chose_bottom@2x.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		9652ABE71BC90DCC009A666D /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9652ABE81BC90DCC009A666D /* DOPDropDownMenu.h */,
+				9652ABE91BC90DCC009A666D /* DOPDropDownMenu.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -554,8 +704,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9652ABFA1BC90DCC009A666D /* icon_chose_bottom@2x.png in Resources */,
 				9652AB091BC902DF009A666D /* Assets.xcassets in Resources */,
+				9652ABF81BC90DCC009A666D /* icon_chose_arrow_nor@2x.png in Resources */,
 				9652AB0C1BC902DF009A666D /* LaunchScreen.storyboard in Resources */,
+				9652ABF91BC90DCC009A666D /* icon_chose_arrow_sel@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,6 +734,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9652ABAE1BC9092B009A666D /* DCAttributeSetter.m in Sources */,
+				9652ABEE1BC90DCC009A666D /* ANKeyValueCache.m in Sources */,
+				9652ABEF1BC90DCC009A666D /* ANKeyValueData.m in Sources */,
 				9652AB791BC908C7009A666D /* AFURLConnectionOperation.m in Sources */,
 				9652AB071BC902DF009A666D /* AppDelegate.m in Sources */,
 				9652AB781BC908C7009A666D /* AFSecurityPolicy.m in Sources */,
@@ -588,12 +743,15 @@
 				9652AB731BC908C7009A666D /* AFHTTPRequestOperation.m in Sources */,
 				9652AB801BC908C7009A666D /* UIImageView+AFNetworking.m in Sources */,
 				9652AB751BC908C7009A666D /* AFHTTPSessionManager.m in Sources */,
+				9652ABF61BC90DCC009A666D /* NSString+ANKeyValue.m in Sources */,
 				9652ABB81BC9092B009A666D /* DCNSURLConverter.m in Sources */,
+				9652ABF71BC90DCC009A666D /* UIImage+ANKeyValue.m in Sources */,
 				9652AB7D1BC908C7009A666D /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				9652AB831BC908C7009A666D /* UIWebView+AFNetworking.m in Sources */,
 				9652ABBB1BC9092B009A666D /* DCPropertyAggregator.m in Sources */,
 				9652AB361BC9069B009A666D /* BXTGlobal.m in Sources */,
 				9652ABB11BC9092B009A666D /* DCDictionaryRearranger.m in Sources */,
+				9652ABEA1BC90DCC009A666D /* AESCrypt.m in Sources */,
 				9652ABB61BC9092B009A666D /* DCNSDateConverter.m in Sources */,
 				9652ABBA1BC9092B009A666D /* DCParserConfiguration.m in Sources */,
 				9652AB421BC9070E009A666D /* BXTDataRequest.m in Sources */,
@@ -603,18 +761,28 @@
 				9652ABB21BC9092B009A666D /* DCDynamicAttribute.m in Sources */,
 				9652ABB41BC9092B009A666D /* DCKeyValueObjectMapping.m in Sources */,
 				9652AB401BC9070E009A666D /* BXTBaseViewController.m in Sources */,
+				9652ABEB1BC90DCC009A666D /* NSData+Base64.m in Sources */,
+				9652ABFB1BC90DCC009A666D /* DOPDropDownMenu.m in Sources */,
 				9652ABBF1BC9092B009A666D /* NSObject+DCKeyValueObjectMapping.m in Sources */,
 				9652AB7C1BC908C7009A666D /* AFURLSessionManager.m in Sources */,
+				9652ABED1BC90DCC009A666D /* NSString+Base64.m in Sources */,
 				9652AB7B1BC908C7009A666D /* AFURLResponseSerialization.m in Sources */,
 				9652AB461BC90791009A666D /* AssetHelper.m in Sources */,
+				9652ABF21BC90DCC009A666D /* AutoCoding.m in Sources */,
 				9652ABB51BC9092B009A666D /* DCNSArrayConverter.m in Sources */,
 				9652ABAD1BC9092B009A666D /* DCArrayMapping.m in Sources */,
 				9652AB811BC908C7009A666D /* UIProgressView+AFNetworking.m in Sources */,
+				9652ABEC1BC90DCC009A666D /* NSData+CommonCrypto.m in Sources */,
+				9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */,
 				9652AB761BC908C7009A666D /* AFNetworkActivityIndicatorManager.m in Sources */,
 				9652AB7F1BC908C7009A666D /* UIButton+AFNetworking.m in Sources */,
+				9652ABF31BC90DCC009A666D /* ANPersistentData.m in Sources */,
 				9652ABB01BC9092B009A666D /* DCCustomParser.m in Sources */,
+				9652ABF01BC90DCC009A666D /* ANKeyValueStrategy.m in Sources */,
 				9652AB7A1BC908C7009A666D /* AFURLRequestSerialization.m in Sources */,
 				9652AB771BC908C7009A666D /* AFNetworkReachabilityManager.m in Sources */,
+				9652ABF41BC90DCC009A666D /* ANPersistentStrategy.m in Sources */,
+				9652ABF11BC90DCC009A666D /* ANKeyValueTable.m in Sources */,
 				9652ABB71BC9092B009A666D /* DCNSSetConverter.m in Sources */,
 				9652ABBE1BC9092B009A666D /* DCSimpleConverter.m in Sources */,
 				9652AB4C1BC9084A009A666D /* DACircularProgressView.m in Sources */,
