@@ -427,6 +427,11 @@
 		9652AE301BC9170E009A666D /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AD831BC9170D009A666D /* UIImageView+HighlightedWebCache.m */; settings = {ASSET_TAGS = (); }; };
 		9652AE311BC9170E009A666D /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AD851BC9170D009A666D /* UIImageView+WebCache.m */; settings = {ASSET_TAGS = (); }; };
 		9652AE321BC9170E009A666D /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AD871BC9170D009A666D /* UIView+WebCacheOperation.m */; settings = {ASSET_TAGS = (); }; };
+		969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */; settings = {ASSET_TAGS = (); }; };
+		969A41AC1BCB864B0034FC84 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 969A41AB1BCB864B0034FC84 /* sound.mp3 */; settings = {ASSET_TAGS = (); }; };
+		969A42491BCBD4620034FC84 /* RGCardViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A42461BCBD4620034FC84 /* RGCardViewLayout.m */; settings = {ASSET_TAGS = (); }; };
+		969A424D1BCBD4DF0034FC84 /* RGCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A424C1BCBD4DF0034FC84 /* RGCollectionViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		969A424F1BCBD7EC0034FC84 /* 20.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 969A424E1BCBD7EC0034FC84 /* 20.jpg */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1186,6 +1191,14 @@
 		9652AD851BC9170D009A666D /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		9652AD861BC9170D009A666D /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		9652AD871BC9170D009A666D /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		969A41A41BCB4C3C0034FC84 /* MDRadialProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDRadialProgressView.h; sourceTree = "<group>"; };
+		969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDRadialProgressView.m; sourceTree = "<group>"; };
+		969A41AB1BCB864B0034FC84 /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
+		969A42451BCBD4620034FC84 /* RGCardViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGCardViewLayout.h; sourceTree = "<group>"; };
+		969A42461BCBD4620034FC84 /* RGCardViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGCardViewLayout.m; sourceTree = "<group>"; };
+		969A424B1BCBD4DF0034FC84 /* RGCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGCollectionViewCell.h; sourceTree = "<group>"; };
+		969A424C1BCBD4DF0034FC84 /* RGCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGCollectionViewCell.m; sourceTree = "<group>"; };
+		969A424E1BCBD7EC0034FC84 /* 20.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 20.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1588,6 +1601,8 @@
 		960221941BC9216300010072 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				969A424E1BCBD7EC0034FC84 /* 20.jpg */,
+				969A41AB1BCB864B0034FC84 /* sound.mp3 */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -1602,6 +1617,12 @@
 		960221961BC9216300010072 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				969A42451BCBD4620034FC84 /* RGCardViewLayout.h */,
+				969A42461BCBD4620034FC84 /* RGCardViewLayout.m */,
+				969A424B1BCBD4DF0034FC84 /* RGCollectionViewCell.h */,
+				969A424C1BCBD4DF0034FC84 /* RGCollectionViewCell.m */,
+				969A41A41BCB4C3C0034FC84 /* MDRadialProgressView.h */,
+				969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3362,6 +3383,7 @@
 				960222A51BC9216300010072 /* down-arrow@2x.png in Resources */,
 				9652ADBB1BC9170D009A666D /* VideoOverlay.png in Resources */,
 				9652ADAD1BC9170D009A666D /* PlayButtonOverlayLarge@2x.png in Resources */,
+				969A424F1BCBD7EC0034FC84 /* 20.jpg in Resources */,
 				9652AC341BC90EC9009A666D /* LocalPhotoCell.xib in Resources */,
 				960222BF1BC9216300010072 /* tools@2x.png in Resources */,
 				9652ABFA1BC90DCC009A666D /* icon_chose_bottom@2x.png in Resources */,
@@ -3429,6 +3451,7 @@
 				960222A91BC9216300010072 /* Grabone@2x.png in Resources */,
 				9602230A1BC9216300010072 /* Add_button_selected@2x.png in Resources */,
 				960222B21BC9216300010072 /* Notepad_Ok_select@2x.png in Resources */,
+				969A41AC1BCB864B0034FC84 /* sound.mp3 in Resources */,
 				9652AC361BC90EC9009A666D /* LocalPhotoViewController.xib in Resources */,
 				960222E41BC9216300010072 /* Small_buttons@2x.png in Resources */,
 				9652ABF91BC90DCC009A666D /* icon_chose_arrow_sel@2x.png in Resources */,
@@ -3632,6 +3655,7 @@
 				960222E61BC9216300010072 /* BXTRepairTableViewCell.m in Sources */,
 				960222981BC9216300010072 /* BXTGrabOrderViewController.m in Sources */,
 				9652AB741BC908C7009A666D /* AFHTTPRequestOperationManager.m in Sources */,
+				969A42491BCBD4620034FC84 /* RGCardViewLayout.m in Sources */,
 				9652AE1F1BC9170E009A666D /* UITableViewCell+RACSignalSupport.m in Sources */,
 				9602229B1BC9216300010072 /* BXTHeadquartersTableViewCell.m in Sources */,
 				9652ABBC1BC9092B009A666D /* DCPropertyFinder.m in Sources */,
@@ -3642,6 +3666,7 @@
 				9652AD961BC9170D009A666D /* MJRefreshNormalHeader.m in Sources */,
 				9652AC2E1BC90EC9009A666D /* SideScrollingCheckCell.m in Sources */,
 				960222D71BC9216300010072 /* BXTMaintenanceManTableViewCell.m in Sources */,
+				969A424D1BCBD4DF0034FC84 /* RGCollectionViewCell.m in Sources */,
 				960222911BC9216300010072 /* BXTEvaluationViewController.m in Sources */,
 				9652AE2C1BC9170E009A666D /* SDWebImagePrefetcher.m in Sources */,
 				9652ADCB1BC9170E009A666D /* NSDictionary+RACSequenceAdditions.m in Sources */,
@@ -3783,6 +3808,7 @@
 				9652ADCA1BC9170E009A666D /* NSData+RACSupport.m in Sources */,
 				9652ABBD1BC9092B009A666D /* DCReferenceKeyParser.m in Sources */,
 				9652AD8D1BC9170D009A666D /* MJRefreshFooter.m in Sources */,
+				969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */,
 				9652ADBF1BC9170D009A666D /* MWGridCell.m in Sources */,
 				9652AE0B1BC9170E009A666D /* RACTuple.m in Sources */,
 				9652AB041BC902DF009A666D /* main.m in Sources */,
