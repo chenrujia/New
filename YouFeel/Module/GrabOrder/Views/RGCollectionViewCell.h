@@ -16,6 +16,7 @@
 @property (strong, nonatomic) UILabel          *location;
 @property (strong, nonatomic) UILabel          *cause;
 @property (strong, nonatomic) UILabel          *level;
-@property (strong, nonatomic) UILabel          *coinLabel;
+//@property (strong, nonatomic) UIView           *backView;
+//@property (strong, nonatomic) UILabel          *coinLabel;
 
 @end

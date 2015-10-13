@@ -82,26 +82,32 @@
         
         });
         
-        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - 140.f + 4.f, CGRectGetMinY(_level.frame) + 15.f, 140.f, 42.f)];
-        backView.backgroundColor = colorWithHexString(@"9bba30");
-        backView.layer.cornerRadius = IS_IPHONE6 ? 6.f : 4.f;
-        [self addSubview:backView];
-        
-        UIImageView *coinImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10.f, 10.f, 22.f, 22.f)];
-        coinImgView.image = [UIImage imageNamed:@"Coin_icon"];
-        [backView addSubview:coinImgView];
-        
-        self.coinLabel = ({
-            
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(coinImgView.frame), 10.f, CGRectGetWidth(backView.frame) - CGRectGetMaxX(coinImgView.frame), 22)];
-            label.textColor = colorWithHexString(@"ffffff");
-            label.textAlignment = NSTextAlignmentCenter;
-            label.font = [UIFont boldSystemFontOfSize:14.f];
-            label.text = @"可获得25金币";
-            [backView addSubview:label];
-            label;
-            
-        });
+//        self.backView = ({
+//        
+//            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - 140.f + 4.f, CGRectGetMinY(_level.frame) + 15.f, 140.f, 42.f)];
+//            view.backgroundColor = colorWithHexString(@"9bba30");
+//            view.layer.cornerRadius = 5;
+//            [self addSubview:view];
+//            view;
+//        
+//        });
+//        
+//        
+//        UIImageView *coinImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10.f, 10.f, 22.f, 22.f)];
+//        coinImgView.image = [UIImage imageNamed:@"Coin_icon"];
+//        [_backView addSubview:coinImgView];
+//        
+//        self.coinLabel = ({
+//            
+//            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(coinImgView.frame), 10.f, CGRectGetWidth(_backView.frame) - CGRectGetMaxX(coinImgView.frame), 22)];
+//            label.textColor = colorWithHexString(@"ffffff");
+//            label.textAlignment = NSTextAlignmentCenter;
+//            label.font = [UIFont boldSystemFontOfSize:14.f];
+//            label.text = @"可获得25金币";
+//            [_backView addSubview:label];
+//            label;
+//            
+//        });
         
     }
     return self;

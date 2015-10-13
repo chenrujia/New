@@ -125,6 +125,7 @@
 #pragma mark 事件
 - (void)afterTimeWithSection:(NSInteger)section
 {
+    [player play];
     __block NSInteger count = 60;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
@@ -133,6 +134,7 @@
         count--;
         if (count <= 0)
         {
+            [player stop];
             dispatch_source_cancel(_time);
         }
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -209,6 +211,23 @@
     return CGSizeMake(SCREEN_WIDTH - 60.f, height);
 }
 
+//- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if ([markDic.allKeys containsObject:[NSString stringWithFormat:@"%ld",(long)indexPath.section]])
+//    {
+//        RGCollectionViewCell *willDisplayCell = (RGCollectionViewCell  *)cell;
+//        NSInteger count = [[markDic objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]] integerValue];
+//        if (count == 0)
+//        {
+//            willDisplayCell.backView.hidden = YES;
+//        }
+//        else
+//        {
+//            willDisplayCell.backView.hidden = NO;
+//        }
+//    }
+//}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     // 得到每页宽度
@@ -220,6 +239,7 @@
     NSString *currentKey = [NSString stringWithFormat:@"%ld",(long)currentPage];
     if (![markDic.allKeys containsObject:currentKey])
     {
+        [player stop];
         [self afterTimeWithSection:currentPage];
         [markDic setObject:@"60" forKey:currentKey];
     }
