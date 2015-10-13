@@ -114,7 +114,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    LogRed(@"dic.....%@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     for (NSDictionary *dictionary in array)
     {

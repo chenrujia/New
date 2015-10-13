@@ -297,7 +297,6 @@
 {
     [self hideMBP];
     NSDictionary *dic = response;
-    LogBlue(@"dic.....%@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     if (type == ShopType)
     {

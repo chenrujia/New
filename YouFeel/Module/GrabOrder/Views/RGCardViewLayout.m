@@ -47,7 +47,8 @@
 
 
 // indicate that we want to redraw as we scroll
-- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
     return YES;
 }
 
@@ -127,9 +128,6 @@
 - (CGFloat)baseOffsetForView:(UIView *)view
 {
     UICollectionViewCell *cell = (UICollectionViewCell *)view;
-    NSLog(@"section:%ld",[self.collectionView indexPathForCell:cell].section);
-    NSLog(@"width:%f",self.collectionView.bounds.size.width);
-
     CGFloat offset =  ([self.collectionView indexPathForCell:cell].section) * self.collectionView.bounds.size.width;
     
     return offset;
@@ -153,7 +151,6 @@
 - (CGFloat)angleForView:(UIView *)view
 {
     CGFloat baseOffsetForCurrentView = [self baseOffsetForView:view ];
-    NSLog(@"baseOffsetForCurrentView........%f",baseOffsetForCurrentView);
     CGFloat currentOffset = self.collectionView.contentOffset.x;
     CGFloat scrollViewWidth = self.collectionView.bounds.size.width;
     CGFloat angle = (currentOffset - baseOffsetForCurrentView)/scrollViewWidth;
@@ -187,7 +184,6 @@
     CATransform3D t = CATransform3DIdentity;
     t.m34  = 1.0/-500;
     
-//    NSLog(@"axis........%d",axis);
     if (axis)
     {
         t = CATransform3DRotate(t,angle, 1, 1, 0);
@@ -196,7 +192,6 @@
     {
         t = CATransform3DRotate(t,angle, -1, 1, 0);
     }
-    //    t = CATransform3DTranslate(t, 0, height, 0);
     
     return t;
 }

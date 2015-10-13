@@ -13,10 +13,10 @@
 #import "RGCardViewLayout.h"
 #import "RGCollectionViewCell.h"
 
-@interface BXTGrabOrderViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
+@interface BXTGrabOrderViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate>
 {
-    NSInteger count;
-    AVAudioPlayer *player;
+    NSInteger currentPage;
+    UICollectionView *itemsCollectionView;
 }
 
 @property (nonatomic ,strong) MDRadialProgressView *radialProgressView;
@@ -34,15 +34,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"mp3"]] error:nil];
-    player.volume = 0.1f;
-    player.numberOfLoops = -1;
-    
+
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     [self createCollectionView];
     [self createSubviews];
-    [self afterTime];
 }
 
 #pragma mark -
@@ -51,13 +46,13 @@
 {
     RGCardViewLayout *flowLayout= [[RGCardViewLayout alloc] init];
     CGFloat bv_height = IS_IPHONE6 ? 180.f : 120.f;
-    UICollectionView *itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - bv_height) collectionViewLayout:flowLayout];
+    itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - bv_height) collectionViewLayout:flowLayout];
     [itemsCollectionView registerClass:[RGCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
     itemsCollectionView.delegate = self;
     itemsCollectionView.dataSource = self;
     itemsCollectionView.pagingEnabled = YES;
     itemsCollectionView.showsHorizontalScrollIndicator = NO;
-    itemsCollectionView.backgroundColor = colorWithHexString(@"ffffff");
+    itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f6");
     [self.view addSubview:itemsCollectionView];
 }
 
@@ -123,37 +118,8 @@
     [backView addSubview:grab_button];
 }
 
-- (void)afterTime
-{
-    count = 60;
-//    [player play];
-
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-    dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
-    dispatch_source_set_event_handler(_time, ^{
-        if (count <= 0)
-        {
-            dispatch_source_cancel(_time);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _timeLabel.text = @"Over";
-//                [player stop];
-            });
-        }
-        else
-        {
-            count--;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _timeLabel.text = [NSString stringWithFormat:@"%lds",(long)count];
-                NSInteger rows = 20 - ceil(count/3);
-                _radialProgressView.progressCurrent = rows;
-                [_radialProgressView setNeedsDisplay];
-            });
-        }
-    });
-    dispatch_resume(_time);
-}
-
+#pragma mark -
+#pragma mark 代理
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 5;
@@ -168,8 +134,6 @@
 {
     RGCollectionViewCell *cell = (RGCollectionViewCell  *)[collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
     
-    cell.imageView.image =  [UIImage imageNamed:@"20.jpg"];
-    
     return cell;
 }
 
@@ -183,7 +147,8 @@
     return 0.0f;
 }
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
     return UIEdgeInsetsMake(0, 30, 0, 30);
 }
 
@@ -192,6 +157,40 @@
 {
     CGFloat height = IS_IPHONE6 ? 430.f : 330.f;
     return CGSizeMake(SCREEN_WIDTH - 60.f, height);
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    // 得到每页宽度
+    CGFloat pageWidth = scrollView.frame.size.width;
+    // 根据当前的x坐标和页宽度计算出当前页数
+    NSInteger page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    if (page == currentPage) return;
+    currentPage = page;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"RemoveBlock" object:nil];
+    
+    __weak BXTGrabOrderViewController *weakSelf = self;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:currentPage];
+    RGCollectionViewCell *cell = (RGCollectionViewCell  *)[itemsCollectionView cellForItemAtIndexPath:indexPath];
+    [cell loadTimeBlock:^(NSInteger time) {
+        [weakSelf handleTime:time];
+    }];
+}
+
+- (void)handleTime:(NSInteger)time
+{
+    if (time <= 0)
+    {
+        _timeLabel.text = @"Over";
+    }
+    else
+    {
+        _timeLabel.text = [NSString stringWithFormat:@"%lds",(long)time];
+        NSInteger rows = 20 - ceil(time/3);
+        _radialProgressView.progressCurrent = rows;
+        [_radialProgressView setNeedsDisplay];
+    }
 }
 
 - (void)didReceiveMemoryWarning

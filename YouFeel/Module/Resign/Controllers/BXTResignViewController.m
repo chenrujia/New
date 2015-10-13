@@ -228,8 +228,7 @@ static NSString *cellIndentify = @"cellIndentify";
  */
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    NSDictionary *dic = response;
-    LogRed(@"dic.....%@",dic);
+    
 }
 
 - (void)requestError:(NSError *)error

@@ -7,9 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTDataRequest.h"
+@import AVFoundation.AVAudioPlayer;
 
-@interface RGCollectionViewCell : UICollectionViewCell
+typedef void (^UpdateTimeNumber)(NSInteger time);
 
-@property (strong, nonatomic) UIImageView *imageView;
+@interface RGCollectionViewCell : UICollectionViewCell<BXTDataResponseDelegate>
+{
+    AVAudioPlayer *player;
+    NSInteger count;
+    BOOL isUpdated;
+    UpdateTimeNumber timeNumber;
+}
+
+@property (strong, nonatomic) UIImageView      *imageView;
+@property (strong, nonatomic) UILabel          *repairID;
+@property (strong, nonatomic) UILabel          *location;
+@property (strong, nonatomic) UILabel          *cause;
+@property (strong, nonatomic) UILabel          *level;
+@property (strong, nonatomic) UILabel          *coinLabel;
+
+- (void)loadTimeBlock:(UpdateTimeNumber)block;
+- (void)removeBlock;
 
 @end
