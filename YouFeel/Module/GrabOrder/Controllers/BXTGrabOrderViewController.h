@@ -7,6 +7,7 @@
 //
 
 #import "BXTBaseViewController.h"
+@import AVFoundation.AVAudioPlayer;
 
 @interface BXTGrabOrderViewController : BXTBaseViewController
 

@@ -15,7 +15,9 @@
 
 @interface BXTGrabOrderViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate>
 {
+    AVAudioPlayer *player;
     NSInteger currentPage;
+    NSMutableDictionary *markDic;
     UICollectionView *itemsCollectionView;
 }
 
@@ -26,18 +28,19 @@
 
 @implementation BXTGrabOrderViewController
 
-- (void)dealloc
-{
-    
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
+    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"mp3"]] error:nil];
+    player.volume = 0.1f;
+    player.numberOfLoops = -1;
+    
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     [self createCollectionView];
     [self createSubviews];
+    [self afterTimeWithSection:0];
+    markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
 }
 
 #pragma mark -
@@ -119,6 +122,53 @@
 }
 
 #pragma mark -
+#pragma mark 事件
+- (void)afterTimeWithSection:(NSInteger)section
+{
+    __block NSInteger count = 60;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(_time, ^{
+        count--;
+        if (count <= 0)
+        {
+            dispatch_source_cancel(_time);
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateTimeNumber:count withSection:section];
+        });
+    });
+    dispatch_resume(_time);
+}
+
+- (void)updateTimeNumber:(NSInteger)timeNumber withSection:(NSInteger)section
+{
+    [markDic setObject:[NSString stringWithFormat:@"%ld",(long)timeNumber] forKey:[NSString stringWithFormat:@"%ld",(long)section]];
+    if (section == currentPage)
+    {
+        [self updateProcess:timeNumber];
+    }
+}
+
+- (void)updateProcess:(NSInteger)timeNumber
+{
+    if (timeNumber <= 0)
+    {
+        _timeLabel.text = @"Over";
+        _radialProgressView.progressCurrent = 20;
+        [_radialProgressView setNeedsDisplay];
+    }
+    else
+    {
+        _timeLabel.text = [NSString stringWithFormat:@"%lds",(long)timeNumber];
+        NSInteger rows = 20 - ceil(timeNumber/3);
+        _radialProgressView.progressCurrent = rows;
+        [_radialProgressView setNeedsDisplay];
+    }
+}
+
+#pragma mark -
 #pragma mark 代理
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -167,29 +217,16 @@
     NSInteger page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     if (page == currentPage) return;
     currentPage = page;
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"RemoveBlock" object:nil];
-    
-    __weak BXTGrabOrderViewController *weakSelf = self;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:currentPage];
-    RGCollectionViewCell *cell = (RGCollectionViewCell  *)[itemsCollectionView cellForItemAtIndexPath:indexPath];
-    [cell loadTimeBlock:^(NSInteger time) {
-        [weakSelf handleTime:time];
-    }];
-}
-
-- (void)handleTime:(NSInteger)time
-{
-    if (time <= 0)
+    NSString *currentKey = [NSString stringWithFormat:@"%ld",(long)currentPage];
+    if (![markDic.allKeys containsObject:currentKey])
     {
-        _timeLabel.text = @"Over";
+        [self afterTimeWithSection:currentPage];
+        [markDic setObject:@"60" forKey:currentKey];
     }
     else
     {
-        _timeLabel.text = [NSString stringWithFormat:@"%lds",(long)time];
-        NSInteger rows = 20 - ceil(time/3);
-        _radialProgressView.progressCurrent = rows;
-        [_radialProgressView setNeedsDisplay];
+        NSString *timeNumber = [markDic objectForKey:currentKey];
+        [self updateProcess:[timeNumber integerValue]];
     }
 }
 

@@ -23,16 +23,10 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeBlock) name:@"RemoveBlock" object:nil];
-        
         self.backgroundColor = colorWithHexString(@"ffffff");
         self.layer.cornerRadius = 10.f;
         self.layer.masksToBounds = YES;
-        
-        player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"mp3"]] error:nil];
-        player.volume = 0.1f;
-        player.numberOfLoops = -1;
-        
+
         [self requestDetail];
 
         CGFloat space = IS_IPHONE6 ? 15.f : 10.f;
@@ -113,21 +107,6 @@
     return self;
 }
 
-- (void)loadTimeBlock:(UpdateTimeNumber)block
-{
-    timeNumber = block;
-    if (!isUpdated)
-    {
-       [self afterTime];
-        isUpdated = YES;
-    }
-}
-
-- (void)removeBlock
-{
-    timeNumber = nil;
-}
-
 #pragma mark -
 #pragma mark 事件
 - (void)requestDetail
@@ -135,30 +114,6 @@
     /**获取详情**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairDetail:[NSString stringWithFormat:@"%ld",(long)21]];
-}
-
-- (void)afterTime
-{
-    count = 60;
-    //    [player play];
-    
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-    dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
-    dispatch_source_set_event_handler(_time, ^{
-        count--;
-        if (count <= 0)
-        {
-            dispatch_source_cancel(_time);
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (timeNumber)
-            {
-                timeNumber(count);
-            }
-        });
-    });
-    dispatch_resume(_time);
 }
 
 #pragma mark -
