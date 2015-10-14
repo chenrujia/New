@@ -18,6 +18,8 @@
     UILabel *shop_label;
 }
 
+@property (nonatomic ,assign) BOOL isRepair;
+
 - (void)createLogoView;
 - (void)repairClick;
 

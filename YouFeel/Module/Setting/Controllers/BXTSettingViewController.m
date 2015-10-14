@@ -20,6 +20,7 @@
 #import "UIImageView+WebCache.h"
 #import "LocalPhotoViewController.h"
 #import "UINavigationController+YRBackGesture.h"
+#import "BXTHeadquartersInfo.h"
 
 static NSString *settingCellIndentify = @"settingCellIndentify";
 
@@ -27,6 +28,10 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 {
     UITableView *currentTableView;
     NSMutableArray *selectPhotos;
+    NSString *verify_state;
+    NSString *checks_user;
+    NSString *checks_user_department;
+    BOOL isRepair;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -34,6 +39,16 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 @end
 
 @implementation BXTSettingViewController
+
+- (instancetype)initWithIsRepair:(BOOL)repair
+{
+    self = [super init];
+    if (self)
+    {
+        isRepair = repair;
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -43,6 +58,9 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     selectPhotos = [NSMutableArray array];
     [self navigationSetting:@"设置" andRightTitle:nil andRightImage:nil];
     [self initContentViews];
+    //获取用户信息
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request userInfo];
 }
 
 #pragma mark -
@@ -288,11 +306,19 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 1 || section == 2)
+    if (section == 1)
     {
         return 3;
     }
-    if (section == 3)
+    else if (section == 2)
+    {
+        if (isRepair)
+        {
+            return 2;
+        }
+        return 3;
+    }
+    else if (section == 3)
     {
         return 2;
     }
@@ -308,6 +334,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         {
             cell = [[BXTAuditerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AuditerCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.auditNameLabel.text = checks_user;
+            cell.positionLabel.text = checks_user_department;
         }
         
         return cell;
@@ -370,21 +398,42 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             cell.titleLabel.frame = CGRectMake(15.f, 15.f, 60.f, 20);
             cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
             [cell.auditStatusLabel setFrame:CGRectMake(CGRectGetMaxX(cell.detailLable.frame) + 20.f, 15.f, 80.f, 20.f)];
-            cell.auditStatusLabel.text = @"等待审核";
-            if (indexPath.row == 0)
+            cell.auditStatusLabel.text = verify_state;
+            if (isRepair)
             {
-                cell.titleLabel.text = @"位   置";
-                cell.detailLable.text = @"华联天通苑店";
-            }
-            else if (indexPath.row == 1)
-            {
-                cell.titleLabel.text = @"部   门";
-                cell.detailLable.text = @"商铺";
+                if (indexPath.row == 0)
+                {
+                    cell.titleLabel.text = @"部   门";
+                    BXTDepartmentInfo *department = [BXTGlobal getUserProperty:U_DEPARTMENT];
+                    cell.detailLable.text = department.department;
+                }
+                else
+                {
+                    cell.titleLabel.text = @"分   组";
+                    BXTGroupingInfo *group = [BXTGlobal getUserProperty:U_GROUPINGINFO];
+                    cell.detailLable.text = group.subgroup;
+                }
             }
             else
             {
-                cell.titleLabel.text = @"商   店";
-                cell.detailLable.text = @"海底捞";
+                if (indexPath.row == 0)
+                {
+                    cell.titleLabel.text = @"位   置";
+                    BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
+                    cell.detailLable.text = company.name;
+                }
+                else if (indexPath.row == 1)
+                {
+                    cell.titleLabel.text = @"部   门";
+                    BXTDepartmentInfo *department = [BXTGlobal getUserProperty:U_DEPARTMENT];
+                    cell.detailLable.text = department.department;
+                }
+                else
+                {
+                    cell.titleLabel.text = @"商   店";
+                    BXTShopInfo *shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+                    cell.detailLable.text = shopInfo.stores_name;
+                }
             }
         }
         else
@@ -394,7 +443,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             cell.titleLabel.frame = CGRectMake(15.f, 15.f, 60.f, 20);
             cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
             [cell.auditStatusLabel setFrame:CGRectMake(CGRectGetMaxX(cell.detailLable.frame) + 20.f, 15.f, 80.f, 20.f)];
-            cell.auditStatusLabel.text = @"等待审核";
+            cell.auditStatusLabel.text = verify_state;
             if (indexPath.row == 0)
             {
                 BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
@@ -489,12 +538,24 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    LogBlue(@"上传头像.....%@",dic);
-    if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+    LogBlue(@"dic:%@",dic);
+    if (type == UploadHeadImage && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [BXTGlobal setUserProperty:[dic objectForKey:@"pic"] withKey:U_HEADERIMAGE];
-        [currentTableView reloadData];
     }
+    else if (type == UserInfo && [[dic objectForKey:@"returncode"] integerValue] == 0)
+    {
+        NSArray *array = [dic objectForKey:@"data"];
+        if (array.count > 0)
+        {
+            NSDictionary *dictionay = array[0];
+            verify_state = [dictionay objectForKey:@"verify_state"];
+            NSDictionary *stores_check_dic = [dictionay objectForKey:@"stores_checks"];
+            checks_user = [stores_check_dic objectForKey:@"checks_user"];
+            checks_user_department = [stores_check_dic objectForKey:@"checks_user_department"];
+        }
+    }
+    [currentTableView reloadData];
 }
 
 - (void)requestError:(NSError *)error

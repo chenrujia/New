@@ -24,10 +24,16 @@ static NSString *cellIndentify = @"cellIndentify";
     NSString *userName;
     NSString *codeNumber;
     NSString *passWord;
+    UIButton *codeBtn;
 }
 @end
 
 @implementation BXTResignViewController
+
+- (void)dealloc
+{
+    NSLog(@".....");
+}
 
 - (void)viewDidLoad
 {
@@ -76,7 +82,7 @@ static NSString *cellIndentify = @"cellIndentify";
 - (void)getVerCode
 {
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request getVerCode:userName];
+    [request mobileVerCode:userName];
 }
 
 #pragma mark -
@@ -206,6 +212,7 @@ static NSString *cellIndentify = @"cellIndentify";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         cell.codeButton.hidden = NO;
         [cell.codeButton addTarget:self action:@selector(getVerCode) forControlEvents:UIControlEventTouchUpInside];
+        codeBtn = cell.codeButton;
         cell.textField.tag = CodeTag;
     }
     else
@@ -228,7 +235,40 @@ static NSString *cellIndentify = @"cellIndentify";
  */
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    
+    NSDictionary *dic = response;
+    if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+    {
+        codeBtn.userInteractionEnabled = NO;
+        [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [self updateTime];
+    }
+}
+
+- (void)updateTime
+{
+    __block NSInteger count = 60;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(_time, ^{
+        count--;
+        if (count <= 0)
+        {
+            dispatch_source_cancel(_time);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                codeBtn.userInteractionEnabled = YES;
+                [codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+                [codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [codeBtn setTitle:[NSString stringWithFormat:@"重新获取 %ld",(long)count] forState:UIControlStateNormal];
+            });
+        }
+    });
+    dispatch_resume(_time);
 }
 
 - (void)requestError:(NSError *)error

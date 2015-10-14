@@ -223,22 +223,11 @@ static NSString *cellIndentify = @"resignCellIndentify";
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"state"] integerValue] == 1)
     {
-        NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
+        NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
         [BXTGlobal setUserProperty:userID withKey:U_USERID];
         
-        UINavigationController *nav;
-        BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
-        NSString *shopName = company.name;
-        if (!shopName)
-        {
-            BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:NO];
-            nav = [[UINavigationController alloc] initWithRootViewController:headVC];
-        }
-        else
-        {
-            BXTHomeViewController *homeVC = [[BXTHomeViewController alloc] init];
-            nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
-        }
+        BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:NO];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:headVC];
         nav.navigationBar.hidden = YES;
         [AppDelegate appdelegete].window.rootViewController = nav;
     }

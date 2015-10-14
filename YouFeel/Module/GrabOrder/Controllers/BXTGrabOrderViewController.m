@@ -9,6 +9,7 @@
 #import "BXTGrabOrderViewController.h"
 #import "BXTHeaderForVC.h"
 #include <math.h>
+#import "WZFlashButton.h"
 #import "MDRadialProgressView.h"
 #import "RGCardViewLayout.h"
 #import "RGCollectionViewCell.h"
@@ -27,6 +28,11 @@
 @end
 
 @implementation BXTGrabOrderViewController
+
+- (void)dealloc
+{
+    NSLog(@"。。。。。。");
+}
 
 - (void)viewDidLoad
 {
@@ -109,11 +115,10 @@
     
     CGFloat space = IS_IPHONE6 ? 30.f : 20.f;
     CGFloat grab_height = IS_IPHONE6 ? 53.3f : 45.6f;
-    UIButton *grab_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [grab_button setFrame:CGRectMake(20.f, CGRectGetHeight(backView.frame) - grab_height - space, SCREEN_WIDTH - 40.f, grab_height)];
+    WZFlashButton *grab_button = [[WZFlashButton alloc] initWithFrame:CGRectMake(20.f, CGRectGetHeight(backView.frame) - grab_height - space, SCREEN_WIDTH - 40.f, grab_height)];
     [grab_button setBackgroundColor:colorWithHexString(@"f0640f")];
-    [grab_button setTitle:@"抢单" forState:UIControlStateNormal];
-    [grab_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [grab_button setText:@"抢单" withTextColor:[UIColor whiteColor]];
+    grab_button.flashColor = [UIColor whiteColor];
     grab_button.layer.cornerRadius = 4.f;
     grab_button.layer.shadowColor = [UIColor blackColor].CGColor;
     grab_button.layer.shadowOpacity = 0.8;//阴影透明度，默认0
@@ -127,6 +132,7 @@
 {
     [player play];
     __block NSInteger count = 60;
+    __weak BXTGrabOrderViewController *weakSelf = self;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
@@ -134,11 +140,13 @@
         count--;
         if (count <= 0)
         {
-            [player stop];
             dispatch_source_cancel(_time);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf stopPlayWithSection:section];
+            });
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self updateTimeNumber:count withSection:section];
+            [weakSelf updateTimeNumber:count withSection:section];
         });
     });
     dispatch_resume(_time);
@@ -153,16 +161,26 @@
     }
 }
 
+- (void)stopPlayWithSection:(NSInteger)section
+{
+    if (section == currentPage)
+    {
+        [player stop];
+    }
+}
+
 - (void)updateProcess:(NSInteger)timeNumber
 {
     if (timeNumber <= 0)
     {
+        [player stop];
         _timeLabel.text = @"Over";
         _radialProgressView.progressCurrent = 20;
         [_radialProgressView setNeedsDisplay];
     }
     else
     {
+        [player play];
         _timeLabel.text = [NSString stringWithFormat:@"%lds",(long)timeNumber];
         NSInteger rows = 20 - ceil(timeNumber/3);
         _radialProgressView.progressCurrent = rows;

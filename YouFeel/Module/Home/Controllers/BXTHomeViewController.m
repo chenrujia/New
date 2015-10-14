@@ -86,7 +86,7 @@
 #pragma mark 事件处理
 - (void)settingClick
 {
-    BXTSettingViewController *settingVC = [[BXTSettingViewController alloc] init];
+    BXTSettingViewController *settingVC = [[BXTSettingViewController alloc] initWithIsRepair:_isRepair];
     [self.navigationController pushViewController:settingVC animated:YES];
 }
 

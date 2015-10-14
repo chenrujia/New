@@ -13,11 +13,6 @@
 
 @implementation RGCollectionViewCell
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -119,7 +114,7 @@
 {
     /**获取详情**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairDetail:[NSString stringWithFormat:@"%ld",(long)21]];
+    [request repairDetail:[NSString stringWithFormat:@"%ld",(long)5]];
 }
 
 #pragma mark -

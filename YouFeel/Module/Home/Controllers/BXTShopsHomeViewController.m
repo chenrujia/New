@@ -19,6 +19,16 @@
 
 @implementation BXTShopsHomeViewController
 
+- (instancetype)initWithIsRepair:(BOOL)repair
+{
+    self = [super init];
+    if (self)
+    {
+        self.isRepair = repair;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

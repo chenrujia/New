@@ -227,7 +227,7 @@
 {
     self.requestType = CreateRepair;
     
-    BXTGroupInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUP];
+    BXTGroupInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
     NSString *fault = [BXTGlobal getUserProperty:U_USERNAME];
     NSString *faultID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
     NSString *moblie = [BXTGlobal getUserProperty:U_MOBILE];
@@ -337,10 +337,18 @@
     [self uploadImageRequest:url withParameters:dic withImages:@[image]];
 }
 
-- (void)getVerCode:(NSString *)mobile
+- (void)mobileVerCode:(NSString *)mobile
 {
     NSDictionary *dic = @{@"mobile":mobile};
     NSString *url = [NSString stringWithFormat:@"%@?r=port/Get_Android_v2_Port/opt/get_verification_code/module/Means",KURLREQUEST];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)userInfo
+{
+    self.requestType = UserInfo;
+    NSDictionary *dic = @{@"id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=User&opt=user_con",KLASTURL];
     [self postRequest:url withParameters:dic];
 }
 

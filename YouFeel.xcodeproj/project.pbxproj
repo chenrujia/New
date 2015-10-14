@@ -427,6 +427,7 @@
 		9652AE301BC9170E009A666D /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AD831BC9170D009A666D /* UIImageView+HighlightedWebCache.m */; settings = {ASSET_TAGS = (); }; };
 		9652AE311BC9170E009A666D /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AD851BC9170D009A666D /* UIImageView+WebCache.m */; settings = {ASSET_TAGS = (); }; };
 		9652AE321BC9170E009A666D /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AD871BC9170D009A666D /* UIView+WebCacheOperation.m */; settings = {ASSET_TAGS = (); }; };
+		965450711BCE5F6300435AD1 /* WZFlashButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 965450701BCE5F6300435AD1 /* WZFlashButton.m */; settings = {ASSET_TAGS = (); }; };
 		969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */; settings = {ASSET_TAGS = (); }; };
 		969A41AC1BCB864B0034FC84 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 969A41AB1BCB864B0034FC84 /* sound.mp3 */; settings = {ASSET_TAGS = (); }; };
 		969A42491BCBD4620034FC84 /* RGCardViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A42461BCBD4620034FC84 /* RGCardViewLayout.m */; settings = {ASSET_TAGS = (); }; };
@@ -1193,6 +1194,8 @@
 		9652AD851BC9170D009A666D /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		9652AD861BC9170D009A666D /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		9652AD871BC9170D009A666D /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		9654506F1BCE5F6300435AD1 /* WZFlashButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZFlashButton.h; sourceTree = "<group>"; };
+		965450701BCE5F6300435AD1 /* WZFlashButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZFlashButton.m; sourceTree = "<group>"; };
 		969A41A41BCB4C3C0034FC84 /* MDRadialProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDRadialProgressView.h; sourceTree = "<group>"; };
 		969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDRadialProgressView.m; sourceTree = "<group>"; };
 		969A41AB1BCB864B0034FC84 /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
@@ -1629,6 +1632,8 @@
 				969A424C1BCBD4DF0034FC84 /* RGCollectionViewCell.m */,
 				969A41A41BCB4C3C0034FC84 /* MDRadialProgressView.h */,
 				969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */,
+				9654506F1BCE5F6300435AD1 /* WZFlashButton.h */,
+				965450701BCE5F6300435AD1 /* WZFlashButton.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3798,6 +3803,7 @@
 				96021DAC1BC919B500010072 /* IQUIWindow+Hierarchy.m in Sources */,
 				9652AB4C1BC9084A009A666D /* DACircularProgressView.m in Sources */,
 				9652ADD31BC9170E009A666D /* NSObject+RACKVOWrapper.m in Sources */,
+				965450711BCE5F6300435AD1 /* WZFlashButton.m in Sources */,
 				96021D9F1BC919B500010072 /* IQBarButtonItem.m in Sources */,
 				9652AE021BC9170E009A666D /* RACSignalSequence.m in Sources */,
 				9652AE101BC9170E009A666D /* UIActionSheet+RACSignalSupport.m in Sources */,

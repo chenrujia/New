@@ -27,7 +27,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     PropertyGrouping,
     MaintenanceProcess,
     ManList,
-    UploadHeadImage
+    UploadHeadImage,
+    UserInfo
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -160,6 +161,11 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  获取验证码
  */
-- (void)getVerCode:(NSString *)mobile;
+- (void)mobileVerCode:(NSString *)mobile;
+
+/**
+ *  用户详情
+ */
+- (void)userInfo;
 
 @end

@@ -192,7 +192,7 @@
  */
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    LogRed(@"%@", response);
+    NSLog(@"%@", response);
     NSDictionary *dic = response;
     if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
@@ -228,10 +228,10 @@
             departmentInfo.department = [userInfo objectForKey:@"department_name"];
             [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
             
-            BXTGroupInfo *groupInfo = [[BXTGroupInfo alloc] init];
+            BXTGroupingInfo *groupInfo = [[BXTGroupingInfo alloc] init];
             groupInfo.group_id = [userInfo objectForKey:@"subgroup"];
-            groupInfo.group_name = [userInfo objectForKey:@"subgroup_name"];
-            [BXTGlobal setUserProperty:groupInfo withKey:U_GROUP];
+            groupInfo.subgroup = [userInfo objectForKey:@"subgroup_name"];
+            [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
             
             NSString *userID = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"id"]];
             [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
@@ -253,12 +253,12 @@
             UINavigationController *nav;
             if ([[userInfo objectForKey:@"is_repair"] integerValue] == 1)
             {
-                BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] init];
+                BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] initWithIsRepair:NO];
                 nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
             }
             else if ([[userInfo objectForKey:@"is_repair"] integerValue] == 2)
             {
-                BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] init];
+                BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] initWithIsRepair:YES];
                 nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
             }
             nav.navigationBar.hidden = YES;

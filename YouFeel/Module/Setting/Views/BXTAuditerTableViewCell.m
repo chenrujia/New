@@ -28,13 +28,11 @@
         
         _auditNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 12.f, 80.f, 20)];
         _auditNameLabel.textColor = colorWithHexString(@"000000");
-        _auditNameLabel.text = @"枫叶";
         _auditNameLabel.font = [UIFont boldSystemFontOfSize:18.];
         [self addSubview:_auditNameLabel];
         
         _positionLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_auditNameLabel.frame) + 12.f, 80.f, 20)];
         _positionLabel.textColor = colorWithHexString(@"909497");
-        _positionLabel.text = @"经理";
         _positionLabel.font = [UIFont boldSystemFontOfSize:18.];
         [self addSubview:_positionLabel];
         

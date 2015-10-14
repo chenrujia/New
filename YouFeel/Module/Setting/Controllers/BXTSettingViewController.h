@@ -13,4 +13,6 @@
 
 @interface BXTSettingViewController : BXTBaseViewController
 
+- (instancetype)initWithIsRepair:(BOOL)repair;
+
 @end
