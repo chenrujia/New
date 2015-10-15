@@ -10,4 +10,10 @@
 
 @interface BXTArchievementsTableViewCell : UITableViewCell
 
+@property (nonatomic ,strong) UILabel *timeLabel;
+@property (nonatomic ,strong) UIImageView *imgView;
+@property (nonatomic ,strong) UILabel *nameLabel;
+@property (nonatomic ,strong) UILabel *dateLabel;
+@property (nonatomic ,strong) UIView *lineView;
+
 @end

@@ -360,6 +360,14 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)evaluationListWithType:(NSInteger)evaType
+{
+    NSDictionary *dic = @{@"fault_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"repairstate":[NSString stringWithFormat:@"%ld",(long)evaType]};
+    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=evaluation_list",KLASTURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url withParameters:(NSDictionary *)parameters
 {
     LogRed(@"url......%@",url);

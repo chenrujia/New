@@ -173,4 +173,9 @@ typedef NS_ENUM(NSInteger, RequestType) {
  */
 - (void)achievementsList:(NSInteger)months;
 
+/**
+ *  评价列表
+ */
+- (void)evaluationListWithType:(NSInteger)evaType;
+
 @end

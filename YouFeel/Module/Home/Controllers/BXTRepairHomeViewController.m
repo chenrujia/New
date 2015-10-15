@@ -11,6 +11,7 @@
 #import "BXTOrderManagerViewController.h"
 #import "BXTGrabOrderViewController.h"
 #import "BXTAchievementsViewController.h"
+#import "BXTEvaluationListViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -87,6 +88,11 @@
         {
             BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
             [self.navigationController pushViewController:grabOrderVC animated:YES];
+        }
+        case 4:
+        {
+            BXTEvaluationListViewController *evalistVC = [[BXTEvaluationListViewController alloc] init];
+            [self.navigationController pushViewController:evalistVC animated:YES];
         }
             break;
         default:
