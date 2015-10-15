@@ -352,6 +352,14 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)achievementsList:(NSInteger)months
+{
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
+                          @"months_num":[NSString stringWithFormat:@"%ld",(long)months]};
+    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Statistics&opt=get_achievements",KLASTURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url withParameters:(NSDictionary *)parameters
 {
     LogRed(@"url......%@",url);

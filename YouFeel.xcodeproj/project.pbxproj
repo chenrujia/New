@@ -428,6 +428,9 @@
 		9652AE311BC9170E009A666D /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AD851BC9170D009A666D /* UIImageView+WebCache.m */; settings = {ASSET_TAGS = (); }; };
 		9652AE321BC9170E009A666D /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AD871BC9170D009A666D /* UIView+WebCacheOperation.m */; settings = {ASSET_TAGS = (); }; };
 		965450711BCE5F6300435AD1 /* WZFlashButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 965450701BCE5F6300435AD1 /* WZFlashButton.m */; settings = {ASSET_TAGS = (); }; };
+		965450791BCE73CE00435AD1 /* BXTAchievementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 965450781BCE73CE00435AD1 /* BXTAchievementsViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9654507C1BCE7C3300435AD1 /* BXTAchievementsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9654507B1BCE7C3300435AD1 /* BXTAchievementsInfo.m */; settings = {ASSET_TAGS = (); }; };
+		96689B051BCF459C00C296AC /* BXTArchievementsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96689B041BCF459C00C296AC /* BXTArchievementsTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */; settings = {ASSET_TAGS = (); }; };
 		969A41AC1BCB864B0034FC84 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 969A41AB1BCB864B0034FC84 /* sound.mp3 */; settings = {ASSET_TAGS = (); }; };
 		969A42491BCBD4620034FC84 /* RGCardViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A42461BCBD4620034FC84 /* RGCardViewLayout.m */; settings = {ASSET_TAGS = (); }; };
@@ -1196,6 +1199,12 @@
 		9652AD871BC9170D009A666D /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		9654506F1BCE5F6300435AD1 /* WZFlashButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZFlashButton.h; sourceTree = "<group>"; };
 		965450701BCE5F6300435AD1 /* WZFlashButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZFlashButton.m; sourceTree = "<group>"; };
+		965450771BCE73CE00435AD1 /* BXTAchievementsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAchievementsViewController.h; sourceTree = "<group>"; };
+		965450781BCE73CE00435AD1 /* BXTAchievementsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAchievementsViewController.m; sourceTree = "<group>"; };
+		9654507A1BCE7C3300435AD1 /* BXTAchievementsInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAchievementsInfo.h; sourceTree = "<group>"; };
+		9654507B1BCE7C3300435AD1 /* BXTAchievementsInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAchievementsInfo.m; sourceTree = "<group>"; };
+		96689B031BCF459C00C296AC /* BXTArchievementsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTArchievementsTableViewCell.h; sourceTree = "<group>"; };
+		96689B041BCF459C00C296AC /* BXTArchievementsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTArchievementsTableViewCell.m; sourceTree = "<group>"; };
 		969A41A41BCB4C3C0034FC84 /* MDRadialProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDRadialProgressView.h; sourceTree = "<group>"; };
 		969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDRadialProgressView.m; sourceTree = "<group>"; };
 		969A41AB1BCB864B0034FC84 /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
@@ -2498,6 +2507,7 @@
 			isa = PBXGroup;
 			children = (
 				9602214E1BC9216300010072 /* AboutUs */,
+				965450721BCE738F00435AD1 /* Achievements */,
 				960221551BC9216300010072 /* AddOtherMan */,
 				960221601BC9216300010072 /* Authentication */,
 				960221731BC9216300010072 /* Branch */,
@@ -3287,6 +3297,51 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
+		965450721BCE738F00435AD1 /* Achievements */ = {
+			isa = PBXGroup;
+			children = (
+				965450731BCE738F00435AD1 /* Controllers */,
+				965450741BCE738F00435AD1 /* Images */,
+				965450751BCE738F00435AD1 /* Models */,
+				965450761BCE738F00435AD1 /* Views */,
+			);
+			path = Achievements;
+			sourceTree = "<group>";
+		};
+		965450731BCE738F00435AD1 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				965450771BCE73CE00435AD1 /* BXTAchievementsViewController.h */,
+				965450781BCE73CE00435AD1 /* BXTAchievementsViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		965450741BCE738F00435AD1 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		965450751BCE738F00435AD1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9654507A1BCE7C3300435AD1 /* BXTAchievementsInfo.h */,
+				9654507B1BCE7C3300435AD1 /* BXTAchievementsInfo.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		965450761BCE738F00435AD1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				96689B031BCF459C00C296AC /* BXTArchievementsTableViewCell.h */,
+				96689B041BCF459C00C296AC /* BXTArchievementsTableViewCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3354,6 +3409,7 @@
 				TargetAttributes = {
 					9652AAFE1BC902DF009A666D = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = 2AKZVL25HH;
 					};
 					9652AB111BC902DF009A666D = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -3595,9 +3651,11 @@
 				9652AE1E1BC9170E009A666D /* UISwitch+RACSignalSupport.m in Sources */,
 				960223031BC9216300010072 /* BXTShopInfo.m in Sources */,
 				9652ADF81BC9170E009A666D /* RACQueueScheduler.m in Sources */,
+				965450791BCE73CE00435AD1 /* BXTAchievementsViewController.m in Sources */,
 				960222DA1BC9216300010072 /* BXTReaciveOrdersViewController.m in Sources */,
 				9652AB7D1BC908C7009A666D /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				9652ADE71BC9170E009A666D /* RACDynamicPropertySuperclass.m in Sources */,
+				96689B051BCF459C00C296AC /* BXTArchievementsTableViewCell.m in Sources */,
 				960223001BC9216300010072 /* BXTShopLocationViewController.m in Sources */,
 				9602229E1BC9216300010072 /* BXTShopsHomeViewController.m in Sources */,
 				9652ADDC1BC9170E009A666D /* NSURLConnection+RACSupport.m in Sources */,
@@ -3752,6 +3810,7 @@
 				9652AE1A1BC9170E009A666D /* UIRefreshControl+RACCommandSupport.m in Sources */,
 				9652AE221BC9170E009A666D /* UITextView+RACSignalSupport.m in Sources */,
 				960221491BC9201400010072 /* UINavigationController+YRBackGesture.m in Sources */,
+				9654507C1BCE7C3300435AD1 /* BXTAchievementsInfo.m in Sources */,
 				9652AD8B1BC9170D009A666D /* MJRefreshBackFooter.m in Sources */,
 				9652AC2B1BC90EC9009A666D /* HCollectionViewCell.m in Sources */,
 				9652ADF11BC9170E009A666D /* RACIndexSetSequence.m in Sources */,
@@ -3971,11 +4030,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = YouFeel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = hxt.YouFeel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -3983,11 +4046,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = YouFeel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = hxt.YouFeel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

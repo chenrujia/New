@@ -168,4 +168,9 @@ typedef NS_ENUM(NSInteger, RequestType) {
  */
 - (void)userInfo;
 
+/**
+ *  绩效列表
+ */
+- (void)achievementsList:(NSInteger)months;
+
 @end

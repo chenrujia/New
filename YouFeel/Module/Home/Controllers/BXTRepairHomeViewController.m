@@ -10,6 +10,7 @@
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTOrderManagerViewController.h"
 #import "BXTGrabOrderViewController.h"
+#import "BXTAchievementsViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -77,6 +78,12 @@
         }
             break;
         case 2:
+        {
+            BXTAchievementsViewController *achievementsVC = [[BXTAchievementsViewController alloc] init];
+            [self.navigationController pushViewController:achievementsVC animated:YES];
+        }
+            break;
+        case 3:
         {
             BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
             [self.navigationController pushViewController:grabOrderVC animated:YES];
