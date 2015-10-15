@@ -438,6 +438,9 @@
 		966828951BCFBB13008D5818 /* calendar_ok@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 966828911BCFBB13008D5818 /* calendar_ok@3x.png */; settings = {ASSET_TAGS = (); }; };
 		966828961BCFBB13008D5818 /* chart@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 966828921BCFBB13008D5818 /* chart@3x.png */; settings = {ASSET_TAGS = (); }; };
 		966828971BCFBB13008D5818 /* thumb_up@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 966828931BCFBB13008D5818 /* thumb_up@3x.png */; settings = {ASSET_TAGS = (); }; };
+		966828B41BCFCDAD008D5818 /* BXTEvaluationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966828AC1BCFCDAD008D5818 /* BXTEvaluationListViewController.m */; settings = {ASSET_TAGS = (); }; };
+		966828B51BCFCDAD008D5818 /* BXTHaveEvaluationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966828B11BCFCDAD008D5818 /* BXTHaveEvaluationView.m */; settings = {ASSET_TAGS = (); }; };
+		966828B61BCFCDAD008D5818 /* BXTNoneEvaluationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966828B31BCFCDAD008D5818 /* BXTNoneEvaluationView.m */; settings = {ASSET_TAGS = (); }; };
 		96689B051BCF459C00C296AC /* BXTArchievementsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96689B041BCF459C00C296AC /* BXTArchievementsTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */; settings = {ASSET_TAGS = (); }; };
 		969A41AC1BCB864B0034FC84 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 969A41AB1BCB864B0034FC84 /* sound.mp3 */; settings = {ASSET_TAGS = (); }; };
@@ -1219,6 +1222,12 @@
 		966828911BCFBB13008D5818 /* calendar_ok@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_ok@3x.png"; sourceTree = "<group>"; };
 		966828921BCFBB13008D5818 /* chart@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chart@3x.png"; sourceTree = "<group>"; };
 		966828931BCFBB13008D5818 /* thumb_up@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumb_up@3x.png"; sourceTree = "<group>"; };
+		966828AB1BCFCDAD008D5818 /* BXTEvaluationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEvaluationListViewController.h; sourceTree = "<group>"; };
+		966828AC1BCFCDAD008D5818 /* BXTEvaluationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEvaluationListViewController.m; sourceTree = "<group>"; };
+		966828B01BCFCDAD008D5818 /* BXTHaveEvaluationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHaveEvaluationView.h; sourceTree = "<group>"; };
+		966828B11BCFCDAD008D5818 /* BXTHaveEvaluationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHaveEvaluationView.m; sourceTree = "<group>"; };
+		966828B21BCFCDAD008D5818 /* BXTNoneEvaluationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNoneEvaluationView.h; sourceTree = "<group>"; };
+		966828B31BCFCDAD008D5818 /* BXTNoneEvaluationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNoneEvaluationView.m; sourceTree = "<group>"; };
 		96689B031BCF459C00C296AC /* BXTArchievementsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTArchievementsTableViewCell.h; sourceTree = "<group>"; };
 		96689B041BCF459C00C296AC /* BXTArchievementsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTArchievementsTableViewCell.m; sourceTree = "<group>"; };
 		969A41A41BCB4C3C0034FC84 /* MDRadialProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDRadialProgressView.h; sourceTree = "<group>"; };
@@ -2528,6 +2537,7 @@
 				960221601BC9216300010072 /* Authentication */,
 				960221731BC9216300010072 /* Branch */,
 				9602217C1BC9216300010072 /* Evaluation */,
+				966828A91BCFCDAD008D5818 /* EvaluationList */,
 				960221891BC9216300010072 /* Examination */,
 				960221901BC9216300010072 /* GrabOrder */,
 				960221971BC9216300010072 /* Headquarters */,
@@ -3366,6 +3376,51 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		966828A91BCFCDAD008D5818 /* EvaluationList */ = {
+			isa = PBXGroup;
+			children = (
+				966828AA1BCFCDAD008D5818 /* Controllers */,
+				966828AD1BCFCDAD008D5818 /* Images */,
+				966828AE1BCFCDAD008D5818 /* Models */,
+				966828AF1BCFCDAD008D5818 /* Views */,
+			);
+			path = EvaluationList;
+			sourceTree = "<group>";
+		};
+		966828AA1BCFCDAD008D5818 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				966828AB1BCFCDAD008D5818 /* BXTEvaluationListViewController.h */,
+				966828AC1BCFCDAD008D5818 /* BXTEvaluationListViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		966828AD1BCFCDAD008D5818 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		966828AE1BCFCDAD008D5818 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		966828AF1BCFCDAD008D5818 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				966828B01BCFCDAD008D5818 /* BXTHaveEvaluationView.h */,
+				966828B11BCFCDAD008D5818 /* BXTHaveEvaluationView.m */,
+				966828B21BCFCDAD008D5818 /* BXTNoneEvaluationView.h */,
+				966828B31BCFCDAD008D5818 /* BXTNoneEvaluationView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3718,6 +3773,7 @@
 				9652ABEA1BC90DCC009A666D /* AESCrypt.m in Sources */,
 				9652ADF21BC9170E009A666D /* RACKVOChannel.m in Sources */,
 				960222CB1BC9216300010072 /* BXTMaintenanceProcessTableViewCell.m in Sources */,
+				966828B51BCFCDAD008D5818 /* BXTHaveEvaluationView.m in Sources */,
 				9652ADDF1BC9170E009A666D /* RACBehaviorSubject.m in Sources */,
 				9652ADE11BC9170E009A666D /* RACChannel.m in Sources */,
 				9652AD8A1BC9170D009A666D /* MJRefreshAutoFooter.m in Sources */,
@@ -3778,6 +3834,7 @@
 				9652AB401BC9070E009A666D /* BXTBaseViewController.m in Sources */,
 				9602229A1BC9216300010072 /* BXTHeadquartersInfo.m in Sources */,
 				9652AD9B1BC9170D009A666D /* UIScrollView+MJRefresh.m in Sources */,
+				966828B61BCFCDAD008D5818 /* BXTNoneEvaluationView.m in Sources */,
 				960222841BC9216300010072 /* BXTAboutUsViewController.m in Sources */,
 				9652AE2F1BC9170E009A666D /* UIImage+MultiFormat.m in Sources */,
 				9602228B1BC9216300010072 /* BXTPostionInfo.m in Sources */,
@@ -3823,6 +3880,7 @@
 				9652AE191BC9170E009A666D /* UIImagePickerController+RACSignalSupport.m in Sources */,
 				9652ADFF1BC9170E009A666D /* RACSignal+Operations.m in Sources */,
 				9652AB461BC90791009A666D /* AssetHelper.m in Sources */,
+				966828B41BCFCDAD008D5818 /* BXTEvaluationListViewController.m in Sources */,
 				96021DA71BC919B500010072 /* IQToolbar.m in Sources */,
 				9652ABF21BC90DCC009A666D /* AutoCoding.m in Sources */,
 				9652AC321BC90EC9009A666D /* LocalAlbumTableViewController.m in Sources */,
