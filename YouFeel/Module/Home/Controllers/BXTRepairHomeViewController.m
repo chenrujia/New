@@ -88,6 +88,7 @@
         {
             BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
             [self.navigationController pushViewController:grabOrderVC animated:YES];
+            break;
         }
         case 4:
         {

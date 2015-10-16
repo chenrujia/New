@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTDataRequest.h"
 
-@interface BXTNoneEvaluationView : UIView
-
+@interface BXTNoneEvaluationView : UIView<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
+{
+    NSMutableArray *datasource;
+    UITableView *currentTable;
+}
 @end

@@ -7,13 +7,13 @@
 //
 
 #import "BXTBaseViewController.h"
-#import "BXTRepairInfo.h"
+#import "BXTRepairDetailInfo.h"
 @import AssetsLibrary;
 @import AVFoundation;
 @import MobileCoreServices;
 
 @interface BXTMaintenanceProcessViewController : BXTBaseViewController
 
-- (instancetype)initWithCause:(BXTRepairInfo *)repairInfo;
+- (instancetype)initWithCause:(NSString *)cause andCurrentFaultID:(NSInteger)faultID andRepairID:(NSInteger)repairID andReaciveTime:(NSString *)time;
 
 @end

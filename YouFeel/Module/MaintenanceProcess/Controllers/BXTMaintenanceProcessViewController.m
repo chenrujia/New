@@ -44,21 +44,24 @@
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
 @property (nonatomic ,strong) NSString *cause;
 @property (nonatomic ,assign) NSInteger currentFaultID;
-@property (nonatomic ,strong) BXTRepairInfo *repairInfo;
+@property (nonatomic ,assign) NSInteger repairID;
+@property (nonatomic ,strong) NSString  *reaciveTime;
+
 
 @end
 
 @implementation BXTMaintenanceProcessViewController
 
-- (instancetype)initWithCause:(BXTRepairInfo *)repairInfo;
+- (instancetype)initWithCause:(NSString *)cause andCurrentFaultID:(NSInteger)faultID andRepairID:(NSInteger)repairID andReaciveTime:(NSString *)time
 {
     self = [super init];
     if (self)
     {
         [BXTGlobal shareGlobal].maxPics = 3;
-        self.repairInfo = repairInfo;
-        self.cause = repairInfo.faulttype_name;
-        self.currentFaultID = repairInfo.faulttype;
+        self.repairID = repairID;
+        self.reaciveTime = time;
+        self.cause = cause;
+        self.currentFaultID = faultID;
     }
     return self;
 }
@@ -119,7 +122,7 @@
     {
         state = @"1";
     }
-    [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairInfo.repairID] andReaciveTime:_repairInfo.receive_time andFinishTime:finishTime andMaintenanceState:state andFaultType:[NSString stringWithFormat:@"%ld",(long)_currentFaultID]];
+    [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairID] andReaciveTime:_reaciveTime andFinishTime:finishTime andMaintenanceState:state andFaultType:[NSString stringWithFormat:@"%ld",(long)_currentFaultID]];
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)tapGR

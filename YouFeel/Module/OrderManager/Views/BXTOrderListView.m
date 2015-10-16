@@ -234,7 +234,7 @@
     }
     else
     {
-        BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepair:repairInfo];
+        BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
 }
@@ -242,7 +242,7 @@
 - (void)maintenanceProcessClick:(UIButton *)btn
 {
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:btn.tag];
-    BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo];
+    BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:repairInfo.fault_id andRepairID:repairInfo.repairID andReaciveTime:repairInfo.receive_time];
     [self.navigation pushViewController:maintenanceProcossVC animated:YES];
 }
 

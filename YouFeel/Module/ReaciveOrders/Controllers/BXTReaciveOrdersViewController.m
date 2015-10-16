@@ -232,7 +232,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:indexPath.section];
-    BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepair:repairInfo];
+    BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
     [self.navigationController pushViewController:repairDetailVC animated:YES];
 }
 

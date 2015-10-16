@@ -11,6 +11,6 @@
 
 @interface BXTOrderDetailViewController : BXTBaseViewController
 
-- (instancetype)initWithRepair:(BXTRepairInfo *)repair;
+- (instancetype)initWithRepairID:(NSString *)reID;
 
 @end

@@ -16,10 +16,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 50.f, SCREEN_WIDTH - 20, 1.f)];
-        lineView.backgroundColor = colorWithHexString(@"dee3e5");
-        [self addSubview:lineView];
-        
         _repairID = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 160.f, 20)];
         _repairID.textColor = colorWithHexString(@"000000");
         _repairID.font = [UIFont boldSystemFontOfSize:17.f];
@@ -30,6 +26,10 @@
         _time.textAlignment = NSTextAlignmentRight;
         _time.font = [UIFont systemFontOfSize:17.f];
         [self addSubview:_time];
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 50.f, SCREEN_WIDTH - 20, 1.f)];
+        lineView.backgroundColor = colorWithHexString(@"dee3e5");
+        [self addSubview:lineView];
         
         _place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 30.f, 20)];
         _place.textColor = colorWithHexString(@"000000");

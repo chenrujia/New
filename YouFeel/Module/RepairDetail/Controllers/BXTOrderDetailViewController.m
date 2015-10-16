@@ -41,20 +41,20 @@
     UILabel *maintenanceMan;
 }
 
-@property (nonatomic ,strong) BXTRepairInfo *repairInfo;
+@property (nonatomic ,strong) NSString *repairID;
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
 
 @end
 
 @implementation BXTOrderDetailViewController
 
-- (instancetype)initWithRepair:(BXTRepairInfo *)repair
+- (instancetype)initWithRepairID:(NSString *)reID
 {
     self = [super init];
     if (self)
     {
         [BXTGlobal shareGlobal].maxPics = 3;
-        self.repairInfo = repair;
+        self.repairID = reID;
     }
     return self;
 }
@@ -110,48 +110,38 @@
     repairID = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(line.frame) + 15.f, SCREEN_WIDTH - 30.f, 20)];
     repairID.textColor = colorWithHexString(@"000000");
     repairID.font = [UIFont boldSystemFontOfSize:17.f];
-    repairID.text = [NSString stringWithFormat:@"工单号:%@",_repairInfo.orderid];
+    repairID.text = @"工单号:";
     [scrollView addSubview:repairID];
     
     time = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(repairID.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     time.textColor = colorWithHexString(@"000000");
     time.font = [UIFont boldSystemFontOfSize:17.f];
-    time.text = [NSString stringWithFormat:@"报修时间:%@",_repairInfo.repair_time];
+    time.text = @"报修时间:";
     [scrollView addSubview:time];
     
     place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(time.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     place.textColor = colorWithHexString(@"000000");
     place.font = [UIFont boldSystemFontOfSize:17.f];
-    place.text = [NSString stringWithFormat:@"位置:%@",_repairInfo.area];
+    place.text = @"位置:";
     [scrollView addSubview:place];
     
     faultType = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(place.frame) + 10.f, CGRectGetWidth(place.frame), 20)];
     faultType.textColor = colorWithHexString(@"000000");
     faultType.font = [UIFont boldSystemFontOfSize:17.f];
-    faultType.text = [NSString stringWithFormat:@"故障类型:%ld",(long)_repairInfo.faulttype];
+    faultType.text = @"故障类型:";
     [scrollView addSubview:faultType];
     
     cause = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(faultType.frame) + 10.f, CGRectGetWidth(faultType.frame), 20)];
     cause.textColor = colorWithHexString(@"000000");
     cause.font = [UIFont boldSystemFontOfSize:17.f];
-    cause.text = [NSString stringWithFormat:@"故障描述:%@",_repairInfo.faulttype_name];
+    cause.text = @"故障描述:";
     [scrollView addSubview:cause];
     
     level = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(cause.frame) + 10.f, CGRectGetWidth(cause.frame), 20)];
     level.textColor = colorWithHexString(@"000000");
     level.font = [UIFont boldSystemFontOfSize:17.f];
-    NSString *str;
-    NSRange range;
-    if (_repairInfo.urgent == 1)
-    {
-        str = @"等级:一般";
-        range = [str rangeOfString:@"一般"];
-    }
-    else if (_repairInfo.urgent == 2)
-    {
-        str = @"等级:紧急";
-        range = [str rangeOfString:@"紧急"];
-    }
+    NSString *str = @"等级:紧急";
+    NSRange range = [str rangeOfString:@"紧急"];
     NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
     [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
     level.attributedText = attributeStr;
@@ -200,7 +190,7 @@
 {
     /**获取详情**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairDetail:[NSString stringWithFormat:@"%ld",(long)_repairInfo.repairID]];
+    [request repairDetail:[NSString stringWithFormat:@"%@",_repairID]];
 }
 
 - (void)evaluate
@@ -539,13 +529,13 @@
 {
     if (item.tag == 101)
     {
-        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:_repairInfo.repairID andWithVCType:DetailType];
+        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[_repairID integerValue] andWithVCType:DetailType];
         [self.navigationController pushViewController:addOtherVC animated:YES];
     }
     else if (item.tag == 102)
     {
-        BXTMaintenanceProcessViewController *maintenanceProcessVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:_repairInfo];
-        [self.navigationController pushViewController:maintenanceProcessVC animated:YES];
+        BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairDetail.cause andCurrentFaultID:repairDetail.faulttype andRepairID:repairDetail.repairID andReaciveTime:repairDetail.receive_time];
+        [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
     }
 }
 

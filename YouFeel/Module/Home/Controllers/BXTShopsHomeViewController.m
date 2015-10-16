@@ -12,6 +12,7 @@
 #import "BXTOrderManagerViewController.h"
 #import "BXTExaminationViewController.h"
 #import "BXTAboutUsViewController.h"
+#import "BXTEvaluationListViewController.h"
 
 @interface BXTShopsHomeViewController ()
 
@@ -78,10 +79,17 @@
             [self.navigationController pushViewController:orderManagerVC animated:YES];
         }
             break;
+        case 4:
+        {
+            BXTEvaluationListViewController *evalistVC = [[BXTEvaluationListViewController alloc] init];
+            [self.navigationController pushViewController:evalistVC animated:YES];
+        }
+            break;
         case 5:
         {
             BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
             [self.navigationController pushViewController:examinationVC animated:YES];
+            break;
         }
         case 8:
         {

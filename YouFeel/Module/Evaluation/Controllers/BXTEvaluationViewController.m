@@ -496,7 +496,8 @@
  */
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    NSDictionary *dic = response;
+//    NSDictionary *dic = response;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"EvaluateSuccess" object:nil];
 }
 
 - (void)requestError:(NSError *)error

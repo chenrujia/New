@@ -447,6 +447,10 @@
 		969A42491BCBD4620034FC84 /* RGCardViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A42461BCBD4620034FC84 /* RGCardViewLayout.m */; settings = {ASSET_TAGS = (); }; };
 		969A424D1BCBD4DF0034FC84 /* RGCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A424C1BCBD4DF0034FC84 /* RGCollectionViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		969A424F1BCBD7EC0034FC84 /* 20.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 969A424E1BCBD7EC0034FC84 /* 20.jpg */; settings = {ASSET_TAGS = (); }; };
+		96CEC8341BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8331BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		96CEC8371BD08C2300D03B1B /* BXTHaveEVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8361BD08C2300D03B1B /* BXTHaveEVTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		96CEC83A1BD0945000D03B1B /* BXTNoneEVInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8391BD0945000D03B1B /* BXTNoneEVInfo.m */; settings = {ASSET_TAGS = (); }; };
+		96CEC83D1BD0946900D03B1B /* BXTHaveEVInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC83C1BD0946900D03B1B /* BXTHaveEVInfo.m */; settings = {ASSET_TAGS = (); }; };
 		96DD34661BCCB1E800B2144C /* Coin_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96DD34651BCCB1E800B2144C /* Coin_icon@2x.png */; settings = {ASSET_TAGS = (); }; };
 		96DD34681BCCB21200B2144C /* Coin_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96DD34671BCCB21200B2144C /* Coin_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
@@ -1238,6 +1242,14 @@
 		969A424B1BCBD4DF0034FC84 /* RGCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGCollectionViewCell.h; sourceTree = "<group>"; };
 		969A424C1BCBD4DF0034FC84 /* RGCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGCollectionViewCell.m; sourceTree = "<group>"; };
 		969A424E1BCBD7EC0034FC84 /* 20.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 20.jpg; sourceTree = "<group>"; };
+		96CEC8321BD08C0F00D03B1B /* BXTNoneEVTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNoneEVTableViewCell.h; sourceTree = "<group>"; };
+		96CEC8331BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNoneEVTableViewCell.m; sourceTree = "<group>"; };
+		96CEC8351BD08C2300D03B1B /* BXTHaveEVTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHaveEVTableViewCell.h; sourceTree = "<group>"; };
+		96CEC8361BD08C2300D03B1B /* BXTHaveEVTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHaveEVTableViewCell.m; sourceTree = "<group>"; };
+		96CEC8381BD0945000D03B1B /* BXTNoneEVInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNoneEVInfo.h; sourceTree = "<group>"; };
+		96CEC8391BD0945000D03B1B /* BXTNoneEVInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNoneEVInfo.m; sourceTree = "<group>"; };
+		96CEC83B1BD0946800D03B1B /* BXTHaveEVInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHaveEVInfo.h; sourceTree = "<group>"; };
+		96CEC83C1BD0946900D03B1B /* BXTHaveEVInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHaveEVInfo.m; sourceTree = "<group>"; };
 		96DD34651BCCB1E800B2144C /* Coin_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Coin_icon@2x.png"; sourceTree = "<group>"; };
 		96DD34671BCCB21200B2144C /* Coin_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Coin_icon@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3406,6 +3418,10 @@
 		966828AE1BCFCDAD008D5818 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				96CEC8381BD0945000D03B1B /* BXTNoneEVInfo.h */,
+				96CEC8391BD0945000D03B1B /* BXTNoneEVInfo.m */,
+				96CEC83B1BD0946800D03B1B /* BXTHaveEVInfo.h */,
+				96CEC83C1BD0946900D03B1B /* BXTHaveEVInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3415,8 +3431,12 @@
 			children = (
 				966828B01BCFCDAD008D5818 /* BXTHaveEvaluationView.h */,
 				966828B11BCFCDAD008D5818 /* BXTHaveEvaluationView.m */,
+				96CEC8351BD08C2300D03B1B /* BXTHaveEVTableViewCell.h */,
+				96CEC8361BD08C2300D03B1B /* BXTHaveEVTableViewCell.m */,
 				966828B21BCFCDAD008D5818 /* BXTNoneEvaluationView.h */,
 				966828B31BCFCDAD008D5818 /* BXTNoneEvaluationView.m */,
+				96CEC8321BD08C0F00D03B1B /* BXTNoneEVTableViewCell.h */,
+				96CEC8331BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3715,6 +3735,7 @@
 				960222F41BC9216300010072 /* BXTRepairDetailInfo.m in Sources */,
 				960222881BC9216300010072 /* BXTAuthenticationViewController.m in Sources */,
 				9652AB801BC908C7009A666D /* UIImageView+AFNetworking.m in Sources */,
+				96CEC8341BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m in Sources */,
 				9652AC241BC90EC9009A666D /* UIScrollView+EmptyDataSet.m in Sources */,
 				9652AE151BC9170E009A666D /* UIControl+RACSignalSupport.m in Sources */,
 				960222991BC9216300010072 /* BXTHeadquartersViewController.m in Sources */,
@@ -3748,6 +3769,7 @@
 				960222C31BC9216300010072 /* BXTGroupInfo.m in Sources */,
 				9652ADC31BC9170D009A666D /* MWTapDetectingImageView.m in Sources */,
 				9652ADF51BC9170E009A666D /* RACMulticastConnection.m in Sources */,
+				96CEC83A1BD0945000D03B1B /* BXTNoneEVInfo.m in Sources */,
 				9652AE0C1BC9170E009A666D /* RACTupleSequence.m in Sources */,
 				9602228F1BC9216300010072 /* BXTBranchViewController.m in Sources */,
 				9652AE2A1BC9170E009A666D /* SDWebImageDownloaderOperation.m in Sources */,
@@ -3784,6 +3806,7 @@
 				9652ADC71BC9170E009A666D /* EXTRuntimeExtensions.m in Sources */,
 				9652ADF01BC9170E009A666D /* RACImmediateScheduler.m in Sources */,
 				9652ADDB1BC9170E009A666D /* NSString+RACSupport.m in Sources */,
+				96CEC8371BD08C2300D03B1B /* BXTHaveEVTableViewCell.m in Sources */,
 				9652ADDA1BC9170E009A666D /* NSString+RACSequenceAdditions.m in Sources */,
 				9652ABBA1BC9092B009A666D /* DCParserConfiguration.m in Sources */,
 				9652AB421BC9070E009A666D /* BXTDataRequest.m in Sources */,
@@ -3910,6 +3933,7 @@
 				9652ADD11BC9170E009A666D /* NSObject+RACDeallocating.m in Sources */,
 				9652AB761BC908C7009A666D /* AFNetworkActivityIndicatorManager.m in Sources */,
 				960222CE1BC9216300010072 /* BXTOrderManagerViewController.m in Sources */,
+				96CEC83D1BD0946900D03B1B /* BXTHaveEVInfo.m in Sources */,
 				9652ADE41BC9170E009A666D /* RACCompoundDisposableProvider.d in Sources */,
 				9652AB7F1BC908C7009A666D /* UIButton+AFNetworking.m in Sources */,
 				9602214A1BC9201400010072 /* UIView+Nav.m in Sources */,
