@@ -12,6 +12,7 @@
 #import "BXTGrabOrderViewController.h"
 #import "BXTAchievementsViewController.h"
 #import "BXTEvaluationListViewController.h"
+#import "BXTRepairWordOrderViewController.h"
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
 
@@ -63,22 +64,19 @@
     }
 }
 
-#pragma mark -
-#pragma mark 初始化视图
-- (void)createLogoView
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super createLogoView];
-    [logo_btn setTitle:@"华联天通苑店" forState:UIControlStateNormal];
-    [shopBtn setImage:[UIImage imageNamed:@"Grabone"] forState:UIControlStateNormal];
-    shop_label.text = @"实时抢单";
+    [super viewWillAppear:animated];
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    [logo_btn setTitle:companyInfo.name forState:UIControlStateNormal];
 }
 
 #pragma mark -
 #pragma mark 事件处理
 - (void)repairClick
 {
-    BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] init];
-    [self.navigationController pushViewController:reaciveVC animated:YES];
+    BXTRepairWordOrderViewController *workOrderVC = [[BXTRepairWordOrderViewController alloc] init];
+    [self.navigationController pushViewController:workOrderVC animated:YES];
 }
 
 - (void)comingNewRepairs

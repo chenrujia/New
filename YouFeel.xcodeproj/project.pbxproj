@@ -3578,6 +3578,11 @@
 				TargetAttributes = {
 					9652AAFE1BC902DF009A666D = {
 						CreatedOnToolsVersion = 7.0.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					9652AB111BC902DF009A666D = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -4232,7 +4237,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.huixt.baoxt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d68af95e-f156-4d1b-b384-3e3f2c6ec5d0";
+				PROVISIONING_PROFILE = "33912ca2-53cc-4e37-9287-b331bc23c91c";
 			};
 			name = Debug;
 		};
@@ -4253,7 +4258,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.huixt.baoxt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d68af95e-f156-4d1b-b384-3e3f2c6ec5d0";
+				PROVISIONING_PROFILE = "33912ca2-53cc-4e37-9287-b331bc23c91c";
 			};
 			name = Release;
 		};

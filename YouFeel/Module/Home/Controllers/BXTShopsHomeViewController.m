@@ -7,11 +7,11 @@
 //
 
 #import "BXTShopsHomeViewController.h"
-#import "BXTWorkOderViewController.h"
 #import "BXTRepairViewController.h"
 #import "BXTOrderManagerViewController.h"
 #import "BXTExaminationViewController.h"
 #import "BXTAboutUsViewController.h"
+#import "BXTWorkOderViewController.h"
 #import "BXTEvaluationListViewController.h"
 #import "BXTHeadquartersInfo.h"
 #import "BXTGlobal.h"
@@ -44,15 +44,6 @@
                     @"Cuetomer_service",
                     @"About_us", nil];
     titleNameArray = [NSMutableArray arrayWithObjects:@"我要报修",@"工单管理",@"绩效",@"通知",@"消息",@"审批",@"意见反馈",@"客服",@"关于我们", nil];
-}
-
-#pragma mark -
-#pragma mark 初始化视图
-- (void)createLogoView
-{
-    [super createLogoView];
-    [shopBtn setImage:[UIImage imageNamed:@"tools"] forState:UIControlStateNormal];
-    shop_label.text = @"一键报修";
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -320,7 +320,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     }
     else if (section == 3)
     {
-        return 2;
+        return 1;
     }
     return 1;
 }
@@ -444,17 +444,9 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
             [cell.auditStatusLabel setFrame:CGRectMake(CGRectGetMaxX(cell.detailLable.frame) + 20.f, 15.f, 80.f, 20.f)];
             cell.auditStatusLabel.text = verify_state;
-            if (indexPath.row == 0)
-            {
-                BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
-                cell.titleLabel.text = @"职   位";
-                cell.detailLable.text = positionInfo.role;
-            }
-            else
-            {
-                cell.titleLabel.text = @"员工号";
-                cell.detailLable.text = [BXTGlobal getUserProperty:U_JOBNUMBER];
-            }
+            BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
+            cell.titleLabel.text = @"职   位";
+            cell.detailLable.text = positionInfo.role;
         }
         return cell;
     }

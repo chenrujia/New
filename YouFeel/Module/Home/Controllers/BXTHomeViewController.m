@@ -60,6 +60,7 @@
     shopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shopBtn setFrame:CGRectMake(0, CGRectGetMaxY(logo_btn.frame) + 25.f, 90, 90)];
     [shopBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f, shopBtn.center.y)];
+    [shopBtn setImage:[UIImage imageNamed:@"tools"] forState:UIControlStateNormal];
     [shopBtn addTarget:self action:@selector(repairClick) forControlEvents:UIControlEventTouchUpInside];
     [logoImgView addSubview:shopBtn];
     
@@ -68,6 +69,7 @@
     shop_label.center = CGPointMake(SCREEN_WIDTH/2.f, shop_label.center.y);
     shop_label.textAlignment = NSTextAlignmentCenter;
     shop_label.textColor = colorWithHexString(@"3cafff");
+    shop_label.text = @"一键报修";
     shop_label.font = [UIFont boldSystemFontOfSize:18.f];
     [logoImgView addSubview:shop_label];
     

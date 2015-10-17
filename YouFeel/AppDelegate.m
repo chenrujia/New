@@ -190,6 +190,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
  */
 - (void)GeTuiSdkDidRegisterClient:(NSString *)clientId  // SDK 返回clientid
 {
+    LogRed(@"clientId:%@",clientId);
     [BXTGlobal setUserProperty:clientId withKey:U_CLIENTID];
     if (_deviceToken)
     {
@@ -281,7 +282,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         companyInfo.company_id = shopID;
         companyInfo.name = shopName;
         [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-        NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_Android_v2_Port&shop_id=%@",shopID];
+        NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_Android_v2_Port&shop_id=%@",shopID];
         [BXTGlobal shareGlobal].baseURL = url;
         
         NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
