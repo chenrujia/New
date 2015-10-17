@@ -20,6 +20,8 @@
 
 @property (nonatomic ,assign) NSInteger maxPics;
 
+@property (nonatomic ,strong) NSString *baseURL;
+
 + (BXTGlobal *)shareGlobal;
 
 /**

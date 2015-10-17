@@ -206,6 +206,14 @@
         NSArray *shopids = [userInfoDic objectForKey:@"shop_ids"];
         [BXTGlobal setUserProperty:shopids withKey:U_SHOPIDS];
         
+        NSArray *my_shop = [userInfoDic objectForKey:@"my_shop"];
+        [BXTGlobal setUserProperty:my_shop withKey:U_MYSHOP];
+#warning 空的情况
+        NSDictionary *shopsDic = my_shop[0];
+        NSString *shopID = [shopsDic objectForKey:@"id"];
+        NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_Android_v2_Port&shop_id=%@",shopID];
+        [BXTGlobal shareGlobal].baseURL = url;
+        
         NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
         [BXTGlobal setUserProperty:userID withKey:U_USERID];
         

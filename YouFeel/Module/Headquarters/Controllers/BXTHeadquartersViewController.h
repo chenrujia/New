@@ -7,6 +7,7 @@
 //
 
 #import "BXTBaseViewController.h"
+@import CoreLocation;
 
 @interface BXTHeadquartersViewController : BXTBaseViewController
 

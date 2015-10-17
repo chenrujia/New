@@ -28,7 +28,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     MaintenanceProcess,
     ManList,
     UploadHeadImage,
-    UserInfo
+    UserInfo,
+    LocationShop
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -177,5 +178,10 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  评价列表
  */
 - (void)evaluationListWithType:(NSInteger)evaType;
+
+/**
+ *  获取附近商店
+ */
+- (void)shopWithLatitude:(NSString *)latitude andWithLongitude:(NSString *)longitude;
 
 @end

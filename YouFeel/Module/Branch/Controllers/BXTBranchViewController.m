@@ -57,8 +57,20 @@
 - (void)navigationRightButton
 {
     [BXTGlobal setUserProperty:headquarters withKey:U_COMPANY];
-    BXTAuthenticationViewController *authenticationVC = [[BXTAuthenticationViewController alloc] init];
-    [self.navigationController pushViewController:authenticationVC animated:YES];
+    
+    if ([BXTGlobal getUserProperty:U_MYSHOP])
+    {
+        NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_Android_v2_Port&shop_id=%@",headquarters.company_id];
+        [BXTGlobal shareGlobal].baseURL = url;
+        /**请求分店位置**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request branchLogin];
+    }
+    else
+    {
+        BXTAuthenticationViewController *authenticationVC = [[BXTAuthenticationViewController alloc] init];
+        [self.navigationController pushViewController:authenticationVC animated:YES];
+    }
 }
 
 #pragma mark -
@@ -115,24 +127,66 @@
 {
     NSDictionary *dic = response;
     NSArray *array = [dic objectForKey:@"data"];
-    for (NSDictionary *dictionary in array)
+    if (type == BranchLogin)
     {
-        DCParserConfiguration *config = [DCParserConfiguration configuration];
-        DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"company_id" onClass:[BXTHeadquartersInfo class]];
-        [config addObjectMapping:text];
-        
-        DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTHeadquartersInfo class] andConfiguration:config];
-        BXTHeadquartersInfo *company = [parser parseDictionary:dictionary];
-        
-        [shopsArray addObject:company];
+        if (array.count > 0)
+        {
+            NSDictionary *userInfo = array[0];
+            
+            NSArray *bindingAds = [userInfo objectForKey:@"binding_ads"];
+            [BXTGlobal setUserProperty:bindingAds withKey:U_BINDINGADS];
+            
+            BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
+            departmentInfo.dep_id = [userInfo objectForKey:@"department"];
+            departmentInfo.department = [userInfo objectForKey:@"department_name"];
+            [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
+            
+            BXTGroupingInfo *groupInfo = [[BXTGroupingInfo alloc] init];
+            groupInfo.group_id = [userInfo objectForKey:@"subgroup"];
+            groupInfo.subgroup = [userInfo objectForKey:@"subgroup_name"];
+            [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
+            
+            NSString *userID = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"id"]];
+            [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
+            
+            BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
+            roleInfo.role_id = [userInfo objectForKey:@"role_id"];
+            roleInfo.role = [userInfo objectForKey:@"role"];
+            [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
+            
+            BXTShopInfo *shopInfo = [[BXTShopInfo alloc] init];
+            shopInfo.stores_id = [userInfo objectForKey:@"stores_id"];
+            shopInfo.stores_name = [userInfo objectForKey:@"stores"];
+            [BXTGlobal setUserProperty:shopInfo withKey:U_SHOP];
+            
+            [BXTGlobal setUserProperty:[userInfo objectForKey:@"username"] withKey:U_USERNAME];
+            [BXTGlobal setUserProperty:[userInfo objectForKey:@"role_con"] withKey:U_ROLEARRAY];
+            [BXTGlobal setUserProperty:[userInfo objectForKey:@"mobile"] withKey:U_MOBILE];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
     }
-    
-    for (NSInteger i = 0; i < shopsArray.count; i++)
+    else
     {
-        [markArray addObject:@"0"];
+        for (NSDictionary *dictionary in array)
+        {
+            DCParserConfiguration *config = [DCParserConfiguration configuration];
+            DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"company_id" onClass:[BXTHeadquartersInfo class]];
+            [config addObjectMapping:text];
+            
+            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTHeadquartersInfo class] andConfiguration:config];
+            BXTHeadquartersInfo *company = [parser parseDictionary:dictionary];
+            
+            [shopsArray addObject:company];
+        }
+        
+        for (NSInteger i = 0; i < shopsArray.count; i++)
+        {
+            [markArray addObject:@"0"];
+        }
+        
+        [currentTableView reloadData];
     }
-    
-    [currentTableView reloadData];
 }
 
 - (void)requestError:(NSError *)error

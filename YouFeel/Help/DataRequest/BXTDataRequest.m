@@ -26,35 +26,35 @@
 
 - (void)resignUser:(NSDictionary *)parameters
 {
-    NSString *url = [NSString stringWithFormat:@"%@?r=port/Get_iPhone_v2_Port/module/User/opt/reg_user",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/reg_user",KURLREQUEST];
     [self postRequest:url withParameters:parameters];
 }
 
 - (void)loginUser:(NSDictionary *)parameters
 {
     self.requestType = LoginType;
-    NSString *url = [NSString stringWithFormat:@"%@?r=port/Get_iPhone_v2_Port/module/User/opt/login",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/login",KURLREQUEST];
     [self postRequest:url withParameters:parameters];
 }
 
 - (void)departmentsList:(NSString *)is_repair
 {
     self.requestType = DepartmentType;
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Hqdata&opt=get_hq_department",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_department",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:@{@"is_repair":is_repair}];
 }
 
 - (void)positionsList:(NSString *)departmentID
 {
     self.requestType = PositionType;
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=User&opt=role_list&department=%@",KLASTURL,departmentID];
+    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=role_list&department=%@",[BXTGlobal shareGlobal].baseURL,departmentID];
     [self getRequest:url];
 }
 
 - (void)shopLocation
 {
     self.requestType = ShopType;
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Portmeans&opt=get_map",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Portmeans&opt=get_map",[BXTGlobal shareGlobal].baseURL];
     [self getRequest:url];
 }
 
@@ -64,11 +64,11 @@
     NSString *url;
     if (departmentID)
     {
-        url = [NSString stringWithFormat:@"%@?r=port/Get_Android_v2_Port/module/Shops/opt/get_shops&id=%@",KURLREQUEST,departmentID];
+        url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops&id=%@",KURLREQUEST,departmentID];
     }
     else
     {
-        url = [NSString stringWithFormat:@"%@?r=port/Get_Android_v2_Port/module/Shops/opt/get_shops",KURLREQUEST];
+        url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops",KURLREQUEST];
     }
     [self getRequest:url];
 }
@@ -118,7 +118,7 @@
                           @"out_userid":[BXTGlobal getUserProperty:U_USERID],
                           @"shops_id":company.company_id,
                           @"subgroup":subGroup};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=user&opt=add_user",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -126,8 +126,7 @@
 {
     self.requestType = BranchLogin;
     NSDictionary *dic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME]};
-
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=login&opt=login",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=login&opt=login",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -143,7 +142,7 @@
                           @"info":@"123",
                           @"stores_pic":@""};
     
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=user&opt=add_stores",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_stores",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -151,7 +150,7 @@
 {
     self.requestType = FaultType;
     
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Hqdata&opt=get_hq_faulttype_type",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_faulttype_type",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:nil];
 }
 
@@ -183,7 +182,7 @@
                 @"pagesize":@"5",
                 @"page":[NSString stringWithFormat:@"%ld",(long)page]};
     }
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=repair_list",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -218,7 +217,7 @@
                 @"timeover":endTime,
                 @"faulttype":faultType};
     }
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=repair_list",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -248,7 +247,7 @@
                           @"collection":@"",
                           @"collection_note":@"",
                           @"repair_user_arr":userArray};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=add_fault",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_fault",[BXTGlobal shareGlobal].baseURL];
     [self uploadImageRequest:url withParameters:dic withImages:images];
 }
 
@@ -257,7 +256,7 @@
     self.requestType = DeleteRepair;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
                           @"id":repairID};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=del_fault",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=del_fault",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -265,7 +264,7 @@
 {
     self.requestType = RepairDetail;
     NSDictionary *dic = @{@"id":repairID};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=repair_con",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_con",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -273,7 +272,7 @@
 {
     NSDictionary *rateDic = @{@"speed":rateArray[0],@"professional":rateArray[1],@"serve":rateArray[2]};
     NSDictionary *dic = @{@"send_id":[BXTGlobal getUserProperty:U_USERID],@"id":reID,@"praise":rateDic,@"evaluation_notes":notes,@"evaluation_name":[BXTGlobal getUserProperty:U_NAME]};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=praise",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=praise",[BXTGlobal shareGlobal].baseURL];
     [self uploadImageRequest:url withParameters:dic withImages:images];
 }
 
@@ -284,7 +283,7 @@
                           @"user":@[[BXTGlobal getUserProperty:U_BRANCHUSERID]],
                           @"id":repairID,
                           @"arrival_time":time};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=dispatching",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=dispatching",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -294,14 +293,14 @@
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"user":mans,
                           @"id":repairID};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=dispatching",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=dispatching",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
 - (void)propertyGrouping
 {
     self.requestType = PropertyGrouping;
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Hqdata&opt=get_hq_subgroup",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_subgroup",[BXTGlobal shareGlobal].baseURL];
     [self getRequest:url];
 }
 
@@ -314,7 +313,7 @@
                           @"state":state,
                           @"faulttype":faultType,
                           @"id":repairID};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=add_processed",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_processed",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -323,7 +322,7 @@
     self.requestType = ManList;
     NSDictionary *dic = @{@"role":@"2",
                           @"subgroup":groupID};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=User&opt=user_list",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -333,14 +332,14 @@
     NSDictionary *dic = @{@"id":[BXTGlobal getUserProperty:U_USERID],
                           @"name":[BXTGlobal getUserProperty:U_NAME],
                           @"gender":[BXTGlobal getUserProperty:U_SEX]};
-    NSString *url = [NSString stringWithFormat:@"%@?r=port/Get_Android_v2_Port/module/User/opt/perfect_user",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/perfect_user",KURLREQUEST];
     [self uploadImageRequest:url withParameters:dic withImages:@[image]];
 }
 
 - (void)mobileVerCode:(NSString *)mobile
 {
     NSDictionary *dic = @{@"mobile":mobile};
-    NSString *url = [NSString stringWithFormat:@"%@?r=port/Get_Android_v2_Port/opt/get_verification_code/module/Means",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/opt/get_verification_code/module/Means",KURLREQUEST];
     [self postRequest:url withParameters:dic];
 }
 
@@ -348,7 +347,7 @@
 {
     self.requestType = UserInfo;
     NSDictionary *dic = @{@"id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=User&opt=user_con",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_con",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -356,7 +355,7 @@
 {
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
                           @"months_num":[NSString stringWithFormat:@"%ld",(long)months]};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Statistics&opt=get_achievements",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=get_achievements",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -364,7 +363,16 @@
 {
     NSDictionary *dic = @{@"fault_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"repairstate":[NSString stringWithFormat:@"%ld",(long)evaType]};
-    NSString *url = [NSString stringWithFormat:@"%@?c=Port&m=actionGet_Android_v2_Port&module=Repair&opt=evaluation_list",KLASTURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=evaluation_list",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)shopWithLatitude:(NSString *)latitude andWithLongitude:(NSString *)longitude
+{
+    self.requestType = LocationShop;
+    NSDictionary *dic = @{@"Latitude":latitude,
+                          @"Longitude":longitude};
+    NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops",KURLREQUEST];
     [self postRequest:url withParameters:dic];
 }
 

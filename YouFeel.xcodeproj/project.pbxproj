@@ -451,6 +451,9 @@
 		96CEC8371BD08C2300D03B1B /* BXTHaveEVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8361BD08C2300D03B1B /* BXTHaveEVTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		96CEC83A1BD0945000D03B1B /* BXTNoneEVInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8391BD0945000D03B1B /* BXTNoneEVInfo.m */; settings = {ASSET_TAGS = (); }; };
 		96CEC83D1BD0946900D03B1B /* BXTHaveEVInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC83C1BD0946900D03B1B /* BXTHaveEVInfo.m */; settings = {ASSET_TAGS = (); }; };
+		96CEC8421BD0F1A400D03B1B /* CLLocation+YCLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC83F1BD0F1A400D03B1B /* CLLocation+YCLocation.m */; settings = {ASSET_TAGS = (); }; };
+		96CEC8431BD0F1A400D03B1B /* CCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8411BD0F1A400D03B1B /* CCLocationManager.m */; settings = {ASSET_TAGS = (); }; };
+		96CEC8451BD0F21E00D03B1B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96CEC8441BD0F21E00D03B1B /* CoreLocation.framework */; };
 		96DD34661BCCB1E800B2144C /* Coin_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96DD34651BCCB1E800B2144C /* Coin_icon@2x.png */; settings = {ASSET_TAGS = (); }; };
 		96DD34681BCCB21200B2144C /* Coin_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96DD34671BCCB21200B2144C /* Coin_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
@@ -1250,6 +1253,11 @@
 		96CEC8391BD0945000D03B1B /* BXTNoneEVInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNoneEVInfo.m; sourceTree = "<group>"; };
 		96CEC83B1BD0946800D03B1B /* BXTHaveEVInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHaveEVInfo.h; sourceTree = "<group>"; };
 		96CEC83C1BD0946900D03B1B /* BXTHaveEVInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHaveEVInfo.m; sourceTree = "<group>"; };
+		96CEC83E1BD0F1A400D03B1B /* CLLocation+YCLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+YCLocation.h"; sourceTree = "<group>"; };
+		96CEC83F1BD0F1A400D03B1B /* CLLocation+YCLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+YCLocation.m"; sourceTree = "<group>"; };
+		96CEC8401BD0F1A400D03B1B /* CCLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLocationManager.h; sourceTree = "<group>"; };
+		96CEC8411BD0F1A400D03B1B /* CCLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLocationManager.m; sourceTree = "<group>"; };
+		96CEC8441BD0F21E00D03B1B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		96DD34651BCCB1E800B2144C /* Coin_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Coin_icon@2x.png"; sourceTree = "<group>"; };
 		96DD34671BCCB21200B2144C /* Coin_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Coin_icon@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1259,6 +1267,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96CEC8451BD0F21E00D03B1B /* CoreLocation.framework in Frameworks */,
 				960223121BC922DB00010072 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1716,6 +1725,10 @@
 			children = (
 				9602219D1BC9216300010072 /* BXTHeadquartersInfo.h */,
 				9602219E1BC9216300010072 /* BXTHeadquartersInfo.m */,
+				96CEC83E1BD0F1A400D03B1B /* CLLocation+YCLocation.h */,
+				96CEC83F1BD0F1A400D03B1B /* CLLocation+YCLocation.m */,
+				96CEC8401BD0F1A400D03B1B /* CCLocationManager.h */,
+				96CEC8411BD0F1A400D03B1B /* CCLocationManager.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2434,6 +2447,7 @@
 		9652AAF61BC902DE009A666D = {
 			isa = PBXGroup;
 			children = (
+				96CEC8441BD0F21E00D03B1B /* CoreLocation.framework */,
 				960223111BC922DB00010072 /* libsqlite3.tbd */,
 				9652AB011BC902DF009A666D /* YouFeel */,
 				9652AB151BC902DF009A666D /* YouFeelTests */,
@@ -3986,6 +4000,7 @@
 				9652ADD01BC9170E009A666D /* NSNotificationCenter+RACSupport.m in Sources */,
 				960222CA1BC9216300010072 /* BXTMaintenanceProcessViewController.m in Sources */,
 				9652ADE01BC9170E009A666D /* RACBlockTrampoline.m in Sources */,
+				96CEC8421BD0F1A400D03B1B /* CLLocation+YCLocation.m in Sources */,
 				9652ADE51BC9170E009A666D /* RACDelegateProxy.m in Sources */,
 				9652ABAF1BC9092B009A666D /* DCCustomInitialize.m in Sources */,
 				9652AE271BC9170E009A666D /* SDWebImageCompat.m in Sources */,
@@ -3997,6 +4012,7 @@
 				969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */,
 				9652ADBF1BC9170D009A666D /* MWGridCell.m in Sources */,
 				9652AE0B1BC9170E009A666D /* RACTuple.m in Sources */,
+				96CEC8431BD0F1A400D03B1B /* CCLocationManager.m in Sources */,
 				9652AB041BC902DF009A666D /* main.m in Sources */,
 				96021DA81BC919B500010072 /* IQUITextFieldView+Additions.m in Sources */,
 				9652AE081BC9170E009A666D /* RACSubscriptionScheduler.m in Sources */,

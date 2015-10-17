@@ -13,6 +13,8 @@
 #import "BXTExaminationViewController.h"
 #import "BXTAboutUsViewController.h"
 #import "BXTEvaluationListViewController.h"
+#import "BXTHeadquartersInfo.h"
+#import "BXTGlobal.h"
 
 @interface BXTShopsHomeViewController ()
 
@@ -49,9 +51,15 @@
 - (void)createLogoView
 {
     [super createLogoView];
-    [logo_btn setTitle:@"华联天通苑店" forState:UIControlStateNormal];
     [shopBtn setImage:[UIImage imageNamed:@"tools"] forState:UIControlStateNormal];
     shop_label.text = @"一键报修";
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    [logo_btn setTitle:companyInfo.name forState:UIControlStateNormal];
 }
 
 #pragma mark -

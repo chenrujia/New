@@ -58,8 +58,7 @@
 #define KNAVIVIEWHEIGHT         ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? 64 : 44)
 
 //  请求地址
-#define KURLREQUEST             @"http://admin.51bxt.com/"
-#define KLASTURL                @"http://api.51bxt.com/"
+#define KURLREQUEST             @"http://admin.51bxt.com/?r=port/Get_Android_v2_Port"
 
 #define MB_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text \
 boundingRectWithSize:maxSize options:(NSStringDrawingUsesLineFragmentOrigin) \
