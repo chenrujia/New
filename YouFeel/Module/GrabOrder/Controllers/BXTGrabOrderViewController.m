@@ -29,11 +29,6 @@
 
 @implementation BXTGrabOrderViewController
 
-- (void)dealloc
-{
-    NSLog(@"。。。。。。");
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -49,10 +44,17 @@
     markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[BXTGlobal shareGlobal].orderIDs removeAllObjects];
+}
+
 #pragma mark -
 #pragma mark 初始化视图
 - (void)createCollectionView
 {
+    LogBlue(@"3count......%lu",(unsigned long)[BXTGlobal shareGlobal].orderIDs.count);
     RGCardViewLayout *flowLayout= [[RGCardViewLayout alloc] init];
     CGFloat bv_height = IS_IPHONE6 ? 180.f : 120.f;
     itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - bv_height) collectionViewLayout:flowLayout];
@@ -192,7 +194,8 @@
 #pragma mark 代理
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 5;
+    LogBlue(@"4count......%lu",(unsigned long)[BXTGlobal shareGlobal].orderIDs.count);
+    return [BXTGlobal shareGlobal].orderIDs.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

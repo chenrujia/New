@@ -28,7 +28,7 @@
 #define U_SHOP         @"shopInfo"
 #define U_JOBNUMBER    @"jobNumber"
 #define U_BINDINGADS   @"binding_ads"
-//#define U_GROUP        @"groupInfo"
+#define U_CLIENTID     @"clientID"
 #define U_USERID       @"userID"
 #define U_BRANCHUSERID @"branchUserID"
 #define U_ROLEARRAY    @"roleArray"
@@ -49,7 +49,7 @@
 @property (nonatomic ,strong) BXTPostionInfo      *position;
 @property (nonatomic ,strong) BXTFloorInfo        *floorInfo;
 @property (nonatomic ,strong) BXTAreaInfo         *areaInfo;
-//@property (nonatomic ,strong) BXTGroupInfo        *groupInfo;
+@property (nonatomic ,strong) NSString            *clientID;
 @property (nonatomic ,strong) BXTGroupingInfo     *groupingInfo;
 @property (nonatomic ,strong) id <NSCopying>      shopInfo;
 @property (nonatomic ,strong) NSString            *jobNumber;

@@ -19,8 +19,8 @@
 @interface BXTGlobal : NSObject
 
 @property (nonatomic ,assign) NSInteger maxPics;
-@property (nonatomic ,strong) NSString  *clientID;
 @property (nonatomic ,strong) NSString  *baseURL;
+@property (nonatomic ,strong) NSMutableArray *orderIDs;
 
 + (BXTGlobal *)shareGlobal;
 

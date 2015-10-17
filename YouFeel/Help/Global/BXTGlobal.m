@@ -19,6 +19,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         bxtGlobal = [[BXTGlobal alloc] init];
+        bxtGlobal.orderIDs = [NSMutableArray array];
     });
     return bxtGlobal;
 }

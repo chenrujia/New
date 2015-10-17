@@ -7,11 +7,12 @@
 //
 
 #import "AppDelegate.h"
-#import "BXTHomeViewController.h"
 #import "BXTHeaderFile.h"
 #import "BXTLoginViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 #import "IQKeyboardManager.h"
+#import "BXTShopsHomeViewController.h"
+#import "BXTRepairHomeViewController.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -22,7 +23,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 @end
 
 @implementation AppDelegate
-
 
 + (AppDelegate *)appdelegete
 {
@@ -38,13 +38,23 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     manager.shouldResignOnTouchOutside = YES;
     manager.shouldToolbarUsesTextFieldTintColor = YES;
     manager.enableAutoToolbar = YES;
-    
-    BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
-    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    navigation.navigationBar.hidden = YES;
-    navigation.enableBackGesture = YES;
-    self.window.rootViewController = navigation;
-    
+    //默认自动登录
+    if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [BXTGlobal getUserProperty:U_CLIENTID])
+    {
+        NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":[BXTGlobal getUserProperty:U_PASSWORD],@"cid":[BXTGlobal getUserProperty:U_CLIENTID]};
+        
+        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dataRequest loginUser:userInfoDic];
+    }
+    else
+    {
+        BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
+        navigation.navigationBar.hidden = YES;
+        navigation.enableBackGesture = YES;
+        self.window.rootViewController = navigation;
+    }
+
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
@@ -60,6 +70,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSDictionary *message=[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     NSString *payloadMsg = [message objectForKey:@"payload"];
     LogRed(@"payloadMsg:%@",payloadMsg);
+//    if (payloadMsg)
+//    {
+//        #warning 记得改。。。
+//        [[BXTGlobal shareGlobal].orderIDs addObject:payloadMsg];
+//    }
     
     return YES;
 }
@@ -175,7 +190,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
  */
 - (void)GeTuiSdkDidRegisterClient:(NSString *)clientId  // SDK 返回clientid
 {
-    [BXTGlobal shareGlobal].clientID = clientId;
+    [BXTGlobal setUserProperty:clientId withKey:U_CLIENTID];
     if (_deviceToken)
     {
         [GeTuiSdk registerDeviceToken:_deviceToken];
@@ -200,7 +215,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
     
     NSString *record = [NSString stringWithFormat:@"%ld, %@, %@",(long)++_lastPayloadIndex, [self formateTime:[NSDate date]], payloadMsg];
-    NSLog(@"record  %@, task id : %@, messageId:%@",record, taskId, aMsgId);
+#warning 记得改。。。
+    [[BXTGlobal shareGlobal].orderIDs addObject:taskId];
+    LogBlue(@"1count......%lu",(unsigned long)[BXTGlobal shareGlobal].orderIDs.count);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairComing" object:nil];
+    LogRed(@"record  %@, task id : %@, messageId:%@",record, taskId, aMsgId);
 }
 
 /**
@@ -231,6 +250,104 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)GeTuiSDkDidNotifySdkState:(SdkStatus)aStatus
 {
     _sdkStatus = aStatus;
+}
+
+/**
+ *  BXTDataResponseDelegate
+ */
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    NSLog(@"%@", response);
+    NSDictionary *dic = response;
+    if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        NSArray *dataArray = [dic objectForKey:@"data"];
+        NSDictionary *userInfoDic = [dataArray objectAtIndex:0];
+        
+        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"gender"] withKey:U_SEX];
+        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"name"] withKey:U_NAME];
+        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"pic"] withKey:U_HEADERIMAGE];
+        
+        NSArray *shopids = [userInfoDic objectForKey:@"shop_ids"];
+        [BXTGlobal setUserProperty:shopids withKey:U_SHOPIDS];
+        
+        NSArray *my_shop = [userInfoDic objectForKey:@"my_shop"];
+        [BXTGlobal setUserProperty:my_shop withKey:U_MYSHOP];
+#warning 空的情况
+        NSDictionary *shopsDic = my_shop[0];
+        NSString *shopID = [shopsDic objectForKey:@"id"];
+        NSString *shopName = [shopsDic objectForKey:@"shop_name"];
+        BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
+        companyInfo.company_id = shopID;
+        companyInfo.name = shopName;
+        [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
+        NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_Android_v2_Port&shop_id=%@",shopID];
+        [BXTGlobal shareGlobal].baseURL = url;
+        
+        NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
+        [BXTGlobal setUserProperty:userID withKey:U_USERID];
+        
+        /**分店登录**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request branchLogin];
+    }
+    else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        NSArray *data = [dic objectForKey:@"data"];
+        if (data.count > 0)
+        {
+            NSDictionary *userInfo = data[0];
+            
+            NSArray *bindingAds = [userInfo objectForKey:@"binding_ads"];
+            [BXTGlobal setUserProperty:bindingAds withKey:U_BINDINGADS];
+            
+            BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
+            departmentInfo.dep_id = [userInfo objectForKey:@"department"];
+            departmentInfo.department = [userInfo objectForKey:@"department_name"];
+            [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
+            
+            BXTGroupingInfo *groupInfo = [[BXTGroupingInfo alloc] init];
+            groupInfo.group_id = [userInfo objectForKey:@"subgroup"];
+            groupInfo.subgroup = [userInfo objectForKey:@"subgroup_name"];
+            [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
+            
+            NSString *userID = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"id"]];
+            [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
+            
+            BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
+            roleInfo.role_id = [userInfo objectForKey:@"role_id"];
+            roleInfo.role = [userInfo objectForKey:@"role"];
+            [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
+            
+            BXTShopInfo *shopInfo = [[BXTShopInfo alloc] init];
+            shopInfo.stores_id = [userInfo objectForKey:@"stores_id"];
+            shopInfo.stores_name = [userInfo objectForKey:@"stores"];
+            [BXTGlobal setUserProperty:shopInfo withKey:U_SHOP];
+            
+            [BXTGlobal setUserProperty:[userInfo objectForKey:@"username"] withKey:U_USERNAME];
+            [BXTGlobal setUserProperty:[userInfo objectForKey:@"role_con"] withKey:U_ROLEARRAY];
+            [BXTGlobal setUserProperty:[userInfo objectForKey:@"mobile"] withKey:U_MOBILE];
+            
+            UINavigationController *nav;
+            if ([[userInfo objectForKey:@"is_repair"] integerValue] == 1)
+            {
+                BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] initWithIsRepair:NO];
+                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+            }
+            else if ([[userInfo objectForKey:@"is_repair"] integerValue] == 2)
+            {
+                BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] initWithIsRepair:YES];
+                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+            }
+            nav.navigationBar.hidden = YES;
+            [AppDelegate appdelegete].window.rootViewController = nav;
+        }
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    
 }
 
 - (NSString*)formateTime:(NSDate*)date

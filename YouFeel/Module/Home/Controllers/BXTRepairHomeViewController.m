@@ -12,6 +12,8 @@
 #import "BXTGrabOrderViewController.h"
 #import "BXTAchievementsViewController.h"
 #import "BXTEvaluationListViewController.h"
+#import "BXTGlobal.h"
+#import "BXTPublicSetting.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -29,9 +31,17 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comingNewRepairs) name:@"NewRepairComing" object:nil];
+    
     imgNameArray = [NSMutableArray arrayWithObjects:@"orders",
                     @"Work_order_management",
                     @"Cloumnar_shape",@"Notice",
@@ -41,6 +51,16 @@
                     @"Cuetomer_service",
                     @"About_us", nil];
     titleNameArray = [NSMutableArray arrayWithObjects:@"接单",@"工单管理",@"绩效",@"通知",@"消息",@"审批",@"意见反馈",@"客服",@"关于我们", nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ([BXTGlobal shareGlobal].orderIDs.count > 0)
+    {
+        [self comingNewRepairs];
+    }
 }
 
 #pragma mark -
@@ -59,6 +79,13 @@
 {
     BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] init];
     [self.navigationController pushViewController:reaciveVC animated:YES];
+}
+
+- (void)comingNewRepairs
+{
+    LogBlue(@"2count......%lu",(unsigned long)[BXTGlobal shareGlobal].orderIDs.count);
+    BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
+    [self.navigationController pushViewController:grabOrderVC animated:YES];
 }
 
 #pragma mark -
@@ -84,12 +111,6 @@
             [self.navigationController pushViewController:achievementsVC animated:YES];
         }
             break;
-        case 3:
-        {
-            BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
-            [self.navigationController pushViewController:grabOrderVC animated:YES];
-            break;
-        }
         case 4:
         {
             BXTEvaluationListViewController *evalistVC = [[BXTEvaluationListViewController alloc] init];
