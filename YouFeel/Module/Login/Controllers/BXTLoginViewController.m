@@ -15,6 +15,7 @@
 #import "BXTDataRequest.h"
 #import "BXTResignViewController.h"
 #import "AppDelegate.h"
+#import "BXTHeadquartersInfo.h"
 
 #define UserNameTag 11
 #define PassWordTag 12
@@ -142,7 +143,7 @@
         [BXTGlobal setUserProperty:userNameTF.text withKey:U_USERNAME];
         [BXTGlobal setUserProperty:passWordTF.text withKey:U_PASSWORD];
         
-        NSDictionary *userInfoDic = @{@"password":passWordTF.text,@"username":userNameTF.text};
+        NSDictionary *userInfoDic = @{@"password":passWordTF.text,@"username":userNameTF.text,@"cid":[BXTGlobal shareGlobal].clientID};
         
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
         [dataRequest loginUser:userInfoDic];
@@ -211,6 +212,11 @@
 #warning 空的情况
         NSDictionary *shopsDic = my_shop[0];
         NSString *shopID = [shopsDic objectForKey:@"id"];
+        NSString *shopName = [shopsDic objectForKey:@"shop_name"];
+        BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
+        companyInfo.company_id = shopID;
+        companyInfo.name = shopName;
+        [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
         NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_Android_v2_Port&shop_id=%@",shopID];
         [BXTGlobal shareGlobal].baseURL = url;
         

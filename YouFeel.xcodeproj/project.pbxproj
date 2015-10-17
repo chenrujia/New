@@ -442,6 +442,13 @@
 		966828B51BCFCDAD008D5818 /* BXTHaveEvaluationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966828B11BCFCDAD008D5818 /* BXTHaveEvaluationView.m */; settings = {ASSET_TAGS = (); }; };
 		966828B61BCFCDAD008D5818 /* BXTNoneEvaluationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966828B31BCFCDAD008D5818 /* BXTNoneEvaluationView.m */; settings = {ASSET_TAGS = (); }; };
 		96689B051BCF459C00C296AC /* BXTArchievementsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96689B041BCF459C00C296AC /* BXTArchievementsTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		9689101C1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9689101B1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a */; settings = {ASSET_TAGS = (); }; };
+		968910641BD1F7EA008540D0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 968910631BD1F7EA008540D0 /* libz.tbd */; };
+		968910661BD1F812008540D0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 968910651BD1F812008540D0 /* SystemConfiguration.framework */; };
+		968910681BD1F821008540D0 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 968910671BD1F821008540D0 /* CoreTelephony.framework */; };
+		9689106A1BD1F83A008540D0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 968910691BD1F83A008540D0 /* Security.framework */; };
+		9689106C1BD1F846008540D0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9689106B1BD1F846008540D0 /* CFNetwork.framework */; };
+		9689106E1BD1F857008540D0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9689106D1BD1F857008540D0 /* AVFoundation.framework */; };
 		969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */; settings = {ASSET_TAGS = (); }; };
 		969A41AC1BCB864B0034FC84 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 969A41AB1BCB864B0034FC84 /* sound.mp3 */; settings = {ASSET_TAGS = (); }; };
 		969A42491BCBD4620034FC84 /* RGCardViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A42461BCBD4620034FC84 /* RGCardViewLayout.m */; settings = {ASSET_TAGS = (); }; };
@@ -1237,6 +1244,15 @@
 		966828B31BCFCDAD008D5818 /* BXTNoneEvaluationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNoneEvaluationView.m; sourceTree = "<group>"; };
 		96689B031BCF459C00C296AC /* BXTArchievementsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTArchievementsTableViewCell.h; sourceTree = "<group>"; };
 		96689B041BCF459C00C296AC /* BXTArchievementsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTArchievementsTableViewCell.m; sourceTree = "<group>"; };
+		968910191BD1F599008540D0 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
+		9689101A1BD1F599008540D0 /* GeTuiSdkError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdkError.h; sourceTree = "<group>"; };
+		9689101B1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.2.1.a"; sourceTree = "<group>"; };
+		968910631BD1F7EA008540D0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		968910651BD1F812008540D0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		968910671BD1F821008540D0 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		968910691BD1F83A008540D0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9689106B1BD1F846008540D0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		9689106D1BD1F857008540D0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		969A41A41BCB4C3C0034FC84 /* MDRadialProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDRadialProgressView.h; sourceTree = "<group>"; };
 		969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDRadialProgressView.m; sourceTree = "<group>"; };
 		969A41AB1BCB864B0034FC84 /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
@@ -1267,7 +1283,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9689106E1BD1F857008540D0 /* AVFoundation.framework in Frameworks */,
+				9689106C1BD1F846008540D0 /* CFNetwork.framework in Frameworks */,
+				9689106A1BD1F83A008540D0 /* Security.framework in Frameworks */,
+				968910681BD1F821008540D0 /* CoreTelephony.framework in Frameworks */,
+				968910661BD1F812008540D0 /* SystemConfiguration.framework in Frameworks */,
+				968910641BD1F7EA008540D0 /* libz.tbd in Frameworks */,
 				96CEC8451BD0F21E00D03B1B /* CoreLocation.framework in Frameworks */,
+				9689101C1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a in Frameworks */,
 				960223121BC922DB00010072 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2447,9 +2470,8 @@
 		9652AAF61BC902DE009A666D = {
 			isa = PBXGroup;
 			children = (
-				96CEC8441BD0F21E00D03B1B /* CoreLocation.framework */,
-				960223111BC922DB00010072 /* libsqlite3.tbd */,
 				9652AB011BC902DF009A666D /* YouFeel */,
+				968910621BD1F6BC008540D0 /* Frameworks */,
 				9652AB151BC902DF009A666D /* YouFeelTests */,
 				9652AB201BC902DF009A666D /* YouFeelUITests */,
 				9652AB001BC902DF009A666D /* Products */,
@@ -2543,6 +2565,7 @@
 				9652AD6A1BC9170D009A666D /* SDWebImage */,
 				9652ABFC1BC90EC9009A666D /* DZNEmptyDataSet */,
 				9652ABFF1BC90EC9009A666D /* FMDB */,
+				968910171BD1F599008540D0 /* GeTui */,
 				9652AC0B1BC90EC9009A666D /* HySideScrollingImagePicker */,
 				9652AC181BC90EC9009A666D /* ImagePicture */,
 				9652ABC01BC90DCC009A666D /* ANKeyValue */,
@@ -3455,6 +3478,39 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		968910171BD1F599008540D0 /* GeTui */ = {
+			isa = PBXGroup;
+			children = (
+				968910181BD1F599008540D0 /* include */,
+				9689101B1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a */,
+			);
+			path = GeTui;
+			sourceTree = "<group>";
+		};
+		968910181BD1F599008540D0 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				968910191BD1F599008540D0 /* GeTuiSdk.h */,
+				9689101A1BD1F599008540D0 /* GeTuiSdkError.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		968910621BD1F6BC008540D0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9689106D1BD1F857008540D0 /* AVFoundation.framework */,
+				9689106B1BD1F846008540D0 /* CFNetwork.framework */,
+				968910691BD1F83A008540D0 /* Security.framework */,
+				968910671BD1F821008540D0 /* CoreTelephony.framework */,
+				968910651BD1F812008540D0 /* SystemConfiguration.framework */,
+				968910631BD1F7EA008540D0 /* libz.tbd */,
+				960223111BC922DB00010072 /* libsqlite3.tbd */,
+				96CEC8441BD0F21E00D03B1B /* CoreLocation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -4165,13 +4221,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: linman si (U3RJMJR722)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: linman si (U3RJMJR722)";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = YouFeel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/YouFeel/Library/GeTui",
+				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.huixt.baoxt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "23535156-be13-40ea-91bc-1433959632a5";
+				PROVISIONING_PROFILE = "d68af95e-f156-4d1b-b384-3e3f2c6ec5d0";
 			};
 			name = Debug;
 		};
@@ -4181,13 +4242,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: linman si (U3RJMJR722)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: linman si (U3RJMJR722)";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = YouFeel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/YouFeel/Library/GeTui",
+				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.huixt.baoxt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "23535156-be13-40ea-91bc-1433959632a5";
+				PROVISIONING_PROFILE = "d68af95e-f156-4d1b-b384-3e3f2c6ec5d0";
 			};
 			name = Release;
 		};
