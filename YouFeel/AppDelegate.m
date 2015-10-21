@@ -232,14 +232,17 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         case 2://工单消息
             if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)
             {
-                UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
-                if ([nav.viewControllers.lastObject isKindOfClass:[BXTGrabOrderViewController class]])
+                if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
                 {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairAgain" object:nil];
-                }
-                else
-                {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairComing" object:nil];
+                    UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+                    if ([nav.viewControllers.lastObject isKindOfClass:[BXTGrabOrderViewController class]])
+                    {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairAgain" object:nil];
+                    }
+                    else
+                    {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairComing" object:nil];
+                    }
                 }
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)
@@ -333,7 +336,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         companyInfo.company_id = shopID;
         companyInfo.name = shopName;
         [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-        NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
+        NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
         [BXTGlobal shareGlobal].baseURL = url;
         
         NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
@@ -395,12 +398,22 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             [AppDelegate appdelegete].window.rootViewController = nav;
         }
     }
+    else
+    {
+        BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+        nav.navigationBar.hidden = YES;
+        nav.enableBackGesture = YES;
+        self.window.rootViewController = nav;
+    }
 }
 
 - (void)requestError:(NSError *)error
 {
     BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    nav.navigationBar.hidden = YES;
+    nav.enableBackGesture = YES;
     self.window.rootViewController = nav;
 }
 

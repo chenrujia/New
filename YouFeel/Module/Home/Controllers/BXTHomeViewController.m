@@ -133,13 +133,20 @@
 //定义每个UICollectionView 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-#warning 记得适配
     NSInteger width = floor(SCREEN_WIDTH/3.f);
-//    if (indexPath.row%3 == 1)
-//    {
-//        return CGSizeMake(width + 2, 129);
-//    }
-    return CGSizeMake(width, 129);
+
+    if (IS_IPHONE6)
+    {
+        return CGSizeMake(width, collectionView.bounds.size.height/3.f);
+    }
+    else
+    {
+        if (indexPath.row%3 == 1)
+        {
+            return CGSizeMake(width + 2, 129);
+        }
+        return CGSizeMake(width, 129);
+    }
 }
 
 - (void)didReceiveMemoryWarning
