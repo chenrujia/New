@@ -27,6 +27,9 @@
 //  判断是否是IPHONE4
 #define IS_IPHONE4 ([UIScreen mainScreen].bounds.size.height == 480 ? YES : NO)
 
+//  判断是否是IPHONE5
+#define IS_IPHONE5 ([UIScreen mainScreen].bounds.size.height == 568 ? YES : NO)
+
 //  判断是否是IPHONE6
 #define IS_IPHONE6 ([UIScreen mainScreen].bounds.size.height >= 667 ? YES : NO)
 
@@ -58,7 +61,7 @@
 #define KNAVIVIEWHEIGHT         ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? 64 : 44)
 
 //  请求地址
-#define KURLREQUEST             @"http://admin.51bxt.com/?r=port/Get_Android_v2_Port"
+#define KURLREQUEST             @"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port"
 
 #define MB_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text \
 boundingRectWithSize:maxSize options:(NSStringDrawingUsesLineFragmentOrigin) \

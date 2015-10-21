@@ -73,14 +73,14 @@
     fau_dataSource = [NSMutableArray array];
     maintenanceState = @"已修好";
     stateArray= @[@"未修好",@"已修好"];
-    timesArray = @[@"1小时",@"2小时",@"3小时",@"4小时",@"5小时",@"6小时",@"1天"];
+    timesArray = @[@"1",@"2",@"3",@"4",@"5",@"6"];
     
     dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     selectDate = [NSDate date];
     NSTimeInterval currentTime = [NSDate date].timeIntervalSince1970;
     finishTime = [NSString stringWithFormat:@"%.0f",currentTime];
-    maintenanceTime = @"3小时";
+    maintenanceTime = @"1";
     
     [self navigationSetting:@"维修过程" andRightTitle:nil andRightImage:nil];
     [self createTableView];
@@ -122,7 +122,7 @@
     {
         state = @"1";
     }
-    [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairID] andReaciveTime:_reaciveTime andFinishTime:finishTime andMaintenanceState:state andFaultType:[NSString stringWithFormat:@"%ld",(long)_currentFaultID]];
+    [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairID] andReaciveTime:_reaciveTime andFinishTime:finishTime andMaintenanceState:state andFaultType:[NSString stringWithFormat:@"%ld",(long)_currentFaultID] andManHours:maintenanceTime];
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)tapGR
@@ -318,7 +318,7 @@
         else
         {
             cell.titleLabel.text = @"维修耗时";
-            cell.detailLable.text = maintenanceTime;
+            cell.detailLable.text = [NSString stringWithFormat:@"%@小时",maintenanceTime];
         }
         return cell;
     }
@@ -773,6 +773,7 @@
             selectFaultTypeInfo = faultTypesArray[row];
             _currentFaultID = selectFaultTypeInfo.fau_id;
         }
+        _cause = [NSString stringWithFormat:@"%@-%@",selectFaultInfo.faulttype_type,selectFaultTypeInfo.faulttype];
     }
     maintenanceTime = timesArray[row];
     [currentTableView reloadData];
@@ -821,7 +822,11 @@
     }
     else if (type == MaintenanceProcess)
     {
-        
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
 }
 

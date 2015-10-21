@@ -16,10 +16,13 @@ const CGFloat WZFlashInnerCircleInitialRaius = 20;
 
 @implementation WZFlashButton
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame andClick:(WZFlashButtonDidClickBlock)click
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
+        self.clickBlock = click;
+        
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
         [self addGestureRecognizer:tap];
         

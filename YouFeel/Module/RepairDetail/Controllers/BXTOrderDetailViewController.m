@@ -41,7 +41,7 @@
     UILabel *maintenanceMan;
 }
 
-@property (nonatomic ,strong) NSString *repairID;
+@property (nonatomic ,strong) NSString *repair_id;
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
 
 @end
@@ -54,7 +54,7 @@
     if (self)
     {
         [BXTGlobal shareGlobal].maxPics = 3;
-        self.repairID = reID;
+        self.repair_id = reID;
     }
     return self;
 }
@@ -68,6 +68,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestDetail) name:@"RequestDetail" object:nil];
     comeTimeArray = @[@"半小时内",@"1小时内",@"3小时内",@"6小时内",];
     [self requestDetail];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 #pragma mark -
@@ -173,15 +179,6 @@
     reaciveOrder.layer.cornerRadius = 6.f;
     [reaciveOrder addTarget:self action:@selector(reaciveOrderBtn) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:reaciveOrder];
-    
-    UITabBar *tabbar = [[UITabBar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50.f, SCREEN_WIDTH, 50.f)];
-    tabbar.delegate = self;
-    UITabBarItem *leftItem = [[UITabBarItem alloc] initWithTitle:@"增加人员" image:[UIImage imageNamed:@"users"] selectedImage:[UIImage imageNamed:@"users_selected"]];
-    leftItem.tag = 101;
-    UITabBarItem *rightItem = [[UITabBarItem alloc] initWithTitle:@"维修过程" image:[UIImage imageNamed:@"pen"] selectedImage:[UIImage imageNamed:@"pen_selected"]];
-    rightItem.tag = 102;
-    [tabbar setItems:@[leftItem,rightItem]];
-    [self.view addSubview:tabbar];
 }
 
 #pragma mark -
@@ -190,7 +187,7 @@
 {
     /**获取详情**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairDetail:[NSString stringWithFormat:@"%@",_repairID]];
+    [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
 }
 
 - (void)evaluate
@@ -302,7 +299,7 @@
             arrivalTime = @"4";
         }
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:repairDetail.orderid arrivalTime:arrivalTime];
+        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID] arrivalTime:arrivalTime andIsGrad:NO];
     }
 }
 
@@ -312,7 +309,7 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = (NSDictionary *)response;
-    LogRed(@"%@",dic);
+    LogRed(@"........%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count > 0)
     {
@@ -492,6 +489,22 @@
                 reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(lineView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
             }
         }
+        if (repairDetail.repairstate == 1)
+        {
+            UITabBar *tabbar = [[UITabBar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50.f, SCREEN_WIDTH, 50.f)];
+            tabbar.delegate = self;
+            UITabBarItem *leftItem = [[UITabBarItem alloc] initWithTitle:@"增加人员" image:[UIImage imageNamed:@"users"] selectedImage:[UIImage imageNamed:@"users_selected"]];
+            leftItem.tag = 101;
+            UITabBarItem *rightItem = [[UITabBarItem alloc] initWithTitle:@"维修过程" image:[UIImage imageNamed:@"pen"] selectedImage:[UIImage imageNamed:@"pen_selected"]];
+            rightItem.tag = 102;
+            [tabbar setItems:@[leftItem,rightItem]];
+            [self.view addSubview:tabbar];
+        }
+        else
+        {
+            [reaciveOrder removeFromSuperview];
+            reaciveOrder = nil;
+        }
     }
     else if (type == ReaciveOrder)
     {
@@ -529,7 +542,7 @@
 {
     if (item.tag == 101)
     {
-        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[_repairID integerValue] andWithVCType:DetailType];
+        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[_repair_id integerValue] andWithVCType:DetailType];
         [self.navigationController pushViewController:addOtherVC animated:YES];
     }
     else if (item.tag == 102)

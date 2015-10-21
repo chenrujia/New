@@ -15,6 +15,7 @@
 #import "BXTRepairWordOrderViewController.h"
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
+#import "BXTNewsViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -42,16 +43,17 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comingNewRepairs) name:@"NewRepairComing" object:nil];
-    
+
     imgNameArray = [NSMutableArray arrayWithObjects:@"orders",
                     @"Work_order_management",
-                    @"Cloumnar_shape",@"Notice",
+                    @"snotepad_ok",
+                    @"cloumnar_shape",
+                    @"Notice",
                     @"News",
-                    @"Notepad_Ok",
                     @"Feedback",
                     @"Cuetomer_service",
                     @"About_us", nil];
-    titleNameArray = [NSMutableArray arrayWithObjects:@"接单",@"工单管理",@"绩效",@"通知",@"消息",@"审批",@"意见反馈",@"客服",@"关于我们", nil];
+    titleNameArray = [NSMutableArray arrayWithObjects:@"接单",@"工单管理",@"审批",@"绩效",@"消息",@"会话",@"反馈",@"客服",@"关于", nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -103,7 +105,7 @@
             [self.navigationController pushViewController:orderManagerVC animated:YES];
         }
             break;
-        case 2:
+        case 3:
         {
             BXTAchievementsViewController *achievementsVC = [[BXTAchievementsViewController alloc] init];
             [self.navigationController pushViewController:achievementsVC animated:YES];
@@ -111,8 +113,8 @@
             break;
         case 4:
         {
-            BXTEvaluationListViewController *evalistVC = [[BXTEvaluationListViewController alloc] init];
-            [self.navigationController pushViewController:evalistVC animated:YES];
+            BXTNewsViewController *newsVC = [[BXTNewsViewController alloc] init];
+            [self.navigationController pushViewController:newsVC animated:YES];
         }
             break;
         default:

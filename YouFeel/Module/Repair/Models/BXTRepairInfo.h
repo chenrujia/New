@@ -30,5 +30,6 @@
 @property (nonatomic ,assign) NSInteger urgent;
 @property (nonatomic ,strong) NSString  *receive_time;
 @property (nonatomic ,strong) NSString  *workprocess;
+@property (nonatomic ,strong) NSString  *receive_state;
 
 @end

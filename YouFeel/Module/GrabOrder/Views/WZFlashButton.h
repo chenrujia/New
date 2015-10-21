@@ -22,7 +22,9 @@ typedef NS_ENUM(NSUInteger, WZFlashButtonType) {
 
 @property (nonatomic, strong) UIColor *flashColor;
 
+- (instancetype)initWithFrame:(CGRect)frame andClick:(WZFlashButtonDidClickBlock)click;
 - (void)setText:(NSString *)text;
 - (void)setTextColor:(UIColor *)textColor;
 - (void)setText:(NSString *)text withTextColor:(UIColor *)textColor;
+
 @end

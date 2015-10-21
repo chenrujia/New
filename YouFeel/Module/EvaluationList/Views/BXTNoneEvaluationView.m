@@ -26,7 +26,6 @@
     if (self)
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestData) name:@"EvaluateSuccess" object:nil];
-        [self requestData];
         
         datasource = [NSMutableArray array];
         currentTable = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
@@ -36,6 +35,8 @@
         currentTable.delegate = self;
         currentTable.dataSource = self;
         [self addSubview:currentTable];
+        
+        [self requestData];
     }
     return self;
 }
@@ -44,6 +45,7 @@
 #pragma mark 事件
 - (void)requestData
 {
+    [datasource removeAllObjects];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request evaluationListWithType:3];
 }

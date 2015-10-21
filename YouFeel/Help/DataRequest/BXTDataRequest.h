@@ -132,7 +132,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  接单
  */
-- (void)reaciveOrderID:(NSString *)repairID arrivalTime:(NSString *)time;
+- (void)reaciveOrderID:(NSString *)repairID arrivalTime:(NSString *)time andIsGrad:(BOOL)isGrab;
 
 /**
  *  派工or增员
@@ -147,7 +147,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  维修状态
  */
-- (void)maintenanceState:(NSString *)repairID andReaciveTime:(NSString *)reaciveTime andFinishTime:(NSString *)finishTime andMaintenanceState:(NSString *)state andFaultType:(NSString *)faultType;
+- (void)maintenanceState:(NSString *)repairID andReaciveTime:(NSString *)reaciveTime andFinishTime:(NSString *)finishTime andMaintenanceState:(NSString *)state andFaultType:(NSString *)faultType andManHours:(NSString *)hours;
 
 /**
  *  维修员列表
@@ -183,5 +183,10 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  获取附近商店
  */
 - (void)shopWithLatitude:(NSString *)latitude andWithLongitude:(NSString *)longitude;
+
+/**
+ *  消息列表
+ */
+- (void)newsList;
 
 @end

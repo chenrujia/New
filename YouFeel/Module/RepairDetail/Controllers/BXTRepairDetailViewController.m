@@ -171,22 +171,6 @@
     cancelRepair.layer.cornerRadius = 6.f;
     [cancelRepair addTarget:self action:@selector(cancelBtn) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:cancelRepair];
-    
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, SCREEN_HEIGHT - 200.f/3.f, SCREEN_WIDTH, 200.f/3.f)];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.6;
-    [self.view addSubview:backView];
-    
-    UIButton *evaluationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [evaluationBtn setFrame:CGRectMake(0, 0, 200.f, 40.f)];
-    [evaluationBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f,CGRectGetMinY(backView.frame) + backView.bounds.size.height/2.f)];
-    [evaluationBtn setTitle:@"发表评价" forState:UIControlStateNormal];
-    [evaluationBtn setTitleColor:colorWithHexString(@"3bb0ff") forState:UIControlStateNormal];
-    [evaluationBtn setBackgroundColor:[UIColor whiteColor]];
-    evaluationBtn.layer.cornerRadius = 4.f;
-    evaluationBtn.layer.masksToBounds = YES;
-    [evaluationBtn addTarget:self action:@selector(evaluate) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:evaluationBtn];
 }
 
 #pragma mark -
@@ -443,6 +427,24 @@
                 scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 600.f);
                 cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(drawView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
             }
+        }
+        if (repairDetail.repairstate == 3)
+        {
+            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, SCREEN_HEIGHT - 200.f/3.f, SCREEN_WIDTH, 200.f/3.f)];
+            backView.backgroundColor = [UIColor blackColor];
+            backView.alpha = 0.6;
+            [self.view addSubview:backView];
+            
+            UIButton *evaluationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [evaluationBtn setFrame:CGRectMake(0, 0, 200.f, 40.f)];
+            [evaluationBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f,CGRectGetMinY(backView.frame) + backView.bounds.size.height/2.f)];
+            [evaluationBtn setTitle:@"发表评价" forState:UIControlStateNormal];
+            [evaluationBtn setTitleColor:colorWithHexString(@"3bb0ff") forState:UIControlStateNormal];
+            [evaluationBtn setBackgroundColor:[UIColor whiteColor]];
+            evaluationBtn.layer.cornerRadius = 4.f;
+            evaluationBtn.layer.masksToBounds = YES;
+            [evaluationBtn addTarget:self action:@selector(evaluate) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:evaluationBtn];
         }
     }
     else if (type == DeleteRepair)

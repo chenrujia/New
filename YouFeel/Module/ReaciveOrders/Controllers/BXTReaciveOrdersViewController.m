@@ -59,7 +59,7 @@
     areasArray = [NSMutableArray arrayWithObjects:@"地区", nil];
     departmentsArray = [NSMutableArray arrayWithObjects:@"部门", nil];
     timesArray = [NSMutableArray arrayWithObjects:@"时间",@"1天",@"2天",@"3天",@"1周",@"1个月",@"3个月", nil];
-    repairTypesArray = [NSMutableArray arrayWithObjects:@"故障类型", nil];
+    repairTypesArray = [NSMutableArray arrayWithObjects:@"故障", nil];
     
     // 添加下拉菜单
     DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
@@ -92,7 +92,7 @@
     dispatch_async(concurrentQueue, ^{
         /**获取报修列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request repairerList:@"0" andPage:1 andPlace:@"" andDepartment:@"" andBeginTime:@"" andEndTime:@"" andFaultType:@""];
+        [request repairerList:@"1" andPage:1 andPlace:@"0" andDepartment:@"0" andBeginTime:@"0" andEndTime:@"0" andFaultType:@"0"];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求位置**/
@@ -353,7 +353,7 @@
         {
             /**获取报修列表**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request repairerList:@"0" andPage:1 andPlace:@"" andDepartment:@"" andBeginTime:@"" andEndTime:@"" andFaultType:@""];
+            [request repairerList:@"1" andPage:1 andPlace:@"0" andDepartment:@"0" andBeginTime:@"0" andEndTime:@"0" andFaultType:@"0"];
             return;
         }
         else if (indexPath.column == 1)
@@ -401,7 +401,7 @@
     NSString *fault_type_id = selectFaultType ? [NSString stringWithFormat:@"%ld",(long)selectFaultType.fau_id] : @"";
     
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairerList:@"0" andPage:1 andPlace:place_id andDepartment:department_id andBeginTime:repairBeginTime andEndTime:repairEndTime andFaultType:fault_type_id];
+    [request repairerList:@"1" andPage:1 andPlace:place_id andDepartment:department_id andBeginTime:repairBeginTime andEndTime:repairEndTime andFaultType:fault_type_id];
 }
 
 /**
@@ -543,7 +543,7 @@
             time = [NSString stringWithFormat:@"%.0f",timeInterval + 360 * 60];
         }
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:orderID arrivalTime:time];
+        [request reaciveOrderID:orderID arrivalTime:time andIsGrad:NO];
     }
 }
 

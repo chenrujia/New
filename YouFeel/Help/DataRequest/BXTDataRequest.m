@@ -125,7 +125,7 @@
 - (void)branchLogin
 {
     self.requestType = BranchLogin;
-    NSDictionary *dic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME]};
+    NSDictionary *dic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"clientid":[BXTGlobal getUserProperty:U_CLIENTID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=login&opt=login",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -227,7 +227,7 @@
     self.requestType = CreateRepair;
     
     BXTGroupInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
-    NSString *fault = [BXTGlobal getUserProperty:U_USERNAME];
+    NSString *fault = [BXTGlobal getUserProperty:U_NAME];
     NSString *faultID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
     NSString *moblie = [BXTGlobal getUserProperty:U_MOBILE];
     NSDictionary *dic = @{@"type":@"add",
@@ -276,10 +276,11 @@
     [self uploadImageRequest:url withParameters:dic withImages:images];
 }
 
-- (void)reaciveOrderID:(NSString *)repairID arrivalTime:(NSString *)time
+- (void)reaciveOrderID:(NSString *)repairID arrivalTime:(NSString *)time andIsGrad:(BOOL)isGrab
 {
     self.requestType = ReaciveOrder;
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+    NSDictionary *dic = @{@"is_grab":[NSString stringWithFormat:@"%d",isGrab],
+                          @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"user":@[[BXTGlobal getUserProperty:U_BRANCHUSERID]],
                           @"id":repairID,
                           @"arrival_time":time};
@@ -304,7 +305,7 @@
     [self getRequest:url];
 }
 
-- (void)maintenanceState:(NSString *)repairID andReaciveTime:(NSString *)reaciveTime andFinishTime:(NSString *)finishTime andMaintenanceState:(NSString *)state andFaultType:(NSString *)faultType
+- (void)maintenanceState:(NSString *)repairID andReaciveTime:(NSString *)reaciveTime andFinishTime:(NSString *)finishTime andMaintenanceState:(NSString *)state andFaultType:(NSString *)faultType andManHours:(NSString *)hours
 {
     self.requestType = MaintenanceProcess;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
@@ -312,7 +313,8 @@
                           @"end_time":finishTime,
                           @"state":state,
                           @"faulttype":faultType,
-                          @"id":repairID};
+                          @"id":repairID,
+                          @"man_hours":hours};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_processed",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -353,7 +355,7 @@
 
 - (void)achievementsList:(NSInteger)months
 {
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"months_num":[NSString stringWithFormat:@"%ld",(long)months]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=get_achievements",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -376,6 +378,15 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)newsList
+{
+    NSDictionary *dic = @{@"user_id":@"2",
+                          @"page":@"1",
+                          @"pagesize":@"10"};
+    NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_list",KURLREQUEST];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url withParameters:(NSDictionary *)parameters
 {
     LogRed(@"url......%@",url);
@@ -384,6 +395,7 @@
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     // 设置返回格式
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject)
     {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
@@ -391,6 +403,7 @@
         [_delegate requestResponseData:dictionary requeseType:_requestType];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [_delegate requestError:error];
+        LogBlue(@"error:%@",error);
     }];
 }
 

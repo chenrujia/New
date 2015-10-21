@@ -13,16 +13,19 @@
 
 @implementation BXTHaveEvaluationView
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
     {
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request evaluationListWithType:5];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestData) name:@"EvaluateSuccess" object:nil];
         
         datasource = [NSMutableArray array];
-        
         currentTable = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
         currentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
         currentTable.backgroundColor = colorWithHexString(@"eff3f6");
@@ -30,8 +33,17 @@
         currentTable.delegate = self;
         currentTable.dataSource = self;
         [self addSubview:currentTable];
+        
+        [self requestData];
     }
     return self;
+}
+
+- (void)requestData
+{
+    [datasource removeAllObjects];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request evaluationListWithType:5];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -22,8 +22,6 @@
         self.layer.cornerRadius = 10.f;
         self.layer.masksToBounds = YES;
 
-        [self requestDetail];
-
         CGFloat space = IS_IPHONE6 ? 15.f : 10.f;
         CGFloat height = IS_IPHONE6 ? 200.f : 133;
         
@@ -110,11 +108,11 @@
 
 #pragma mark -
 #pragma mark 事件
-- (void)requestDetail
+- (void)requestDetailWithOrderID:(NSString *)orderID
 {
     /**获取详情**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairDetail:[NSString stringWithFormat:@"%ld",(long)5]];
+    [request repairDetail:orderID];
 }
 
 #pragma mark -
@@ -139,7 +137,7 @@
         if (imgArray.count > 0)
         {
             NSDictionary *image_dic = imgArray[0];
-            [_imageView sd_setImageWithURL:[NSURL URLWithString:[image_dic objectForKey:@"photo_file"]]];
+            [_imageView sd_setImageWithURL:[NSURL URLWithString:[image_dic objectForKey:@"photo_file"]] placeholderImage:[UIImage imageNamed:@"20.jpg"]];
         }
         
         _repairID.text = [NSString stringWithFormat:@"工单号:%@",repairDetail.orderid];

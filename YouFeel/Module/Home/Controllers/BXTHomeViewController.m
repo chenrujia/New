@@ -133,11 +133,12 @@
 //定义每个UICollectionView 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+#warning 记得适配
     NSInteger width = floor(SCREEN_WIDTH/3.f);
-    if (indexPath.row%3 == 1)
-    {
-        return CGSizeMake(width + 2, 129);
-    }
+//    if (indexPath.row%3 == 1)
+//    {
+//        return CGSizeMake(width + 2, 129);
+//    }
     return CGSizeMake(width, 129);
 }
 

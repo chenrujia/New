@@ -93,6 +93,34 @@
             NSString *repID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
             [BXTGlobal setUserProperty:repID withKey:U_BRANCHUSERID];
             
+            NSMutableArray *shops_id_array;
+            NSArray *shopsID = [BXTGlobal getUserProperty:U_SHOPIDS];
+            if (shopsID)
+            {
+                shops_id_array = [NSMutableArray arrayWithArray:shopsID];
+                
+            }
+            else
+            {
+                shops_id_array = [NSMutableArray array];
+            }
+            BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+            [shops_id_array addObject:companyInfo.company_id];
+            [BXTGlobal setUserProperty:shops_id_array withKey:U_SHOPIDS];
+            
+            NSMutableArray *my_shops_array;
+            NSArray *myShops = [BXTGlobal getUserProperty:U_MYSHOP];
+            if (myShops)
+            {
+                my_shops_array = [NSMutableArray arrayWithArray:myShops];
+            }
+            else
+            {
+                my_shops_array = [NSMutableArray array];
+            }
+            [my_shops_array addObject:@{@"id":companyInfo.company_id,@"shop_name":companyInfo.name}];
+            [BXTGlobal setUserProperty:my_shops_array withKey:U_MYSHOP];
+            
             /**分店登录**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request branchLogin];
@@ -316,12 +344,7 @@
 #pragma mark UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1)
-    {
-        UITextField *textField=[alertView textFieldAtIndex:0];
-        [BXTGlobal setUserProperty:textField.text withKey:U_JOBNUMBER];
-        [currentTableView reloadData];
-    }
+    
 }
 
 #pragma mark -
@@ -357,7 +380,7 @@
 #pragma mark UITextFiledDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [BXTGlobal setUserProperty:textField.text withKey:U_JOBNUMBER];
+//    [BXTGlobal setUserProperty:textField.text withKey:U_JOBNUMBER];
 }
 
 - (void)dealloc

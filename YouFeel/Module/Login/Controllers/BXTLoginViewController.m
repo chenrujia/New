@@ -42,7 +42,22 @@
 - (void)backGround
 {
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    imageView.image = [UIImage imageNamed:@"Background-iphone5"];
+    if (IS_IPHONE6P)
+    {
+        imageView.image = [UIImage imageNamed:@"Background_plus"];
+    }
+    else if (IS_IPHONE6)
+    {
+        imageView.image = [UIImage imageNamed:@"background_iphone6"];
+    }
+    else if (IS_IPHONE5)
+    {
+        imageView.image = [UIImage imageNamed:@"Background_iphone5s"];
+    }
+    else
+    {
+        imageView.image = [UIImage imageNamed:@"Background_iphone4s"];
+    }
     [self.view addSubview:imageView];
 }
 
@@ -217,7 +232,7 @@
         companyInfo.company_id = shopID;
         companyInfo.name = shopName;
         [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-        NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_Android_v2_Port&shop_id=%@",shopID];
+        NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
         [BXTGlobal shareGlobal].baseURL = url;
         
         NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];

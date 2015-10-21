@@ -15,6 +15,7 @@
 #import "BXTEvaluationListViewController.h"
 #import "BXTHeadquartersInfo.h"
 #import "BXTGlobal.h"
+#import "BXTNewsViewController.h"
 
 @interface BXTShopsHomeViewController ()
 
@@ -35,15 +36,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    imgNameArray = [NSMutableArray arrayWithObjects:@"TooL",
+    imgNameArray = [NSMutableArray arrayWithObjects:@"homeTooL",
                     @"Work_order_management",
-                    @"Cloumnar_shape",@"Notice",
+                    @"snotepad_ok",
+                    @"evaluation",
+                    @"Notice",
                     @"News",
-                    @"Notepad_Ok",
                     @"Feedback",
                     @"Cuetomer_service",
                     @"About_us", nil];
-    titleNameArray = [NSMutableArray arrayWithObjects:@"我要报修",@"工单管理",@"绩效",@"通知",@"消息",@"审批",@"意见反馈",@"客服",@"关于我们", nil];
+    titleNameArray = [NSMutableArray arrayWithObjects:@"我要报修",@"工单管理",@"审批",@"评价",@"消息",@"会话",@"反馈",@"客服",@"关于", nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -78,16 +80,28 @@
             [self.navigationController pushViewController:orderManagerVC animated:YES];
         }
             break;
-        case 4:
+        case 2:
+        {
+            BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
+            [self.navigationController pushViewController:examinationVC animated:YES];
+        }
+            break;
+        case 3:
         {
             BXTEvaluationListViewController *evalistVC = [[BXTEvaluationListViewController alloc] init];
             [self.navigationController pushViewController:evalistVC animated:YES];
         }
             break;
+            
+        case 4:
+        {
+            BXTNewsViewController *newsVC = [[BXTNewsViewController alloc] init];
+            [self.navigationController pushViewController:newsVC animated:YES];
+        }
+            break;
         case 5:
         {
-            BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
-            [self.navigationController pushViewController:examinationVC animated:YES];
+            
             break;
         }
         case 8:

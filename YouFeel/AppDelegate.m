@@ -8,11 +8,13 @@
 
 #import "AppDelegate.h"
 #import "BXTHeaderFile.h"
+#import "NSString+URL.h"
 #import "BXTLoginViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 #import "IQKeyboardManager.h"
 #import "BXTShopsHomeViewController.h"
 #import "BXTRepairHomeViewController.h"
+#import "BXTGrabOrderViewController.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -32,6 +34,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    //新的SDK不允许在设置rootViewController之前做过于复杂的操作,So.....坑
+    UIViewController* myvc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+    self.window.rootViewController = myvc;
+    
     //自动键盘
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;
@@ -67,9 +73,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [self registerRemoteNotification];
     
     // [2-EXT]: 获取启动时收到的APN数据
-    NSDictionary *message=[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    NSString *payloadMsg = [message objectForKey:@"payload"];
-    LogRed(@"payloadMsg:%@",payloadMsg);
+//    NSDictionary *message=[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+//    NSString *payloadMsg = [message objectForKey:@"payload"];
+//    LogRed(@"payloadMsg:%@",payloadMsg);
 //    if (payloadMsg)
 //    {
 //        #warning 记得改。。。
@@ -84,8 +90,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
  */
 - (void)registerRemoteNotification
 {
-#ifdef __IPHONE_8_0
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+    if (IS_IOS_8)
     {
         //IOS8 新的通知机制category注册
         UIMutableUserNotificationAction *action1;
@@ -127,13 +132,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                                                                        UIRemoteNotificationTypeBadge);
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
     }
-#else
-    UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert|
-                                                                   UIRemoteNotificationTypeSound|
-                                                                   UIRemoteNotificationTypeBadge);
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
-#endif
-    
 }
 
 /**
@@ -157,9 +155,14 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 {
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     _deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSLog(@"deviceToken:%@",_deviceToken);
+    LogRed(@"deviceToken:%@",_deviceToken);
 
     [GeTuiSdk registerDeviceToken:_deviceToken];
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    [GeTuiSdk registerDeviceToken:@""];
 }
 
 /**
@@ -216,10 +219,58 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
     
     NSString *record = [NSString stringWithFormat:@"%ld, %@, %@",(long)++_lastPayloadIndex, [self formateTime:[NSDate date]], payloadMsg];
-#warning 记得改。。。
-    [[BXTGlobal shareGlobal].orderIDs addObject:taskId];
+    NSRange startRange = [record rangeOfString:@"{"];
+    NSRange endRange = [record rangeOfString:@"}"];
+    NSString *dicStr = [record substringWithRange:NSMakeRange(startRange.location, endRange.location - startRange.location + 1)];
+    NSDictionary *taskInfo = [dicStr JSONValue];
+    [[BXTGlobal shareGlobal].orderIDs addObject:[taskInfo objectForKey:@"about_id"]];
+    switch ([[taskInfo objectForKey:@"notice_type"] integerValue])
+    {
+        case 1://系统消息
+            
+            break;
+        case 2://工单消息
+            if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)
+            {
+                UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+                if ([nav.viewControllers.lastObject isKindOfClass:[BXTGrabOrderViewController class]])
+                {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairAgain" object:nil];
+                }
+                else
+                {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairComing" object:nil];
+                }
+            }
+            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)
+            {
+                
+            }
+            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 3)
+            {
+                
+            }
+            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 4)
+            {
+                
+            }
+            else
+            {
+                
+            }
+            break;
+        case 3://通知
+            
+            break;
+        case 4://预警
+            
+            break;
+        default:
+            break;
+    }
+    
     LogBlue(@"1count......%lu",(unsigned long)[BXTGlobal shareGlobal].orderIDs.count);
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairComing" object:nil];
+    
     LogRed(@"record  %@, task id : %@, messageId:%@",record, taskId, aMsgId);
 }
 
@@ -282,7 +333,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         companyInfo.company_id = shopID;
         companyInfo.name = shopName;
         [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-        NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_Android_v2_Port&shop_id=%@",shopID];
+        NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
         [BXTGlobal shareGlobal].baseURL = url;
         
         NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
@@ -348,7 +399,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (void)requestError:(NSError *)error
 {
-    
+    BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    self.window.rootViewController = nav;
 }
 
 - (NSString*)formateTime:(NSDate*)date
@@ -365,15 +418,16 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
-{
-    [GeTuiSdk registerDeviceToken:@""];
-}
-
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [GeTuiSdk resume];  // 恢复个推SDK运行
+//    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -382,15 +436,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [GeTuiSdk enterBackground];
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
+- (void)applicationWillTerminate:(UIApplication *)application
+{
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 

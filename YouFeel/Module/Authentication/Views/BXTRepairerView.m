@@ -38,11 +38,11 @@
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     if (departmentInfo && [departmentInfo.dep_id integerValue] == 2)
     {
-        table_section = 7;
+        table_section = 6;
     }
     else
     {
-        table_section = 6;
+        table_section = 5;
     }
     if (section == table_section)
     {
@@ -55,7 +55,7 @@
 //section底部视图
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 6 + indexRow)
+    if (section == 5 + indexRow)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -85,7 +85,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 7 + indexRow;
+    return 6 + indexRow;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -177,7 +177,7 @@
                 cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
                 cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
             }
-            else if (indexPath.section == 6)
+            else
             {
                 cell.titleLabel.text = @"职   位";
                 cell.detailTF.hidden = YES;
@@ -194,70 +194,25 @@
                 cell.checkImgView.hidden = NO;
                 cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
                 cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
-            }
-            else
-            {
-                cell.titleLabel.text = @"工   号";
-                cell.detailLable.hidden = YES;
-                cell.detailTF.hidden = NO;
-                cell.detailTF.delegate = self;
-                cell.detailTF.textColor = colorWithHexString(@"909497");
-                cell.detailTF.keyboardType = UIKeyboardTypeNumberPad;
-                if ([BXTGlobal getUserProperty:U_JOBNUMBER])
-                {
-                    cell.detailTF.text = [BXTGlobal getUserProperty:U_JOBNUMBER];
-                }
-                else
-                {
-                    cell.detailTF.delegate = self;
-                    cell.detailTF.placeholder = @"请输入您的工号";
-                    [cell.detailTF setValue:colorWithHexString(@"909497") forKeyPath:@"_placeholderLabel.textColor"];
-                    [cell.detailTF setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
-                }
-                cell.checkImgView.hidden = YES;
             }
         }
         else
         {
-            if (indexPath.section == 5)
+            cell.titleLabel.text = @"职   位";
+            cell.detailTF.hidden = YES;
+            cell.detailLable.hidden = NO;
+            BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
+            if (postionInfo)
             {
-                cell.titleLabel.text = @"职   位";
-                cell.detailTF.hidden = YES;
-                cell.detailLable.hidden = NO;
-                BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-                if (postionInfo)
-                {
-                    cell.detailLable.text = postionInfo.role;
-                }
-                else
-                {
-                    cell.detailLable.text = @"请选择您的职位";
-                }
-                cell.checkImgView.hidden = NO;
-                cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
-                cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
+                cell.detailLable.text = postionInfo.role;
             }
             else
             {
-                cell.titleLabel.text = @"工   号";
-                cell.detailTF.hidden = NO;
-                cell.detailLable.hidden = YES;
-                cell.detailTF.delegate = self;
-                cell.detailTF.textColor = colorWithHexString(@"909497");
-                cell.detailTF.keyboardType = UIKeyboardTypeNumberPad;
-                if ([BXTGlobal getUserProperty:U_JOBNUMBER])
-                {
-                    cell.detailTF.text = [BXTGlobal getUserProperty:U_JOBNUMBER];
-                }
-                else
-                {
-                    cell.detailTF.delegate = self;
-                    cell.detailTF.placeholder = @"请输入您的工号";
-                    [cell.detailTF setValue:colorWithHexString(@"909497") forKeyPath:@"_placeholderLabel.textColor"];
-                    [cell.detailTF setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
-                }
-                cell.checkImgView.hidden = YES;
+                cell.detailLable.text = @"请选择您的职位";
             }
+            cell.checkImgView.hidden = NO;
+            cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
+            cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
     }
     

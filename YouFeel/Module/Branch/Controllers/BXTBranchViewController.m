@@ -57,11 +57,12 @@
 - (void)navigationRightButton
 {
     [BXTGlobal setUserProperty:headquarters withKey:U_COMPANY];
+    NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",headquarters.company_id];
+    [BXTGlobal shareGlobal].baseURL = url;
     
-    if ([BXTGlobal getUserProperty:U_MYSHOP])
+    NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
+    if ([shopsIDArray containsObject:headquarters.company_id])
     {
-        NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_Android_v2_Port&shop_id=%@",headquarters.company_id];
-        [BXTGlobal shareGlobal].baseURL = url;
         /**请求分店位置**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request branchLogin];

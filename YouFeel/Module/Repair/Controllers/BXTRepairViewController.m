@@ -240,11 +240,11 @@
     [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
     cell.level.attributedText = attributeStr;
     
-    cell.state.text = repairInfo.state;
+    cell.state.text = repairInfo.receive_state;
     cell.repairState.text = repairInfo.workprocess;
     
     cell.tag = indexPath.section;
-    if (repairInfo.repairstate == 2)
+    if (repairInfo.repairstate == 3)
     {
         [cell.cancelRepair setTitleColor:colorWithHexString(@"e2e6e8") forState:UIControlStateNormal];
         cell.cancelRepair.userInteractionEnabled = NO;

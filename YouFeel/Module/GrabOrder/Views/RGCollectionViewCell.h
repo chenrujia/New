@@ -19,4 +19,8 @@
 //@property (strong, nonatomic) UIView           *backView;
 //@property (strong, nonatomic) UILabel          *coinLabel;
 
+- (instancetype)initWithFrame:(CGRect)frame;
+
+- (void)requestDetailWithOrderID:(NSString *)orderID;
+
 @end

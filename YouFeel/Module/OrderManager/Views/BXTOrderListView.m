@@ -19,11 +19,18 @@
 
 @implementation BXTOrderListView
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andListViewType:(ListViewType)type
 {
     self = [super initWithFrame:frame];
     if (self)
     {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:@"ReloadData" object:nil];
+        
         refreshType = Down;
         self.viewType = type;
         currentPage = 1;
@@ -59,6 +66,12 @@
         [self loadNewData];
     }
     return self;
+}
+
+- (void)reloadAllData
+{
+    [repairListArray removeAllObjects];
+    [self loadNewData];
 }
 
 - (void)loadNewData
@@ -164,7 +177,7 @@
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
         cell.level.attributedText = attributeStr;
         
-        cell.state.text = repairInfo.state;
+        cell.state.text = repairInfo.receive_state;
         cell.repairState.text = repairInfo.workprocess;
         
         cell.tag = indexPath.section;
