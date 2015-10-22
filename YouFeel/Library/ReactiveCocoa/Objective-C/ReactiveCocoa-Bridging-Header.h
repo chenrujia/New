@@ -11,3 +11,11 @@
 #import "RACSignal+Operations.h"
 #import "RACStream.h"
 #import "RACSubscriber.h"
+
+// From here to end of file added by Injection Plugin //
+
+#ifdef DEBUG
+#define INJECTION_ENABLED
+
+#import "/tmp/injectionforxcode/BundleInterface.h"
+#endif

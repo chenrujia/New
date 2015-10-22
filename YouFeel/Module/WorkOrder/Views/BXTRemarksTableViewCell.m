@@ -17,22 +17,17 @@
     if (self)
     {
         self.photosArray = [[NSMutableArray alloc] init];
-        
-        _remarkTV = [[UITextView alloc] init];
-        _remarkTV.font = [UIFont boldSystemFontOfSize:16.];
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.lineSpacing = 10;// 字体的行间距
-        NSDictionary *attributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:16],
-                                     NSParagraphStyleAttributeName:paragraphStyle,
-                                     NSForegroundColorAttributeName:colorWithHexString(@"909497")
-                                     };
-        _remarkTV.attributedText = [[NSAttributedString alloc] initWithString:@"                  请输入报修内容" attributes:attributes];
-        [self addSubview:_remarkTV];
-        
+
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 60.f, 30)];
         _titleLabel.textColor = colorWithHexString(@"000000");
         _titleLabel.font = [UIFont boldSystemFontOfSize:18.f];
         [self addSubview:_titleLabel];
+        
+        _remarkTV = [[UITextView alloc] init];
+        _remarkTV.font = [UIFont boldSystemFontOfSize:16.];
+        _remarkTV.textColor = colorWithHexString(@"909497");
+        _remarkTV.text = @"请输入报修内容";
+        [self addSubview:_remarkTV];
         
         _imgViewOne = [[UIImageView alloc] init];
         _imgViewOne.userInteractionEnabled = YES;
@@ -67,7 +62,7 @@
 
 - (void)setFrame:(CGRect)frame
 {
-    [_remarkTV setFrame:CGRectMake(0, 7, SCREEN_WIDTH, frame.size.height - 14.f - IMAGEWIDTH - 10.f)];
+    [_remarkTV setFrame:CGRectMake(110.f, 7, SCREEN_WIDTH - 110.f - 10.f, frame.size.height - 14.f - IMAGEWIDTH - 10.f)];
     [_addBtn setFrame:CGRectMake(10.f, frame.size.height - IMAGEWIDTH - 10.f, IMAGEWIDTH, IMAGEWIDTH)];
     if (!_imgViewOne.image)
     {

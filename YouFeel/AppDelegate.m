@@ -328,16 +328,18 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         
         NSArray *my_shop = [userInfoDic objectForKey:@"my_shop"];
         [BXTGlobal setUserProperty:my_shop withKey:U_MYSHOP];
-#warning 空的情况
-        NSDictionary *shopsDic = my_shop[0];
-        NSString *shopID = [shopsDic objectForKey:@"id"];
-        NSString *shopName = [shopsDic objectForKey:@"shop_name"];
-        BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
-        companyInfo.company_id = shopID;
-        companyInfo.name = shopName;
-        [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-        NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
-        [BXTGlobal shareGlobal].baseURL = url;
+        if (my_shop && my_shop.count > 0)
+        {
+            NSDictionary *shopsDic = my_shop[0];
+            NSString *shopID = [shopsDic objectForKey:@"id"];
+            NSString *shopName = [shopsDic objectForKey:@"shop_name"];
+            BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
+            companyInfo.company_id = shopID;
+            companyInfo.name = shopName;
+            [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
+            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
+            [BXTGlobal shareGlobal].baseURL = url;
+        }
         
         NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
         [BXTGlobal setUserProperty:userID withKey:U_USERID];

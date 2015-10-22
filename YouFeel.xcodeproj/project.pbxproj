@@ -2450,10 +2450,10 @@
 		960222701BC9216300010072 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				960222711BC9216300010072 /* BXTRepairWordOrderViewController.h */,
-				960222721BC9216300010072 /* BXTRepairWordOrderViewController.m */,
 				960222731BC9216300010072 /* BXTWorkOderViewController.h */,
 				960222741BC9216300010072 /* BXTWorkOderViewController.m */,
+				960222711BC9216300010072 /* BXTRepairWordOrderViewController.h */,
+				960222721BC9216300010072 /* BXTRepairWordOrderViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3589,6 +3589,7 @@
 				9652AAFB1BC902DF009A666D /* Sources */,
 				9652AAFC1BC902DF009A666D /* Frameworks */,
 				9652AAFD1BC902DF009A666D /* Resources */,
+				960001D61BD774620037FF57 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3849,6 +3850,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		960001D61BD774620037FF57 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"$CODESIGNING_FOLDER_PATH\" >/tmp/\"$USER.ident\" && echo \"$CODE_SIGN_IDENTITY\" >>/tmp/\"$USER.ident\" && exit; ";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9652AAFB1BC902DF009A666D /* Sources */ = {
@@ -4241,6 +4258,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -4304,6 +4322,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: linman si (U3RJMJR722)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: linman si (U3RJMJR722)";
 				ENABLE_BITCODE = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = YouFeel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -4344,6 +4363,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = YouFeelTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hxt.YouFeelTests;
@@ -4367,6 +4387,7 @@
 		9652AB2D1BC902DF009A666D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = YouFeelUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hxt.YouFeelUITests;

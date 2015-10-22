@@ -204,7 +204,6 @@
     }
     else
     {
-#warning --------delegate----------
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"需要增援",@"不需要增援", nil];
         [self.view addSubview:sheet];
     }
@@ -1009,6 +1008,26 @@
 {
     MWPhoto *photo = self.mwPhotosArray[index];
     return photo;
+}
+
+/**
+ *  UIActionSheetDelegate
+ */
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        __weak BXTRepairWordOrderViewController *weakSelf = self;
+        BXTAddOtherManViewController *addOtherManVC = [[BXTAddOtherManViewController alloc] initWithRepairID:0 andWithVCType:RepairType];
+        [addOtherManVC didChoosedMans:^(NSMutableArray *mans) {
+            [weakSelf handleMansArray:mans];
+        }];
+        [self.navigationController pushViewController:addOtherManVC animated:YES];
+    }
+    else
+    {
+        [self handleMansArray:[NSMutableArray array]];
+    }
 }
 
 - (void)didReceiveMemoryWarning
