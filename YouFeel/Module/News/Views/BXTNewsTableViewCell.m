@@ -49,8 +49,10 @@
         
         self.detailLabel = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 30.f, 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 130.f - 10.f - 30.f, 40)];
             label.textColor = colorWithHexString(@"909497");
+            label.numberOfLines = 0.f;
+            label.lineBreakMode = NSLineBreakByWordWrapping;
             label.font = [UIFont boldSystemFontOfSize:15.f];
             [self addSubview:label];
             label;
@@ -59,8 +61,9 @@
         
         self.timeLabel = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_detailLabel.frame) + 10.f, CGRectGetWidth(_detailLabel.frame), 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 130.f - 15.f, CGRectGetMinY(_detailLabel.frame) + 34.f, 130, 20)];
             label.textColor = colorWithHexString(@"909497");
+            label.textAlignment = NSTextAlignmentRight;
             label.font = [UIFont boldSystemFontOfSize:15.f];
             [self addSubview:label];
             label;

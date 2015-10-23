@@ -135,7 +135,7 @@
     }
     else if (section == 4)
     {
-        pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, 320, 216)];
+        pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
         pickView.tag = 1000;
         pickView.showsSelectionIndicator = YES;
         pickView.backgroundColor = colorWithHexString(@"cdced1");

@@ -44,7 +44,7 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewRepairAgain) name:@"NewRepairAgain" object:nil];
     
-    comeTimeArray = @[@"半小时内",@"1小时内",@"3小时内",@"6小时内",];
+    comeTimeArray = @[@"半小时内",@"1小时内",@"3小时内",@"6小时内"];
     player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
     player.volume = 0.8f;
     player.numberOfLoops = -1;

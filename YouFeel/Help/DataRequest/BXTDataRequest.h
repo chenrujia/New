@@ -29,7 +29,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     ManList,
     UploadHeadImage,
     UserInfo,
-    LocationShop
+    LocationShop,
+    UpdateTime
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -193,5 +194,10 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  消息分类列表
  */
 - (void)messageList;
+
+/**
+ *  更新到达现场时间
+ */
+- (void)updateTime:(NSString *)time andRepairID:(NSString *)repairID;
 
 @end

@@ -339,14 +339,22 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
             NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
+            
+            NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
+            [BXTGlobal setUserProperty:userID withKey:U_USERID];
+            
+            /**分店登录**/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request branchLogin];
         }
-        
-        NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
-        [BXTGlobal setUserProperty:userID withKey:U_USERID];
-        
-        /**分店登录**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request branchLogin];
+        else
+        {
+            BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+            nav.navigationBar.hidden = YES;
+            nav.enableBackGesture = YES;
+            self.window.rootViewController = nav;
+        }
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {

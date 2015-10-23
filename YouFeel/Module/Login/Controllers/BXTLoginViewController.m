@@ -16,6 +16,7 @@
 #import "BXTResignViewController.h"
 #import "AppDelegate.h"
 #import "BXTHeadquartersInfo.h"
+#import "BXTAuthenticationViewController.h"
 
 #define UserNameTag 11
 #define PassWordTag 12
@@ -63,7 +64,8 @@
 
 - (void)initContentViews
 {
-    UIView *textfiledBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 207.f, SCREEN_WIDTH, 118.f)];
+    CGFloat y = IS_IPHONE4 ? 175.f : 207.f;
+    UIView *textfiledBackView = [[UIView alloc] initWithFrame:CGRectMake(0, y, SCREEN_WIDTH, 118.f)];
     textfiledBackView.backgroundColor = colorWithHexString(@"d2e6ff");
     [self.view addSubview:textfiledBackView];
     
@@ -236,14 +238,19 @@
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
             NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
+            
+            NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
+            [BXTGlobal setUserProperty:userID withKey:U_USERID];
+            
+            /**分店登录**/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request branchLogin];
         }
-        
-        NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
-        [BXTGlobal setUserProperty:userID withKey:U_USERID];
-        
-        /**分店登录**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request branchLogin];
+        else
+        {
+            BXTAuthenticationViewController *authenticationVC = [[BXTAuthenticationViewController alloc] init];
+            [self.navigationController pushViewController:authenticationVC animated:YES];
+        }
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {

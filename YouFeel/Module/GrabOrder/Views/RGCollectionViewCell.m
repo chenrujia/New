@@ -120,7 +120,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = (NSDictionary *)response;
-    LogRed(@"dic......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count > 0)
     {
@@ -139,6 +138,10 @@
             LogRed(@"imgArray:%@",imgArray);
             NSDictionary *image_dic = imgArray[0];
             [_imageView sd_setImageWithURL:[NSURL URLWithString:[image_dic objectForKey:@"photo_file"]] placeholderImage:[UIImage imageNamed:@"20.jpg"]];
+        }
+        else
+        {
+            [_imageView setImage:[UIImage imageNamed:@"20.jpg"]];
         }
         
         _repairID.text = [NSString stringWithFormat:@"工单号:%@",repairDetail.orderid];

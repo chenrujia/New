@@ -28,7 +28,7 @@
 #define IS_IPHONE4 ([UIScreen mainScreen].bounds.size.height == 480 ? YES : NO)
 
 //  判断是否是IPHONE5
-#define IS_IPHONE5 ([UIScreen mainScreen].bounds.size.height == 568 ? YES : NO)
+#define IS_IPHONE5 ([UIScreen mainScreen].bounds.size.height >= 568 ? YES : NO)
 
 //  判断是否是IPHONE6
 #define IS_IPHONE6 ([UIScreen mainScreen].bounds.size.height >= 667 ? YES : NO)

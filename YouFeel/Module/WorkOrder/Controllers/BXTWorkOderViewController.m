@@ -12,7 +12,6 @@
 #import "BXTRemarksTableViewCell.h"
 #import "LocalPhotoViewController.h"
 #import "UIImage+SubImage.h"
-#import "BXTSelectBoxView.h"
 #import "BXTFaultInfo.h"
 #import "BXTFaultTypeInfo.h"
 #import "BXTShopLocationViewController.h"
@@ -22,16 +21,13 @@
 #define MOBILE 11
 #define CAUSE 12
 
-@interface BXTWorkOderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,SelectPhotoDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITextFieldDelegate,MWPhotoBrowserDelegate,UIActionSheetDelegate>
+@interface BXTWorkOderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,SelectPhotoDelegate,BXTDataResponseDelegate,UITextFieldDelegate,MWPhotoBrowserDelegate,UIActionSheetDelegate>
 {
     UITableView *currentTableView;
     NSString *repairState;
     NSMutableArray *selectPhotos;
     NSMutableArray *photosArray;
-    BXTSelectBoxView *boxView;
-    NSMutableArray *dep_dataSource;
     NSMutableArray *fau_dataSource;
-    BXTFaultTypeInfo *fault_type_info;
     NSString *cause;
     NSString *notes;
     BOOL isPublic;
@@ -68,7 +64,6 @@
     repairState = @"1";
     photosArray = [[NSMutableArray alloc] init];
     selectPhotos = [[NSMutableArray alloc] init];
-    dep_dataSource = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
     
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
@@ -129,18 +124,9 @@
     backView.tag = 101;
     [self.view addSubview:backView];
     
-    if (section == 2)
+    if (section == 5)
     {
-        boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"部门" boxSelectedViewType:DepartmentView listDataSource:dep_dataSource markID:nil actionDelegate:self];
-        
-        [self.view addSubview:boxView];
-        [UIView animateWithDuration:0.3f animations:^{
-            [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
-        }];
-    }
-    else if (section == 5)
-    {
-        pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, 320, 216)];
+        pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
         pickView.tag = 1000;
         pickView.showsSelectionIndicator = YES;
         pickView.backgroundColor = colorWithHexString(@"cdced1");
@@ -574,7 +560,6 @@
             }
             else
             {
-                cell.detailLable.frame = CGRectMake(CGRectGetMaxX(cell.titleLabel.frame) + 20.f, 10., 80.f, 30);
                 cell.detailLable.text = [NSString stringWithFormat:@"%@-%@",selectFaultInfo.faulttype_type,selectFaultTypeInfo.faulttype];
             }
             cell.checkImgView.hidden = NO;
@@ -646,15 +631,6 @@
             [pickView removeFromSuperview];
             pickView = nil;
             [currentTableView reloadData];
-        }
-        else
-        {
-            [UIView animateWithDuration:0.3f animations:^{
-                [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-            } completion:^(BOOL finished) {
-                [boxView removeFromSuperview];
-                boxView = nil;
-            }];
         }
         [view removeFromSuperview];
     }
@@ -812,24 +788,9 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
+    LogRed(@"dic.....%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == DepartmentType)
-    {
-        if (data.count)
-        {
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"dep_id" onClass:[BXTDepartmentInfo class]];
-                [config addObjectMapping:text];
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTDepartmentInfo class] andConfiguration:config];
-                BXTDepartmentInfo *departmentInfo = [parser parseDictionary:dictionary];
-                
-                [dep_dataSource addObject:departmentInfo];
-            }
-        }
-    }
-    else if (type == FaultType)
+    if (type == FaultType)
     {
         for (NSDictionary *dictionary in data)
         {
@@ -852,6 +813,11 @@
                 [fault_subs addObject:faultTypeObj];
             }
             
+            BXTFaultTypeInfo *otherFaultTypeInfo = [[BXTFaultTypeInfo alloc] init];
+            otherFaultTypeInfo.fau_id = 1;
+            otherFaultTypeInfo.faulttype = @"其他";
+            [fault_subs addObject:otherFaultTypeInfo];
+
             faultObj.sub_data = fault_subs;
             [fau_dataSource addObject:faultObj];
         }
@@ -875,28 +841,6 @@
 - (void)requestError:(NSError *)error
 {
     
-}
-
-/**
- *  BXTBoxSelectedTitleDelegate
- */
-- (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
-{
-    if (type == FaultInfoView)
-    {
-        fault_type_info = obj;
-    }
-    [currentTableView reloadData];
-    
-    UIView *view = [self.view viewWithTag:101];
-    [view removeFromSuperview];
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-    } completion:^(BOOL finished) {
-        [boxView removeFromSuperview];
-        boxView = nil;
-    }];
 }
 
 /**

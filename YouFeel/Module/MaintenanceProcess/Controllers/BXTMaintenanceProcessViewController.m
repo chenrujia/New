@@ -348,7 +348,7 @@
     }
     else if (section == 1)
     {
-        faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, 320, 216)];
+        faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
         faultPickView.tag = 1000;
         faultPickView.showsSelectionIndicator = YES;
         faultPickView.backgroundColor = colorWithHexString(@"cdced1");
@@ -358,7 +358,7 @@
     }
     else if (section == 2)
     {
-        datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, 320, 216)];
+        datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
         datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
         datePicker.backgroundColor = colorWithHexString(@"cdced1");
         datePicker.maximumDate = [NSDate date];
@@ -368,7 +368,7 @@
     }
     else if (section == 3)
     {
-        timePickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, 320, 216)];
+        timePickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
         timePickView.tag = 1001;
         timePickView.showsSelectionIndicator = YES;
         timePickView.backgroundColor = colorWithHexString(@"cdced1");

@@ -149,7 +149,6 @@
 - (void)faultTypeList
 {
     self.requestType = FaultType;
-    
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_faulttype_type",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:nil];
 }
@@ -380,7 +379,7 @@
 
 - (void)newsList
 {
-    NSDictionary *dic = @{@"user_id":@"49",
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
                           @"page":@"1",
                           @"pagesize":@"10"};
     NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_list",KURLREQUEST];
@@ -389,8 +388,18 @@
 
 - (void)messageList
 {
-    NSDictionary *dic = @{@"user_id":@"49"};
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID]};
     NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_type",KURLREQUEST];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)updateTime:(NSString *)time andRepairID:(NSString *)repairID
+{
+    self.requestType = UpdateTime;
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"id":repairID,
+                          @"receive_time":time};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=update_receive_time",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -402,7 +411,6 @@
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     // 设置返回格式
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject)
     {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
