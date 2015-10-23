@@ -489,7 +489,7 @@
                 reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(lineView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
             }
         }
-        if (repairDetail.repairstate == 1)
+        if (repairDetail.repairstate == 2)
         {
             UITabBar *tabbar = [[UITabBar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50.f, SCREEN_WIDTH, 50.f)];
             tabbar.delegate = self;
@@ -500,7 +500,7 @@
             [tabbar setItems:@[leftItem,rightItem]];
             [self.view addSubview:tabbar];
         }
-        else
+        if (repairDetail.repairstate != 1)
         {
             [reaciveOrder removeFromSuperview];
             reaciveOrder = nil;

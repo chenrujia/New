@@ -15,6 +15,7 @@
 #import "BXTShopsHomeViewController.h"
 #import "BXTRepairHomeViewController.h"
 #import "BXTGrabOrderViewController.h"
+#import "BXTHeadquartersViewController.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -54,11 +55,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
     else
     {
-        BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
-        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
-        navigation.navigationBar.hidden = YES;
-        navigation.enableBackGesture = YES;
-        self.window.rootViewController = navigation;
+        [self loadingLoginVC];
     }
 
     self.window.backgroundColor = [UIColor whiteColor];
@@ -83,6 +80,15 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 //    }
     
     return YES;
+}
+
+- (void)loadingLoginVC
+{
+    BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    navigation.navigationBar.hidden = YES;
+    navigation.enableBackGesture = YES;
+    self.window.rootViewController = navigation;
 }
 
 /**
@@ -221,9 +227,51 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSString *record = [NSString stringWithFormat:@"%ld, %@, %@",(long)++_lastPayloadIndex, [self formateTime:[NSDate date]], payloadMsg];
     NSRange startRange = [record rangeOfString:@"{"];
     NSRange endRange = [record rangeOfString:@"}"];
+    
     NSString *dicStr = [record substringWithRange:NSMakeRange(startRange.location, endRange.location - startRange.location + 1)];
     NSDictionary *taskInfo = [dicStr JSONValue];
+    
+    NSString *shop_id = [taskInfo objectForKey:@"shop_id"];
     [[BXTGlobal shareGlobal].orderIDs addObject:[taskInfo objectForKey:@"about_id"]];
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    //如果该条消息不是该项目的
+    if (![shop_id isEqualToString:companyInfo.company_id])
+    {
+        NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
+        NSString *shop_name;
+        for (NSDictionary *dic in my_shops)
+        {
+            if ([[dic objectForKey:@"id"] isEqualToString:shop_id])
+            {
+                shop_name = [dic objectForKey:@"shop_name"];
+                break;
+            }
+        }
+        if (IS_IOS_8)
+        {
+            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"您有来自%@的新消息，是否立即查看？",shop_name] message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"稍后查看" style:UIAlertActionStyleCancel handler:nil];
+            [alertCtr addAction:cancelAction];
+            UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"立即查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
+                UINavigationController *navigation = (UINavigationController *)self.window.rootViewController;
+                [navigation pushViewController:headVC animated:YES];
+            }];
+            [alertCtr addAction:doneAction];
+            [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您确定要取消此工单?"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"确定",nil];
+            [alert show];
+        }
+        return;
+    }
     switch ([[taskInfo objectForKey:@"notice_type"] integerValue])
     {
         case 1://系统消息
@@ -274,7 +322,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
-    LogRed(@"record  %@, task id : %@, messageId:%@",record, taskId, aMsgId);
+    LogRed(@"task id : %@",taskId);
 }
 
 /**
@@ -349,11 +397,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         }
         else
         {
-            BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-            nav.navigationBar.hidden = YES;
-            nav.enableBackGesture = YES;
-            self.window.rootViewController = nav;
+            [self loadingLoginVC];
         }
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
@@ -410,21 +454,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
     else
     {
-        BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-        nav.navigationBar.hidden = YES;
-        nav.enableBackGesture = YES;
-        self.window.rootViewController = nav;
+        [self loadingLoginVC];
     }
 }
 
 - (void)requestError:(NSError *)error
 {
-    BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    nav.navigationBar.hidden = YES;
-    nav.enableBackGesture = YES;
-    self.window.rootViewController = nav;
+    [self loadingLoginVC];
 }
 
 - (NSString*)formateTime:(NSDate*)date
