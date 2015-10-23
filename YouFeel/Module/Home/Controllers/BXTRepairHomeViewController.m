@@ -15,7 +15,7 @@
 #import "BXTRepairWordOrderViewController.h"
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
-#import "BXTNewsViewController.h"
+#import "BXTMessageListViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -113,8 +113,8 @@
             break;
         case 4:
         {
-            BXTNewsViewController *newsVC = [[BXTNewsViewController alloc] init];
-            [self.navigationController pushViewController:newsVC animated:YES];
+            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] init];
+            [self.navigationController pushViewController:messageVC animated:YES];
         }
             break;
         default:

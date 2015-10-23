@@ -272,7 +272,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             break;
     }
     
-    LogBlue(@"1count......%lu",(unsigned long)[BXTGlobal shareGlobal].orderIDs.count);
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     LogRed(@"record  %@, task id : %@, messageId:%@",record, taskId, aMsgId);
 }

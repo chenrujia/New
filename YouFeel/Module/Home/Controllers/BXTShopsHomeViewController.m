@@ -15,7 +15,7 @@
 #import "BXTEvaluationListViewController.h"
 #import "BXTHeadquartersInfo.h"
 #import "BXTGlobal.h"
-#import "BXTNewsViewController.h"
+#import "BXTMessageListViewController.h"
 
 @interface BXTShopsHomeViewController ()
 
@@ -95,8 +95,8 @@
             
         case 4:
         {
-            BXTNewsViewController *newsVC = [[BXTNewsViewController alloc] init];
-            [self.navigationController pushViewController:newsVC animated:YES];
+            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] init];
+            [self.navigationController pushViewController:messageVC animated:YES];
         }
             break;
         case 5:

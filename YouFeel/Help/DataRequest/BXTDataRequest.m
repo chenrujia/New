@@ -380,10 +380,17 @@
 
 - (void)newsList
 {
-    NSDictionary *dic = @{@"user_id":@"2",
+    NSDictionary *dic = @{@"user_id":@"49",
                           @"page":@"1",
                           @"pagesize":@"10"};
     NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_list",KURLREQUEST];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)messageList
+{
+    NSDictionary *dic = @{@"user_id":@"49"};
+    NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_type",KURLREQUEST];
     [self postRequest:url withParameters:dic];
 }
 

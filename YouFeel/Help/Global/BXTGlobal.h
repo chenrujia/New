@@ -40,6 +40,6 @@
  */
 UIColor* colorWithHexString(NSString *stringToConvert);
 
-
++ (NSString *)transformationTime:(NSString *)timeType withTime:(NSString *)time;
 
 @end

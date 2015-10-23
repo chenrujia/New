@@ -160,6 +160,16 @@
 		9602230F1BC9216300010072 /* BXTFaultTypeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222801BC9216300010072 /* BXTFaultTypeInfo.m */; settings = {ASSET_TAGS = (); }; };
 		960223101BC9216300010072 /* BXTRemarksTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222831BC9216300010072 /* BXTRemarksTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		960223121BC922DB00010072 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 960223111BC922DB00010072 /* libsqlite3.tbd */; };
+		964A1C151BD8899900FC1622 /* BXTMessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 964A1C141BD8899900FC1622 /* BXTMessageListViewController.m */; settings = {ASSET_TAGS = (); }; };
+		964A1C181BD889C800FC1622 /* BXTMessageListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 964A1C171BD889C800FC1622 /* BXTMessageListTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		964A1C1D1BD890A300FC1622 /* MessageIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A1C191BD890A300FC1622 /* MessageIcon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		964A1C1E1BD890A300FC1622 /* NotificationIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A1C1A1BD890A300FC1622 /* NotificationIcon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		964A1C1F1BD890A300FC1622 /* TicketIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A1C1B1BD890A300FC1622 /* TicketIcon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		964A1C201BD890A300FC1622 /* WarningIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A1C1C1BD890A300FC1622 /* WarningIcon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		964A1C251BD8920700FC1622 /* MessageIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A1C211BD8920700FC1622 /* MessageIcon@2x.png */; settings = {ASSET_TAGS = (); }; };
+		964A1C261BD8920700FC1622 /* NotificationIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A1C221BD8920700FC1622 /* NotificationIcon@2x.png */; settings = {ASSET_TAGS = (); }; };
+		964A1C271BD8920700FC1622 /* TicketIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A1C231BD8920700FC1622 /* TicketIcon@2x.png */; settings = {ASSET_TAGS = (); }; };
+		964A1C281BD8920700FC1622 /* WarningIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A1C241BD8920700FC1622 /* WarningIcon@2x.png */; settings = {ASSET_TAGS = (); }; };
 		9652AB041BC902DF009A666D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB031BC902DF009A666D /* main.m */; };
 		9652AB071BC902DF009A666D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB061BC902DF009A666D /* AppDelegate.m */; };
 		9652AB091BC902DF009A666D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9652AB081BC902DF009A666D /* Assets.xcassets */; };
@@ -728,6 +738,18 @@
 		960222821BC9216300010072 /* BXTRemarksTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRemarksTableViewCell.h; sourceTree = "<group>"; };
 		960222831BC9216300010072 /* BXTRemarksTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRemarksTableViewCell.m; sourceTree = "<group>"; };
 		960223111BC922DB00010072 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		964A1C131BD8899900FC1622 /* BXTMessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageListViewController.h; sourceTree = "<group>"; };
+		964A1C141BD8899900FC1622 /* BXTMessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageListViewController.m; sourceTree = "<group>"; };
+		964A1C161BD889C800FC1622 /* BXTMessageListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageListTableViewCell.h; sourceTree = "<group>"; };
+		964A1C171BD889C800FC1622 /* BXTMessageListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageListTableViewCell.m; sourceTree = "<group>"; };
+		964A1C191BD890A300FC1622 /* MessageIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageIcon@3x.png"; sourceTree = "<group>"; };
+		964A1C1A1BD890A300FC1622 /* NotificationIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationIcon@3x.png"; sourceTree = "<group>"; };
+		964A1C1B1BD890A300FC1622 /* TicketIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TicketIcon@3x.png"; sourceTree = "<group>"; };
+		964A1C1C1BD890A300FC1622 /* WarningIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WarningIcon@3x.png"; sourceTree = "<group>"; };
+		964A1C211BD8920700FC1622 /* MessageIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageIcon@2x.png"; sourceTree = "<group>"; };
+		964A1C221BD8920700FC1622 /* NotificationIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationIcon@2x.png"; sourceTree = "<group>"; };
+		964A1C231BD8920700FC1622 /* TicketIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TicketIcon@2x.png"; sourceTree = "<group>"; };
+		964A1C241BD8920700FC1622 /* WarningIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WarningIcon@2x.png"; sourceTree = "<group>"; };
 		9652AAFF1BC902DF009A666D /* YouFeel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouFeel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9652AB031BC902DF009A666D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9652AB051BC902DF009A666D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -3517,6 +3539,8 @@
 		967679F01BD512BB00D41FE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				964A1C131BD8899900FC1622 /* BXTMessageListViewController.h */,
+				964A1C141BD8899900FC1622 /* BXTMessageListViewController.m */,
 				967679F41BD512E700D41FE2 /* BXTNewsViewController.h */,
 				967679F51BD512E700D41FE2 /* BXTNewsViewController.m */,
 			);
@@ -3526,6 +3550,14 @@
 		967679F11BD512BB00D41FE2 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				964A1C211BD8920700FC1622 /* MessageIcon@2x.png */,
+				964A1C221BD8920700FC1622 /* NotificationIcon@2x.png */,
+				964A1C231BD8920700FC1622 /* TicketIcon@2x.png */,
+				964A1C241BD8920700FC1622 /* WarningIcon@2x.png */,
+				964A1C191BD890A300FC1622 /* MessageIcon@3x.png */,
+				964A1C1A1BD890A300FC1622 /* NotificationIcon@3x.png */,
+				964A1C1B1BD890A300FC1622 /* TicketIcon@3x.png */,
+				964A1C1C1BD890A300FC1622 /* WarningIcon@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -3540,6 +3572,8 @@
 		967679F31BD512BB00D41FE2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				964A1C161BD889C800FC1622 /* BXTMessageListTableViewCell.h */,
+				964A1C171BD889C800FC1622 /* BXTMessageListTableViewCell.m */,
 				967679F71BD514B500D41FE2 /* BXTNewsTableViewCell.h */,
 				967679F81BD514B500D41FE2 /* BXTNewsTableViewCell.m */,
 			);
@@ -3691,9 +3725,12 @@
 				960222A01BC9216300010072 /* About_us_select@2x.png in Resources */,
 				960222A51BC9216300010072 /* down-arrow@2x.png in Resources */,
 				966828941BCFBB13008D5818 /* bar_graph@3x.png in Resources */,
+				964A1C1F1BD890A300FC1622 /* TicketIcon@3x.png in Resources */,
 				96767A001BD53AA600D41FE2 /* snotepad_ok@2x.png in Resources */,
 				9652ADBB1BC9170D009A666D /* VideoOverlay.png in Resources */,
+				964A1C281BD8920700FC1622 /* WarningIcon@2x.png in Resources */,
 				9652ADAD1BC9170D009A666D /* PlayButtonOverlayLarge@2x.png in Resources */,
+				964A1C261BD8920700FC1622 /* NotificationIcon@2x.png in Resources */,
 				96DD34681BCCB21200B2144C /* Coin_icon@3x.png in Resources */,
 				969A424F1BCBD7EC0034FC84 /* 20.jpg in Resources */,
 				9652AC341BC90EC9009A666D /* LocalPhotoCell.xib in Resources */,
@@ -3705,9 +3742,11 @@
 				960222DB1BC9216300010072 /* icon_chose_arrow_nor@2x.png in Resources */,
 				960222F01BC9216300010072 /* users@2x.png in Resources */,
 				960222B51BC9216300010072 /* orders@2x.png in Resources */,
+				964A1C271BD8920700FC1622 /* TicketIcon@2x.png in Resources */,
 				9652ADAA1BC9170D009A666D /* ImageSelectedSmallOn@2x.png in Resources */,
 				960222921BC9216300010072 /* star@2x.png in Resources */,
 				960222DC1BC9216300010072 /* icon_chose_arrow_sel@2x.png in Resources */,
+				964A1C1D1BD890A300FC1622 /* MessageIcon@3x.png in Resources */,
 				96767A081BD53C0E00D41FE2 /* cloumnar_shape@2x.png in Resources */,
 				966828961BCFBB13008D5818 /* chart@3x.png in Resources */,
 				9652ADB71BC9170D009A666D /* UIBarButtonItemArrowRight@3x.png in Resources */,
@@ -3737,6 +3776,7 @@
 				96C606711BD56D180083E711 /* sound.wav in Resources */,
 				9652AB0C1BC902DF009A666D /* LaunchScreen.storyboard in Resources */,
 				960222AC1BC9216300010072 /* logo@3x.png in Resources */,
+				964A1C251BD8920700FC1622 /* MessageIcon@2x.png in Resources */,
 				960222D21BC9216300010072 /* Rectangle_2@3x.png in Resources */,
 				9652ADA11BC9170D009A666D /* ImageSelectedOff@2x.png in Resources */,
 				960222AF1BC9216300010072 /* News@2x.png in Resources */,
@@ -3795,6 +3835,7 @@
 				9652ADB81BC9170D009A666D /* UIBarButtonItemGrid.png in Resources */,
 				960222F71BC9216300010072 /* Arrow-right@2x.png in Resources */,
 				9652AC311BC90EC9009A666D /* LocalAlbumCell.xib in Resources */,
+				964A1C1E1BD890A300FC1622 /* NotificationIcon@3x.png in Resources */,
 				960222C01BC9216300010072 /* tools@3x.png in Resources */,
 				960222D31BC9216300010072 /* small_round@2x.png in Resources */,
 				9652ADB61BC9170D009A666D /* UIBarButtonItemArrowRight@2x.png in Resources */,
@@ -3809,6 +3850,7 @@
 				9652ADA21BC9170D009A666D /* ImageSelectedOff@3x.png in Resources */,
 				9652ADAC1BC9170D009A666D /* PlayButtonOverlayLarge.png in Resources */,
 				9652AD9F1BC9170D009A666D /* ImageError@3x.png in Resources */,
+				964A1C201BD890A300FC1622 /* WarningIcon@3x.png in Resources */,
 				9652ADA91BC9170D009A666D /* ImageSelectedSmallOn.png in Resources */,
 				9668288D1BCFBB05008D5818 /* calendar_ok@2x.png in Resources */,
 				96767A091BD53C0E00D41FE2 /* cloumnar_shape@3x.png in Resources */,
@@ -3920,6 +3962,7 @@
 				9652AE121BC9170E009A666D /* UIBarButtonItem+RACCommandSupport.m in Sources */,
 				9652ABF71BC90DCC009A666D /* UIImage+ANKeyValue.m in Sources */,
 				9602229C1BC9216300010072 /* BXTHomeViewController.m in Sources */,
+				964A1C181BD889C800FC1622 /* BXTMessageListTableViewCell.m in Sources */,
 				960222C41BC9216300010072 /* BXTHomeCollectionViewCell.m in Sources */,
 				9652AE1E1BC9170E009A666D /* UISwitch+RACSignalSupport.m in Sources */,
 				960223031BC9216300010072 /* BXTShopInfo.m in Sources */,
@@ -4091,6 +4134,7 @@
 				9652AE221BC9170E009A666D /* UITextView+RACSignalSupport.m in Sources */,
 				960221491BC9201400010072 /* UINavigationController+YRBackGesture.m in Sources */,
 				9654507C1BCE7C3300435AD1 /* BXTAchievementsInfo.m in Sources */,
+				964A1C151BD8899900FC1622 /* BXTMessageListViewController.m in Sources */,
 				9652AD8B1BC9170D009A666D /* MJRefreshBackFooter.m in Sources */,
 				9652AC2B1BC90EC9009A666D /* HCollectionViewCell.m in Sources */,
 				9652ADF11BC9170E009A666D /* RACIndexSetSequence.m in Sources */,

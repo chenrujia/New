@@ -97,4 +97,12 @@ UIColor* colorWithHexString(NSString *stringToConvert)
                            alpha:1.f];
 }
 
++ (NSString *)transformationTime:(NSString *)timeType withTime:(NSString *)time
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:timeType];
+    NSString *str = [NSString stringWithFormat:@"%@",[formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[time integerValue]]]];
+    return str;
+}
+
 @end

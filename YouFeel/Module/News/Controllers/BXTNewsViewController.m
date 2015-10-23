@@ -63,7 +63,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 90.f;
+    return 118.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -82,7 +82,16 @@
     
     NSDictionary *dic = datasource[indexPath.section];
     cell.titleLabel.text = [dic objectForKey:@"notice_title"];
-    cell.place.text = [dic objectForKey:@"notice_body"];
+    cell.detailLabel.text = [dic objectForKey:@"notice_body"];
+    cell.timeLabel.text = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm:ss" withTime:[dic objectForKey:@"send_time"]];
+    if ([[dic objectForKey:@"handle_state"] integerValue] == 2)
+    {
+        cell.evaButton.hidden = YES;
+    }
+    else
+    {
+        cell.evaButton.hidden = NO;
+    }
     
     return cell;
 }

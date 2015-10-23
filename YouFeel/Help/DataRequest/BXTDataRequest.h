@@ -189,4 +189,9 @@ typedef NS_ENUM(NSInteger, RequestType) {
  */
 - (void)newsList;
 
+/**
+ *  消息分类列表
+ */
+- (void)messageList;
+
 @end

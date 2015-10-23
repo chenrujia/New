@@ -136,6 +136,7 @@
         NSArray *imgArray = repairDetail.fault_pic;
         if (imgArray.count > 0)
         {
+            LogRed(@"imgArray:%@",imgArray);
             NSDictionary *image_dic = imgArray[0];
             [_imageView sd_setImageWithURL:[NSURL URLWithString:[image_dic objectForKey:@"photo_file"]] placeholderImage:[UIImage imageNamed:@"20.jpg"]];
         }
