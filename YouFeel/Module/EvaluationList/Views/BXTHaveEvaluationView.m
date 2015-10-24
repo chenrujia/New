@@ -10,6 +10,8 @@
 #import "BXTHeaderForVC.h"
 #import "BXTHaveEVTableViewCell.h"
 #import "BXTNoneEVInfo.h"
+#import "BXTRepairDetailViewController.h"
+#import "UIView+Nav.h"
 
 @implementation BXTHaveEvaluationView
 
@@ -46,6 +48,40 @@
     [request evaluationListWithType:5];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return 0.5f;
+    }
+    return 10.f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5f)];
+        view.backgroundColor = [UIColor clearColor];
+        return view;
+    }
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 4.f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 4.f)];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 200.f;
@@ -75,6 +111,15 @@
     [cell.ratingControl setRating:evaInfo.general_praise];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    BXTNoneEVInfo *evaInfo = datasource[indexPath.section];
+    BXTRepairInfo *repairInfo = [[BXTRepairInfo alloc] init];
+    repairInfo.repairID = [evaInfo.evaID integerValue];
+    BXTRepairDetailViewController *repairDetailVC = [[BXTRepairDetailViewController alloc] initWithRepair:repairInfo];
+    [[self navigation] pushViewController:repairDetailVC animated:YES];
 }
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type

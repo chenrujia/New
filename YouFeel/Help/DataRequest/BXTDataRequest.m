@@ -390,7 +390,9 @@
 
 - (void)messageList
 {
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID]};
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
+                          @"shop_id":companyInfo.company_id};
     NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_type",KURLREQUEST];
     [self postRequest:url withParameters:dic];
 }

@@ -232,6 +232,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSDictionary *taskInfo = [dicStr JSONValue];
     
     NSString *shop_id = [taskInfo objectForKey:@"shop_id"];
+    [BXTGlobal shareGlobal].newsShopID = shop_id;
     [[BXTGlobal shareGlobal].orderIDs addObject:[taskInfo objectForKey:@"about_id"]];
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     //如果该条消息不是该项目的

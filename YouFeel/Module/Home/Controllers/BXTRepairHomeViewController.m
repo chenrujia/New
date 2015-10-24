@@ -63,7 +63,8 @@
 {
     [super viewDidAppear:animated];
     
-    if ([BXTGlobal shareGlobal].orderIDs.count > 0)
+    BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
+    if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&[BXTGlobal shareGlobal].orderIDs.count > 0)
     {
         [self comingNewRepairs];
     }

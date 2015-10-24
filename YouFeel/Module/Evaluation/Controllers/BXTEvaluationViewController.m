@@ -487,9 +487,22 @@
 /**
  *  UITextViewDelegate
  */
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@"请输入报修内容"])
+    {
+        textView.text = @"";
+    }
+    return YES;
+}
+
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     notes = textView.text;
+    if (textView.text.length < 1)
+    {
+        textView.text = @"请输入报修内容";
+    }
 }
 
 /**

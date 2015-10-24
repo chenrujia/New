@@ -129,15 +129,19 @@
     {
         str = @"等级:一般";
         range = [str rangeOfString:@"一般"];
+        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
+        level.attributedText = attributeStr;
     }
     else if (_repairInfo.urgent == 2)
     {
         str = @"等级:紧急";
         range = [str rangeOfString:@"紧急"];
+        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
+        level.attributedText = attributeStr;
     }
-    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-    [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-    level.attributedText = attributeStr;
+    
     [scrollView addSubview:level];
     
     notes = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(level.frame) + 8.f, CGRectGetWidth(level.frame), 20)];
@@ -427,6 +431,10 @@
                 scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 600.f);
                 cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(drawView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
             }
+        }
+        if (repairDetail.repairstate != 1)
+        {
+            cancelRepair.hidden = YES;
         }
         if (repairDetail.repairstate == 3)
         {

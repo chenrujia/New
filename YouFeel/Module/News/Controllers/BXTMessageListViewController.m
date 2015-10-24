@@ -148,6 +148,7 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
+    LogRed(@"%@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     if (array.count)
     {
