@@ -389,12 +389,13 @@
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
-            [self showMBP:@"抢单成功！"];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self showMBP:@"抢单成功！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
         {
-            [self showMBP:@"工单已被抢！"];
+            [self showMBP:@"工单已被抢！" withBlock:nil];
         }
     }
 }

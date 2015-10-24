@@ -9,5 +9,10 @@
 #import "BXTBaseViewController.h"
 
 @interface BXTNewsViewController : BXTBaseViewController
+{
+    NSInteger currentPage;
+}
+
+@property (nonatomic ,assign) BOOL isRequesting;
 
 @end

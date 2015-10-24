@@ -665,22 +665,20 @@
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
+    if ([textView.text isEqualToString:@"请输入报修内容"])
+    {
+        textView.text = @"";
+    }
     return YES;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     notes = textView.text;
-}
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if (textView.text.length <= 18)
+    if (textView.text.length < 1)
     {
-        return NO;
+        textView.text = @"请输入报修内容";
     }
-    
-    return YES;
 }
 
 /**
@@ -858,6 +856,9 @@
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestRepairList" object:nil];
+            [self showMBP:@"新工单已创建！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
         }
     }
 }

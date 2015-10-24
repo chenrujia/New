@@ -11,9 +11,7 @@
 #import "MBProgressHUD.h"
 
 @interface BXTBaseViewController () <MBProgressHUDDelegate>
-{
-    MBProgressHUD *public_hud;
-}
+
 @end
 
 @implementation BXTBaseViewController
@@ -21,7 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = colorWithHexString(@"ffffff");
+    self.view.backgroundColor = colorWithHexString(@"eff3f6");
 }
 
 /**
@@ -77,30 +75,36 @@
     
 }
 
-- (void)showMBP:(NSString *)text
+- (void)showMBP:(NSString *)text withBlock:(HaveHidden)block
 {
+    _havedHidden = block;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeText;
     hud.labelText = text;
     hud.margin = 10.f;
     hud.delegate = self;
     hud.removeFromSuperViewOnHide = YES;
-    [hud hide:YES afterDelay:2];
+    [self performSelector:@selector(hideMBP) withObject:nil afterDelay:2.f];
 }
 
 - (void)showLoadingMBP:(NSString *)text
 {
-    public_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    public_hud.mode = MBProgressHUDModeIndeterminate;
-    public_hud.labelText = text;
-    public_hud.margin = 10.f;
-    public_hud.delegate = self;
-    public_hud.removeFromSuperViewOnHide = YES;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = text;
+    hud.margin = 10.f;
+    hud.delegate = self;
+    hud.removeFromSuperViewOnHide = YES;
 }
 
 - (void)hideMBP
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    if (_havedHidden)
+    {
+        _havedHidden(YES);
+        _havedHidden = nil;
+    }
 }
 
 #pragma mark -

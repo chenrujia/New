@@ -834,6 +834,9 @@
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestRepairList" object:nil];
+            [self showMBP:@"新工单已创建！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
         }
     }
 }
@@ -931,12 +934,10 @@
 }
 
 //有的图片在Ipad的情况下
-- (void)loadImageFromAssertByUrl:(NSURL *)url completion:(void (^)(UIImage *))completion{
-    
+- (void)loadImageFromAssertByUrl:(NSURL *)url completion:(void (^)(UIImage *))completion
+{
     __block UIImage* img;
-    
     ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
-    
     [assetLibrary assetForURL:url resultBlock:^(ALAsset *asset)
      {
          ALAssetRepresentation *rep = [asset defaultRepresentation];

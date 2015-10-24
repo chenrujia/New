@@ -511,7 +511,9 @@
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self showMBP:@"接单成功！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
         }
     }
 }

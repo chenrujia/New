@@ -377,11 +377,13 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)newsList
+- (void)newsListWithPage:(NSInteger)page
 {
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
-                          @"page":@"1",
-                          @"pagesize":@"10"};
+                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                          @"pagesize":@"10",
+                          @"shop_id":companyInfo.company_id};
     NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_list",KURLREQUEST];
     [self postRequest:url withParameters:dic];
 }
@@ -400,6 +402,22 @@
                           @"id":repairID,
                           @"receive_time":time};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=update_receive_time",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)feedback:(NSString *)notes
+{
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
+                          @"type":@"1",
+                          @"content":notes};
+    NSString *url = [NSString stringWithFormat:@"%@/module/comment/opt/add_comment/type/1/send_user/1/content/asdasdsadasd",KURLREQUEST];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)aboutUs
+{
+    NSDictionary *dic = @{@"news_id":@"1"};
+    NSString *url = [NSString stringWithFormat:@"%@/opt/news_con/module/news",KURLREQUEST];
     [self postRequest:url withParameters:dic];
 }
 

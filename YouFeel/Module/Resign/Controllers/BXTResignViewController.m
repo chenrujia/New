@@ -30,11 +30,6 @@ static NSString *cellIndentify = @"cellIndentify";
 
 @implementation BXTResignViewController
 
-- (void)dealloc
-{
-    NSLog(@".....");
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -69,9 +64,8 @@ static NSString *cellIndentify = @"cellIndentify";
     }
     else
     {
-        [self showMBP:@"手机号格式不对"];
+        [self showMBP:@"手机号格式不对" withBlock:nil];
     }
-    
 }
 
 - (void)backBtnClick
@@ -83,6 +77,8 @@ static NSString *cellIndentify = @"cellIndentify";
 {
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request mobileVerCode:userName];
+    codeBtn.userInteractionEnabled = NO;
+    [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 }
 
 #pragma mark -
@@ -238,8 +234,6 @@ static NSString *cellIndentify = @"cellIndentify";
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
-        codeBtn.userInteractionEnabled = NO;
-        [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [self updateTime];
     }
 }

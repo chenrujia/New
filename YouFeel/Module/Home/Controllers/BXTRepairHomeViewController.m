@@ -16,6 +16,9 @@
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
 #import "BXTMessageListViewController.h"
+#import "BXTFeedbackViewController.h"
+#import "BXTCustomerServiceViewController.h"
+#import "BXTAboutUsViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -105,16 +108,44 @@
             [self.navigationController pushViewController:orderManagerVC animated:YES];
         }
             break;
+        case 2:
+        {
+            [self showMBP:@"功能努力开发中" withBlock:nil];
+        }
+            break;
         case 3:
         {
-            BXTAchievementsViewController *achievementsVC = [[BXTAchievementsViewController alloc] init];
-            [self.navigationController pushViewController:achievementsVC animated:YES];
+            BXTAchievementsViewController *achievementVC = [[BXTAchievementsViewController alloc] init];
+            [self.navigationController pushViewController:achievementVC animated:YES];
         }
             break;
         case 4:
         {
             BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] init];
             [self.navigationController pushViewController:messageVC animated:YES];
+        }
+            break;
+        case 5:
+        {
+            [self showMBP:@"功能努力开发中" withBlock:nil];
+        }
+            break;
+        case 6:
+        {
+            BXTFeedbackViewController *feedbackVC = [[BXTFeedbackViewController alloc] init];
+            [self.navigationController pushViewController:feedbackVC animated:YES];
+        }
+            break;
+        case 7:
+        {
+            BXTCustomerServiceViewController *serviceVC = [[BXTCustomerServiceViewController alloc] init];
+            [self.navigationController pushViewController:serviceVC animated:YES];
+        }
+            break;
+        case 8:
+        {
+            BXTAboutUsViewController *aboutVC = [[BXTAboutUsViewController alloc] init];
+            [self.navigationController pushViewController:aboutVC animated:YES];
         }
             break;
         default:

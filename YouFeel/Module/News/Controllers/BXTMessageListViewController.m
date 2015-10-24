@@ -17,6 +17,7 @@
     UITableView *currentTable;
     NSMutableArray *datasource;
     NSArray *imageArray;
+    NSArray *newsType;
 }
 @end
 
@@ -30,6 +31,7 @@
     
     datasource = [NSMutableArray array];
     imageArray = @[@"MessageIcon",@"TicketIcon",@"NotificationIcon",@"WarningIcon"];
+    newsType = @[@"系统消息",@"工单消息",@"通知",@"预警"];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request messageList];
 }
@@ -90,7 +92,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return datasource.count;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -103,11 +105,18 @@
     BXTMessageListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    NSDictionary *dic = datasource[indexPath.section];
+    if (datasource.count)
+    {
+        NSDictionary *dic = datasource[indexPath.section];
+        [cell newsRedNumber:[[dic objectForKey:@"unread_num"] integerValue]];
+        cell.titleLabel.text = [dic objectForKey:@"type_name"];
+        cell.detailLabel.text = [dic objectForKey:@"last_title"];
+    }
+    else
+    {
+        cell.titleLabel.text =  newsType[indexPath.section];
+    }
     cell.iconView.image = [UIImage imageNamed:imageArray[indexPath.section]];
-    [cell newsRedNumber:[[dic objectForKey:@"unread_num"] integerValue]];
-    cell.titleLabel.text = [dic objectForKey:@"type_name"];
-    cell.detailLabel.text = [dic objectForKey:@"last_title"];
     
     return cell;
 }

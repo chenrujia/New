@@ -127,7 +127,7 @@
         NSArray *floolrArrResult = [selectedFloorInfo.place filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.place_id = %@",selectedAreaInfo.place_id]];
         if (!floolrArrResult.count)
         {
-            [self showMBP:@"区域和地点信息不符"];
+            [self showMBP:@"区域和地点信息不符" withBlock:nil];
             return;
         }
     }
@@ -135,7 +135,7 @@
     {
         if (![BXTGlobal getUserProperty:U_FLOOOR] || ![BXTGlobal getUserProperty:U_AREA] || ![BXTGlobal getUserProperty:U_SHOP])
         {
-            [self showMBP:@"请填写完整信息"];
+            [self showMBP:@"请填写完整信息" withBlock:nil];
             return;
         }
         else if (![BXTGlobal getUserProperty:U_FLOOOR] && ![BXTGlobal getUserProperty:U_AREA] && ![BXTGlobal getUserProperty:U_SHOP])
@@ -148,7 +148,7 @@
             NSArray *floolrArrResult = [selectedFloorInfo.place filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.place_id = %@",selectedAreaInfo.place_id]];
             if (!floolrArrResult.count)
             {
-                [self showMBP:@"区域和地点信息不符"];
+                [self showMBP:@"区域和地点信息不符" withBlock:nil];
                 return;
             }
             
@@ -158,7 +158,7 @@
                 NSArray *areaArrResult = [selectedAreaInfo.stores filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.stores_id = %@",selecedShopInfo.stores_id]];
                 if (!areaArrResult.count)
                 {
-                    [self showMBP:@"地点和店名信息不符"];
+                    [self showMBP:@"地点和店名信息不符" withBlock:nil];
                     return;
                 }
             }

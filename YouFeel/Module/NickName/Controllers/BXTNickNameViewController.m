@@ -235,7 +235,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 - (void)requestError:(NSError *)error
 {
-    [self hideMBP];
+    
 }
 
 - (void)didReceiveMemoryWarning

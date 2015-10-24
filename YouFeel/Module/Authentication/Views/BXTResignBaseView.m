@@ -46,6 +46,17 @@
     [currentTableView reloadData];
 }
 
+- (void)showMBP:(NSString *)text
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = text;
+    hud.margin = 10.f;
+    hud.delegate = self;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud hide:YES afterDelay:2];
+}
+
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
@@ -120,6 +131,8 @@
             }
             [my_shops_array addObject:@{@"id":companyInfo.company_id,@"shop_name":companyInfo.name}];
             [BXTGlobal setUserProperty:my_shops_array withKey:U_MYSHOP];
+            
+            [self showMBP:@"注册成功！"];
             
             /**分店登录**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -381,6 +394,13 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
 //    [BXTGlobal setUserProperty:textField.text withKey:U_JOBNUMBER];
+}
+
+#pragma mark -
+#pragma mark MBProgressHUDDelegate
+- (void)hudWasHidden:(MBProgressHUD *)hud
+{
+    [hud removeFromSuperview];
 }
 
 - (void)dealloc

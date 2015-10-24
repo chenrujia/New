@@ -16,13 +16,14 @@
 #import "BXTRepairHomeViewController.h"
 #import "UIView+Nav.h"
 #import "BXTGroupingInfo.h"
+#import "MBProgressHUD.h"
 
 typedef NS_ENUM(NSInteger, ViewType) {
     RepairType,
     PropertyType
 };
 
-@interface BXTResignBaseView : UIView <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
+@interface BXTResignBaseView : UIView <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,MBProgressHUDDelegate>
 {
     UITableView *currentTableView;
     NSInteger indexRow;

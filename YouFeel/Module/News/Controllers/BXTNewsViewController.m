@@ -10,6 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTNewsTableViewCell.h"
 #import "BXTSelectBoxView.h"
+#import "MJRefresh.h"
 
 @interface BXTNewsViewController ()<UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 {
@@ -32,8 +33,10 @@
     
     datasource = [NSMutableArray array];
     comeTimeArray = @[@"半小时内",@"1小时内",@"3小时内",@"6小时内"];
+    currentPage = 1;
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request newsList];
+    [request newsListWithPage:currentPage];
+    _isRequesting = YES;
 }
 
 #pragma mark - 
@@ -41,6 +44,7 @@
 - (void)createTableView
 {
     currentTable = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
+    currentTable.footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     currentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     currentTable.backgroundColor = colorWithHexString(@"eff3f6");
     [currentTable registerClass:[BXTNewsTableViewCell class] forCellReuseIdentifier:@"Cell"];
@@ -84,6 +88,15 @@
     [UIView animateWithDuration:0.3f animations:^{
         [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
     }];
+}
+
+- (void)loadMoreData
+{
+    if (_isRequesting) return;
+    /**获取报修列表**/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request newsListWithPage:currentPage];
+    _isRequesting = YES;
 }
 
 - (void)backViewTapAction:(UITapGestureRecognizer *)tap
@@ -191,13 +204,15 @@
         {
             [datasource addObjectsFromArray:array];
             [currentTable reloadData];
+            currentPage++;
         }
+        _isRequesting = NO;
     }
 }
 
 - (void)requestError:(NSError *)error
 {
-    
+    _isRequesting = NO;
 }
 
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type

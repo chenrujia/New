@@ -188,7 +188,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  消息列表
  */
-- (void)newsList;
+- (void)newsListWithPage:(NSInteger)page;
 
 /**
  *  消息分类列表
@@ -199,5 +199,15 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  更新到达现场时间
  */
 - (void)updateTime:(NSString *)time andRepairID:(NSString *)repairID;
+
+/**
+ *  意见反馈
+ */
+- (void)feedback:(NSString *)notes;
+
+/**
+ *  关于我们
+ */
+- (void)aboutUs;
 
 @end

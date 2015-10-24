@@ -355,6 +355,16 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     _sdkStatus = aStatus;
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1)
+    {
+        BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
+        UINavigationController *navigation = (UINavigationController *)self.window.rootViewController;
+        [navigation pushViewController:headVC animated:YES];
+    }
+}
+
 /**
  *  BXTDataResponseDelegate
  */

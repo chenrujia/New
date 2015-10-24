@@ -166,6 +166,7 @@
     if (vcType == DetailType)
     {
         /**请求维修员列表**/
+        [self showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSMutableArray *selectManIDs = [NSMutableArray array];
         for (BXTAddOtherManInfo *otherManInfo in selectMans)
@@ -310,15 +311,18 @@
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self showMBP:@"添加成功！" withBlock:^(BOOL hidden) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
         }
     }
+    [self hideMBP];
 }
 
 - (void)requestError:(NSError *)error
 {
-
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

@@ -160,7 +160,7 @@
     {
         if (self.selectPhotos.count >= 3)
         {
-            [self showMBP:@"最多选择3张图片"];
+            [self showMBP:@"最多选择3张图片" withBlock:nil];
             return;
         }
         [cell.btnSelect setHidden:NO];

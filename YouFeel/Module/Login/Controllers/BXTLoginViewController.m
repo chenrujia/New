@@ -167,7 +167,7 @@
     }
     else
     {
-        [self showMBP:@"手机号格式不对"];
+        [self showMBP:@"手机号格式不对" withBlock:nil];
     }
 }
 
@@ -307,7 +307,7 @@
     else
     {
         [self hideMBP];
-        [self showMBP:@"登录失败，请核对信息！"];
+        [self showMBP:@"登录失败，请核对信息！" withBlock:nil];
     }
 }
 

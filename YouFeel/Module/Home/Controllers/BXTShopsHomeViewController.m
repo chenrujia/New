@@ -10,12 +10,15 @@
 #import "BXTRepairViewController.h"
 #import "BXTOrderManagerViewController.h"
 #import "BXTExaminationViewController.h"
-#import "BXTAboutUsViewController.h"
 #import "BXTWorkOderViewController.h"
 #import "BXTEvaluationListViewController.h"
 #import "BXTHeadquartersInfo.h"
 #import "BXTGlobal.h"
 #import "BXTMessageListViewController.h"
+#import "BXTFeedbackViewController.h"
+#import "BXTCustomerServiceViewController.h"
+#import "BXTAboutUsViewController.h"
+#import "BXTAchievementsViewController.h"
 
 @interface BXTShopsHomeViewController ()
 
@@ -82,17 +85,15 @@
             break;
         case 2:
         {
-            BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
-            [self.navigationController pushViewController:examinationVC animated:YES];
+            [self showMBP:@"功能努力开发中" withBlock:nil];
         }
             break;
         case 3:
         {
-            BXTEvaluationListViewController *evalistVC = [[BXTEvaluationListViewController alloc] init];
-            [self.navigationController pushViewController:evalistVC animated:YES];
+            BXTEvaluationListViewController *achievementVC = [[BXTEvaluationListViewController alloc] init];
+            [self.navigationController pushViewController:achievementVC animated:YES];
         }
             break;
-            
         case 4:
         {
             BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] init];
@@ -101,13 +102,25 @@
             break;
         case 5:
         {
-            
+            [self showMBP:@"功能努力开发中" withBlock:nil];
             break;
         }
+        case 6:
+        {
+            BXTFeedbackViewController *feedbackVC = [[BXTFeedbackViewController alloc] init];
+            [self.navigationController pushViewController:feedbackVC animated:YES];
+        }
+            break;
+        case 7:
+        {
+            BXTCustomerServiceViewController *serviceVC = [[BXTCustomerServiceViewController alloc] init];
+            [self.navigationController pushViewController:serviceVC animated:YES];
+        }
+            break;
         case 8:
         {
-            BXTAboutUsViewController *aboutUs = [[BXTAboutUsViewController alloc] init];
-            [self.navigationController pushViewController:aboutUs animated:YES];
+            BXTAboutUsViewController *aboutVC = [[BXTAboutUsViewController alloc] init];
+            [self.navigationController pushViewController:aboutVC animated:YES];
         }
             break;
         default:

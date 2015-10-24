@@ -378,8 +378,6 @@
     }
 }
 
-
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
@@ -710,9 +708,22 @@
 /**
  *  UITextViewDelegate
  */
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@"请输入报修内容"])
+    {
+        textView.text = @"";
+    }
+    return YES;
+}
+
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     notes = textView.text;
+    if (textView.text.length < 1)
+    {
+        textView.text = @"请输入报修内容";
+    }
 }
 
 /**
@@ -825,7 +836,9 @@
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self showMBP:@"更改成功！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
         }
     }
 }

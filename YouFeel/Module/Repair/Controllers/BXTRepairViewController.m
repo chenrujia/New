@@ -156,7 +156,7 @@
     }
     else
     {
-        [self showMBP:@"此工单正在进行中，不允许删除!"];
+        [self showMBP:@"此工单正在进行中，不允许删除!" withBlock:nil];
     }
 }
 
@@ -314,7 +314,7 @@
         {
             [repairListArray removeObjectAtIndex:selectIndex];
             [currentTableView reloadData];
-            [self showMBP:@"删除成功!"];
+            [self showMBP:@"删除成功!" withBlock:nil];
         }
     }
 }
