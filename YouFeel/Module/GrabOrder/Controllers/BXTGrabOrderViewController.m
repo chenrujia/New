@@ -24,6 +24,7 @@
     BXTSelectBoxView *boxView;
     NSMutableDictionary *markDic;
     UICollectionView *itemsCollectionView;
+    UIView *gradBackView;
 }
 
 @property (nonatomic ,strong) MDRadialProgressView *radialProgressView;
@@ -149,15 +150,14 @@
 - (void)reaciveOrder
 {
     /**接单**/
-    UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.6f;
-    backView.tag = 101;
-    [self.view addSubview:backView];
+    gradBackView = [[UIView alloc] initWithFrame:self.view.bounds];
+    gradBackView.backgroundColor = [UIColor blackColor];
+    gradBackView.alpha = 0.6f;
+    gradBackView.tag = 101;
+    [self.view addSubview:gradBackView];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backViewTapAction:)];
-    [backView addGestureRecognizer:tapGesture];
-    [self.view addSubview:backView];
+    [gradBackView addGestureRecognizer:tapGesture];
     
     if (boxView)
     {
@@ -348,8 +348,8 @@
 
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
 {
-    UIView *view = [self.view viewWithTag:101];
-    [view removeFromSuperview];
+    [gradBackView removeFromSuperview];
+    gradBackView = nil;
     [UIView animateWithDuration:0.3f animations:^{
         [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
     }];
@@ -376,7 +376,7 @@
         }
 
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[currentPage] arrivalTime:arrivalTime andIsGrad:NO];
+        [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[currentPage] arrivalTime:arrivalTime andIsGrad:YES];
     }
 }
 
@@ -395,7 +395,10 @@
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
         {
-            [self showMBP:@"工单已被抢！" withBlock:nil];
+#warning 改改改
+            [self showMBP:@"工单已被抢！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
         }
     }
 }

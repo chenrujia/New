@@ -370,22 +370,26 @@
         if (imgArray.count > 0)
         {
             NSInteger i = 0;
+            UIScrollView *imagesScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, ImageHeight)];
+            imagesScrollView.contentSize = CGSizeMake((ImageWidth + 25) * imgArray.count + 25.f, ImageHeight);
+            [imagesScrollView setShowsHorizontalScrollIndicator:NO];
             for (NSDictionary *dictionary in imgArray)
             {
                 if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
                 {
-                    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(25.f * (i + 1) + ImageWidth * i, CGRectGetMaxY(notes.frame) + 20.f, ImageWidth, ImageHeight)];
+                    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(25.f * (i + 1) + ImageWidth * i, 0, ImageWidth, ImageHeight)];
                     imgView.userInteractionEnabled = YES;
                     imgView.layer.masksToBounds = YES;
                     imgView.contentMode = UIViewContentModeScaleAspectFill;
-                    [imgView sd_setImageWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                    [imgView sd_setImageWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
                     imgView.tag = i;
                     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
                     [imgView addGestureRecognizer:tapGR];
-                    [scrollView addSubview:imgView];
+                    [imagesScrollView addSubview:imgView];
                     i++;
                 }
             }
+            [scrollView addSubview:imagesScrollView];
             
             lineView.frame = CGRectMake(15.f, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH - 30.f, 1.f);
             
@@ -549,7 +553,7 @@
     }
     else if (item.tag == 102)
     {
-        BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairDetail.cause andCurrentFaultID:repairDetail.faulttype andRepairID:repairDetail.repairID andReaciveTime:repairDetail.receive_time];
+        BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairDetail.faulttype_name andCurrentFaultID:repairDetail.faulttype andRepairID:repairDetail.repairID andReaciveTime:repairDetail.receive_time];
         [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
     }
 }

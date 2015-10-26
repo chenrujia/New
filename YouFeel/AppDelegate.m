@@ -279,7 +279,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             
             break;
         case 2://工单消息
-            if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)
+            if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)//收到抢单信息
             {
                 if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
                 {
@@ -294,21 +294,37 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     }
                 }
             }
-            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)
+            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)//收到派工或者维修邀请
             {
                 
             }
-            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 3)
+            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 3)//抢单后或者确认通知后回馈报修者到达时间
             {
                 
             }
-            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 4)
+            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 4)//维修完成后通知后报修者
             {
                 
             }
-            else
+            else//维修者获取好评
             {
-                
+//                if (IS_IOS_8)
+//                {
+//                    UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@",[taskInfo objectForKey:@"title"]] message:nil preferredStyle:UIAlertControllerStyleAlert];
+//                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+//                    [alertCtr addAction:cancelAction];
+//                    [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
+//                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+//                }
+//                else
+//                {
+//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@",[taskInfo objectForKey:@"title"]]
+//                                                                    message:nil
+//                                                                   delegate:self
+//                                                          cancelButtonTitle:@"取消"
+//                                                          otherButtonTitles:nil];
+//                    [alert show];
+//                }
             }
             break;
         case 3://通知

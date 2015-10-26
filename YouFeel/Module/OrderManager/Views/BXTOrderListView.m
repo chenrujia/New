@@ -77,7 +77,6 @@
 - (void)loadNewData
 {
     if (_isRequesting) return;
-    [repairListArray removeAllObjects];
     refreshType = Down;
     currentPage = 1;
     /**获取报修列表**/
@@ -282,6 +281,7 @@
         }
         if (refreshType == Down)
         {
+            [repairListArray removeAllObjects];
             [repairListArray addObjectsFromArray:tempArray];
         }
         else if (refreshType == Up)

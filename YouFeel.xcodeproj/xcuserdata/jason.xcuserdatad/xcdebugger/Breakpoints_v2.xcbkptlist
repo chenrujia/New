@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YouFeel/Module/RepairDetail/Controllers/BXTRepairDetailViewController.m"
-            timestampString = "467366692.021726"
+            filePath = "YouFeel/Module/Login/Controllers/BXTLoginViewController.m"
+            timestampString = "467368849.184533"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
+            landmarkName = "-requestResponseData:requeseType:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

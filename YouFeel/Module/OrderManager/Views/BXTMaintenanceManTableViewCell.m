@@ -20,7 +20,7 @@
         lineView.backgroundColor = colorWithHexString(@"dee3e5");
         [self addSubview:lineView];
         
-        _repairID = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 160.f, 20)];
+        _repairID = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 180.f, 20)];
         _repairID.textColor = colorWithHexString(@"000000");
         _repairID.font = [UIFont boldSystemFontOfSize:17.f];
         [self addSubview:_repairID];

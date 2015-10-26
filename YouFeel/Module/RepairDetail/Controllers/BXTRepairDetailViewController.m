@@ -290,11 +290,14 @@
         if (imgArray.count > 0)
         {
             NSInteger i = 0;
+            UIScrollView *imagesScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, ImageHeight)];
+            imagesScrollView.contentSize = CGSizeMake((ImageWidth + 25) * imgArray.count + 25.f, ImageHeight);
+            [imagesScrollView setShowsHorizontalScrollIndicator:NO];
             for (NSDictionary *dictionary in imgArray)
             {
                 if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
                 {
-                    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(25.f * (i + 1) + ImageWidth * i, CGRectGetMaxY(notes.frame) + 20.f, ImageWidth, ImageHeight)];
+                    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(25.f * (i + 1) + ImageWidth * i, 0, ImageWidth, ImageHeight)];
                     imgView.userInteractionEnabled = YES;
                     imgView.layer.masksToBounds = YES;
                     imgView.contentMode = UIViewContentModeScaleAspectFill;
@@ -302,10 +305,11 @@
                     imgView.tag = i;
                     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
                     [imgView addGestureRecognizer:tapGR];
-                    [scrollView addSubview:imgView];
+                    [imagesScrollView addSubview:imgView];
                     i++;
                 }
             }
+            [scrollView addSubview:imagesScrollView];
             
             BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH, 90.f) withRepairState:repairDetail.repairstate];
             [scrollView addSubview:drawView];

@@ -304,7 +304,7 @@
     [self getRequest:url];
 }
 
-- (void)maintenanceState:(NSString *)repairID andReaciveTime:(NSString *)reaciveTime andFinishTime:(NSString *)finishTime andMaintenanceState:(NSString *)state andFaultType:(NSString *)faultType andManHours:(NSString *)hours
+- (void)maintenanceState:(NSString *)repairID andReaciveTime:(NSString *)reaciveTime andFinishTime:(NSString *)finishTime andMaintenanceState:(NSString *)state andFaultType:(NSString *)faultType andManHours:(NSString *)hours andImages:(NSArray *)images
 {
     self.requestType = MaintenanceProcess;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
@@ -315,7 +315,7 @@
                           @"id":repairID,
                           @"man_hours":hours};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_processed",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
+    [self uploadImageRequest:url withParameters:dic withImages:images];
 }
 
 - (void)maintenanceManList:(NSString *)groupID
