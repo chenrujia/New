@@ -7,8 +7,9 @@
 //
 
 #import "BXTBaseViewController.h"
+#import <RongIMKit/RongIMKit.h>
 
-@interface BXTHomeViewController : BXTBaseViewController <UICollectionViewDataSource,UICollectionViewDelegate>
+@interface BXTHomeViewController : BXTBaseViewController <UICollectionViewDataSource,UICollectionViewDelegate,RCIMUserInfoDataSource>
 {
     UICollectionView *itemsCollectionView;
     NSMutableArray *imgNameArray;

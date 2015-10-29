@@ -36,6 +36,7 @@
 #define U_GROUPINGINFO @"groupingInfo"
 #define U_HEADERIMAGE  @"headerImage"
 #define U_MYSHOP       @"my_shop"
+#define U_IMTOKEN      @"im_token"
 
 @interface BXTUserInfo : NSObject
 
@@ -59,5 +60,6 @@
 @property (nonatomic ,strong) NSString            *mobileNumber;
 @property (nonatomic ,strong) NSString            *headerImage;
 @property (nonatomic ,strong) NSArray             *my_shop;
+@property (nonatomic ,strong) NSString            *im_token;
 
 @end

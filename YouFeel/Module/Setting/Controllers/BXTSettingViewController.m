@@ -160,6 +160,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 
 - (void)quitOutClick
 {
+    [[RCIM sharedRCIM] disconnect];
     BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
     navigation.navigationBar.hidden = YES;

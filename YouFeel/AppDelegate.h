@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "BXTDataRequest.h"
 #import "GeTuiSdk.h"
+#import <RongIMLib/RongIMLib.h>
+#import <RongIMKit/RongIMKit.h>
 
 #define kAppId           @"Et6F23PyhQ8gisEobno7u2"
 #define kAppKey          @"wSY82iAJR77E8eTlTGxWx1"
 #define kAppSecret       @"XfCZ5grnZmAN0jOd9rBWM2"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,GeTuiSdkDelegate,BXTDataResponseDelegate,UIAlertViewDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,GeTuiSdkDelegate,BXTDataResponseDelegate,UIAlertViewDelegate,RCIMConnectionStatusDelegate>
 {
     NSString *_deviceToken;
 }

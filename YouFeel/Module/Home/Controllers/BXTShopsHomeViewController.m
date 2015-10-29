@@ -19,6 +19,7 @@
 #import "BXTCustomerServiceViewController.h"
 #import "BXTAboutUsViewController.h"
 #import "BXTAchievementsViewController.h"
+#import "BXTChatListViewController.h"
 
 @interface BXTShopsHomeViewController ()
 
@@ -102,7 +103,8 @@
             break;
         case 5:
         {
-            [self showMBP:@"功能努力开发中" withBlock:nil];
+            BXTChatListViewController *chatListViewController = [[BXTChatListViewController alloc]init];
+            [self.navigationController pushViewController:chatListViewController animated:YES];
             break;
         }
         case 6:

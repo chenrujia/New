@@ -21,6 +21,8 @@ NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
 NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
+#define RONGCLOUD_IM_APPKEY @"3argexb6rvfoe"
+
 @interface AppDelegate ()
 
 @end
@@ -39,6 +41,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     UIViewController* myvc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = myvc;
     
+    //初始化融云SDK
+    [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
     //自动键盘
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;
@@ -78,6 +82,20 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 //        #warning 记得改。。。
 //        [[BXTGlobal shareGlobal].orderIDs addObject:payloadMsg];
 //    }
+    
+    //统一导航条样式
+    UIFont *font = [UIFont systemFontOfSize:19.f];
+    NSDictionary *textAttributes = @{
+                                     NSFontAttributeName : font,
+                                     NSForegroundColorAttributeName : [UIColor whiteColor]
+                                     };
+    [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance]
+     setBarTintColor:colorWithHexString(@"0195ff")];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMessageNotification:) name:RCKitDispatchMessageNotification object:nil];
+    [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
     
     return YES;
 }
@@ -164,6 +182,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     LogRed(@"deviceToken:%@",_deviceToken);
 
     [GeTuiSdk registerDeviceToken:_deviceToken];
+    [[RCIMClient sharedRCIMClient] setDeviceToken:_deviceToken];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
@@ -397,6 +416,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"gender"] withKey:U_SEX];
         [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"name"] withKey:U_NAME];
         [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"pic"] withKey:U_HEADERIMAGE];
+        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"im_token"] withKey:U_IMTOKEN];
         
         NSArray *shopids = [userInfoDic objectForKey:@"shop_ids"];
         [BXTGlobal setUserProperty:shopids withKey:U_SHOPIDS];
@@ -412,7 +432,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
+            NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
             
             NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
@@ -502,6 +522,30 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 {
     [GeTuiSdk resume];  // 恢复个推SDK运行
     completionHandler(UIBackgroundFetchResultNewData);
+}
+
+/**
+ *  网络状态变化。
+ *
+ *  @param status 网络状态。
+ */
+- (void)onRCIMConnectionStatusChanged:(RCConnectionStatus)status
+{
+    if (status == ConnectionStatus_KICKED_OFFLINE_BY_OTHER_CLIENT)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您的帐号在别的设备上登录，您被迫下线！" delegate:nil
+                              cancelButtonTitle:@"知道了"
+                              otherButtonTitles:nil, nil];
+        [alert show];
+        BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+        UINavigationController *_navi = [[UINavigationController alloc] initWithRootViewController:loginVC];
+        self.window.rootViewController = _navi;
+    }
+}
+
+- (void)didReceiveMessageNotification:(NSNotification *)notification
+{
+    [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

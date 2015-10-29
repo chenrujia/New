@@ -57,7 +57,7 @@
 - (void)navigationRightButton
 {
     [BXTGlobal setUserProperty:headquarters withKey:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",headquarters.company_id];
+    NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",headquarters.company_id];
     [BXTGlobal shareGlobal].baseURL = url;
     
     NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
