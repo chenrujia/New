@@ -11,7 +11,10 @@
 @interface BXTHomeCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic ,strong) UIImageView *iconImgView;
-@property (nonatomic ,strong) UIImage *iconImage;
-@property (nonatomic ,strong) UILabel *namelabel;
+@property (nonatomic ,strong) UIImage     *iconImage;
+@property (nonatomic ,strong) UILabel     *namelabel;
+@property (strong, nonatomic) UILabel     *redLabel;
+
+- (void)newsRedNumber:(NSInteger)number;
 
 @end

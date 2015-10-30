@@ -12,6 +12,9 @@
 #include <math.h>
 #import "BXTHeaderForVC.h"
 #import "BXTHeadquartersInfo.h"
+#import "BXTRepairHomeViewController.h"
+#import "BXTShopsHomeViewController.h"
+#import "AppDelegate.h"
 
 #define NavBarHeight 120.f
 
@@ -178,7 +181,7 @@
     companyInfo.company_id = [companyDic objectForKey:@"id"];
     companyInfo.name = [companyDic objectForKey:@"shop_name"];
     [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",[companyDic objectForKey:@"id"]];
+    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",[companyDic objectForKey:@"id"]];
     [BXTGlobal shareGlobal].baseURL = url;
     /**请求分店位置**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -435,7 +438,19 @@
             [BXTGlobal setUserProperty:[userInfo objectForKey:@"role_con"] withKey:U_ROLEARRAY];
             [BXTGlobal setUserProperty:[userInfo objectForKey:@"mobile"] withKey:U_MOBILE];
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            UINavigationController *nav;
+            if ([[userInfo objectForKey:@"is_repair"] integerValue] == 1)
+            {
+                BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] initWithIsRepair:NO];
+                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+            }
+            else if ([[userInfo objectForKey:@"is_repair"] integerValue] == 2)
+            {
+                BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] initWithIsRepair:YES];
+                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+            }
+            nav.navigationBar.hidden = YES;
+            [AppDelegate appdelegete].window.rootViewController = nav;
         }
     }
     else if (type == LocationShop)

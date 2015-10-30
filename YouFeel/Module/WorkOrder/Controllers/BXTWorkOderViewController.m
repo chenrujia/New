@@ -30,7 +30,6 @@
     NSMutableArray *fau_dataSource;
     NSString *cause;
     NSString *notes;
-    BOOL isPublic;
     NSInteger indexRow;
     BXTFaultInfo *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
@@ -104,8 +103,6 @@
 
 - (void)publicRepair:(NSNotification *)notification
 {
-    BOOL is_public = [notification.object boolValue];
-    isPublic = is_public;
     [currentTableView reloadData];
 }
 
@@ -177,11 +174,10 @@
     BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     
-    if (isPublic)
-    {
-        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:_publicFloor.area_id areaInfoId:_publicArea.place_id shopInfoID:@"" equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
-    }
-    else
+    
+//    [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:_publicFloor.area_id areaInfoId:_publicArea.place_id shopInfoID:@"" equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
+    
+    if ([departmentInfo.dep_id integerValue] == 2)
     {
         BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
         BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
@@ -300,7 +296,7 @@
 
 - (void)selectImages
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:7 + indexRow];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:6 + indexRow];
     BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[currentTableView cellForRowAtIndexPath:indexPath];
     if (selectPhotos.count == 1)
     {
@@ -362,11 +358,7 @@
 //section底部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 3)
-    {
-        return 30.f;
-    }
-    if (section == 7 + indexRow)
+    if (section == 6 + indexRow)
     {
         return 80.f;
     }
@@ -376,17 +368,7 @@
 //section底部视图
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 3)
-    {
-        UIView * allLoadView = [[UIView alloc] initWithFrame:CGRectMake(0., 0., SCREEN_WIDTH, 25.)];
-        UILabel * allLoadLabel = [[UILabel alloc] initWithFrame:CGRectMake(0., 5., SCREEN_WIDTH, 20.)];
-        allLoadLabel.font = [UIFont systemFontOfSize:12.];
-        allLoadLabel.text = @"打开此开关为公共区域设施报修\t";
-        allLoadLabel.textAlignment = NSTextAlignmentRight;
-        [allLoadView addSubview:allLoadLabel];
-        return allLoadView;
-    }
-    if (section == 7 + indexRow)
+    if (section == 6 + indexRow)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -413,7 +395,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 7 + indexRow)
+    if (indexPath.section == 6 + indexRow)
     {
         return 170;
     }
@@ -422,7 +404,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 8 + indexRow;
+    return 7 + indexRow;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -432,7 +414,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 7 + indexRow)
+    if (indexPath.section == 6 + indexRow)
     {
         BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarkCell"];
         if (!cell)
@@ -502,56 +484,34 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 3)
-        {
-            cell.titleLabel.text = @"公区报修";
-            cell.titleLabel.frame = CGRectMake(15., 10., 80.f, 30);
-            cell.switchbtn.hidden = NO;
-            cell.switchbtn.on = isPublic;
-        }
-        else if (indexPath.section == 4 && indexRow == 1)
+        else if (indexPath.section == 3 && indexRow == 1)
         {
             cell.titleLabel.text = @"商   铺";
-            if (isPublic)
+            BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
+            BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
+            if (floorInfo)
             {
-                if (_publicFloor && _publicArea)
+                id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+                if ([shopInfo isKindOfClass:[NSString class]])
                 {
-                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",_publicFloor.area_name,_publicArea.place_name];
+                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,shopInfo];
                 }
                 else
                 {
-                    cell.detailLable.text = @"请选择您要报修的具体位置";
+                    BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
+                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,tempShop.stores_name];
                 }
             }
             else
             {
-                BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
-                BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
-                if (floorInfo)
-                {
-                    
-                    id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-                    if ([shopInfo isKindOfClass:[NSString class]])
-                    {
-                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,shopInfo];
-                    }
-                    else
-                    {
-                        BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
-                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,tempShop.stores_name];
-                    }
-                }
-                else
-                {
-                    cell.detailLable.text = @"请选择您商铺所在具体位置";
-                }
+                cell.detailLable.text = @"请选择您商铺所在具体位置";
             }
             
             cell.checkImgView.hidden = NO;
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 4 + indexRow)
+        else if (indexPath.section == 3 + indexRow)
         {
             cell.titleLabel.text = @"故   障";
             if (!selectFaultInfo)
@@ -566,7 +526,7 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 5 + indexRow)
+        else if (indexPath.section == 4 + indexRow)
         {
             cell.titleLabel.text = @"描   述";
             cell.detailLable.hidden = YES;
@@ -599,16 +559,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4 && indexRow == 1)
+    if (indexPath.section == 3 && indexRow == 1)
     {
-        if (isPublic)
-        {
-            __weak BXTWorkOderViewController *weakSelf = self;
-            BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithPublic:isPublic changeArea:^(BXTFloorInfo *floorInfo, BXTAreaInfo *areaInfo) {
-                [weakSelf selectFloorInfo:floorInfo areaInfo:areaInfo];
-            }];
-            [self.navigationController pushViewController:shopLocationVC animated:YES];
-        }
+        __weak BXTWorkOderViewController *weakSelf = self;
+        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithPublic:NO changeArea:^(BXTFloorInfo *floorInfo, BXTAreaInfo *areaInfo) {
+            [weakSelf selectFloorInfo:floorInfo areaInfo:areaInfo];
+        }];
+        [self.navigationController pushViewController:shopLocationVC animated:YES];
     }
     if (indexPath.section == 4 && indexRow == 0)
     {
@@ -675,7 +632,7 @@
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
     selectPhotos = photos;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:7 + indexRow];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:6 + indexRow];
     BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[currentTableView cellForRowAtIndexPath:indexPath];
     if (photos.count == 1)
     {

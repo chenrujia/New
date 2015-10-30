@@ -11,7 +11,6 @@
 #import "NSString+URL.h"
 #import "BXTLoginViewController.h"
 #import "UINavigationController+YRBackGesture.h"
-#import "IQKeyboardManager.h"
 #import "BXTShopsHomeViewController.h"
 #import "BXTRepairHomeViewController.h"
 #import "BXTGrabOrderViewController.h"
@@ -44,11 +43,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //初始化融云SDK
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
     //自动键盘
-    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
-    manager.enable = YES;
-    manager.shouldResignOnTouchOutside = YES;
-    manager.shouldToolbarUsesTextFieldTintColor = YES;
-    manager.enableAutoToolbar = YES;
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     //默认自动登录
     if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [BXTGlobal getUserProperty:U_CLIENTID])
     {
@@ -92,10 +87,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance]
-     setBarTintColor:colorWithHexString(@"0195ff")];
+     setBarTintColor:colorWithHexString(@"042a5f")];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMessageNotification:) name:RCKitDispatchMessageNotification object:nil];
+    //设置会话列表头像和会话界面头像
     [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
+    //设置接收消息代理
+    [RCIM sharedRCIM].receiveMessageDelegate=self;
     
     return YES;
 }
@@ -356,6 +354,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             break;
     }
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewsComing" object:@"1"];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     LogRed(@"task id : %@",taskId);
@@ -432,7 +431,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
+            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
             
             NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
@@ -546,6 +545,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)didReceiveMessageNotification:(NSNotification *)notification
 {
     [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
+}
+
+- (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left
+{
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NewsComing" object:@"2"];
+    });
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

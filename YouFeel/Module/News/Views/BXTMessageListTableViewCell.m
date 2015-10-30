@@ -35,7 +35,7 @@
             label.textColor = [UIColor whiteColor];
             label.backgroundColor = colorWithHexString(@"fd453e");
             label.layer.borderColor = [UIColor whiteColor].CGColor;
-            label.layer.borderWidth = 1.f;
+            label.layer.borderWidth = 2.f;
             [self addSubview:label];
             label;
         

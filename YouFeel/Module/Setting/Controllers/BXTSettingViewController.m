@@ -32,6 +32,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     NSString *checks_user;
     NSString *checks_user_department;
     BOOL isRepair;
+    NSDictionary *checkUserDic;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -61,6 +62,14 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     //获取用户信息
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request userInfo];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 #pragma mark -
@@ -161,6 +170,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)quitOutClick
 {
     [[RCIM sharedRCIM] disconnect];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
     navigation.navigationBar.hidden = YES;
@@ -202,6 +212,47 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
     }
     [self.view.window.rootViewController presentViewController:imagePickerController animated:YES completion:nil];
+}
+
+- (void)contactTa
+{
+    RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+    userInfo.userId = [checkUserDic objectForKey:@"checks_id"];
+    userInfo.name = [checkUserDic objectForKey:@"checks_user"];
+    userInfo.portraitUri = [checkUserDic objectForKey:@"checks_pic"];
+    
+    NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (usersArray)
+    {
+        NSArray *arrResult = [usersArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.userId = %@",userInfo.userId]];
+        if (arrResult.count)
+        {
+            RCUserInfo *temp_userInfo = arrResult[0];
+            NSInteger index = [usersArray indexOfObject:temp_userInfo];
+            [usersArray replaceObjectAtIndex:index withObject:temp_userInfo];
+        }
+        else
+        {
+            [usersArray addObject:userInfo];
+        }
+    }
+    else
+    {
+        NSMutableArray *array = [NSMutableArray array];
+        [array addObject:userInfo];
+        [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
+    
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.targetId = userInfo.userId;
+    conversationVC.userName = userInfo.name;
+    conversationVC.title = userInfo.name;
+    [self.navigationController pushViewController:conversationVC animated:YES];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 #pragma mark -
@@ -337,6 +388,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.auditNameLabel.text = checks_user;
             cell.positionLabel.text = checks_user_department;
+            [cell.contactBtn addTarget:self action:@selector(contactTa) forControlEvents:UIControlEventTouchUpInside];
         }
         
         return cell;
@@ -531,6 +583,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
+    LogBlue(@"%@",dic);
     if (type == UploadHeadImage && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [BXTGlobal setUserProperty:[dic objectForKey:@"pic"] withKey:U_HEADERIMAGE];
@@ -542,9 +595,9 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         {
             NSDictionary *dictionay = array[0];
             verify_state = [dictionay objectForKey:@"verify_state"];
-            NSDictionary *stores_check_dic = [dictionay objectForKey:@"stores_checks"];
-            checks_user = [stores_check_dic objectForKey:@"checks_user"];
-            checks_user_department = [stores_check_dic objectForKey:@"checks_user_department"];
+            checkUserDic = [dictionay objectForKey:@"stores_checks"];
+            checks_user = [checkUserDic objectForKey:@"checks_user"];
+            checks_user_department = [checkUserDic objectForKey:@"checks_user_department"];
         }
     }
     [currentTableView reloadData];

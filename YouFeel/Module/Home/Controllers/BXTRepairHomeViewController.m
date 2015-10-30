@@ -123,7 +123,7 @@
             break;
         case 4:
         {
-            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] init];
+            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
             [self.navigationController pushViewController:messageVC animated:YES];
         }
             break;

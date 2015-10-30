@@ -37,6 +37,7 @@
 #define U_HEADERIMAGE  @"headerImage"
 #define U_MYSHOP       @"my_shop"
 #define U_IMTOKEN      @"im_token"
+#define U_USERSARRAY   @"usersArray"
 
 @interface BXTUserInfo : NSObject
 
@@ -61,5 +62,6 @@
 @property (nonatomic ,strong) NSString            *headerImage;
 @property (nonatomic ,strong) NSArray             *my_shop;
 @property (nonatomic ,strong) NSString            *im_token;
+@property (nonatomic ,strong) NSMutableArray      *usersArray;
 
 @end

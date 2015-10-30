@@ -168,11 +168,12 @@
         /**请求维修员列表**/
         [self showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSMutableArray *selectManIDs = [NSMutableArray array];
+        NSMutableArray *selectManIDs = [NSMutableArray arrayWithObjects:[BXTGlobal getUserProperty:U_BRANCHUSERID], nil];
         for (BXTAddOtherManInfo *otherManInfo in selectMans)
         {
             [selectManIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherManInfo.manID]];
         }
+        
         [request dispatchingMan:[NSString stringWithFormat:@"%ld",(long)repairID] andMans:selectManIDs];
     }
     else

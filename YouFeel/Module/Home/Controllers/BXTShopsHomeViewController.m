@@ -97,7 +97,7 @@
             break;
         case 4:
         {
-            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] init];
+            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
             [self.navigationController pushViewController:messageVC animated:YES];
         }
             break;
@@ -105,6 +105,7 @@
         {
             BXTChatListViewController *chatListViewController = [[BXTChatListViewController alloc]init];
             [self.navigationController pushViewController:chatListViewController animated:YES];
+            self.navigationController.navigationBar.hidden = NO;
             break;
         }
         case 6:

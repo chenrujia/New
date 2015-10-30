@@ -30,7 +30,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     UploadHeadImage,
     UserInfo,
     LocationShop,
-    UpdateTime
+    UpdateTime,
+    UserInfoForChatList
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -209,5 +210,10 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  关于我们
  */
 - (void)aboutUs;
+
+/**
+ *  会话列表用户信息
+ */
+- (void)userInfoForChatListWithID:(NSString *)userID;
 
 @end

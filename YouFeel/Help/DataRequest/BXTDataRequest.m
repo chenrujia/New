@@ -423,6 +423,14 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)userInfoForChatListWithID:(NSString *)userID
+{
+    self.requestType = UserInfoForChatList;
+    NSDictionary *dic = @{@"user_id":userID};
+    NSString *url = [NSString stringWithFormat:@"%@/module/Account/opt/account_con",KURLREQUEST];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url withParameters:(NSDictionary *)parameters
 {
     LogRed(@"url......%@",url);

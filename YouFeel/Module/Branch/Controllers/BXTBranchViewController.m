@@ -10,6 +10,9 @@
 #import "BXTAuthenticationViewController.h"
 #import "BXTShopsTableViewCell.h"
 #import "BXTHeaderForVC.h"
+#import "BXTRepairHomeViewController.h"
+#import "BXTShopsHomeViewController.h"
+#import "AppDelegate.h"
 
 @interface BXTBranchViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
@@ -57,7 +60,7 @@
 - (void)navigationRightButton
 {
     [BXTGlobal setUserProperty:headquarters withKey:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",headquarters.company_id];
+    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",headquarters.company_id];
     [BXTGlobal shareGlobal].baseURL = url;
     
     NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
@@ -164,7 +167,19 @@
             [BXTGlobal setUserProperty:[userInfo objectForKey:@"role_con"] withKey:U_ROLEARRAY];
             [BXTGlobal setUserProperty:[userInfo objectForKey:@"mobile"] withKey:U_MOBILE];
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            UINavigationController *nav;
+            if ([[userInfo objectForKey:@"is_repair"] integerValue] == 1)
+            {
+                BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] initWithIsRepair:NO];
+                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+            }
+            else if ([[userInfo objectForKey:@"is_repair"] integerValue] == 2)
+            {
+                BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] initWithIsRepair:YES];
+                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+            }
+            nav.navigationBar.hidden = YES;
+            [AppDelegate appdelegete].window.rootViewController = nav;
         }
     }
     else

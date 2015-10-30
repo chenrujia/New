@@ -8,6 +8,7 @@
 
 #import "BXTBaseViewController.h"
 #import "BXTRepairInfo.h"
+#import <RongIMKit/RongIMKit.h>
 
 @interface BXTOrderDetailViewController : BXTBaseViewController
 

@@ -8,7 +8,6 @@
 
 #import "BXTChatListViewController.h"
 #import "BXTHeaderForVC.h"
-#import "IQKeyboardManager.h"
 
 @interface BXTChatListViewController ()
 
@@ -20,50 +19,27 @@
 {
     [super viewDidLoad];
     
-    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
-    manager.enable = NO;
-    manager.shouldResignOnTouchOutside = NO;
-    manager.shouldToolbarUsesTextFieldTintColor = NO;
-    manager.enableAutoToolbar = NO;
-    
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
     [self setDisplayConversationTypes:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION)]];
     
     self.title = @"会话";
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"  返回" style:UIBarButtonItemStylePlain target:self action:@selector(navigationLeftButton)];
     self.navigationItem.leftBarButtonItem = leftItem;
-    
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"其他  " style:UIBarButtonItemStylePlain target:self action:@selector(navigationRightButton)];
-    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)navigationLeftButton
 {
-    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
-    manager.enable = YES;
-    manager.shouldResignOnTouchOutside = YES;
-    manager.shouldToolbarUsesTextFieldTintColor = YES;
-    manager.enableAutoToolbar = YES;
-    
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     self.navigationController.navigationBar.hidden = YES;
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)navigationRightButton
-{
-    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
-    conversationVC.conversationType =ConversationType_PRIVATE;
-    conversationVC.targetId = @"27"; //这里模拟自己给自己发消息，您可以替换成其他登录的用户的UserId
-    conversationVC.userName = @"测试2";
-    conversationVC.title = @"自问自答";
-    [self.navigationController pushViewController:conversationVC animated:YES];
 }
 
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType conversationModel:(RCConversationModel *)model atIndexPath:(NSIndexPath *)indexPath
 {
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
-    conversationVC.conversationType =model.conversationType;
+    conversationVC.conversationType = model.conversationType;
     conversationVC.targetId = model.targetId;
-    conversationVC.userName =model.conversationTitle;
+    conversationVC.userName = model.conversationTitle;
     conversationVC.title = model.conversationTitle;
     [self.navigationController pushViewController:conversationVC animated:YES];
 }

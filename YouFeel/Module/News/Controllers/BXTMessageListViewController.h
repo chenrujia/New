@@ -10,4 +10,6 @@
 
 @interface BXTMessageListViewController : BXTBaseViewController
 
+- (instancetype)initWithDataSourch:(NSMutableArray *)data;
+
 @end

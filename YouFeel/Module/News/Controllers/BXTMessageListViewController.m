@@ -10,18 +10,29 @@
 #import "BXTMessageListTableViewCell.h"
 #import "BXTHeaderForVC.h"
 #import "BXTNewsViewController.h"
-#import "BXTDataRequest.h"
 
-@interface BXTMessageListViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
+@interface BXTMessageListViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *currentTable;
-    NSMutableArray *datasource;
     NSArray *imageArray;
     NSArray *newsType;
 }
+
+@property (nonatomic ,strong) NSMutableArray *datasource;
+
 @end
 
 @implementation BXTMessageListViewController
+
+- (instancetype)initWithDataSourch:(NSMutableArray *)data
+{
+    self = [super init];
+    if (self)
+    {
+        self.datasource = data;
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -29,11 +40,8 @@
     [self navigationSetting:@"消息" andRightTitle:nil andRightImage:nil];
     [self createTableView];
     
-    datasource = [NSMutableArray array];
     imageArray = @[@"MessageIcon",@"TicketIcon",@"NotificationIcon",@"WarningIcon"];
     newsType = @[@"系统消息",@"工单消息",@"通知",@"预警"];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request messageList];
 }
 
 #pragma mark -
@@ -105,9 +113,9 @@
     BXTMessageListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if (datasource.count)
+    if (_datasource.count)
     {
-        NSDictionary *dic = datasource[indexPath.section];
+        NSDictionary *dic = _datasource[indexPath.section];
         [cell newsRedNumber:[[dic objectForKey:@"unread_num"] integerValue]];
         cell.titleLabel.text = [dic objectForKey:@"type_name"];
         cell.detailLabel.text = [dic objectForKey:@"last_title"];
@@ -143,23 +151,6 @@
         default:
             break;
     }
-}
-
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
-{
-    NSDictionary *dic = response;
-    LogRed(@"%@",dic);
-    NSArray *array = [dic objectForKey:@"data"];
-    if (array.count)
-    {
-        [datasource addObjectsFromArray:array];
-        [currentTable reloadData];
-    }
-}
-
-- (void)requestError:(NSError *)error
-{
-    
 }
 
 - (void)didReceiveMemoryWarning

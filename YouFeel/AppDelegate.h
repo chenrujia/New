@@ -16,7 +16,7 @@
 #define kAppKey          @"wSY82iAJR77E8eTlTGxWx1"
 #define kAppSecret       @"XfCZ5grnZmAN0jOd9rBWM2"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,GeTuiSdkDelegate,BXTDataResponseDelegate,UIAlertViewDelegate,RCIMConnectionStatusDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,GeTuiSdkDelegate,BXTDataResponseDelegate,UIAlertViewDelegate,RCIMConnectionStatusDelegate,RCIMReceiveMessageDelegate>
 {
     NSString *_deviceToken;
 }

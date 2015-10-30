@@ -19,9 +19,12 @@
     
     if([object validateValue:&value forKey:attributeName error:nil]){
         
-        if(([value isKindOfClass:[NSNull class]] || value == nil) && attributeClass == [NSString class]){
+        if(([value isKindOfClass:[NSNull class]] || value == nil) && attributeClass == [NSString class])
+        {
             [object setValue:nil forKey:attributeName];
-        }else {
+        }
+        else
+        {
             @try {
                 [object setValue:value forKey:attributeName];
             }

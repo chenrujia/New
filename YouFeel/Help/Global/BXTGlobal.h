@@ -36,6 +36,8 @@
  */
 + (BOOL)validateMobile:(NSString *)mobile;
 
+- (void)enableForIQKeyBoard:(BOOL)enable;
+
 /**
  *  转换十六进制颜色
  */

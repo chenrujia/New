@@ -12,22 +12,44 @@
 #import "BXTHeaderFile.h"
 #import "BXTGroupInfo.h"
 #include <math.h>
+#import "BXTDataRequest.h"
 #import "BXTHeadquartersViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
 
-@interface BXTHomeViewController ()
-
+@interface BXTHomeViewController ()<BXTDataResponseDelegate>
+{
+    NSInteger      unreadNumber;
+    NSMutableArray *usersArray;
+}
 @end
 
 @implementation BXTHomeViewController
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newsComing:) name:@"NewsComing" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(haveConnact) name:@"HaveConnact" object:nil];
     [self createLogoView];
     [self loginRongCloud];
+    datasource = [NSMutableArray array];
+    
+    [self haveConnact];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request messageList];
 }
 
 #pragma mark -
@@ -119,6 +141,33 @@
     
 }
 
+- (void)newsComing:(NSNotification *)notification
+{
+    NSString *str = notification.object;
+    if ([str isEqualToString:@"1"])
+    {
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request messageList];
+    }
+    else if ([str isEqualToString:@"2"])
+    {
+        [itemsCollectionView reloadData];
+    }
+}
+
+- (void)haveConnact
+{
+    NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (users)
+    {
+        usersArray = [NSMutableArray arrayWithArray:users];
+    }
+    else
+    {
+        usersArray = [NSMutableArray array];
+    }
+}
+
 #pragma mark -
 #pragma mark 代理
 /**
@@ -142,6 +191,18 @@
     UIImage *image = [UIImage imageNamed:imgNameArray[indexPath.row]];
     cell.namelabel.text = titleNameArray[indexPath.row];
     cell.iconImage = image;
+    if (indexPath.row == 4)
+    {
+        [cell newsRedNumber:unreadNumber];
+    }
+    else if (indexPath.row == 5)
+    {
+        [cell newsRedNumber:[[RCIMClient sharedRCIMClient] getTotalUnreadCount]];
+    }
+    else
+    {
+        [cell newsRedNumber:0];
+    }
     
     return cell;
 }
@@ -171,23 +232,62 @@
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void(^)(RCUserInfo* userInfo))completion
 {
     //此处为了演示写了一个用户信息
-    if ([@"10" isEqual:userId])
+    if ([[BXTGlobal getUserProperty:U_USERID] isEqual:userId])
     {
         RCUserInfo *user = [[RCUserInfo alloc]init];
-        user.userId = @"1";
-        user.name = @"测试1";
-        user.portraitUri = @"https://ss0.baidu.com/73t1bjeh1BF3odCf/it/u=1756054607,4047938258&fm=96&s=94D712D20AA1875519EB37BE0300C008";
+        user.userId = [BXTGlobal getUserProperty:U_USERID];
+        user.name = [BXTGlobal getUserProperty:U_NAME];
+        user.portraitUri = [BXTGlobal getUserProperty:U_HEADERIMAGE];
         
         return completion(user);
     }
-    else if([@"2" isEqual:userId])
+    else
     {
-        RCUserInfo *user = [[RCUserInfo alloc]init];
-        user.userId = @"2";
-        user.name = @"测试2";
-        user.portraitUri = @"https://ss0.baidu.com/73t1bjeh1BF3odCf/it/u=1756054607,4047938258&fm=96&s=94D712D20AA1875519EB37BE0300C008";
-        return completion(user);
+        for (RCUserInfo *userInfo in usersArray)
+        {
+            if ([userInfo.userId isEqual:userId])
+            {
+                return completion(userInfo);
+            }
+        }
+        
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request userInfoForChatListWithID:userId];
+        
+        return completion(nil);
     }
+}
+
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    NSDictionary *dic = response;
+    LogRed(@"%@",dic);
+    [datasource removeAllObjects];
+    NSArray *array = [dic objectForKey:@"data"];
+    if (type == UserInfoForChatList)
+    {
+        NSDictionary *dictionary = array[0];
+        RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+        userInfo.userId = [dictionary objectForKey:@"user_id"];
+        userInfo.name = [dictionary objectForKey:@"name"];
+        userInfo.portraitUri = [dictionary objectForKey:@"pic"];
+        [usersArray addObject:userInfo];
+        [BXTGlobal setUserProperty:usersArray withKey:U_USERSARRAY];
+    }
+    else
+    {
+        unreadNumber = [[dic objectForKey:@"unread_number"] integerValue];
+        if (array.count)
+        {
+            [datasource addObjectsFromArray:array];
+        }
+        [itemsCollectionView reloadData];
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    
 }
 
 - (void)didReceiveMemoryWarning

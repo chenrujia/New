@@ -8,6 +8,7 @@
 
 #import "BXTGlobal.h"
 #import "ANKeyValueTable.h"
+#import "IQKeyboardManager.h"
 
 #define USERKEY @"UserInfo"
 
@@ -61,6 +62,15 @@
     NSString *mobileRegex = @"^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\\d{8}$";
     NSPredicate *mobileTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", mobileRegex];
     return [mobileTest evaluateWithObject:mobile];
+}
+
+- (void)enableForIQKeyBoard:(BOOL)enable
+{
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = enable;
+    manager.shouldResignOnTouchOutside = enable;
+    manager.shouldToolbarUsesTextFieldTintColor = enable;
+    manager.enableAutoToolbar = enable;
 }
 
 UIColor* colorWithHexString(NSString *stringToConvert)

@@ -12,11 +12,12 @@
 @interface BXTHomeViewController : BXTBaseViewController <UICollectionViewDataSource,UICollectionViewDelegate,RCIMUserInfoDataSource>
 {
     UICollectionView *itemsCollectionView;
-    NSMutableArray *imgNameArray;
-    NSMutableArray *titleNameArray;
-    UIButton *logo_btn;
-    UIButton *shopBtn;
-    UILabel *shop_label;
+    NSMutableArray   *imgNameArray;
+    NSMutableArray   *titleNameArray;
+    UIButton         *logo_btn;
+    UIButton         *shopBtn;
+    UILabel          *shop_label;
+    NSMutableArray   *datasource;
 }
 
 @property (nonatomic ,assign) BOOL isRepair;

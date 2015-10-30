@@ -17,6 +17,9 @@
 
 #define ImageWidth 73.3f
 #define ImageHeight 73.3f
+#define ContentHeight 260.f
+#define StateViewHeight 90.f
+#define RepairHeight 95.f
 
 @interface BXTRepairDetailViewController ()<BXTDataResponseDelegate,MWPhotoBrowserDelegate>
 {
@@ -64,15 +67,12 @@
     [request repairDetail:[NSString stringWithFormat:@"%ld",(long)_repairInfo.repairID]];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
+    
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     self.navigationController.navigationBar.hidden = YES;
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
 }
 
 #pragma mark -
@@ -80,7 +80,7 @@
 - (void)createSubViews
 {
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT)];
-    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 900.f);
+    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ContentHeight);
     scrollView.backgroundColor = colorWithHexString(@"ffffff");
     [self.view addSubview:scrollView];
     
@@ -226,6 +226,48 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
+- (void)contactRepairer:(UIButton *)btn
+{
+    NSDictionary *userDic = repairDetail.repair_user_arr[btn.tag];
+    RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+    userInfo.userId = [userDic objectForKey:@"out_userid"];
+    userInfo.name = [userDic objectForKey:@"name"];
+    userInfo.portraitUri = [userDic objectForKey:@"head_pic"];
+    
+    NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (usersArray)
+    {
+        NSArray *arrResult = [usersArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.userId = %@",userInfo.userId]];
+        if (arrResult.count)
+        {
+            RCUserInfo *temp_userInfo = arrResult[0];
+            NSInteger index = [usersArray indexOfObject:temp_userInfo];
+            [usersArray replaceObjectAtIndex:index withObject:temp_userInfo];
+        }
+        else
+        {
+            [usersArray addObject:userInfo];
+        }
+    }
+    else
+    {
+        NSMutableArray *array = [NSMutableArray array];
+        [array addObject:userInfo];
+        [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
+    
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.targetId = userInfo.userId;
+    conversationVC.userName = userInfo.name;
+    conversationVC.title = userInfo.name;
+    [self.navigationController pushViewController:conversationVC animated:YES];
+    self.navigationController.navigationBar.hidden = NO;
+}
+
 #pragma mark -
 #pragma mark 代理
 /**
@@ -311,64 +353,19 @@
             }
             [scrollView addSubview:imagesScrollView];
             
-            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH, 90.f) withRepairState:repairDetail.repairstate];
+            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH, StateViewHeight) withRepairState:repairDetail.repairstate];
             [scrollView addSubview:drawView];
             arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
             
             if (repairDetail.repair_user_arr.count > 0)
             {
-                NSTimeInterval repairTime = [repairDetail.dispatching_time doubleValue];
-                NSDate *repairDate = [NSDate dateWithTimeIntervalSince1970:repairTime];
-                //实例化一个NSDateFormatter对象
-                NSDateFormatter *repairDateFormatter = [[NSDateFormatter alloc] init];
-                //设定时间格式,这里可以设置成自己需要的格式
-                [repairDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                NSString *repairDateStr = [repairDateFormatter stringFromDate:repairDate];
-                arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
-                lineView.frame = CGRectMake(15.f, CGRectGetMaxY(arrangeTime.frame) + 15.f, SCREEN_WIDTH - 30.f, 1.f);
-                maintenanceMan.frame = CGRectMake(20.f, CGRectGetMaxY(lineView.frame) + 10.f, SCREEN_WIDTH - 40.f, 40.f);
-                
-                for (NSInteger i = 0; i < repairDetail.repair_user_arr.count; i++)
-                {
-                    NSDictionary *userDic = repairDetail.repair_user_arr[i];
-                    
-                    UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(maintenanceMan.frame) + i * 95.f, SCREEN_WIDTH, 95.f)];
-                    UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
-                    [userImgView sd_setImageWithURL:[NSURL URLWithString:[userDic objectForKey:@"head_pic"]] placeholderImage:[UIImage imageNamed:@"103.jpg"]];
-                    [userBack addSubview:userImgView];
-                    
-                    UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 30.f, CGRectGetWidth(level.frame), 20)];
-                    userName.textColor = colorWithHexString(@"000000");
-                    userName.numberOfLines = 0;
-                    userName.lineBreakMode = NSLineBreakByWordWrapping;
-                    userName.font = [UIFont boldSystemFontOfSize:17.f];
-                    userName.text = [userDic objectForKey:@"name"];
-                    [userBack addSubview:userName];
-                    
-                    UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
-                    contact.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
-                    contact.layer.borderWidth = 1.f;
-                    contact.layer.cornerRadius = 6.f;
-                    [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
-                    [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
-                    [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-                    [userBack addSubview:contact];
-                    
-                    if (i != repairDetail.repair_user_arr.count -1)
-                    {
-                        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, userBack.bounds.size.height - 1.f, SCREEN_WIDTH - 30.f, 1.f)];
-                        line.backgroundColor = colorWithHexString(@"e2e6e8");
-                        [userBack addSubview:line];
-                    }
-                    
-                    [scrollView addSubview:userBack];
-                }
-                
+                [self loadingUsers];
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ContentHeight + ImageHeight + 40.f + StateViewHeight + 40.f + RepairHeight * repairDetail.repair_user_arr.count + 60.f + 200.f/3.f);
                 cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(maintenanceMan.frame) + repairDetail.repair_user_arr.count * 95.f + 20.f, SCREEN_WIDTH - 40, 50.f);
             }
             else
             {
-                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 600.f);
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ContentHeight + ImageHeight + 40.f + StateViewHeight + 40.f);
                 cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(drawView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
             }
         }
@@ -380,59 +377,13 @@
             
             if (repairDetail.repair_user_arr.count > 0)
             {
-                NSTimeInterval repairTime = [repairDetail.dispatching_time doubleValue];
-                NSDate *repairDate = [NSDate dateWithTimeIntervalSince1970:repairTime];
-                //实例化一个NSDateFormatter对象
-                NSDateFormatter *repairDateFormatter = [[NSDateFormatter alloc] init];
-                //设定时间格式,这里可以设置成自己需要的格式
-                [repairDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                NSString *repairDateStr = [repairDateFormatter stringFromDate:repairDate];
-                arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
-                lineView.frame = CGRectMake(15.f, CGRectGetMaxY(arrangeTime.frame) + 15.f, SCREEN_WIDTH - 30.f, 1.f);
-                maintenanceMan.frame = CGRectMake(20.f, CGRectGetMaxY(lineView.frame) + 10.f, SCREEN_WIDTH - 40.f, 40.f);
-                
-                for (NSInteger i = 0; i < repairDetail.repair_user_arr.count; i++)
-                {
-                    NSDictionary *userDic = repairDetail.repair_user_arr[i];
-                    
-                    UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(maintenanceMan.frame) + i * 95.f, SCREEN_WIDTH, 95.f)];
-                    UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
-                    [userImgView sd_setImageWithURL:[NSURL URLWithString:[userDic objectForKey:@"head_pic"]] placeholderImage:[UIImage imageNamed:@"103.jpg"]];
-                    [userBack addSubview:userImgView];
-
-                    
-                    UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 30.f, CGRectGetWidth(level.frame), 20)];
-                    userName.textColor = colorWithHexString(@"000000");
-                    userName.numberOfLines = 0;
-                    userName.lineBreakMode = NSLineBreakByWordWrapping;
-                    userName.font = [UIFont boldSystemFontOfSize:17.f];
-                    userName.text = [userDic objectForKey:@"name"];
-                    [userBack addSubview:userName];
-                    
-                    UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
-                    contact.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
-                    contact.layer.borderWidth = 1.f;
-                    contact.layer.cornerRadius = 6.f;
-                    [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
-                    [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
-                    [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-                    [userBack addSubview:contact];
-                    
-                    if (i != repairDetail.repair_user_arr.count -1)
-                    {
-                        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, userBack.bounds.size.height - 1.f, SCREEN_WIDTH - 30.f, 1.f)];
-                        line.backgroundColor = colorWithHexString(@"e2e6e8");
-                        [userBack addSubview:line];
-                    }
-                    
-                    [scrollView addSubview:userBack];
-                }
-                
+                [self loadingUsers];
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ContentHeight + StateViewHeight + 40.f + RepairHeight * repairDetail.repair_user_arr.count + 60.f + 200.f/3.f);
                 cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(maintenanceMan.frame) + repairDetail.repair_user_arr.count * 95.f + 20.f, SCREEN_WIDTH - 40, 50.f);
             }
             else
             {
-                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 600.f);
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ContentHeight + StateViewHeight + 40.f);
                 cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(drawView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
             }
         }
@@ -472,6 +423,58 @@
 - (void)requestError:(NSError *)error
 {
     
+}
+
+- (void)loadingUsers
+{
+    NSTimeInterval repairTime = [repairDetail.dispatching_time doubleValue];
+    NSDate *repairDate = [NSDate dateWithTimeIntervalSince1970:repairTime];
+    //实例化一个NSDateFormatter对象
+    NSDateFormatter *repairDateFormatter = [[NSDateFormatter alloc] init];
+    //设定时间格式,这里可以设置成自己需要的格式
+    [repairDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *repairDateStr = [repairDateFormatter stringFromDate:repairDate];
+    arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
+    lineView.frame = CGRectMake(15.f, CGRectGetMaxY(arrangeTime.frame) + 15.f, SCREEN_WIDTH - 30.f, 1.f);
+    maintenanceMan.frame = CGRectMake(20.f, CGRectGetMaxY(lineView.frame) + 10.f, SCREEN_WIDTH - 40.f, 40.f);
+    
+    for (NSInteger i = 0; i < repairDetail.repair_user_arr.count; i++)
+    {
+        NSDictionary *userDic = repairDetail.repair_user_arr[i];
+        
+        UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(maintenanceMan.frame) + i * 95.f, SCREEN_WIDTH, RepairHeight)];
+        UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
+        [userImgView sd_setImageWithURL:[NSURL URLWithString:[userDic objectForKey:@"head_pic"]] placeholderImage:[UIImage imageNamed:@"103.jpg"]];
+        [userBack addSubview:userImgView];
+        
+        UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 30.f, CGRectGetWidth(level.frame), 20)];
+        userName.textColor = colorWithHexString(@"000000");
+        userName.numberOfLines = 0;
+        userName.lineBreakMode = NSLineBreakByWordWrapping;
+        userName.font = [UIFont boldSystemFontOfSize:17.f];
+        userName.text = [userDic objectForKey:@"name"];
+        [userBack addSubview:userName];
+        
+        UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
+        contact.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+        contact.layer.borderWidth = 1.f;
+        contact.layer.cornerRadius = 6.f;
+        contact.tag = i;
+        [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
+        [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
+        [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+        [contact addTarget:self action:@selector(contactRepairer:) forControlEvents:UIControlEventTouchUpInside];
+        [userBack addSubview:contact];
+        
+        if (i != repairDetail.repair_user_arr.count -1)
+        {
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, userBack.bounds.size.height - 1.f, SCREEN_WIDTH - 30.f, 1.f)];
+            line.backgroundColor = colorWithHexString(@"e2e6e8");
+            [userBack addSubview:line];
+        }
+        
+        [scrollView addSubview:userBack];
+    }
 }
 
 /**

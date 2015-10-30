@@ -177,21 +177,13 @@
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
         cell.level.attributedText = attributeStr;
         
-        cell.state.text = repairInfo.receive_state;
-        cell.repairState.text = repairInfo.workprocess;
-        
+        NSArray *usersArray = repairInfo.repair_user;
+        NSString *components = [usersArray componentsJoinedByString:@","];
+        cell.state.text = components;
+        cell.repairState.text = repairInfo.receive_state;
         cell.tag = indexPath.section;
-        [cell.cancelRepair setTitle:@"联系Ta" forState:UIControlStateNormal];
-        if (repairInfo.repairstate == 1)
-        {
-            [cell.cancelRepair setTitleColor:colorWithHexString(@"e2e6e8") forState:UIControlStateNormal];
-            cell.cancelRepair.userInteractionEnabled = NO;
-        }
-        else
-        {
-            [cell.cancelRepair setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-            cell.cancelRepair.userInteractionEnabled = YES;
-        }
+        cell.cancelRepair.hidden = YES;
+        
         return cell;
     }
     else
@@ -264,6 +256,7 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
+    LogRed(@"dic......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (data.count > 0)
     {
