@@ -209,7 +209,7 @@
     
     // Configure the collection view
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flow];
-    collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+//    collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     collectionView.delegate = self;
     collectionView.dataSource = self;
     collectionView.allowsMultipleSelection = YES;

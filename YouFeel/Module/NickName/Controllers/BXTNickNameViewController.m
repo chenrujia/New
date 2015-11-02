@@ -25,6 +25,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 {
     NSString *nickName;
     NSString *sex;
+    UITableView *currentTableView;
 }
 @end
 
@@ -43,7 +44,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 #pragma mark 初始化视图
 - (void)initContentViews
 {
-    UITableView *currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
+    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     [currentTableView registerClass:[BXTResignTableViewCell class] forCellReuseIdentifier:cellIndentify];
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
@@ -69,7 +70,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 - (void)sexClick:(UIButton *)btn
 {
-    BXTResignTableViewCell *cell = (BXTResignTableViewCell *)btn.superview;
+    BXTResignTableViewCell *cell = [currentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     if (btn.tag == 11)
     {
         sex = @"1";

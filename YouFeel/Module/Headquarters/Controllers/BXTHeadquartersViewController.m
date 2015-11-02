@@ -22,6 +22,7 @@
     UISearchBar *headSearchBar;
     UITableView *currentTableView;
     BOOL isPush;
+    BOOL is_binding;
     CLLocationManager *locationManager;
 }
 @end
@@ -41,7 +42,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self locationPoint];
     
     shopsArray = [NSMutableArray array];
@@ -49,6 +49,12 @@
     /**请求分店位置**/
     BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [dep_request shopLists:nil];
+    
+    NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
+    if (my_shops.count)
+    {
+        is_binding = YES;
+    }
     
     [self navigationSetting];
     [self createTableView];
@@ -202,15 +208,22 @@
     }
     else
     {
-        NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
-        NSInteger count = ceil(my_shops.count/3.f);
-        return 40.f + 35.f + 40.f * count;
+        if (is_binding)
+        {
+            NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
+            NSInteger count = ceil(my_shops.count/3.f);
+            return 40.f + 35.f + 40.f * count;
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
+    if (is_binding && section == 0)
     {
         NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
         double number = my_shops.count/3.f;

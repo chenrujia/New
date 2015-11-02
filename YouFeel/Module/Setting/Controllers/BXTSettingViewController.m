@@ -21,6 +21,7 @@
 #import "LocalPhotoViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 #import "BXTHeadquartersInfo.h"
+#import "ANKeyValueTable.h"
 
 static NSString *settingCellIndentify = @"settingCellIndentify";
 
@@ -171,6 +172,9 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)quitOutClick
 {
     [[RCIM sharedRCIM] disconnect];
+//    ANKeyValueData *data = [[ANKeyValueTable userDefaultTable] keyValueData];
+//    [data removeAllValues];
+    [[ANKeyValueTable userDefaultTable] clear];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];

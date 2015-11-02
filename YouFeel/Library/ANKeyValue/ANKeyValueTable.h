@@ -34,6 +34,8 @@
  */
 + (id)userDefaultTable;
 
+- (ANKeyValueData *)keyValueData;
+
 #pragma mark -
 /*! @brief 表的初始化方法
  *
