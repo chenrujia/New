@@ -24,6 +24,7 @@
     NSMutableArray *selectMans;
     NSInteger      repairID;
     ControllerType vcType;
+    BOOL           isHave;
 }
 
 @property (nonatomic ,copy) ChooseMans choosedMans;
@@ -99,6 +100,10 @@
     BXTAddOtherManInfo *manInfo = dataSource[btn.tag];
     if ([selectMans containsObject:manInfo])
     {
+        if (manInfo.manID == [[BXTGlobal getUserProperty:U_BRANCHUSERID] integerValue])
+        {
+            return;
+        }
         number--;
         [selectMans removeObject:manInfo];
         if (selectMans.count == 0)
@@ -168,7 +173,11 @@
         /**请求维修员列表**/
         [self showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSMutableArray *selectManIDs = [NSMutableArray arrayWithObjects:[BXTGlobal getUserProperty:U_BRANCHUSERID], nil];
+        NSMutableArray *selectManIDs = [NSMutableArray array];
+        if (!isHave)
+        {
+            [selectManIDs addObject:[BXTGlobal getUserProperty:U_BRANCHUSERID]];
+        }
         for (BXTAddOtherManInfo *otherManInfo in selectMans)
         {
             [selectManIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherManInfo.manID]];
@@ -301,6 +310,13 @@
                 
                 DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTAddOtherManInfo class] andConfiguration:config];
                 BXTAddOtherManInfo *otherManInfo = [parser parseDictionary:dictionary];
+                
+                if (otherManInfo.manID == [[BXTGlobal getUserProperty:U_BRANCHUSERID] integerValue])
+                {
+                    [selectMans addObject:otherManInfo];
+                    number = 1;
+                    isHave = YES;
+                }
                 
                 [dataSource addObject:otherManInfo];
             }

@@ -124,8 +124,8 @@
     
     if (_picsArray.count > 0)
     {
-        CGFloat width = 73.f;
-        CGFloat space = (SCREEN_WIDTH - 3 * width - 15 * 2)/2.f;
+        CGFloat width = 73.3f;
+        CGFloat space = 35.f;
         
         for (NSInteger i = 0; i < _picsArray.count; i++)
         {

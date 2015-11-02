@@ -75,10 +75,17 @@ static NSString *cellIndentify = @"cellIndentify";
 
 - (void)getVerCode
 {
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request mobileVerCode:userName];
-    codeBtn.userInteractionEnabled = NO;
-    [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    if ([BXTGlobal validateMobile:userName])
+    {
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request mobileVerCode:userName];
+        codeBtn.userInteractionEnabled = NO;
+        [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self showMBP:@"手机号格式不对" withBlock:nil];
+    }
 }
 
 #pragma mark -

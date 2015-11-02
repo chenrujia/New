@@ -30,6 +30,9 @@
  */
 + (void)setUserProperty:(id)value withKey:(NSString *)key;
 + (id)getUserProperty:(NSString *)key;
++ (void)setUserInfo:(BXTUserInfo *)userInfo;
++ (BXTUserInfo *)getUserInfo;
+- (void)reLoginWithDic:(NSDictionary *)dic;
 
 /**
  *  正则验证手机号

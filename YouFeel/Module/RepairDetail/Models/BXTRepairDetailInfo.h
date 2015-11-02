@@ -37,6 +37,7 @@
 @property (nonatomic ,strong) NSString     *orderid;
 @property (nonatomic ,assign) NSInteger    place;
 @property (nonatomic ,strong) NSString     *place_name;
+@property (nonatomic ,strong) NSString     *stores_name;
 @property (nonatomic ,strong) NSString     *receive_time;
 @property (nonatomic ,assign) NSInteger    repair_user;
 @property (nonatomic ,strong) NSString     *repair_user_name;

@@ -30,17 +30,12 @@
     NSMutableArray *fau_dataSource;
     NSString *cause;
     NSString *notes;
-    NSInteger indexRow;
     BXTFaultInfo *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
     UIPickerView *pickView;
-    BXTFloorInfo *defaultFloor;
-    BXTFloorInfo *defaultArea;
-    BXTShopInfo *defaultShop;
+    BOOL isPublic;
 }
 
-@property (nonatomic ,strong) BXTFloorInfo *publicFloor;
-@property (nonatomic ,strong) BXTAreaInfo *publicArea;
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
 
 @end
@@ -49,6 +44,21 @@
 
 - (void)dealloc
 {
+    NSArray *array = [BXTGlobal getUserProperty:U_BINDINGADS];
+    if (array.count)
+    {
+        NSDictionary *areaDic = array[0];
+        BXTFloorInfo *floor = [[BXTFloorInfo alloc] init];
+        floor.area_id = [areaDic objectForKey:@"area_id"];
+        floor.area_name = [areaDic objectForKey:@"area_name"];
+        [BXTGlobal setUserProperty:floor withKey:U_FLOOOR];
+        
+        BXTAreaInfo *area = [[BXTAreaInfo alloc] init];
+        area.place_id = [areaDic objectForKey:@"place_id"];
+        area.place_name = [areaDic objectForKey:@"place_name"];
+        [BXTGlobal setUserProperty:area withKey:U_AREA];
+    }
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -65,9 +75,6 @@
     selectPhotos = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
     
-    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-    indexRow = [departmentInfo.dep_id integerValue] == 2 ? 1 : 0;
-
     /**请求故障类型列表**/
     BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [fau_request faultTypeList];
@@ -76,9 +83,9 @@
     [self createTableView];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
 }
 
@@ -108,12 +115,11 @@
 
 - (void)selectFloorInfo:(BXTFloorInfo *)floor areaInfo:(BXTAreaInfo *)area
 {
-    _publicFloor = floor;
-    _publicArea = area;
+    isPublic = YES;
     [currentTableView reloadData];
 }
 
-- (void)createBoxView:(NSInteger)section
+- (void)createBoxView
 {
     UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
     backView.backgroundColor = [UIColor blackColor];
@@ -121,16 +127,13 @@
     backView.tag = 101;
     [self.view addSubview:backView];
     
-    if (section == 5)
-    {
-        pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        pickView.tag = 1000;
-        pickView.showsSelectionIndicator = YES;
-        pickView.backgroundColor = colorWithHexString(@"cdced1");
-        pickView.dataSource = self;
-        pickView.delegate = self;
-        [self.view addSubview:pickView];
-    }
+    pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
+    pickView.tag = 1000;
+    pickView.showsSelectionIndicator = YES;
+    pickView.backgroundColor = colorWithHexString(@"cdced1");
+    pickView.dataSource = self;
+    pickView.delegate = self;
+    [self.view addSubview:pickView];
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)tapGR
@@ -161,6 +164,7 @@
     [browser setCurrentPhotoIndex:index];
     
     [self.navigationController pushViewController:browser animated:YES];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)doneClick
@@ -174,23 +178,26 @@
     BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     
+    BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
+    BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
     
-//    [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:_publicFloor.area_id areaInfoId:_publicArea.place_id shopInfoID:@"" equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
-    
-    if ([departmentInfo.dep_id integerValue] == 2)
+    id shopInfo;
+    if (isPublic)
     {
-        BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
-        BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
-        id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-        if ([shopInfo isKindOfClass:[NSString class]])
-        {
-            [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:floorInfo.area_id areaInfoId:areaInfo.place_id shopInfoID:shopInfo equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
-        }
-        else
-        {
-            BXTShopInfo *tempShopInfo = (BXTShopInfo *)shopInfo;
-            [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:floorInfo.area_id areaInfoId:areaInfo.place_id shopInfoID:tempShopInfo.stores_id equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
-        }
+        shopInfo = @"";
+    }
+    else
+    {
+        shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+    }
+    if ([shopInfo isKindOfClass:[NSString class]])
+    {
+        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:floorInfo.area_id areaInfoId:areaInfo.place_id shopInfoID:shopInfo equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
+    }
+    else
+    {
+        BXTShopInfo *tempShopInfo = (BXTShopInfo *)shopInfo;
+        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:floorInfo.area_id areaInfoId:areaInfo.place_id shopInfoID:tempShopInfo.stores_id equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
     }
 }
 
@@ -296,7 +303,7 @@
 
 - (void)selectImages
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:6 + indexRow];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:7];
     BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[currentTableView cellForRowAtIndexPath:indexPath];
     if (selectPhotos.count == 1)
     {
@@ -358,7 +365,7 @@
 //section底部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 6 + indexRow)
+    if (section == 7)
     {
         return 80.f;
     }
@@ -368,7 +375,7 @@
 //section底部视图
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 6 + indexRow)
+    if (section == 7)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -395,7 +402,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 6 + indexRow)
+    if (indexPath.section == 7)
     {
         return 170;
     }
@@ -404,7 +411,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 7 + indexRow;
+    return 8;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -414,7 +421,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 6 + indexRow)
+    if (indexPath.section == 7)
     {
         BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarkCell"];
         if (!cell)
@@ -484,22 +491,29 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 3 && indexRow == 1)
+        else if (indexPath.section == 3)
         {
             cell.titleLabel.text = @"商   铺";
             BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
             BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
             if (floorInfo)
             {
-                id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-                if ([shopInfo isKindOfClass:[NSString class]])
+                if (isPublic)
                 {
-                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,shopInfo];
+                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",floorInfo.area_name,areaInfo.place_name];
                 }
                 else
                 {
-                    BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
-                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,tempShop.stores_name];
+                    id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+                    if ([shopInfo isKindOfClass:[NSString class]])
+                    {
+                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,shopInfo];
+                    }
+                    else
+                    {
+                        BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
+                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,tempShop.stores_name];
+                    }
                 }
             }
             else
@@ -511,7 +525,7 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 3 + indexRow)
+        else if (indexPath.section == 4)
         {
             cell.titleLabel.text = @"故   障";
             if (!selectFaultInfo)
@@ -526,7 +540,7 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 4 + indexRow)
+        else if (indexPath.section == 5)
         {
             cell.titleLabel.text = @"描   述";
             cell.detailLable.hidden = YES;
@@ -559,21 +573,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 3 && indexRow == 1)
+    if (indexPath.section == 3)
     {
         __weak BXTWorkOderViewController *weakSelf = self;
-        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithPublic:NO changeArea:^(BXTFloorInfo *floorInfo, BXTAreaInfo *areaInfo) {
+        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithPublic:YES changeArea:^(BXTFloorInfo *floorInfo, BXTAreaInfo *areaInfo) {
             [weakSelf selectFloorInfo:floorInfo areaInfo:areaInfo];
         }];
         [self.navigationController pushViewController:shopLocationVC animated:YES];
     }
-    if (indexPath.section == 4 && indexRow == 0)
+    if (indexPath.section == 4)
     {
-        [self createBoxView:5];
-    }
-    else if (indexPath.section == 5 && indexRow == 1)
-    {
-        [self createBoxView:5];
+        [self createBoxView];
     }
 }
 
@@ -632,7 +642,7 @@
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
     selectPhotos = photos;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:6 + indexRow];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:7];
     BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[currentTableView cellForRowAtIndexPath:indexPath];
     if (photos.count == 1)
     {

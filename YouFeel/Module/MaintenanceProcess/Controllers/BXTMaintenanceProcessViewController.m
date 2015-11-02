@@ -93,6 +93,12 @@
     [fau_request faultTypeList];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
+
 #pragma mark -
 #pragma mark 初始化视图
 - (void)createTableView
@@ -689,6 +695,7 @@
     [browser setCurrentPhotoIndex:index];
     
     [self.navigationController pushViewController:browser animated:YES];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 /**

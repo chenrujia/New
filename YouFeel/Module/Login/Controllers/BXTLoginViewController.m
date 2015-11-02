@@ -8,15 +8,12 @@
 
 #import "BXTLoginViewController.h"
 #import "BXTHeaderFile.h"
-#import "BXTRepairHomeViewController.h"
-#import "BXTShopsHomeViewController.h"
 #import "BXTHeadquartersViewController.h"
 #import "UIViewController+DismissKeyboard.h"
 #import "BXTDataRequest.h"
 #import "BXTResignViewController.h"
-#import "AppDelegate.h"
 #import "BXTHeadquartersInfo.h"
-#import "BXTAuthenticationViewController.h"
+#import "BXTFindPassWordViewController.h"
 
 #define UserNameTag 11
 #define PassWordTag 12
@@ -101,6 +98,7 @@
     passWordTF = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(passWord_label.frame) + 15.f, CGRectGetMaxY(userNameTF.frame) + 15.f, SCREEN_WIDTH - 30.f - 60.f, 44.f)];
     passWordTF.center = CGPointMake(passWordTF.center.x, (textfiledBackView.bounds.size.height/4.f)*3.f);
     passWordTF.keyboardType = UIKeyboardTypeASCIICapable;
+    passWordTF.secureTextEntry = YES;
     passWordTF.placeholder = @"输入密码";
     passWordTF.text = [BXTGlobal getUserProperty:U_PASSWORD];
     [passWordTF setValue:colorWithHexString(@"4e74a5") forKeyPath:@"_placeholderLabel.textColor"];
@@ -178,7 +176,8 @@
 
 - (void)findPassWord
 {
-    
+    BXTFindPassWordViewController *findVC = [[BXTFindPassWordViewController alloc] init];
+    [self.navigationController pushViewController:findVC animated:YES];
 }
 
 #pragma mark -
@@ -237,11 +236,14 @@
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
+            NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
             
             NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
             [BXTGlobal setUserProperty:userID withKey:U_USERID];
+            
+            BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [pic_request updateHeadPic:[userInfoDic objectForKey:@"pic"]];
             
             /**分店登录**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -249,7 +251,7 @@
         }
         else
         {
-            BXTAuthenticationViewController *authenticationVC = [[BXTAuthenticationViewController alloc] init];
+            BXTHeadquartersViewController *authenticationVC = [[BXTHeadquartersViewController alloc] init];
             [self.navigationController pushViewController:authenticationVC animated:YES];
         }
     }
@@ -259,51 +261,12 @@
         if (data.count > 0)
         {
             NSDictionary *userInfo = data[0];
-            
-            NSArray *bindingAds = [userInfo objectForKey:@"binding_ads"];
-            [BXTGlobal setUserProperty:bindingAds withKey:U_BINDINGADS];
-            
-            BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
-            departmentInfo.dep_id = [userInfo objectForKey:@"department"];
-            departmentInfo.department = [userInfo objectForKey:@"department_name"];
-            [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
-            
-            BXTGroupingInfo *groupInfo = [[BXTGroupingInfo alloc] init];
-            groupInfo.group_id = [userInfo objectForKey:@"subgroup"];
-            groupInfo.subgroup = [userInfo objectForKey:@"subgroup_name"];
-            [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
-            
-            NSString *userID = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"id"]];
-            [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
-            
-            BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
-            roleInfo.role_id = [userInfo objectForKey:@"role_id"];
-            roleInfo.role = [userInfo objectForKey:@"role"];
-            [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
-            
-            BXTShopInfo *shopInfo = [[BXTShopInfo alloc] init];
-            shopInfo.stores_id = [userInfo objectForKey:@"stores_id"];
-            shopInfo.stores_name = [userInfo objectForKey:@"stores"];
-            [BXTGlobal setUserProperty:shopInfo withKey:U_SHOP];
-            
-            [BXTGlobal setUserProperty:[userInfo objectForKey:@"username"] withKey:U_USERNAME];
-            [BXTGlobal setUserProperty:[userInfo objectForKey:@"role_con"] withKey:U_ROLEARRAY];
-            [BXTGlobal setUserProperty:[userInfo objectForKey:@"mobile"] withKey:U_MOBILE];
-            
-            UINavigationController *nav;
-            if ([[userInfo objectForKey:@"is_repair"] integerValue] == 1)
-            {
-                BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] initWithIsRepair:NO];
-                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
-            }
-            else if ([[userInfo objectForKey:@"is_repair"] integerValue] == 2)
-            {
-                BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] initWithIsRepair:YES];
-                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
-            }
-            nav.navigationBar.hidden = YES;
-            [AppDelegate appdelegete].window.rootViewController = nav;
+            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
         }
+    }
+    else if (type == UpdateHeadPic)
+    {
+        NSLog(@"Update success");
     }
     else
     {

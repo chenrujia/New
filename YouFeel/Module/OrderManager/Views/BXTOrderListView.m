@@ -218,6 +218,10 @@
             [cell.maintenanceProcess setTitleColor:colorWithHexString(@"e2e6e8") forState:UIControlStateNormal];
             cell.maintenanceProcess.userInteractionEnabled = NO;
         }
+        else if (repairInfo.repairstate == 3)
+        {
+            cell.maintenanceProcess.hidden = YES;
+        }
         else
         {
             [cell.maintenanceProcess setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];

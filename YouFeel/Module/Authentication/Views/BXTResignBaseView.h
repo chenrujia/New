@@ -12,8 +12,6 @@
 #import "AppDelegate.h"
 #import "BXTSettingTableViewCell.h"
 #import "BXTShopLocationViewController.h"
-#import "BXTShopsHomeViewController.h"
-#import "BXTRepairHomeViewController.h"
 #import "UIView+Nav.h"
 #import "BXTGroupingInfo.h"
 #import "MBProgressHUD.h"

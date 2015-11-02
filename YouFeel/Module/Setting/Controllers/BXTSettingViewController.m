@@ -32,6 +32,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     NSString *checks_user;
     NSString *checks_user_department;
     BOOL isRepair;
+    BOOL isHaveChecker;
     NSDictionary *checkUserDic;
 }
 
@@ -217,9 +218,13 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)contactTa
 {
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
-    userInfo.userId = [checkUserDic objectForKey:@"checks_id"];
+    userInfo.userId = [checkUserDic objectForKey:@"checks_user_out_userid"];
+    
+    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
+    if ([userInfo.userId isEqualToString:my_userID]) return;
+    
     userInfo.name = [checkUserDic objectForKey:@"checks_user"];
-    userInfo.portraitUri = [checkUserDic objectForKey:@"checks_pic"];
+    userInfo.portraitUri = [checkUserDic objectForKey:@"checks_user_pic"];
     
     NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (usersArray)
@@ -288,9 +293,13 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 {
     if (section == 3)
     {
+        if (!isHaveChecker)
+        {
+           return 100.f;
+        }
         return 40.f;
     }
-    else if (section == 4)
+    else if (section == 4 && isHaveChecker)
     {
         return 100.f;
     }
@@ -301,6 +310,31 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 {
     if (section == 3)
     {
+        if (!isHaveChecker)
+        {
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100.f)];
+            view.backgroundColor = [UIColor clearColor];
+            
+            UILabel *titleLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 20.f)];
+            titleLable.font = [UIFont systemFontOfSize:11.f];
+            titleLable.textColor = colorWithHexString(@"909497");
+            titleLable.textAlignment = NSTextAlignmentCenter;
+            titleLable.text = @"注意：修改以上身份信息均需要再次提交审核，方可修改成功。";
+            [view addSubview:titleLable];
+            
+            UIButton *quitOut = [UIButton buttonWithType:UIButtonTypeCustom];
+            quitOut.frame = CGRectMake(20, 40, SCREEN_WIDTH - 40, 50.f);
+            [quitOut setTitle:@"退出登录" forState:UIControlStateNormal];
+            [quitOut setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+            [quitOut setBackgroundColor:colorWithHexString(@"aac3e1")];
+            quitOut.layer.masksToBounds = YES;
+            quitOut.layer.cornerRadius = 6.f;
+            [quitOut addTarget:self action:@selector(quitOutClick) forControlEvents:UIControlEventTouchUpInside];
+            [view addSubview:quitOut];
+            
+            return view;
+        }
+        
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40.f)];
         view.backgroundColor = [UIColor clearColor];
         
@@ -313,7 +347,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         
         return view;
     }
-    else if (section == 4)
+    else if (section == 4 && isHaveChecker)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -344,7 +378,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     {
         return 100.f;
     }
-    else if (indexPath.section == 4)
+    else if (indexPath.section == 4 && isHaveChecker)
     {
         return 124.f;
     }
@@ -353,7 +387,11 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    if (isHaveChecker)
+    {
+        return 5;
+    }
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -379,7 +417,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4)
+    if (indexPath.section == 4 && isHaveChecker)
     {
         BXTAuditerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AuditerCell"];
         if (!cell)
@@ -597,6 +635,14 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             verify_state = [dictionay objectForKey:@"verify_state"];
             checkUserDic = [dictionay objectForKey:@"stores_checks"];
             checks_user = [checkUserDic objectForKey:@"checks_user"];
+            if (checks_user.length)
+            {
+                isHaveChecker = YES;
+            }
+            else
+            {
+                isHaveChecker = NO;
+            }
             checks_user_department = [checkUserDic objectForKey:@"checks_user_department"];
         }
     }

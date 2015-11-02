@@ -20,7 +20,7 @@ NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
 NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
-#define RONGCLOUD_IM_APPKEY @"3argexb6rvfoe"
+#define RONGCLOUD_IM_APPKEY @"ik1qhw091jstp"
 
 @interface AppDelegate ()
 
@@ -325,23 +325,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             }
             else//维修者获取好评
             {
-//                if (IS_IOS_8)
-//                {
-//                    UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@",[taskInfo objectForKey:@"title"]] message:nil preferredStyle:UIAlertControllerStyleAlert];
-//                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-//                    [alertCtr addAction:cancelAction];
-//                    [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
-//                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-//                }
-//                else
-//                {
-//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@",[taskInfo objectForKey:@"title"]]
-//                                                                    message:nil
-//                                                                   delegate:self
-//                                                          cancelButtonTitle:@"取消"
-//                                                          otherButtonTitles:nil];
-//                    [alert show];
-//                }
+
             }
             break;
         case 3://通知
@@ -419,7 +403,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         
         NSArray *shopids = [userInfoDic objectForKey:@"shop_ids"];
         [BXTGlobal setUserProperty:shopids withKey:U_SHOPIDS];
-        
+
         NSArray *my_shop = [userInfoDic objectForKey:@"my_shop"];
         [BXTGlobal setUserProperty:my_shop withKey:U_MYSHOP];
         if (my_shop && my_shop.count > 0)
@@ -431,11 +415,14 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
+            NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
             
             NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
             [BXTGlobal setUserProperty:userID withKey:U_USERID];
+            
+            BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [pic_request updateHeadPic:[userInfoDic objectForKey:@"pic"]];
             
             /**分店登录**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -452,51 +439,12 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         if (data.count > 0)
         {
             NSDictionary *userInfo = data[0];
-            
-            NSArray *bindingAds = [userInfo objectForKey:@"binding_ads"];
-            [BXTGlobal setUserProperty:bindingAds withKey:U_BINDINGADS];
-            
-            BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
-            departmentInfo.dep_id = [userInfo objectForKey:@"department"];
-            departmentInfo.department = [userInfo objectForKey:@"department_name"];
-            [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
-            
-            BXTGroupingInfo *groupInfo = [[BXTGroupingInfo alloc] init];
-            groupInfo.group_id = [userInfo objectForKey:@"subgroup"];
-            groupInfo.subgroup = [userInfo objectForKey:@"subgroup_name"];
-            [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
-            
-            NSString *userID = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"id"]];
-            [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
-            
-            BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
-            roleInfo.role_id = [userInfo objectForKey:@"role_id"];
-            roleInfo.role = [userInfo objectForKey:@"role"];
-            [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
-            
-            BXTShopInfo *shopInfo = [[BXTShopInfo alloc] init];
-            shopInfo.stores_id = [userInfo objectForKey:@"stores_id"];
-            shopInfo.stores_name = [userInfo objectForKey:@"stores"];
-            [BXTGlobal setUserProperty:shopInfo withKey:U_SHOP];
-            
-            [BXTGlobal setUserProperty:[userInfo objectForKey:@"username"] withKey:U_USERNAME];
-            [BXTGlobal setUserProperty:[userInfo objectForKey:@"role_con"] withKey:U_ROLEARRAY];
-            [BXTGlobal setUserProperty:[userInfo objectForKey:@"mobile"] withKey:U_MOBILE];
-            
-            UINavigationController *nav;
-            if ([[userInfo objectForKey:@"is_repair"] integerValue] == 1)
-            {
-                BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] initWithIsRepair:NO];
-                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
-            }
-            else if ([[userInfo objectForKey:@"is_repair"] integerValue] == 2)
-            {
-                BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] initWithIsRepair:YES];
-                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
-            }
-            nav.navigationBar.hidden = YES;
-            [AppDelegate appdelegete].window.rootViewController = nav;
+            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
         }
+    }
+    else if (type == UpdateHeadPic)
+    {
+        NSLog(@"Update success");
     }
     else
     {

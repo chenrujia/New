@@ -218,6 +218,10 @@
 {
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = [dictionary objectForKey:@"out_userid"];
+    
+    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
+    if ([userInfo.userId isEqualToString:my_userID]) return;
+    
     userInfo.name = [dictionary objectForKey:@"name"];
     userInfo.portraitUri = [dictionary objectForKey:@"head_pic"];
     
@@ -397,7 +401,7 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
-        place.text = [NSString stringWithFormat:@"位置:%@",repairDetail.place_name];
+        place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.place_name,repairDetail.stores_name];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
         

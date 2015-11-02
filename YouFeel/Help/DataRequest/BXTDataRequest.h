@@ -31,7 +31,10 @@ typedef NS_ENUM(NSInteger, RequestType) {
     UserInfo,
     LocationShop,
     UpdateTime,
-    UserInfoForChatList
+    UserInfoForChatList,
+    FindPassword,
+    ChangePassWord,
+    UpdateHeadPic
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -215,5 +218,20 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  会话列表用户信息
  */
 - (void)userInfoForChatListWithID:(NSString *)userID;
+
+/**
+ *  找回密码
+ */
+- (void)findPassWordWithMobile:(NSString *)moblie andWithCode:(NSString *)code;
+
+/**
+ *  重置密码
+ */
+- (void)changePassWord:(NSString *)password andWithID:(NSString *)pw_ID andWithKey:(NSString *)key;
+
+/**
+ *  更新头像
+ */
+- (void)updateHeadPic:(NSString *)pic;
 
 @end

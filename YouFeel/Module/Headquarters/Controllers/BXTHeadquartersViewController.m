@@ -12,9 +12,6 @@
 #include <math.h>
 #import "BXTHeaderForVC.h"
 #import "BXTHeadquartersInfo.h"
-#import "BXTRepairHomeViewController.h"
-#import "BXTShopsHomeViewController.h"
-#import "AppDelegate.h"
 
 #define NavBarHeight 120.f
 
@@ -181,7 +178,7 @@
     companyInfo.company_id = [companyDic objectForKey:@"id"];
     companyInfo.name = [companyDic objectForKey:@"shop_name"];
     [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",[companyDic objectForKey:@"id"]];
+    NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",[companyDic objectForKey:@"id"]];
     [BXTGlobal shareGlobal].baseURL = url;
     /**请求分店位置**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -407,50 +404,7 @@
         if (array.count > 0)
         {
             NSDictionary *userInfo = array[0];
-            
-            NSArray *bindingAds = [userInfo objectForKey:@"binding_ads"];
-            [BXTGlobal setUserProperty:bindingAds withKey:U_BINDINGADS];
-            
-            BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
-            departmentInfo.dep_id = [userInfo objectForKey:@"department"];
-            departmentInfo.department = [userInfo objectForKey:@"department_name"];
-            [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
-            
-            BXTGroupingInfo *groupInfo = [[BXTGroupingInfo alloc] init];
-            groupInfo.group_id = [userInfo objectForKey:@"subgroup"];
-            groupInfo.subgroup = [userInfo objectForKey:@"subgroup_name"];
-            [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
-            
-            NSString *userID = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"id"]];
-            [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
-            
-            BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
-            roleInfo.role_id = [userInfo objectForKey:@"role_id"];
-            roleInfo.role = [userInfo objectForKey:@"role"];
-            [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
-            
-            BXTShopInfo *shopInfo = [[BXTShopInfo alloc] init];
-            shopInfo.stores_id = [userInfo objectForKey:@"stores_id"];
-            shopInfo.stores_name = [userInfo objectForKey:@"stores"];
-            [BXTGlobal setUserProperty:shopInfo withKey:U_SHOP];
-            
-            [BXTGlobal setUserProperty:[userInfo objectForKey:@"username"] withKey:U_USERNAME];
-            [BXTGlobal setUserProperty:[userInfo objectForKey:@"role_con"] withKey:U_ROLEARRAY];
-            [BXTGlobal setUserProperty:[userInfo objectForKey:@"mobile"] withKey:U_MOBILE];
-            
-            UINavigationController *nav;
-            if ([[userInfo objectForKey:@"is_repair"] integerValue] == 1)
-            {
-                BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] initWithIsRepair:NO];
-                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
-            }
-            else if ([[userInfo objectForKey:@"is_repair"] integerValue] == 2)
-            {
-                BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] initWithIsRepair:YES];
-                nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
-            }
-            nav.navigationBar.hidden = YES;
-            [AppDelegate appdelegete].window.rootViewController = nav;
+            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
         }
     }
     else if (type == LocationShop)

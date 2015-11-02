@@ -53,9 +53,9 @@
     [self navigationSetting:@"评价" andRightTitle:nil andRightImage:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
 }
 
@@ -163,6 +163,7 @@
     [browser setCurrentPhotoIndex:index];
     
     [self.navigationController pushViewController:browser animated:YES];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)addImages

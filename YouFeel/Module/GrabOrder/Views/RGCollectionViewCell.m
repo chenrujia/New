@@ -133,15 +133,32 @@
         BXTRepairDetailInfo *repairDetail = [parser parseDictionary:dictionary];
         
         NSArray *imgArray = repairDetail.fault_pic;
+        UIImage *placeImage;
+        if (IS_IPHONE6P)
+        {
+            placeImage = [UIImage imageNamed:@"grabIphoneplus"];
+        }
+        else if (IS_IPHONE6)
+        {
+            placeImage = [UIImage imageNamed:@"grabIphone6"];
+        }
+        else if (IS_IPHONE5)
+        {
+            placeImage = [UIImage imageNamed:@"grabIphone5s"];
+        }
+        else
+        {
+            placeImage = [UIImage imageNamed:@"grabIphone4s"];
+        }
         if (imgArray.count > 0)
         {
             LogRed(@"imgArray:%@",imgArray);
             NSDictionary *image_dic = imgArray[0];
-            [_imageView sd_setImageWithURL:[NSURL URLWithString:[image_dic objectForKey:@"photo_file"]] placeholderImage:[UIImage imageNamed:@"20.jpg"]];
+            [_imageView sd_setImageWithURL:[NSURL URLWithString:[image_dic objectForKey:@"photo_file"]] placeholderImage:placeImage];
         }
         else
         {
-            [_imageView setImage:[UIImage imageNamed:@"20.jpg"]];
+            [_imageView setImage:placeImage];
         }
         
         _repairID.text = [NSString stringWithFormat:@"工单号:%@",repairDetail.orderid];

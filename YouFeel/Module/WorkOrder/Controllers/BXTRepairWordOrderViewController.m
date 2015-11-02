@@ -40,15 +40,10 @@
     BXTFaultInfo *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
     UIPickerView *pickView;
-    BXTFloorInfo *defaultFloor;
-    BXTFloorInfo *defaultArea;
-    BXTShopInfo *defaultShop;
     NSInteger indexSection;
     NSMutableArray *manIDs;
 }
 
-@property (nonatomic ,strong) BXTFloorInfo *publicFloor;
-@property (nonatomic ,strong) BXTAreaInfo *publicArea;
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
 @property (nonatomic ,strong) NSMutableArray *mans;
 
@@ -84,9 +79,9 @@
     [self createTableView];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
 }
 
@@ -111,8 +106,6 @@
 
 - (void)selectFloorInfo:(BXTFloorInfo *)floor areaInfo:(BXTAreaInfo *)area
 {
-    _publicFloor = floor;
-    _publicArea = area;
     [currentTableView reloadData];
 }
 
@@ -173,6 +166,7 @@
     [browser setCurrentPhotoIndex:index];
     
     [self.navigationController pushViewController:browser animated:YES];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)doneClick
@@ -205,7 +199,7 @@
     else
     {
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"需要增援",@"不需要增援", nil];
-        [self.view addSubview:sheet];
+        [sheet showInView:self.view];
     }
 }
 
@@ -222,7 +216,10 @@
     BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     
-    [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:_publicFloor.area_id areaInfoId:_publicArea.place_id shopInfoID:@"" equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
+    BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
+    BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
+    
+    [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:floorInfo.area_id areaInfoId:areaInfo.place_id shopInfoID:@"" equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
 }
 
 - (void)stateClick:(UIButton *)btn
@@ -533,13 +530,15 @@
         if (indexPath.section == 3)
         {
             cell.titleLabel.text = @"位   置";
-            if (_publicFloor && _publicArea)
+            BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
+            BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
+            if (floorInfo)
             {
-                cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",_publicFloor.area_name,_publicArea.place_name];
+                cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",floorInfo.area_name,areaInfo.place_name];
             }
             else
             {
-                cell.detailLable.text = @"请选择您要报修的具体位置";
+                cell.detailLable.text = @"请选择您商铺所在具体位置";
             }
             
             cell.checkImgView.hidden = NO;
@@ -555,7 +554,7 @@
             }
             else
             {
-                cell.detailLable.frame = CGRectMake(CGRectGetMaxX(cell.titleLabel.frame) + 20.f, 10., 80.f, 30);
+                cell.detailLable.frame = CGRectMake(CGRectGetMaxX(cell.titleLabel.frame) + 20.f, 10., 150.f, 30);
                 cell.detailLable.text = [NSString stringWithFormat:@"%@-%@",selectFaultInfo.faulttype_type,selectFaultTypeInfo.faulttype];
             }
             cell.checkImgView.hidden = NO;
@@ -840,6 +839,11 @@
                 [fault_subs addObject:faultTypeObj];
             }
             
+            BXTFaultTypeInfo *otherFaultTypeInfo = [[BXTFaultTypeInfo alloc] init];
+            otherFaultTypeInfo.fau_id = 1;
+            otherFaultTypeInfo.faulttype = @"其他";
+            [fault_subs addObject:otherFaultTypeInfo];
+            
             faultObj.sub_data = fault_subs;
             [fau_dataSource addObject:faultObj];
         }
@@ -925,13 +929,19 @@
     {
         selectFaultInfo = fau_dataSource[row];
         NSArray *faultTypesArray = selectFaultInfo.sub_data;
-        selectFaultTypeInfo = faultTypesArray[0];
+        if (faultTypesArray.count)
+        {
+            selectFaultTypeInfo = faultTypesArray[0];
+        }
         [pickerView reloadComponent:1];
     }
     else
     {
         NSArray *faultTypesArray = selectFaultInfo.sub_data;
-        selectFaultTypeInfo = faultTypesArray[row];
+        if (faultTypesArray.count)
+        {
+            selectFaultTypeInfo = faultTypesArray[row];
+        }
     }
 }
 

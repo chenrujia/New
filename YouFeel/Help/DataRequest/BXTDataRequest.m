@@ -431,6 +431,35 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)findPassWordWithMobile:(NSString *)moblie andWithCode:(NSString *)code
+{
+    self.requestType = FindPassword;
+    NSDictionary *dic = @{@"type":@"3",
+                          @"username":moblie,
+                          @"mailmatch":code};
+    NSString *url = [NSString stringWithFormat:@"%@/opt/find_pass/module/Account",KURLREQUEST];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)changePassWord:(NSString *)password andWithID:(NSString *)pw_ID andWithKey:(NSString *)key
+{
+    self.requestType = ChangePassWord;
+    NSDictionary *dic = @{@"key":key,
+                          @"id":pw_ID,
+                          @"password":password};
+    NSString *url = [NSString stringWithFormat:@"%@/opt/reset_pass/module/Account",KURLREQUEST];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)updateHeadPic:(NSString *)pic
+{
+    self.requestType = UpdateHeadPic;
+    NSDictionary *dic = @{@"url":pic,
+                          @"id":[BXTGlobal getUserProperty:U_USERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Login&opt=update_head",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url withParameters:(NSDictionary *)parameters
 {
     LogRed(@"url......%@",url);
@@ -464,7 +493,8 @@
         for(NSInteger i = 0; i < images.count; i++)
         {
             UIImage *image = [images objectAtIndex:i];
-            NSData  *imageData = UIImageJPEGRepresentation(image, 1.f);
+            NSData  *imageData = UIImageJPEGRepresentation(image, 0.9f);
+            LogRed(@"%lu",(unsigned long)imageData.length);
             // 上传的参数名
             NSString * Name = [NSString stringWithFormat:@"image%ld", (long)i];
             // 上传filename
@@ -518,10 +548,10 @@
     progressHUD.progress = newProgress;
     if (newProgress >= 1.0f)
     {
-        progressHUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
-        progressHUD.mode = MBProgressHUDModeCustomView;
-        progressHUD.detailsLabelText = @"上传成功";
-        [progressHUD hide:YES afterDelay:2];
+//        progressHUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
+//        progressHUD.mode = MBProgressHUDModeCustomView;
+//        progressHUD.detailsLabelText = @"上传成功";
+        [progressHUD hide:YES];
     }
 }
 

@@ -9,6 +9,9 @@
 #import "BXTGlobal.h"
 #import "ANKeyValueTable.h"
 #import "IQKeyboardManager.h"
+#import "BXTRepairHomeViewController.h"
+#import "BXTShopsHomeViewController.h"
+#import "AppDelegate.h"
 
 #define USERKEY @"UserInfo"
 
@@ -55,6 +58,67 @@
     {
         return [[BXTUserInfo alloc] init];
     }
+}
+
+- (void)reLoginWithDic:(NSDictionary *)dic
+{
+    NSArray *bindingAds = [dic objectForKey:@"binding_ads"];
+    [BXTGlobal setUserProperty:bindingAds withKey:U_BINDINGADS];
+    
+    if (bindingAds.count)
+    {
+        NSDictionary *areaDic = bindingAds[0];
+        BXTFloorInfo *floor = [[BXTFloorInfo alloc] init];
+        floor.area_id = [areaDic objectForKey:@"area_id"];
+        floor.area_name = [areaDic objectForKey:@"area_name"];
+        [BXTGlobal setUserProperty:floor withKey:U_FLOOOR];
+        
+        BXTAreaInfo *area = [[BXTAreaInfo alloc] init];
+        area.place_id = [areaDic objectForKey:@"place_id"];
+        area.place_name = [areaDic objectForKey:@"place_name"];
+        [BXTGlobal setUserProperty:area withKey:U_AREA];
+        
+        BXTShopInfo *shop = [[BXTShopInfo alloc] init];
+        shop.stores_id = [areaDic objectForKey:@"stores_id"];
+        shop.stores_name = [areaDic objectForKey:@"stores_name"];
+        [BXTGlobal setUserProperty:shop withKey:U_SHOP];
+    }
+    
+    BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
+    departmentInfo.dep_id = [dic objectForKey:@"department"];
+    departmentInfo.department = [dic objectForKey:@"department_name"];
+    [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
+    
+    BXTGroupingInfo *groupInfo = [[BXTGroupingInfo alloc] init];
+    groupInfo.group_id = [dic objectForKey:@"subgroup"];
+    groupInfo.subgroup = [dic objectForKey:@"subgroup_name"];
+    [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
+    
+    NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
+    [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
+    
+    BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
+    roleInfo.role_id = [dic objectForKey:@"role_id"];
+    roleInfo.role = [dic objectForKey:@"role"];
+    [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
+    
+    [BXTGlobal setUserProperty:[dic objectForKey:@"username"] withKey:U_USERNAME];
+    [BXTGlobal setUserProperty:[dic objectForKey:@"role_con"] withKey:U_ROLEARRAY];
+    [BXTGlobal setUserProperty:[dic objectForKey:@"mobile"] withKey:U_MOBILE];
+    
+    UINavigationController *nav;
+    if ([[dic objectForKey:@"is_repair"] integerValue] == 1)
+    {
+        BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] initWithIsRepair:NO];
+        nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    }
+    else if ([[dic objectForKey:@"is_repair"] integerValue] == 2)
+    {
+        BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] initWithIsRepair:YES];
+        nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    }
+    nav.navigationBar.hidden = YES;
+    [AppDelegate appdelegete].window.rootViewController = nav;
 }
 
 + (BOOL)validateMobile:(NSString *)mobile

@@ -36,7 +36,7 @@
 
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType conversationModel:(RCConversationModel *)model atIndexPath:(NSIndexPath *)indexPath
 {
-    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc] init];
     conversationVC.conversationType = model.conversationType;
     conversationVC.targetId = model.targetId;
     conversationVC.userName = model.conversationTitle;

@@ -27,7 +27,7 @@
 {
     [super viewDidLoad];
     
-    headerHeight = IS_IPHONE6P ? 350.f : 350.f*2.f/3.f;
+    headerHeight = IS_IPHONE6P ? 300.f : 350.f*2.f/3.f;
     
     [self navigationSetting:@"关于我们" andRightTitle:nil andRightImage:nil];
     [self loadingViews];
@@ -55,18 +55,18 @@
 {
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, headerHeight)];
     backView.backgroundColor = [UIColor clearColor];
-#warning 适配
-    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, 10.f, 182.f, 63.f)];
+
+    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, IS_IPHONE6P ? 35.f : 10.f, 182.f, 63.f)];
     iconView.center = CGPointMake(SCREEN_WIDTH/2.f, iconView.center.y);
     iconView.image = [UIImage imageNamed:@"logo"];
     [backView addSubview:iconView];
     
-    UIImageView *qrCodeImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(iconView.frame) + 5.f, 90, 90)];
+    UIImageView *qrCodeImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(iconView.frame) + (IS_IPHONE6P ? 15.f : 5.f), 90, 90)];
     qrCodeImgView.center = CGPointMake(SCREEN_WIDTH/2.f, qrCodeImgView.center.y);
     [qrCodeImgView sd_setImageWithURL:[NSURL URLWithString:[_infoDic objectForKey:@"img_url"]]];
     [backView addSubview:qrCodeImgView];
     
-    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(qrCodeImgView.frame) + 5.f, 80.f, 20.f)];
+    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(qrCodeImgView.frame) + (IS_IPHONE6P ? 15.f : 5.f), 80.f, 20.f)];
     versionLabel.center = CGPointMake(SCREEN_WIDTH/2.f, versionLabel.center.y);
     versionLabel.textAlignment = NSTextAlignmentCenter;
     versionLabel.textColor = colorWithHexString(@"909497");
@@ -74,7 +74,7 @@
     versionLabel.text = @"V 1.0.0";
     [backView addSubview:versionLabel];
     
-    UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(versionLabel.frame) + 5.f, 320.f, 20.f)];
+    UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(versionLabel.frame) + (IS_IPHONE6P ? 15.f : 5.f), 320.f, 20.f)];
     detailLabel.center = CGPointMake(SCREEN_WIDTH/2.f, detailLabel.center.y);
     detailLabel.textAlignment = NSTextAlignmentCenter;
     detailLabel.textColor = colorWithHexString(@"909497");
