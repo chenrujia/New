@@ -184,13 +184,13 @@
     if (indexPath.section == 0)
     {
         cell.textField.placeholder = @"设置新密码";
-        cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+        cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
         cell.textField.tag = Password;
     }
     else
     {
         cell.textField.placeholder = @"再次确认密码（密码长度在6-32个字符之间）";
-        cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+        cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
         cell.textField.tag = PasswordAgain;
     }
     
@@ -221,6 +221,9 @@
         NSArray *shopids = [userInfoDic objectForKey:@"shop_ids"];
         [BXTGlobal setUserProperty:shopids withKey:U_SHOPIDS];
         
+        NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
+        [BXTGlobal setUserProperty:userID withKey:U_USERID];
+        
         NSArray *my_shop = [userInfoDic objectForKey:@"my_shop"];
         [BXTGlobal setUserProperty:my_shop withKey:U_MYSHOP];
         
@@ -235,9 +238,6 @@
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
             NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
-            
-            NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
-            [BXTGlobal setUserProperty:userID withKey:U_USERID];
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
             [pic_request updateHeadPic:[userInfoDic objectForKey:@"pic"]];
@@ -271,7 +271,7 @@
         {
             [self showMBP:@"重设密码成功！" withBlock:^(BOOL hidden) {
                 [BXTGlobal setUserProperty:pwStr withKey:U_PASSWORD];
-                NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":pwStr,@"cid":[BXTGlobal getUserProperty:U_CLIENTID]};
+                NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":pwStr,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
                 BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
                 [dataRequest loginUser:userInfoDic];
             }];

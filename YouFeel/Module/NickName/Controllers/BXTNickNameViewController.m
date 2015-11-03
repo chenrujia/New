@@ -62,7 +62,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
     NSString *userName = [BXTGlobal getUserProperty:U_USERNAME];
     NSString *passWord = [BXTGlobal getUserProperty:U_PASSWORD];
     
-    NSDictionary *userInfoDic = @{@"name":nickName,@"password":passWord,@"username":userName,@"gender":sex,@"mailmatch":@"123",@"roletype":@"1",@"cid":[BXTGlobal getUserProperty:U_CLIENTID]};
+    NSDictionary *userInfoDic = @{@"name":nickName,@"password":passWord,@"username":userName,@"gender":sex,@"mailmatch":@"123",@"roletype":@"1",@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
     
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
     [dataRequest resignUser:userInfoDic];

@@ -125,7 +125,7 @@
 - (void)branchLogin
 {
     self.requestType = BranchLogin;
-    NSDictionary *dic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"clientid":[BXTGlobal getUserProperty:U_CLIENTID]};
+    NSDictionary *dic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"clientid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
     NSString *url = [NSString stringWithFormat:@"%@&module=login&opt=login",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -156,10 +156,10 @@
 - (void)repairList:(NSString *)state andPage:(NSInteger)page andIsMaintenanceMan:(BOOL)isMaintenanceMan
 {
     self.requestType = RepairList;
-    BOOL isComplete;
+    BOOL stateIsComplete = NO;
     if ([state isEqualToString:@""])
     {
-        isComplete = YES;
+        stateIsComplete = YES;
     }
     NSString *identity = @"faultid";
     if (isMaintenanceMan)
@@ -167,7 +167,7 @@
         identity = @"repairer";
     }
     NSDictionary *dic;
-    if (isComplete)
+    if (stateIsComplete)
     {
         dic = @{identity:[BXTGlobal getUserProperty:U_BRANCHUSERID],
                 @"state":@"2",
@@ -188,13 +188,13 @@
 - (void)repairerList:(NSString *)state andPage:(NSInteger)page andPlace:(NSString *)place andDepartment:(NSString *)department andBeginTime:(NSString *)beginTime andEndTime:(NSString *)endTime andFaultType:(NSString *)faultType
 {
     self.requestType = RepairList;
-    BOOL isComplete;
+    BOOL stateIsComplete = NO;
     if ([state isEqualToString:@""])
     {
-        isComplete = YES;
+        stateIsComplete = YES;
     }
     NSDictionary *dic;
-    if (isComplete)
+    if (stateIsComplete)
     {
         dic = @{@"state":@"2",
                 @"pagesize":@"5",
@@ -224,6 +224,11 @@
           areaInfoId:(NSString *)areaID shopInfoID:(NSString *)shopID equipment:(NSString *)eqID faultNotes:(NSString *)notes imageArray:(NSArray *)images repairUserArray:(NSArray *)userArray
 {
     self.requestType = CreateRepair;
+    
+    if (!notes)
+    {
+        notes = @"";
+    }
     
     BXTGroupInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
     NSString *fault = [BXTGlobal getUserProperty:U_NAME];

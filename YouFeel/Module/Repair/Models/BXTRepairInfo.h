@@ -31,5 +31,6 @@
 @property (nonatomic ,strong) NSString  *receive_time;
 @property (nonatomic ,strong) NSString  *workprocess;
 @property (nonatomic ,strong) NSString  *receive_state;
+@property (nonatomic ,strong) NSString  *visitmobile;
 
 @end

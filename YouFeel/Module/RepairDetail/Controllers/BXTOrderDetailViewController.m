@@ -19,7 +19,7 @@
 
 #define ImageWidth 73.3f
 #define ImageHeight 73.3f
-#define ContentHeight 260.f
+#define ContentHeight 300.f
 #define RepairHeight 95.f
 
 @interface BXTOrderDetailViewController ()<BXTDataResponseDelegate,MWPhotoBrowserDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
@@ -29,6 +29,7 @@
     UILabel *repairerDetail;
     UILabel *repairID;
     UILabel *time;
+    UILabel *mobile;
     UILabel *place;
     UILabel *faultType;
     UILabel *cause;
@@ -129,7 +130,12 @@
     time.text = @"报修时间:";
     [scrollView addSubview:time];
     
-    place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(time.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
+    mobile = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(time.frame) + 10.f, CGRectGetWidth(time.frame), 20)];
+    mobile.textColor = colorWithHexString(@"000000");
+    mobile.font = [UIFont boldSystemFontOfSize:17.f];
+    [scrollView addSubview:mobile];
+    
+    place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(mobile.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     place.textColor = colorWithHexString(@"000000");
     place.font = [UIFont boldSystemFontOfSize:17.f];
     place.text = @"位置:";
@@ -401,6 +407,7 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
+        mobile.text = [NSString stringWithFormat:@"手机号:%@",repairDetail.visitmobile];
         place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.place_name,repairDetail.stores_name];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];

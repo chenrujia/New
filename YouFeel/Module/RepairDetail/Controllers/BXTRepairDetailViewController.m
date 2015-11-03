@@ -17,7 +17,7 @@
 
 #define ImageWidth 73.3f
 #define ImageHeight 73.3f
-#define ContentHeight 260.f
+#define ContentHeight 300.f
 #define StateViewHeight 90.f
 #define RepairHeight 95.f
 
@@ -27,6 +27,7 @@
     UILabel *time;
     UILabel *place;
     UILabel *name;
+    UILabel *mobile;
     UILabel *faultType;
     UILabel *cause;
     UILabel *level;
@@ -108,13 +109,19 @@
     name.text = [NSString stringWithFormat:@"报修人:%@",_repairInfo.fault];
     [scrollView addSubview:name];
     
-    faultType = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(name.frame) + 10.f, CGRectGetWidth(place.frame), 20)];
+    mobile = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(name.frame) + 10.f, CGRectGetWidth(name.frame), 20)];
+    mobile.textColor = colorWithHexString(@"000000");
+    mobile.font = [UIFont boldSystemFontOfSize:17.f];
+    mobile.text = [NSString stringWithFormat:@"手机号:%@",_repairInfo.visitmobile];
+    [scrollView addSubview:mobile];
+    
+    faultType = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(mobile.frame) + 10.f, CGRectGetWidth(mobile.frame), 20)];
     faultType.textColor = colorWithHexString(@"000000");
     faultType.font = [UIFont boldSystemFontOfSize:17.f];
     faultType.text = [NSString stringWithFormat:@"故障类型:%ld",(long)_repairInfo.faulttype];
     [scrollView addSubview:faultType];
     
-    cause = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(faultType.frame) + 10.f, CGRectGetWidth(name.frame), 20)];
+    cause = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(faultType.frame) + 10.f, CGRectGetWidth(faultType.frame), 20)];
     cause.textColor = colorWithHexString(@"000000");
     cause.font = [UIFont boldSystemFontOfSize:17.f];
     cause.text = [NSString stringWithFormat:@"故障描述:%@",_repairInfo.faulttype_name];
@@ -305,6 +312,7 @@
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
         place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.place_name,repairDetail.stores_name];
         name.text = [NSString stringWithFormat:@"报修人:%@",repairDetail.fault];
+        mobile.text = [NSString stringWithFormat:@"手机号:%@",repairDetail.visitmobile];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
         

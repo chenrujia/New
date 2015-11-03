@@ -45,9 +45,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //自动键盘
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     //默认自动登录
-    if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [BXTGlobal getUserProperty:U_CLIENTID])
+    if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
     {
-        NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":[BXTGlobal getUserProperty:U_PASSWORD],@"cid":[BXTGlobal getUserProperty:U_CLIENTID]};
+        NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":[BXTGlobal getUserProperty:U_PASSWORD],@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
         
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
         [dataRequest loginUser:userInfoDic];
@@ -217,7 +217,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)GeTuiSdkDidRegisterClient:(NSString *)clientId  // SDK 返回clientid
 {
     LogRed(@"clientId:%@",clientId);
-    [BXTGlobal setUserProperty:clientId withKey:U_CLIENTID];
+    [[NSUserDefaults standardUserDefaults] setObject:clientId forKey:@"clientId"];
     if (_deviceToken)
     {
         [GeTuiSdk registerDeviceToken:_deviceToken];
@@ -349,8 +349,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
  */
 - (void)GeTuiSdkDidSendMessage:(NSString *)messageId result:(int)result
 {
-    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
-    NSLog(@"record  %@",record);
+//    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
+//    NSLog(@"record  %@",record);
 }
 
 /**
@@ -403,6 +403,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         
         NSArray *shopids = [userInfoDic objectForKey:@"shop_ids"];
         [BXTGlobal setUserProperty:shopids withKey:U_SHOPIDS];
+        
+        NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
+        [BXTGlobal setUserProperty:userID withKey:U_USERID];
 
         NSArray *my_shop = [userInfoDic objectForKey:@"my_shop"];
         [BXTGlobal setUserProperty:my_shop withKey:U_MYSHOP];
@@ -417,9 +420,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
             NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
-            
-            NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
-            [BXTGlobal setUserProperty:userID withKey:U_USERID];
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
             [pic_request updateHeadPic:[userInfoDic objectForKey:@"pic"]];

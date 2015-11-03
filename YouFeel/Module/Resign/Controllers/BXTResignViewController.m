@@ -222,6 +222,7 @@ static NSString *cellIndentify = @"cellIndentify";
     {
         cell.nameLabel.text = @"密   码";
         cell.textField.placeholder = @"请输入登录密码，至少6位";
+        cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
         cell.codeButton.hidden = YES;
         cell.textField.tag = PassWordTag;
     }

@@ -66,7 +66,7 @@
     
     if (_vcType == RepairType)
     {
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, NavBarHeight - 40.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"已接单",@"维修中",@"已完成"]];
+        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, NavBarHeight - 40.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"等待中",@"维修中",@"已完成"]];
     }
     else if (_vcType == MaintenanceManType)
     {

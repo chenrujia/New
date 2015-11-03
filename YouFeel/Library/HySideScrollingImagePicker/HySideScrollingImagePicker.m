@@ -546,10 +546,12 @@
     }
     /*END*/
     
-    if ([self isBlankString:_AttachTitle]) {
+    if ([self isBlankString:_AttachTitle])
+    {
         
-    }else{
-        
+    }
+    else
+    {
         UILabel *AttachTitleView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, W, kSubTitleHeight)];
         AttachTitleView.backgroundColor = [UIColor whiteColor];
         AttachTitleView.font = [UIFont systemFontOfSize:12.0f];
@@ -558,7 +560,6 @@
         AttachTitleView.textAlignment = 1;
         
         [_ButtomView addSubview:AttachTitleView];
-        
     }
     
     typeof(self) __weak weak = self;
@@ -612,7 +613,6 @@
 }
 
 -(void)DismissBlock:(CompleteAnimationBlock)block{
-    
     
     typeof(self) __weak weak = self;
     CGFloat height = ((ItemHeight+0.5f)+Spacing) + (_Titles.count * (ItemHeight+0.5f)) + kCollectionViewHeight;

@@ -35,6 +35,12 @@
     [self setupForDismissKeyboard];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
+
 #pragma mark -
 #pragma mark 初始化视图
 - (void)backGround
@@ -158,7 +164,7 @@
         [BXTGlobal setUserProperty:userNameTF.text withKey:U_USERNAME];
         [BXTGlobal setUserProperty:passWordTF.text withKey:U_PASSWORD];
         
-        NSDictionary *userInfoDic = @{@"password":passWordTF.text,@"username":userNameTF.text,@"cid":[BXTGlobal getUserProperty:U_CLIENTID]};
+        NSDictionary *userInfoDic = @{@"password":passWordTF.text,@"username":userNameTF.text,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
         
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
         [dataRequest loginUser:userInfoDic];
@@ -224,6 +230,9 @@
         NSArray *shopids = [userInfoDic objectForKey:@"shop_ids"];
         [BXTGlobal setUserProperty:shopids withKey:U_SHOPIDS];
         
+        NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
+        [BXTGlobal setUserProperty:userID withKey:U_USERID];
+        
         NSArray *my_shop = [userInfoDic objectForKey:@"my_shop"];
         [BXTGlobal setUserProperty:my_shop withKey:U_MYSHOP];
    
@@ -238,9 +247,6 @@
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
             NSString *url = [NSString stringWithFormat:@"http://api.91eng.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
-            
-            NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
-            [BXTGlobal setUserProperty:userID withKey:U_USERID];
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
             [pic_request updateHeadPic:[userInfoDic objectForKey:@"pic"]];
