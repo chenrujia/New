@@ -142,7 +142,7 @@
         nextTapBtn.frame = CGRectMake(20, 30, SCREEN_WIDTH - 40, 50.f);
         [nextTapBtn setTitle:@"重设登录密码" forState:UIControlStateNormal];
         [nextTapBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-        [nextTapBtn setBackgroundColor:colorWithHexString(@"aac3e1")];
+        [nextTapBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         nextTapBtn.layer.masksToBounds = YES;
         nextTapBtn.layer.cornerRadius = 6.f;
         [nextTapBtn addTarget:self action:@selector(nextTapClick) forControlEvents:UIControlEventTouchUpInside];

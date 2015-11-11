@@ -28,7 +28,14 @@
 - (UIImageView *)navigationSetting:(NSString *)title andRightTitle:(NSString *)right_title andRightImage:(UIImage *)image
 {
     UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
-    naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    if ([BXTGlobal shareGlobal].isRepair)
+    {
+        naviView.image = [[UIImage imageNamed:@"Nav_Bars"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    }
+    else
+    {
+        naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    }
     naviView.userInteractionEnabled = YES;
     [self.view addSubview:naviView];
     
@@ -41,8 +48,8 @@
     
     UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     navi_leftButton.frame = CGRectMake(6, 20, 44, 44);
-    [navi_leftButton setImage:[UIImage imageNamed:@"Arrow_left"] forState:UIControlStateNormal];
-    [navi_leftButton setImage:[UIImage imageNamed:@"Arrow_left_select"] forState:UIControlStateNormal];
+    [navi_leftButton setImage:[UIImage imageNamed:@"Aroww_left"] forState:UIControlStateNormal];
+    [navi_leftButton setImage:[UIImage imageNamed:@"Aroww_left_selected"] forState:UIControlStateNormal];
     [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
     [naviView addSubview:navi_leftButton];
     

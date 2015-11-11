@@ -27,16 +27,6 @@
 
 @implementation BXTRepairHomeViewController
 
-- (instancetype)initWithIsRepair:(BOOL)repair
-{
-    self = [super init];
-    if (self)
-    {
-        self.isRepair = repair;
-    }
-    return self;
-}
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -46,18 +36,38 @@
 {
     [super viewDidLoad];
     
+    if (IS_IPHONE6P)
+    {
+        logoImgView.image = [UIImage imageNamed:@"ReBackgroundsIphone6P"];
+    }
+    else if (IS_IPHONE6)
+    {
+        logoImgView.image = [UIImage imageNamed:@"ReBackgroundsIphone6"];
+    }
+    else if (IS_IPHONE5)
+    {
+        logoImgView.image = [UIImage imageNamed:@"ReBackgroundsIphone5s"];
+    }
+    else
+    {
+        logoImgView.image = [UIImage imageNamed:@"ReBackgroundsIphone4s"];
+    }
+    
+    [shopBtn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
+    shop_label.text = @"我的新工单";
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comingNewRepairs) name:@"NewRepairComing" object:nil];
 
-    imgNameArray = [NSMutableArray arrayWithObjects:@"orders",
-                    @"Work_order_management",
-                    @"snotepad_ok",
-                    @"cloumnar_shape",
+    imgNameArray = [NSMutableArray arrayWithObjects:@"grab_one",
+                    @"notebook",
+                    @"user",
+                    @"evaluation",
                     @"Notice",
                     @"News",
                     @"Feedback",
                     @"Cuetomer_service",
                     @"About_us", nil];
-    titleNameArray = [NSMutableArray arrayWithObjects:@"接单",@"工单管理",@"审批",@"绩效",@"消息",@"会话",@"反馈",@"客服",@"关于", nil];
+    titleNameArray = [NSMutableArray arrayWithObjects:@"抢单",@"工单管理",@"业务申请",@"我的绩效",@"消息",@"会话",@"反馈",@"客服",@"关于", nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -88,7 +98,6 @@
 
 - (void)comingNewRepairs
 {
-    LogBlue(@"2count......%lu",(unsigned long)[BXTGlobal shareGlobal].orderIDs.count);
     BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
     [self.navigationController pushViewController:grabOrderVC animated:YES];
 }

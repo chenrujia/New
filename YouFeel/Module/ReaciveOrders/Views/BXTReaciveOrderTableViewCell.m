@@ -20,7 +20,7 @@
         lineView.backgroundColor = colorWithHexString(@"dee3e5");
         [self addSubview:lineView];
         
-        _repairID = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 160.f, 20)];
+        _repairID = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 180.f, 20)];
         _repairID.textColor = colorWithHexString(@"000000");
         _repairID.font = [UIFont boldSystemFontOfSize:17.f];
         [self addSubview:_repairID];
@@ -57,10 +57,10 @@
         
         _reaciveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _reaciveBtn.layer.cornerRadius = 6.f;
-        _reaciveBtn.backgroundColor = colorWithHexString(@"febc2d");
+        _reaciveBtn.backgroundColor = colorWithHexString(@"3cafff");
         [_reaciveBtn setFrame:CGRectMake(0, CGRectGetMaxY(lineViewTwo.frame) + 10.f, 230.f, 40.f)];
         [_reaciveBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f, _reaciveBtn.center.y)];
-        [_reaciveBtn setTitle:@"接单" forState:UIControlStateNormal];
+        [_reaciveBtn setTitle:@"我要去" forState:UIControlStateNormal];
         [_reaciveBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         [self addSubview:_reaciveBtn];
     }

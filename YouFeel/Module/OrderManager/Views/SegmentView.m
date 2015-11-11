@@ -8,6 +8,7 @@
 #import "SegmentView.h"
 #import "UIImage+SubImage.h"
 #import "BXTHeaderFile.h"
+#import "BXTGlobal.h"
 
 @interface MyButton: UIButton
 @end
@@ -80,7 +81,19 @@
         // 设置按钮的frame
         btn.frame = CGRectMake(i + i * btnWidth, 0, btnWidth, CGRectGetHeight(self.frame));
         NSString *normal = @"Rectangle_1";
-        NSString *selected = @"Rectangle_2";
+        NSString *selected;
+        if ([BXTGlobal shareGlobal].isRepair)
+        {
+            selected = @"Rectangle_3";
+            [btn setTitleColor:colorWithHexString(@"3562b5") forState:UIControlStateSelected];
+            [btn setTitleColor:colorWithHexString(@"0a439c") forState:UIControlStateNormal];
+        }
+        else
+        {
+            selected = @"Rectangle_2";
+            [btn setTitleColor:colorWithHexString(@"217acf") forState:UIControlStateSelected];
+            [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+        }
         [btn setBackgroundImage:[UIImage resizeImage:normal] forState:UIControlStateNormal];
         [btn setBackgroundImage:[UIImage resizeImage:selected] forState:UIControlStateSelected];
         
@@ -88,8 +101,6 @@
         // btn.adjustsImageWhenHighlighted = NO;
         btn.titleLabel.font = [UIFont systemFontOfSize:14];
         [btn setTitle:titles[i] forState:UIControlStateNormal];
-        [btn setTitleColor:colorWithHexString(@"3daeff") forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         
         // 设置监听器
         [btn addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchUpInside];

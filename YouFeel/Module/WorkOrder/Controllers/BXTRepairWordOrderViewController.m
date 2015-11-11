@@ -408,7 +408,7 @@
         repairBtn.frame = CGRectMake(20, 20, width, 50.f);
         [repairBtn setTitle:@"我来修" forState:UIControlStateNormal];
         [repairBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-        [repairBtn setBackgroundColor:colorWithHexString(@"aac3e1")];
+        [repairBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         repairBtn.layer.masksToBounds = YES;
         repairBtn.layer.cornerRadius = 4.f;
         [repairBtn addTarget:self action:@selector(repairClick) forControlEvents:UIControlEventTouchUpInside];
@@ -418,7 +418,7 @@
         doneBtn.frame = CGRectMake(x, 20, width, 50.f);
         [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
         [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-        [doneBtn setBackgroundColor:colorWithHexString(@"aac3e1")];
+        [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         doneBtn.layer.masksToBounds = YES;
         doneBtn.layer.cornerRadius = 4.f;
         [doneBtn addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];

@@ -18,9 +18,8 @@
     UIButton         *shopBtn;
     UILabel          *shop_label;
     NSMutableArray   *datasource;
+    UIImageView      *logoImgView;
 }
-
-@property (nonatomic ,assign) BOOL isRepair;
 
 - (void)createLogoView;
 - (void)repairClick;

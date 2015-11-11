@@ -56,8 +56,7 @@
 #pragma mark 初始化视图
 - (void)createLogoView
 {
-    UIImageView *logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 235.f)];
-    logoImgView.image = [UIImage imageNamed:@"logo_iphone5"];
+    logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 235.f)];
     logoImgView.userInteractionEnabled = YES;
     [self.view addSubview:logoImgView];
     
@@ -83,7 +82,6 @@
     shopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shopBtn setFrame:CGRectMake(0, CGRectGetMaxY(logo_btn.frame) + 25.f, 90, 90)];
     [shopBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f, shopBtn.center.y)];
-    [shopBtn setImage:[UIImage imageNamed:@"tools"] forState:UIControlStateNormal];
     [shopBtn addTarget:self action:@selector(repairClick) forControlEvents:UIControlEventTouchUpInside];
     [logoImgView addSubview:shopBtn];
     
@@ -91,8 +89,7 @@
     shop_label = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(shopBtn.frame) + 10.f, 130.f, 20.f)];
     shop_label.center = CGPointMake(SCREEN_WIDTH/2.f, shop_label.center.y);
     shop_label.textAlignment = NSTextAlignmentCenter;
-    shop_label.textColor = colorWithHexString(@"3cafff");
-    shop_label.text = @"一键报修";
+    shop_label.textColor = colorWithHexString(@"ffffff");
     shop_label.font = [UIFont boldSystemFontOfSize:18.f];
     [logoImgView addSubview:shop_label];
     
@@ -126,7 +123,7 @@
 #pragma mark 事件处理
 - (void)settingClick
 {
-    BXTSettingViewController *settingVC = [[BXTSettingViewController alloc] initWithIsRepair:_isRepair];
+    BXTSettingViewController *settingVC = [[BXTSettingViewController alloc] init];
     [self.navigationController pushViewController:settingVC animated:YES];
 }
 

@@ -39,14 +39,21 @@
 - (void)navigationSetting
 {
     UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, NavBarHeight)];
-    naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    if ([BXTGlobal shareGlobal].isRepair)
+    {
+        naviView.image = [[UIImage imageNamed:@"Nav_Bars"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    }
+    else
+    {
+        naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    }
     naviView.userInteractionEnabled = YES;
     [self.view addSubview:naviView];
     
     UIButton * nav_leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 50, 44)];
     nav_leftButton.backgroundColor = [UIColor clearColor];
-    [nav_leftButton setImage:[UIImage imageNamed:@"Arrow_left"] forState:UIControlStateNormal];
-    [nav_leftButton setImage:[UIImage imageNamed:@"Arrow_left_select"] forState:UIControlStateNormal];
+    [nav_leftButton setImage:[UIImage imageNamed:@"Aroww_left"] forState:UIControlStateNormal];
+    [nav_leftButton setImage:[UIImage imageNamed:@"Aroww_left_selected"] forState:UIControlStateNormal];
     [nav_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
     [naviView addSubview:nav_leftButton];
     

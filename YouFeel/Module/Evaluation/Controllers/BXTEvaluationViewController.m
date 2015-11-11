@@ -127,12 +127,11 @@
     commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 40.f, SCREEN_WIDTH - 40, 50.f);
     [commitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [commitBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    [commitBtn setBackgroundColor:colorWithHexString(@"aac3e1")];
+    [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     commitBtn.layer.masksToBounds = YES;
     commitBtn.layer.cornerRadius = 6.f;
     [commitBtn addTarget:self action:@selector(commitEvaluation) forControlEvents:UIControlEventTouchUpInside];
     [backView addSubview:commitBtn];
-    
     
     scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(commitBtn.frame)+70);
 }
