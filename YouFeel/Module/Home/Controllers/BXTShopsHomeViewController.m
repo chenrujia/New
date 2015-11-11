@@ -14,6 +14,7 @@
 #import "BXTEvaluationListViewController.h"
 #import "BXTHeadquartersInfo.h"
 #import "BXTGlobal.h"
+#import "BXTPublicSetting.h"
 #import "BXTMessageListViewController.h"
 #import "BXTFeedbackViewController.h"
 #import "BXTCustomerServiceViewController.h"
@@ -27,29 +28,40 @@
 
 @implementation BXTShopsHomeViewController
 
-- (instancetype)initWithIsRepair:(BOOL)repair
-{
-    self = [super init];
-    if (self)
-    {
-        self.isRepair = repair;
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    imgNameArray = [NSMutableArray arrayWithObjects:@"homeTooL",
-                    @"Work_order_management",
-                    @"snotepad_ok",
+    
+    if (IS_IPHONE6P)
+    {
+        logoImgView.image = [UIImage imageNamed:@"backgroundIphone6P"];
+    }
+    else if (IS_IPHONE6)
+    {
+        logoImgView.image = [UIImage imageNamed:@"backgroundIphone6"];
+    }
+    else if (IS_IPHONE5)
+    {
+        logoImgView.image = [UIImage imageNamed:@"backgroundIphone5s"];
+    }
+    else
+    {
+        logoImgView.image = [UIImage imageNamed:@"backgroundIphone4s"];
+    }
+    
+    [shopBtn setImage:[UIImage imageNamed:@"WarrantyIcon"] forState:UIControlStateNormal];
+    shop_label.text = @"我要报修";
+    
+    imgNameArray = [NSMutableArray arrayWithObjects:@"calendar",
+                    @"notebook",
+                    @"user",
                     @"evaluation",
                     @"Notice",
                     @"News",
                     @"Feedback",
                     @"Cuetomer_service",
                     @"About_us", nil];
-    titleNameArray = [NSMutableArray arrayWithObjects:@"我要报修",@"工单管理",@"审批",@"评价",@"消息",@"会话",@"反馈",@"客服",@"关于", nil];
+    titleNameArray = [NSMutableArray arrayWithObjects:@"新工单",@"工单管理",@"业务申请",@"评价",@"消息",@"沟通记录",@"意见反馈",@"客服",@"关于我们", nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated

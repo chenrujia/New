@@ -32,7 +32,6 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     NSString *verify_state;
     NSString *checks_user;
     NSString *checks_user_department;
-    BOOL isRepair;
     BOOL isHaveChecker;
     NSDictionary *checkUserDic;
 }
@@ -42,16 +41,6 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 @end
 
 @implementation BXTSettingViewController
-
-- (instancetype)initWithIsRepair:(BOOL)repair
-{
-    self = [super init];
-    if (self)
-    {
-        isRepair = repair;
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -330,7 +319,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             quitOut.frame = CGRectMake(20, 40, SCREEN_WIDTH - 40, 50.f);
             [quitOut setTitle:@"退出登录" forState:UIControlStateNormal];
             [quitOut setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-            [quitOut setBackgroundColor:colorWithHexString(@"aac3e1")];
+            [quitOut setBackgroundColor:colorWithHexString(@"3cafff")];
             quitOut.layer.masksToBounds = YES;
             quitOut.layer.cornerRadius = 6.f;
             [quitOut addTarget:self action:@selector(quitOutClick) forControlEvents:UIControlEventTouchUpInside];
@@ -360,7 +349,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         quitOut.frame = CGRectMake(20, 25, SCREEN_WIDTH - 40, 50.f);
         [quitOut setTitle:@"退出登录" forState:UIControlStateNormal];
         [quitOut setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-        [quitOut setBackgroundColor:colorWithHexString(@"aac3e1")];
+        [quitOut setBackgroundColor:colorWithHexString(@"3cafff")];
         quitOut.layer.masksToBounds = YES;
         quitOut.layer.cornerRadius = 6.f;
         [quitOut addTarget:self action:@selector(quitOutClick) forControlEvents:UIControlEventTouchUpInside];
@@ -406,7 +395,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     }
     else if (section == 2)
     {
-        if (isRepair)
+        if ([BXTGlobal shareGlobal].isRepair)
         {
             return 2;
         }
@@ -494,7 +483,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
             [cell.auditStatusLabel setFrame:CGRectMake(CGRectGetMaxX(cell.detailLable.frame) + 20.f, 15.f, 80.f, 20.f)];
             cell.auditStatusLabel.text = verify_state;
-            if (isRepair)
+            if ([BXTGlobal shareGlobal].isRepair)
             {
                 if (indexPath.row == 0)
                 {

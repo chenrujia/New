@@ -18,10 +18,11 @@
 
 @interface BXTGlobal : NSObject
 
-@property (nonatomic ,assign) NSInteger maxPics;
-@property (nonatomic ,strong) NSString  *baseURL;
+@property (nonatomic ,assign) NSInteger      maxPics;
+@property (nonatomic ,strong) NSString       *baseURL;
 @property (nonatomic ,strong) NSMutableArray *orderIDs;
-@property (nonatomic ,strong) NSString *newsShopID;
+@property (nonatomic ,strong) NSString       *newsShopID;
+@property (nonatomic ,assign) BOOL           isRepair;
 
 + (BXTGlobal *)shareGlobal;
 

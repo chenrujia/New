@@ -177,7 +177,7 @@
     cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
     [cancelRepair setTitle:@"取消报修" forState:UIControlStateNormal];
     [cancelRepair setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    [cancelRepair setBackgroundColor:colorWithHexString(@"aac3e1")];
+    [cancelRepair setBackgroundColor:colorWithHexString(@"3cafff")];
     cancelRepair.layer.masksToBounds = YES;
     cancelRepair.layer.cornerRadius = 6.f;
     [cancelRepair addTarget:self action:@selector(cancelBtn) forControlEvents:UIControlEventTouchUpInside];

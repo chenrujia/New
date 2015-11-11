@@ -109,12 +109,14 @@
     UINavigationController *nav;
     if ([[dic objectForKey:@"is_repair"] integerValue] == 1)
     {
-        BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] initWithIsRepair:NO];
+        [BXTGlobal shareGlobal].isRepair = NO;
+        BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] init];
         nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
     }
     else if ([[dic objectForKey:@"is_repair"] integerValue] == 2)
     {
-        BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] initWithIsRepair:YES];
+        [BXTGlobal shareGlobal].isRepair = YES;
+        BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] init];
         nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
     }
     nav.navigationBar.hidden = YES;

@@ -384,7 +384,7 @@
         doneBtn.frame = CGRectMake(20, 20, SCREEN_WIDTH - 40.f, 50.f);
         [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
         [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-        [doneBtn setBackgroundColor:colorWithHexString(@"aac3e1")];
+        [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         doneBtn.layer.masksToBounds = YES;
         doneBtn.layer.cornerRadius = 4.f;
         [doneBtn addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];

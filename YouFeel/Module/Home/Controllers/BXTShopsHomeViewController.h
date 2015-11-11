@@ -10,6 +10,4 @@
 
 @interface BXTShopsHomeViewController : BXTHomeViewController
 
-- (instancetype)initWithIsRepair:(BOOL)repair;
-
 @end

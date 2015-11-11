@@ -367,7 +367,7 @@
 
 - (void)evaluationListWithType:(NSInteger)evaType
 {
-    NSDictionary *dic = @{@"fault_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+    NSDictionary *dic = @{@"faultid":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"repairstate":[NSString stringWithFormat:@"%ld",(long)evaType]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=evaluation_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
