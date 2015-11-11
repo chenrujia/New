@@ -121,7 +121,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    LogRed(@"dic.......%@",dic);
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         NSArray *array = [dic objectForKey:@"data"];
