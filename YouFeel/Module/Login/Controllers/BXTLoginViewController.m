@@ -158,32 +158,32 @@
     [passWordTF resignFirstResponder];
     [btn setBackgroundColor:colorWithHexString(@"fdbd2c")];
     
-    [self showLoadingMBP:@"正在登录..."];
+//    [self showLoadingMBP:@"正在登录..."];
+//    
+//    [BXTGlobal setUserProperty:userNameTF.text withKey:U_USERNAME];
+//    [BXTGlobal setUserProperty:passWordTF.text withKey:U_PASSWORD];
+//    
+//    NSDictionary *userInfoDic = @{@"password":passWordTF.text,@"username":userNameTF.text,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+//    
+//    BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+//    [dataRequest loginUser:userInfoDic];
     
-    [BXTGlobal setUserProperty:userNameTF.text withKey:U_USERNAME];
-    [BXTGlobal setUserProperty:passWordTF.text withKey:U_PASSWORD];
-    
-    NSDictionary *userInfoDic = @{@"password":passWordTF.text,@"username":userNameTF.text,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
-    
-    BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dataRequest loginUser:userInfoDic];
-    
-//    if ([BXTGlobal validateMobile:userNameTF.text])
-//    {
-//        [self showLoadingMBP:@"正在登录..."];
-//
-//        [BXTGlobal setUserProperty:userNameTF.text withKey:U_USERNAME];
-//        [BXTGlobal setUserProperty:passWordTF.text withKey:U_PASSWORD];
-//        
-//        NSDictionary *userInfoDic = @{@"password":passWordTF.text,@"username":userNameTF.text,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
-//        
-//        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [dataRequest loginUser:userInfoDic];
-//    }
-//    else
-//    {
-//        [self showMBP:@"手机号格式不对" withBlock:nil];
-//    }
+    if ([BXTGlobal validateMobile:userNameTF.text])
+    {
+        [self showLoadingMBP:@"正在登录..."];
+
+        [BXTGlobal setUserProperty:userNameTF.text withKey:U_USERNAME];
+        [BXTGlobal setUserProperty:passWordTF.text withKey:U_PASSWORD];
+        
+        NSDictionary *userInfoDic = @{@"password":passWordTF.text,@"username":userNameTF.text,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+        
+        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dataRequest loginUser:userInfoDic];
+    }
+    else
+    {
+        [self showMBP:@"手机号格式不对" withBlock:nil];
+    }
 }
 
 - (void)loginOutside:(UIButton *)btn
