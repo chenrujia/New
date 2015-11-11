@@ -39,6 +39,21 @@
  */
 + (BOOL)validateMobile:(NSString *)mobile;
 
+/**
+ *  正则验证4位验证码
+ */
++ (BOOL)validateCAPTCHA:(NSString *)captcha;
+
+/**
+ *  正则验证用户名（中英文）
+ */
++ (BOOL)validateUserName:(NSString *)username;
+
+/**
+ *  正则验证6位及以上密码
+ */
++ (BOOL)validatePassword:(NSString *)pw;
+
 - (void)enableForIQKeyBoard:(BOOL)enable;
 
 /**

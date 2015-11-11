@@ -55,6 +55,11 @@ static NSString *cellIndentify = @"resignCellIndentify";
 #pragma mark 事件处理
 - (void)doneClick
 {
+    if (![BXTGlobal validateUserName:nickName]) {
+        [self showMBP:@"请输入您的真实姓名" withBlock:nil];
+        return;
+    }
+    
     [self showLoadingMBP:@"注册中..."];
     [BXTGlobal setUserProperty:nickName withKey:U_NAME];
     [BXTGlobal setUserProperty:sex withKey:U_SEX];
@@ -220,6 +225,8 @@ static NSString *cellIndentify = @"resignCellIndentify";
  */
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
+    
     LogRed(@"%@", response);
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"state"] integerValue] == 1)
@@ -231,7 +238,11 @@ static NSString *cellIndentify = @"resignCellIndentify";
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:headVC];
         nav.navigationBar.hidden = YES;
         [AppDelegate appdelegete].window.rootViewController = nav;
+    } else if ([[dic objectForKey:@"returncode"] integerValue] == 6) {
+        [self showMBP:@"该手机号已注册，请直接登陆" withBlock:nil];
     }
+    
+    
 }
 
 - (void)requestError:(NSError *)error

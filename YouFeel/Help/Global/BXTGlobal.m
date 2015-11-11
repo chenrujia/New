@@ -128,6 +128,24 @@
     return [mobileTest evaluateWithObject:mobile];
 }
 
++ (BOOL)validateCAPTCHA:(NSString *)captcha {
+    NSString *captchaRegex = @"^\\d{4}$";
+    NSPredicate *captchaTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", captchaRegex];
+    return [captchaTest evaluateWithObject:captcha];
+}
+
++ (BOOL)validateUserName:(NSString *)username {
+    NSString *usernameRegex = @"^([\u4e00-\u9fa5]+|([a-zA-Z]+\\s?)+)$";
+    NSPredicate *usernamePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",usernameRegex];
+    return [usernamePredicate evaluateWithObject:username];
+}
+
++ (BOOL)validatePassword:(NSString *)pw {
+    NSString *passWordRegex = @"^[a-zA-Z0-9]{6,}+$";
+    NSPredicate *passWordPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",passWordRegex];
+    return [passWordPredicate evaluateWithObject:pw];
+}
+
 - (void)enableForIQKeyBoard:(BOOL)enable
 {
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
