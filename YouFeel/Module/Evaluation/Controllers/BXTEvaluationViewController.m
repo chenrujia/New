@@ -23,6 +23,8 @@
     BXTRemarksTableViewCell *remarkCell;
     NSMutableArray *rateArray;
     NSString *notes;
+    
+    UIScrollView *scrollView;
 }
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
 @end
@@ -69,9 +71,15 @@
 #pragma mark 初始化视图
 - (void)createSubviews
 {
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
+    scrollView.backgroundColor = colorWithHexString(@"ffffff");
+    [self.view addSubview:scrollView];
+    
+    
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT)];
     backView.backgroundColor = colorWithHexString(@"ffffff");
-    [self.view addSubview:backView];
+    [scrollView addSubview:backView];
     
     NSArray *titleArray = @[@"反应速度",@"专业水平",@"服务态度"];
     for (NSInteger i = 0; i < 3; i++)
@@ -124,6 +132,9 @@
     commitBtn.layer.cornerRadius = 6.f;
     [commitBtn addTarget:self action:@selector(commitEvaluation) forControlEvents:UIControlEventTouchUpInside];
     [backView addSubview:commitBtn];
+    
+    
+    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(commitBtn.frame)+70);
 }
 
 #pragma mark -

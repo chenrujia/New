@@ -189,6 +189,7 @@
     reaciveOrder.layer.cornerRadius = 6.f;
     [reaciveOrder addTarget:self action:@selector(reaciveOrderBtn) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:reaciveOrder];
+    
 }
 
 #pragma mark -
@@ -471,7 +472,7 @@
             else
             {
                 reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(lineView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
-                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ContentHeight + ImageHeight + 40.f);
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(reaciveOrder.frame));
             }
         }
         else
@@ -486,7 +487,7 @@
             else
             {
                 reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(lineView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
-                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ContentHeight);
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(reaciveOrder.frame));
             }
         }
         if (repairDetail.repairstate == 2)
