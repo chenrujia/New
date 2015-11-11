@@ -30,6 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = colorWithHexString(@"ffffff");
     [self backGround];
     [self initContentViews];
     [self setupForDismissKeyboard];
@@ -45,24 +46,11 @@
 #pragma mark 初始化视图
 - (void)backGround
 {
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    if (IS_IPHONE6P)
-    {
-        imageView.image = [UIImage imageNamed:@"Background_plus"];
-    }
-    else if (IS_IPHONE6)
-    {
-        imageView.image = [UIImage imageNamed:@"background_iphone6"];
-    }
-    else if (IS_IPHONE5)
-    {
-        imageView.image = [UIImage imageNamed:@"Background_iphone5s"];
-    }
-    else
-    {
-        imageView.image = [UIImage imageNamed:@"Background_iphone4s"];
-    }
-    [self.view addSubview:imageView];
+    UIImageView *logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 80.f, 182.5, 63.3)];
+    logoImgView.center = CGPointMake(SCREEN_WIDTH/2.f, logoImgView.center.y);
+    logoImgView.image = [UIImage imageNamed:@"logo"];
+    
+    [self.view addSubview:logoImgView];
 }
 
 - (void)initContentViews
@@ -116,20 +104,13 @@
     loginBtn.frame = CGRectMake(CGRectGetMinX(textfiledBackView.frame) + 20.f, CGRectGetMaxY(textfiledBackView.frame) + 36.f, CGRectGetWidth(textfiledBackView.frame) - 40.f, 44.f);
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [loginBtn setBackgroundColor:colorWithHexString(@"fdbd2c")];
+    [loginBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     loginBtn.layer.masksToBounds = YES;
     loginBtn.layer.cornerRadius = 6.f;
     [loginBtn addTarget:self action:@selector(loginHightLight:) forControlEvents:UIControlEventTouchDown];
     [loginBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
     [loginBtn addTarget:self action:@selector(loginOutside:) forControlEvents:UIControlEventTouchUpOutside];
     [self.view addSubview:loginBtn];
-    
-    UIButton *resignBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [resignBtn setFrame:CGRectMake(CGRectGetMinX(loginBtn.frame), CGRectGetMaxY(loginBtn.frame), 50, 40.f)];
-    [resignBtn setTitle:@"注册" forState:UIControlStateNormal];
-    [resignBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-    [resignBtn addTarget:self action:@selector(resignUser) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:resignBtn];
 
     UIButton *findPassWordBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [findPassWordBtn setFrame:CGRectMake(CGRectGetMaxX(loginBtn.frame) - 90, CGRectGetMaxY(loginBtn.frame), 90, 40.f)];
@@ -137,6 +118,13 @@
     [findPassWordBtn setTitleColor:colorWithHexString(@"4e74a5") forState:UIControlStateNormal];
     [findPassWordBtn addTarget:self action:@selector(findPassWord) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:findPassWordBtn];
+    
+    UIButton *resignBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [resignBtn setFrame:CGRectMake(0, SCREEN_HEIGHT - (IS_IPHONE6P ? 50.2f : 33.5f) - (IS_IPHONE6P ? 30 : 20), (IS_IPHONE6P ? 175.f : 116.5f), (IS_IPHONE6P ? 50.2f : 33.5f))];
+    [resignBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f, resignBtn.center.y)];
+    [resignBtn setImage:[UIImage imageNamed:@"Registered"] forState:UIControlStateNormal];
+    [resignBtn addTarget:self action:@selector(resignUser) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:resignBtn];
 }
 
 #pragma mark -
