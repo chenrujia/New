@@ -127,6 +127,26 @@
     backView.tag = 101;
     [self.view addSubview:backView];
     
+    
+    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216 - 44, 320, 44)];
+    pickerToolbar.barStyle = UIBarStyleBlack;
+    [pickerToolbar sizeToFit];
+    
+    NSMutableArray *barItems = [[NSMutableArray alloc] init];
+    // cancel
+    UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithTitle:@" 取 消 " style:UIBarButtonItemStyleBordered target:self action:@selector(toolBarCanelClick)];
+    [barItems addObject:cancelBtn];
+    // space
+    UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    [barItems addObject:flexSpace];
+    // done
+    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithTitle:@" 完 成 " style:UIBarButtonItemStyleDone target:self action:@selector(toolBarDoneClick)];
+    [barItems addObject:doneBtn];
+    
+    [pickerToolbar setItems:barItems animated:YES];
+    [backView addSubview:pickerToolbar];
+    
+    
     pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
     pickView.tag = 1000;
     pickView.showsSelectionIndicator = YES;
@@ -134,6 +154,14 @@
     pickView.dataSource = self;
     pickView.delegate = self;
     [self.view addSubview:pickView];
+}
+
+- (void)toolBarDoneClick {
+
+}
+
+- (void)toolBarCanelClick {
+    
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)tapGR
