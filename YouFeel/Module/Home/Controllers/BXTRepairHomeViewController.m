@@ -12,7 +12,7 @@
 #import "BXTGrabOrderViewController.h"
 #import "BXTAchievementsViewController.h"
 #import "BXTEvaluationListViewController.h"
-#import "BXTRepairWordOrderViewController.h"
+#import "BXTNewOrderViewController.h"
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
 #import "BXTMessageListViewController.h"
@@ -53,8 +53,8 @@
         logoImgView.image = [UIImage imageNamed:@"ReBackgroundsIphone4s"];
     }
     
-    [shopBtn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
-    shop_label.text = @"我的新工单";
+    [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
+    title_label.text = @"我的新工单";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comingNewRepairs) name:@"NewRepairComing" object:nil];
 
@@ -85,15 +85,15 @@
 {
     [super viewWillAppear:animated];
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    [logo_btn setTitle:companyInfo.name forState:UIControlStateNormal];
+    [shop_btn setTitle:companyInfo.name forState:UIControlStateNormal];
 }
 
 #pragma mark -
 #pragma mark 事件处理
 - (void)repairClick
 {
-    BXTRepairWordOrderViewController *workOrderVC = [[BXTRepairWordOrderViewController alloc] init];
-    [self.navigationController pushViewController:workOrderVC animated:YES];
+    BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] init];
+    [self.navigationController pushViewController:newOrderVC animated:YES];
 }
 
 - (void)comingNewRepairs
@@ -115,7 +115,7 @@
             break;
         case 1:
         {
-            BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] initWithControllerType:MaintenanceManType];
+            BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
             [self.navigationController pushViewController:orderManagerVC animated:YES];
         }
             break;

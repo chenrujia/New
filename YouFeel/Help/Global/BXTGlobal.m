@@ -12,6 +12,7 @@
 #import "BXTRepairHomeViewController.h"
 #import "BXTShopsHomeViewController.h"
 #import "AppDelegate.h"
+#import "BXTPublicSetting.h"
 
 #define USERKEY @"UserInfo"
 
@@ -197,6 +198,28 @@ UIColor* colorWithHexString(NSString *stringToConvert)
     [formatter setDateFormat:timeType];
     NSString *str = [NSString stringWithFormat:@"%@",[formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[time integerValue]]]];
     return str;
+}
+
+CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
+{
+    CGFloat value;
+    if (IS_IPHONE6P)
+    {
+        value = v1;
+    }
+    else if (IS_IPHONE6)
+    {
+        value = v2;
+    }
+    else if (IS_IPHONE5)
+    {
+        value = v3;
+    }
+    else
+    {
+        value = v4;
+    }
+    return value;
 }
 
 @end

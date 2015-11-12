@@ -14,11 +14,6 @@ typedef NS_ENUM(NSInteger, RefreshType) {
     Up
 };
 
-typedef NS_ENUM(NSInteger, ListViewType) {
-    RepairViewType,
-    MaintenanceManViewType
-};
-
 @interface BXTOrderListView : UIView <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
     NSMutableArray *repairListArray;
@@ -30,8 +25,7 @@ typedef NS_ENUM(NSInteger, ListViewType) {
 @property (nonatomic ,strong) NSString *repairState;
 @property (nonatomic ,assign) CGFloat startPointY;
 @property (nonatomic ,assign) BOOL isRequesting;
-@property (nonatomic ,assign) ListViewType viewType;
 
-- (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andListViewType:(ListViewType)type;
+- (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state;
 
 @end

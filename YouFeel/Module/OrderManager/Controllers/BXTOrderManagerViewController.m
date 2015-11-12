@@ -11,8 +11,7 @@
 #import "SegmentView.h"
 #import "BXTOrderListView.h"
 #import "BXTRepairViewController.h"
-
-#define NavBarHeight 100.f
+#import "UIImageView+WebCache.h"
 
 @interface BXTOrderManagerViewController ()<SegmentViewDelegate,UIScrollViewDelegate>
 {
@@ -24,16 +23,6 @@
 
 @implementation BXTOrderManagerViewController
 
-- (instancetype)initWithControllerType:(ControllerType)type
-{
-    self = [super init];
-    if (self)
-    {
-        self.vcType = type;
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -44,7 +33,8 @@
 #pragma mark 初始化视图
 - (void)navigationSetting
 {
-    UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, NavBarHeight)];
+    CGFloat navBarHeight = valueForDevice(235.f, 213.f, 181.5f, 153.5f);
+    UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, navBarHeight)];
     if ([BXTGlobal shareGlobal].isRepair)
     {
         naviView.image = [[UIImage imageNamed:@"Nav_Bars"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
@@ -70,11 +60,19 @@
     [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
     [naviView addSubview:navi_leftButton];
     
-    if (_vcType == RepairType)
+    //logo
+    [self createLogoView];
+    
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, navBarHeight, SCREEN_WIDTH, 40.f)];
+    [backView setBackgroundColor:colorWithHexString(@"ffffff")];
+    [self.view addSubview:backView];
+    
+    if (![BXTGlobal shareGlobal].isRepair)
     {
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, NavBarHeight - 40.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"等待中",@"维修中",@"已完成"]];
+        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"等待中",@"维修中",@"已完成"]];
+        segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     }
-    else if (_vcType == MaintenanceManType)
+    else
     {
         UIButton * navi_rightButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 50, 20, 44, 44)];
         navi_rightButton.backgroundColor = [UIColor clearColor];
@@ -83,27 +81,29 @@
         [navi_rightButton addTarget:self action:@selector(navigationrightButton) forControlEvents:UIControlEventTouchUpInside];
         [naviView addSubview:navi_rightButton];
         
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, NavBarHeight - 40.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"维修中",@"已完成"]];
+        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"维修中",@"已完成"]];
+        segment.layer.borderColor = colorWithHexString(@"0a4197").CGColor;
     }
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
+    segment.layer.borderWidth = 1.f;
     segment.delegate = self;
-    [self.view addSubview:segment];
+    [backView addSubview:segment];
     
-    currentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, NavBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT - NavBarHeight)];
+    currentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, navBarHeight + 40.f, SCREEN_WIDTH, SCREEN_HEIGHT - navBarHeight - 40.f)];
     currentScrollView.delegate = self;
-    if (_vcType == RepairType)
+    if (![BXTGlobal shareGlobal].isRepair)
     {
         currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
     }
-    else if (_vcType == MaintenanceManType)
+    else
     {
         currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 2, 0);
     }
     currentScrollView.pagingEnabled = YES;
     [self.view addSubview:currentScrollView];
     
-    if (_vcType == RepairType)
+    if (![BXTGlobal shareGlobal].isRepair)
     {
         for (NSInteger i = 1; i < 4; i++)
         {
@@ -116,11 +116,11 @@
             {
                 repairState = @"";
             }
-            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andListViewType:_vcType == MaintenanceManViewType ? MaintenanceManViewType : RepairViewType];
+            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState];
             [currentScrollView addSubview:orderList];
         }
     }
-    else if (_vcType == MaintenanceManType)
+    else
     {
         for (NSInteger i = 1; i < 3; i++)
         {
@@ -129,10 +129,52 @@
             {
                 repairState = @"";
             }
-            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andListViewType:_vcType == MaintenanceManViewType ? MaintenanceManViewType : RepairViewType];
+            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState];
             [currentScrollView addSubview:orderList];
         }
     }
+}
+
+- (void)createLogoView
+{
+    UIView *logoView = [[UIView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, valueForDevice(171.f, 149.f, 117.5f, 89.5f))];
+    logoView.userInteractionEnabled = YES;
+    [self.view addSubview:logoView];
+    
+    CGFloat width = valueForDevice(73.f, 73.f, 50.f, 45.f);
+    UIImageView *headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, valueForDevice(10, 6, 6, 0), width, width)];
+    headImgView.center = CGPointMake(SCREEN_WIDTH/2.f, headImgView.center.y);
+    headImgView.layer.masksToBounds = YES;
+    headImgView.layer.cornerRadius = width/2.f;
+    [headImgView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+    [logoView addSubview:headImgView];
+    
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(headImgView.frame) + valueForDevice(15, 11, 8, 2), 130.f, 20.f)];
+    nameLabel.center = CGPointMake(SCREEN_WIDTH/2.f, nameLabel.center.y);
+    nameLabel.textAlignment = NSTextAlignmentCenter;
+    nameLabel.textColor = colorWithHexString(@"ffffff");
+    nameLabel.font = [UIFont boldSystemFontOfSize:IS_IPHONE4 ? 15.f : 17.f];
+    nameLabel.text = [BXTGlobal getUserProperty:U_NAME];
+    [logoView addSubview:nameLabel];
+    
+    UILabel *groupLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(nameLabel.frame) + valueForDevice(10, 8, 4, 2), 130.f, 20.f)];
+    groupLabel.center = CGPointMake(SCREEN_WIDTH/2.f, groupLabel.center.y);
+    groupLabel.textAlignment = NSTextAlignmentCenter;
+    groupLabel.textColor = colorWithHexString(@"ffffff");
+    groupLabel.font = [UIFont boldSystemFontOfSize:IS_IPHONE4 ? 11.f : 13.f];
+    BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
+    BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
+    if ([BXTGlobal shareGlobal].isRepair)
+    {
+        logoView.backgroundColor = colorWithHexString(@"09439c");
+        groupLabel.text = [NSString stringWithFormat:@"%@-%@",groupInfo.subgroup,postionInfo.role];
+    }
+    else
+    {
+        logoView.backgroundColor = colorWithHexString(@"3cafff");
+        groupLabel.text = postionInfo.role;
+    }
+    [logoView addSubview:groupLabel];
 }
 
 #pragma mark -

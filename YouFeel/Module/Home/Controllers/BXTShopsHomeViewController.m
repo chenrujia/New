@@ -49,8 +49,8 @@
         logoImgView.image = [UIImage imageNamed:@"backgroundIphone4s"];
     }
     
-    [shopBtn setImage:[UIImage imageNamed:@"WarrantyIcon"] forState:UIControlStateNormal];
-    shop_label.text = @"我要报修";
+    [logo_Btn setImage:[UIImage imageNamed:@"WarrantyIcon"] forState:UIControlStateNormal];
+    title_label.text = @"我要报修";
     
     imgNameArray = [NSMutableArray arrayWithObjects:@"calendar",
                     @"notebook",
@@ -68,7 +68,7 @@
 {
     [super viewWillAppear:animated];
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    [logo_btn setTitle:companyInfo.name forState:UIControlStateNormal];
+    [shop_btn setTitle:companyInfo.name forState:UIControlStateNormal];
 }
 
 #pragma mark -
@@ -92,7 +92,7 @@
             break;
         case 1:
         {
-            BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] initWithControllerType:RepairType];
+            BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
             [self.navigationController pushViewController:orderManagerVC animated:YES];
         }
             break;
