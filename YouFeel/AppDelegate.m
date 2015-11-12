@@ -81,15 +81,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];
-    NSDictionary *textAttributes = @{
-                                     NSFontAttributeName : font,
-                                     NSForegroundColorAttributeName : [UIColor whiteColor]
-                                     };
+    NSDictionary *textAttributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor whiteColor]};
     [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    [[UINavigationBar appearance]
-     setBarTintColor:colorWithHexString(@"042a5f")];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMessageNotification:) name:RCKitDispatchMessageNotification object:nil];
     //设置会话列表头像和会话界面头像
     [[RCIM sharedRCIM] setConnectionStatusDelegate:self];

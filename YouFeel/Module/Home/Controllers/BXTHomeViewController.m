@@ -36,6 +36,15 @@
 {
     [super viewDidLoad];
     
+    if ([BXTGlobal shareGlobal].isRepair)
+    {
+        [self.navigationController.navigationBar setBarTintColor:colorWithHexString(@"09439c")];
+    }
+    else
+    {
+        [self.navigationController.navigationBar setBarTintColor:colorWithHexString(@"3cafff")];
+    }
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newsComing:) name:@"NewsComing" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(haveConnact) name:@"HaveConnact" object:nil];
     [self createLogoView];
@@ -48,6 +57,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request messageList];
 }

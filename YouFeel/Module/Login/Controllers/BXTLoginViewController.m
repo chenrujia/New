@@ -137,14 +137,14 @@
 
 - (void)loginHightLight:(UIButton *)btn
 {
-    [btn setBackgroundColor:colorWithHexString(@"b59844")];
+    [btn setBackgroundColor:colorWithHexString(@"4d81e5")];
 }
 
 - (void)login:(UIButton *)btn
 {
     [userNameTF resignFirstResponder];
     [passWordTF resignFirstResponder];
-    [btn setBackgroundColor:colorWithHexString(@"fdbd2c")];
+    [btn setBackgroundColor:colorWithHexString(@"3cafff")];
     
     if ([BXTGlobal validateMobile:userNameTF.text])
     {
@@ -166,7 +166,7 @@
 
 - (void)loginOutside:(UIButton *)btn
 {
-    [btn setBackgroundColor:colorWithHexString(@"fdbd2c")];
+    [btn setBackgroundColor:colorWithHexString(@"3cafff")];
 }
 
 - (void)findPassWord
