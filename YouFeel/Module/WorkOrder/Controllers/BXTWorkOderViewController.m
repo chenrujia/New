@@ -32,7 +32,11 @@
     NSString *notes;
     BXTFaultInfo *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
+    BXTFaultInfo *cancelSelectFaultInfo;
+    BXTFaultTypeInfo *cancelSelectFaultTypeInfo;
     UIPickerView *pickView;
+    UIView *pickerbackView;
+    UIView *toolView;
     BOOL isPublic;
 }
 
@@ -121,11 +125,34 @@
 
 - (void)createBoxView
 {
-    UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.6f;
-    backView.tag = 101;
-    [self.view addSubview:backView];
+    cancelSelectFaultInfo = selectFaultInfo;
+    cancelSelectFaultTypeInfo = selectFaultTypeInfo;
+    
+    pickerbackView = [[UIView alloc] initWithFrame:self.view.bounds];
+    pickerbackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    pickerbackView.tag = 101;
+    [self.view addSubview:pickerbackView];
+    
+    
+    // 工具条
+    toolView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-44, SCREEN_WIDTH, 44)];
+    toolView.backgroundColor = colorWithHexString(@"cccdd0");
+    [pickerbackView addSubview:toolView];
+    // cancel
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 2, 80, 40)];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    [cancelBtn addTarget:self action:@selector(toolBarCanelClick) forControlEvents:UIControlEventTouchUpInside];
+    [toolView addSubview:cancelBtn];
+    // sure
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-80, 2, 80, 40)];
+    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    sureBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    [sureBtn addTarget:self action:@selector(toolBarDoneClick) forControlEvents:UIControlEventTouchUpInside];
+    [toolView addSubview:sureBtn];
+    
     
     pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
     pickView.tag = 1000;
@@ -134,6 +161,22 @@
     pickView.dataSource = self;
     pickView.delegate = self;
     [self.view addSubview:pickView];
+}
+
+- (void)toolBarDoneClick {
+    [pickView removeFromSuperview];
+    pickView = nil;
+    [pickerbackView removeFromSuperview];
+    [currentTableView reloadData];
+}
+
+- (void)toolBarCanelClick {
+    selectFaultInfo = cancelSelectFaultInfo;
+    selectFaultTypeInfo = cancelSelectFaultTypeInfo;
+    [pickView removeFromSuperview];
+    pickView = nil;
+    [pickerbackView removeFromSuperview];
+    [currentTableView reloadData];
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)tapGR
