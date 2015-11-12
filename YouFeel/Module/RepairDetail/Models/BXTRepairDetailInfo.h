@@ -24,12 +24,13 @@
 @property (nonatomic ,strong) NSString     *equipmentnumber;
 @property (nonatomic ,strong) NSString     *evaluation_name;
 @property (nonatomic ,strong) NSString     *evaluation_notes;
+@property (nonatomic ,strong) NSArray      *evaluation_pic;
 @property (nonatomic ,strong) NSString     *evaluation_time;
 @property (nonatomic ,strong) NSString     *fault;
 @property (nonatomic ,strong) NSArray      *fault_pic;
 @property (nonatomic ,assign) NSInteger    faulttype;
 @property (nonatomic ,strong) NSString     *faulttype_name;
-@property (nonatomic ,strong) NSDictionary *fixed_pic;
+@property (nonatomic ,strong) NSArray      *fixed_pic;
 @property (nonatomic ,assign) NSInteger    repairID;
 @property (nonatomic ,assign) NSInteger    is_gadget;
 @property (nonatomic ,strong) NSString     *mechanismid;

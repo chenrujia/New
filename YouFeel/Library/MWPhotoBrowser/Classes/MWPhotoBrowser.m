@@ -1091,7 +1091,23 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         if ([_delegate respondsToSelector:@selector(photoBrowser:titleForPhotoAtIndex:)]) {
             self.title = [_delegate photoBrowser:self titleForPhotoAtIndex:_currentPageIndex];
         } else {
-            self.title = [NSString stringWithFormat:@"%lu %@ %lu", (unsigned long)(_currentPageIndex+1), NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), (unsigned long)numberOfPhotos];
+            
+            int titlePreNum = [self.titlePreNumStr intValue];
+            NSString *titlePre;
+            int number;
+            if (_currentPageIndex+1 <= titlePreNum/100) {
+                titlePre = @"故障图";
+                number = titlePreNum/100;
+            } else if (_currentPageIndex+1 <= titlePreNum%100/10) {
+                titlePre = @"已修复";
+                number = titlePreNum%100/10;
+            } else {
+                titlePre = @"已评价";
+                number = titlePreNum%10;
+            }
+            
+            
+            self.title = [NSString stringWithFormat:@"%@ %lu %@ %lu",  titlePre, (unsigned long)(_currentPageIndex+1), NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), (unsigned long)number];
         }
 	} else {
 		self.title = nil;
