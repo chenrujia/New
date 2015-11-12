@@ -403,6 +403,7 @@
 		96AABA481BE078CD0071B6FA /* BXTChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AABA471BE078CD0071B6FA /* BXTChatListViewController.m */; };
 		96AABA541BE0BB220071B6FA /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96AABA4F1BE0BB220071B6FA /* RongCloudKit.strings */; };
 		96AABA551BE0BB220071B6FA /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96AABA521BE0BB220071B6FA /* RongCloudKit.strings */; };
+		96AD52611BF4341C00F02BE7 /* BXTNewOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD52601BF4341C00F02BE7 /* BXTNewOrderViewController.m */; };
 		96C0FEE81BDB357100580355 /* BXTFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FEE71BDB357100580355 /* BXTFeedbackViewController.m */; };
 		96C0FEF01BDB445E00580355 /* BXTCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FEEF1BDB445E00580355 /* BXTCustomerServiceViewController.m */; };
 		96C0FEF21BDB44CE00580355 /* CustomerService@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C0FEF11BDB44CE00580355 /* CustomerService@2x.png */; };
@@ -1074,6 +1075,8 @@
 		96AABA471BE078CD0071B6FA /* BXTChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChatListViewController.m; sourceTree = "<group>"; };
 		96AABA501BE0BB220071B6FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = RongCloudKit.strings; sourceTree = "<group>"; };
 		96AABA531BE0BB220071B6FA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = RongCloudKit.strings; sourceTree = "<group>"; };
+		96AD525F1BF4341C00F02BE7 /* BXTNewOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNewOrderViewController.h; sourceTree = "<group>"; };
+		96AD52601BF4341C00F02BE7 /* BXTNewOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewOrderViewController.m; sourceTree = "<group>"; };
 		96C0FEE61BDB357100580355 /* BXTFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFeedbackViewController.h; sourceTree = "<group>"; };
 		96C0FEE71BDB357100580355 /* BXTFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFeedbackViewController.m; sourceTree = "<group>"; };
 		96C0FEEE1BDB445E00580355 /* BXTCustomerServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomerServiceViewController.h; sourceTree = "<group>"; };
@@ -1205,6 +1208,7 @@
 		78B1830D1BF2EB32007D5B24 /* OrderManager */ = {
 			isa = PBXGroup;
 			children = (
+				96AD525A1BF433ED00F02BE7 /* NewOrder */,
 				960221901BC9216300010072 /* GrabOrder */,
 				960221F71BC9216300010072 /* OrderManager */,
 				960221E91BC9216300010072 /* MMOrderManager */,
@@ -3370,6 +3374,47 @@
 			path = "zh-Hans.lproj";
 			sourceTree = "<group>";
 		};
+		96AD525A1BF433ED00F02BE7 /* NewOrder */ = {
+			isa = PBXGroup;
+			children = (
+				96AD525B1BF433ED00F02BE7 /* Controllers */,
+				96AD525C1BF433ED00F02BE7 /* Images */,
+				96AD525D1BF433ED00F02BE7 /* Models */,
+				96AD525E1BF433ED00F02BE7 /* Views */,
+			);
+			path = NewOrder;
+			sourceTree = "<group>";
+		};
+		96AD525B1BF433ED00F02BE7 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				96AD525F1BF4341C00F02BE7 /* BXTNewOrderViewController.h */,
+				96AD52601BF4341C00F02BE7 /* BXTNewOrderViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		96AD525C1BF433ED00F02BE7 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		96AD525D1BF433ED00F02BE7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		96AD525E1BF433ED00F02BE7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		96C0FEE11BDB354400580355 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -3810,6 +3855,7 @@
 				960222991BC9216300010072 /* BXTHeadquartersViewController.m in Sources */,
 				9652AD941BC9170D009A666D /* MJRefreshBackStateFooter.m in Sources */,
 				967127751BE475DC0033169E /* AFSecurityPolicy.m in Sources */,
+				96AD52611BF4341C00F02BE7 /* BXTNewOrderViewController.m in Sources */,
 				960222FC1BC9216300010072 /* BXTResignTableViewCell.m in Sources */,
 				9652ADC21BC9170D009A666D /* MWPhotoBrowser.m in Sources */,
 				9652AE2E1BC9170E009A666D /* UIImage+GIF.m in Sources */,
