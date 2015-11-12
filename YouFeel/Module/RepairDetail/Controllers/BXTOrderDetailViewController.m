@@ -184,7 +184,7 @@
     reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
     [reaciveOrder setTitle:@"接单" forState:UIControlStateNormal];
     [reaciveOrder setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    [reaciveOrder setBackgroundColor:colorWithHexString(@"fdbd2c")];
+    [reaciveOrder setBackgroundColor:colorWithHexString(@"3cafff")];
     reaciveOrder.layer.masksToBounds = YES;
     reaciveOrder.layer.cornerRadius = 6.f;
     [reaciveOrder addTarget:self action:@selector(reaciveOrderBtn) forControlEvents:UIControlEventTouchUpInside];

@@ -64,4 +64,6 @@ UIColor* colorWithHexString(NSString *stringToConvert);
 
 + (NSString *)transformationTime:(NSString *)timeType withTime:(NSString *)time;
 
+CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
+
 @end

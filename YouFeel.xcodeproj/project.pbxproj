@@ -1999,12 +1999,12 @@
 		960222051BC9216300010072 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				960222061BC9216300010072 /* BXTMaintenanceManTableViewCell.h */,
-				960222071BC9216300010072 /* BXTMaintenanceManTableViewCell.m */,
-				960222081BC9216300010072 /* BXTOrderListView.h */,
-				960222091BC9216300010072 /* BXTOrderListView.m */,
 				9602220A1BC9216300010072 /* SegmentView.h */,
 				9602220B1BC9216300010072 /* SegmentView.m */,
+				960222081BC9216300010072 /* BXTOrderListView.h */,
+				960222091BC9216300010072 /* BXTOrderListView.m */,
+				960222061BC9216300010072 /* BXTMaintenanceManTableViewCell.h */,
+				960222071BC9216300010072 /* BXTMaintenanceManTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";

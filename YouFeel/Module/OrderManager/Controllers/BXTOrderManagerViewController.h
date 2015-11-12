@@ -8,15 +8,6 @@
 
 #import "BXTBaseViewController.h"
 
-typedef NS_ENUM(NSInteger, ControllerType) {
-    RepairType,
-    MaintenanceManType
-};
-
 @interface BXTOrderManagerViewController : BXTBaseViewController
-
-@property (nonatomic ,assign) ControllerType vcType;
-
-- (instancetype)initWithControllerType:(ControllerType)type;
 
 @end

@@ -66,42 +66,42 @@
 #pragma mark 初始化视图
 - (void)createLogoView
 {
-    logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 235.f)];
+    logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, valueForDevice(235.f, 213.f, 181.5f, 153.5f))];
     logoImgView.userInteractionEnabled = YES;
     [self.view addSubview:logoImgView];
     
-    //位置
-    logo_btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [logo_btn setFrame:CGRectMake(0, 30.f, 130.f, 30.f)];
-    logo_btn.center = CGPointMake(SCREEN_WIDTH/2.f, logo_btn.center.y);
-    logo_btn.titleLabel.font = [UIFont boldSystemFontOfSize:17.f];
-    [logo_btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    [logo_btn addTarget:self action:@selector(shopClick) forControlEvents:UIControlEventTouchUpInside];
-    [logoImgView addSubview:logo_btn];
+    //店名
+    shop_btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shop_btn setFrame:CGRectMake(0, valueForDevice(35.f, 35.f, 30.f, 25.f), 130.f, 20.f)];
+    shop_btn.center = CGPointMake(SCREEN_WIDTH/2.f, shop_btn.center.y);
+    shop_btn.titleLabel.font = [UIFont boldSystemFontOfSize:17.f];
+    [shop_btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    [shop_btn addTarget:self action:@selector(shopClick) forControlEvents:UIControlEventTouchUpInside];
+    [logoImgView addSubview:shop_btn];
     
     //设置
     UIButton *settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [settingBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 15.f, 25.f, 44.f, 44.f)];
+    [settingBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 15.f, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
     [settingBtn setTitle:@"设置" forState:UIControlStateNormal];
     settingBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [settingBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [settingBtn addTarget:self action:@selector(settingClick) forControlEvents:UIControlEventTouchUpInside];
     [logoImgView addSubview:settingBtn];
     
-    //店面
-    shopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shopBtn setFrame:CGRectMake(0, CGRectGetMaxY(logo_btn.frame) + 25.f, 90, 90)];
-    [shopBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f, shopBtn.center.y)];
-    [shopBtn addTarget:self action:@selector(repairClick) forControlEvents:UIControlEventTouchUpInside];
-    [logoImgView addSubview:shopBtn];
+    //logo
+    logo_Btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [logo_Btn setFrame:CGRectMake(0, CGRectGetMaxY(shop_btn.frame) + valueForDevice(25, 20, 12, 10), valueForDevice(90, 90, 80, 65), valueForDevice(90, 90, 80, 65))];
+    [logo_Btn setCenter:CGPointMake(SCREEN_WIDTH/2.f, logo_Btn.center.y)];
+    [logo_Btn addTarget:self action:@selector(repairClick) forControlEvents:UIControlEventTouchUpInside];
+    [logoImgView addSubview:logo_Btn];
     
-    //店名
-    shop_label = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(shopBtn.frame) + 10.f, 130.f, 20.f)];
-    shop_label.center = CGPointMake(SCREEN_WIDTH/2.f, shop_label.center.y);
-    shop_label.textAlignment = NSTextAlignmentCenter;
-    shop_label.textColor = colorWithHexString(@"ffffff");
-    shop_label.font = [UIFont boldSystemFontOfSize:18.f];
-    [logoImgView addSubview:shop_label];
+    //logo下标题
+    title_label = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logo_Btn.frame) + (IS_IPHONE6 ? 12 : 8), 130.f, 20.f)];
+    title_label.center = CGPointMake(SCREEN_WIDTH/2.f, title_label.center.y);
+    title_label.textAlignment = NSTextAlignmentCenter;
+    title_label.textColor = colorWithHexString(@"ffffff");
+    title_label.font = [UIFont boldSystemFontOfSize:17.f];
+    [logoImgView addSubview:title_label];
     
     UICollectionViewFlowLayout *flowLayout= [[UICollectionViewFlowLayout alloc]init];
     flowLayout.minimumLineSpacing = 0.f;

@@ -14,9 +14,9 @@
     UICollectionView *itemsCollectionView;
     NSMutableArray   *imgNameArray;
     NSMutableArray   *titleNameArray;
-    UIButton         *logo_btn;
-    UIButton         *shopBtn;
-    UILabel          *shop_label;
+    UIButton         *shop_btn;
+    UIButton         *logo_Btn;
+    UILabel          *title_label;
     NSMutableArray   *datasource;
     UIImageView      *logoImgView;
 }

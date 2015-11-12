@@ -24,7 +24,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andListViewType:(ListViewType)type
+- (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -32,7 +32,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:@"ReloadData" object:nil];
         
         refreshType = Down;
-        self.viewType = type;
         currentPage = 1;
         self.isRequesting = NO;
         self.repairState = state;
@@ -51,11 +50,11 @@
         // 忽略掉底部inset
         currentTableView.footer.ignoredScrollViewContentInsetBottom = 30;
         currentTableView.footer.ignoredScrollViewContentInsetBottom = 40.f;
-        if (_viewType == RepairViewType)
+        if (![BXTGlobal shareGlobal].isRepair)
         {
             [currentTableView registerClass:[BXTRepairTableViewCell class] forCellReuseIdentifier:@"OrderListCell"];
         }
-        else if (_viewType == MaintenanceManViewType)
+        else
         {
             [currentTableView registerClass:[BXTMaintenanceManTableViewCell class] forCellReuseIdentifier:@"OrderListCell"];
         }
@@ -76,12 +75,12 @@
 
 - (void)loadNewData
 {
-    if (_isRequesting) return;
-    refreshType = Down;
-    currentPage = 1;
-    /**获取报修列表**/
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairList:_repairState andPage:1 andIsMaintenanceMan:_viewType == MaintenanceManViewType ? YES : NO];
+//    if (_isRequesting) return;
+//    refreshType = Down;
+//    currentPage = 1;
+//    /**获取报修列表**/
+//    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//    [request repairList:_repairState andPage:1 andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO];
 }
 
 - (void)loadMoreData
@@ -90,7 +89,7 @@
     refreshType = Up;
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairList:_repairState andPage:currentPage andIsMaintenanceMan:_viewType == MaintenanceManViewType ? YES : NO];
+    [request repairList:_repairState andPage:currentPage andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO];
 }
 
 #pragma mark -
@@ -100,7 +99,7 @@
 {
     if (section == 0)
     {
-        return 16.f;//section头部高度
+        return 0.1f;//section头部高度
     }
     return 10.f;//section头部高度
 }
@@ -110,7 +109,7 @@
     UIView *view;
     if (section == 0)
     {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 16.f)];
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
     }
     view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
     view.backgroundColor = [UIColor clearColor];
@@ -131,7 +130,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_viewType == MaintenanceManViewType)
+    if ([BXTGlobal shareGlobal].isRepair)
     {
         return 175.f;
     }
@@ -150,7 +149,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_viewType == RepairViewType)
+    if (![BXTGlobal shareGlobal].isRepair)
     {
         BXTRepairTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OrderListCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -236,7 +235,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
-    if (_viewType == RepairViewType)
+    if (![BXTGlobal shareGlobal].isRepair)
     {
         BXTRepairDetailViewController *repairDetail = [[BXTRepairDetailViewController alloc] initWithRepair:repairInfo];
         [[self navigation] pushViewController:repairDetail animated:YES];

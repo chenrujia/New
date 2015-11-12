@@ -21,7 +21,7 @@
 @property (nonatomic ,assign) NSInteger repairID;
 @property (nonatomic ,assign) NSInteger integral;
 @property (nonatomic ,assign) BOOL      is_gadget;
-@property (nonatomic ,assign) BOOL      is_read;
+@property (nonatomic ,assign) NSInteger is_read;
 @property (nonatomic ,strong) NSString  *orderid;
 @property (nonatomic ,strong) NSString  *place;
 @property (nonatomic ,strong) NSArray   *repair_user;
