@@ -317,14 +317,12 @@
         }
     }
     
-    if (repairDetail.evaluation_pic.count != 1) {
-        for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+    for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+    {
+        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
         {
-            if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
-            {
-                MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
-                [photos addObject:photo];
-            }
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            [photos addObject:photo];
         }
     }
     
@@ -412,11 +410,9 @@
         [photos addObject:dictionary];
     }
     
-    if (repairDetail.evaluation_pic.count != 1) {
-        for (NSDictionary *dictionary in repairDetail.evaluation_pic)
-        {
-            [photos addObject:dictionary];
-        }
+    for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+    {
+        [photos addObject:dictionary];
     }
     
     return photos;

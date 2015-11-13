@@ -1113,7 +1113,6 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
                     indexOfNumber = (int)_currentPageIndex+1-titlePreNum/100-titlePreNum%100/10;
                 }
                 
-                
                 self.title = [NSString stringWithFormat:@"%@ %d %@ %lu",  titlePre, indexOfNumber, NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), (unsigned long)number];
             }
         }

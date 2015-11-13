@@ -23,6 +23,7 @@ static NSString *cellIndentify = @"cellIndentify";
 {
     NSString *userName;
     NSString *codeNumber;
+    NSString *returncode;
     NSString *passWord;
     UIButton *codeBtn;
 }
@@ -58,7 +59,10 @@ static NSString *cellIndentify = @"cellIndentify";
         [self showMBP:@"手机号格式不对" withBlock:nil];
     } else if (![BXTGlobal validateCAPTCHA:codeNumber]) {
         [self showMBP:@"请输入正确4位验证码" withBlock:nil];
-    } else if (![BXTGlobal validatePassword:passWord]) {
+    } else if (![codeNumber isEqualToString:returncode]) {
+        [self showMBP:@"验证码不正确" withBlock:nil];
+    }
+    else if (![BXTGlobal validatePassword:passWord]) {
         [self showMBP:@"请输入至少6位密码，仅限英文、数字" withBlock:nil];
     } else {
         [BXTGlobal setUserProperty:userName withKey:U_USERNAME];
@@ -200,7 +204,7 @@ static NSString *cellIndentify = @"cellIndentify";
 {
     BXTResignTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentify];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    
     if (indexPath.section == 0)
     {
         cell.nameLabel.text = @"手机号";
@@ -241,8 +245,10 @@ static NSString *cellIndentify = @"cellIndentify";
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
+    NSLog(@"----- %@", dic);
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
+        returncode = [NSString stringWithFormat:@"%@", [dic objectForKey:@"verification_code"]];
         [self updateTime];
     }
 }
@@ -288,13 +294,13 @@ static NSString *cellIndentify = @"cellIndentify";
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

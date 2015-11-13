@@ -22,6 +22,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbAlert;
 - (IBAction)btnConfirm:(id)sender;
 @property (nonatomic,retain) id<SelectPhotoDelegate> selectPhotoDelegate;
+/**
+ *  是否只能选择一张，默认可多选
+ */
+@property (nonatomic,assign) BOOL isSinglePicture;
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, strong) ALAssetsGroup *currentAlbum;
 @property (nonatomic, strong) NSMutableArray *selectPhotos;
