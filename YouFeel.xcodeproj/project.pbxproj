@@ -144,6 +144,7 @@
 		960223101BC9216300010072 /* BXTRemarksTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222831BC9216300010072 /* BXTRemarksTableViewCell.m */; };
 		960223121BC922DB00010072 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 960223111BC922DB00010072 /* libsqlite3.tbd */; };
 		9607A3C51BE0BC0F000A6C5B /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9607A3C41BE0BC0F000A6C5B /* Emoji.plist */; };
+		960AE9DE1BF5C62C00EB4E59 /* MLImageCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 960AE9DD1BF5C62C00EB4E59 /* MLImageCrop.m */; };
 		964A1C151BD8899900FC1622 /* BXTMessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 964A1C141BD8899900FC1622 /* BXTMessageListViewController.m */; };
 		964A1C181BD889C800FC1622 /* BXTMessageListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 964A1C171BD889C800FC1622 /* BXTMessageListTableViewCell.m */; };
 		964A1C1D1BD890A300FC1622 /* MessageIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A1C191BD890A300FC1622 /* MessageIcon@3x.png */; };
@@ -665,6 +666,8 @@
 		960222831BC9216300010072 /* BXTRemarksTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRemarksTableViewCell.m; sourceTree = "<group>"; };
 		960223111BC922DB00010072 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		9607A3C41BE0BC0F000A6C5B /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
+		960AE9DC1BF5C62C00EB4E59 /* MLImageCrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLImageCrop.h; sourceTree = "<group>"; };
+		960AE9DD1BF5C62C00EB4E59 /* MLImageCrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLImageCrop.m; sourceTree = "<group>"; };
 		964A1C131BD8899900FC1622 /* BXTMessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageListViewController.h; sourceTree = "<group>"; };
 		964A1C141BD8899900FC1622 /* BXTMessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageListViewController.m; sourceTree = "<group>"; };
 		964A1C161BD889C800FC1622 /* BXTMessageListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageListTableViewCell.h; sourceTree = "<group>"; };
@@ -2249,6 +2252,8 @@
 				960222561BC9216300010072 /* BXTAuditerTableViewCell.m */,
 				960222571BC9216300010072 /* BXTSettingTableViewCell.h */,
 				960222581BC9216300010072 /* BXTSettingTableViewCell.m */,
+				960AE9DC1BF5C62C00EB4E59 /* MLImageCrop.h */,
+				960AE9DD1BF5C62C00EB4E59 /* MLImageCrop.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3982,6 +3987,7 @@
 				9602230E1BC9216300010072 /* BXTFaultInfo.m in Sources */,
 				9652ADC01BC9170D009A666D /* MWGridViewController.m in Sources */,
 				9652ABEC1BC90DCC009A666D /* NSData+CommonCrypto.m in Sources */,
+				960AE9DE1BF5C62C00EB4E59 /* MLImageCrop.m in Sources */,
 				9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */,
 				960222CE1BC9216300010072 /* BXTOrderManagerViewController.m in Sources */,
 				96CEC83D1BD0946900D03B1B /* BXTHaveEVInfo.m in Sources */,

@@ -144,6 +144,7 @@
     CGFloat width = valueForDevice(73.f, 73.f, 50.f, 45.f);
     UIImageView *headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, valueForDevice(10, 6, 6, 0), width, width)];
     headImgView.center = CGPointMake(SCREEN_WIDTH/2.f, headImgView.center.y);
+    headImgView.contentMode = UIViewContentModeScaleAspectFill;
     headImgView.layer.masksToBounds = YES;
     headImgView.layer.cornerRadius = width/2.f;
     [headImgView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
