@@ -22,10 +22,11 @@
 #import "UINavigationController+YRBackGesture.h"
 #import "BXTHeadquartersInfo.h"
 #import "ANKeyValueTable.h"
+#import "MLImageCrop.h"
 
 static NSString *settingCellIndentify = @"settingCellIndentify";
 
-@interface BXTSettingViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,MWPhotoBrowserDelegate,SelectPhotoDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@interface BXTSettingViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,MWPhotoBrowserDelegate,SelectPhotoDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,MLImageCropDelegate>
 {
     UITableView *currentTableView;
     NSMutableArray *selectPhotos;
@@ -90,6 +91,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
                     //取原图
                     [selectPhotos addObjectsFromArray:GetImages];
                     [self handleImage];
+                    UIImage *image = [self handleImage];
+                    [self showMLImageCropView:image];
                 }
                 else
                 {
@@ -136,7 +139,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     [self.view addSubview:hy];
 }
 
-- (void)handleImage
+- (UIImage *)handleImage
 {
     id obj = [selectPhotos objectAtIndex:0];
     UIImage *newImage = nil;
@@ -153,9 +156,15 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         UIImage *posterImage = [UIImage imageWithCGImage:posterImageRef scale:[representation scale] orientation:UIImageOrientationUp];
         newImage = posterImage;
     }
+    return newImage;
+}
 
+#pragma mark -
+#pragma mark 上传头像
+- (void)updateImage:(UIImage *)image
+{
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request uploadHeaderImage:newImage];
+    [request uploadHeaderImage:image];
 }
 
 - (void)quitOutClick
@@ -558,7 +567,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         [picker dismissViewControllerAnimated:YES completion:^{
             [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
             [selectPhotos addObject:headImage];
-            [weakSelf handleImage];
+            UIImage *image = [self handleImage];
+            [weakSelf showMLImageCropView:image];
         }];
     }
     else
@@ -571,7 +581,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
              [picker dismissViewControllerAnimated:YES completion:^{
                  [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
                  [selectPhotos addObject:img];
-                 [weakSelf handleImage];
+                 UIImage *image = [self handleImage];
+                 [weakSelf showMLImageCropView:image];
              }];
          }];
     }
@@ -591,7 +602,17 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
     selectPhotos = photos;
-    [self handleImage];
+    UIImage *image = [self handleImage];
+    [self showMLImageCropView:image];
+}
+
+- (void)showMLImageCropView:(UIImage *)image
+{
+    MLImageCrop *imageCrop = [[MLImageCrop alloc]init];
+    imageCrop.delegate = self;
+    imageCrop.ratioOfWidthAndHeight = 1.f;
+    imageCrop.image = image;
+    [imageCrop showWithAnimation:YES];
 }
 
 /**
@@ -647,10 +668,16 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     
 }
 
+#pragma mark -
+#pragma mark crop delegate
+- (void)cropImage:(UIImage*)cropImage forOriginalImage:(UIImage*)originalImage
+{
+    [self updateImage:cropImage];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    
 }
 
 /*
