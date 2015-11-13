@@ -225,14 +225,12 @@
         }
     }
     
-    if (repairDetail.evaluation_pic.count != 1) {
-        for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+    for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+    {
+        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
         {
-            if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
-            {
-                MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
-                [photos addObject:photo];
-            }
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            [photos addObject:photo];
         }
     }
     
@@ -320,11 +318,9 @@
         [photos addObject:dictionary];
     }
     
-    if (repairDetail.evaluation_pic.count != 1) {
-        for (NSDictionary *dictionary in repairDetail.evaluation_pic)
-        {
-            [photos addObject:dictionary];
-        }
+    for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+    {
+        [photos addObject:dictionary];
     }
     
     return photos;
@@ -380,7 +376,7 @@
         NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
         level.attributedText = attributeStr;
-
+        
         NSString *contents = [NSString stringWithFormat:@"报修内容:%@",repairDetail.notes];
         UIFont *font = [UIFont boldSystemFontOfSize:17.f];
         CGSize size = MB_MULTILINE_TEXTSIZE(contents, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000.f), NSLineBreakByWordWrapping);
@@ -559,13 +555,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

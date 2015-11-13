@@ -358,6 +358,17 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     LogRed(@"error%@",[error localizedDescription]);
 }
 
+#pragma mark -
+#pragma mark - 测试添加
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
+    // 处理APNs代码，通过userInfo可以取到推送的信息（包括内容，角标，自定义参数等）。如果需要弹窗等其他操作，则需要自行编码。
+    NSLog(@"\n>>>[Receive RemoteNotification - Background Fetch]:%@\n\n",userInfo);
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 1;
+}
+
 /**
  *  SDK运行状态通知
  *
@@ -488,7 +499,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (void)didReceiveMessageNotification:(NSNotification *)notification
 {
-//    [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
 }
 
 - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left
