@@ -24,7 +24,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state
+- (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andRepairerIsReacive:(NSString *)reacive
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -35,6 +35,7 @@
         currentPage = 1;
         self.isRequesting = NO;
         self.repairState = state;
+        self.isReacive = reacive;
         repairListArray = [NSMutableArray array];
 
         currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStyleGrouped];
@@ -80,7 +81,7 @@
     currentPage = 1;
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairList:_repairState andPage:1 andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO];
+    [request repairList:_repairState andPage:1 andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO andRepairerIsReacive:_isReacive];
 }
 
 - (void)loadMoreData
@@ -89,7 +90,7 @@
     refreshType = Up;
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairList:_repairState andPage:currentPage andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO];
+    [request repairList:_repairState andPage:currentPage andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO andRepairerIsReacive:_isReacive];
 }
 
 #pragma mark -

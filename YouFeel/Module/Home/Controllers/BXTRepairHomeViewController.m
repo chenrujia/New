@@ -12,7 +12,7 @@
 #import "BXTGrabOrderViewController.h"
 #import "BXTAchievementsViewController.h"
 #import "BXTEvaluationListViewController.h"
-#import "BXTNewOrderViewController.h"
+//#import "BXTNewOrderViewController.h"
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
 #import "BXTMessageListViewController.h"
@@ -20,6 +20,7 @@
 #import "BXTCustomerServiceViewController.h"
 #import "BXTAboutUsViewController.h"
 #import "BXTChatListViewController.h"
+#import "BXTRepairWordOrderViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -92,7 +93,7 @@
 #pragma mark 事件处理
 - (void)repairClick
 {
-    BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] init];
+    BXTRepairWordOrderViewController *newOrderVC = [[BXTRepairWordOrderViewController alloc] init];
     [self.navigationController pushViewController:newOrderVC animated:YES];
 }
 

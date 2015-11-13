@@ -74,14 +74,7 @@
     }
     else
     {
-        UIButton * navi_rightButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 50, 20, 44, 44)];
-        navi_rightButton.backgroundColor = [UIColor clearColor];
-        [navi_rightButton setImage:[UIImage imageNamed:@"Small_round"] forState:UIControlStateNormal];
-        [navi_rightButton setImage:[UIImage imageNamed:@"Small_ronud_selected"] forState:UIControlStateNormal];
-        [navi_rightButton addTarget:self action:@selector(navigationrightButton) forControlEvents:UIControlEventTouchUpInside];
-        [naviView addSubview:navi_rightButton];
-        
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"维修中",@"已完成"]];
+        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"待维修",@"维修中",@"维修完成"]];
         segment.layer.borderColor = colorWithHexString(@"0a4197").CGColor;
     }
     segment.layer.masksToBounds = YES;
@@ -92,14 +85,7 @@
     
     currentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, navBarHeight + 40.f, SCREEN_WIDTH, SCREEN_HEIGHT - navBarHeight - 40.f)];
     currentScrollView.delegate = self;
-    if (![BXTGlobal shareGlobal].isRepair)
-    {
-        currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
-    }
-    else
-    {
-        currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 2, 0);
-    }
+    currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
     currentScrollView.pagingEnabled = YES;
     [self.view addSubview:currentScrollView];
     
@@ -107,29 +93,41 @@
     {
         for (NSInteger i = 1; i < 4; i++)
         {
-            NSString *repairState = @"1";
-            if (i == 2)
+            NSString *repairState;
+            if (i == 1)
+            {
+                repairState = @"1";
+            }
+            else if (i == 2)
             {
                 repairState = @"2";
             }
-            else if (i == 3)
+            else
             {
                 repairState = @"";
             }
-            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState];
+            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andRepairerIsReacive:@""];
             [currentScrollView addSubview:orderList];
         }
     }
     else
     {
-        for (NSInteger i = 1; i < 3; i++)
+        for (NSInteger i = 1; i < 4; i++)
         {
-            NSString *repairState = @"2";
-            if (i == 2)
+            NSString *repairState;
+            if (i == 1)
+            {
+                repairState = @"1";
+            }
+            else if (i == 2)
+            {
+                repairState = @"2";
+            }
+            else
             {
                 repairState = @"";
             }
-            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState];
+            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andRepairerIsReacive:repairState];
             [currentScrollView addSubview:orderList];
         }
     }

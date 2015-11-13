@@ -153,7 +153,7 @@
     [self postRequest:url withParameters:nil];
 }
 
-- (void)repairList:(NSString *)state andPage:(NSInteger)page andIsMaintenanceMan:(BOOL)isMaintenanceMan
+- (void)repairList:(NSString *)state andPage:(NSInteger)page andIsMaintenanceMan:(BOOL)isMaintenanceMan andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = RepairList;
     BOOL stateIsComplete = NO;
@@ -172,14 +172,16 @@
         dic = @{identity:[BXTGlobal getUserProperty:U_BRANCHUSERID],
                 @"state":@"2",
                 @"pagesize":@"5",
-                @"page":[NSString stringWithFormat:@"%ld",(long)page]};
+                @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                @"is_receive":reacive};
     }
     else
     {
         dic = @{identity:[BXTGlobal getUserProperty:U_BRANCHUSERID],
                 @"repairstate":state,
                 @"pagesize":@"5",
-                @"page":[NSString stringWithFormat:@"%ld",(long)page]};
+                @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                @"is_receive":reacive};
     }
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
