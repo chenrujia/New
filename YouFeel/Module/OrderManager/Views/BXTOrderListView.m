@@ -75,12 +75,12 @@
 
 - (void)loadNewData
 {
-//    if (_isRequesting) return;
-//    refreshType = Down;
-//    currentPage = 1;
-//    /**获取报修列表**/
-//    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//    [request repairList:_repairState andPage:1 andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO];
+    if (_isRequesting) return;
+    refreshType = Down;
+    currentPage = 1;
+    /**获取报修列表**/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request repairList:_repairState andPage:1 andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO];
 }
 
 - (void)loadMoreData
