@@ -172,9 +172,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)quitOutClick
 {
     [[RCIM sharedRCIM] disconnect];
-//    ANKeyValueData *data = [[ANKeyValueTable userDefaultTable] keyValueData];
-//    [data removeAllValues];
     [[ANKeyValueTable userDefaultTable] clear];
+    [BXTGlobal shareGlobal].isRepair = NO;
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];

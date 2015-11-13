@@ -110,7 +110,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  报修列表 第一个是报修者身份，第一个是维修者身份
  */
-- (void)repairList:(NSString *)state andPage:(NSInteger)page andIsMaintenanceMan:(BOOL)isMaintenanceMan;
+- (void)repairList:(NSString *)state andPage:(NSInteger)page andIsMaintenanceMan:(BOOL)isMaintenanceMan andRepairerIsReacive:(NSString *)reacive;
 - (void)repairerList:(NSString *)state andPage:(NSInteger)page andPlace:(NSString *)place andDepartment:(NSString *)department andBeginTime:(NSString *)beginTime andEndTime:(NSString *)endTime andFaultType:(NSString *)faultType;
 
 /**
