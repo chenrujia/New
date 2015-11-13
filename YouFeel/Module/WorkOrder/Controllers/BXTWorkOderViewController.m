@@ -500,6 +500,8 @@
             cell.titleLabel.text = @"姓   名";
             cell.detailLable.text = [BXTGlobal getUserProperty:U_NAME];
             cell.checkImgView.hidden = NO;
+            cell.emergencyBtn.hidden = YES;
+            cell.normelBtn.hidden = YES;
         }
         else if (indexPath.section == 1)
         {
@@ -609,6 +611,7 @@
             cell.titleLabel.text = @"等   级";
             cell.emergencyBtn.hidden = NO;
             cell.normelBtn.hidden = NO;
+            cell.detailLable.hidden = YES;
             [cell.emergencyBtn addTarget:self action:@selector(stateClick:) forControlEvents:UIControlEventTouchUpInside];
             [cell.normelBtn addTarget:self action:@selector(stateClick:) forControlEvents:UIControlEventTouchUpInside];
         }
