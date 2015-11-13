@@ -125,6 +125,9 @@
     
     UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 40.f, SCREEN_WIDTH - 40, 50.f);
+    if (IS_IPHONE4) {
+        commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
+    }
     [commitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [commitBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];

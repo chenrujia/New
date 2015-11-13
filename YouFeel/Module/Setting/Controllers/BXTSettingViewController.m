@@ -81,6 +81,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 {
     HySideScrollingImagePicker *hy = [[HySideScrollingImagePicker alloc] initWithCancelStr:@"取消" otherButtonTitles:@[@"拍摄",@"从相册选择"]];
     hy.isMultipleSelection = NO;
+    hy.isSinglePicture = YES;
     hy.SeletedImages = ^(NSArray *GetImages, NSInteger Buttonindex){
         switch (Buttonindex) {
             case 1:
@@ -128,6 +129,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
                 LocalPhotoViewController *pick=[[LocalPhotoViewController alloc] init];
                 pick.selectPhotoDelegate = self;
                 pick.selectPhotos = selectPhotos;
+                pick.isSinglePicture = YES;
                 [self.navigationController pushViewController:pick animated:YES];
             }
                 break;

@@ -343,23 +343,44 @@
         }
         else
         {
-            if ([_selectedIndexes count] >= 3)
-            {
-                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-                hud.mode = MBProgressHUDModeText;
-                hud.labelText = @"最多选择3张图片";
-                hud.margin = 10.f;
-                hud.delegate = self;
-                hud.removeFromSuperViewOnHide = YES;
-                [hud hide:YES afterDelay:2];
+            if (self.isSinglePicture) {
+                if ([_selectedIndexes count] >= 1)
+                {
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"只能选择1张图片";
+                    hud.margin = 10.f;
+                    hud.delegate = self;
+                    hud.removeFromSuperViewOnHide = YES;
+                    [hud hide:YES afterDelay:2];
+                }
+                else
+                {
+                    [self.selectedIndexes addObject:cell.asset];
+                    [cell setSelected:YES];
+                    [checkmarkView setChecked:YES];
+                    [_IndexPathArr addObject:indexPath];
+                }
+            } else {
+                if ([_selectedIndexes count] >= 3)
+                {
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"最多选择3张图片";
+                    hud.margin = 10.f;
+                    hud.delegate = self;
+                    hud.removeFromSuperViewOnHide = YES;
+                    [hud hide:YES afterDelay:2];
+                }
+                else
+                {
+                    [self.selectedIndexes addObject:cell.asset];
+                    [cell setSelected:YES];
+                    [checkmarkView setChecked:YES];
+                    [_IndexPathArr addObject:indexPath];
+                }
             }
-            else
-            {
-                [self.selectedIndexes addObject:cell.asset];
-                [cell setSelected:YES];
-                [checkmarkView setChecked:YES];
-                [_IndexPathArr addObject:indexPath];
-            }
+            
         }
     }
     else

@@ -253,6 +253,7 @@
     [browser setCurrentPhotoIndex:index];
     
     browser.titlePreNumStr = [NSString stringWithFormat:@"%d%d%d", (int)repairDetail.fault_pic.count, (int)repairDetail.fixed_pic.count, (int)repairDetail.evaluation_pic.count];
+    NSLog(@"titlePreNumStr == %@", browser.titlePreNumStr);
     
     [self.navigationController pushViewController:browser animated:YES];
     self.navigationController.navigationBar.hidden = NO;
