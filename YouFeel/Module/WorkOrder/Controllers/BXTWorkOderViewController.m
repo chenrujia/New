@@ -74,7 +74,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTable) name:@"ChangeShopLocation" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publicRepair:) name:@"PublicRepair" object:nil];
     
-    repairState = @"1";
+    repairState = @"2";
     photosArray = [[NSMutableArray alloc] init];
     selectPhotos = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
@@ -500,6 +500,8 @@
             cell.titleLabel.text = @"姓   名";
             cell.detailLable.text = [BXTGlobal getUserProperty:U_NAME];
             cell.checkImgView.hidden = NO;
+            cell.emergencyBtn.hidden = YES;
+            cell.normelBtn.hidden = YES;
         }
         else if (indexPath.section == 1)
         {
@@ -609,6 +611,7 @@
             cell.titleLabel.text = @"等   级";
             cell.emergencyBtn.hidden = NO;
             cell.normelBtn.hidden = NO;
+            cell.detailLable.hidden = YES;
             [cell.emergencyBtn addTarget:self action:@selector(stateClick:) forControlEvents:UIControlEventTouchUpInside];
             [cell.normelBtn addTarget:self action:@selector(stateClick:) forControlEvents:UIControlEventTouchUpInside];
         }
@@ -800,7 +803,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    LogRed(@"dic.....%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == FaultType)
     {
