@@ -234,7 +234,7 @@
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
+            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -259,6 +259,12 @@
             [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
         }
     }
+    else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
+    {
+        [self hideMBP];
+        BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
+        [self.navigationController pushViewController:headVC animated:YES];
+    }
     else if (type == UpdateHeadPic)
     {
         NSLog(@"Update success");
@@ -266,8 +272,7 @@
     else
     {
         [self hideMBP];
-        BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
-        [self.navigationController pushViewController:headVC animated:YES];
+        [self showMBP:@"登录失败，请仔细检查！" withBlock:nil];
     }
 }
 

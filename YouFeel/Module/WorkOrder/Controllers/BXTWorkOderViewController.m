@@ -74,7 +74,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTable) name:@"ChangeShopLocation" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publicRepair:) name:@"PublicRepair" object:nil];
     
-    repairState = @"1";
+    repairState = @"2";
     photosArray = [[NSMutableArray alloc] init];
     selectPhotos = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
@@ -803,7 +803,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    LogRed(@"dic.....%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == FaultType)
     {

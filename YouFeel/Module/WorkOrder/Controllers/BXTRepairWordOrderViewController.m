@@ -69,7 +69,7 @@
     [BXTGlobal shareGlobal].maxPics = 3;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTable) name:@"ChangeShopLocation" object:nil];
     
-    repairState = @"1";
+    repairState = @"2";
     photosArray = [[NSMutableArray alloc] init];
     selectPhotos = [[NSMutableArray alloc] init];
     dep_dataSource = [[NSMutableArray alloc] init];

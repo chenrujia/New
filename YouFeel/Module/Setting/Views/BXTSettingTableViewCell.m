@@ -79,34 +79,34 @@
         
         });
         
-        self.emergencyBtn = ({
-        
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.hidden = YES;
-            button.frame = CGRectMake(CGRectGetMaxX(_titleLabel.frame) + 20.f, 5, 57.f, 40.f);
-            [button setTitle:@"紧急" forState:UIControlStateNormal];
-            [button setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-            button.layer.masksToBounds = YES;
-            button.layer.cornerRadius = 6.f;
-            button.layer.borderWidth = 1.f;
-            button.tag = 11;
-            button.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-            [self addSubview:button];
-            button;
-        
-        });
-        
         self.normelBtn = ({
-        
+            
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.hidden = YES;
-            button.frame = CGRectMake(CGRectGetMaxX(_emergencyBtn.frame) + 27.f, 5, 57.f, 40.f);
+            button.frame = CGRectMake(CGRectGetMaxX(_titleLabel.frame) + 27.f, 5, 57.f, 40.f);
             [button setTitle:@"一般" forState:UIControlStateNormal];
             [button setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             button.layer.masksToBounds = YES;
             button.layer.cornerRadius = 6.f;
             button.layer.borderWidth = 1.f;
             button.tag = 12;
+            button.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+            [self addSubview:button];
+            button;
+            
+        });
+        
+        self.emergencyBtn = ({
+        
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.hidden = YES;
+            button.frame = CGRectMake(CGRectGetMaxX(_normelBtn.frame) + 20.f, 5, 57.f, 40.f);
+            [button setTitle:@"紧急" forState:UIControlStateNormal];
+            [button setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            button.layer.masksToBounds = YES;
+            button.layer.cornerRadius = 6.f;
+            button.layer.borderWidth = 1.f;
+            button.tag = 11;
             button.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
             [self addSubview:button];
             button;
