@@ -488,7 +488,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (void)didReceiveMessageNotification:(NSNotification *)notification
 {
-    [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
+//    [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
 }
 
 - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left
