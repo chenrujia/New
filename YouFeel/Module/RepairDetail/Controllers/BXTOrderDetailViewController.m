@@ -400,19 +400,6 @@
     }
 }
 
-- (NSString *)transJsonStr:(id)dict {
-    
-    NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
-    
-    if ([jsonData length] > 0 && error == nil) {
-        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        return jsonString;
-    } else {
-        return nil;
-    }
-}
-
 - (NSMutableArray *)containAllArray {
     
     NSMutableArray *photos = [[NSMutableArray alloc] init];
@@ -435,14 +422,13 @@
     return photos;
 }
 
-
 /**
  *  BXTDataRequestDelegate
  */
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = (NSDictionary *)response;
-    LogRed(@"........%@", [self transJsonStr:dic]);
+    LogRed(@"........%@", dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count > 0)
     {

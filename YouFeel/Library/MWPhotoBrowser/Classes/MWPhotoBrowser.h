@@ -52,7 +52,9 @@
 @property (nonatomic) BOOL autoPlayOnAppear;
 @property (nonatomic) NSUInteger delayToHideElements;
 @property (nonatomic, readonly) NSUInteger currentIndex;
-
+/**
+ *  标题前缀，将三个数组的长度 拼成3位字符串即可
+ */
 @property (nonatomic, copy) NSString *titlePreNumStr;
 
 // Customise image selection icons as they are the only icons with a colour tint

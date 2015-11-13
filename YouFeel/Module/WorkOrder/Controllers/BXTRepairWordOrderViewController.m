@@ -144,7 +144,7 @@
         [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         cancelBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         [cancelBtn addTarget:self action:@selector(toolBarCanelClick) forControlEvents:UIControlEventTouchUpInside];
-        [toolView addSubview:cancelBtn];
+        //[toolView addSubview:cancelBtn];
         // sure
         UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-80, 2, 80, 40)];
         [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
@@ -166,10 +166,12 @@
 }
 
 - (void)toolBarDoneClick {
-    [pickView removeFromSuperview];
-    pickView = nil;
-    [pickerbackView removeFromSuperview];
-    [currentTableView reloadData];
+    if (pickView) {
+        [pickView removeFromSuperview];
+        pickView = nil;
+        [pickerbackView removeFromSuperview];
+        [currentTableView reloadData];
+    }
 }
 
 - (void)toolBarCanelClick {

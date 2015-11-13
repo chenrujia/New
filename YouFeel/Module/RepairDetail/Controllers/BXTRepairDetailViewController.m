@@ -205,8 +205,8 @@
     [self loadMWPhotoBrowser:tapView.tag];
 }
 
-- (void)loadMWPhotoBrowser:(NSInteger)index
-{
+- (NSMutableArray *)containAllPhotosForMWPhotoBrowser {
+    
     NSMutableArray *photos = [[NSMutableArray alloc] init];
     for (NSDictionary *dictionary in repairDetail.fault_pic)
     {
@@ -216,7 +216,32 @@
             [photos addObject:photo];
         }
     }
-    self.mwPhotosArray = photos;
+    for (NSDictionary *dictionary in repairDetail.fixed_pic)
+    {
+        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        {
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            [photos addObject:photo];
+        }
+    }
+    
+    if (repairDetail.evaluation_pic.count != 1) {
+        for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+        {
+            if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+            {
+                MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+                [photos addObject:photo];
+            }
+        }
+    }
+    
+    return photos;
+}
+
+- (void)loadMWPhotoBrowser:(NSInteger)index
+{
+    self.mwPhotosArray = [self containAllPhotosForMWPhotoBrowser];
     
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
     browser.displayActionButton = NO;
@@ -228,6 +253,8 @@
     browser.zoomPhotosToFill = YES;
     browser.enableSwipeToDismiss = YES;
     [browser setCurrentPhotoIndex:index];
+    
+    browser.titlePreNumStr = [NSString stringWithFormat:@"%d%d%d", (int)repairDetail.fault_pic.count, (int)repairDetail.fixed_pic.count, (int)repairDetail.evaluation_pic.count];
     
     [self.navigationController pushViewController:browser animated:YES];
     self.navigationController.navigationBar.hidden = NO;
@@ -281,6 +308,28 @@
 
 #pragma mark -
 #pragma mark 代理
+- (NSMutableArray *)containAllArray {
+    
+    NSMutableArray *photos = [[NSMutableArray alloc] init];
+    for (NSDictionary *dictionary in repairDetail.fault_pic)
+    {
+        [photos addObject:dictionary];
+    }
+    for (NSDictionary *dictionary in repairDetail.fixed_pic)
+    {
+        [photos addObject:dictionary];
+    }
+    
+    if (repairDetail.evaluation_pic.count != 1) {
+        for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+        {
+            [photos addObject:dictionary];
+        }
+    }
+    
+    return photos;
+}
+
 /**
  *  BXTDataRequestDelegate
  */
@@ -340,7 +389,7 @@
         notes.frame = rect;
         notes.text = contents;
         
-        NSArray *imgArray = repairDetail.fault_pic;
+        NSArray *imgArray = [self containAllArray];
         if (imgArray.count > 0)
         {
             NSInteger i = 0;
