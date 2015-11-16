@@ -117,7 +117,7 @@
             NSString *repairState;
             if (i == 1)
             {
-                repairState = @"1";
+                repairState = @"2";
             }
             else if (i == 2)
             {
@@ -127,7 +127,7 @@
             {
                 repairState = @"";
             }
-            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andRepairerIsReacive:repairState];
+            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andRepairerIsReacive:i == 1 ? @"1" : repairState];
             [currentScrollView addSubview:orderList];
         }
     }
