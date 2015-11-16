@@ -73,8 +73,7 @@
     fau_dataSource = [NSMutableArray array];
     maintenanceState = @"已修好";
     stateArray= @[@"未修好",@"已修好"];
-    timesArray = @[@"1",@"2",@"3",@"4",@"5",@"6"];
-    
+    timesArray = [BXTGlobal readFileWithfileName:@"hoursArray"];
     dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     selectDate = [NSDate date];

@@ -69,7 +69,11 @@
     [self createSubViews];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestDetail) name:@"RequestDetail" object:nil];
-    comeTimeArray = @[@"半小时内",@"1小时内",@"3小时内",@"6小时内",];
+    NSMutableArray *timeArray = [[NSMutableArray alloc] init];
+    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
+        [timeArray addObject:[NSString stringWithFormat:@"%@分钟内", timeStr]];
+    }
+    comeTimeArray = timeArray;
     [self requestDetail];
 }
 
@@ -375,26 +379,10 @@
     
     if ([obj isKindOfClass:[NSString class]])
     {
-        NSString *arrivalTime;
         NSString *tempStr = (NSString *)obj;
-        if ([tempStr isEqualToString:@"半小时内"])
-        {
-            arrivalTime = @"1";
-        }
-        else if ([tempStr isEqualToString:@"1小时内"])
-        {
-            arrivalTime = @"2";
-        }
-        else if ([tempStr isEqualToString:@"3小时内"])
-        {
-            arrivalTime = @"3";
-        }
-        else if ([tempStr isEqualToString:@"6小时内"])
-        {
-            arrivalTime = @"4";
-        }
+        NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID] arrivalTime:arrivalTime andIsGrad:NO];
+        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID] arrivalTime:timeStr andIsGrad:NO];
     }
 }
 

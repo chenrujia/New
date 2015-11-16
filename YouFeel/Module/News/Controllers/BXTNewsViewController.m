@@ -32,7 +32,11 @@
     [self createTableView];
     
     datasource = [NSMutableArray array];
-    comeTimeArray = @[@"半小时内",@"1小时内",@"3小时内",@"6小时内"];
+    NSMutableArray *timeArray = [[NSMutableArray alloc] init];
+    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
+        [timeArray addObject:[NSString stringWithFormat:@"%@分钟内", timeStr]];
+    }
+    comeTimeArray = timeArray;
     currentPage = 1;
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request newsListWithPage:currentPage];
@@ -228,28 +232,12 @@
     
     if ([obj isKindOfClass:[NSString class]])
     {
-        NSString *arrivalTime;
         NSString *tempStr = (NSString *)obj;
-        if ([tempStr isEqualToString:@"半小时内"])
-        {
-            arrivalTime = @"1800";
-        }
-        else if ([tempStr isEqualToString:@"1小时内"])
-        {
-            arrivalTime = @"3600";
-        }
-        else if ([tempStr isEqualToString:@"3小时内"])
-        {
-            arrivalTime = @"10800";
-        }
-        else if ([tempStr isEqualToString:@"6小时内"])
-        {
-            arrivalTime = @"31600";
-        }
+        NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
         
         NSDictionary *dic = datasource[selectSection];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request updateTime:arrivalTime andRepairID:[dic objectForKey:@"about_id"]];
+        [request updateTime:timeStr andRepairID:[dic objectForKey:@"about_id"]];
     }
 }
 

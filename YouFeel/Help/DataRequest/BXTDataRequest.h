@@ -34,7 +34,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     UserInfoForChatList,
     FindPassword,
     ChangePassWord,
-    UpdateHeadPic
+    UpdateHeadPic,
+    ConfigInfo
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -233,5 +234,11 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  更新头像
  */
 - (void)updateHeadPic:(NSString *)pic;
+
+
+/**
+ *  获取配置参数
+ */
+- (void)configInfo;
 
 @end

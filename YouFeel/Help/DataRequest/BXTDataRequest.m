@@ -468,6 +468,14 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)configInfo
+{
+    self.requestType = ConfigInfo;
+    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Config&opt=Config_info",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url withParameters:(NSDictionary *)parameters
 {
     LogRed(@"url......%@",url);

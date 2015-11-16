@@ -66,4 +66,13 @@ UIColor* colorWithHexString(NSString *stringToConvert);
 
 CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
 
+/**
+ *  存数组
+ */
++ (void)writeFileWithfileName:(NSString *)filename Array:(NSMutableArray *)infom;
+/**
+ *  取数组
+ */
++ (NSArray *)readFileWithfileName:(NSString *)filename;
+
 @end

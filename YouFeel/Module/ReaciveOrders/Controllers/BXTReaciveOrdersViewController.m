@@ -44,7 +44,11 @@
     
     repairBeginTime = @"";
     repairEndTime = @"";
-    comeTimeArray = @[@"半小时内",@"1小时内",@"3小时内",@"6小时内",];
+    NSMutableArray *timeArray = [[NSMutableArray alloc] init];
+    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
+        [timeArray addObject:[NSString stringWithFormat:@"%@分钟内", timeStr]];
+    }
+    comeTimeArray = timeArray;
     [self resignNotifacation];
     [self navigationSetting:@"我要接单" andRightTitle:nil andRightImage:nil];
     [self createDOP];
@@ -524,27 +528,10 @@
 
     if ([obj isKindOfClass:[NSString class]])
     {
-        NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceReferenceDate];
-        NSString *time;
         NSString *tempStr = (NSString *)obj;
-        if ([tempStr isEqualToString:@"半小时内"])
-        {
-            time = [NSString stringWithFormat:@"%.0f",timeInterval + 30 * 60];
-        }
-        else if ([tempStr isEqualToString:@"1小时内"])
-        {
-            time = [NSString stringWithFormat:@"%.0f",timeInterval + 60 * 60];
-        }
-        else if ([tempStr isEqualToString:@"3小时内"])
-        {
-            time = [NSString stringWithFormat:@"%.0f",timeInterval + 180 * 60];
-        }
-        else if ([tempStr isEqualToString:@"6小时内"])
-        {
-            time = [NSString stringWithFormat:@"%.0f",timeInterval + 360 * 60];
-        }
+        NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:orderID arrivalTime:time andIsGrad:NO];
+        [request reaciveOrderID:orderID arrivalTime:timeStr andIsGrad:NO];
     }
 }
 
