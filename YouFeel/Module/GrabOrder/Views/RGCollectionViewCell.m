@@ -56,8 +56,18 @@
         });
         
         self.cause = ({
-        
+            
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_location.frame) + 10.f, CGRectGetWidth(_location.frame), 20)];
+            label.textColor = colorWithHexString(@"000000");
+            label.font = [UIFont boldSystemFontOfSize:17.f];
+            [self addSubview:label];
+            label;
+            
+        });
+        
+        self.notes = ({
+        
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self addSubview:label];
@@ -67,7 +77,7 @@
         
         self.level = ({
         
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_notes.frame) + 10.f, CGRectGetWidth(_notes.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self addSubview:label];
@@ -163,7 +173,8 @@
         
         _repairID.text = [NSString stringWithFormat:@"工单号:%@",repairDetail.orderid];
         _location.text = [NSString stringWithFormat:@"位置:%@",repairDetail.place_name];
-        _cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
+        _cause.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
+        _notes.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
         
         NSString *str;
         NSRange range;

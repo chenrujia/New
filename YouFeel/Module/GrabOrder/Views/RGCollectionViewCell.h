@@ -15,6 +15,7 @@
 @property (strong, nonatomic) UILabel          *repairID;
 @property (strong, nonatomic) UILabel          *location;
 @property (strong, nonatomic) UILabel          *cause;
+@property (strong, nonatomic) UILabel          *notes;
 @property (strong, nonatomic) UILabel          *level;
 //@property (strong, nonatomic) UIView           *backView;
 //@property (strong, nonatomic) UILabel          *coinLabel;

@@ -67,7 +67,6 @@
 #pragma mark 初始化视图
 - (void)createCollectionView
 {
-    LogBlue(@"3count......%lu",(unsigned long)[BXTGlobal shareGlobal].orderIDs.count);
     RGCardViewLayout *flowLayout= [[RGCardViewLayout alloc] init];
     CGFloat bv_height = IS_IPHONE6 ? 180.f : 120.f;
     itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - bv_height) collectionViewLayout:flowLayout];
@@ -267,7 +266,6 @@
 #pragma mark 代理
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    LogBlue(@"4count......%lu",(unsigned long)[BXTGlobal shareGlobal].orderIDs.count);
     return [BXTGlobal shareGlobal].orderIDs.count;
 }
 
@@ -395,7 +393,6 @@
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
         {
-#warning 改改改
             [self showMBP:@"工单已被抢！" withBlock:^(BOOL hidden) {
                 [self.navigationController popViewControllerAnimated:YES];
             }];
