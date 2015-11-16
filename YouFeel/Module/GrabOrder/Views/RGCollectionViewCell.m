@@ -70,7 +70,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
             label.numberOfLines = 0;
-            label.lineBreakMode = NSLineBreakByWordWrapping;
+            label.lineBreakMode = NSLineBreakByTruncatingTail;
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self addSubview:label];
             label;
@@ -180,6 +180,7 @@
         CGSize size = MB_MULTILINE_TEXTSIZE(contents, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
         _cause.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         _notes.frame = CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), size.height > 50.f ? 50 : size.height);
+        _level.frame = CGRectMake(15.f, CGRectGetMaxY(_notes.frame) + 10.f, CGRectGetWidth(_notes.frame), 20);
         _notes.text = contents;
         
         NSString *str;
