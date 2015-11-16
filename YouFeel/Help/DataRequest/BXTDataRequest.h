@@ -152,7 +152,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  维修状态
  */
-- (void)maintenanceState:(NSString *)repairID andReaciveTime:(NSString *)reaciveTime andFinishTime:(NSString *)finishTime andMaintenanceState:(NSString *)state andFaultType:(NSString *)faultType andManHours:(NSString *)hours andImages:(NSArray *)images;
+- (void)maintenanceState:(NSString *)repairID andReaciveTime:(NSString *)reaciveTime andFinishTime:(NSString *)finishTime andMaintenanceState:(NSString *)state andFaultType:(NSString *)faultType andManHours:(NSString *)hours andImages:(NSArray *)images andNotes:(NSString *)notes;
 
 /**
  *  维修员列表

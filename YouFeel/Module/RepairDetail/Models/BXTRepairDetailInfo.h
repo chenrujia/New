@@ -53,5 +53,6 @@
 @property (nonatomic ,strong) NSString     *workprocess;
 @property (nonatomic ,strong) NSArray      *repair_fault_arr;
 @property (nonatomic ,strong) NSArray      *repair_user_arr;
+@property (nonatomic ,strong) NSString     *man_hours;
 
 @end

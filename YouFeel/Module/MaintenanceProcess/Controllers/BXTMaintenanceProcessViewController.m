@@ -128,7 +128,7 @@
     {
         state = @"1";
     }
-    [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairID] andReaciveTime:_reaciveTime andFinishTime:finishTime andMaintenanceState:state andFaultType:[NSString stringWithFormat:@"%ld",(long)_currentFaultID] andManHours:maintenanceTime andImages:photosArray];
+    [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairID] andReaciveTime:_reaciveTime andFinishTime:finishTime andMaintenanceState:state andFaultType:[NSString stringWithFormat:@"%ld",(long)_currentFaultID] andManHours:maintenanceTime andImages:photosArray andNotes:notes];
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)tapGR
