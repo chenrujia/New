@@ -277,15 +277,14 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您确定要取消此工单?"
-                                                            message:nil
-                                                           delegate:self
-                                                  cancelButtonTitle:@"取消"
-                                                  otherButtonTitles:@"确定",nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您确定要取消此工单?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
             [alert show];
         }
         return;
     }
+    
+    NSLog(@"taskInfo -- %@", taskInfo);
+    
     switch ([[taskInfo objectForKey:@"notice_type"] integerValue])
     {
         case 1://系统消息
@@ -309,19 +308,19 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)//收到派工或者维修邀请
             {
-                
+                [self showAlertView:[taskInfo objectForKey:@"notice_title"]];
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 3)//抢单后或者确认通知后回馈报修者到达时间
             {
-                
+                [self showAlertView:[taskInfo objectForKey:@"notice_title"]];
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 4)//维修完成后通知后报修者
             {
-                
+                [self showAlertView:[taskInfo objectForKey:@"notice_title"]];
             }
             else//维修者获取好评
             {
-
+                [self showAlertView:[taskInfo objectForKey:@"notice_title"]];
             }
             break;
         case 3://通知
@@ -338,6 +337,24 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     LogRed(@"task id : %@",taskId);
+}
+
+- (void)showAlertView:(NSString *)title {
+    if (IS_IOS_8)
+    {
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+        }];
+        [alertCtr addAction:doneAction];
+        [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 /**
