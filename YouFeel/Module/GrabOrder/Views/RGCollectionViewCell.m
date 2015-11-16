@@ -69,6 +69,8 @@
         
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
+            label.numberOfLines = 0;
+            label.lineBreakMode = NSLineBreakByWordWrapping;
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self addSubview:label];
             label;
@@ -173,8 +175,12 @@
         
         _repairID.text = [NSString stringWithFormat:@"工单号:%@",repairDetail.orderid];
         _location.text = [NSString stringWithFormat:@"位置:%@",repairDetail.place_name];
+        NSString *contents = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
+        UIFont *font = [UIFont boldSystemFontOfSize:17.f];
+        CGSize size = MB_MULTILINE_TEXTSIZE(contents, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
         _cause.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
-        _notes.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
+        _notes.frame = CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), size.height > 50.f ? 50 : size.height);
+        _notes.text = contents;
         
         NSString *str;
         NSRange range;
