@@ -225,4 +225,17 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     return value;
 }
 
+// 存数组方法
++ (void)writeFileWithfileName:(NSString *)filename Array:(NSMutableArray *)infom {
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt", filename]];
+    [infom writeToFile:filePath atomically:YES];
+}
+// 取数组方法
++ (NSArray *)readFileWithfileName:(NSString *)filename {
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt", filename]];
+    return [NSArray arrayWithContentsOfFile:filePath];
+}
+
 @end
