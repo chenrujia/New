@@ -844,6 +844,9 @@
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
             [self showMBP:@"更改成功！" withBlock:^(BOOL hidden) {
+                if (self.BlockRefresh) {
+                    self.BlockRefresh();
+                }
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         }

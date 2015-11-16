@@ -642,6 +642,9 @@
     else if (item.tag == 102)
     {
         BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairDetail.faulttype_name andCurrentFaultID:repairDetail.faulttype andRepairID:repairDetail.repairID andReaciveTime:repairDetail.receive_time];
+        maintenanceProcossVC.BlockRefresh = ^() {
+            [self requestDetail];
+        };
         [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
     }
 }
