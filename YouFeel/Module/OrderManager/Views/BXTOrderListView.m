@@ -218,15 +218,17 @@
             [cell.maintenanceProcess setTitleColor:colorWithHexString(@"e2e6e8") forState:UIControlStateNormal];
             cell.maintenanceProcess.userInteractionEnabled = NO;
         }
-        else if (repairInfo.repairstate == 3)
-        {
-            cell.maintenanceProcess.hidden = YES;
-        }
-        else
+        else if (repairInfo.repairstate == 2)
         {
             [cell.maintenanceProcess setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             cell.maintenanceProcess.userInteractionEnabled = YES;
         }
+        else
+        {
+            cell.maintenanceProcess.hidden = YES;
+        }
+        
+        
         cell.maintenanceProcess.tag = indexPath.section;
         [cell.maintenanceProcess addTarget:self action:@selector(maintenanceProcessClick:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
