@@ -253,14 +253,17 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     {
         NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
         NSString *shop_name;
+        BOOL isHave = NO;
         for (NSDictionary *dic in my_shops)
         {
             if ([[dic objectForKey:@"id"] isEqualToString:shop_id])
             {
+                isHave = YES;
                 shop_name = [dic objectForKey:@"shop_name"];
                 break;
             }
         }
+        if (!isHave) return;
         if (IS_IOS_8)
         {
             UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"您有来自%@的新消息，是否立即查看？",shop_name] message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -282,8 +285,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         }
         return;
     }
-    
-    NSLog(@"taskInfo -- %@", taskInfo);
     
     switch ([[taskInfo objectForKey:@"notice_type"] integerValue])
     {
