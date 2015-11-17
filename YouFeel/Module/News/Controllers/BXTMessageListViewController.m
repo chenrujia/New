@@ -11,7 +11,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTNewsViewController.h"
 
-@interface BXTMessageListViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface BXTMessageListViewController ()<UITableViewDataSource,UITableViewDelegate, BXTDataResponseDelegate>
 {
     UITableView *currentTable;
     NSArray *imageArray;
@@ -42,6 +42,14 @@
     
     imageArray = @[@"MessageIcon",@"TicketIcon",@"NotificationIcon",@"WarningIcon"];
     newsType = @[@"系统消息",@"工单消息",@"通知",@"预警"];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request messageList];
 }
 
 #pragma mark -
@@ -153,6 +161,23 @@
     }
 }
 
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    NSDictionary *dic = response;
+    LogRed(@"%@",dic);
+    NSArray *array = [dic objectForKey:@"data"];
+    if (array.count)
+    {
+        [self.datasource addObjectsFromArray:array];
+    }
+    [currentTable reloadData];
+}
+
+- (void)requestError:(NSError *)error
+{
+    
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -160,13 +185,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
