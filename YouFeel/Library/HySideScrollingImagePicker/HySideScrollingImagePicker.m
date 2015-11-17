@@ -242,6 +242,9 @@
     _lib.GetImageBlock = ^(NSArray *ImgsData){
         
         weak.allArr = [NSMutableArray arrayWithArray:[[ImgsData reverseObjectEnumerator] allObjects]];
+        if (weak.allArr.count > 40) {
+            weak.allArr = (NSMutableArray *)[weak.allArr subarrayWithRange:NSMakeRange(0, 40)];
+        }
         [weak.CollectionView reloadData];
         [act stopAnimating];
         
