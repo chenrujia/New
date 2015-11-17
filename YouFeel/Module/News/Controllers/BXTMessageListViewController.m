@@ -19,6 +19,7 @@
 }
 
 @property (nonatomic ,strong) NSMutableArray *datasource;
+@property (nonatomic, assign) BOOL isPopVC;
 
 @end
 
@@ -42,14 +43,18 @@
     
     imageArray = @[@"MessageIcon",@"TicketIcon",@"NotificationIcon",@"WarningIcon"];
     newsType = @[@"系统消息",@"工单消息",@"通知",@"预警"];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request messageList];
+    // 入栈传值，出栈更新
+    if (self.isPopVC) {
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request messageList];
+    }
+    self.isPopVC = YES;
 }
 
 #pragma mark -
