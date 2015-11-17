@@ -285,7 +285,7 @@
     HCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     
     ALAsset *asset = [_allArr objectAtIndex:indexPath.row];
-    
+    
     UIImage *image = [UIImage imageWithCGImage:[asset aspectRatioThumbnail]];
     
     cell.asset = asset;
