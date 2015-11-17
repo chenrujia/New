@@ -269,14 +269,14 @@
 
 - (void)stateClick:(UIButton *)btn
 {
-    BXTSettingTableViewCell *cell = (BXTSettingTableViewCell *)btn.superview;
-    if (btn.tag == 11)
+    BXTSettingTableViewCell *cell = [currentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:6]];
+    if (btn.tag == 1100)
     {
         repairState = @"1";
         cell.emergencyBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
         cell.normelBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
     }
-    else if (btn.tag == 12)
+    else if (btn.tag == 1200)
     {
         repairState = @"2";
         cell.emergencyBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
