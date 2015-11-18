@@ -15,7 +15,6 @@
 #import "BXTDataRequest.h"
 #import "MBProgressHUD.h"
 #import "BXTResignTableViewCell.h"
-#import "ANKeyValueTable.h"
 
 static NSString *cellIndentify = @"resignCellIndentify";
 
@@ -63,7 +62,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
         return;
     }
     
-    [[ANKeyValueTable userDefaultTable] clear];
+    [BXTGlobal setUserProperty:@[] withKey:U_MYSHOP];
     
     [self showLoadingMBP:@"注册中..."];
     [BXTGlobal setUserProperty:nickName withKey:U_NAME];
