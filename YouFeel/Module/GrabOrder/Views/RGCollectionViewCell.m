@@ -190,7 +190,7 @@
             str = @"等级:紧急";
             range = [str rangeOfString:@"紧急"];
         }
-        else if (repairDetail.urgent == 2)
+        else
         {
             str = @"等级:一般";
             range = [str rangeOfString:@"一般"];

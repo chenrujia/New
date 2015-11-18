@@ -136,7 +136,7 @@
     level.font = [UIFont boldSystemFontOfSize:17.f];
     NSString *str;
     NSRange range;
-    if (_repairInfo.urgent == 1)
+    if (_repairInfo.urgent == 2)
     {
         str = @"等级:一般";
         range = [str rangeOfString:@"一般"];
@@ -144,7 +144,7 @@
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
         level.attributedText = attributeStr;
     }
-    else if (_repairInfo.urgent == 2)
+    else
     {
         str = @"等级:紧急";
         range = [str rangeOfString:@"紧急"];
@@ -385,7 +385,7 @@
             str = @"等级:紧急";
             range = [str rangeOfString:@"紧急"];
         }
-        else if (repairDetail.urgent == 2)
+        else
         {
             str = @"等级:一般";
             range = [str rangeOfString:@"一般"];
