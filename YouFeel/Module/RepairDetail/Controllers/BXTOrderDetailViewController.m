@@ -42,6 +42,7 @@
     NSArray *comeTimeArray;
     UIView *lineView;
     UILabel *maintenanceMan;
+    UIScrollView *imagesScrollView;
 }
 
 @property (nonatomic ,strong) NSString *repair_id;
@@ -475,7 +476,7 @@
         if (imgArray.count > 0)
         {
             NSInteger i = 0;
-            UIScrollView *imagesScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, ImageHeight)];
+            imagesScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, ImageHeight)];
             imagesScrollView.contentSize = CGSizeMake((ImageWidth + 25) * imgArray.count + 25.f, ImageHeight);
             [imagesScrollView setShowsHorizontalScrollIndicator:NO];
             for (NSDictionary *dictionary in imgArray)
@@ -631,6 +632,8 @@
     {
         BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairDetail.faulttype_name andCurrentFaultID:repairDetail.faulttype andRepairID:repairDetail.repairID andReaciveTime:repairDetail.receive_time];
         maintenanceProcossVC.BlockRefresh = ^() {
+            // 移除，避免多层显示
+            [imagesScrollView removeFromSuperview];
             [self requestDetail];
         };
         [self.navigationController pushViewController:maintenanceProcossVC animated:YES];

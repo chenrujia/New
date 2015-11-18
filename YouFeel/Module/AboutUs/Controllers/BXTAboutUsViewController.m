@@ -64,6 +64,8 @@
     UIImageView *qrCodeImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(iconView.frame) + (IS_IPHONE6P ? 15.f : 5.f), 90, 90)];
     qrCodeImgView.center = CGPointMake(SCREEN_WIDTH/2.f, qrCodeImgView.center.y);
     [qrCodeImgView sd_setImageWithURL:[NSURL URLWithString:[_infoDic objectForKey:@"img_url"]]];
+    qrCodeImgView.layer.masksToBounds = YES;
+    qrCodeImgView.layer.cornerRadius = 45;
     [backView addSubview:qrCodeImgView];
     
     
