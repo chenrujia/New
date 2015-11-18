@@ -183,13 +183,13 @@
     cell.textField.secureTextEntry = YES;
     if (indexPath.section == 0)
     {
-        cell.textField.placeholder = @"设置新密码";
+        cell.textField.placeholder = @"设置新密码（长度在6~32字符之间）";
         cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
         cell.textField.tag = Password;
     }
     else
     {
-        cell.textField.placeholder = @"再次确认密码（密码长度在6-32个字符之间）";
+        cell.textField.placeholder = @"再次确认密码";
         cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
         cell.textField.tag = PasswordAgain;
     }

@@ -66,13 +66,15 @@
     [qrCodeImgView sd_setImageWithURL:[NSURL URLWithString:[_infoDic objectForKey:@"img_url"]]];
     [backView addSubview:qrCodeImgView];
     
+    
     UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(qrCodeImgView.frame) + (IS_IPHONE6P ? 15.f : 5.f), 80.f, 20.f)];
     versionLabel.center = CGPointMake(SCREEN_WIDTH/2.f, versionLabel.center.y);
     versionLabel.textAlignment = NSTextAlignmentCenter;
     versionLabel.textColor = colorWithHexString(@"909497");
     versionLabel.font = [UIFont systemFontOfSize:14.f];
-    versionLabel.text = @"V 1.0.0";
+    versionLabel.text = [NSString stringWithFormat:@"v %@", IOSSHORTAPPVERSION];
     [backView addSubview:versionLabel];
+    
     
     UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(versionLabel.frame) + (IS_IPHONE6P ? 15.f : 5.f), 320.f, 20.f)];
     detailLabel.center = CGPointMake(SCREEN_WIDTH/2.f, detailLabel.center.y);
