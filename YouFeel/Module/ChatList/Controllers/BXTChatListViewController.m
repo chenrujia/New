@@ -8,6 +8,7 @@
 
 #import "BXTChatListViewController.h"
 #import "BXTHeaderForVC.h"
+#import "UINavigationController+YRBackGesture.h"
 
 @interface BXTChatListViewController ()
 

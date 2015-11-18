@@ -138,7 +138,11 @@
     mobile = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(time.frame) + 10.f, CGRectGetWidth(time.frame), 20)];
     mobile.textColor = colorWithHexString(@"000000");
     mobile.font = [UIFont boldSystemFontOfSize:17.f];
+    mobile.userInteractionEnabled = YES;
     [scrollView addSubview:mobile];
+    
+    UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mobileClick)];
+    [mobile addGestureRecognizer:moblieTap];
     
     place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(mobile.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     place.textColor = colorWithHexString(@"000000");
@@ -302,6 +306,14 @@
     [self loadMWPhotoBrowser:tapView.tag];
 }
 
+- (void)mobileClick
+{
+    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", repairDetail.visitmobile];
+    UIWebView *callWeb = [[UIWebView alloc] init];
+    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+    [self.view addSubview:callWeb];
+}
+
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser {
     
     NSMutableArray *photos = [[NSMutableArray alloc] init];
@@ -442,7 +454,10 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
-        mobile.text = [NSString stringWithFormat:@"手机号:%@",repairDetail.visitmobile];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"手机号:%@",repairDetail.visitmobile]];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(4, 11)];
+        [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(4, 11)];
+        mobile.attributedText = attributedString;
         place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.place_name,repairDetail.stores_name];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
@@ -454,7 +469,7 @@
             str = @"等级:紧急";
             range = [str rangeOfString:@"紧急"];
         }
-        else if (repairDetail.urgent == 2)
+        else
         {
             str = @"等级:一般";
             range = [str rangeOfString:@"一般"];
