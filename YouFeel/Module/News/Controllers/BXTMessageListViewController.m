@@ -31,8 +31,6 @@
     if (self)
     {
         self.datasource = data;
-        
-        NSLog(@"datasource -- %@", self.datasource);
     }
     return self;
 }

@@ -24,9 +24,18 @@
 
 - (void)loadingViews
 {
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(10.f, KNAVIVIEWHEIGHT + 10.f, SCREEN_WIDTH - 20.f, (SCREEN_WIDTH - 20.f) * 1.12f)];
-    imgView.image = [UIImage imageNamed:@"CustomerService"];
-    [self.view addSubview:imgView];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10.f, KNAVIVIEWHEIGHT + 10.f, SCREEN_WIDTH - 20.f, (SCREEN_WIDTH - 20.f) * 1.12f)];
+    [button setBackgroundImage:[UIImage imageNamed:@"CustomerService"] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
+}
+
+- (void)btnClick
+{
+    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", @"4008937878"];
+    UIWebView *callWeb = [[UIWebView alloc] init];
+    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+    [self.view addSubview:callWeb];
 }
 
 - (void)didReceiveMemoryWarning

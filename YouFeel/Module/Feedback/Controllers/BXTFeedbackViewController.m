@@ -85,11 +85,11 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    feedbackStr = textView.text;
     if (textView.text.length < 1)
     {
         textView.text = @"请输入您的反馈意见（500字以内）";
     }
+    feedbackStr = textView.text;
 }
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
