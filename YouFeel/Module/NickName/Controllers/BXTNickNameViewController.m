@@ -55,6 +55,8 @@ static NSString *cellIndentify = @"resignCellIndentify";
 #pragma mark 事件处理
 - (void)doneClick
 {
+    [self.view endEditing:YES];
+    
     if (![BXTGlobal validateUserName:nickName]) {
         [self showMBP:@"请输入您的真实姓名" withBlock:nil];
         return;
@@ -196,6 +198,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
         cell.textField.userInteractionEnabled = NO;
         cell.boyBtn.hidden = YES;
         cell.girlBtn.hidden = YES;
+        cell.textField.hidden = NO;
     }
     else if (indexPath.section == 1)
     {
@@ -204,10 +207,13 @@ static NSString *cellIndentify = @"resignCellIndentify";
         cell.textField.tag = NickNameTag;
         cell.boyBtn.hidden = YES;
         cell.girlBtn.hidden = YES;
+        cell.textField.hidden = NO;
     }
     else
     {
         cell.nameLabel.text = @"性   别";
+        cell.boyBtn.hidden = NO;
+        cell.girlBtn.hidden = NO;
         cell.textField.hidden = YES;
         cell.textField.tag = SexTag;
         [cell.boyBtn addTarget:self action:@selector(sexClick:) forControlEvents:UIControlEventTouchUpInside];
