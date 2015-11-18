@@ -15,7 +15,6 @@
 #import "BXTDataRequest.h"
 #import "MBProgressHUD.h"
 #import "BXTResignTableViewCell.h"
-#import "ANKeyValueTable.h"
 
 static NSString *cellIndentify = @"resignCellIndentify";
 
@@ -56,13 +55,14 @@ static NSString *cellIndentify = @"resignCellIndentify";
 #pragma mark 事件处理
 - (void)doneClick
 {
-    if (![BXTGlobal validateUserName:nickName])
-    {
+    [self.view endEditing:YES];
+    
+    if (![BXTGlobal validateUserName:nickName]) {
         [self showMBP:@"请输入您的真实姓名" withBlock:nil];
         return;
     }
     
-    [[ANKeyValueTable userDefaultTable] clear];
+    [BXTGlobal setUserProperty:@[] withKey:U_MYSHOP];
     
     [self showLoadingMBP:@"注册中..."];
     [BXTGlobal setUserProperty:nickName withKey:U_NAME];
@@ -200,6 +200,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
         cell.textField.userInteractionEnabled = NO;
         cell.boyBtn.hidden = YES;
         cell.girlBtn.hidden = YES;
+        cell.textField.hidden = NO;
     }
     else if (indexPath.section == 1)
     {
@@ -208,10 +209,13 @@ static NSString *cellIndentify = @"resignCellIndentify";
         cell.textField.tag = NickNameTag;
         cell.boyBtn.hidden = YES;
         cell.girlBtn.hidden = YES;
+        cell.textField.hidden = NO;
     }
     else
     {
         cell.nameLabel.text = @"性   别";
+        cell.boyBtn.hidden = NO;
+        cell.girlBtn.hidden = NO;
         cell.textField.hidden = YES;
         cell.textField.tag = SexTag;
         [cell.boyBtn addTarget:self action:@selector(sexClick:) forControlEvents:UIControlEventTouchUpInside];
