@@ -19,6 +19,7 @@
 }
 
 @property (nonatomic ,strong) NSMutableArray *datasource;
+@property (nonatomic, assign) BOOL isPopVC;
 
 @end
 
@@ -30,6 +31,8 @@
     if (self)
     {
         self.datasource = data;
+        
+        NSLog(@"datasource -- %@", self.datasource);
     }
     return self;
 }
@@ -42,14 +45,18 @@
     
     imageArray = @[@"MessageIcon",@"TicketIcon",@"NotificationIcon",@"WarningIcon"];
     newsType = @[@"系统消息",@"工单消息",@"通知",@"预警"];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request messageList];
+    // 入栈传值，出栈更新
+    if (self.isPopVC) {
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request messageList];
+    }
+    self.isPopVC = YES;
 }
 
 #pragma mark -
@@ -164,10 +171,10 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    LogRed(@"%@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     if (array.count)
     {
+        [self.datasource removeAllObjects];
         [self.datasource addObjectsFromArray:array];
     }
     [currentTable reloadData];
