@@ -155,7 +155,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 /**
  *  启动SDK ，并设置后台开关和电子围栏开关
  */
-- (void)startSdkWith:(NSString *)appID appKey:(NSString*)appKey appSecret:(NSString *)appSecret
+- (void)startSdkWith:(NSString *)appID
+              appKey:(NSString*)appKey
+           appSecret:(NSString *)appSecret
 {
     NSError *err =nil;
     //[1-1]:通过 AppId、appKey 、appSecret 启动SDK
@@ -223,7 +225,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 /**
  *  SDK收到透传消息回调
  */
-- (void)GeTuiSdkDidReceivePayload:(NSString*)payloadId andTaskId:(NSString*)taskId andMessageId:(NSString *)aMsgId fromApplication:(NSString *)appId
+- (void)GeTuiSdkDidReceivePayload:(NSString*)payloadId
+                        andTaskId:(NSString*)taskId
+                     andMessageId:(NSString *)aMsgId
+                  fromApplication:(NSString *)appId
 {
     _payloadId = payloadId;
     
@@ -340,7 +345,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     LogRed(@"task id : %@",taskId);
 }
 
-- (void)showAlertView:(NSString *)title {
+- (void)showAlertView:(NSString *)title
+{
     if (IS_IOS_8)
     {
         UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -361,7 +367,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 /**
  *  SDK收到sendMessage消息回调   发送上行消息结果反馈
  */
-- (void)GeTuiSdkDidSendMessage:(NSString *)messageId result:(int)result
+- (void)GeTuiSdkDidSendMessage:(NSString *)messageId
+                        result:(int)result
 {
 //    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
 //    NSLog(@"record  %@",record);
@@ -408,7 +415,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 /**
  *  BXTDataResponseDelegate
  */
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
+- (void)requestResponseData:(id)response
+                requeseType:(RequestType)type
 {
     NSLog(@"%@", response);
     NSDictionary *dic = response;

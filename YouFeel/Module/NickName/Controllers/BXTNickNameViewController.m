@@ -227,7 +227,8 @@ static NSString *cellIndentify = @"resignCellIndentify";
 /**
  * BXTDataResponseDelegate
  */
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
+- (void)requestResponseData:(id)response
+                requeseType:(RequestType)type
 {
     [self hideMBP];
     
@@ -242,11 +243,11 @@ static NSString *cellIndentify = @"resignCellIndentify";
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:headVC];
         nav.navigationBar.hidden = YES;
         [AppDelegate appdelegete].window.rootViewController = nav;
-    } else if ([[dic objectForKey:@"returncode"] integerValue] == 6) {
+    }
+    else if ([[dic objectForKey:@"returncode"] integerValue] == 6)
+    {
         [self showMBP:@"该手机号已注册，请直接登陆" withBlock:nil];
     }
-    
-    
 }
 
 - (void)requestError:(NSError *)error

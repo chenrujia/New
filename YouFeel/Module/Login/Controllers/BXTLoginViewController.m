@@ -202,7 +202,8 @@
 /**
  *  BXTDataResponseDelegate
  */
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
+- (void)requestResponseData:(id)response
+                requeseType:(RequestType)type
 {
     NSLog(@"%@", response);
     NSDictionary *dic = response;

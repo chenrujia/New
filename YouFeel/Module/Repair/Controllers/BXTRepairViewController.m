@@ -107,7 +107,10 @@
 {
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairList:@"0" andPage:1 andIsMaintenanceMan:NO andRepairerIsReacive:@""];
+    [request repairsList:@"0"
+                 andPage:1
+     andIsMaintenanceMan:NO
+    andRepairerIsReacive:@""];
 }
 
 - (void)newRepairClick

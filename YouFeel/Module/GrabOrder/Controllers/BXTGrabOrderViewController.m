@@ -362,7 +362,9 @@
         NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
         
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[currentPage] arrivalTime:timeStr andIsGrad:YES];
+        [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[currentPage]
+                    arrivalTime:timeStr
+                      andIsGrad:YES];
     }
 }
 

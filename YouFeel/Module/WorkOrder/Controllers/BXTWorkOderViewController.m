@@ -237,12 +237,32 @@
     }
     if ([shopInfo isKindOfClass:[NSString class]])
     {
-        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:floorInfo.area_id areaInfoId:areaInfo.place_id shopInfoID:shopInfo equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
+        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
+                       faultCause:cause
+                       faultLevel:repairState
+                      depatmentID:departmentInfo.dep_id
+                      floorInfoID:floorInfo.area_id
+                       areaInfoId:areaInfo.place_id
+                       shopInfoID:shopInfo
+                        equipment:@"0"
+                       faultNotes:notes
+                       imageArray:photosArray
+                  repairUserArray:array];
     }
     else
     {
         BXTShopInfo *tempShopInfo = (BXTShopInfo *)shopInfo;
-        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id] faultCause:cause faultLevel:repairState depatmentID:departmentInfo.dep_id floorInfoID:floorInfo.area_id areaInfoId:areaInfo.place_id shopInfoID:tempShopInfo.stores_id equipment:@"0" faultNotes:notes imageArray:photosArray repairUserArray:array];
+        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
+                       faultCause:cause
+                       faultLevel:repairState
+                      depatmentID:departmentInfo.dep_id
+                      floorInfoID:floorInfo.area_id
+                       areaInfoId:areaInfo.place_id
+                       shopInfoID:tempShopInfo.stores_id
+                        equipment:@"0"
+                       faultNotes:notes
+                       imageArray:photosArray
+                  repairUserArray:array];
     }
 }
 

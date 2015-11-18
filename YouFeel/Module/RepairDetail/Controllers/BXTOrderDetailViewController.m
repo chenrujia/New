@@ -71,7 +71,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestDetail) name:@"RequestDetail" object:nil];
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
-    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
+    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
+    {
         [timeArray addObject:[NSString stringWithFormat:@"%@分钟内", timeStr]];
     }
     comeTimeArray = timeArray;
@@ -395,7 +396,9 @@
         NSString *tempStr = (NSString *)obj;
         NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID] arrivalTime:timeStr andIsGrad:NO];
+        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
+                    arrivalTime:timeStr
+                      andIsGrad:NO];
     }
 }
 
@@ -646,10 +649,12 @@
     else if (item.tag == 102)
     {
         BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairDetail.faulttype_name andCurrentFaultID:repairDetail.faulttype andRepairID:repairDetail.repairID andReaciveTime:repairDetail.receive_time];
+        __weak BXTOrderDetailViewController *weakSelf = self;
         maintenanceProcossVC.BlockRefresh = ^() {
             // 移除，避免多层显示
-            [imagesScrollView removeFromSuperview];
-            [self requestDetail];
+            [scrollView removeFromSuperview];
+            [weakSelf createSubViews];
+            [weakSelf requestDetail];
         };
         [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
     }
@@ -660,15 +665,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

@@ -153,7 +153,10 @@
     [self postRequest:url withParameters:nil];
 }
 
-- (void)repairList:(NSString *)state andPage:(NSInteger)page andIsMaintenanceMan:(BOOL)isMaintenanceMan andRepairerIsReacive:(NSString *)reacive
+- (void)repairsList:(NSString *)state
+            andPage:(NSInteger)page
+andIsMaintenanceMan:(BOOL)isMaintenanceMan
+andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = RepairList;
     BOOL stateIsComplete = NO;
@@ -187,7 +190,13 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)repairerList:(NSString *)state andPage:(NSInteger)page andPlace:(NSString *)place andDepartment:(NSString *)department andBeginTime:(NSString *)beginTime andEndTime:(NSString *)endTime andFaultType:(NSString *)faultType
+- (void)repairerList:(NSString *)state
+             andPage:(NSInteger)page
+            andPlace:(NSString *)place
+       andDepartment:(NSString *)department
+        andBeginTime:(NSString *)beginTime
+          andEndTime:(NSString *)endTime
+        andFaultType:(NSString *)faultType
 {
     self.requestType = RepairList;
     BOOL stateIsComplete = NO;
@@ -222,8 +231,17 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)createRepair:(NSString *)faultType faultCause:(NSString *)cause faultLevel:(NSString *)level depatmentID:(NSString *)depID floorInfoID:(NSString *)floorID
-          areaInfoId:(NSString *)areaID shopInfoID:(NSString *)shopID equipment:(NSString *)eqID faultNotes:(NSString *)notes imageArray:(NSArray *)images repairUserArray:(NSArray *)userArray
+- (void)createRepair:(NSString *)faultType
+          faultCause:(NSString *)cause
+          faultLevel:(NSString *)level
+         depatmentID:(NSString *)depID
+         floorInfoID:(NSString *)floorID
+          areaInfoId:(NSString *)areaID
+          shopInfoID:(NSString *)shopID
+           equipment:(NSString *)eqID
+          faultNotes:(NSString *)notes
+          imageArray:(NSArray *)images
+     repairUserArray:(NSArray *)userArray
 {
     self.requestType = CreateRepair;
     
@@ -274,7 +292,10 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)evaluateRepair:(NSArray *)rateArray evaluationNotes:(NSString *)notes repairID:(NSString *)reID imageArray:(NSArray *)images
+- (void)evaluateRepair:(NSArray *)rateArray
+       evaluationNotes:(NSString *)notes
+              repairID:(NSString *)reID
+            imageArray:(NSArray *)images
 {
     NSDictionary *rateDic = @{@"speed":rateArray[0],@"professional":rateArray[1],@"serve":rateArray[2]};
     NSDictionary *dic = @{@"send_id":[BXTGlobal getUserProperty:U_USERID],@"id":reID,@"praise":rateDic,@"evaluation_notes":notes,@"evaluation_name":[BXTGlobal getUserProperty:U_NAME]};
@@ -282,7 +303,9 @@
     [self uploadImageRequest:url withParameters:dic withImages:images];
 }
 
-- (void)reaciveOrderID:(NSString *)repairID arrivalTime:(NSString *)time andIsGrad:(BOOL)isGrab
+- (void)reaciveOrderID:(NSString *)repairID
+           arrivalTime:(NSString *)time
+             andIsGrad:(BOOL)isGrab
 {
     self.requestType = ReaciveOrder;
     NSDictionary *dic = @{@"is_grab":[NSString stringWithFormat:@"%d",isGrab],
@@ -294,7 +317,8 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)dispatchingMan:(NSString *)repairID andMans:(NSArray *)mans
+- (void)dispatchingMan:(NSString *)repairID
+               andMans:(NSArray *)mans
 {
     self.requestType = ReaciveOrder;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
@@ -311,7 +335,14 @@
     [self getRequest:url];
 }
 
-- (void)maintenanceState:(NSString *)repairID andReaciveTime:(NSString *)reaciveTime andFinishTime:(NSString *)finishTime andMaintenanceState:(NSString *)state andFaultType:(NSString *)faultType andManHours:(NSString *)hours andImages:(NSArray *)images andNotes:(NSString *)notes
+- (void)maintenanceState:(NSString *)repairID
+          andReaciveTime:(NSString *)reaciveTime
+           andFinishTime:(NSString *)finishTime
+     andMaintenanceState:(NSString *)state
+            andFaultType:(NSString *)faultType
+             andManHours:(NSString *)hours
+               andImages:(NSArray *)images
+                andNotes:(NSString *)notes
 {
     self.requestType = MaintenanceProcess;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
@@ -376,7 +407,8 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)shopWithLatitude:(NSString *)latitude andWithLongitude:(NSString *)longitude
+- (void)shopWithLatitude:(NSString *)latitude
+        andWithLongitude:(NSString *)longitude
 {
     self.requestType = LocationShop;
     NSDictionary *dic = @{@"Latitude":latitude,
@@ -405,7 +437,8 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)updateTime:(NSString *)time andRepairID:(NSString *)repairID
+- (void)updateTime:(NSString *)time
+       andRepairID:(NSString *)repairID
 {
     self.requestType = UpdateTime;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
@@ -439,7 +472,8 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)findPassWordWithMobile:(NSString *)moblie andWithCode:(NSString *)code
+- (void)findPassWordWithMobile:(NSString *)moblie
+                   andWithCode:(NSString *)code
 {
     self.requestType = FindPassword;
     NSDictionary *dic = @{@"type":@"3",
@@ -449,7 +483,9 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)changePassWord:(NSString *)password andWithID:(NSString *)pw_ID andWithKey:(NSString *)key
+- (void)changePassWord:(NSString *)password
+             andWithID:(NSString *)pw_ID
+            andWithKey:(NSString *)key
 {
     self.requestType = ChangePassWord;
     NSDictionary *dic = @{@"key":key,
@@ -476,7 +512,8 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)postRequest:(NSString *)url withParameters:(NSDictionary *)parameters
+- (void)postRequest:(NSString *)url
+     withParameters:(NSDictionary *)parameters
 {
     LogRed(@"url......%@",url);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -495,7 +532,9 @@
     }];
 }
 
-- (void)uploadImageRequest:(NSString *)url withParameters:(NSDictionary *)parameters withImages:(NSArray *)images
+- (void)uploadImageRequest:(NSString *)url
+            withParameters:(NSDictionary *)parameters
+                withImages:(NSArray *)images
 {
     LogRed(@"url......%@",url);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
