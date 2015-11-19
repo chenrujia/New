@@ -50,7 +50,7 @@
     navi_titleLabel.font = [UIFont systemFontOfSize:18];
     navi_titleLabel.textColor = [UIColor whiteColor];
     navi_titleLabel.textAlignment = NSTextAlignmentCenter;
-    navi_titleLabel.text = [NSString stringWithFormat:@"工单管理"];
+    navi_titleLabel.text = [NSString stringWithFormat:@"我的工单"];
     [naviView addSubview:navi_titleLabel];
     
     UIButton * navi_leftButton = [[UIButton alloc] initWithFrame:CGRectMake(6, 20, 44, 44)];

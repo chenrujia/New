@@ -47,7 +47,7 @@
     [super viewDidLoad];
     
     notes = @"";
-    rateArray = [NSMutableArray arrayWithObjects:@"1",@"1",@"1", nil];
+    rateArray = [NSMutableArray arrayWithObjects:@"5",@"5",@"5", nil];
     photosArray = [[NSMutableArray alloc] init];
     selectPhotos = [[NSMutableArray alloc] init];
     
@@ -98,6 +98,7 @@
                                                                               solidImage:star
                                                                             andMaxRating:5];
         imagesRatingControl.tag = i;
+        imagesRatingControl.rating = 5;
         imagesRatingControl.delegate = self;
         [backView addSubview:imagesRatingControl];
     }

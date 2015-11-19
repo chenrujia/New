@@ -232,6 +232,7 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)createRepair:(NSString *)faultType
+      faultType_type:(NSString *)faulttype_type
           faultCause:(NSString *)cause
           faultLevel:(NSString *)level
          depatmentID:(NSString *)depID
@@ -257,6 +258,7 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"type":@"add",
                           @"subgroup":groupInfo.group_id,
                           @"faulttype":faultType,
+                          @"faulttype_type":faulttype_type,
                           @"cause":cause,
                           @"urgent":level,
                           @"part":depID,

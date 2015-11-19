@@ -61,7 +61,7 @@
                     @"Feedback",
                     @"Cuetomer_service",
                     @"About_us", nil];
-    titleNameArray = [NSMutableArray arrayWithObjects:@"新工单",@"工单管理",@"业务申请",@"评价",@"消息",@"沟通记录",@"意见反馈",@"客服",@"关于我们", nil];
+    titleNameArray = [NSMutableArray arrayWithObjects:@"新工单",@"我的工单",@"业务申请",@"评价",@"消息",@"沟通记录",@"意见反馈",@"客服",@"关于我们", nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -129,6 +129,7 @@ andRepairerIsReacive:(NSString *)reacive;
  *  新建工单
  */
 - (void)createRepair:(NSString *)faultType
+      faultType_type:(NSString *)faulttype_type
           faultCause:(NSString *)cause
           faultLevel:(NSString *)level
          depatmentID:(NSString *)depID
