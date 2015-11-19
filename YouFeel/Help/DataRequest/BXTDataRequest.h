@@ -40,7 +40,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
 
 @protocol BXTDataResponseDelegate <NSObject>
 
-- (void)requestResponseData:(id)response requeseType:(RequestType)type;
+- (void)requestResponseData:(id)response
+                requeseType:(RequestType)type;
 - (void)requestError:(NSError *)error;
 
 @end
@@ -111,14 +112,33 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  报修列表 第一个是报修者身份，第一个是维修者身份
  */
-- (void)repairList:(NSString *)state andPage:(NSInteger)page andIsMaintenanceMan:(BOOL)isMaintenanceMan andRepairerIsReacive:(NSString *)reacive;
-- (void)repairerList:(NSString *)state andPage:(NSInteger)page andPlace:(NSString *)place andDepartment:(NSString *)department andBeginTime:(NSString *)beginTime andEndTime:(NSString *)endTime andFaultType:(NSString *)faultType;
+- (void)repairsList:(NSString *)state
+            andPage:(NSInteger)page
+andIsMaintenanceMan:(BOOL)isMaintenanceMan
+andRepairerIsReacive:(NSString *)reacive;
+
+- (void)repairerList:(NSString *)state
+             andPage:(NSInteger)page
+            andPlace:(NSString *)place
+       andDepartment:(NSString *)department
+        andBeginTime:(NSString *)beginTime
+          andEndTime:(NSString *)endTime
+        andFaultType:(NSString *)faultType;
 
 /**
  *  新建工单
  */
-- (void)createRepair:(NSString *)faultType faultCause:(NSString *)cause faultLevel:(NSString *)level depatmentID:(NSString *)depID floorInfoID:(NSString *)floorID
-          areaInfoId:(NSString *)areaID shopInfoID:(NSString *)shopID equipment:(NSString *)eqID faultNotes:(NSString *)notes imageArray:(NSArray *)images repairUserArray:(NSArray *)userArray;
+- (void)createRepair:(NSString *)faultType
+          faultCause:(NSString *)cause
+          faultLevel:(NSString *)level
+         depatmentID:(NSString *)depID
+         floorInfoID:(NSString *)floorID
+          areaInfoId:(NSString *)areaID
+          shopInfoID:(NSString *)shopID
+           equipment:(NSString *)eqID
+          faultNotes:(NSString *)notes
+          imageArray:(NSArray *)images
+     repairUserArray:(NSArray *)userArray;
 
 /**
  *  删除工单
@@ -133,17 +153,23 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  评价
  */
-- (void)evaluateRepair:(NSArray *)rateArray evaluationNotes:(NSString *)notes repairID:(NSString *)reID imageArray:(NSArray *)images;
+- (void)evaluateRepair:(NSArray *)rateArray
+       evaluationNotes:(NSString *)notes
+              repairID:(NSString *)reID
+            imageArray:(NSArray *)images;
 
 /**
  *  接单
  */
-- (void)reaciveOrderID:(NSString *)repairID arrivalTime:(NSString *)time andIsGrad:(BOOL)isGrab;
+- (void)reaciveOrderID:(NSString *)repairID
+           arrivalTime:(NSString *)time
+             andIsGrad:(BOOL)isGrab;
 
 /**
  *  派工or增员
  */
-- (void)dispatchingMan:(NSString *)repairID andMans:(NSArray *)mans;
+- (void)dispatchingMan:(NSString *)repairID
+               andMans:(NSArray *)mans;
 
 /**
  *  维修者分组
@@ -153,7 +179,14 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  维修状态
  */
-- (void)maintenanceState:(NSString *)repairID andReaciveTime:(NSString *)reaciveTime andFinishTime:(NSString *)finishTime andMaintenanceState:(NSString *)state andFaultType:(NSString *)faultType andManHours:(NSString *)hours andImages:(NSArray *)images andNotes:(NSString *)notes;
+- (void)maintenanceState:(NSString *)repairID
+          andReaciveTime:(NSString *)reaciveTime
+           andFinishTime:(NSString *)finishTime
+     andMaintenanceState:(NSString *)state
+            andFaultType:(NSString *)faultType
+             andManHours:(NSString *)hours
+               andImages:(NSArray *)images
+                andNotes:(NSString *)notes;
 
 /**
  *  维修员列表
@@ -188,7 +221,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  获取附近商店
  */
-- (void)shopWithLatitude:(NSString *)latitude andWithLongitude:(NSString *)longitude;
+- (void)shopWithLatitude:(NSString *)latitude
+        andWithLongitude:(NSString *)longitude;
 
 /**
  *  消息列表
@@ -203,7 +237,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  更新到达现场时间
  */
-- (void)updateTime:(NSString *)time andRepairID:(NSString *)repairID;
+- (void)updateTime:(NSString *)time
+       andRepairID:(NSString *)repairID;
 
 /**
  *  意见反馈
@@ -223,12 +258,15 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  找回密码
  */
-- (void)findPassWordWithMobile:(NSString *)moblie andWithCode:(NSString *)code;
+- (void)findPassWordWithMobile:(NSString *)moblie
+                   andWithCode:(NSString *)code;
 
 /**
  *  重置密码
  */
-- (void)changePassWord:(NSString *)password andWithID:(NSString *)pw_ID andWithKey:(NSString *)key;
+- (void)changePassWord:(NSString *)password
+             andWithID:(NSString *)pw_ID
+            andWithKey:(NSString *)key;
 
 /**
  *  更新头像

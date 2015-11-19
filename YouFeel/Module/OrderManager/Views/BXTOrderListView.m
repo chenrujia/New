@@ -92,7 +92,10 @@
     currentPage = 1;
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairList:_repairState andPage:1 andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO andRepairerIsReacive:_isReacive];
+    [request repairsList:_repairState
+                 andPage:1
+     andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO
+    andRepairerIsReacive:_isReacive];
 }
 
 - (void)loadMoreData
@@ -101,7 +104,10 @@
     refreshType = Up;
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairList:_repairState andPage:currentPage andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO andRepairerIsReacive:_isReacive];
+    [request repairsList:_repairState
+                 andPage:currentPage
+     andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO
+    andRepairerIsReacive:_isReacive];
 }
 
 #pragma mark -
@@ -374,7 +380,9 @@
         NSString *tempStr = (NSString *)obj;
         NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:orderID arrivalTime:timeStr andIsGrad:NO];
+        [request reaciveOrderID:orderID
+                    arrivalTime:timeStr
+                      andIsGrad:NO];
     }
 }
 

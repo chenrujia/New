@@ -242,7 +242,8 @@ static NSString *cellIndentify = @"cellIndentify";
 /**
  *  BXTDataRequestDelegate
  */
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
+- (void)requestResponseData:(id)response
+                requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
     NSLog(@"----- %@", dic);
@@ -284,8 +285,6 @@ static NSString *cellIndentify = @"cellIndentify";
 {
     
 }
-
-
 
 - (void)didReceiveMemoryWarning
 {

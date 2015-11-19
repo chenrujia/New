@@ -96,7 +96,13 @@
     dispatch_async(concurrentQueue, ^{
         /**获取报修列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request repairerList:@"1" andPage:1 andPlace:@"0" andDepartment:@"0" andBeginTime:@"0" andEndTime:@"0" andFaultType:@"0"];
+        [request repairerList:@"1"
+                      andPage:1
+                     andPlace:@"0"
+                andDepartment:@"0"
+                 andBeginTime:@"0"
+                   andEndTime:@"0"
+                 andFaultType:@"0"];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求位置**/
@@ -357,7 +363,13 @@
         {
             /**获取报修列表**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request repairerList:@"1" andPage:1 andPlace:@"0" andDepartment:@"0" andBeginTime:@"0" andEndTime:@"0" andFaultType:@"0"];
+            [request repairerList:@"1"
+                          andPage:1
+                         andPlace:@"0"
+                    andDepartment:@"0"
+                     andBeginTime:@"0"
+                       andEndTime:@"0"
+                     andFaultType:@"0"];
             return;
         }
         else if (indexPath.column == 1)
@@ -405,7 +417,13 @@
     NSString *fault_type_id = selectFaultType ? [NSString stringWithFormat:@"%ld",(long)selectFaultType.fau_id] : @"";
     
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairerList:@"1" andPage:1 andPlace:place_id andDepartment:department_id andBeginTime:repairBeginTime andEndTime:repairEndTime andFaultType:fault_type_id];
+    [request repairerList:@"1"
+                  andPage:1
+                 andPlace:place_id
+            andDepartment:department_id
+             andBeginTime:repairBeginTime
+               andEndTime:repairEndTime
+             andFaultType:fault_type_id];
 }
 
 /**
@@ -531,7 +549,9 @@
         NSString *tempStr = (NSString *)obj;
         NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:orderID arrivalTime:timeStr andIsGrad:NO];
+        [request reaciveOrderID:orderID
+                    arrivalTime:timeStr
+                      andIsGrad:NO];
     }
 }
 

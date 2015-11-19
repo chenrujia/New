@@ -145,7 +145,10 @@
 {
     [self showLoadingMBP:@"正在提交..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request evaluateRepair:rateArray evaluationNotes:notes repairID:_repairID imageArray:photosArray];
+    [request evaluateRepair:rateArray
+            evaluationNotes:notes
+                   repairID:_repairID
+                 imageArray:photosArray];
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)tapGR
