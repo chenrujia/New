@@ -25,41 +25,13 @@
 {
     [super viewDidLoad];
     
-    [self navigationSetting];
-    [self createDOP];
+    [self navigationSetting:@"审批" andRightTitle:nil andRightImage:nil];
+//    [self createDOP];
+    [self createImageView];
 }
 
 #pragma mark -
 #pragma mark 初始化视图
-- (void)navigationSetting
-{
-    UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, NavBarHeight)];
-    if ([BXTGlobal shareGlobal].isRepair)
-    {
-        naviView.image = [[UIImage imageNamed:@"Nav_Bars"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    }
-    else
-    {
-        naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    }    naviView.userInteractionEnabled = YES;
-    [self.view addSubview:naviView];
-    
-    UIButton * nav_leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 50, 44)];
-    nav_leftButton.backgroundColor = [UIColor clearColor];
-    [nav_leftButton setImage:[UIImage imageNamed:@"Aroww_left"] forState:UIControlStateNormal];
-    [nav_leftButton setImage:[UIImage imageNamed:@"Aroww_left_selected"] forState:UIControlStateNormal];
-    [nav_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
-    [naviView addSubview:nav_leftButton];
-    
-    UILabel *navi_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64, 20, SCREEN_WIDTH-128, 44)];
-    navi_titleLabel.backgroundColor = [UIColor clearColor];
-    navi_titleLabel.font = [UIFont systemFontOfSize:18];
-    navi_titleLabel.textColor = [UIColor whiteColor];
-    navi_titleLabel.textAlignment = NSTextAlignmentCenter;
-    navi_titleLabel.text = [NSString stringWithFormat:@"审批"];
-    [naviView addSubview:navi_titleLabel];
-}
-
 - (void)createDOP
 {
     launchArray = [NSMutableArray arrayWithObjects:@"我发起的",@"未审批",@"已审批", nil];
@@ -70,6 +42,49 @@
     menu.delegate = self;
     menu.dataSource = self;
     [self.view addSubview:menu];
+}
+
+- (void)createImageView
+{
+    UIImage *image = nil;
+    if (IS_IPHONE6P)
+    {
+        image = [UIImage imageNamed:@"shenpiplus"];
+    }
+    else if (IS_IPHONE6)
+    {
+        image = [UIImage imageNamed:@"shenpi6"];
+    }
+    else if (IS_IPHONE5)
+    {
+        image = [UIImage imageNamed:@"shenpi5"];
+    }
+    else
+    {
+        image = [UIImage imageNamed:@"shenpi"];
+    }
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    imageView.frame = CGRectMake(0,KNAVIVIEWHEIGHT + 30.f, image.size.width, image.size.height);
+    imageView.center = CGPointMake(SCREEN_WIDTH/2.f, imageView.center.y);
+    [self.view addSubview:imageView];
+    
+    UIButton *quitOut = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    quitOut.frame = CGRectMake(20,CGRectGetMaxY(imageView.frame) + 40, SCREEN_WIDTH - 40, 50.f);
+    [quitOut setTitle:@"立即开通" forState:UIControlStateNormal];
+    [quitOut setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    [quitOut setBackgroundColor:colorWithHexString(@"3cafff")];
+    quitOut.layer.masksToBounds = YES;
+    quitOut.layer.cornerRadius = 6.f;
+    [quitOut addTarget:self action:@selector(quitOutClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:quitOut];
+}
+
+- (void)quitOutClick
+{
+    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", @"4008937878"];
+    UIWebView *callWeb = [[UIWebView alloc] init];
+    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+    [self.view addSubview:callWeb];
 }
 
 #pragma mark -
