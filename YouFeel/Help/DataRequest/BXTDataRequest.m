@@ -176,7 +176,7 @@ andRepairerIsReacive:(NSString *)reacive
                 @"state":@"2",
                 @"pagesize":@"5",
                 @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                @"is_receive":reacive};
+                @"is_repairing":reacive};
     }
     else
     {
@@ -184,7 +184,7 @@ andRepairerIsReacive:(NSString *)reacive
                 @"repairstate":state,
                 @"pagesize":@"5",
                 @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                @"is_receive":reacive};
+                @"is_repairing":reacive};
     }
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
