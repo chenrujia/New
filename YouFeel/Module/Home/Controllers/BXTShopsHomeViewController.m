@@ -106,7 +106,8 @@
             break;
         case 2:
         {
-            [self showMBP:@"功能努力开发中" withBlock:nil];
+            BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
+            [self.navigationController pushViewController:examinationVC animated:YES];
         }
             break;
         case 3:

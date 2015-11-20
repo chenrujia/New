@@ -315,6 +315,12 @@
 		966828B51BCFCDAD008D5818 /* BXTHaveEvaluationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966828B11BCFCDAD008D5818 /* BXTHaveEvaluationView.m */; };
 		966828B61BCFCDAD008D5818 /* BXTNoneEvaluationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966828B31BCFCDAD008D5818 /* BXTNoneEvaluationView.m */; };
 		96689B051BCF459C00C296AC /* BXTArchievementsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96689B041BCF459C00C296AC /* BXTArchievementsTableViewCell.m */; };
+		966921C81BFEC497009D01E0 /* CustomerService@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 966921C71BFEC497009D01E0 /* CustomerService@2x.png */; };
+		966921CA1BFEC4BF009D01E0 /* CustomerService@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 966921C91BFEC4BF009D01E0 /* CustomerService@3x.png */; };
+		966921D71BFF1622009D01E0 /* shenpi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 966921D31BFF1622009D01E0 /* shenpi@2x.png */; };
+		966921D81BFF1622009D01E0 /* shenpi5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 966921D41BFF1622009D01E0 /* shenpi5@2x.png */; };
+		966921D91BFF1622009D01E0 /* shenpi6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 966921D51BFF1622009D01E0 /* shenpi6@2x.png */; };
+		966921DA1BFF1622009D01E0 /* shenpiplus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 966921D61BFF1622009D01E0 /* shenpiplus@3x.png */; };
 		967127701BE475DC0033169E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9671274C1BE475DC0033169E /* AFHTTPRequestOperation.m */; };
 		967127711BE475DC0033169E /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9671274E1BE475DC0033169E /* AFHTTPRequestOperationManager.m */; };
 		967127721BE475DC0033169E /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 967127501BE475DC0033169E /* AFHTTPSessionManager.m */; };
@@ -405,8 +411,6 @@
 		96AD52611BF4341C00F02BE7 /* BXTNewOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD52601BF4341C00F02BE7 /* BXTNewOrderViewController.m */; };
 		96C0FEE81BDB357100580355 /* BXTFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FEE71BDB357100580355 /* BXTFeedbackViewController.m */; };
 		96C0FEF01BDB445E00580355 /* BXTCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FEEF1BDB445E00580355 /* BXTCustomerServiceViewController.m */; };
-		96C0FEF21BDB44CE00580355 /* CustomerService@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C0FEF11BDB44CE00580355 /* CustomerService@2x.png */; };
-		96C0FEF41BDB44E900580355 /* CustomerService@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C0FEF31BDB44E900580355 /* CustomerService@3x.png */; };
 		96C0FEF61BDB4B4300580355 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C0FEF51BDB4B4300580355 /* logo@2x.png */; };
 		96C0FEF81BDB4B5000580355 /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C0FEF71BDB4B5000580355 /* logo@3x.png */; };
 		96C606711BD56D180083E711 /* sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96C606701BD56D180083E711 /* sound.wav */; };
@@ -957,6 +961,12 @@
 		966828B31BCFCDAD008D5818 /* BXTNoneEvaluationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNoneEvaluationView.m; sourceTree = "<group>"; };
 		96689B031BCF459C00C296AC /* BXTArchievementsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTArchievementsTableViewCell.h; sourceTree = "<group>"; };
 		96689B041BCF459C00C296AC /* BXTArchievementsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTArchievementsTableViewCell.m; sourceTree = "<group>"; };
+		966921C71BFEC497009D01E0 /* CustomerService@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CustomerService@2x.png"; sourceTree = "<group>"; };
+		966921C91BFEC4BF009D01E0 /* CustomerService@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CustomerService@3x.png"; sourceTree = "<group>"; };
+		966921D31BFF1622009D01E0 /* shenpi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shenpi@2x.png"; sourceTree = "<group>"; };
+		966921D41BFF1622009D01E0 /* shenpi5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shenpi5@2x.png"; sourceTree = "<group>"; };
+		966921D51BFF1622009D01E0 /* shenpi6@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shenpi6@2x.png"; sourceTree = "<group>"; };
+		966921D61BFF1622009D01E0 /* shenpiplus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shenpiplus@3x.png"; sourceTree = "<group>"; };
 		9671274B1BE475DC0033169E /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		9671274C1BE475DC0033169E /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		9671274D1BE475DC0033169E /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -1080,8 +1090,6 @@
 		96C0FEE71BDB357100580355 /* BXTFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFeedbackViewController.m; sourceTree = "<group>"; };
 		96C0FEEE1BDB445E00580355 /* BXTCustomerServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomerServiceViewController.h; sourceTree = "<group>"; };
 		96C0FEEF1BDB445E00580355 /* BXTCustomerServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCustomerServiceViewController.m; sourceTree = "<group>"; };
-		96C0FEF11BDB44CE00580355 /* CustomerService@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CustomerService@2x.png"; sourceTree = "<group>"; };
-		96C0FEF31BDB44E900580355 /* CustomerService@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CustomerService@3x.png"; sourceTree = "<group>"; };
 		96C0FEF51BDB4B4300580355 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		96C0FEF71BDB4B5000580355 /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@3x.png"; sourceTree = "<group>"; };
 		96C606701BD56D180083E711 /* sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sound.wav; sourceTree = "<group>"; };
@@ -1564,6 +1572,10 @@
 		9602218D1BC9216300010072 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				966921D31BFF1622009D01E0 /* shenpi@2x.png */,
+				966921D41BFF1622009D01E0 /* shenpi5@2x.png */,
+				966921D51BFF1622009D01E0 /* shenpi6@2x.png */,
+				966921D61BFF1622009D01E0 /* shenpiplus@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -3478,8 +3490,8 @@
 		96C0FEEB1BDB444800580355 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				96C0FEF11BDB44CE00580355 /* CustomerService@2x.png */,
-				96C0FEF31BDB44E900580355 /* CustomerService@3x.png */,
+				966921C71BFEC497009D01E0 /* CustomerService@2x.png */,
+				966921C91BFEC4BF009D01E0 /* CustomerService@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -3628,6 +3640,7 @@
 				964A1C1F1BD890A300FC1622 /* TicketIcon@3x.png in Resources */,
 				96C0FEF61BDB4B4300580355 /* logo@2x.png in Resources */,
 				9652ADBB1BC9170D009A666D /* VideoOverlay.png in Resources */,
+				966921D81BFF1622009D01E0 /* shenpi5@2x.png in Resources */,
 				964A1C281BD8920700FC1622 /* WarningIcon@2x.png in Resources */,
 				9652ADAD1BC9170D009A666D /* PlayButtonOverlayLarge@2x.png in Resources */,
 				964A1C261BD8920700FC1622 /* NotificationIcon@2x.png in Resources */,
@@ -3644,6 +3657,7 @@
 				960222921BC9216300010072 /* star@2x.png in Resources */,
 				960222DC1BC9216300010072 /* icon_chose_arrow_sel@2x.png in Resources */,
 				964A1C1D1BD890A300FC1622 /* MessageIcon@3x.png in Resources */,
+				966921C81BFEC497009D01E0 /* CustomerService@2x.png in Resources */,
 				96767A081BD53C0E00D41FE2 /* cloumnar_shape@2x.png in Resources */,
 				966828961BCFBB13008D5818 /* chart@3x.png in Resources */,
 				9652ADB71BC9170D009A666D /* UIBarButtonItemArrowRight@3x.png in Resources */,
@@ -3658,6 +3672,7 @@
 				960222FA1BC9216300010072 /* checktransparent@2x.png in Resources */,
 				960222D41BC9216300010072 /* small_round@3x.png in Resources */,
 				960222E31BC9216300010072 /* new_ticke_ticon@3x.png in Resources */,
+				966921D91BFF1622009D01E0 /* shenpi6@2x.png in Resources */,
 				960222F21BC9216300010072 /* users_selected@2x.png in Resources */,
 				9652ADB11BC9170D009A666D /* PlayButtonOverlayLargeTap@3x.png in Resources */,
 				960222D01BC9216300010072 /* Rectangle_1@3x.png in Resources */,
@@ -3698,9 +3713,9 @@
 				9652AD9D1BC9170D009A666D /* ImageError.png in Resources */,
 				960222B91BC9216300010072 /* Switching_site@2x.png in Resources */,
 				9679B99F1BF5847A00A5D339 /* New_Ticket_icon@2x.png in Resources */,
-				96C0FEF41BDB44E900580355 /* CustomerService@3x.png in Resources */,
 				9652ADAF1BC9170D009A666D /* PlayButtonOverlayLargeTap.png in Resources */,
 				9652ADAB1BC9170D009A666D /* ImageSelectedSmallOn@3x.png in Resources */,
+				966921CA1BFEC4BF009D01E0 /* CustomerService@3x.png in Resources */,
 				966828971BCFBB13008D5818 /* thumb_up@3x.png in Resources */,
 				9652ADB51BC9170D009A666D /* UIBarButtonItemArrowRight.png in Resources */,
 				960222F31BC9216300010072 /* users_selected@3x.png in Resources */,
@@ -3731,13 +3746,13 @@
 				9602230D1BC9216300010072 /* check_transparent@3x.png in Resources */,
 				9652ADB91BC9170D009A666D /* UIBarButtonItemGrid@2x.png in Resources */,
 				960222EE1BC9216300010072 /* polaroid@2x.png in Resources */,
+				966921D71BFF1622009D01E0 /* shenpi@2x.png in Resources */,
 				969655731BF3445700B423BC /* backgroundIphone6P@3x.png in Resources */,
 				9652ADA31BC9170D009A666D /* ImageSelectedOn.png in Resources */,
 				96854C261BF32D2B00F5D2BF /* WarrantyIcon@2x.png in Resources */,
 				96553D941BD544DD00E8C52A /* Add_button@3x.png in Resources */,
 				960222D51BC9216300010072 /* small_round_selected@2x.png in Resources */,
 				96854C221BF32C0600F5D2BF /* user@3x.png in Resources */,
-				96C0FEF21BDB44CE00580355 /* CustomerService@2x.png in Resources */,
 				9652ADA61BC9170D009A666D /* ImageSelectedSmallOff.png in Resources */,
 				96854C2C1BF32E8500F5D2BF /* backgroundIphone4s@2x.png in Resources */,
 				9652ADA41BC9170D009A666D /* ImageSelectedOn@2x.png in Resources */,
@@ -3783,6 +3798,7 @@
 				96C684961BE76B4B0038A342 /* ImageResources.bundle in Resources */,
 				96854C321BF3347800F5D2BF /* Aroww_left_selected@2x.png in Resources */,
 				960222BE1BC9216300010072 /* TooL_select@2x.png in Resources */,
+				966921DA1BFF1622009D01E0 /* shenpiplus@3x.png in Resources */,
 				96854C351BF3349C00F5D2BF /* Aroww_left_selected@3x.png in Resources */,
 				9668288F1BCFBB05008D5818 /* thumb_up@2x.png in Resources */,
 				960222931BC9216300010072 /* star@3x.png in Resources */,
@@ -4131,8 +4147,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4155,7 +4171,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "abeba98f-7fbb-4150-b156-a3e14c17430d";
+				PROVISIONING_PROFILE = "afe34391-99d8-463b-bf06-e2b6555f8ee6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4178,8 +4194,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4194,7 +4210,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "abeba98f-7fbb-4150-b156-a3e14c17430d";
+				PROVISIONING_PROFILE = "afe34391-99d8-463b-bf06-e2b6555f8ee6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4206,8 +4222,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4226,7 +4242,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "abeba98f-7fbb-4150-b156-a3e14c17430d";
+				PROVISIONING_PROFILE = "afe34391-99d8-463b-bf06-e2b6555f8ee6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -4236,8 +4252,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4255,7 +4271,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "abeba98f-7fbb-4150-b156-a3e14c17430d";
+				PROVISIONING_PROFILE = "afe34391-99d8-463b-bf06-e2b6555f8ee6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

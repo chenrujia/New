@@ -85,13 +85,13 @@
         if ([BXTGlobal shareGlobal].isRepair)
         {
             selected = @"Rectangle_3";
-            [btn setTitleColor:colorWithHexString(@"3562b5") forState:UIControlStateSelected];
+            [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateSelected];
             [btn setTitleColor:colorWithHexString(@"0a439c") forState:UIControlStateNormal];
         }
         else
         {
             selected = @"Rectangle_2";
-            [btn setTitleColor:colorWithHexString(@"217acf") forState:UIControlStateSelected];
+            [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateSelected];
             [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
         }
         [btn setBackgroundImage:[UIImage resizeImage:normal] forState:UIControlStateNormal];
