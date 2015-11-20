@@ -38,6 +38,7 @@
             for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
                 [timeArray addObject:[NSString stringWithFormat:@"%@分钟内", timeStr]];
             }
+            [timeArray addObject:@"自定义"];
             comeTimeArray = timeArray;
         }
         
@@ -378,12 +379,84 @@
     if ([obj isKindOfClass:[NSString class]])
     {
         NSString *tempStr = (NSString *)obj;
+        if ([tempStr isEqualToString:@"自定义"]) {
+            [self createDatePicker];
+            return;
+        }
         NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
+        
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:orderID
                     arrivalTime:timeStr
                       andIsGrad:NO];
     }
+}
+
+#pragma mark -
+#pragma mark - UIDatePicker
+- (void)createDatePicker {
+    bgView = [[UIView alloc] initWithFrame:self.bounds];
+    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    bgView.tag = 101;
+    [[AppDelegate appdelegete].window addSubview:bgView];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
+    [bgView addGestureRecognizer:tap];
+    
+    
+    originDate = [NSDate date];
+    
+    
+    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
+    datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    datePicker.backgroundColor = colorWithHexString(@"ffffff");
+    datePicker.minimumDate = [NSDate date];
+    datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
+    [[AppDelegate appdelegete].window addSubview:datePicker];
+    
+    
+    toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
+    toolView.backgroundColor = colorWithHexString(@"ffffff");
+    [[AppDelegate appdelegete].window addSubview:toolView];
+    // sure
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 50)];
+    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [sureBtn addTarget:self action:@selector(datePickerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    sureBtn.tag = 10001;
+    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    sureBtn.layer.borderWidth = 0.5;
+    [toolView addSubview:sureBtn];
+    // cancel
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 50)];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [cancelBtn addTarget:self action:@selector(datePickerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    cancelBtn.layer.borderWidth = 0.5;
+    cancelBtn.tag = 10002;
+    [toolView addSubview:cancelBtn];
+}
+
+- (void)dateChange:(UIDatePicker *)picker
+{
+    timeInterval = [picker.date timeIntervalSinceDate:originDate];
+}
+
+- (void)datePickerBtnClick:(UIButton *)button
+{
+    if (button.tag == 10001) {
+        
+        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request reaciveOrderID:orderID
+                    arrivalTime:timeStr
+                      andIsGrad:NO];
+    }
+    [bgView removeFromSuperview];
+    [datePicker removeFromSuperview];
+    [toolView removeFromSuperview];
+    datePicker = nil;
 }
 
 - (void)tapClick:(UITapGestureRecognizer *)tap
@@ -393,6 +466,13 @@
     [UIView animateWithDuration:0.3f animations:^{
         [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
     }];
+    
+    if (datePicker) {
+        [datePicker removeFromSuperview];
+    }
+    if (toolView) {
+        [toolView removeFromSuperview];
+    }
 }
 
 @end

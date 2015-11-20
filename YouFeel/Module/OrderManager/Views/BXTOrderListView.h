@@ -25,6 +25,12 @@ typedef NS_ENUM(NSInteger, RefreshType) {
     NSString         *orderID;
     BXTSelectBoxView *boxView;
     NSArray          *comeTimeArray;
+    
+    UIView *bgView;
+    UIDatePicker *datePicker;
+    UIView *toolView;
+    NSDate *originDate;
+    NSTimeInterval timeInterval;
 }
 
 @property (nonatomic ,strong) NSString *isReacive;

@@ -64,7 +64,7 @@
 
 - (void)boxTitle:(NSString *)title boxSelectedViewType:(BoxSelectedType)type listDataSource:(NSArray *)array
 {
-    title_label.text = [NSString stringWithFormat:@"选择%@",title];
+    title_label.text = [NSString stringWithFormat:@"%@",title];
     _boxType = type;
     _dataArray = array;
     [markArray removeAllObjects];
@@ -154,8 +154,9 @@
     }
     else if (_boxType == Other)
     {
-        cell.titleLabel.frame = CGRectMake(15., 10., 160.f, 30);
+        cell.titleLabel.frame = CGRectMake(15., 10., SCREEN_WIDTH-30, 30);
         cell.titleLabel.text = _dataArray[indexPath.row];
+        cell.titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     
     return cell;
