@@ -101,7 +101,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -110,16 +110,14 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if (indexPath.row == 0)
-    {
-        cell.textLabel.text = @"平台介绍";
-    }
-    else
-    {
-        cell.textLabel.text = @"给我评分";
-    }
+    cell.textLabel.text = @"给我评分";
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APPSTORE_APPADDRESS]];
 }
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
@@ -137,6 +135,25 @@
 - (void)requestError:(NSError *)error
 {
     [self hideMBP];
+}
+
+- (void)showAlertView:(NSString *)title
+{
+    if (IS_IOS_8)
+    {
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+        }];
+        [alertCtr addAction:doneAction];
+        [self presentViewController:alertCtr animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)didReceiveMemoryWarning

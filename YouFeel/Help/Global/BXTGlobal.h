@@ -75,4 +75,9 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
  */
 + (NSArray *)readFileWithfileName:(NSString *)filename;
 
+/**
+ *  判断字符处是否为空
+ */
++ (BOOL)isBlankString:(NSString *)string;
+
 @end

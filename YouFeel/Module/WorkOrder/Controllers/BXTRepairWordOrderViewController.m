@@ -39,8 +39,6 @@
     NSString *notes;
     BXTFaultInfo *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
-    BXTFaultInfo *cancelSelectFaultInfo;
-    BXTFaultTypeInfo *cancelSelectFaultTypeInfo;
     UIPickerView *pickView;
     UIView *pickerbackView;
     UIView *toolView;
@@ -50,6 +48,7 @@
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
 @property (nonatomic ,strong) NSMutableArray *mans;
+@property (nonatomic, copy) NSString *faultType;
 
 @end
 
@@ -115,15 +114,12 @@
 
 - (void)createBoxView:(NSInteger)section
 {
-    cancelSelectFaultInfo = selectFaultInfo;
-    cancelSelectFaultTypeInfo = selectFaultTypeInfo;
-    
     pickerbackView = [[UIView alloc] initWithFrame:self.view.bounds];
     pickerbackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
     pickerbackView.tag = 101;
     [self.view addSubview:pickerbackView];
     
-    if (section == 2)
+    if (section == -1)
     {
         boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"部门" boxSelectedViewType:DepartmentView listDataSource:dep_dataSource markID:nil actionDelegate:self];
         
@@ -132,19 +128,12 @@
             [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
         }];
     }
-    else if (section == 4)
+    else if (section == 1)
     {
         // 工具条
         toolView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-44, SCREEN_WIDTH, 44)];
         toolView.backgroundColor = colorWithHexString(@"cccdd0");
         [pickerbackView addSubview:toolView];
-        // cancel
-        UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 2, 80, 40)];
-        [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-        [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        cancelBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-        [cancelBtn addTarget:self action:@selector(toolBarCanelClick) forControlEvents:UIControlEventTouchUpInside];
-        //[toolView addSubview:cancelBtn];
         // sure
         UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-80, 2, 80, 40)];
         [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
@@ -172,15 +161,6 @@
         [pickerbackView removeFromSuperview];
         [currentTableView reloadData];
     }
-}
-
-- (void)toolBarCanelClick {
-    selectFaultInfo = cancelSelectFaultInfo;
-    selectFaultTypeInfo = cancelSelectFaultTypeInfo;
-    [pickView removeFromSuperview];
-    pickView = nil;
-    [pickerbackView removeFromSuperview];
-    [currentTableView reloadData];
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)tapGR
@@ -257,6 +237,18 @@
 
 - (void)createNewWorkOrder:(NSArray *)array
 {
+    if ([self.faultType isEqualToString:@"请选择故障类型"]) {
+        [self showAlertView:@"请选择故障类型"];
+        return;
+    }
+    if ([BXTGlobal isBlankString:cause]) {
+        [self showAlertView:@"请输入故障描述"];
+        return;
+    }
+    if ([BXTGlobal isBlankString:notes]) {
+        notes = @"";
+    }
+    
     /**请求新建工单**/
     BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
@@ -265,6 +257,7 @@
     BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
     
     [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
+               faultType_type:[NSString stringWithFormat:@"%ld", (long)selectFaultTypeInfo.faulttype_type]
                    faultCause:cause
                    faultLevel:repairState
                   depatmentID:departmentInfo.dep_id
@@ -279,7 +272,7 @@
 
 - (void)stateClick:(UIButton *)btn
 {
-    BXTSettingTableViewCell *cell = [currentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:6]];
+    BXTSettingTableViewCell *cell = [currentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
     if (btn.tag == 1100)
     {
         repairState = @"1";
@@ -291,6 +284,24 @@
         repairState = @"2";
         cell.emergencyBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
         cell.normelBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+    }
+}
+
+- (void)showAlertView:(NSString *)title
+{
+    if (IS_IOS_8)
+    {
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+        }];
+        [alertCtr addAction:doneAction];
+        [self.navigationController presentViewController:alertCtr animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
     }
 }
 
@@ -379,7 +390,7 @@
 
 - (void)selectImages
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:7];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
     BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[currentTableView cellForRowAtIndexPath:indexPath];
     if (selectPhotos.count == 1)
     {
@@ -441,7 +452,7 @@
 //section底部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 7 + indexSection)
+    if (section == 4 + indexSection)
     {
         return 80.f;
     }
@@ -451,7 +462,7 @@
 //section底部视图
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 7 + indexSection)
+    if (section == 4 + indexSection)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -491,7 +502,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 7)
+    if (indexPath.section == 4)
     {
         return 170;
     }
@@ -500,7 +511,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 8 + indexSection;
+    return 5 + indexSection;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -510,7 +521,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 7)
+    if (indexPath.section == 4)
     {
         BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarkCell"];
         if (!cell)
@@ -541,48 +552,8 @@
         }
         cell.detailLable.hidden = NO;
         cell.detailTF.hidden = YES;
+
         if (indexPath.section == 0)
-        {
-            cell.titleLabel.text = @"姓   名";
-            cell.detailLable.text = [BXTGlobal getUserProperty:U_NAME];
-            cell.checkImgView.hidden = NO;
-        }
-        else if (indexPath.section == 1)
-        {
-            cell.titleLabel.text = @"手机号";
-            cell.detailLable.hidden = YES;
-            cell.detailTF.hidden = NO;
-            cell.detailTF.keyboardType = UIKeyboardTypeNumberPad;
-            if ([BXTGlobal getUserProperty:U_MOBILE])
-            {
-                cell.detailTF.text = [BXTGlobal getUserProperty:U_MOBILE];
-            }
-            else
-            {
-                cell.detailTF.tag = MOBILE;
-                cell.detailTF.delegate = self;
-                cell.detailTF.placeholder = @"请输入您的回访号";
-                [cell.detailTF setValue:colorWithHexString(@"909497") forKeyPath:@"_placeholderLabel.textColor"];
-                [cell.detailTF setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
-            }
-        }
-        else if (indexPath.section == 2)
-        {
-            BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-            cell.titleLabel.text = @"部   门";
-            if (departmentInfo)
-            {
-                cell.detailLable.text = departmentInfo.department;
-            }
-            else
-            {
-                cell.detailLable.text = @"请选择您所在部门";
-            }
-            cell.checkImgView.hidden = NO;
-            cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
-            cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
-        }
-        if (indexPath.section == 3)
         {
             cell.titleLabel.text = @"位   置";
             BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
@@ -600,7 +571,7 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 4)
+        else if (indexPath.section == 1)
         {
             cell.titleLabel.text = @"故   障";
             if (!selectFaultInfo)
@@ -612,11 +583,12 @@
                 cell.detailLable.frame = CGRectMake(CGRectGetMaxX(cell.titleLabel.frame) + 20.f, 10., 150.f, 30);
                 cell.detailLable.text = [NSString stringWithFormat:@"%@-%@",selectFaultInfo.faulttype_type,selectFaultTypeInfo.faulttype];
             }
+            self.faultType = cell.detailLable.text;
             cell.checkImgView.hidden = NO;
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 5)
+        else if (indexPath.section == 2)
         {
             cell.titleLabel.text = @"描   述";
             cell.detailLable.hidden = YES;
@@ -635,7 +607,7 @@
                 [cell.detailTF setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
             }
         }
-        else if (indexPath.section == 6)
+        else if (indexPath.section == 3)
         {
             cell.titleLabel.text = @"等   级";
             cell.emergencyBtn.hidden = NO;
@@ -643,7 +615,7 @@
             [cell.emergencyBtn addTarget:self action:@selector(stateClick:) forControlEvents:UIControlEventTouchUpInside];
             [cell.normelBtn addTarget:self action:@selector(stateClick:) forControlEvents:UIControlEventTouchUpInside];
         }
-        else if (indexPath.section == 8)
+        else if (indexPath.section == 5)
         {
             cell.titleLabel.text = @"维修员";
             [manIDs removeAllObjects];
@@ -663,7 +635,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 3)
+    if (indexPath.section == 0)
     {
         __weak BXTRepairWordOrderViewController *weakSelf = self;
         BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithPublic:YES changeArea:^(BXTFloorInfo *floorInfo, BXTAreaInfo *areaInfo) {
@@ -671,9 +643,9 @@
         }];
         [self.navigationController pushViewController:shopLocationVC animated:YES];
     }
-    if (indexPath.section == 4)
+    if (indexPath.section == 1)
     {
-        [self createBoxView:4];
+        [self createBoxView:1];
     }
 }
 
@@ -741,7 +713,7 @@
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
     selectPhotos = photos;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:7];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
     BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[currentTableView cellForRowAtIndexPath:indexPath];
     if (photos.count == 1)
     {

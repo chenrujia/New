@@ -50,7 +50,7 @@
     navi_titleLabel.font = [UIFont systemFontOfSize:18];
     navi_titleLabel.textColor = [UIColor whiteColor];
     navi_titleLabel.textAlignment = NSTextAlignmentCenter;
-    navi_titleLabel.text = [NSString stringWithFormat:@"工单管理"];
+    navi_titleLabel.text = [NSString stringWithFormat:@"我的工单"];
     [naviView addSubview:navi_titleLabel];
     
     UIButton * navi_leftButton = [[UIButton alloc] initWithFrame:CGRectMake(6, 20, 44, 44)];
@@ -148,7 +148,7 @@
     [headImgView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     [logoView addSubview:headImgView];
     
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(headImgView.frame) + valueForDevice(15, 11, 8, 2), 130.f, 20.f)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(headImgView.frame) + valueForDevice(15, 11, 8, 2), 200.f, 20.f)];
     nameLabel.center = CGPointMake(SCREEN_WIDTH/2.f, nameLabel.center.y);
     nameLabel.textAlignment = NSTextAlignmentCenter;
     nameLabel.textColor = colorWithHexString(@"ffffff");
@@ -156,7 +156,7 @@
     nameLabel.text = [BXTGlobal getUserProperty:U_NAME];
     [logoView addSubview:nameLabel];
     
-    UILabel *groupLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(nameLabel.frame) + valueForDevice(10, 8, 4, 2), 130.f, 20.f)];
+    UILabel *groupLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(nameLabel.frame) + valueForDevice(10, 8, 4, 2), 200.f, 20.f)];
     groupLabel.center = CGPointMake(SCREEN_WIDTH/2.f, groupLabel.center.y);
     groupLabel.textAlignment = NSTextAlignmentCenter;
     groupLabel.textColor = colorWithHexString(@"ffffff");

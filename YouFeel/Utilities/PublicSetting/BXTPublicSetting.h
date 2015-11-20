@@ -9,6 +9,9 @@
 #ifndef BXT_BXTPublicSetting_h
 #define BXT_BXTPublicSetting_h
 
+// AppStore下载地址
+#define APPSTORE_APPADDRESS @"https://itunes.apple.com/us/app/you-fu-bao-xiu/id1055274713?l=zh&ls=1&mt=8"
+
 //  app 版本
 #define IOSSHORTAPPVERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
 
