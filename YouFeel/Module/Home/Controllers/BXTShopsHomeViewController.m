@@ -69,6 +69,14 @@
     [super viewWillAppear:animated];
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     [shop_btn setTitle:companyInfo.name forState:UIControlStateNormal];
+    [shop_btn layoutIfNeeded];
+    CGFloat padding = 20;
+    CGFloat titleW = shop_btn.titleLabel.bounds.size.width;
+    if ((SCREEN_WIDTH == 320 && titleW > 160) || (SCREEN_WIDTH == 375 && titleW > 210) || (SCREEN_WIDTH == 414 && titleW > 250) ) {
+        padding = 10;
+    }
+    [shop_btn setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    [shop_btn setImageEdgeInsets:UIEdgeInsetsMake(0, titleW+padding, 0, -titleW-padding)];
 }
 
 #pragma mark -

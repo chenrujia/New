@@ -27,7 +27,7 @@
 {
     [super viewDidLoad];
     
-    headerHeight = IS_IPHONE6P ? 300.f : 350.f*2.f/3.f;
+    headerHeight = IS_IPHONE6P ? 300.f+30.f : 350.f*2.f/3.f+30.f;
     
     [self navigationSetting:@"关于我们" andRightTitle:nil andRightImage:nil];
     [self loadingViews];
@@ -61,11 +61,11 @@
     iconView.image = [UIImage imageNamed:@"logo"];
     [backView addSubview:iconView];
     
-    UIImageView *qrCodeImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(iconView.frame) + (IS_IPHONE6P ? 15.f : 5.f), 90, 90)];
+    UIImageView *qrCodeImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(iconView.frame) + (IS_IPHONE6P ? 15.f : 5.f), 120, 120)];
     qrCodeImgView.center = CGPointMake(SCREEN_WIDTH/2.f, qrCodeImgView.center.y);
     [qrCodeImgView sd_setImageWithURL:[NSURL URLWithString:[_infoDic objectForKey:@"img_url"]]];
     qrCodeImgView.layer.masksToBounds = YES;
-    qrCodeImgView.layer.cornerRadius = 45;
+    qrCodeImgView.layer.cornerRadius = qrCodeImgView.bounds.size.width/2;
     [backView addSubview:qrCodeImgView];
     
     
