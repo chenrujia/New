@@ -109,7 +109,7 @@
 - (void)comingNewRepairs
 {
     BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
-    [self.navigationController pushViewController:grabOrderVC animated:YES];
+    [self presentViewController:grabOrderVC animated:YES completion:nil];
 }
 
 #pragma mark -

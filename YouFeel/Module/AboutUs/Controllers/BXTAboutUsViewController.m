@@ -10,6 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTDataRequest.h"
 #import "UIImageView+WebCache.h"
+#import "BXTGrabOrderViewController.h"
 
 @interface BXTAboutUsViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
@@ -117,7 +118,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APPSTORE_APPADDRESS]];
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APPSTORE_APPADDRESS]];
+
+    BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
+    [self presentViewController:grabOrderVC animated:YES completion:nil];
 }
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type

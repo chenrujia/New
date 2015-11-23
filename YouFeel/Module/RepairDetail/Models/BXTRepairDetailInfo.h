@@ -46,6 +46,7 @@
 @property (nonatomic ,strong) NSString     *repairstate_name;
 @property (nonatomic ,strong) NSString     *state;
 @property (nonatomic ,assign) NSInteger    subgroup;
+@property (nonatomic ,strong) NSString     *subgroup_name;
 @property (nonatomic ,assign) NSInteger    urgent;
 @property (nonatomic ,strong) NSString     *urgent_state;
 @property (nonatomic ,strong) NSString     *visit;
@@ -54,5 +55,6 @@
 @property (nonatomic ,strong) NSArray      *repair_fault_arr;
 @property (nonatomic ,strong) NSArray      *repair_user_arr;
 @property (nonatomic ,strong) NSString     *man_hours;
+@property (nonatomic ,strong) NSString     *long_time;
 
 @end

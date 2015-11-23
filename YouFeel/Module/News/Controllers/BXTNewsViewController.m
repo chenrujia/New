@@ -272,6 +272,17 @@
     originDate = [NSDate date];
     
     
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
+    titleLabel.backgroundColor = colorWithHexString(@"ffffff");
+    titleLabel.text = @"请选择到达时间";
+    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [bgView addSubview:titleLabel];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
+    line.backgroundColor = colorWithHexString(@"e2e6e8");
+    [bgView addSubview:line];
+    
+    
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
     datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     datePicker.backgroundColor = colorWithHexString(@"ffffff");
