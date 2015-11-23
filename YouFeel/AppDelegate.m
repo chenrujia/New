@@ -230,6 +230,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                      andMessageId:(NSString *)aMsgId
                   fromApplication:(NSString *)appId
 {
+    return;
+    
     _payloadId = payloadId;
     
     NSData *payload = [GeTuiSdk retrivePayloadById:payloadId]; //根据payloadId取回Payload

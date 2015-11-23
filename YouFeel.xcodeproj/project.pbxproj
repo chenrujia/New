@@ -109,7 +109,6 @@
 		960222E61BC9216300010072 /* BXTRepairTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222271BC9216300010072 /* BXTRepairTableViewCell.m */; };
 		960222E71BC9216300010072 /* BXTOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602222B1BC9216300010072 /* BXTOrderDetailViewController.m */; };
 		960222E81BC9216300010072 /* BXTRepairDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602222D1BC9216300010072 /* BXTRepairDetailViewController.m */; };
-		960222E91BC9216300010072 /* 103.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9602222F1BC9216300010072 /* 103.jpg */; };
 		960222EA1BC9216300010072 /* pen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960222301BC9216300010072 /* pen@2x.png */; };
 		960222EB1BC9216300010072 /* pen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960222311BC9216300010072 /* pen@3x.png */; };
 		960222EC1BC9216300010072 /* pen_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960222321BC9216300010072 /* pen_selected@2x.png */; };
@@ -617,7 +616,6 @@
 		9602222B1BC9216300010072 /* BXTOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOrderDetailViewController.m; sourceTree = "<group>"; };
 		9602222C1BC9216300010072 /* BXTRepairDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairDetailViewController.h; sourceTree = "<group>"; };
 		9602222D1BC9216300010072 /* BXTRepairDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairDetailViewController.m; sourceTree = "<group>"; };
-		9602222F1BC9216300010072 /* 103.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 103.jpg; sourceTree = "<group>"; };
 		960222301BC9216300010072 /* pen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pen@2x.png"; sourceTree = "<group>"; };
 		960222311BC9216300010072 /* pen@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pen@3x.png"; sourceTree = "<group>"; };
 		960222321BC9216300010072 /* pen_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pen_selected@2x.png"; sourceTree = "<group>"; };
@@ -2139,7 +2137,6 @@
 		9602222E1BC9216300010072 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				9602222F1BC9216300010072 /* 103.jpg */,
 				960222301BC9216300010072 /* pen@2x.png */,
 				960222311BC9216300010072 /* pen@3x.png */,
 				960222321BC9216300010072 /* pen_selected@2x.png */,
@@ -3666,7 +3663,6 @@
 				96854C201BF32BCB00F5D2BF /* notebook@3x.png in Resources */,
 				96AABA541BE0BB220071B6FA /* RongCloudKit.strings in Resources */,
 				96854C281BF32D4E00F5D2BF /* WarrantyIcon@3x.png in Resources */,
-				960222E91BC9216300010072 /* 103.jpg in Resources */,
 				9689C2FE1BE35E5A006D7589 /* grabIphoneplus.png in Resources */,
 				960222E21BC9216300010072 /* new_ticke_ticon@2x.png in Resources */,
 				960222FA1BC9216300010072 /* checktransparent@2x.png in Resources */,
@@ -4242,7 +4238,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "abeba98f-7fbb-4150-b156-a3e14c17430d";
+				PROVISIONING_PROFILE = "afe34391-99d8-463b-bf06-e2b6555f8ee6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -4271,7 +4267,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "abeba98f-7fbb-4150-b156-a3e14c17430d";
+				PROVISIONING_PROFILE = "afe34391-99d8-463b-bf06-e2b6555f8ee6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

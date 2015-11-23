@@ -20,7 +20,7 @@
 @property (nonatomic ,assign) NSInteger faulttype;
 @property (nonatomic ,assign) NSInteger repairID;
 @property (nonatomic ,assign) NSInteger integral;
-@property (nonatomic ,assign) BOOL      is_gadget;
+@property (nonatomic ,assign) NSInteger is_gadget;
 @property (nonatomic ,assign) NSInteger is_read;
 @property (nonatomic ,strong) NSString  *orderid;
 @property (nonatomic ,strong) NSString  *place;
@@ -32,5 +32,6 @@
 @property (nonatomic ,strong) NSString  *workprocess;
 @property (nonatomic ,strong) NSString  *receive_state;
 @property (nonatomic ,strong) NSString  *visitmobile;
+@property (nonatomic ,strong) NSString  *start_time;
 
 @end

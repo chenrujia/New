@@ -11,7 +11,8 @@
 @interface BXTDrawView : UIView
 
 @property (nonatomic ,assign) NSInteger repairState;
+@property (nonatomic ,assign) NSInteger isRepairing;
 
-- (instancetype)initWithFrame:(CGRect)frame withRepairState:(NSInteger)state;
+- (instancetype)initWithFrame:(CGRect)frame withRepairState:(NSInteger)state withIsRespairing:(NSInteger)repairing;
 
 @end

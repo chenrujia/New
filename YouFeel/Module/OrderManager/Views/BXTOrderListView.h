@@ -8,29 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "BXTDataRequest.h"
-#import "BXTSelectBoxView.h"
 
 typedef NS_ENUM(NSInteger, RefreshType) {
     Down,
     Up
 };
 
-@interface BXTOrderListView : UIView <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
+@interface BXTOrderListView : UIView <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
     NSMutableArray   *repairListArray;
     UITableView      *currentTableView;
     NSInteger        currentPage;
-    RefreshType      refreshType;
     NSInteger        selectTag;
-    NSString         *orderID;
-    BXTSelectBoxView *boxView;
-    NSArray          *comeTimeArray;
-    
-    UIView *bgView;
-    UIDatePicker *datePicker;
-    UIView *toolView;
-    NSDate *originDate;
-    NSTimeInterval timeInterval;
+    RefreshType      refreshType;
 }
 
 @property (nonatomic ,strong) NSString *isReacive;

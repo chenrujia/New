@@ -205,7 +205,6 @@
     reaciveOrder.layer.cornerRadius = 6.f;
     [reaciveOrder addTarget:self action:@selector(reaciveOrderBtn) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:reaciveOrder];
-    
 }
 
 #pragma mark -
@@ -235,6 +234,13 @@
 {
     NSDictionary *userDic = repairDetail.repair_user_arr[btn.tag];
     [self handleUserInfo:userDic];
+}
+
+//开始维修
+- (void)startRepairAction
+{
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request startRepair:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]];
 }
 
 - (void)handleUserInfo:(NSDictionary *)dictionary
@@ -635,7 +641,8 @@
                 scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(reaciveOrder.frame));
             }
         }
-        if (repairDetail.repairstate == 2)
+        
+        if (repairDetail.repairstate == 2 && repairDetail.isRepairing == 2)
         {
             UITabBar *tabbar = [[UITabBar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50.f, SCREEN_WIDTH, 50.f)];
             tabbar.delegate = self;
@@ -646,6 +653,7 @@
             [tabbar setItems:@[leftItem,rightItem]];
             [self.view addSubview:tabbar];
         }
+        
         if (repairDetail.repairstate != 1)
         {
             [reaciveOrder removeFromSuperview];
@@ -659,6 +667,17 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
             [self showMBP:@"接单成功！" withBlock:^(BOOL hidden) {
                 [self.navigationController popViewControllerAnimated:YES];
+            }];
+        }
+    }
+    else if (type == StartRepair)
+    {
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+            __weak typeof(self) weakSelf = self;
+            [self showMBP:@"已经开始！" withBlock:^(BOOL hidden) {
+                [weakSelf.navigationController popViewControllerAnimated:YES];
             }];
         }
     }
@@ -690,16 +709,32 @@
         userName.text = [userDic objectForKey:@"name"];
         [userBack addSubview:userName];
         
-        UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
-        contact.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
-        contact.layer.borderWidth = 1.f;
-        contact.layer.cornerRadius = 6.f;
-        contact.tag = i;
-        [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
-        [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
-        [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-        [contact addTarget:self action:@selector(contactRepairer:) forControlEvents:UIControlEventTouchUpInside];
-        [userBack addSubview:contact];
+        if ([[userDic objectForKey:@"id"] isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]] &&
+            repairDetail.repairstate == 2 &&
+            repairDetail.isRepairing == 1)
+        {
+            UIButton *repairNow = [UIButton buttonWithType:UIButtonTypeCustom];
+            repairNow.layer.cornerRadius = 4.f;
+            repairNow.backgroundColor = colorWithHexString(@"3cafff");
+            [repairNow setFrame:CGRectMake(SCREEN_WIDTH - 150.f - 15.f, 22.5f + 10.f, 150.f, 40.f)];
+            [repairNow setTitle:@"开始维修" forState:UIControlStateNormal];
+            [repairNow setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+            [repairNow addTarget:self action:@selector(startRepairAction) forControlEvents:UIControlEventTouchUpInside];
+            [userBack addSubview:repairNow];
+        }
+        else
+        {
+            UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
+            contact.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+            contact.layer.borderWidth = 1.f;
+            contact.layer.cornerRadius = 6.f;
+            contact.tag = i;
+            [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
+            [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
+            [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [contact addTarget:self action:@selector(contactRepairer:) forControlEvents:UIControlEventTouchUpInside];
+            [userBack addSubview:contact];
+        }
         
         if (i != repairDetail.repair_user_arr.count -1)
         {
@@ -740,7 +775,7 @@
     }
     else if (item.tag == 102)
     {
-        BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairDetail.faulttype_name andCurrentFaultID:repairDetail.faulttype andRepairID:repairDetail.repairID andReaciveTime:repairDetail.receive_time];
+        BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairDetail.faulttype_name andCurrentFaultID:repairDetail.faulttype andRepairID:repairDetail.repairID andReaciveTime:repairDetail.start_time];
         __weak BXTOrderDetailViewController *weakSelf = self;
         maintenanceProcossVC.BlockRefresh = ^() {
             // 移除，避免多层显示

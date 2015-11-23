@@ -35,7 +35,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     FindPassword,
     ChangePassWord,
     UpdateHeadPic,
-    ConfigInfo
+    ConfigInfo,
+    StartRepair
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -279,5 +280,10 @@ andRepairerIsReacive:(NSString *)reacive;
  *  获取配置参数
  */
 - (void)configInfo;
+
+/**
+ *  开始维修
+ */
+- (void)startRepair:(NSString *)repairID;
 
 @end
