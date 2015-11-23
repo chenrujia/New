@@ -33,7 +33,7 @@
 }
 
 @property (nonatomic ,strong) MDRadialProgressView *radialProgressView;
-@property (nonatomic ,strong) UILabel              *timeLabel;
+@property (nonatomic ,strong) UILabel *timeLabel;
 
 @end
 
@@ -56,14 +56,18 @@
     }
     [timeArray addObject:@"自定义"];
     comeTimeArray = timeArray;
+    
     player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
     player.volume = 0.8f;
     player.numberOfLoops = -1;
     
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
+    
     [self createCollectionView];
+    
     [self createSubviews];
-    [self afterTimeWithSection:0];
+    
+    //[self afterTimeWithSection:0];
     markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
 }
 
@@ -78,8 +82,7 @@
 - (void)createCollectionView
 {
     RGCardViewLayout *flowLayout= [[RGCardViewLayout alloc] init];
-    CGFloat bv_height = IS_IPHONE6 ? 180.f : 120.f;
-    itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - bv_height) collectionViewLayout:flowLayout];
+    itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) collectionViewLayout:flowLayout];
     [itemsCollectionView registerClass:[RGCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
     itemsCollectionView.delegate = self;
     itemsCollectionView.dataSource = self;
@@ -91,10 +94,11 @@
 
 - (void)createSubviews
 {
-    CGFloat bv_height = IS_IPHONE6 ? 180.f : 120.f;
+    CGFloat bv_height = IS_IPHONE6 ? 80.f : 70.f;
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - bv_height, SCREEN_WIDTH, bv_height)];
     backView.backgroundColor = colorWithHexString(@"febc2d");
     [self.view addSubview:backView];
+    
     
     CGFloat arc_height = IS_IPHONE6 ? 168.f : 112.f;
     UIView *arc_View = [[UIView alloc] initWithFrame:CGRectMake(0, 0, arc_height, arc_height)];
@@ -102,6 +106,7 @@
     arc_View.layer.masksToBounds = YES;
     arc_View.layer.cornerRadius = arc_height/2.f;
     arc_View.backgroundColor = colorWithHexString(@"febc2d");
+    
     
     self.radialProgressView = ({
     
@@ -135,12 +140,12 @@
         
     });
     
-    [backView addSubview:arc_View];
+    //[backView addSubview:arc_View];
+    
     
     __weak BXTGrabOrderViewController *weakSelf = self;
-    CGFloat space = IS_IPHONE6 ? 30.f : 20.f;
-    CGFloat grab_height = IS_IPHONE6 ? 53.3f : 45.6f;
-    WZFlashButton *grab_button = [[WZFlashButton alloc] initWithFrame:CGRectMake(20.f, CGRectGetHeight(backView.frame) - grab_height - space, SCREEN_WIDTH - 40.f, grab_height) andClick:^{
+    CGFloat grab_height = IS_IPHONE6 ? 50.f : 40.f;
+    WZFlashButton *grab_button = [[WZFlashButton alloc] initWithFrame:CGRectMake(20.f, (CGRectGetHeight(backView.frame) - grab_height)/2, SCREEN_WIDTH - 40.f, grab_height) andClick:^{
         [weakSelf reaciveOrder];
     }];
     [grab_button setBackgroundColor:colorWithHexString(@"f0640f")];
@@ -294,14 +299,13 @@
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0, 30, 0, 30);
+    return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 //定义每个UICollectionView 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat height = IS_IPHONE6 ? 430.f : 330.f;
-    return CGSizeMake(SCREEN_WIDTH - 60.f, height);
+    return CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT);
 }
 
 //- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
@@ -399,6 +403,17 @@
     originDate = [NSDate date];
     
     
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
+    titleLabel.backgroundColor = colorWithHexString(@"ffffff");
+    titleLabel.text = @"请选择到达时间";
+    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [bgView addSubview:titleLabel];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
+    line.backgroundColor = colorWithHexString(@"e2e6e8");
+    [bgView addSubview:line];
+    
+    
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
     datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     datePicker.backgroundColor = colorWithHexString(@"ffffff");
@@ -460,13 +475,13 @@
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
             [self showMBP:@"抢单成功！" withBlock:^(BOOL hidden) {
-                [self.navigationController popViewControllerAnimated:YES];
+                //[self.navigationController popViewControllerAnimated:YES];
             }];
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
         {
             [self showMBP:@"工单已被抢！" withBlock:^(BOOL hidden) {
-                [self.navigationController popViewControllerAnimated:YES];
+                //[self.navigationController popViewControllerAnimated:YES];
             }];
         }
     }
