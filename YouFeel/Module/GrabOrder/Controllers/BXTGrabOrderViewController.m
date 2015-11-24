@@ -49,12 +49,13 @@
     [super viewDidLoad];
     
     ++[BXTGlobal shareGlobal].numOfPresented;
-    NSLog(@"numOfPresented -- %ld", [BXTGlobal shareGlobal].numOfPresented);
+    NSLog(@"numOfPresented -- %ld", (long)[BXTGlobal shareGlobal].numOfPresented);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewRepairAgain) name:[NSString stringWithFormat:@"%@-%ld", @"NewRepairAgain", (long)[BXTGlobal shareGlobal].numOfPresented] object:nil];
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
-    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
+    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
+    {
         [timeArray addObject:[NSString stringWithFormat:@"%@分钟内", timeStr]];
     }
     [timeArray addObject:@"自定义"];
@@ -65,12 +66,9 @@
     player.numberOfLoops = -1;
     
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
-    
     [self createCollectionView];
-    
     [self createSubviews];
     
-    //[self afterTimeWithSection:0];
     markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
 }
 
@@ -96,14 +94,12 @@
     backView.backgroundColor = colorWithHexString(@"febc2d");
     [self.view addSubview:backView];
     
-    
     CGFloat arc_height = IS_IPHONE6 ? 168.f : 112.f;
     UIView *arc_View = [[UIView alloc] initWithFrame:CGRectMake(0, 0, arc_height, arc_height)];
     arc_View.center = CGPointMake(SCREEN_WIDTH/2.f, 0);
     arc_View.layer.masksToBounds = YES;
     arc_View.layer.cornerRadius = arc_height/2.f;
     arc_View.backgroundColor = colorWithHexString(@"febc2d");
-    
     
     self.radialProgressView = ({
         

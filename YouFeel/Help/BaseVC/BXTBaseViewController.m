@@ -25,7 +25,9 @@
 /**
  *  设置导航条
  */
-- (UIImageView *)navigationSetting:(NSString *)title andRightTitle:(NSString *)right_title andRightImage:(UIImage *)image
+- (UIImageView *)navigationSetting:(NSString *)title
+                     andRightTitle:(NSString *)right_title
+                     andRightImage:(UIImage *)image
 {
     UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
     if ([BXTGlobal shareGlobal].isRepair)
@@ -49,7 +51,6 @@
     UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     navi_leftButton.frame = CGRectMake(6, 20, 44, 44);
     [navi_leftButton setImage:[UIImage imageNamed:@"Aroww_left"] forState:UIControlStateNormal];
-    [navi_leftButton setImage:[UIImage imageNamed:@"Aroww_left_selected"] forState:UIControlStateNormal];
     [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
     [naviView addSubview:navi_leftButton];
     

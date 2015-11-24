@@ -107,7 +107,6 @@
     UIButton *navi_leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 50, 44)];
     navi_leftButton.backgroundColor = [UIColor clearColor];
     [navi_leftButton setImage:[UIImage imageNamed:@"Aroww_left"] forState:UIControlStateNormal];
-    [navi_leftButton setImage:[UIImage imageNamed:@"Aroww_left_selected"] forState:UIControlStateNormal];
     [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
     [naviView addSubview:navi_leftButton];
     

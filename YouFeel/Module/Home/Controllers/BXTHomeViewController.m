@@ -53,7 +53,8 @@
     
     [self haveConnact];
     
-    if ([BXTGlobal shareGlobal].isRepair) {
+    if ([BXTGlobal shareGlobal].isRepair)
+    {
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
         [dataRequest configInfo];
     }
