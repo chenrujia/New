@@ -14,11 +14,19 @@ typedef void (^HaveHidden)(BOOL hidden);
 
 @property (nonatomic ,copy) HaveHidden havedHidden;
 
-- (UIImageView *)navigationSetting:(NSString *)title andRightTitle:(NSString *)right_title andRightImage:(UIImage *)image;
+- (UIImageView *)navigationSetting:(NSString *)title
+                     andRightTitle:(NSString *)right_title
+                     andRightImage:(UIImage *)image;
+
 - (void)navigationLeftButton;
+
 - (void)navigationRightButton;
-- (void)showMBP:(NSString *)text withBlock:(HaveHidden)block;
+
+- (void)showMBP:(NSString *)text
+      withBlock:(HaveHidden)block;
+
 - (void)showLoadingMBP:(NSString *)text;
+
 - (void)hideMBP;
 
 @end
