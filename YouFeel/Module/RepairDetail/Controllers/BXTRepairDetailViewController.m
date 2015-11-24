@@ -427,7 +427,7 @@
             }
             [scrollView addSubview:imagesScrollView];
             
-            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH, StateViewHeight) withRepairState:repairDetail.repairstate];
+            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH, StateViewHeight) withRepairState:repairDetail.repairstate withIsRespairing:repairDetail.isRepairing];
             [scrollView addSubview:drawView];
             
             arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
@@ -459,7 +459,7 @@
         }
         else
         {
-            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, 90.f) withRepairState:repairDetail.repairstate];
+            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, 90.f) withRepairState:repairDetail.repairstate withIsRespairing:repairDetail.isRepairing];
             [scrollView addSubview:drawView];
             
             arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);

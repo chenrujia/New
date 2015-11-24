@@ -21,31 +21,24 @@
 
 @interface BXTMaintenanceProcessViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,MWPhotoBrowserDelegate,SelectPhotoDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,BXTBoxSelectedTitleDelegate,UIPickerViewDataSource,UIPickerViewDelegate,BXTDataResponseDelegate>
 {
-    UITableView *currentTableView;
-    NSMutableArray *photosArray;
-    NSMutableArray *selectPhotos;
-    NSString *notes;
-    NSString *maintenanceState;
-    NSString *finishTime;
-    NSString *maintenanceTime;
+    UITableView      *currentTableView;
+    NSMutableArray   *photosArray;
+    NSMutableArray   *selectPhotos;
+    NSString         *notes;
+    NSString         *maintenanceState;
     BXTSelectBoxView *boxView;
-    NSArray *stateArray;
-    NSDateFormatter *dateFormatter;
-    UIDatePicker *datePicker;
-    UIPickerView *timePickView;
-    UIPickerView *faultPickView;
-    NSArray *timesArray;
-    NSDate *selectDate;
-    NSMutableArray *fau_dataSource;
-    BXTFaultInfo *selectFaultInfo;
+    NSArray          *stateArray;
+    UIPickerView     *faultPickView;
+    NSMutableArray   *fau_dataSource;
+    BXTFaultInfo     *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
-@property (nonatomic ,strong) NSString *cause;
-@property (nonatomic ,assign) NSInteger currentFaultID;
-@property (nonatomic ,assign) NSInteger repairID;
-@property (nonatomic ,strong) NSString  *reaciveTime;
+@property (nonatomic ,strong) NSString       *cause;
+@property (nonatomic ,assign) NSInteger      currentFaultID;
+@property (nonatomic ,assign) NSInteger      repairID;
+@property (nonatomic ,strong) NSString       *reaciveTime;
 
 
 @end
@@ -73,13 +66,6 @@
     fau_dataSource = [NSMutableArray array];
     maintenanceState = @"已修好";
     stateArray= @[@"未修好",@"已修好"];
-    timesArray = [BXTGlobal readFileWithfileName:@"hoursArray"];
-    dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-    selectDate = [NSDate date];
-    NSTimeInterval currentTime = [NSDate date].timeIntervalSince1970;
-    finishTime = [NSString stringWithFormat:@"%.0f",currentTime];
-    maintenanceTime = @"1";
     
     [self navigationSetting:@"维修过程" andRightTitle:nil andRightImage:nil];
     [self createTableView];
@@ -110,14 +96,6 @@
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)dateChange:(UIDatePicker *)picker
-{
-    selectDate = picker.date;
-    NSTimeInterval currentTime = selectDate.timeIntervalSince1970;
-    finishTime = [NSString stringWithFormat:@"%.0f",currentTime];
-    [currentTableView reloadData];
-}
-
 - (void)doneClick
 {
     /**提交维修中状态**/
@@ -127,7 +105,19 @@
     {
         state = @"1";
     }
-    [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairID] andReaciveTime:_reaciveTime andFinishTime:finishTime andMaintenanceState:state andFaultType:[NSString stringWithFormat:@"%ld",(long)_currentFaultID] andManHours:maintenanceTime andImages:photosArray andNotes:notes];
+    
+    NSTimeInterval currentTime = [NSDate date].timeIntervalSince1970;
+    NSString *finishTime = [NSString stringWithFormat:@"%.0f",currentTime];
+    NSString *manHours = [NSString stringWithFormat:@"%ld",([finishTime integerValue] - [_reaciveTime integerValue])];
+    
+    [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairID]
+                   andReaciveTime:_reaciveTime
+                    andFinishTime:finishTime
+              andMaintenanceState:state
+                     andFaultType:[NSString stringWithFormat:@"%ld",(long)_currentFaultID]
+                      andManHours:manHours
+                        andImages:photosArray
+                         andNotes:notes];
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)tapGR
@@ -216,7 +206,7 @@
 //section底部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 4)
+    if (section == 2)
     {
         return 80.f;
     }
@@ -225,7 +215,7 @@
 //section底部视图
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 4)
+    if (section == 2)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -250,7 +240,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4)
+    if (indexPath.section == 2)
     {
         return 170;
     }
@@ -259,7 +249,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -269,7 +259,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4)
+    if (indexPath.section == 2)
     {
         BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarkCell"];
         if (!cell)
@@ -309,21 +299,10 @@
             cell.titleLabel.text = @"维修状态";
             cell.detailLable.text = maintenanceState;
         }
-        else if (indexPath.section == 1)
+        else
         {
             cell.titleLabel.text = @"故障类型";
             cell.detailLable.text = _cause;
-        }
-        else if (indexPath.section == 2)
-        {
-            cell.titleLabel.text = @"完成时间";
-            NSString *currentDateStr = [dateFormatter stringFromDate:selectDate];
-            cell.detailLable.text = currentDateStr;
-        }
-        else
-        {
-            cell.titleLabel.text = @"维修耗时";
-            cell.detailLable.text = [NSString stringWithFormat:@"%@小时",maintenanceTime];
         }
         return cell;
     }
@@ -354,32 +333,11 @@
     else if (section == 1)
     {
         faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        faultPickView.tag = 1000;
         faultPickView.showsSelectionIndicator = YES;
         faultPickView.backgroundColor = colorWithHexString(@"cdced1");
         faultPickView.dataSource = self;
         faultPickView.delegate = self;
         [self.view addSubview:faultPickView];
-    }
-    else if (section == 2)
-    {
-        datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
-        datePicker.backgroundColor = colorWithHexString(@"cdced1");
-        datePicker.maximumDate = [NSDate date];
-        datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-        [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
-        [self.view addSubview:datePicker];
-    }
-    else if (section == 3)
-    {
-        timePickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        timePickView.tag = 1001;
-        timePickView.showsSelectionIndicator = YES;
-        timePickView.backgroundColor = colorWithHexString(@"cdced1");
-        timePickView.dataSource = self;
-        timePickView.delegate = self;
-        [self.view addSubview:timePickView];
     }
 }
 
@@ -393,18 +351,6 @@
         {
             [faultPickView removeFromSuperview];
             faultPickView = nil;
-            [currentTableView reloadData];
-        }
-        else if (timePickView)
-        {
-            [timePickView removeFromSuperview];
-            timePickView = nil;
-            [currentTableView reloadData];
-        }
-        else if (datePicker)
-        {
-            [datePicker removeFromSuperview];
-            datePicker = nil;
             [currentTableView reloadData];
         }
         else
@@ -516,7 +462,7 @@
 
 - (void)selectImages
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
     BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[currentTableView cellForRowAtIndexPath:indexPath];
     if (selectPhotos.count == 1)
     {
@@ -565,7 +511,7 @@
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
     selectPhotos = photos;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
     BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[currentTableView cellForRowAtIndexPath:indexPath];
     if (photos.count == 1)
     {
@@ -737,62 +683,46 @@
  */
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    if (pickerView.tag == 1000)
-    {
-        return 2;
-    }
-    return 1;
+    return 2;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    if (pickerView.tag == 1000)
+    if (component == 0)
     {
-        if (component == 0)
-        {
-            return fau_dataSource.count;
-        }
-        return selectFaultInfo.sub_data.count;
+        return fau_dataSource.count;
     }
-    return timesArray.count;
+    return selectFaultInfo.sub_data.count;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    if (pickerView.tag == 1000)
+    if (component == 0)
     {
-        if (component == 0)
-        {
-            BXTFaultInfo *faultInfo = fau_dataSource[row];
-            return faultInfo.faulttype_type;
-        }
-        
-        BXTFaultTypeInfo *faultTypeInfo = selectFaultInfo.sub_data[row];
-        return faultTypeInfo.faulttype;
+        BXTFaultInfo *faultInfo = fau_dataSource[row];
+        return faultInfo.faulttype_type;
     }
-    return timesArray[row];
+    
+    BXTFaultTypeInfo *faultTypeInfo = selectFaultInfo.sub_data[row];
+    return faultTypeInfo.faulttype;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    if (pickerView.tag == 1000)
+    if (component == 0)
     {
-        if (component == 0)
-        {
-            selectFaultInfo = fau_dataSource[row];
-            NSArray *faultTypesArray = selectFaultInfo.sub_data;
-            selectFaultTypeInfo = faultTypesArray[0];
-            [pickerView reloadComponent:1];
-        }
-        else
-        {
-            NSArray *faultTypesArray = selectFaultInfo.sub_data;
-            selectFaultTypeInfo = faultTypesArray[row];
-            _currentFaultID = selectFaultTypeInfo.fau_id;
-        }
-        _cause = [NSString stringWithFormat:@"%@-%@",selectFaultInfo.faulttype_type,selectFaultTypeInfo.faulttype];
+        selectFaultInfo = fau_dataSource[row];
+        NSArray *faultTypesArray = selectFaultInfo.sub_data;
+        selectFaultTypeInfo = faultTypesArray[0];
+        [pickerView reloadComponent:1];
     }
-    maintenanceTime = timesArray[row];
+    else
+    {
+        NSArray *faultTypesArray = selectFaultInfo.sub_data;
+        selectFaultTypeInfo = faultTypesArray[row];
+        _currentFaultID = selectFaultTypeInfo.fau_id;
+    }
+    _cause = [NSString stringWithFormat:@"%@-%@",selectFaultInfo.faulttype_type,selectFaultTypeInfo.faulttype];
     [currentTableView reloadData];
 }
 
@@ -842,11 +772,13 @@
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+            __weak typeof(self) weakSelf = self;
             [self showMBP:@"更改成功！" withBlock:^(BOOL hidden) {
-                if (self.BlockRefresh) {
-                    self.BlockRefresh();
+                if (weakSelf.BlockRefresh)
+                {
+                    weakSelf.BlockRefresh();
                 }
-                [self.navigationController popViewControllerAnimated:YES];
+                [weakSelf.navigationController popViewControllerAnimated:YES];
             }];
         }
     }

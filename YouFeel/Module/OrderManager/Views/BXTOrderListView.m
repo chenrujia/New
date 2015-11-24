@@ -32,16 +32,6 @@
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:@"ReloadData" object:nil];
         
-        if ([BXTGlobal shareGlobal].isRepair)
-        {
-            NSMutableArray *timeArray = [[NSMutableArray alloc] init];
-            for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
-                [timeArray addObject:[NSString stringWithFormat:@"%@分钟内", timeStr]];
-            }
-            [timeArray addObject:@"自定义"];
-            comeTimeArray = timeArray;
-        }
-        
         refreshType = Down;
         currentPage = 1;
         self.isRequesting = NO;
@@ -243,12 +233,14 @@
         if ([_isReacive integerValue] == 1)
         {
             cell.reaciveBtn.hidden = NO;
+            cell.maintenanceProcess.hidden = YES;
             cell.reaciveBtn.tag = indexPath.section;
-            [cell.reaciveBtn addTarget:self action:@selector(reaciveOrder:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.reaciveBtn addTarget:self action:@selector(startRepairAction:) forControlEvents:UIControlEventTouchUpInside];
         }
         else
         {
             cell.reaciveBtn.hidden = YES;
+            cell.maintenanceProcess.hidden = NO;
         }
         
         cell.maintenanceProcess.tag = indexPath.section;
@@ -275,37 +267,16 @@
 - (void)maintenanceProcessClick:(UIButton *)btn
 {
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:btn.tag];
-    BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:repairInfo.fault_id andRepairID:repairInfo.repairID andReaciveTime:repairInfo.receive_time];
+    BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:repairInfo.fault_id andRepairID:repairInfo.repairID andReaciveTime:repairInfo.start_time];
     [self.navigation pushViewController:maintenanceProcossVC animated:YES];
 }
 
-- (void)reaciveOrder:(UIButton *)btn
+- (void)startRepairAction:(UIButton *)btn
 {
     selectTag = btn.tag;
-    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:btn.tag];
-    orderID = [NSString stringWithFormat:@"%ld",(long)repairInfo.repairID];
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.6f;
-    backView.tag = 101;
-    [[AppDelegate appdelegete].window addSubview:backView];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
-    [backView addGestureRecognizer:tap];
-    
-    if (boxView)
-    {
-        [boxView boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray];
-        [[AppDelegate appdelegete].window bringSubviewToFront:boxView];
-    }
-    else
-    {
-        boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray markID:nil actionDelegate:self];
-        [[AppDelegate appdelegete].window addSubview:boxView];
-    }
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
-    }];
+    BXTRepairInfo *repairInfo = repairListArray[selectTag];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request startRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
 }
 
 #pragma mark -
@@ -315,18 +286,17 @@
     NSDictionary *dic = response;
     LogRed(@"dic......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == ReaciveOrder)
+    if (type == StartRepair)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
             hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"接单成功！";
+            hud.labelText = @"已经开始！";
             hud.margin = 10.f;
             hud.removeFromSuperViewOnHide = YES;
             [hud hide:YES afterDelay:2.f];
-            [repairListArray removeObjectAtIndex:selectTag];
-            [currentTableView reloadData];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
         }
     }
     else

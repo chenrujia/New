@@ -512,6 +512,14 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)startRepair:(NSString *)repairID
+{
+    self.requestType = StartRepair;
+    NSDictionary *dic = @{@"id":repairID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=start_repair",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {

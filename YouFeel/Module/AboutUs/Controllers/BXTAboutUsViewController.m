@@ -119,6 +119,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APPSTORE_APPADDRESS]];
+    
+//    BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
+//    [self.navigationController pushViewController:grabOrderVC animated:YES];
 }
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type

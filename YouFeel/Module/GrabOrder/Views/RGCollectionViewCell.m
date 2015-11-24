@@ -178,6 +178,67 @@
     /**获取详情**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairDetail:orderID];
+    
+    
+//    UIImage *placeImage;
+//    if (IS_IPHONE6P)
+//    {
+//        placeImage = [UIImage imageNamed:@"grabIphoneplus"];
+//    }
+//    else if (IS_IPHONE6)
+//    {
+//        placeImage = [UIImage imageNamed:@"grabIphone6"];
+//    }
+//    else if (IS_IPHONE5)
+//    {
+//        placeImage = [UIImage imageNamed:@"grabIphone5s"];
+//    }
+//    else
+//    {
+//        placeImage = [UIImage imageNamed:@"grabIphone4s"];
+//    }
+//  
+//        [_imageView sd_setImageWithURL:[NSURL URLWithString:@"http://api.51bxt.com/file/4/workorder/fault_pic/2015112116351124526.jpg"] placeholderImage:placeImage];
+// 
+//    _repairTime.text = [NSString stringWithFormat:@"工单响应截止时间%@", [self transTimeStampToTime:@"1448095067"]];
+//    
+//    
+//    NSString *contents0 = @"综修理";
+//    UIFont *font0 = [UIFont boldSystemFontOfSize:16.f];
+//    CGSize size0 = MB_MULTILINE_TEXTSIZE(contents0, font0, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
+//    _faulttype.frame = CGRectMake(_imageView.frame.size.width-size0.width-15, CGRectGetMaxY(_imageView.frame)+10, size0.width+10, 25);
+//    _faulttype.text = contents0;
+//    
+//    _repairID.text = [NSString stringWithFormat:@"工单号：%@", @"2011121020"];
+//    
+//    _location.text = [NSString stringWithFormat:@"位置：%@",@"一层商铺"];
+//    
+//    NSString *contents = [NSString stringWithFormat:@"故障描述：%@",@"个梵蒂冈"];
+//    UIFont *font = [UIFont boldSystemFontOfSize:17.f];
+//    CGSize size = MB_MULTILINE_TEXTSIZE(contents, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
+//    
+//    _cause.text = [NSString stringWithFormat:@"故障类型：%@",@"灯不亮"];
+//    _notes.frame = CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), size.height);
+//    _level.frame = CGRectMake(15.f, CGRectGetMaxY(_notes.frame) + 10.f, CGRectGetWidth(_notes.frame), 20);
+//    _notes.text = contents;
+//    
+//    NSString *str;
+//    NSRange range;
+//
+//        str = @"等级：紧急";
+//        range = [str rangeOfString:@"紧急"];
+//
+//    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+//    [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
+//    _level.attributedText = attributeStr;
+//    
+//    NSString *contents2 = [NSString stringWithFormat:@"备注：%@", @"备注：法规到公司的分公司的给答复是股份公司的分公司的风格是大法官"];
+//    CGSize size2 = MB_MULTILINE_TEXTSIZE(contents2, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
+//    _remarks.frame = CGRectMake(15.f, CGRectGetMaxY(_level.frame) + 10.f, CGRectGetWidth(_level.frame), size2.height);
+//    _remarks.text = contents2;
+//    
+//    _scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width, CGRectGetMaxY(_remarks.frame));
+
 }
 
 #pragma mark -

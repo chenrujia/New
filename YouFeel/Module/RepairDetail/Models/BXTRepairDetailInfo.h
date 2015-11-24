@@ -48,6 +48,7 @@
 @property (nonatomic ,assign) NSInteger    subgroup;
 @property (nonatomic ,strong) NSString     *subgroup_name;
 @property (nonatomic ,assign) NSInteger    urgent;
+@property (nonatomic ,assign) NSInteger    isRepairing;
 @property (nonatomic ,strong) NSString     *urgent_state;
 @property (nonatomic ,strong) NSString     *visit;
 @property (nonatomic ,strong) NSString     *visitmobile;

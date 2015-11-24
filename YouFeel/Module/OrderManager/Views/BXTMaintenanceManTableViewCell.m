@@ -64,7 +64,7 @@
         _reaciveBtn.backgroundColor = colorWithHexString(@"3cafff");
         [_reaciveBtn setFrame:CGRectMake(0, CGRectGetMaxY(lineViewTwo.frame) + 10.f, 230.f, 40.f)];
         [_reaciveBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f, _reaciveBtn.center.y)];
-        [_reaciveBtn setTitle:@"我要去" forState:UIControlStateNormal];
+        [_reaciveBtn setTitle:@"开始维修" forState:UIControlStateNormal];
         [_reaciveBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         [self addSubview:_reaciveBtn];
     }
