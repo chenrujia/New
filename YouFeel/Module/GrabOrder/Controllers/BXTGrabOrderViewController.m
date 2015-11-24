@@ -49,7 +49,7 @@
     [super viewDidLoad];
     
     ++[BXTGlobal shareGlobal].numOfPresented;
-    NSLog(@"numOfPresented -- %ld", [BXTGlobal shareGlobal].numOfPresented);
+    NSLog(@"numOfPresented -- %ld", (long)[BXTGlobal shareGlobal].numOfPresented);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewRepairAgain) name:[NSString stringWithFormat:@"%@-%ld", @"NewRepairAgain", (long)[BXTGlobal shareGlobal].numOfPresented] object:nil];
     
@@ -389,7 +389,7 @@
         NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
         
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[currentPage]
+        [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[[BXTGlobal shareGlobal].numOfPresented-1]
                     arrivalTime:timeStr
                       andIsGrad:YES];
     }
@@ -461,7 +461,7 @@
         
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[currentPage]
+        [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[[BXTGlobal shareGlobal].numOfPresented-1]
                     arrivalTime:timeStr
                       andIsGrad:YES];
     }
@@ -498,8 +498,10 @@
 
 - (void)navigationLeftButton
 {
+    [[BXTGlobal shareGlobal].orderIDs removeObjectAtIndex:[BXTGlobal shareGlobal].numOfPresented-1];
+    
     --[BXTGlobal shareGlobal].numOfPresented;
-    NSLog(@"numOfPresented1 -- %ld", [BXTGlobal shareGlobal].numOfPresented);
+    NSLog(@"numOfPresented1 -- %ld", (long)[BXTGlobal shareGlobal].numOfPresented);
     if ([BXTGlobal shareGlobal].numOfPresented < 1) {
         [[BXTGlobal shareGlobal].orderIDs removeAllObjects];
     }

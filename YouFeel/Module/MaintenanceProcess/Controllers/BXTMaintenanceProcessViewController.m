@@ -106,9 +106,13 @@
         state = @"1";
     }
     
+    if ([BXTGlobal isBlankString:notes]) {
+        notes = @"";
+    }
+    
     NSTimeInterval currentTime = [NSDate date].timeIntervalSince1970;
     NSString *finishTime = [NSString stringWithFormat:@"%.0f",currentTime];
-    NSString *manHours = [NSString stringWithFormat:@"%ld",([finishTime integerValue] - [_reaciveTime integerValue])];
+    NSString *manHours = [NSString stringWithFormat:@"%ld",(long)([finishTime integerValue] - [_reaciveTime integerValue])];
     
     [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairID]
                    andReaciveTime:_reaciveTime

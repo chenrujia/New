@@ -221,15 +221,7 @@
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
         cell.level.attributedText = attributeStr;
         cell.tag = indexPath.section;
-        if (repairInfo.repairstate == 2)
-        {
-            [cell.maintenanceProcess setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-            cell.maintenanceProcess.userInteractionEnabled = YES;
-        }
-        else
-        {
-            cell.maintenanceProcess.hidden = YES;
-        }
+        
         if ([_isReacive integerValue] == 1)
         {
             cell.reaciveBtn.hidden = NO;
@@ -237,10 +229,18 @@
             cell.reaciveBtn.tag = indexPath.section;
             [cell.reaciveBtn addTarget:self action:@selector(startRepairAction:) forControlEvents:UIControlEventTouchUpInside];
         }
+        else if (repairInfo.repairstate == 2)
+        {
+            [cell.maintenanceProcess setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            cell.maintenanceProcess.userInteractionEnabled = YES;
+            
+            cell.reaciveBtn.hidden = YES;
+            cell.maintenanceProcess.hidden = NO;
+        }
         else
         {
             cell.reaciveBtn.hidden = YES;
-            cell.maintenanceProcess.hidden = NO;
+            cell.maintenanceProcess.hidden = YES;
         }
         
         cell.maintenanceProcess.tag = indexPath.section;
