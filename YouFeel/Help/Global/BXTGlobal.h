@@ -24,6 +24,8 @@
 @property (nonatomic ,strong) NSString       *newsShopID;
 @property (nonatomic ,assign) BOOL           isRepair;
 
+@property (nonatomic, assign) NSInteger numOfPresented;
+
 + (BXTGlobal *)shareGlobal;
 
 /**

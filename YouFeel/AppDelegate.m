@@ -306,7 +306,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
                     if ([nav.viewControllers.lastObject isKindOfClass:[BXTGrabOrderViewController class]])
                     {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairAgain" object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:[NSString stringWithFormat:@"%@-%ld", @"NewRepairAgain", (long)[BXTGlobal shareGlobal].numOfPresented] object:nil];
                     }
                     else
                     {
@@ -471,29 +471,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         {
             NSDictionary *userInfo = data[0];
             [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
-            if ([BXTGlobal shareGlobal].isRepair) {
-                BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-                [dataRequest configInfo];
-            }
         }
-    }
-    else if (type == ConfigInfo)
-    {
-        NSArray *dataArray = [dic objectForKey:@"data"];
-        NSDictionary *dataDict = dataArray[0];
-        NSMutableArray *arriveArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *dict1 in dataDict[@"arrive_arr"]) {
-            NSString *time = dict1[@"arrive_time"];
-            [arriveArray addObject:time];
-        }
-        NSMutableArray *hoursArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *dict2 in dataDict[@"hours_arr"]) {
-            NSString *time = dict2[@"hours_time"];
-            [hoursArray addObject:time];
-        }
-        // 存数组
-        [BXTGlobal writeFileWithfileName:@"arriveArray" Array:arriveArray];
-        [BXTGlobal writeFileWithfileName:@"hoursArray" Array:hoursArray];
     }
     else if (type == UpdateHeadPic)
     {

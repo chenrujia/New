@@ -47,8 +47,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewRepairAgain) name:@"NewRepairAgain" object:nil];
+    
+    ++[BXTGlobal shareGlobal].numOfPresented;
+    NSLog(@"numOfPresented -- %ld", [BXTGlobal shareGlobal].numOfPresented);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewRepairAgain) name:[NSString stringWithFormat:@"%@-%ld", @"NewRepairAgain", (long)[BXTGlobal shareGlobal].numOfPresented] object:nil];
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
@@ -69,12 +72,6 @@
     
     //[self afterTimeWithSection:0];
     markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[BXTGlobal shareGlobal].orderIDs removeAllObjects];
 }
 
 #pragma mark -
@@ -109,7 +106,7 @@
     
     
     self.radialProgressView = ({
-    
+        
         CGFloat radia_height = IS_IPHONE6 ? 130.f : 86.7f;
         MDRadialProgressView *radialView = [[MDRadialProgressView alloc] initWithFrame:CGRectMake(0, 0, radia_height, radia_height)];
         radialView.center = CGPointMake(arc_height/2.f, arc_height/2.f);
@@ -128,7 +125,7 @@
     });
     
     self.timeLabel = ({
-    
+        
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30.f)];
         label.center = CGPointMake(arc_height/2.f, arc_height/2.f);
         label.textAlignment = NSTextAlignmentCenter;
@@ -169,7 +166,7 @@
     gradBackView.alpha = 0.6f;
     gradBackView.tag = 101;
     [self.view addSubview:gradBackView];
-
+    
     
     if (boxView)
     {
@@ -189,12 +186,18 @@
 
 - (void)rewRepairAgain
 {
-    [itemsCollectionView reloadData];
+    // 工单数 > 实时抢单页面数 -> 跳转
+    if ([BXTGlobal shareGlobal].orderIDs.count > [BXTGlobal shareGlobal].numOfPresented) {
+        BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
+        [self.navigationController pushViewController:grabOrderVC animated:YES];
+    }
+    
+    //[itemsCollectionView reloadData];
 }
 
 - (void)afterTimeWithSection:(NSInteger)section
 {
-    [player play];
+    //[player play];
     __block NSInteger count = 60;
     __weak BXTGrabOrderViewController *weakSelf = self;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -258,7 +261,7 @@
     }
     else
     {
-        [player play];
+        //[player play];
         _timeLabel.text = [NSString stringWithFormat:@"%lds",(long)timeNumber];
         NSInteger rows = 20 - ceil(timeNumber/3);
         _radialProgressView.progressCurrent = rows;
@@ -270,7 +273,8 @@
 #pragma mark 代理
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return [BXTGlobal shareGlobal].orderIDs.count;
+    return 1;
+    //return [BXTGlobal shareGlobal].orderIDs.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -282,7 +286,7 @@
 {
     RGCollectionViewCell *cell = (RGCollectionViewCell  *)[collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
     
-    [cell requestDetailWithOrderID:[BXTGlobal shareGlobal].orderIDs[indexPath.section]];
+    [cell requestDetailWithOrderID:[BXTGlobal shareGlobal].orderIDs[[BXTGlobal shareGlobal].numOfPresented-1]];
     
     return cell;
 }
@@ -468,20 +472,20 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = (NSDictionary *)response;
-    LogRed(@"%@",dic);
+    //LogRed(@"%@",dic);
     if (type == ReaciveOrder)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
             [self showMBP:@"抢单成功！" withBlock:^(BOOL hidden) {
-                //[self.navigationController popViewControllerAnimated:YES];
+                [self navigationLeftButton];
             }];
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
         {
             [self showMBP:@"工单已被抢！" withBlock:^(BOOL hidden) {
-                //[self.navigationController popViewControllerAnimated:YES];
+                [self navigationLeftButton];
             }];
         }
     }
@@ -492,20 +496,30 @@
     
 }
 
+- (void)navigationLeftButton
+{
+    --[BXTGlobal shareGlobal].numOfPresented;
+    NSLog(@"numOfPresented1 -- %ld", [BXTGlobal shareGlobal].numOfPresented);
+    if ([BXTGlobal shareGlobal].numOfPresented < 1) {
+        [[BXTGlobal shareGlobal].orderIDs removeAllObjects];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-
+    
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

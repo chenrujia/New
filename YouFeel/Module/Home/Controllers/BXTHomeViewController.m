@@ -52,6 +52,11 @@
     datasource = [NSMutableArray array];
     
     [self haveConnact];
+    
+    if ([BXTGlobal shareGlobal].isRepair) {
+        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dataRequest configInfo];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -219,7 +224,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger width = floor(SCREEN_WIDTH/3.f);
-
+    
     if (IS_IPHONE6)
     {
         return CGSizeMake(width, collectionView.bounds.size.height/3.f);
@@ -272,7 +277,34 @@
     LogRed(@"%@",dic);
     [datasource removeAllObjects];
     NSArray *array = [dic objectForKey:@"data"];
-    if (type == UserInfoForChatList)
+    
+    if (type == ConfigInfo)
+    {
+        NSArray *dataArray = [dic objectForKey:@"data"];
+        NSDictionary *dataDict = dataArray[0];
+        NSMutableArray *arriveArray = [[NSMutableArray alloc] init];
+        for (NSDictionary *dict1 in dataDict[@"arrive_arr"]) {
+            NSString *time = dict1[@"arrive_time"];
+            [arriveArray addObject:time];
+        }
+        NSMutableArray *hoursArray = [[NSMutableArray alloc] init];
+        for (NSDictionary *dict2 in dataDict[@"hours_arr"]) {
+            NSString *time = dict2[@"hours_time"];
+            [hoursArray addObject:time];
+        }
+        
+        if (arriveArray.count == 0) {
+            [arriveArray addObjectsFromArray:@[@"10", @"20"]];
+        }
+        if (hoursArray.count == 0) {
+            [hoursArray addObjectsFromArray:@[@"1", @"2", @"3", @"4"]];
+        }
+        
+        // 存数组
+        [BXTGlobal writeFileWithfileName:@"arriveArray" Array:arriveArray];
+        [BXTGlobal writeFileWithfileName:@"hoursArray" Array:hoursArray];
+    }
+    else if (type == UserInfoForChatList)
     {
         NSDictionary *dictionary = array[0];
         RCUserInfo *userInfo = [[RCUserInfo alloc] init];
@@ -305,13 +337,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

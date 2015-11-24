@@ -44,6 +44,8 @@
     UIView *toolView;
     NSInteger indexSection;
     NSMutableArray *manIDs;
+    
+    NSInteger faulttype_type;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -245,6 +247,9 @@
         [self showAlertView:@"请输入故障描述"];
         return;
     }
+    if (faulttype_type == 0) {
+        faulttype_type = 1;
+    }
     if ([BXTGlobal isBlankString:notes]) {
         notes = @"";
     }
@@ -257,7 +262,7 @@
     BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
     
     [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
-               faultType_type:[NSString stringWithFormat:@"%ld", (long)selectFaultTypeInfo.faulttype_type]
+               faultType_type:[NSString stringWithFormat:@"%ld", (long)faulttype_type]
                    faultCause:cause
                    faultLevel:repairState
                   depatmentID:departmentInfo.dep_id
@@ -961,6 +966,11 @@
             selectFaultTypeInfo = faultTypesArray[0];
         }
         [pickerView reloadComponent:1];
+        
+        NSInteger typeID = selectFaultTypeInfo.faulttype_type;
+        if (typeID != 0) {
+            faulttype_type = typeID;
+        }
     }
     else
     {

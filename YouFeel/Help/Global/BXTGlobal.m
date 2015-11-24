@@ -25,6 +25,7 @@
     dispatch_once(&onceToken, ^{
         bxtGlobal = [[BXTGlobal alloc] init];
         bxtGlobal.orderIDs = [NSMutableArray array];
+        bxtGlobal.numOfPresented = 0;
     });
     return bxtGlobal;
 }

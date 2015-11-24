@@ -10,6 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "UIImageView+WebCache.h"
 #import "BXTRepairDetailInfo.h"
+#import "BXTGlobal.h"
 
 @implementation RGCollectionViewCell
 
@@ -46,7 +47,13 @@
         
         self.repairTime = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_imageView.frame) - 40.f, 165, 25)];
+            UILabel *label0 = [[UILabel alloc] initWithFrame:CGRectMake(160-25/2, CGRectGetMaxY(_imageView.frame) - 45.f, 25, 25)];
+            label0.backgroundColor = colorWithHexString(@"c30e06");
+            label0.layer.cornerRadius = 25/2;
+            label0.layer.masksToBounds = YES;
+            [self.imageView addSubview:label0];
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_imageView.frame) - 45.f, 160, 25)];
             label.backgroundColor = colorWithHexString(@"c30e06");
             label.textColor = colorWithHexString(@"ffffff");
             label.font = [UIFont boldSystemFontOfSize:15.f];
@@ -280,9 +287,14 @@
             [_imageView setImage:placeImage];
         }
         
-        _repairTime.text = [NSString stringWithFormat:@"工单响应截止时间%@", [self transTimeStampToTime:repairDetail.repair_time]];
+        _repairTime.text = [NSString stringWithFormat:@"工单响应截止时间%@", [self transTimeStampToTime:repairDetail.long_time]];
         
-        NSString *contents0 = @"综修理";
+        NSString *subgroup_name = @"其他";
+        if (![BXTGlobal isBlankString:repairDetail.subgroup_name]) {
+            subgroup_name = repairDetail.subgroup_name;
+        }
+        NSString *contents0 = subgroup_name;
+        
         UIFont *font0 = [UIFont boldSystemFontOfSize:16.f];
         CGSize size0 = MB_MULTILINE_TEXTSIZE(contents0, font0, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
         _faulttype.frame = CGRectMake(_imageView.frame.size.width-size0.width-15, CGRectGetMaxY(_imageView.frame)+10, size0.width+10, 25);
