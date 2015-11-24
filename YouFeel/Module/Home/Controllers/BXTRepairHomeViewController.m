@@ -108,8 +108,11 @@
 
 - (void)comingNewRepairs
 {
-    BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
-    [self presentViewController:grabOrderVC animated:YES completion:nil];
+    // 工单数 > 实时抢单页面数 -> 跳转
+    if ([BXTGlobal shareGlobal].orderIDs.count > [BXTGlobal shareGlobal].numOfPresented) {
+        BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
+        [self.navigationController pushViewController:grabOrderVC animated:YES];
+    }
 }
 
 #pragma mark -

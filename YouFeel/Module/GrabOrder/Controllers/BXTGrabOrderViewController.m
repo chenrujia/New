@@ -48,9 +48,10 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"numOfPresented -- %ld", ++[BXTGlobal shareGlobal].numOfPresented);
+    ++[BXTGlobal shareGlobal].numOfPresented;
+    NSLog(@"numOfPresented -- %ld", [BXTGlobal shareGlobal].numOfPresented);
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewRepairAgain) name:@"NewRepairAgain" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewRepairAgain) name:[NSString stringWithFormat:@"%@-%ld", @"NewRepairAgain", (long)[BXTGlobal shareGlobal].numOfPresented] object:nil];
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
@@ -63,7 +64,7 @@
     player.volume = 0.8f;
     player.numberOfLoops = -1;
     
-    [self navigationSetting:@"实时抢单" andRightTitle:@"点击" andRightImage:nil];
+    [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     
     [self createCollectionView];
     
@@ -71,12 +72,6 @@
     
     //[self afterTimeWithSection:0];
     markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[BXTGlobal shareGlobal].orderIDs removeAllObjects];
 }
 
 #pragma mark -
@@ -189,13 +184,15 @@
     }];
 }
 
-// TODO: ---------- 调试 ----------
 - (void)rewRepairAgain
 {
-    BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
-    [self presentViewController:grabOrderVC animated:YES completion:nil];
+    // 工单数 > 实时抢单页面数 -> 跳转
+    if ([BXTGlobal shareGlobal].orderIDs.count > [BXTGlobal shareGlobal].numOfPresented) {
+        BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
+        [self.navigationController pushViewController:grabOrderVC animated:YES];
+    }
     
-    //    [itemsCollectionView reloadData];
+    //[itemsCollectionView reloadData];
 }
 
 - (void)afterTimeWithSection:(NSInteger)section
@@ -289,11 +286,6 @@
 {
     RGCollectionViewCell *cell = (RGCollectionViewCell  *)[collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
     
-    
-    //    NSArray *array = [[NSArray alloc] initWithObjects:@"54", @"85", @"83", @"86", @"54", @"85", @"83", @"86", @"54", @"85", @"83", @"86", nil];
-    //    [cell requestDetailWithOrderID:array[[BXTGlobal shareGlobal].numOfPresented-1]];
-    
-    // TODO: ---------- 调试 ----------
     [cell requestDetailWithOrderID:[BXTGlobal shareGlobal].orderIDs[[BXTGlobal shareGlobal].numOfPresented-1]];
     
     return cell;
@@ -377,10 +369,6 @@
         
         [view removeFromSuperview];
     }
-    
-    
-    // TODO: ---------- 调试 ----------
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairAgain" object:nil];
 }
 
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
@@ -484,7 +472,7 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = (NSDictionary *)response;
-    LogRed(@"%@",dic);
+    //LogRed(@"%@",dic);
     if (type == ReaciveOrder)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
@@ -508,16 +496,14 @@
     
 }
 
-- (void)navigationRightButton
-{
-    BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
-    [self presentViewController:grabOrderVC animated:YES completion:nil];
-}
-
 - (void)navigationLeftButton
 {
-    NSLog(@"numOfPresented -- %ld", --[BXTGlobal shareGlobal].numOfPresented);
-    [self dismissViewControllerAnimated:YES completion:nil];
+    --[BXTGlobal shareGlobal].numOfPresented;
+    NSLog(@"numOfPresented1 -- %ld", [BXTGlobal shareGlobal].numOfPresented);
+    if ([BXTGlobal shareGlobal].numOfPresented < 1) {
+        [[BXTGlobal shareGlobal].orderIDs removeAllObjects];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning

@@ -36,6 +36,8 @@
     UIView *pickerbackView;
     UIView *toolView;
     BOOL isPublic;
+    
+    NSInteger faulttype_type;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -208,6 +210,10 @@
         [self showAlertView:@"请输入故障描述"];
         return;
     }
+    if (faulttype_type == 0) {
+        faulttype_type = 1;
+    }
+    LogBlue(@"faulttype_type-1 --- %d", faulttype_type);
     if ([BXTGlobal isBlankString:notes]) {
         notes = @"";
     }
@@ -231,7 +237,7 @@
     if ([shopInfo isKindOfClass:[NSString class]])
     {
         [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
-                   faultType_type:[NSString stringWithFormat:@"%ld", (long)selectFaultTypeInfo.faulttype_type]
+                   faultType_type:[NSString stringWithFormat:@"%ld", (long)faulttype_type]
                        faultCause:cause
                        faultLevel:repairState
                       depatmentID:departmentInfo.dep_id
@@ -247,7 +253,7 @@
     {
         BXTShopInfo *tempShopInfo = (BXTShopInfo *)shopInfo;
         [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
-                   faultType_type:[NSString stringWithFormat:@"%ld", (long)selectFaultTypeInfo.faulttype_type]
+                   faultType_type:[NSString stringWithFormat:@"%ld", (long)faulttype_type]
                        faultCause:cause
                        faultLevel:repairState
                       depatmentID:departmentInfo.dep_id
@@ -528,49 +534,6 @@
             cell = [[BXTSettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RepairCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-//        if (indexPath.section == 0)
-//        {
-//            cell.titleLabel.text = @"姓   名";
-//            cell.detailLable.text = [BXTGlobal getUserProperty:U_NAME];
-//            cell.checkImgView.hidden = NO;
-//            cell.emergencyBtn.hidden = YES;
-//            cell.normelBtn.hidden = YES;
-//        }
-//        else if (indexPath.section == 1)
-//        {
-//            cell.titleLabel.text = @"手机号";
-//            cell.detailLable.hidden = YES;
-//            cell.detailTF.hidden = NO;
-//            cell.detailTF.keyboardType = UIKeyboardTypeNumberPad;
-//            if ([BXTGlobal getUserProperty:U_MOBILE])
-//            {
-//                cell.detailTF.text = [BXTGlobal getUserProperty:U_MOBILE];
-//            }
-//            else
-//            {
-//                cell.detailTF.tag = MOBILE;
-//                cell.detailTF.delegate = self;
-//                cell.detailTF.placeholder = @"请输入您的回访号";
-//                [cell.detailTF setValue:colorWithHexString(@"909497") forKeyPath:@"_placeholderLabel.textColor"];
-//                [cell.detailTF setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
-//            }
-//        }
-//        else if (indexPath.section == 2)
-//        {
-//            BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-//            cell.titleLabel.text = @"部   门";
-//            if (departmentInfo)
-//            {
-//                cell.detailLable.text = departmentInfo.department;
-//            }
-//            else
-//            {
-//                cell.detailLable.text = @"请选择您所在部门";
-//            }
-//            cell.checkImgView.hidden = NO;
-//            cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
-//            cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
-//        }
         if (indexPath.section == 0)
         {
             cell.titleLabel.text = @"商   铺";
@@ -931,6 +894,11 @@
         NSArray *faultTypesArray = selectFaultInfo.sub_data;
         selectFaultTypeInfo = faultTypesArray[0];
         [pickerView reloadComponent:1];
+        
+        NSInteger typeID = selectFaultTypeInfo.faulttype_type;
+        if (typeID != 0) {
+            faulttype_type = typeID;
+        }
     }
     else
     {

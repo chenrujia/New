@@ -304,7 +304,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
                     if ([nav.viewControllers.lastObject isKindOfClass:[BXTGrabOrderViewController class]])
                     {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairAgain" object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:[NSString stringWithFormat:@"%@-%ld", @"NewRepairAgain", (long)[BXTGlobal shareGlobal].numOfPresented] object:nil];
                     }
                     else
                     {

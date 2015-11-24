@@ -251,12 +251,10 @@ andRepairerIsReacive:(NSString *)reacive
         notes = @"";
     }
     
-    BXTGroupInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
     NSString *fault = [BXTGlobal getUserProperty:U_NAME];
     NSString *faultID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
     NSString *moblie = [BXTGlobal getUserProperty:U_MOBILE];
     NSDictionary *dic = @{@"type":@"add",
-                          @"subgroup":groupInfo.group_id,
                           @"faulttype":faultType,
                           @"faulttype_type":faulttype_type,
                           @"cause":cause,
