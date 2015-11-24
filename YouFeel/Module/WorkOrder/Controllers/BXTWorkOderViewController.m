@@ -213,7 +213,7 @@
     if (faulttype_type == 0) {
         faulttype_type = 1;
     }
-    LogBlue(@"faulttype_type-1 --- %d", faulttype_type);
+    LogBlue(@"faulttype_type-1 --- %ld", (long)faulttype_type);
     if ([BXTGlobal isBlankString:notes]) {
         notes = @"";
     }

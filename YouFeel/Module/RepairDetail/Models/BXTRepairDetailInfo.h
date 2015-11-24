@@ -57,5 +57,6 @@
 @property (nonatomic ,strong) NSArray      *repair_user_arr;
 @property (nonatomic ,strong) NSString     *man_hours;
 @property (nonatomic ,strong) NSString     *long_time;
+@property (nonatomic, strong) NSString     *start_time;
 
 @end
