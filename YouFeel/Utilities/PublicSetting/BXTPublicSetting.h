@@ -22,6 +22,9 @@
 #define IOSAPPNAME         [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
 
 //  判断是否是IOS8
+#define IS_IOS_9        ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0 ? YES : NO)
+
+//  判断是否是IOS8
 #define IS_IOS_8        ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0 ? YES : NO)
 
 //  判断是否是IOS7
