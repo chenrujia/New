@@ -82,7 +82,7 @@
     shop_btn.center = CGPointMake(SCREEN_WIDTH/2.f - 10.f, shop_btn.center.y);
     shop_btn.titleLabel.font = [UIFont boldSystemFontOfSize:17.f];
     [shop_btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    [shop_btn setImage:[UIImage imageNamed:@"down-arrow"] forState:UIControlStateNormal];
+    [shop_btn setImage:[UIImage imageNamed:@"down_arrow"] forState:UIControlStateNormal];
     [shop_btn addTarget:self action:@selector(shopClick) forControlEvents:UIControlEventTouchUpInside];
     [logoImgView addSubview:shop_btn];
     
