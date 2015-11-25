@@ -941,10 +941,10 @@
 		78B1830A1BF2EA2F007D5B24 /* Resign/Login */ = {
 			isa = PBXGroup;
 			children = (
-				960221D51BC9216300010072 /* Login */,
-				960222401BC9216300010072 /* Resign */,
-				960221F01BC9216300010072 /* NickName */,
 				9689C3071BE3622E006D7589 /* FindPassWord */,
+				960221D51BC9216300010072 /* Login */,
+				960221F01BC9216300010072 /* NickName */,
+				960222401BC9216300010072 /* Resign */,
 			);
 			name = Resign/Login;
 			sourceTree = "<group>";
@@ -952,8 +952,8 @@
 		78B1830B1BF2EAC8007D5B24 /* WorkOrder */ = {
 			isa = PBXGroup;
 			children = (
-				9602226F1BC9216300010072 /* WorkOrder */,
 				960222591BC9216300010072 /* ShopLocation */,
+				9602226F1BC9216300010072 /* WorkOrder */,
 			);
 			name = WorkOrder;
 			sourceTree = "<group>";
@@ -971,12 +971,12 @@
 		78B1830D1BF2EB32007D5B24 /* OrderManager */ = {
 			isa = PBXGroup;
 			children = (
-				96AD525A1BF433ED00F02BE7 /* NewOrder */,
-				960221901BC9216300010072 /* GrabOrder */,
-				960221F71BC9216300010072 /* OrderManager */,
-				960221E91BC9216300010072 /* MMOrderManager */,
 				960221551BC9216300010072 /* AddOtherMan */,
+				960221901BC9216300010072 /* GrabOrder */,
 				960221E01BC9216300010072 /* MaintenanceProcess */,
+				960221E91BC9216300010072 /* MMOrderManager */,
+				96AD525A1BF433ED00F02BE7 /* NewOrder */,
+				960221F71BC9216300010072 /* OrderManager */,
 			);
 			name = OrderManager;
 			sourceTree = "<group>";
@@ -984,9 +984,9 @@
 		78B1830E1BF2EB8C007D5B24 /* Evaluation/Achievements */ = {
 			isa = PBXGroup;
 			children = (
-				966828A91BCFCDAD008D5818 /* EvaluationList */,
-				9602217C1BC9216300010072 /* Evaluation */,
 				965450721BCE738F00435AD1 /* Achievements */,
+				9602217C1BC9216300010072 /* Evaluation */,
+				966828A91BCFCDAD008D5818 /* EvaluationList */,
 			);
 			name = Evaluation/Achievements;
 			sourceTree = "<group>";
@@ -994,9 +994,9 @@
 		78B1830F1BF2EBEA007D5B24 /* Headquarters */ = {
 			isa = PBXGroup;
 			children = (
-				960221971BC9216300010072 /* Headquarters */,
-				960221731BC9216300010072 /* Branch */,
 				960221601BC9216300010072 /* Authentication */,
+				960221731BC9216300010072 /* Branch */,
+				960221971BC9216300010072 /* Headquarters */,
 			);
 			name = Headquarters;
 			sourceTree = "<group>";
@@ -2004,21 +2004,21 @@
 		9652AB341BC9069B009A666D /* Module */ = {
 			isa = PBXGroup;
 			children = (
-				78B1830A1BF2EA2F007D5B24 /* Resign/Login */,
-				960221A21BC9216300010072 /* Home */,
-				9602224E1BC9216300010072 /* Setting */,
-				78B1830F1BF2EBEA007D5B24 /* Headquarters */,
-				78B1830B1BF2EAC8007D5B24 /* WorkOrder */,
-				78B1830C1BF2EAF2007D5B24 /* Repair/ReaciveOrders */,
-				78B1830D1BF2EB32007D5B24 /* OrderManager */,
+				9602214E1BC9216300010072 /* AboutUs */,
+				96AABA411BE078950071B6FA /* ChatList */,
+				96C0FEE91BDB444800580355 /* CustomerService */,
 				960221891BC9216300010072 /* Examination */,
 				78B1830E1BF2EB8C007D5B24 /* Evaluation/Achievements */,
-				967679EF1BD512BB00D41FE2 /* News */,
-				96AABA411BE078950071B6FA /* ChatList */,
 				96C0FEE11BDB354400580355 /* Feedback */,
-				96C0FEE91BDB444800580355 /* CustomerService */,
-				9602214E1BC9216300010072 /* AboutUs */,
+				78B1830F1BF2EBEA007D5B24 /* Headquarters */,
+				960221A21BC9216300010072 /* Home */,
+				967679EF1BD512BB00D41FE2 /* News */,
+				78B1830D1BF2EB32007D5B24 /* OrderManager */,
+				78B1830A1BF2EA2F007D5B24 /* Resign/Login */,
+				78B1830C1BF2EAF2007D5B24 /* Repair/ReaciveOrders */,
+				9602224E1BC9216300010072 /* Setting */,
 				960222661BC9216300010072 /* UserInfo */,
+				78B1830B1BF2EAC8007D5B24 /* WorkOrder */,
 			);
 			path = Module;
 			sourceTree = "<group>";
