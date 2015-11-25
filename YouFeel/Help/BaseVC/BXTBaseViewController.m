@@ -50,7 +50,7 @@
     
     UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     navi_leftButton.frame = CGRectMake(6, 20, 44, 44);
-    [navi_leftButton setImage:[UIImage imageNamed:@"aroww_left"] forState:UIControlStateNormal];
+    [navi_leftButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
     [naviView addSubview:navi_leftButton];
     
