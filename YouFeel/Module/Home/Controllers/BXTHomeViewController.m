@@ -79,7 +79,7 @@
     //店名
     shop_btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shop_btn setFrame:CGRectMake(0, valueForDevice(35.f, 35.f, 30.f, 25.f), SCREEN_WIDTH-130, 20.f)];
-    shop_btn.center = CGPointMake(SCREEN_WIDTH/2.f, shop_btn.center.y);
+    shop_btn.center = CGPointMake(SCREEN_WIDTH/2.f - 10.f, shop_btn.center.y);
     shop_btn.titleLabel.font = [UIFont boldSystemFontOfSize:17.f];
     [shop_btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [shop_btn setImage:[UIImage imageNamed:@"down-arrow"] forState:UIControlStateNormal];
