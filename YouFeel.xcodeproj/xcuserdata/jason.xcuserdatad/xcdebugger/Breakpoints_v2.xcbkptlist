@@ -25,8 +25,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "651"
             endingLineNumber = "651"
-            landmarkName = "-numberOfPhotosInPhotoBrowser:"
-            landmarkType = "5">
+            landmarkName = "@implementation BXTMaintenanceProcessViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -41,7 +41,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "656"
             endingLineNumber = "656"
-            landmarkName = "-photoBrowser:photoAtIndex:"
+            landmarkName = "-numberOfPhotosInPhotoBrowser:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

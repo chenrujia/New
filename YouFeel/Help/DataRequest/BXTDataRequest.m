@@ -231,6 +231,23 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)repairsList:(NSString *)longTime
+         andDisUser:(NSString *)disUser
+       andCloseUser:(NSString *)CloseUser
+       andOrderType:(NSString *)orderType
+            andPage:(NSInteger)page
+{
+    NSDictionary *dic = @{@"long_time":longTime,
+                          @"dispatching_user":disUser,
+                          @"close_user":CloseUser,
+                          @"order":orderType,
+                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                          @"pagesize":@"5"};
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)createRepair:(NSString *)faultType
       faultType_type:(NSString *)faulttype_type
           faultCause:(NSString *)cause
@@ -515,7 +532,8 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)startRepair:(NSString *)repairID
 {
     self.requestType = StartRepair;
-    NSDictionary *dic = @{@"id":repairID};
+    NSDictionary *dic = @{@"id":repairID,
+                          @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=start_repair",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -611,9 +629,6 @@ andRepairerIsReacive:(NSString *)reacive
     progressHUD.progress = newProgress;
     if (newProgress >= 1.0f)
     {
-//        progressHUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
-//        progressHUD.mode = MBProgressHUDModeCustomView;
-//        progressHUD.detailsLabelText = @"上传成功";
         [progressHUD hide:YES];
     }
 }

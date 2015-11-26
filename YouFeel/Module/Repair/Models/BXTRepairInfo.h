@@ -33,5 +33,7 @@
 @property (nonatomic ,strong) NSString  *receive_state;
 @property (nonatomic ,strong) NSString  *visitmobile;
 @property (nonatomic ,strong) NSString  *start_time;
+@property (nonatomic ,strong) NSString  *subgroup_name;
+@property (nonatomic ,strong) NSString  *cause;
 
 @end

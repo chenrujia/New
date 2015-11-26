@@ -260,6 +260,9 @@
 		967127801BE475DC0033169E /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 9671276F1BE475DC0033169E /* UIWebView+AFNetworking.m */; };
 		967679F61BD512E700D41FE2 /* BXTNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 967679F51BD512E700D41FE2 /* BXTNewsViewController.m */; };
 		967679F91BD514B500D41FE2 /* BXTNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 967679F81BD514B500D41FE2 /* BXTNewsTableViewCell.m */; };
+		96805E2D1C06B0B400E6A103 /* BXTManagerOMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96805E2C1C06B0B400E6A103 /* BXTManagerOMViewController.m */; };
+		96805E331C06D8A100E6A103 /* BXTManagerOMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96805E321C06D8A100E6A103 /* BXTManagerOMTableViewCell.m */; };
+		96805E361C06EA2500E6A103 /* BXTManagerOMView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96805E351C06EA2500E6A103 /* BXTManagerOMView.m */; };
 		9689101C1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9689101B1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a */; };
 		968910641BD1F7EA008540D0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 968910631BD1F7EA008540D0 /* libz.tbd */; };
 		968910661BD1F812008540D0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 968910651BD1F812008540D0 /* SystemConfiguration.framework */; };
@@ -805,6 +808,12 @@
 		967679F51BD512E700D41FE2 /* BXTNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewsViewController.m; sourceTree = "<group>"; };
 		967679F71BD514B500D41FE2 /* BXTNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNewsTableViewCell.h; sourceTree = "<group>"; };
 		967679F81BD514B500D41FE2 /* BXTNewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewsTableViewCell.m; sourceTree = "<group>"; };
+		96805E2B1C06B0B400E6A103 /* BXTManagerOMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTManagerOMViewController.h; sourceTree = "<group>"; };
+		96805E2C1C06B0B400E6A103 /* BXTManagerOMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTManagerOMViewController.m; sourceTree = "<group>"; };
+		96805E311C06D8A100E6A103 /* BXTManagerOMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTManagerOMTableViewCell.h; sourceTree = "<group>"; };
+		96805E321C06D8A100E6A103 /* BXTManagerOMTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTManagerOMTableViewCell.m; sourceTree = "<group>"; };
+		96805E341C06EA2500E6A103 /* BXTManagerOMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTManagerOMView.h; sourceTree = "<group>"; };
+		96805E351C06EA2500E6A103 /* BXTManagerOMView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTManagerOMView.m; sourceTree = "<group>"; };
 		968910191BD1F599008540D0 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
 		9689101A1BD1F599008540D0 /* GeTuiSdkError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdkError.h; sourceTree = "<group>"; };
 		9689101B1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.2.1.a"; sourceTree = "<group>"; };
@@ -974,6 +983,7 @@
 				960221551BC9216300010072 /* AddOtherMan */,
 				960221901BC9216300010072 /* GrabOrder */,
 				960221E01BC9216300010072 /* MaintenanceProcess */,
+				96805E271C06B07F00E6A103 /* ManagerOM */,
 				960221E91BC9216300010072 /* MMOrderManager */,
 				96AD525A1BF433ED00F02BE7 /* NewOrder */,
 				960221F71BC9216300010072 /* OrderManager */,
@@ -2681,6 +2691,43 @@
 			name = Service;
 			sourceTree = "<group>";
 		};
+		96805E271C06B07F00E6A103 /* ManagerOM */ = {
+			isa = PBXGroup;
+			children = (
+				96805E281C06B07F00E6A103 /* Controllers */,
+				96805E291C06B07F00E6A103 /* Models */,
+				96805E2A1C06B07F00E6A103 /* Views */,
+			);
+			path = ManagerOM;
+			sourceTree = "<group>";
+		};
+		96805E281C06B07F00E6A103 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				96805E2B1C06B0B400E6A103 /* BXTManagerOMViewController.h */,
+				96805E2C1C06B0B400E6A103 /* BXTManagerOMViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		96805E291C06B07F00E6A103 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				96805E341C06EA2500E6A103 /* BXTManagerOMView.h */,
+				96805E351C06EA2500E6A103 /* BXTManagerOMView.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		96805E2A1C06B07F00E6A103 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				96805E311C06D8A100E6A103 /* BXTManagerOMTableViewCell.h */,
+				96805E321C06D8A100E6A103 /* BXTManagerOMTableViewCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		968910171BD1F599008540D0 /* GeTui */ = {
 			isa = PBXGroup;
 			children = (
@@ -3152,6 +3199,7 @@
 				96CEC8341BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m in Sources */,
 				9652AC241BC90EC9009A666D /* UIScrollView+EmptyDataSet.m in Sources */,
 				960222991BC9216300010072 /* BXTHeadquartersViewController.m in Sources */,
+				96805E2D1C06B0B400E6A103 /* BXTManagerOMViewController.m in Sources */,
 				9652AD941BC9170D009A666D /* MJRefreshBackStateFooter.m in Sources */,
 				967127751BE475DC0033169E /* AFSecurityPolicy.m in Sources */,
 				96AD52611BF4341C00F02BE7 /* BXTNewOrderViewController.m in Sources */,
@@ -3218,6 +3266,7 @@
 				960223101BC9216300010072 /* BXTRemarksTableViewCell.m in Sources */,
 				9671277A1BE475DC0033169E /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				9602214B1BC9201400010072 /* UIView+ZXQuartz.m in Sources */,
+				96805E331C06D8A100E6A103 /* BXTManagerOMTableViewCell.m in Sources */,
 				960222E61BC9216300010072 /* BXTRepairTableViewCell.m in Sources */,
 				960222981BC9216300010072 /* BXTGrabOrderViewController.m in Sources */,
 				969A42491BCBD4620034FC84 /* RGCardViewLayout.m in Sources */,
@@ -3338,6 +3387,7 @@
 				9671277D1BE475DC0033169E /* UIImageView+AFNetworking.m in Sources */,
 				9652AD8D1BC9170D009A666D /* MJRefreshFooter.m in Sources */,
 				969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */,
+				96805E361C06EA2500E6A103 /* BXTManagerOMView.m in Sources */,
 				9652ADBF1BC9170D009A666D /* MWGridCell.m in Sources */,
 				96CEC8431BD0F1A400D03B1B /* CCLocationManager.m in Sources */,
 				9652AB041BC902DF009A666D /* main.m in Sources */,

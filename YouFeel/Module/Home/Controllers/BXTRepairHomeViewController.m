@@ -12,7 +12,6 @@
 #import "BXTGrabOrderViewController.h"
 #import "BXTAchievementsViewController.h"
 #import "BXTEvaluationListViewController.h"
-//#import "BXTNewOrderViewController.h"
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
 #import "BXTMessageListViewController.h"
@@ -22,6 +21,7 @@
 #import "BXTChatListViewController.h"
 #import "BXTRepairWordOrderViewController.h"
 #import "BXTExaminationViewController.h"
+#import "BXTManagerOMViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -165,7 +165,9 @@
             break;
         case 7:
         {
-            BXTCustomerServiceViewController *serviceVC = [[BXTCustomerServiceViewController alloc] init];
+//            BXTCustomerServiceViewController *serviceVC = [[BXTCustomerServiceViewController alloc] init];
+//            [self.navigationController pushViewController:serviceVC animated:YES];
+            BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
             [self.navigationController pushViewController:serviceVC animated:YES];
         }
             break;

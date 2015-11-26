@@ -11,7 +11,8 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "icon_chose_arrow_sel@3x.png"
     }
   ],
   "info" : {
