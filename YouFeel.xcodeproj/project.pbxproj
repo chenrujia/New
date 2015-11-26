@@ -2004,12 +2004,9 @@
 		9652AB341BC9069B009A666D /* Module */ = {
 			isa = PBXGroup;
 			children = (
-				9602214E1BC9216300010072 /* AboutUs */,
 				96AABA411BE078950071B6FA /* ChatList */,
-				96C0FEE91BDB444800580355 /* CustomerService */,
 				960221891BC9216300010072 /* Examination */,
 				78B1830E1BF2EB8C007D5B24 /* Evaluation/Achievements */,
-				96C0FEE11BDB354400580355 /* Feedback */,
 				78B1830F1BF2EBEA007D5B24 /* Headquarters */,
 				960221A21BC9216300010072 /* Home */,
 				967679EF1BD512BB00D41FE2 /* News */,
@@ -2017,6 +2014,7 @@
 				78B1830A1BF2EA2F007D5B24 /* Resign/Login */,
 				78B1830C1BF2EAF2007D5B24 /* Repair/ReaciveOrders */,
 				9602224E1BC9216300010072 /* Setting */,
+				96805E261C06AF6000E6A103 /* Service */,
 				960222661BC9216300010072 /* UserInfo */,
 				78B1830B1BF2EAC8007D5B24 /* WorkOrder */,
 			);
@@ -2671,6 +2669,16 @@
 				967679F81BD514B500D41FE2 /* BXTNewsTableViewCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		96805E261C06AF6000E6A103 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				9602214E1BC9216300010072 /* AboutUs */,
+				96C0FEE91BDB444800580355 /* CustomerService */,
+				96C0FEE11BDB354400580355 /* Feedback */,
+			);
+			name = Service;
 			sourceTree = "<group>";
 		};
 		968910171BD1F599008540D0 /* GeTui */ = {
