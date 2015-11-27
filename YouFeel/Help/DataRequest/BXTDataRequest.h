@@ -130,6 +130,7 @@ andRepairerIsReacive:(NSString *)reacive;
          andDisUser:(NSString *)disUser
        andCloseUser:(NSString *)CloseUser
        andOrderType:(NSString *)orderType
+      andSubgroupID:(NSString *)groupID
             andPage:(NSInteger)page;
 
 /**

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTRepairInfo.h"
 
 @interface BXTManagerOMTableViewCell : UITableViewCell
 
@@ -18,5 +19,7 @@
 @property (nonatomic ,strong) UILabel *groupName;
 @property (nonatomic ,strong) UILabel *orderType;
 @property (nonatomic ,strong) UILabel *repairTime;
+
+- (void)refreshSubViewsFrame:(BXTRepairInfo *)repairInfo;
 
 @end

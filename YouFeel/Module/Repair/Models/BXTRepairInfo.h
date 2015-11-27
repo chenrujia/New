@@ -35,5 +35,6 @@
 @property (nonatomic ,strong) NSString  *start_time;
 @property (nonatomic ,strong) NSString  *subgroup_name;
 @property (nonatomic ,strong) NSString  *cause;
+@property (nonatomic ,assign) NSInteger order_type;
 
 @end

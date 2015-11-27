@@ -28,6 +28,8 @@
     UILabel *repairerName;
     UILabel *repairerDetail;
     UILabel *repairID;
+    UILabel *groupName;
+    UILabel *orderType;
     UILabel *time;
     UILabel *mobile;
     UILabel *place;
@@ -106,15 +108,23 @@
     headImgView.image = [UIImage imageNamed:@"polaroid"];
     [scrollView addSubview:headImgView];
     
-    repairerName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImgView.frame) + 10.f, CGRectGetMinY(headImgView.frame) + 12.f, 160.f, 20)];
+    repairerName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImgView.frame) + 10.f, CGRectGetMinY(headImgView.frame) + 5.f, 160.f, 20)];
     repairerName.textColor = colorWithHexString(@"000000");
-    repairerName.font = [UIFont boldSystemFontOfSize:15.f];
+    repairerName.font = [UIFont boldSystemFontOfSize:16.f];
     [scrollView addSubview:repairerName];
     
-    repairerDetail = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImgView.frame) + 10.f, CGRectGetMinY(headImgView.frame) + 40.f, 160.f, 20)];
+    repairerDetail = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(repairerName.frame), CGRectGetMinY(headImgView.frame) + 28.f, 160.f, 20)];
     repairerDetail.textColor = colorWithHexString(@"909497");
-    repairerDetail.font = [UIFont boldSystemFontOfSize:15.f];
+    repairerDetail.font = [UIFont systemFontOfSize:15.f];
     [scrollView addSubview:repairerDetail];
+    
+    mobile = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(repairerDetail.frame), CGRectGetMinY(headImgView.frame) + 50.f, 160.f, 20)];
+    mobile.textColor = colorWithHexString(@"000000");
+    mobile.font = [UIFont systemFontOfSize:15.f];
+    mobile.userInteractionEnabled = YES;
+    [scrollView addSubview:mobile];
+    UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mobileClick)];
+    [mobile addGestureRecognizer:moblieTap];
     
     UIButton *connetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     connetBtn.frame = CGRectMake(SCREEN_WIDTH - 83.3f - 15.f, 30.f, 83.3f, 40.f);
@@ -136,22 +146,36 @@
     repairID.text = @"工单号:";
     [scrollView addSubview:repairID];
     
-    time = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(repairID.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
+    groupName = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 50.f - 15.f, CGRectGetMaxY(line.frame) + 12.f, 50.f, 26.3f)];
+    groupName.textColor = colorWithHexString(@"00a2ff");
+    groupName.layer.borderColor = colorWithHexString(@"00a2ff").CGColor;
+    groupName.layer.borderWidth = 1.f;
+    groupName.layer.cornerRadius = 4.f;
+    groupName.font = [UIFont systemFontOfSize:16.f];
+    groupName.textAlignment = NSTextAlignmentCenter;
+    [scrollView addSubview:groupName];
+    
+    UIView *lineTwo = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(repairID.frame) + 12.f, SCREEN_WIDTH - 30.f, 1.f)];
+    lineTwo.backgroundColor = colorWithHexString(@"e2e6e8");
+    [scrollView addSubview:lineTwo];
+    
+    time = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineTwo.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     time.textColor = colorWithHexString(@"000000");
     time.font = [UIFont boldSystemFontOfSize:17.f];
     time.text = @"报修时间:";
     [scrollView addSubview:time];
     
-    mobile = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(time.frame) + 10.f, CGRectGetWidth(time.frame), 20)];
-    mobile.textColor = colorWithHexString(@"000000");
-    mobile.font = [UIFont boldSystemFontOfSize:17.f];
-    mobile.userInteractionEnabled = YES;
-    [scrollView addSubview:mobile];
+    orderType = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 80.f - 15.f, CGRectGetMaxY(lineTwo.frame) + 10.f, 80.f, 20)];
+    orderType.textColor = colorWithHexString(@"cc0202");
+    orderType.textAlignment = NSTextAlignmentRight;
+    orderType.font = [UIFont boldSystemFontOfSize:16.f];
+    [scrollView addSubview:orderType];
     
-    UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mobileClick)];
-    [mobile addGestureRecognizer:moblieTap];
+    UIView *lineThree = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(time.frame) + 12.f, SCREEN_WIDTH - 30.f, 1.f)];
+    lineThree.backgroundColor = colorWithHexString(@"e2e6e8");
+    [scrollView addSubview:lineThree];
     
-    place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(mobile.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
+    place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineThree.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     place.textColor = colorWithHexString(@"000000");
     place.font = [UIFont boldSystemFontOfSize:17.f];
     place.text = @"位置:";
@@ -205,6 +229,60 @@
     reaciveOrder.layer.cornerRadius = 6.f;
     [reaciveOrder addTarget:self action:@selector(reaciveOrderBtn) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:reaciveOrder];
+}
+
+- (void)createDatePicker
+{
+    bgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    bgView.tag = 101;
+    [self.view addSubview:bgView];
+    
+    originDate = [NSDate date];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
+    titleLabel.backgroundColor = colorWithHexString(@"ffffff");
+    titleLabel.text = @"请选择到达时间";
+    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [bgView addSubview:titleLabel];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
+    line.backgroundColor = colorWithHexString(@"e2e6e8");
+    [bgView addSubview:line];
+    
+    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
+    datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    datePicker.backgroundColor = colorWithHexString(@"ffffff");
+    datePicker.minimumDate = [NSDate date];
+    datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
+    [bgView addSubview:datePicker];
+    
+    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
+    toolView.backgroundColor = colorWithHexString(@"ffffff");
+    [bgView addSubview:toolView];
+    // sure
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 50)];
+    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [sureBtn addTarget:self action:@selector(datePickerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    sureBtn.tag = 10001;
+    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    sureBtn.layer.borderWidth = 0.5;
+    [toolView addSubview:sureBtn];
+    // cancel
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 50)];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [cancelBtn addTarget:self action:@selector(datePickerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    cancelBtn.layer.borderWidth = 0.5;
+    cancelBtn.tag = 10002;
+    [toolView addSubview:cancelBtn];
+}
+
+- (void)dateChange:(UIDatePicker *)picker
+{
+    timeInterval2 = [picker.date timeIntervalSinceDate:originDate];
 }
 
 #pragma mark -
@@ -400,6 +478,20 @@
     }
 }
 
+- (void)datePickerBtnClick:(UIButton *)button
+{
+    if (button.tag == 10001) {
+        
+        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2/60+1];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
+                    arrivalTime:timeStr
+                      andIsGrad:NO];
+    }
+    datePicker = nil;
+    [bgView removeFromSuperview];
+}
+
 #pragma mark -
 #pragma mark 代理
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
@@ -447,82 +539,7 @@
 }
 
 #pragma mark -
-#pragma mark - UIDatePicker
-- (void)createDatePicker {
-    bgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
-    bgView.tag = 101;
-    [self.view addSubview:bgView];
-    
-    
-    originDate = [NSDate date];
-    
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
-    titleLabel.backgroundColor = colorWithHexString(@"ffffff");
-    titleLabel.text = @"请选择到达时间";
-    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [bgView addSubview:titleLabel];
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
-    line.backgroundColor = colorWithHexString(@"e2e6e8");
-    [bgView addSubview:line];
-    
-    
-    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
-    datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
-    datePicker.backgroundColor = colorWithHexString(@"ffffff");
-    datePicker.minimumDate = [NSDate date];
-    datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-    [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
-    [bgView addSubview:datePicker];
-    
-    
-    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
-    toolView.backgroundColor = colorWithHexString(@"ffffff");
-    [bgView addSubview:toolView];
-    // sure
-    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 50)];
-    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [sureBtn addTarget:self action:@selector(datePickerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    sureBtn.tag = 10001;
-    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    sureBtn.layer.borderWidth = 0.5;
-    [toolView addSubview:sureBtn];
-    // cancel
-    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 50)];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [cancelBtn addTarget:self action:@selector(datePickerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    cancelBtn.layer.borderWidth = 0.5;
-    cancelBtn.tag = 10002;
-    [toolView addSubview:cancelBtn];
-}
-
-- (void)dateChange:(UIDatePicker *)picker
-{
-    timeInterval2 = [picker.date timeIntervalSinceDate:originDate];
-}
-
-- (void)datePickerBtnClick:(UIButton *)button
-{
-    if (button.tag == 10001) {
-        
-        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2/60+1];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
-                    arrivalTime:timeStr
-                      andIsGrad:NO];
-    }
-    datePicker = nil;
-    [bgView removeFromSuperview];
-}
-
-/**
- *  BXTDataRequestDelegate
- */
+#pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = (NSDictionary *)response;
@@ -555,10 +572,33 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"手机号:%@",repairDetail.visitmobile]];
-        [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(4, 11)];
-        [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(4, 11)];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:repairDetail.visitmobile];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
+        [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
         mobile.attributedText = attributedString;
+        
+        CGSize group_size = MB_MULTILINE_TEXTSIZE(repairDetail.subgroup_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
+        group_size.width += 10.f;
+        group_size.height = CGRectGetHeight(groupName.frame);
+        groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(groupName.frame), group_size.width, group_size.height);
+        groupName.text = repairDetail.subgroup_name;
+        if (repairDetail.order_type == 1)
+        {
+            orderType.text = @"";
+        }
+        else if (repairDetail.order_type == 2)
+        {
+            orderType.text = @"协作工单";
+        }
+        else if (repairDetail.order_type == 3)
+        {
+            orderType.text = @"特殊工单";
+        }
+        else if (repairDetail.order_type == 4)
+        {
+            orderType.text = @"超时工单";
+        }
+
         place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.place_name,repairDetail.stores_name];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];

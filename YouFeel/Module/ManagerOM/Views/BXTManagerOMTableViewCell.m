@@ -68,6 +68,8 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_faultType.frame) + 10.f, CGRectGetWidth(_faultType.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
+            label.numberOfLines = 0;
+            label.lineBreakMode = NSLineBreakByWordWrapping;
             label.font = [UIFont boldSystemFontOfSize:16.f];
             [self addSubview:label];
             label;
@@ -105,6 +107,30 @@
         });
     }
     return self;
+}
+
+- (void)refreshSubViewsFrame:(BXTRepairInfo *)repairInfo
+{
+    //自适应分组名
+    CGSize group_size = MB_MULTILINE_TEXTSIZE(repairInfo.subgroup_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
+    group_size.width += 10.f;
+    group_size.height = CGRectGetHeight(self.groupName.frame);
+    self.groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(self.groupName.frame), group_size.width, group_size.height);
+    self.groupName.text = repairInfo.subgroup_name;
+    self.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
+    self.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
+    
+    //自适应故障描述
+    NSString *cause = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
+    CGSize cause_size = MB_MULTILINE_TEXTSIZE(cause, [UIFont boldSystemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+    
+    CGRect cause_rect = self.cause.frame;
+    cause_rect.size.height = cause_size.height;
+    self.cause.frame = cause_rect;
+    self.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
+    self.line.frame = CGRectMake(15, CGRectGetMaxY(self.cause.frame) + 10.f, SCREEN_WIDTH - 30, 1.f);
+    self.orderType.frame = CGRectMake(15.f, CGRectGetMaxY(self.line.frame) + 10.f, CGRectGetWidth(self.cause.frame), 20);
+    self.repairTime.frame = CGRectMake(15.f, CGRectGetMaxY(self.line.frame) + 10.f, CGRectGetWidth(self.cause.frame), 20);
 }
 
 - (void)awakeFromNib

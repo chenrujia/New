@@ -11,6 +11,8 @@
 #import "BXTManagerOMTableViewCell.h"
 #import "MJRefresh.h"
 #import "BXTRepairInfo.h"
+#import "BXTOrderDetailViewController.h"
+#import "UIView+Nav.h"
 
 @implementation BXTManagerOMView
 
@@ -20,7 +22,16 @@
     if (self)
     {
         self.orderType = order_type;
-        typesArray = @[@"时间排序",@"超时工单优先",@"特殊工单优先",@"本组优先"];
+        groupID = @"";
+        BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
+        if (groupInfo.subgroup.length > 0)
+        {
+            typesArray = @[@"时间排序",@"超时工单优先",@"特殊工单优先",@"本组优先"];
+        }
+        else
+        {
+            typesArray = @[@"时间排序",@"超时工单优先",@"特殊工单优先"];
+        }
         repairListArray = [NSMutableArray array];
         priorityType = @"1";
         
@@ -66,15 +77,18 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     if (_orderType == OutTimeType)
     {
-        [request repairsList:@"3600" andDisUser:@"" andCloseUser:@"" andOrderType:priorityType andPage:1];
+        NSString *outTime = groupID.length > 0 ? @"" : @"3600";
+        [request repairsList:outTime andDisUser:@"" andCloseUser:@"" andOrderType:priorityType andSubgroupID:groupID andPage:1];
     }
     else if (_orderType == DistributeType)
     {
-        [request repairsList:@"" andDisUser:[BXTGlobal getUserProperty:U_BRANCHUSERID] andCloseUser:@"" andOrderType:priorityType andPage:1];
+        NSString *disUser = groupID.length > 0 ? @"" : [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        [request repairsList:@"" andDisUser:disUser andCloseUser:@"" andOrderType:priorityType andSubgroupID:groupID andPage:1];
     }
     else if (_orderType == DoneType)
     {
-        [request repairsList:@"" andDisUser:@"" andCloseUser:[BXTGlobal getUserProperty:U_BRANCHUSERID] andOrderType:priorityType andPage:1];
+        NSString *closeUser = groupID.length > 0 ? @"" : [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        [request repairsList:@"" andDisUser:@"" andCloseUser:closeUser andOrderType:priorityType andSubgroupID:groupID andPage:1];
     }
 }
 
@@ -86,15 +100,18 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     if (_orderType == OutTimeType)
     {
-        [request repairsList:@"3600" andDisUser:@"" andCloseUser:@"" andOrderType:@"" andPage:currentPage];
+        NSString *outTime = groupID.length > 0 ? @"" : @"3600";
+        [request repairsList:outTime andDisUser:@"" andCloseUser:@"" andOrderType:priorityType andSubgroupID:groupID andPage:currentPage];
     }
     else if (_orderType == DistributeType)
     {
-        [request repairsList:@"" andDisUser:[BXTGlobal getUserProperty:U_BRANCHUSERID] andCloseUser:@"" andOrderType:@"" andPage:currentPage];
+        NSString *disUser = groupID.length > 0 ? @"" : [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        [request repairsList:@"" andDisUser:disUser andCloseUser:@"" andOrderType:priorityType andSubgroupID:groupID andPage:currentPage];
     }
     else if (_orderType == DistributeType)
     {
-        [request repairsList:@"" andDisUser:@"" andCloseUser:[BXTGlobal getUserProperty:U_BRANCHUSERID] andOrderType:@"" andPage:currentPage];
+        NSString *closeUser = groupID.length > 0 ? @"" : [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        [request repairsList:@"" andDisUser:@"" andCloseUser:closeUser andOrderType:priorityType andSubgroupID:groupID andPage:currentPage];
     }
 }
 
@@ -114,7 +131,17 @@
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {
-    priorityType = [NSString stringWithFormat:@"%ld",(long)indexPath.row + 1];
+    BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
+    if (groupInfo.subgroup.length > 0 && indexPath.row == 3)
+    {
+        groupID = groupInfo.group_id;
+        priorityType = @"4";
+    }
+    else
+    {
+        priorityType = [NSString stringWithFormat:@"%ld",(long)indexPath.row + 1];
+        groupID = @"";
+    }
     [self loadNewData];
 }
 
@@ -166,7 +193,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 192.f;
+    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
+    UIFont *font = [UIFont boldSystemFontOfSize:16.f];
+    NSString *cause = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
+    CGSize size = MB_MULTILINE_TEXTSIZE(cause, font, CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+    
+    return 170.f + size.height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -176,16 +208,25 @@
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
     cell.orderNumber.text = [NSString stringWithFormat:@"工单号：%@",repairInfo.orderid];
     
-    CGSize group_size = MB_MULTILINE_TEXTSIZE(repairInfo.subgroup_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
-    group_size.width += 10.f;
-    group_size.height = CGRectGetHeight(cell.groupName.frame);
-    cell.groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(cell.groupName.frame), group_size.width, group_size.height);
-    cell.groupName.text = repairInfo.subgroup_name;
+    [cell refreshSubViewsFrame:repairInfo];
     
-    cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
-    cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
-    cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
-    cell.orderType.text = @"超时工单";
+    if (repairInfo.order_type == 1)
+    {
+        cell.orderType.text = @"";
+    }
+    else if (repairInfo.order_type == 2)
+    {
+        cell.orderType.text = @"协作工单";
+    }
+    else if (repairInfo.order_type == 3)
+    {
+        cell.orderType.text = @"特殊工单";
+    }
+    else if (repairInfo.order_type == 4)
+    {
+        cell.orderType.text = @"超时工单";
+    }
+        
     cell.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
     
     return cell;
@@ -194,6 +235,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
+    BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+    [[self navigation] pushViewController:repairDetailVC animated:YES];
 }
 
 #pragma mark -
@@ -214,7 +258,6 @@
             
             DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairInfo class] andConfiguration:config];
             BXTRepairInfo *repairInfo = [parser parseDictionary:dictionary];
-            
             [tempArray addObject:repairInfo];
         }
         if (refreshType == Down)

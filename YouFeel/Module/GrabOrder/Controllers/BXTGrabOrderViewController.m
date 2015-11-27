@@ -18,7 +18,7 @@
 
 @interface BXTGrabOrderViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate,BXTBoxSelectedTitleDelegate,BXTDataResponseDelegate>
 {
-    AVAudioPlayer *player;
+//    AVAudioPlayer *player;
     NSInteger currentPage;
     NSArray * comeTimeArray;
     BXTSelectBoxView *boxView;
@@ -61,9 +61,9 @@
     [timeArray addObject:@"自定义"];
     comeTimeArray = timeArray;
     
-    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
-    player.volume = 0.8f;
-    player.numberOfLoops = -1;
+//    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
+//    player.volume = 0.8f;
+//    player.numberOfLoops = -1;
     
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     [self createCollectionView];
@@ -228,7 +228,7 @@
 {
     if (section == currentPage)
     {
-        [player stop];
+//        [player stop];
         NSArray *dataArray = [markDic allValues];
         BOOL isAllComplete = YES;
         for (NSString *time in dataArray)
@@ -250,7 +250,7 @@
 {
     if (timeNumber <= 0)
     {
-        [player stop];
+//        [player stop];
         _timeLabel.text = @"Over";
         _radialProgressView.progressCurrent = 20;
         [_radialProgressView setNeedsDisplay];
@@ -336,7 +336,7 @@
     NSString *currentKey = [NSString stringWithFormat:@"%ld",(long)currentPage];
     if (![markDic.allKeys containsObject:currentKey])
     {
-        [player stop];
+//        [player stop];
         [self afterTimeWithSection:currentPage];
         [markDic setObject:@"60" forKey:currentKey];
     }
