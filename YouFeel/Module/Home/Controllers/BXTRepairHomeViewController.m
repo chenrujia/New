@@ -168,7 +168,6 @@
         case 7:
         {
 //            BXTCustomerServiceViewController *serviceVC = [[BXTCustomerServiceViewController alloc] init];
-//            [self.navigationController pushViewController:serviceVC animated:YES];
             BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
             [self.navigationController pushViewController:serviceVC animated:YES];
         }

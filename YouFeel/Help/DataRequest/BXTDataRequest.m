@@ -235,6 +235,7 @@ andRepairerIsReacive:(NSString *)reacive
          andDisUser:(NSString *)disUser
        andCloseUser:(NSString *)CloseUser
        andOrderType:(NSString *)orderType
+      andSubgroupID:(NSString *)groupID
             andPage:(NSInteger)page
 {
     NSDictionary *dic = @{@"long_time":longTime,
@@ -242,6 +243,7 @@ andRepairerIsReacive:(NSString *)reacive
                           @"close_user":CloseUser,
                           @"order":orderType,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                          @"order_subgroup":groupID,
                           @"pagesize":@"5"};
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];

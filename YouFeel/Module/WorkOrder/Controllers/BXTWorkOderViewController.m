@@ -206,14 +206,16 @@
         [self showAlertView:@"请选择故障类型"];
         return;
     }
+    
     if ([BXTGlobal isBlankString:cause]) {
         [self showAlertView:@"请输入故障描述"];
         return;
     }
+    
     if (faulttype_type == 0) {
         faulttype_type = 1;
     }
-    LogBlue(@"faulttype_type-1 --- %ld", (long)faulttype_type);
+
     if ([BXTGlobal isBlankString:notes]) {
         notes = @"";
     }

@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     UITableView      *currentTableView;
     NSMutableArray   *repairListArray;
     NSString         *priorityType;//优先类型
+    NSString         *groupID;
 }
 
 @property (nonatomic ,assign) BOOL isRequesting;

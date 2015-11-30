@@ -227,12 +227,6 @@
         }
         
         NSString *content = [NSString stringWithFormat:@"工单响应截止时间%@", [self transTimeStampToTime:repairDetail.long_time]];
-        if (IS_IOS_9)
-        {
-            CGSize c_size = [content sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}];
-            CGSize adjustedSize = CGSizeMake(ceilf(c_size.width), ceilf(c_size.height));
-            _repairTime.frame = CGRectMake(CGRectGetMinX(_repairTime.frame), CGRectGetMinY(_repairTime.frame), adjustedSize.width, adjustedSize.height);
-        }
         _repairTime.text = content;
         
         NSString *subgroup_name = @"其他";
