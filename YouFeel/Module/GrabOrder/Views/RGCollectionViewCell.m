@@ -242,9 +242,7 @@
         _faulttype.text = contents0;
         
         _repairID.text = [NSString stringWithFormat:@"工单号：%@",repairDetail.orderid];
-        
         _location.text = [NSString stringWithFormat:@"位置：%@",repairDetail.place_name];
-        
         NSString *contents = [NSString stringWithFormat:@"故障描述：%@",repairDetail.cause];
         UIFont *font = [UIFont boldSystemFontOfSize:17.f];
         CGSize size = MB_MULTILINE_TEXTSIZE(contents, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);

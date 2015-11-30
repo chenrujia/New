@@ -11,11 +11,13 @@
 @interface BXTReaciveOrderTableViewCell : UITableViewCell
 
 @property (nonatomic ,strong) UILabel *repairID;
-@property (nonatomic ,strong) UILabel *time;
+@property (nonatomic ,strong) UILabel *groupName;
 @property (nonatomic ,strong) UILabel *place;
-@property (nonatomic ,strong) UILabel *name;
+@property (nonatomic ,strong) UILabel *faultType;
 @property (nonatomic ,strong) UILabel *cause;
 @property (nonatomic ,strong) UILabel *level;
+@property (nonatomic ,strong) UILabel *longTime;
+@property (nonatomic ,strong) UILabel *repairTime;
 @property (nonatomic ,strong) UIButton *reaciveBtn;
 
 @end

@@ -52,7 +52,7 @@
         
         });
         
-        self.name = ({
+        self.faultType = ({
         
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_place.frame) + 10.f, CGRectGetWidth(_place.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
@@ -64,7 +64,7 @@
         
         self.cause = ({
         
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_name.frame) + 10.f, CGRectGetWidth(_name.frame), 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_faultType.frame) + 10.f, CGRectGetWidth(_faultType.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self addSubview:label];

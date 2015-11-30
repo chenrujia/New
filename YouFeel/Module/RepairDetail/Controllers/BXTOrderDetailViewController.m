@@ -13,14 +13,15 @@
 #import "UIImageView+WebCache.h"
 #import "MWPhotoBrowser.h"
 #import "MWPhoto.h"
+#import "BXTDrawView.h"
 #import "BXTSelectBoxView.h"
 #import "BXTMaintenanceProcessViewController.h"
 #import "BXTAddOtherManViewController.h"
 
 #define ImageWidth 73.3f
 #define ImageHeight 73.3f
-#define ContentHeight 300.f
 #define RepairHeight 95.f
+#define StateViewHeight 90.f
 
 @interface BXTOrderDetailViewController ()<BXTDataResponseDelegate,MWPhotoBrowserDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
 {
@@ -37,6 +38,9 @@
     UILabel *cause;
     UILabel *level;
     UILabel *notes;
+    UILabel *arrangeTime;
+    UILabel *mmProcess;
+    UILabel *workTime;
     UIButton *reaciveOrder;
     BXTRepairDetailInfo *repairDetail;
     UIScrollView *scrollView;
@@ -50,6 +54,7 @@
     UIDatePicker *datePicker;
     NSDate *originDate;
     NSTimeInterval timeInterval2;
+    CGFloat contentHeight;
 }
 
 @property (nonatomic ,strong) NSString *repair_id;
@@ -73,6 +78,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    contentHeight = 300.f;
+    
     [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
     [self createSubViews];
     
@@ -100,7 +107,7 @@
 - (void)createSubViews
 {
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT)];
-    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ContentHeight);
+    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight);
     scrollView.backgroundColor = colorWithHexString(@"ffffff");
     [self.view addSubview:scrollView];
     
@@ -209,6 +216,23 @@
     notes.lineBreakMode = NSLineBreakByWordWrapping;
     notes.font = [UIFont boldSystemFontOfSize:17.f];
     [scrollView addSubview:notes];
+    
+    arrangeTime = [[UILabel alloc] init];
+    arrangeTime.textColor = colorWithHexString(@"000000");
+    arrangeTime.font = [UIFont boldSystemFontOfSize:17.f];
+    [scrollView addSubview:arrangeTime];
+    
+    mmProcess = [[UILabel alloc] init];
+    mmProcess.numberOfLines = 0;
+    mmProcess.lineBreakMode = NSLineBreakByWordWrapping;
+    mmProcess.textColor = colorWithHexString(@"000000");
+    mmProcess.font = [UIFont boldSystemFontOfSize:17.f];
+    [scrollView addSubview:mmProcess];
+    
+    workTime = [[UILabel alloc] init];
+    workTime.textColor = colorWithHexString(@"000000");
+    workTime.font = [UIFont boldSystemFontOfSize:17.f];
+    [scrollView addSubview:workTime];
     
     lineView = [[UIView alloc] init];
     lineView.backgroundColor = colorWithHexString(@"e2e6e8");
@@ -405,8 +429,8 @@
     [self.view addSubview:callWeb];
 }
 
-- (NSMutableArray *)containAllPhotosForMWPhotoBrowser {
-    
+- (NSMutableArray *)containAllPhotosForMWPhotoBrowser
+{
     NSMutableArray *photos = [[NSMutableArray alloc] init];
     for (NSDictionary *dictionary in repairDetail.fault_pic)
     {
@@ -416,6 +440,7 @@
             [photos addObject:photo];
         }
     }
+    
     for (NSDictionary *dictionary in repairDetail.fixed_pic)
     {
         if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
@@ -468,7 +493,9 @@
         {
             [datePicker removeFromSuperview];
             datePicker = nil;
-        } else {
+        }
+        else
+        {
             [UIView animateWithDuration:0.3f animations:^{
                 [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
             }];
@@ -480,8 +507,8 @@
 
 - (void)datePickerBtnClick:(UIButton *)button
 {
-    if (button.tag == 10001) {
-        
+    if (button.tag == 10001)
+    {
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2/60+1];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
@@ -505,7 +532,8 @@
     if ([obj isKindOfClass:[NSString class]])
     {
         NSString *tempStr = (NSString *)obj;
-        if ([tempStr isEqualToString:@"自定义"]) {
+        if ([tempStr isEqualToString:@"自定义"])
+        {
             [self createDatePicker];
             return;
         }
@@ -518,13 +546,14 @@
     }
 }
 
-- (NSMutableArray *)containAllArray {
-    
+- (NSMutableArray *)containAllArray
+{
     NSMutableArray *photos = [[NSMutableArray alloc] init];
     for (NSDictionary *dictionary in repairDetail.fault_pic)
     {
         [photos addObject:dictionary];
     }
+    
     for (NSDictionary *dictionary in repairDetail.fixed_pic)
     {
         [photos addObject:dictionary];
@@ -652,17 +681,34 @@
                 }
             }
             [scrollView addSubview:imagesScrollView];
-            
             lineView.frame = CGRectMake(15.f, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH - 30.f, 1.f);
+            
+            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH, StateViewHeight) withRepairState:repairDetail.repairstate withIsRespairing:repairDetail.isRepairing];
+            [scrollView addSubview:drawView];
+            arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
+
+            if (repairDetail.man_hours.length)
+            {
+                NSString *mm_content = [NSString stringWithFormat:@"维修备注:%@",repairDetail.workprocess];
+                CGSize mmProcessSize = MB_MULTILINE_TEXTSIZE(mm_content, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
+                contentHeight += mmProcessSize.height;
+                mmProcess.frame = CGRectMake(20.f, CGRectGetMaxY(arrangeTime.frame) + 15.f, SCREEN_WIDTH - 40.f, mmProcessSize.height);
+                workTime.frame = CGRectMake(20.f, CGRectGetMaxY(mmProcess.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
+            }
+            else
+            {
+                mmProcess.hidden = YES;
+                workTime.hidden = YES;
+            }
             
             if (repairDetail.repair_user_arr.count > 0)
             {
                 [self loadingUsers];
-                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ContentHeight + ImageHeight + 40.f + RepairHeight * repairDetail.repair_user_arr.count + 100.f + 200.f/3.f);
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + ImageHeight + 40.f + StateViewHeight + 40.f + RepairHeight * repairDetail.repair_user_arr.count + 100.f + 200.f/3.f);
             }
             else
             {
-                reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(lineView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
+                reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(drawView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
                 scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(reaciveOrder.frame));
             }
         }
@@ -670,14 +716,32 @@
         {
             lineView.frame = CGRectMake(15.f, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH - 30.f, 1.f);
             
-            if (repairDetail.repair_user_arr.count > 0)
+            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, StateViewHeight) withRepairState:repairDetail.repairstate withIsRespairing:repairDetail.isRepairing];
+            [scrollView addSubview:drawView];
+            arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
+
+            if (repairDetail.man_hours.length)
             {
-                [self loadingUsers];
-                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ContentHeight + RepairHeight * repairDetail.repair_user_arr.count + 100.f + 200.f/3.f);
+                NSString *mm_content = [NSString stringWithFormat:@"维修备注:%@",repairDetail.workprocess];
+                CGSize mmProcessSize = MB_MULTILINE_TEXTSIZE(mm_content, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
+                contentHeight += mmProcessSize.height;
+                mmProcess.frame = CGRectMake(20.f, CGRectGetMaxY(arrangeTime.frame) + 15.f, SCREEN_WIDTH - 40.f, mmProcessSize.height);
+                workTime.frame = CGRectMake(20.f, CGRectGetMaxY(mmProcess.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
             }
             else
             {
-                reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(lineView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
+                mmProcess.hidden = YES;
+                workTime.hidden = YES;
+            }
+            
+            if (repairDetail.repair_user_arr.count > 0)
+            {
+                [self loadingUsers];
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + StateViewHeight + 40.f + RepairHeight * repairDetail.repair_user_arr.count + 100.f + 200.f/3.f);
+            }
+            else
+            {
+                reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(drawView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
                 scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(reaciveOrder.frame));
             }
         }
@@ -730,6 +794,24 @@
 
 - (void)loadingUsers
 {
+    NSTimeInterval repairTime = [repairDetail.dispatching_time doubleValue];
+    NSDate *repairDate = [NSDate dateWithTimeIntervalSince1970:repairTime];
+    //实例化一个NSDateFormatter对象
+    NSDateFormatter *repairDateFormatter = [[NSDateFormatter alloc] init];
+    //设定时间格式,这里可以设置成自己需要的格式
+    [repairDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *repairDateStr = [repairDateFormatter stringFromDate:repairDate];
+    arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
+    if (workTime.hidden)
+    {
+        lineView.frame = CGRectMake(15.f, CGRectGetMaxY(arrangeTime.frame) + 15.f, SCREEN_WIDTH - 30.f, 1.f);
+    }
+    else
+    {
+        mmProcess.text = [NSString stringWithFormat:@"维修过程:%@",repairDetail.workprocess];
+        workTime.text = [NSString stringWithFormat:@"维修工时:%@小时",repairDetail.man_hours];
+        lineView.frame = CGRectMake(15.f, CGRectGetMaxY(workTime.frame) + 15.f, SCREEN_WIDTH - 30.f, 1.f);
+    }
     maintenanceMan.frame = CGRectMake(20.f, CGRectGetMaxY(lineView.frame) + 10.f, SCREEN_WIDTH - 40.f, 40.f);
     
     for (NSInteger i = 0; i < repairDetail.repair_user_arr.count; i++)
@@ -740,15 +822,23 @@
         UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
         [userImgView sd_setImageWithURL:[NSURL URLWithString:[userDic objectForKey:@"head_pic"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         [userBack addSubview:userImgView];
-        
-        UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 30.f, CGRectGetWidth(level.frame), 20)];
+
+        UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 15.f, CGRectGetWidth(level.frame), 20)];
         userName.textColor = colorWithHexString(@"000000");
         userName.numberOfLines = 0;
         userName.lineBreakMode = NSLineBreakByWordWrapping;
-        userName.font = [UIFont boldSystemFontOfSize:17.f];
+        userName.font = [UIFont boldSystemFontOfSize:16.f];
         userName.text = [userDic objectForKey:@"name"];
         [userBack addSubview:userName];
         
+        UILabel *role = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 40.f, CGRectGetWidth(level.frame), 20)];
+        role.textColor = colorWithHexString(@"909497");
+        role.numberOfLines = 0;
+        role.lineBreakMode = NSLineBreakByWordWrapping;
+        role.font = [UIFont boldSystemFontOfSize:14.f];
+        role.text = [NSString stringWithFormat:@"%@-%@",[userDic objectForKey:@"department"],[userDic objectForKey:@"role"]];
+        [userBack addSubview:role];
+
         if ([[userDic objectForKey:@"id"] isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]] &&
             repairDetail.repairstate == 2 &&
             repairDetail.isRepairing == 1)

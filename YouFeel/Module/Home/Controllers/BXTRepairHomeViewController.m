@@ -161,8 +161,10 @@
             break;
         case 6:
         {
-            BXTFeedbackViewController *feedbackVC = [[BXTFeedbackViewController alloc] init];
-            [self.navigationController pushViewController:feedbackVC animated:YES];
+//            BXTFeedbackViewController *feedbackVC = [[BXTFeedbackViewController alloc] init];
+//            [self.navigationController pushViewController:feedbackVC animated:YES];
+            BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
+            [self.navigationController pushViewController:serviceVC animated:YES];
         }
             break;
         case 7:
