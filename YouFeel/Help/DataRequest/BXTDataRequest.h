@@ -36,7 +36,11 @@ typedef NS_ENUM(NSInteger, RequestType) {
     ChangePassWord,
     UpdateHeadPic,
     ConfigInfo,
-    StartRepair
+    StartRepair,
+    Statistics_Complete,
+    Statistics_Faulttype,
+    Statistics_Workload_day,
+    Statistics_Praise
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -291,5 +295,29 @@ andRepairerIsReacive:(NSString *)reacive;
  *  开始维修
  */
 - (void)startRepair:(NSString *)repairID;
+
+/**
+ *  统计-完成率统计
+ */
+- (void)statistics_completeWithTime_start:(NSString *)startTime
+                                 time_end:(NSString *)endTime;
+
+/**
+ *  统计-故障类型统计
+ */
+- (void)statistics_faulttypeWithTime_start:(NSString *)startTime
+                                  time_end:(NSString *)endTime;
+
+/**
+ *  统计-按月获取每日详情
+ */
+- (void)statistics_workload_dayWithYear:(NSString *)year
+                                  month:(NSString *)month;
+
+/**
+ *  统计-按分组好评
+ */
+- (void)statistics_praiseWithTime_start:(NSString *)startTime
+                               time_end:(NSString *)endTime;
 
 @end

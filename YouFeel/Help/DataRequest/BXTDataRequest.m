@@ -538,6 +538,51 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)statistics_completeWithTime_start:(NSString *)startTime
+                                 time_end:(NSString *)endTime
+{
+    self.requestType = Statistics_Complete;
+    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"time_start":startTime,
+                          @"time_end":endTime};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_complete",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+
+- (void)statistics_faulttypeWithTime_start:(NSString *)startTime
+                                  time_end:(NSString *)endTime
+{
+    self.requestType = Statistics_Faulttype;
+    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"time_start":startTime,
+                          @"time_end":endTime};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_faulttype",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)statistics_workload_dayWithYear:(NSString *)year
+                                  month:(NSString *)month
+{
+    self.requestType = Statistics_Workload_day;
+    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"year":year,
+                          @"month":month};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_workload_day",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)statistics_praiseWithTime_start:(NSString *)startTime
+                               time_end:(NSString *)endTime
+{
+    self.requestType = Statistics_Praise;
+    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"time_start":startTime,
+                          @"time_end":endTime};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_praise",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {
@@ -548,14 +593,17 @@ andRepairerIsReacive:(NSString *)reacive
     // 设置返回格式
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject)
-    {
-        NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        NSDictionary *dictionary = [response JSONValue];
-        [_delegate requestResponseData:dictionary requeseType:_requestType];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [_delegate requestError:error];
-        LogBlue(@"error:%@",error);
-    }];
+     {
+         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+         NSDictionary *dictionary = [response JSONValue];
+         
+         NSLog(@"response ---- %@", response);
+         
+         [_delegate requestResponseData:dictionary requeseType:_requestType];
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         [_delegate requestError:error];
+         LogBlue(@"error:%@",error);
+     }];
 }
 
 - (void)uploadImageRequest:(NSString *)url

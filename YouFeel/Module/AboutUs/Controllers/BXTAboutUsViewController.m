@@ -10,7 +10,6 @@
 #import "BXTHeaderForVC.h"
 #import "BXTDataRequest.h"
 #import "UIImageView+WebCache.h"
-#import "BXTGrabOrderViewController.h"
 
 @interface BXTAboutUsViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
@@ -56,7 +55,7 @@
 {
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, headerHeight)];
     backView.backgroundColor = [UIColor clearColor];
-
+    
     UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, IS_IPHONE6P ? 35.f : 10.f, 182.f, 63.f)];
     iconView.center = CGPointMake(SCREEN_WIDTH/2.f, iconView.center.y);
     iconView.image = [UIImage imageNamed:@"logo"];
@@ -119,9 +118,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APPSTORE_APPADDRESS]];
-    
-//    BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
-//    [self.navigationController pushViewController:grabOrderVC animated:YES];
 }
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
@@ -167,13 +163,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

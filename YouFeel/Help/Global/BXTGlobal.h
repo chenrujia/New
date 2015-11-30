@@ -82,4 +82,22 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
  */
 + (BOOL)isBlankString:(NSString *)string;
 
+/**
+ *  随机颜色
+ */
++ (UIColor *) randomColor;
+
+/**
+ *  获取当月第一天最后一天的数组
+ */
++ (NSArray *)monthStartAndEnd;
+
+/**
+ *  获取当年第一天最后一天的数组
+ */
++ (NSArray *)yearStartAndEnd;
+
+// 获取当日2次的数组
++ (NSArray *)dayStartAndEnd;
+
 @end

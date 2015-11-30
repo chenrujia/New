@@ -23,6 +23,8 @@
 #import "BXTExaminationViewController.h"
 #import "BXTManagerOMViewController.h"
 
+#import "StatisticsViewController.h"
+
 @interface BXTRepairHomeViewController ()
 
 @end
@@ -173,8 +175,10 @@
             break;
         case 8:
         {
-            BXTAboutUsViewController *aboutVC = [[BXTAboutUsViewController alloc] init];
-            [self.navigationController pushViewController:aboutVC animated:YES];
+            StatisticsViewController *StatisticsVC = [[StatisticsViewController alloc] init];
+            [self.navigationController pushViewController:StatisticsVC animated:YES];
+//            BXTAboutUsViewController *aboutVC = [[BXTAboutUsViewController alloc] init];
+//            [self.navigationController pushViewController:aboutVC animated:YES];
         }
             break;
         default:

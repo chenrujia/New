@@ -260,4 +260,48 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     return NO;
 }
 
++ (UIColor *) randomColor
+{
+    CGFloat hue = ( arc4random() % 256 / 256.0 ); //0.0 to 1.0
+    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5; // 0.5 to 1.0,away from white
+    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5; //0.5 to 1.0,away from black
+    return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+}
+
+// 获取当月第一天最后一天的数组
++ (NSArray *)monthStartAndEnd
+{
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+    NSInteger year = [components year];
+    NSInteger month = [components month];
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar]; NSRange range = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[NSDate date]];
+    NSUInteger numberOfDaysInMonth = range.length;
+    
+    NSString *startTime = [NSString stringWithFormat:@"%ld-%ld-1", year, month];
+    NSString *endTime = [NSString stringWithFormat:@"%ld-%ld-%ld",year, month, numberOfDaysInMonth];
+    
+    return [NSArray arrayWithObjects:startTime, endTime, nil];
+}
+
+// 获取当年第一天最后一天的数组
++ (NSArray *)yearStartAndEnd
+{
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+    NSInteger year = [components year];
+    
+    NSString *startTime = [NSString stringWithFormat:@"%ld-1-1", year];
+    NSString *endTime = [NSString stringWithFormat:@"%ld-12-31",year];
+    
+    return [NSArray arrayWithObjects:startTime, endTime, nil];
+}
+
+// 获取当日第一天最后一天的数组
++ (NSArray *)dayStartAndEnd {
+    NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+    [formatter1 setDateFormat:@"YYYY-MM-dd"];
+    NSString *dateStr = [formatter1 stringFromDate:[NSDate date]];
+    return [NSArray arrayWithObjects:dateStr, dateStr, nil];
+}
+
 @end
