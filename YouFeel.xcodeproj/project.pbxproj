@@ -2453,20 +2453,20 @@
 		9652AB341BC9069B009A666D /* Module */ = {
 			isa = PBXGroup;
 			children = (
-				78B1830A1BF2EA2F007D5B24 /* Resign/Login */,
-				960221A21BC9216300010072 /* Home */,
-				78B1830F1BF2EBEA007D5B24 /* Headquarters */,
-				9602224E1BC9216300010072 /* Setting */,
-				78B1830C1BF2EAF2007D5B24 /* Repair/ReaciveOrders */,
-				78B1830D1BF2EB32007D5B24 /* OrderManager */,
-				960221891BC9216300010072 /* Examination */,
-				78B1830E1BF2EB8C007D5B24 /* Evaluation/Achievements */,
-				967679EF1BD512BB00D41FE2 /* News */,
 				96AABA411BE078950071B6FA /* ChatList */,
+				78B1830E1BF2EB8C007D5B24 /* Evaluation/Achievements */,
+				960221891BC9216300010072 /* Examination */,
+				78B1830F1BF2EBEA007D5B24 /* Headquarters */,
+				960221A21BC9216300010072 /* Home */,
+				967679EF1BD512BB00D41FE2 /* News */,
+				78B1830D1BF2EB32007D5B24 /* OrderManager */,
+				78B1830C1BF2EAF2007D5B24 /* Repair/ReaciveOrders */,
+				78B1830A1BF2EA2F007D5B24 /* Resign/Login */,
 				96805E261C06AF6000E6A103 /* Service */,
+				9602224E1BC9216300010072 /* Setting */,
+				7818DBEC1C08251400DC22C6 /* Statistics */,
 				960222661BC9216300010072 /* UserInfo */,
 				78B1830B1BF2EAC8007D5B24 /* WorkOrder */,
-				7818DBEC1C08251400DC22C6 /* Statistics */,
 			);
 			path = Module;
 			sourceTree = "<group>";
