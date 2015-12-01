@@ -64,7 +64,15 @@
  */
 UIColor* colorWithHexString(NSString *stringToConvert);
 
+/**
+ *  时间戳转时间
+ */
 + (NSString *)transformationTime:(NSString *)timeType withTime:(NSString *)time;
+
+/**
+ *  NSDate转NSString
+ */
++ (NSString *)transTimeWithDate:(NSDate *)date withType:(NSString *)timeType;
 
 CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
 

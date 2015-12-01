@@ -137,6 +137,16 @@ andRepairerIsReacive:(NSString *)reacive;
       andSubgroupID:(NSString *)groupID
             andPage:(NSInteger)page;
 
+- (void)allRepairs:(NSString *)collection
+       andTimeName:(NSString *)timeName
+      andStartTime:(NSString *)startTime
+        andEndTime:(NSString *)endTime
+      andOrderType:(NSString *)orderType
+        andGroupID:(NSString *)groupID
+      andSubgroups:(NSArray *)groups
+          andState:(NSString *)state
+           andPage:(NSInteger)page;
+
 /**
  *  新建工单
  */

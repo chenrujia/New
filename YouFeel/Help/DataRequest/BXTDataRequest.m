@@ -250,6 +250,30 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)allRepairs:(NSString *)collection
+       andTimeName:(NSString *)timeName
+      andStartTime:(NSString *)startTime
+        andEndTime:(NSString *)endTime
+      andOrderType:(NSString *)orderType
+        andGroupID:(NSString *)groupID
+      andSubgroups:(NSArray *)groups
+          andState:(NSString *)state
+           andPage:(NSInteger)page
+{
+    NSDictionary *dic = @{@"collection":collection,
+                          @"timename":timeName,
+                          @"timename":startTime,
+                          @"timeover":endTime,
+                          @"order":orderType,
+                          @"order_subgroup":groupID,
+                          @"check_subgroup":groups,
+                          @"state":state,
+                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                          @"pagesize":@"5"};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)createRepair:(NSString *)faultType
       faultType_type:(NSString *)faulttype_type
           faultCause:(NSString *)cause
@@ -598,9 +622,6 @@ andRepairerIsReacive:(NSString *)reacive
      {
          NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
          NSDictionary *dictionary = [response JSONValue];
-         
-         NSLog(@"response ---- %@", response);
-         
          [_delegate requestResponseData:dictionary requeseType:_requestType];
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          [_delegate requestError:error];

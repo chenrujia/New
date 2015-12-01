@@ -204,6 +204,14 @@ UIColor* colorWithHexString(NSString *stringToConvert)
     return str;
 }
 
++ (NSString *)transTimeWithDate:(NSDate *)date withType:(NSString *)timeType
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:timeType];
+    NSString *strDate = [dateFormatter stringFromDate:date];
+    return strDate;
+}
+
 CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 {
     CGFloat value;
@@ -227,13 +235,15 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 }
 
 // 存数组方法
-+ (void)writeFileWithfileName:(NSString *)filename Array:(NSMutableArray *)infom {
++ (void)writeFileWithfileName:(NSString *)filename Array:(NSMutableArray *)infom
+{
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt", filename]];
     [infom writeToFile:filePath atomically:YES];
 }
 // 取数组方法
-+ (NSArray *)readFileWithfileName:(NSString *)filename {
++ (NSArray *)readFileWithfileName:(NSString *)filename
+{
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt", filename]];
     return [NSArray arrayWithContentsOfFile:filePath];
@@ -297,10 +307,11 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 }
 
 // 获取当日第一天最后一天的数组
-+ (NSArray *)dayStartAndEnd {
-    NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
-    [formatter1 setDateFormat:@"YYYY-MM-dd"];
-    NSString *dateStr = [formatter1 stringFromDate:[NSDate date]];
++ (NSArray *)dayStartAndEnd
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-dd"];
+    NSString *dateStr = [formatter stringFromDate:[NSDate date]];
     return [NSArray arrayWithObjects:dateStr, dateStr, nil];
 }
 
