@@ -20,49 +20,110 @@
         lineView.backgroundColor = colorWithHexString(@"dee3e5");
         [self addSubview:lineView];
         
-        _repairID = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 180.f, 20)];
-        _repairID.textColor = colorWithHexString(@"000000");
-        _repairID.font = [UIFont boldSystemFontOfSize:17.f];
-        [self addSubview:_repairID];
+        self.repairID = ({
         
-        _time = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 80.f - 15.f, 15.f, 80.f, 20)];
-        _time.textColor = colorWithHexString(@"909497");
-        _time.textAlignment = NSTextAlignmentRight;
-        _time.font = [UIFont systemFontOfSize:17.f];
-        [self addSubview:_time];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 180.f, 20)];
+            label.textColor = colorWithHexString(@"000000");
+            label.font = [UIFont boldSystemFontOfSize:17.f];
+            [self addSubview:label];
+            label;
         
-        _place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 30.f, 20)];
-        _place.textColor = colorWithHexString(@"000000");
-        _place.font = [UIFont boldSystemFontOfSize:17.f];
-        [self addSubview:_place];
+        });
         
-        _name = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_place.frame) + 10.f, CGRectGetWidth(_place.frame), 20)];
-        _name.textColor = colorWithHexString(@"000000");
-        _name.font = [UIFont boldSystemFontOfSize:17.f];
-        [self addSubview:_name];
+        self.groupName = ({
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 50.f - 15.f, 12.f, 50.f, 26.3f)];
+            label.textColor = colorWithHexString(@"00a2ff");
+            label.layer.borderColor = colorWithHexString(@"00a2ff").CGColor;
+            label.layer.borderWidth = 1.f;
+            label.layer.cornerRadius = 4.f;
+            label.font = [UIFont systemFontOfSize:16.f];
+            label.textAlignment = NSTextAlignmentCenter;
+            [self addSubview:label];
+            label;
+            
+        });
         
-        _cause = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_name.frame) + 10.f, CGRectGetWidth(_name.frame), 20)];
-        _cause.textColor = colorWithHexString(@"000000");
-        _cause.font = [UIFont boldSystemFontOfSize:17.f];
-        [self addSubview:_cause];
+        self.place = ({
         
-        _level = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
-        _level.textColor = colorWithHexString(@"000000");
-        _level.font = [UIFont boldSystemFontOfSize:17.f];
-        [self addSubview:_level];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 30.f, 20)];
+            label.textColor = colorWithHexString(@"000000");
+            label.font = [UIFont boldSystemFontOfSize:17.f];
+            [self addSubview:label];
+            label;
+        
+        });
+        
+        self.faultType = ({
+        
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_place.frame) + 10.f, CGRectGetWidth(_place.frame), 20)];
+            label.textColor = colorWithHexString(@"000000");
+            label.font = [UIFont boldSystemFontOfSize:17.f];
+            [self addSubview:label];
+            label;
+        
+        });
+        
+        self.cause = ({
+        
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_faultType.frame) + 10.f, CGRectGetWidth(_faultType.frame), 20)];
+            label.textColor = colorWithHexString(@"000000");
+            label.font = [UIFont boldSystemFontOfSize:17.f];
+            [self addSubview:label];
+            label;
+        
+        });
+        
+        self.level = ({
+        
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
+            label.textColor = colorWithHexString(@"000000");
+            label.font = [UIFont boldSystemFontOfSize:17.f];
+            [self addSubview:label];
+            label;
+        
+        });
+        
         
         UIView *lineViewTwo = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(lineView.frame) + 124.f, SCREEN_WIDTH - 20, 1.f)];
         lineViewTwo.backgroundColor = colorWithHexString(@"dee3e5");
         [self addSubview:lineViewTwo];
         
-        _reaciveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _reaciveBtn.layer.cornerRadius = 6.f;
-        _reaciveBtn.backgroundColor = colorWithHexString(@"3cafff");
-        [_reaciveBtn setFrame:CGRectMake(0, CGRectGetMaxY(lineViewTwo.frame) + 10.f, 230.f, 40.f)];
-        [_reaciveBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f, _reaciveBtn.center.y)];
-        [_reaciveBtn setTitle:@"我要去" forState:UIControlStateNormal];
-        [_reaciveBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-        [self addSubview:_reaciveBtn];
+        self.longTime= ({
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineViewTwo.frame) + 10.f, 150.f, 20)];
+            label.textColor = colorWithHexString(@"de1a1a");
+            label.font = [UIFont boldSystemFontOfSize:16.f];
+            [self addSubview:label];
+            label;
+            
+        });
+        
+        self.repairTime = ({
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 150.f - 15.f, CGRectGetMaxY(lineViewTwo.frame) + 10.f, 150.f, 20)];
+            label.textColor = colorWithHexString(@"909497");
+            label.font = [UIFont boldSystemFontOfSize:16.f];
+            label.textAlignment = NSTextAlignmentRight;
+            [self addSubview:label];
+            label;
+            
+        });
+        
+        self.reaciveBtn = ({
+        
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.layer.cornerRadius = 6.f;
+            button.backgroundColor = colorWithHexString(@"3cafff");
+            [button setFrame:CGRectMake(0, CGRectGetMaxY(_repairTime.frame) + 10.f, 230.f, 40.f)];
+            [button setCenter:CGPointMake(SCREEN_WIDTH/2.f, button.center.y)];
+            [button setTitle:@"接单" forState:UIControlStateNormal];
+            [button setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+            [self addSubview:button];
+            button;
+        
+        });
+        
     }
     
     return self;

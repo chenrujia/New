@@ -128,7 +128,7 @@
     cause = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(faultType.frame) + 10.f, CGRectGetWidth(faultType.frame), 20)];
     cause.textColor = colorWithHexString(@"000000");
     cause.font = [UIFont boldSystemFontOfSize:17.f];
-    cause.text = [NSString stringWithFormat:@"故障描述:%@",_repairInfo.faulttype_name];
+    cause.text = [NSString stringWithFormat:@"故障描述:%@",_repairInfo.cause];
     [scrollView addSubview:cause];
     
     level = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(cause.frame) + 10.f, CGRectGetWidth(cause.frame), 20)];

@@ -160,6 +160,14 @@
     }];
 }
 
+- (NSString *)transTimeStampToTime:(NSString *)timeStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    NSString *dateTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[timeStr doubleValue]]];
+    return dateTime;
+}
+
 #pragma mark -
 #pragma mark 代理
 /**
@@ -200,7 +208,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 236.f;
+    return 265.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -220,10 +228,20 @@
     
     BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:indexPath.section];
     cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
-    cell.time.text = repairInfo.repair_time;
+    //自适应分组名
+    CGSize group_size = MB_MULTILINE_TEXTSIZE(repairInfo.subgroup_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
+    group_size.width += 10.f;
+    group_size.height = CGRectGetHeight(cell.groupName.frame);
+    cell.groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(cell.groupName.frame), group_size.width, group_size.height);
+    cell.groupName.text = repairInfo.subgroup_name;
+
     cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
-    cell.name.text = [NSString stringWithFormat:@"报修人:%@",repairInfo.fault];
-    cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.faulttype_name];
+    cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
+    cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
+    cell.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
+    NSString *time = [self transTimeStampToTime:repairInfo.long_time];
+    cell.longTime.text = [NSString stringWithFormat:@"截止时间:%@",time];
+    
     NSString *str;
     NSRange range;
     if (repairInfo.urgent == 2)

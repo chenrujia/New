@@ -167,8 +167,8 @@
         cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
         cell.time.text = repairInfo.repair_time;
         cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
-        cell.name.text = [NSString stringWithFormat:@"报修人:%@",repairInfo.fault];
-        cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.faulttype_name];
+        cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
+        cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
         NSString *str;
         NSRange range;
         if (repairInfo.urgent == 2)
@@ -203,7 +203,7 @@
         cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
         cell.time.text = [NSString stringWithFormat:@"响应时间:%@",repairInfo.repair_time];
         cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
-        cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.faulttype_name];
+        cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
         NSString *str;
         NSRange range;
         if (repairInfo.urgent == 2)
