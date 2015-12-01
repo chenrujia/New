@@ -26,7 +26,7 @@
     // Do any additional setup after loading the view.
     
     self.dataArray = [[NSMutableArray alloc] init];
-
+    
     
     NSArray *dateArray = [BXTGlobal yearStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -71,7 +71,7 @@
     [headerView.pieChartView addDataToRepresent:downNum-pariseNum WithColor:colorWithHexString(@"#0C88CC")];
     
     
-    // EvaluationHeader
+    // EvaluationFooter
     self.footerView = [[[NSBundle mainBundle] loadNibNamed:@"EvaluationFooter" owner:nil options:nil] lastObject];
     self.footerView.frame = CGRectMake(0, CGRectGetMaxY(headerView.frame)+10, SCREEN_WIDTH, 350);
     [self.rootScrollView addSubview:self.footerView];
@@ -108,7 +108,8 @@
     [self.dataArray removeAllObjects];
     NSMutableArray *subgroupArray = [[NSMutableArray alloc] init];
     NSMutableArray *percentArray = [[NSMutableArray alloc] init];
-     NSMutableArray *colorArray = [[NSMutableArray alloc] init];
+    NSMutableArray *colorArray = [[NSMutableArray alloc] init];
+
     for (NSDictionary *dict in self.dataDict[@"data"]) {
         [self.dataArray addObject:dict];
         [subgroupArray addObject:dict[@"subgroup"]];
@@ -158,6 +159,8 @@
 #pragma mark -
 #pragma mark - 父类点击事件
 - (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
+    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
+    
     NSMutableArray *dateArray;
     switch (segmented.selectedSegmentIndex) {
         case 0:
@@ -172,13 +175,18 @@
         default:
             break;
     }
-
+    
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_praiseWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
+        if (!selectedDate) {
+            selectedDate = [NSDate date];
+        }
+        [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
+        
         NSString *todayStr = [self transTimeWithDate:selectedDate];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_praiseWithTime_start:todayStr time_end:todayStr];

@@ -49,12 +49,12 @@
     [navBarView addSubview:leftBtn];
     
     // centerButton
-    UIButton *centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    centerButton.frame = CGRectMake(60, 20, SCREEN_WIDTH-120, 44);
-    [centerButton setTitle:@"2015年11月25日 星期三" forState:UIControlStateNormal];
-    centerButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [centerButton addTarget:self action:@selector(navigationcenterButton) forControlEvents:UIControlEventTouchUpInside];
-    [navBarView addSubview:centerButton];
+    self.rootCenterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.rootCenterButton.frame = CGRectMake(60, 20, SCREEN_WIDTH-120, 44);
+    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
+    self.rootCenterButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    [self.rootCenterButton addTarget:self action:@selector(navigationcenterButton) forControlEvents:UIControlEventTouchUpInside];
+    [navBarView addSubview:self.rootCenterButton];
     
     // rightButton
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -195,6 +195,23 @@
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
     [formatter1 setDateFormat:@"YYYY-MM-dd"];
     return [formatter1 stringFromDate:date];
+}
+
+// 时间戳转换成 2015年11月27日 星期五 格式
+- (NSString*)weekdayStringFromDate:(NSDate*)inputDate {
+    NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"Sunday", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+    [calendar setTimeZone: timeZone];
+    NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+    NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
+    NSString *weekStr = [weekdays objectAtIndex:theComponents.weekday];
+    
+    NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+    [formatter1 setDateFormat:@"YYYY年MM月dd日"];
+    NSString *dateStr = [formatter1 stringFromDate:inputDate];
+    
+    return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];
 }
 
 - (void)showLoadingMBP:(NSString *)text

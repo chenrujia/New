@@ -11,10 +11,15 @@
 #import "ProfessionFooter.h"
 #import "MYPieElement.h"
 
-@interface ProfessionViewController ()
+@interface ProfessionViewController () <BXTDataResponseDelegate, SPChartDelegate>
 
-@property (nonatomic, strong) NSMutableArray *percentArrat;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+
+@property (nonatomic, strong) ProfessionHeader *headerView;
 @property (nonatomic, strong) MYPieView *pieView;
+@property (nonatomic, strong) ProfessionFooter *footerView;
+@property (weak, nonatomic) SPBarChart *barChartView;
+@property (weak, nonatomic) SPChartPopup *popup;
 
 @end
 
@@ -24,104 +29,224 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self createUI];
+    self.dataArray = [[NSMutableArray alloc] init];
+    
+    
+    NSArray *dateArray = [BXTGlobal yearStartAndEnd];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statistics_subgroupWithTime_start:dateArray[0] time_end:dateArray[1]];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type {
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = dic[@"data"];
+    if (type == Statistics_Subgroup && data.count > 0) {
+        self.dataArray = dic[@"data"];
+        [self createPieView];
+        [self createBarChartView];
+    }
+}
+
+- (void)requestError:(NSError *)error {
+    
 }
 
 #pragma mark -
 #pragma mark - createUI
-- (void)createUI {
+- (void)createPieView {
     // ProfessionHeader
-    ProfessionHeader *headerView = [[[NSBundle mainBundle] loadNibNamed:@"ProfessionHeader" owner:nil options:nil] lastObject];
-    headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 370);
-    [self.rootScrollView addSubview:headerView];
+    self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"ProfessionHeader" owner:nil options:nil] lastObject];
+    self.headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 400);
+    [self.rootScrollView addSubview:self.headerView];
     
     //  ---------- 饼状图 ----------
     // 1. create pieView
-    CGFloat pieViewH = 230;
-    self.pieView = [[MYPieView alloc] initWithFrame:CGRectMake(15, 90, SCREEN_WIDTH-30, pieViewH)];
+    CGFloat pieViewH = 260;
+    self.pieView = [[MYPieView alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, pieViewH)];
     self.pieView.backgroundColor = [UIColor whiteColor];
-    [headerView addSubview:self.pieView];
+    [self.headerView addSubview:self.pieView];
     
-    self.percentArrat = [[NSMutableArray alloc] initWithObjects:@"25%", @"30%", @"45%", nil];
-    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#0eccc0", @"#fbcf62", @"#ff6f6f", nil];
     // 2. fill data
-    for(int i=0; i<self.percentArrat.count; i++){
-        MYPieElement *elem = [MYPieElement pieElementWithValue:[self.percentArrat[i] floatValue] color:colorWithHexString(colorArray[i])];
-        elem.title = [NSString stringWithFormat:@"%@", self.percentArrat[i]];
+    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#f1a161", @"#74bde9", @"#93c322", @"#a17bb5", nil];
+    for(int i=0; i<self.dataArray.count; i++){
+        UIColor *elemColor = [BXTGlobal randomColor];
+        if (i<4) {
+            elemColor = colorWithHexString(colorArray[i]);
+        }
+        NSDictionary *elemDict = self.dataArray[i];
+        MYPieElement *elem = [MYPieElement pieElementWithValue:[elemDict[@"sum_percent"] floatValue] color:elemColor];
+        elem.title = [NSString stringWithFormat:@"%@ %@", elemDict[@"subgroup"], elemDict[@"sum_percent"]];
         [self.pieView.layer addValues:@[elem] animated:NO];
     }
     
     // 3. transform tilte
     self.pieView.layer.transformTitleBlock = ^(PieElement *elem, float percent){
-        NSLog(@"percent -- %f", percent);
+        //NSLog(@"percent -- %f", percent);
         return [(MYPieElement *)elem title];
     };
     self.pieView.layer.showTitles = ShowTitlesAlways;
     
     // 4. didClick
+    __weak typeof(self) weakSelf = self;
     self.pieView.transSelected = ^(NSInteger index) {
-        NSLog(@"index -- %ld", index);
+        //NSLog(@"index -- %ld", index);
+        NSDictionary *selectedDict = weakSelf.dataArray[index];
+        weakSelf.headerView.groupView.text = [NSString stringWithFormat:@"%@", selectedDict[@"subgroup"]];
+        weakSelf.headerView.percentView.text = [NSString stringWithFormat:@"%@%%", selectedDict[@"sum_percent"]];
+        weakSelf.headerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selectedDict[@"sum_number"]];
     };
     
-    
+    NSDictionary *selectedDict = self.dataArray[0];
+    self.headerView.groupView.text = [NSString stringWithFormat:@"%@", selectedDict[@"subgroup"]];
+    self.headerView.percentView.text = [NSString stringWithFormat:@"%@%%", selectedDict[@"sum_percent"]];
+    self.headerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selectedDict[@"sum_number"]];
+}
+
+- (void)createBarChartView {
     // ProfessionFooter
-    ProfessionFooter *footerView = [[[NSBundle mainBundle] loadNibNamed:@"ProfessionFooter" owner:nil options:nil] lastObject];
-    footerView.frame = CGRectMake(0, CGRectGetMaxY(headerView.frame)+10, SCREEN_WIDTH, 370);
-    [self.rootScrollView addSubview:footerView];
-    self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(footerView.frame));
+    self.footerView = [[[NSBundle mainBundle] loadNibNamed:@"ProfessionFooter" owner:nil options:nil] lastObject];
+    self.footerView.frame = CGRectMake(0, 410, SCREEN_WIDTH, 420);
+    [self.rootScrollView addSubview:self.footerView];
+    self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.footerView.frame));
     
     
     //  ---------- 柱状图 ----------
-    BarTimeAxisView *barTAV = [[BarTimeAxisView alloc] initWithFrame:CGRectMake(-10, 70, SCREEN_WIDTH, 225)];
-    barTAV.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
-    [footerView addSubview:barTAV];
+    // SPBarChart
+    SPBarChart *barChart = [[SPBarChart alloc] initWithFrame:CGRectMake(0, 45, SCREEN_WIDTH, 300)];
     
-    NSMutableArray *dataArray = [NSMutableArray array];
-    NSDate *nowDate = [NSDate dateWithTimeIntervalSinceReferenceDate:1];
-    BarTimeAxisData *firstData = [BarTimeAxisData dataWithDate:nowDate andNumber:[NSNumber numberWithInt:3]];
-    [dataArray addObject:firstData];
+    NSMutableArray *barArray = [[NSMutableArray alloc] init];
+    NSMutableArray *heightArray = [[NSMutableArray alloc] init];
+    NSArray *colorArray = @[colorWithHexString(@"#0FCCC0") , colorWithHexString(@"#F9D063") , colorWithHexString(@"#FD7070") ];
     
-    for (int i=86400; i<864000; i+=86400) {
-        int rand = 1+arc4random()%8;
-        BarTimeAxisData *data = [BarTimeAxisData dataWithDate:[NSDate dateWithTimeInterval:i sinceDate:nowDate] andNumber:[NSNumber numberWithInt:rand+6]];
-        [dataArray addObject:data];
+    for (NSDictionary *dict in self.dataArray) {
+        NSString *downStr = [NSString stringWithFormat:@"%@", dict[@"yes_number"] ];
+        NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"collection_number"] ];
+        NSString *undownStr = [NSString stringWithFormat:@"%@", dict[@"no_number"] ];
+        NSNumber *downNum = [NSNumber numberWithInteger:[downStr integerValue]];
+        NSNumber *specialNum = [NSNumber numberWithInteger:[specialStr integerValue]];
+        NSNumber *undownNum = [NSNumber numberWithInteger:[undownStr integerValue]];
+        
+        NSArray *dataArray = @[downNum, specialNum, undownNum];
+        [barArray addObject:[SPBarChartData dataWithValues:dataArray colors:colorArray description:[NSString stringWithFormat:@"%@", dict[@"subgroup"]]]];
+        
+        NSString *sumStr = [NSString stringWithFormat:@"%@", dict[@"sum_number"] ];
+        [heightArray addObject:sumStr];
     }
     
-    barTAV.dataSource = dataArray;
-    // barGraph.colorArray = @[@"#0dccc1", @"#fad063", @"#7c99db", @"fc7070"];
+    [barChart setDatas:barArray];
+    
+    // Set maximum value
+    NSNumber *maxNum = [heightArray valueForKeyPath:@"@max.floatValue"];
+    int max = [maxNum intValue];
+    max = ((max / 10) + 2) * 10;
+    NSLog(@"maxNum == %@", maxNum);
+    barChart.maxDataValue = max;
+    // Show axis
+    barChart.showAxis = YES;
+    // and section lines inside
+    barChart.showSectionLines = YES;
+    // Show empty message, if the chart is empty
+    barChart.emptyChartText = @"The chart is empty.";
+    
+    self.barChartView = barChart;
+    [barChart drawChart];
+    barChart.delegate = self;
+    
+    [self.footerView addSubview:barChart];
+    
+    NSDictionary *selecteDict = self.dataArray[0];
+    self.footerView.groupView.text = [NSString stringWithFormat:@"%@", selecteDict[@"subgroup"]];
+    self.footerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selecteDict[@"sum_number"]];
+    self.footerView.downView.text = [NSString stringWithFormat:@"完成:%@单", selecteDict[@"yes_number"]];
+    self.footerView.undownView.text = [NSString stringWithFormat:@"未完成:%@单", selecteDict[@"no_number"]];
 }
 
-UIColor* colorWithHexString2(NSString *stringToConvert) {
-    NSString *cString = [[stringToConvert stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];//字符串处理
-    //例子，stringToConvert #ffffff
-    if ([cString length] < 6)
-        return [UIColor whiteColor];//如果非十六进制，返回白色
-    if ([cString hasPrefix:@"#"])
-        cString = [cString substringFromIndex:1];//去掉头
-    if ([cString length] != 6)//去头非十六进制，返回白色
-        return [UIColor whiteColor];
-    //分别取RGB的值
-    NSRange range;
-    range.location = 0;
-    range.length = 2;
-    NSString *rString = [cString substringWithRange:range];
+#pragma mark -
+#pragma mark SPChartDelegate
+- (void)SPChart:(SPBarChart *)chart barSelected:(NSInteger)barIndex barFrame:(CGRect)barFrame touchPoint:(CGPoint)touchPoint {
+    [self _dismissPopup];
     
-    range.location = 2;
-    NSString *gString = [cString substringWithRange:range];
+    SPBarChartData * data = chart.datas[barIndex];
     
-    range.location = 4;
-    NSString *bString = [cString substringWithRange:range];
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.text = [NSString stringWithFormat:@"%@ - %@ - %@", data.values[0], data.values[1], data.values[2]];
+    label.font = chart.labelFont;
+    label.textColor = [UIColor whiteColor];
     
-    unsigned int r, g, b;
-    //NSScanner把扫描出的制定的字符串转换成Int类型
-    [[NSScanner scannerWithString:rString] scanHexInt:&r];
-    [[NSScanner scannerWithString:gString] scanHexInt:&g];
-    [[NSScanner scannerWithString:bString] scanHexInt:&b];
-    //转换为UIColor
-    return [UIColor colorWithRed:((float) r / 255.0f)
-                           green:((float) g / 255.0f)
-                            blue:((float) b / 255.0f)
-                           alpha:1.f];
+    [label sizeToFit];
+    
+    //NSLog(@"Selected bar %@", label.text);
+    NSDictionary *selecteDict = self.dataArray[barIndex];
+    self.footerView.groupView.text = [NSString stringWithFormat:@"%@", selecteDict[@"subgroup"]];
+    self.footerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selecteDict[@"sum_number"]];
+    self.footerView.downView.text = [NSString stringWithFormat:@"完成:%@单", selecteDict[@"yes_number"]];
+    self.footerView.undownView.text = [NSString stringWithFormat:@"未完成:%@单", selecteDict[@"no_number"]];
+    
+    SPChartPopup * popup = [[SPChartPopup alloc] initWithContentView:label];
+    [popup setPopupColor:colorWithHexString(@"#999999")];
+    [popup sizeToFit];
+    
+    [popup showInView:chart withBottomAnchorPoint:CGPointMake(CGRectGetMidX(barFrame), CGRectGetMinY(barFrame))];
+    self.popup = popup;
+}
+
+- (void)SPChartEmptySelection:(id)chart {
+    NSLog(@"Touch outside chart bar/line/piece");
+}
+
+- (void)_dismissPopup
+{
+    if (self.popup) {
+        [self.popup dismiss];
+    }
+}
+
+#pragma mark -
+#pragma mark - 父类点击事件
+- (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
+    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
+    
+    NSMutableArray *dateArray;
+    switch (segmented.selectedSegmentIndex) {
+        case 0:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal yearStartAndEnd]];
+            break;
+        case 1:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal monthStartAndEnd]];
+            break;
+        case 2:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal dayStartAndEnd]];
+            break;
+        default:
+            break;
+    }
+    
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statistics_subgroupWithTime_start:dateArray[0] time_end:dateArray[1]];
+}
+
+- (void)datePickerBtnClick:(UIButton *)button {
+    if (button.tag == 10001) {
+        [self.pieView removeFromSuperview];
+        
+        /**饼状图**/
+        if (!selectedDate) {
+            selectedDate = [NSDate date];
+        }
+        [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
+        
+        NSString *todayStr = [self transTimeWithDate:selectedDate];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request statistics_subgroupWithTime_start:todayStr time_end:todayStr];
+    }
+    [UIView animateWithDuration:0.5 animations:^{
+        pickerbgView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        datePicker = nil;
+        [pickerbgView removeFromSuperview];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -130,13 +255,13 @@ UIColor* colorWithHexString2(NSString *stringToConvert) {
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

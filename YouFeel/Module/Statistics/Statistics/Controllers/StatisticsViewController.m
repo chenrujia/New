@@ -7,6 +7,7 @@
 //
 
 #import "StatisticsViewController.h"
+#import "StatisticsCell.h"
 #import "CompletionViewController.h"
 #import "ProfessionViewController.h"
 #import "IncidenceViewController.h"
@@ -15,13 +16,12 @@
 
 #import "BXTHeaderForVC.h"
 
-//  自适应宽度和高度
-#define SCREEN_HEIGHT   ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? [UIScreen mainScreen].bounds.size.height : [UIScreen mainScreen].bounds.size.height-20)
-
 @interface StatisticsViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *imageArray1;
+@property (nonatomic, strong) NSMutableArray *imageArray2;
 
 @end
 
@@ -34,6 +34,12 @@
     [self navigationSetting:@"业务统计" andRightTitle:nil andRightImage:nil];
     
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"维修完成率统计", @"专业分组统计", @"故障发生率统计", @"维修员工作量统计", @"维修评价统计",nil];
+    self.imageArray1 = [[NSMutableArray alloc] init];
+    self.imageArray2 = [[NSMutableArray alloc] init];
+    for (int i=1; i<=5; i++) {
+        [self.imageArray1 addObject:[NSString stringWithFormat:@"Statistics_%d", i]];
+        [self.imageArray2 addObject:[NSString stringWithFormat:@"Round_%d", i]];
+    }
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
@@ -54,13 +60,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellID = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    StatisticsCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID
-                ];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"StatisticsCell" owner:nil options:nil] lastObject];
     }
     
-    cell.textLabel.text = self.dataArray[indexPath.section];
+    cell.titleView.text = self.dataArray[indexPath.section];
+    [cell.imageView1 setImage:[UIImage imageNamed:self.imageArray1[indexPath.section]]];
+    [cell.imageView2 setImage:[UIImage imageNamed:self.imageArray2[indexPath.section]]];
     
     return cell;
 }

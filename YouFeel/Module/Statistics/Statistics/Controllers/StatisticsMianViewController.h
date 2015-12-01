@@ -10,16 +10,14 @@
 #import "MYPieView.h"
 #import "MYPieElement.h"
 #import "BarChatItemView.h"
-#import "BarTimeAxisView.h"
-#import "BarTimeAxisData.h"
 #import "AksStraightPieChart.h"
 #import "PNChart.h"
 #import "BXTGlobal.h"
 #import "BXTHeaderFile.h"
 #import "BXTDataRequest.h"
-
-//  自适应宽度和高度
-#define SCREEN_HEIGHT   ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? [UIScreen mainScreen].bounds.size.height : [UIScreen mainScreen].bounds.size.height-20)
+#import "SPBarChart.h"
+#import "SPBarChartData.h"
+#import "SPChartDelegate.h"
 
 @interface StatisticsMianViewController : UIViewController  {
     UIView *pickerbgView;
@@ -32,11 +30,16 @@
  */
 @property (nonatomic, strong) UIScrollView *rootScrollView;
 @property(nonatomic, strong) UISegmentedControl *rootSegmentedCtr;
+@property (nonatomic, strong) UIButton *rootCenterButton;
 
 /**
  *  时间戳转换成 2015-11-27 格式
  */
 - (NSString *)transTimeWithDate:(NSDate *)date;
+/**
+ *  时间戳转换成 2015年11月27日 星期五 格式
+ */
+- (NSString*)weekdayStringFromDate:(NSDate*)inputDate;
 
 - (void)showLoadingMBP:(NSString *)text;
 

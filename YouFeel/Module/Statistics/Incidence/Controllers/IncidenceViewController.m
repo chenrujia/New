@@ -38,6 +38,10 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type {
     [self hideMBP];
+    if (self.bciv) {
+        [self.bciv removeFromSuperview];
+    }
+    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Statistics_Faulttype && data.count > 0) {
@@ -47,7 +51,7 @@
 }
 
 - (void)requestError:(NSError *)error {
-    
+    [self hideMBP];
 }
 
 #pragma mark -
@@ -68,7 +72,7 @@
     // 故障发生率
     NSMutableArray *xArray = [[NSMutableArray alloc] init];
     NSMutableArray *yArray = [[NSMutableArray alloc] init];
-    int count = 0;
+    int count = 1;
     for (NSDictionary *dict in self.dataArray) {
         [xArray addObject:[NSString stringWithFormat:@"%d", count++]];
         [yArray addObject:[NSString stringWithFormat:@"%@", dict[@"percent"]]];
@@ -81,10 +85,9 @@
     self.bciv.dataArray = dataArray;
     __weak typeof(self)weakSelf = self;
     self.bciv.transSelected2 = ^(NSInteger index) {
-        NSLog(@"index --- %ld", index);
+        //NSLog(@"index --- %ld", index);
         
         [weakSelf barChartDidClicked:index];
-        
     };
     [self.rootScrollView addSubview:self.bciv];
     //self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(bciv.frame));
@@ -114,12 +117,26 @@
     };
     [self.backgroundView addSubview:view];
     
+    NSDictionary *dict = self.dataArray[index];
+    
+    NSString *faulttypeStr = [NSString stringWithFormat:@"%@", dict[@"faulttype"]];
+    NSRange range = [faulttypeStr rangeOfString:@"-"];
+    NSString *groupStr = [faulttypeStr substringToIndex:range.location];
+    
+    view.rangkingView.text = [NSString stringWithFormat:@"排名：%@", dict[@"rank"]];
+    view.groupView.text = [NSString stringWithFormat:@"故障分类：%@", groupStr];
+    view.typeView.text = [NSString stringWithFormat:@"故障类型：%@", dict[@"faulttype"]];
+    view.repairView.text = [NSString stringWithFormat:@"报修：%@单", dict[@"number"]];
+    view.ratioView.text = [NSString stringWithFormat:@"比例：%@%@", dict[@"percent"], @"%"];
+    
     //view.rangkingView.text = @"链接发简历";
 }
 
 #pragma mark -
 #pragma mark - 父类点击事件
 - (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
+    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
+    
     NSMutableArray *dateArray;
     switch (segmented.selectedSegmentIndex) {
         case 0:
@@ -135,12 +152,20 @@
             break;
     }
     
+    [self showLoadingMBP:@"数据加载中"];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_faulttypeWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
+        [self showLoadingMBP:@"数据加载中"];
+        
+        if (!selectedDate) {
+            selectedDate = [NSDate date];
+        }
+        [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
+        
         NSString *todayStr = [self transTimeWithDate:selectedDate];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_faulttypeWithTime_start:todayStr time_end:todayStr];
