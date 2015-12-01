@@ -17,6 +17,9 @@
  */
 @property (nonatomic, assign) BOOL isVertical;
 
+typedef void(^blockTPie)(void);
+@property (nonatomic, copy) blockTPie transPieClick;
+
 - (void)addDataToRepresent:(int)value WithColor:(UIColor *)color;
 - (void)clearChart;
 

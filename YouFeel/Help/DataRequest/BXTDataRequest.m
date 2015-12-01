@@ -551,6 +551,16 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)statistics_subgroupWithTime_start:(NSString *)startTime
+                                 time_end:(NSString *)endTime
+{
+    self.requestType = Statistics_Subgroup;
+    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"time_start":startTime,
+                          @"time_end":endTime};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_subgroup",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
 
 - (void)statistics_faulttypeWithTime_start:(NSString *)startTime
                                   time_end:(NSString *)endTime
@@ -571,6 +581,17 @@ andRepairerIsReacive:(NSString *)reacive
                           @"year":year,
                           @"month":month};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_workload_day",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)statistics_workloadWithTime_start:(NSString *)startTime
+                                 time_end:(NSString *)endTime
+{
+    self.requestType = Statistics_Workload;
+    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"time_start":startTime,
+                          @"time_end":endTime};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_workload",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

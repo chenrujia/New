@@ -97,7 +97,14 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
  */
 + (NSArray *)yearStartAndEnd;
 
-// 获取当日2次的数组
+/**
+ *  获取当日2次的数组
+ */
 + (NSArray *)dayStartAndEnd;
+
+/**
+ * 获取年月日数组
+ */
++ (NSArray *)yearAndmonthAndDay;
 
 @end

@@ -38,8 +38,10 @@ typedef NS_ENUM(NSInteger, RequestType) {
     ConfigInfo,
     StartRepair,
     Statistics_Complete,
+    Statistics_Subgroup,
     Statistics_Faulttype,
     Statistics_Workload_day,
+    Statistics_Workload,
     Statistics_Praise
 };
 
@@ -304,6 +306,12 @@ andRepairerIsReacive:(NSString *)reacive;
                                  time_end:(NSString *)endTime;
 
 /**
+ *  统计-分组统计
+ */
+- (void)statistics_subgroupWithTime_start:(NSString *)startTime
+                                  time_end:(NSString *)endTime;
+
+/**
  *  统计-故障类型统计
  */
 - (void)statistics_faulttypeWithTime_start:(NSString *)startTime
@@ -314,6 +322,12 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)statistics_workload_dayWithYear:(NSString *)year
                                   month:(NSString *)month;
+
+/**
+ *  统计-按分组统计维修量
+ */
+- (void)statistics_workloadWithTime_start:(NSString *)startTime
+                               time_end:(NSString *)endTime;
 
 /**
  *  统计-按分组好评

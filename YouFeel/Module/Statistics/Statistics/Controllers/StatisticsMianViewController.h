@@ -18,9 +18,6 @@
 #import "BXTHeaderFile.h"
 #import "BXTDataRequest.h"
 
-//  自适应宽度和高度
-#define SCREEN_HEIGHT   ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? [UIScreen mainScreen].bounds.size.height : [UIScreen mainScreen].bounds.size.height-20)
-
 @interface StatisticsMianViewController : UIViewController  {
     UIView *pickerbgView;
     UIDatePicker *datePicker;

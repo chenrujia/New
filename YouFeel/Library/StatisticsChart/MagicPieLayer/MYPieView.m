@@ -9,7 +9,9 @@
 #import "MYPieView.h"
 #import "MagicPieLayer.h"
 
-@interface MYPieView ()
+@interface MYPieView () {
+    NSInteger selectedIdx;
+}
 
 @end
 
@@ -83,11 +85,29 @@
     if(!tappedElem) return;
     
     NSInteger newIdx = [self.layer.values indexOfObject:tappedElem];
+    if (newIdx == selectedIdx) {
+        selectedIdx = NSNotFound;
+    } else {
+        selectedIdx = newIdx;
+    }
     
     if (self.transSelected) {
         self.transSelected(newIdx);
     }
+    
+    [self animateChanges];
 }
 
+- (void)animateChanges
+{
+    [PieElement animateChanges:^{
+        NSInteger i = 0;
+        for(PieElement* elem in self.layer.values){
+            elem.centrOffset = (i==selectedIdx && _centerDisplace) ? 20 : 0;
+            elem.maxRadius = (i==selectedIdx && !_centerDisplace) ? @(115) : nil;
+            i++;
+        }
+    }];
+}
 
 @end

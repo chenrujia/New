@@ -25,7 +25,7 @@
 
 - (void)startUpSettings {
     dataToRepresent = [[NSMutableArray alloc] init];
-    [self setBackgroundColor:[UIColor blackColor]];
+    [self setBackgroundColor:[UIColor whiteColor]];
 }
 
 - (void)addDataToRepresent:(int)value WithColor:(UIColor *)color {
@@ -137,7 +137,18 @@
         [self fillRect:lastSegmentRect withColor:color onContext:currentGraphicsContext];
     }
     
-    [self addInnerShadowEffect];
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGPClick)];
+    [self addGestureRecognizer:tapGR];
+    //self addGestureRecognizer:
+    
+    // TODO: -----------------  调试-去掉黑边  -----------------
+    //[self addInnerShadowEffect];
+}
+
+- (void)tapGPClick {
+    if (self.transPieClick) {
+        self.transPieClick();
+    }
 }
 
 @end

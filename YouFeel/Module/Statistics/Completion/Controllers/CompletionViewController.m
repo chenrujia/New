@@ -25,14 +25,15 @@
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**饼状图**/
-        NSString *todayStr = [self transTimeWithDate:[NSDate date]];
+        NSArray *dateArray = [BXTGlobal yearStartAndEnd];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statistics_completeWithTime_start:todayStr time_end:todayStr];
+        [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
     });
     dispatch_async(concurrentQueue, ^{
         /**柱状图**/
+        NSArray *dateArray = [BXTGlobal yearAndmonthAndDay];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statistics_workload_dayWithYear:@"2015" month:@"11"];
+        [request statistics_workload_dayWithYear:dateArray[0] month:dateArray[1]];
     });
 }
 
@@ -40,10 +41,9 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type {
     NSDictionary *dic = (NSDictionary *)response;
-    NSArray *data = [dic objectForKey:@"data"];
+    NSArray *data = dic[@"data"];
     if (type == Statistics_Complete && data.count > 0) {
-        NSDictionary *dataDict = data[0];
-        self.percentArrat = [[NSMutableArray alloc] initWithObjects:dataDict[@"yes_percent"], dataDict[@"collection_percent"], dataDict[@"no_percent"], nil];
+        self.percentArrat = dic[@"data"];
         [self createPieView];
         
     } else if (type == Statistics_Workload_day && data.count > 0) {
@@ -59,6 +59,9 @@
 #pragma mark -
 #pragma mark - createUI
 - (void)createPieView {
+    NSDictionary *dataDict = self.percentArrat[0];
+    NSArray *pieArray = [[NSMutableArray alloc] initWithObjects:dataDict[@"yes_percent"], dataDict[@"collection_percent"], dataDict[@"no_percent"], nil];
+    
     //  ---------- 饼状图 ----------
     // 1. create pieView
     CGFloat pieViewH = 300;
@@ -67,12 +70,11 @@
     self.pieView.backgroundColor = [UIColor whiteColor];
     [self.rootScrollView addSubview:self.pieView];
     
-    
     NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#0eccc0", @"#fbcf62", @"#ff6f6f", nil];
     // 2. fill data
-    for(int i=0; i<self.percentArrat.count; i++){
-        MYPieElement *elem = [MYPieElement pieElementWithValue:[self.percentArrat[i] floatValue] color:colorWithHexString(colorArray[i])];
-        elem.title = [NSString stringWithFormat:@"%@", self.percentArrat[i]];
+    for(int i=0; i<pieArray.count; i++){
+        MYPieElement *elem = [MYPieElement pieElementWithValue:[pieArray[i] floatValue] color:colorWithHexString(colorArray[i])];
+        elem.title = [NSString stringWithFormat:@"%@", pieArray[i]];
         [self.pieView.layer addValues:@[elem] animated:NO];
     }
     
@@ -89,6 +91,11 @@
     };
     
     
+    NSString *allNumStr = [NSString stringWithFormat:@"保修总数：%@", dataDict[@"sum_number"]];
+    NSString *downNumStr = [NSString stringWithFormat:@"已完成：%@", dataDict[@"yes_number"]];
+    NSString *undownNumStr = [NSString stringWithFormat:@"未完成：%@", dataDict[@"no_number"]];
+    NSString *specialNumStr = [NSString stringWithFormat:@"特殊工单：%@", dataDict[@"collection_number"]];
+    
     // downView
     UIView *downView = [[UIView alloc] initWithFrame:CGRectMake(0, pieViewH, SCREEN_WIDTH, 75)];
     downView.backgroundColor = [UIColor whiteColor];
@@ -101,7 +108,7 @@
     // 保修总数
     UIButton *btn_all = [UIButton buttonWithType:UIButtonTypeCustom];
     btn_all.frame = CGRectMake(15, 5, 120, 30);
-    [btn_all setTitle:@"保修总数：100单" forState:UIControlStateNormal];
+    [btn_all setTitle:allNumStr forState:UIControlStateNormal];
     [btn_all setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     btn_all.titleLabel.font = [UIFont systemFontOfSize:13];
     [btn_all addTarget:self action:@selector(downBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -110,7 +117,7 @@
     // 已完成
     UIButton *btn_done = [UIButton buttonWithType:UIButtonTypeCustom];
     btn_done.frame = CGRectMake(SCREEN_WIDTH-30-120, 5, 120, 30);
-    [btn_done setTitle:@"已完成：60单" forState:UIControlStateNormal];
+    [btn_done setTitle:downNumStr forState:UIControlStateNormal];
     [btn_done setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     btn_done.titleLabel.font = [UIFont systemFontOfSize:13];
     [btn_done addTarget:self action:@selector(downBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -119,7 +126,7 @@
     // 未完成
     UIButton *btn_undone = [UIButton buttonWithType:UIButtonTypeCustom];
     btn_undone.frame = CGRectMake(15, 35, 120, 30);
-    [btn_undone setTitle:@"未完成：25单" forState:UIControlStateNormal];
+    [btn_undone setTitle:undownNumStr forState:UIControlStateNormal];
     [btn_undone setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     btn_undone.titleLabel.font = [UIFont systemFontOfSize:13];
     [btn_undone addTarget:self action:@selector(downBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -128,12 +135,14 @@
     // 特殊工单
     UIButton *btn_special = [UIButton buttonWithType:UIButtonTypeCustom];
     btn_special.frame = CGRectMake(SCREEN_WIDTH-30-120, 35, 120, 30);
-    [btn_special setTitle:@"特殊工单：15单" forState:UIControlStateNormal];
+    [btn_special setTitle:specialNumStr forState:UIControlStateNormal];
     [btn_special setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     btn_special.titleLabel.font = [UIFont systemFontOfSize:13];
     [btn_special addTarget:self action:@selector(downBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     btn_special.tag = 1004;
     [downView addSubview:btn_special];
+    
+    
     
 }
 
@@ -183,13 +192,33 @@
 #pragma mark -
 #pragma mark - 父类点击事件
 - (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
-    NSLog(@"selectedSegmentIndex -- %ld", segmented.selectedSegmentIndex);
+    NSMutableArray *dateArray;
+    switch (segmented.selectedSegmentIndex) {
+        case 0:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal yearStartAndEnd]];
+            break;
+        case 1:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal monthStartAndEnd]];
+            break;
+        case 2:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal dayStartAndEnd]];
+            break;
+        default:
+            break;
+    }
+    
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
         [self.pieView removeFromSuperview];
         
+        /**饼状图**/
+        if (!selectedDate) {
+            selectedDate = [NSDate date];
+        }
         NSString *todayStr = [self transTimeWithDate:selectedDate];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_completeWithTime_start:todayStr time_end:todayStr];

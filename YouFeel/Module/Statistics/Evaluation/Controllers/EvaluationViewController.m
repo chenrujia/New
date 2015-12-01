@@ -179,6 +179,9 @@
 
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
+        if (!selectedDate) {
+            selectedDate = [NSDate date];
+        }
         NSString *todayStr = [self transTimeWithDate:selectedDate];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_praiseWithTime_start:todayStr time_end:todayStr];

@@ -11,9 +11,11 @@
 #import "ProfessionFooter.h"
 #import "MYPieElement.h"
 
-@interface ProfessionViewController ()
+@interface ProfessionViewController () <BXTDataResponseDelegate>
 
-@property (nonatomic, strong) NSMutableArray *percentArrat;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+
+@property (nonatomic, strong) ProfessionHeader *headerView;
 @property (nonatomic, strong) MYPieView *pieView;
 
 @end
@@ -24,49 +26,98 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self createUI];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**饼状图**/
+        NSArray *dateArray = [BXTGlobal yearStartAndEnd];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request statistics_subgroupWithTime_start:dateArray[0] time_end:dateArray[1]];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**柱状图**/
+//        NSArray *dateArray = [BXTGlobal yearAndmonthAndDay];
+//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//        [request statistics_workload_dayWithYear:dateArray[0] month:dateArray[1]];
+    });
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type {
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = dic[@"data"];
+    if (type == Statistics_Subgroup && data.count > 0) {
+        self.dataArray = dic[@"data"];
+        [self createPieView];
+        
+    }
+//    else if (type == Statistics_Workload_day && data.count > 0) {
+//        self.monthArray = [[NSMutableArray alloc] initWithArray:data];
+//        [self createBarTimeAxisView];
+//    }
+}
+
+- (void)requestError:(NSError *)error {
+    
 }
 
 #pragma mark -
 #pragma mark - createUI
-- (void)createUI {
+- (void)createPieView {
     // ProfessionHeader
-    ProfessionHeader *headerView = [[[NSBundle mainBundle] loadNibNamed:@"ProfessionHeader" owner:nil options:nil] lastObject];
-    headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 370);
-    [self.rootScrollView addSubview:headerView];
+    self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"ProfessionHeader" owner:nil options:nil] lastObject];
+    self.headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 400);
+    [self.rootScrollView addSubview:self.headerView];
     
     //  ---------- 饼状图 ----------
     // 1. create pieView
-    CGFloat pieViewH = 230;
-    self.pieView = [[MYPieView alloc] initWithFrame:CGRectMake(15, 90, SCREEN_WIDTH-30, pieViewH)];
+    CGFloat pieViewH = 260;
+    self.pieView = [[MYPieView alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, pieViewH)];
     self.pieView.backgroundColor = [UIColor whiteColor];
-    [headerView addSubview:self.pieView];
+    [self.headerView addSubview:self.pieView];
     
-    self.percentArrat = [[NSMutableArray alloc] initWithObjects:@"25%", @"30%", @"45%", nil];
-    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#0eccc0", @"#fbcf62", @"#ff6f6f", nil];
+    
     // 2. fill data
-    for(int i=0; i<self.percentArrat.count; i++){
-        MYPieElement *elem = [MYPieElement pieElementWithValue:[self.percentArrat[i] floatValue] color:colorWithHexString(colorArray[i])];
-        elem.title = [NSString stringWithFormat:@"%@", self.percentArrat[i]];
+    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#f1a161", @"#74bde9", @"#93c322", @"#a17bb5", nil];
+    for(int i=0; i<self.dataArray.count; i++){
+        UIColor *elemColor = [BXTGlobal randomColor];
+        if (i<4) {
+            elemColor = colorWithHexString(colorArray[i]);
+        }
+        NSDictionary *elemDict = self.dataArray[i];
+        MYPieElement *elem = [MYPieElement pieElementWithValue:[elemDict[@"sum_percent"] floatValue] color:elemColor];
+        elem.title = [NSString stringWithFormat:@"%@ %@", elemDict[@"subgroup"], elemDict[@"sum_percent"]];
         [self.pieView.layer addValues:@[elem] animated:NO];
     }
     
     // 3. transform tilte
     self.pieView.layer.transformTitleBlock = ^(PieElement *elem, float percent){
-        NSLog(@"percent -- %f", percent);
+        //NSLog(@"percent -- %f", percent);
         return [(MYPieElement *)elem title];
     };
     self.pieView.layer.showTitles = ShowTitlesAlways;
     
-    // 4. didClick
-    self.pieView.transSelected = ^(NSInteger index) {
-        NSLog(@"index -- %ld", index);
-    };
+    NSDictionary *selectedDict = self.dataArray[0];
+    self.headerView.groupView.text = [NSString stringWithFormat:@"%@", selectedDict[@"subgroup"]];
+    self.headerView.percentView.text = [NSString stringWithFormat:@"%@%%", selectedDict[@"sum_percent"]];
+    self.headerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selectedDict[@"sum_number"]];
     
+    // 4. didClick
+    __weak typeof(self) weakSelf = self;
+    self.pieView.transSelected = ^(NSInteger index) {
+        //NSLog(@"index -- %ld", index);
+        NSDictionary *selectedDict = weakSelf.dataArray[index];
+        weakSelf.headerView.groupView.text = [NSString stringWithFormat:@"%@", selectedDict[@"subgroup"]];
+        weakSelf.headerView.percentView.text = [NSString stringWithFormat:@"%@%%", selectedDict[@"sum_percent"]];
+        weakSelf.headerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selectedDict[@"sum_number"]];
+    };
+}
+
+- (void)createBarTimeAxisView {
     
     // ProfessionFooter
     ProfessionFooter *footerView = [[[NSBundle mainBundle] loadNibNamed:@"ProfessionFooter" owner:nil options:nil] lastObject];
-    footerView.frame = CGRectMake(0, CGRectGetMaxY(headerView.frame)+10, SCREEN_WIDTH, 370);
+    footerView.frame = CGRectMake(0, CGRectGetMaxY(self.headerView.frame)+10, SCREEN_WIDTH, 370);
     [self.rootScrollView addSubview:footerView];
     self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(footerView.frame));
     
@@ -91,37 +142,46 @@
     // barGraph.colorArray = @[@"#0dccc1", @"#fad063", @"#7c99db", @"fc7070"];
 }
 
-UIColor* colorWithHexString2(NSString *stringToConvert) {
-    NSString *cString = [[stringToConvert stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];//字符串处理
-    //例子，stringToConvert #ffffff
-    if ([cString length] < 6)
-        return [UIColor whiteColor];//如果非十六进制，返回白色
-    if ([cString hasPrefix:@"#"])
-        cString = [cString substringFromIndex:1];//去掉头
-    if ([cString length] != 6)//去头非十六进制，返回白色
-        return [UIColor whiteColor];
-    //分别取RGB的值
-    NSRange range;
-    range.location = 0;
-    range.length = 2;
-    NSString *rString = [cString substringWithRange:range];
+#pragma mark -
+#pragma mark - 父类点击事件
+- (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
+    NSMutableArray *dateArray;
+    switch (segmented.selectedSegmentIndex) {
+        case 0:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal yearStartAndEnd]];
+            break;
+        case 1:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal monthStartAndEnd]];
+            break;
+        case 2:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal dayStartAndEnd]];
+            break;
+        default:
+            break;
+    }
     
-    range.location = 2;
-    NSString *gString = [cString substringWithRange:range];
-    
-    range.location = 4;
-    NSString *bString = [cString substringWithRange:range];
-    
-    unsigned int r, g, b;
-    //NSScanner把扫描出的制定的字符串转换成Int类型
-    [[NSScanner scannerWithString:rString] scanHexInt:&r];
-    [[NSScanner scannerWithString:gString] scanHexInt:&g];
-    [[NSScanner scannerWithString:bString] scanHexInt:&b];
-    //转换为UIColor
-    return [UIColor colorWithRed:((float) r / 255.0f)
-                           green:((float) g / 255.0f)
-                            blue:((float) b / 255.0f)
-                           alpha:1.f];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statistics_subgroupWithTime_start:dateArray[0] time_end:dateArray[1]];
+}
+
+- (void)datePickerBtnClick:(UIButton *)button {
+    if (button.tag == 10001) {
+        [self.pieView removeFromSuperview];
+        
+        /**饼状图**/
+        if (!selectedDate) {
+            selectedDate = [NSDate date];
+        }
+        NSString *todayStr = [self transTimeWithDate:selectedDate];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request statistics_subgroupWithTime_start:todayStr time_end:todayStr];
+    }
+    [UIView animateWithDuration:0.5 animations:^{
+        pickerbgView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        datePicker = nil;
+        [pickerbgView removeFromSuperview];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
