@@ -10,6 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "SegmentView.h"
 #import "BXTManagerOMView.h"
+#import "BXTAllOrdersViewController.h"
 
 @interface BXTManagerOMViewController ()<SegmentViewDelegate,UIScrollViewDelegate>
 {
@@ -26,7 +27,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = colorWithHexString(@"ffffff");
-    [self navigationSetting:@"工单管理" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"工单管理" andRightTitle:@"筛选" andRightImage:nil];
     [self createSubviews];
 }
 
@@ -64,6 +65,14 @@
         BXTManagerOMView *omView = [[BXTManagerOMView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andOrderType:i - 1];
         [currentScrollView addSubview:omView];
     }
+}
+
+#pragma mark -
+#pragma mark 事件处理
+- (void)navigationRightButton
+{
+    BXTAllOrdersViewController *allOrdersVC = [[BXTAllOrdersViewController alloc] init];
+    [self.navigationController pushViewController:allOrdersVC animated:YES];
 }
 
 #pragma mark -

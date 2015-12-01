@@ -292,6 +292,7 @@
 		965450791BCE73CE00435AD1 /* BXTAchievementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 965450781BCE73CE00435AD1 /* BXTAchievementsViewController.m */; };
 		9654507C1BCE7C3300435AD1 /* BXTAchievementsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9654507B1BCE7C3300435AD1 /* BXTAchievementsInfo.m */; };
 		965B3A3B1C0C62C00097CF7F /* BXTManagerOMView.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B3A3A1C0C62C00097CF7F /* BXTManagerOMView.m */; };
+		965B3A3E1C0C64290097CF7F /* BXTAllOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B3A3D1C0C64290097CF7F /* BXTAllOrdersViewController.m */; };
 		966828B41BCFCDAD008D5818 /* BXTEvaluationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966828AC1BCFCDAD008D5818 /* BXTEvaluationListViewController.m */; };
 		966828B51BCFCDAD008D5818 /* BXTHaveEvaluationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966828B11BCFCDAD008D5818 /* BXTHaveEvaluationView.m */; };
 		966828B61BCFCDAD008D5818 /* BXTNoneEvaluationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966828B31BCFCDAD008D5818 /* BXTNoneEvaluationView.m */; };
@@ -920,6 +921,8 @@
 		9654507B1BCE7C3300435AD1 /* BXTAchievementsInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAchievementsInfo.m; sourceTree = "<group>"; };
 		965B3A391C0C62C00097CF7F /* BXTManagerOMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTManagerOMView.h; sourceTree = "<group>"; };
 		965B3A3A1C0C62C00097CF7F /* BXTManagerOMView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTManagerOMView.m; sourceTree = "<group>"; };
+		965B3A3C1C0C64290097CF7F /* BXTAllOrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAllOrdersViewController.h; sourceTree = "<group>"; };
+		965B3A3D1C0C64290097CF7F /* BXTAllOrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAllOrdersViewController.m; sourceTree = "<group>"; };
 		966828AB1BCFCDAD008D5818 /* BXTEvaluationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEvaluationListViewController.h; sourceTree = "<group>"; };
 		966828AC1BCFCDAD008D5818 /* BXTEvaluationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEvaluationListViewController.m; sourceTree = "<group>"; };
 		966828B01BCFCDAD008D5818 /* BXTHaveEvaluationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHaveEvaluationView.h; sourceTree = "<group>"; };
@@ -3227,6 +3230,8 @@
 			children = (
 				96805E2B1C06B0B400E6A103 /* BXTManagerOMViewController.h */,
 				96805E2C1C06B0B400E6A103 /* BXTManagerOMViewController.m */,
+				965B3A3C1C0C64290097CF7F /* BXTAllOrdersViewController.h */,
+				965B3A3D1C0C64290097CF7F /* BXTAllOrdersViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3824,6 +3829,7 @@
 				9652ABB21BC9092B009A666D /* DCDynamicAttribute.m in Sources */,
 				9652ABB41BC9092B009A666D /* DCKeyValueObjectMapping.m in Sources */,
 				960222851BC9216300010072 /* BXTAddOtherManViewController.m in Sources */,
+				965B3A3E1C0C64290097CF7F /* BXTAllOrdersViewController.m in Sources */,
 				9652AD961BC9170D009A666D /* MJRefreshNormalHeader.m in Sources */,
 				960222D71BC9216300010072 /* BXTMaintenanceManTableViewCell.m in Sources */,
 				7818DBEA1C0824D800DC22C6 /* PNScatterChartDataItem.m in Sources */,

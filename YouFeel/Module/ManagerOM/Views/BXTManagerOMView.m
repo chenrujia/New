@@ -64,6 +64,47 @@
     return self;
 }
 
+- (void)reloadAllType:(NSString *)startStr
+           andEndTime:(NSString *)endStr
+            andGourps:(NSArray *)theGroups
+          andSelectOT:(NSString *)theOT
+{
+    startTime = startStr;
+    endTime = endStr;
+    selectOT = theOT;
+    groups = theGroups;
+    NSString *collection = @"";
+    if ([selectOT integerValue] == 3)
+    {
+        selectOT = @"";
+        collection = @"all";
+    }
+    else
+    {
+        collection = @"";
+    }
+    NSString *timeName = @"";
+    if (startTime.length)
+    {
+        timeName = @"repair_time";
+    }
+    else
+    {
+        timeName = @"";
+    }
+    
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request allRepairs:collection
+            andTimeName:timeName
+           andStartTime:startTime
+             andEndTime:endTime
+           andOrderType:priorityType
+             andGroupID:groupID
+           andSubgroups:groups
+               andState:selectOT
+                andPage:1];
+}
+
 - (void)loadNewData
 {
     if (_isRequesting) return;
@@ -78,17 +119,63 @@
     if (_orderType == OutTimeType)
     {
         NSString *outTime = groupID.length > 0 ? @"" : @"3600";
-        [request repairsList:outTime andDisUser:@"" andCloseUser:@"" andOrderType:priorityType andSubgroupID:groupID andPage:1];
+        [request repairsList:outTime
+                  andDisUser:@""
+                andCloseUser:@""
+                andOrderType:priorityType
+               andSubgroupID:groupID
+                     andPage:1];
     }
     else if (_orderType == DistributeType)
     {
         NSString *disUser = groupID.length > 0 ? @"" : [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        [request repairsList:@"" andDisUser:disUser andCloseUser:@"" andOrderType:priorityType andSubgroupID:groupID andPage:1];
+        [request repairsList:@""
+                  andDisUser:disUser
+                andCloseUser:@""
+                andOrderType:priorityType
+               andSubgroupID:groupID
+                     andPage:1];
     }
     else if (_orderType == DoneType)
     {
         NSString *closeUser = groupID.length > 0 ? @"" : [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        [request repairsList:@"" andDisUser:@"" andCloseUser:closeUser andOrderType:priorityType andSubgroupID:groupID andPage:1];
+        [request repairsList:@""
+                  andDisUser:@""
+                andCloseUser:closeUser
+                andOrderType:priorityType
+               andSubgroupID:groupID
+                     andPage:1];
+    }
+    else if (_orderType == AllType)
+    {
+        NSString *collection = @"";
+        if ([selectOT integerValue] == 3)
+        {
+            selectOT = @"";
+            collection = @"all";
+        }
+        else
+        {
+            collection = @"";
+        }
+        NSString *timeName = @"";
+        if (startTime.length)
+        {
+            timeName = @"repair_time";
+        }
+        else
+        {
+            timeName = @"";
+        }
+        [request allRepairs:collection
+                andTimeName:timeName
+               andStartTime:startTime
+                 andEndTime:endTime
+               andOrderType:priorityType
+                 andGroupID:groupID
+               andSubgroups:groups
+                   andState:selectOT
+                    andPage:1];
     }
 }
 
@@ -101,17 +188,63 @@
     if (_orderType == OutTimeType)
     {
         NSString *outTime = groupID.length > 0 ? @"" : @"3600";
-        [request repairsList:outTime andDisUser:@"" andCloseUser:@"" andOrderType:priorityType andSubgroupID:groupID andPage:currentPage];
+        [request repairsList:outTime
+                  andDisUser:@""
+                andCloseUser:@""
+                andOrderType:priorityType
+               andSubgroupID:groupID
+                     andPage:currentPage];
     }
     else if (_orderType == DistributeType)
     {
         NSString *disUser = groupID.length > 0 ? @"" : [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        [request repairsList:@"" andDisUser:disUser andCloseUser:@"" andOrderType:priorityType andSubgroupID:groupID andPage:currentPage];
+        [request repairsList:@""
+                  andDisUser:disUser
+                andCloseUser:@""
+                andOrderType:priorityType
+               andSubgroupID:groupID
+                     andPage:currentPage];
     }
     else if (_orderType == DistributeType)
     {
         NSString *closeUser = groupID.length > 0 ? @"" : [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        [request repairsList:@"" andDisUser:@"" andCloseUser:closeUser andOrderType:priorityType andSubgroupID:groupID andPage:currentPage];
+        [request repairsList:@""
+                  andDisUser:@""
+                andCloseUser:closeUser
+                andOrderType:priorityType
+               andSubgroupID:groupID
+                     andPage:currentPage];
+    }
+    else if (_orderType == AllType)
+    {
+        NSString *collection = @"";
+        if ([selectOT integerValue] == 3)
+        {
+            selectOT = @"";
+            collection = @"all";
+        }
+        else
+        {
+            collection = @"";
+        }
+        NSString *timeName = @"";
+        if (startTime.length)
+        {
+            timeName = @"repair_time";
+        }
+        else
+        {
+            timeName = @"";
+        }
+        [request allRepairs:collection
+                andTimeName:timeName
+               andStartTime:startTime
+                 andEndTime:endTime
+               andOrderType:priorityType
+                 andGroupID:groupID
+               andSubgroups:groups
+                   andState:selectOT
+                    andPage:currentPage];
     }
 }
 
