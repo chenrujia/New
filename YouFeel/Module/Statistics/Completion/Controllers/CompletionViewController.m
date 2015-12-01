@@ -7,12 +7,18 @@
 //
 
 #import "CompletionViewController.h"
+#import "CompletionHeader.h"
+#import "CompletionFooter.h"
 
-@interface CompletionViewController () <BXTDataResponseDelegate>
+@interface CompletionViewController () <BXTDataResponseDelegate, SPChartDelegate>
 
 @property (nonatomic, strong) NSMutableArray *percentArrat;
 @property (nonatomic, strong) NSMutableArray *monthArray;
-@property (nonatomic, strong) MYPieView *pieView;
+
+@property (nonatomic, strong) CompletionHeader *headerView;
+@property (nonatomic, strong) CompletionFooter *footerView;
+@property (weak, nonatomic) SPBarChart *barChartView;
+@property (weak, nonatomic) SPChartPopup *popup;
 
 @end
 
@@ -48,7 +54,7 @@
         
     } else if (type == Statistics_Workload_day && data.count > 0) {
         self.monthArray = [[NSMutableArray alloc] initWithArray:data];
-        [self createBarTimeAxisView];
+        [self createBarChartView];
     }
 }
 
@@ -59,139 +65,158 @@
 #pragma mark -
 #pragma mark - createUI
 - (void)createPieView {
+    //  ---------- 饼状图 ----------
+    // CompletionHeader
+    self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"CompletionHeader" owner:nil options:nil] lastObject];
+    self.headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 400);
+    [self.rootScrollView addSubview:self.headerView];
+    
+    
+    // MYPieView
     NSDictionary *dataDict = self.percentArrat[0];
     NSArray *pieArray = [[NSMutableArray alloc] initWithObjects:dataDict[@"yes_percent"], dataDict[@"collection_percent"], dataDict[@"no_percent"], nil];
     
-    //  ---------- 饼状图 ----------
     // 1. create pieView
-    CGFloat pieViewH = 300;
+    self.headerView.pieView.backgroundColor = [UIColor whiteColor];
     
-    self.pieView = [[MYPieView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, pieViewH)];
-    self.pieView.backgroundColor = [UIColor whiteColor];
-    [self.rootScrollView addSubview:self.pieView];
-    
-    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#0eccc0", @"#fbcf62", @"#ff6f6f", nil];
     // 2. fill data
+    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#0eccc0", @"#fbcf62", @"#ff6f6f", nil];
     for(int i=0; i<pieArray.count; i++){
         MYPieElement *elem = [MYPieElement pieElementWithValue:[pieArray[i] floatValue] color:colorWithHexString(colorArray[i])];
         elem.title = [NSString stringWithFormat:@"%@", pieArray[i]];
-        [self.pieView.layer addValues:@[elem] animated:NO];
+        [self.headerView.pieView.layer addValues:@[elem] animated:NO];
     }
     
     // 3. transform tilte
-    self.pieView.layer.transformTitleBlock = ^(PieElement *elem, float percent){
+    self.headerView.pieView.layer.transformTitleBlock = ^(PieElement *elem, float percent){
         NSLog(@"percent -- %f", percent);
         return [(MYPieElement *)elem title];
     };
-    self.pieView.layer.showTitles = ShowTitlesAlways;
+    self.headerView.pieView.layer.showTitles = ShowTitlesAlways;
     
     // 4. didClick
-    self.pieView.transSelected = ^(NSInteger index) {
+    self.headerView.pieView.transSelected = ^(NSInteger index) {
         NSLog(@"index -- %ld", index);
     };
     
     
-    NSString *allNumStr = [NSString stringWithFormat:@"保修总数：%@", dataDict[@"sum_number"]];
-    NSString *downNumStr = [NSString stringWithFormat:@"已完成：%@", dataDict[@"yes_number"]];
-    NSString *undownNumStr = [NSString stringWithFormat:@"未完成：%@", dataDict[@"no_number"]];
-    NSString *specialNumStr = [NSString stringWithFormat:@"特殊工单：%@", dataDict[@"collection_number"]];
-    
-    // downView
-    UIView *downView = [[UIView alloc] initWithFrame:CGRectMake(0, pieViewH, SCREEN_WIDTH, 75)];
-    downView.backgroundColor = [UIColor whiteColor];
-    [self.rootScrollView addSubview:downView];
-    UIView *downLine = [[UIView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH-20, 1)];
-    downLine.backgroundColor = colorWithHexString(@"#d9d9d9");
-    [downView addSubview:downLine];
-    
-    // downView - contentView
-    // 保修总数
-    UIButton *btn_all = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn_all.frame = CGRectMake(15, 5, 120, 30);
-    [btn_all setTitle:allNumStr forState:UIControlStateNormal];
-    [btn_all setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    btn_all.titleLabel.font = [UIFont systemFontOfSize:13];
-    [btn_all addTarget:self action:@selector(downBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    btn_all.tag = 1001;
-    [downView addSubview:btn_all];
-    // 已完成
-    UIButton *btn_done = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn_done.frame = CGRectMake(SCREEN_WIDTH-30-120, 5, 120, 30);
-    [btn_done setTitle:downNumStr forState:UIControlStateNormal];
-    [btn_done setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    btn_done.titleLabel.font = [UIFont systemFontOfSize:13];
-    [btn_done addTarget:self action:@selector(downBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    btn_done.tag = 1002;
-    [downView addSubview:btn_done];
-    // 未完成
-    UIButton *btn_undone = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn_undone.frame = CGRectMake(15, 35, 120, 30);
-    [btn_undone setTitle:undownNumStr forState:UIControlStateNormal];
-    [btn_undone setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    btn_undone.titleLabel.font = [UIFont systemFontOfSize:13];
-    [btn_undone addTarget:self action:@selector(downBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    btn_undone.tag = 1003;
-    [downView addSubview:btn_undone];
-    // 特殊工单
-    UIButton *btn_special = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn_special.frame = CGRectMake(SCREEN_WIDTH-30-120, 35, 120, 30);
-    [btn_special setTitle:specialNumStr forState:UIControlStateNormal];
-    [btn_special setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    btn_special.titleLabel.font = [UIFont systemFontOfSize:13];
-    [btn_special addTarget:self action:@selector(downBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    btn_special.tag = 1004;
-    [downView addSubview:btn_special];
-    
-    
-    
+    // Button
+    NSString *allNumStr = [NSString stringWithFormat:@"保修总数：%@单", dataDict[@"sum_number"]];
+    NSString *downNumStr = [NSString stringWithFormat:@"已完成：%@单", dataDict[@"yes_number"]];
+    NSString *undownNumStr = [NSString stringWithFormat:@"未完成：%@单", dataDict[@"no_number"]];
+    NSString *specialNumStr = [NSString stringWithFormat:@"特殊工单：%@单", dataDict[@"collection_number"]];
+    [self.headerView.sumView setTitle:allNumStr forState:UIControlStateNormal];
+    [self.headerView.downView setTitle:downNumStr forState:UIControlStateNormal];
+    [self.headerView.undownView setTitle:undownNumStr forState:UIControlStateNormal];
+    [self.headerView.specialView setTitle:specialNumStr forState:UIControlStateNormal];
+    self.headerView.transBtnClick = ^(NSInteger tag) {
+        NSLog(@"tag ---- %ld", tag);
+    };
 }
 
-- (void)createBarTimeAxisView {
+- (void)createBarChartView {
     //  ---------- 柱状图 ----------
-    // upView
-    UIView *upView = [[UIView alloc] initWithFrame:CGRectMake(0, 375+10, SCREEN_WIDTH, 40)];
-    upView.backgroundColor = [UIColor whiteColor];
-    [self.rootScrollView addSubview:upView];
-    UIView *upLine = [[UIView alloc] initWithFrame:CGRectMake(10, 39, SCREEN_WIDTH-20, 1)];
-    upLine.backgroundColor = colorWithHexString(@"#d9d9d9");
-    [upView addSubview:upLine];
+    // CompletionFooter
+    self.footerView = [[[NSBundle mainBundle] loadNibNamed:@"CompletionFooter" owner:nil options:nil] lastObject];
+    self.footerView.frame = CGRectMake(0, 410, SCREEN_WIDTH, 410);
+    [self.rootScrollView addSubview:self.footerView];
+    self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.footerView.frame));
     
-    UILabel *upLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 90, 20)];
-    upLabel.text = @"单月统计量";
-    upLabel.font = [UIFont systemFontOfSize:15];
-    upLabel.textColor = colorWithHexString(@"#666666");
-    [upView addSubview:upLabel];
     
-    // create BarTimeAxisView
-    BarTimeAxisView *barTAV = [[BarTimeAxisView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(upView.frame), SCREEN_WIDTH, 250)];
-    barTAV.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
-    [self.rootScrollView addSubview:barTAV];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, SCREEN_WIDTH, 350)];
+    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 350);
+    scrollView.showsHorizontalScrollIndicator = NO;
+    [self.footerView addSubview:scrollView];
+    self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.footerView.frame));
     
-    NSMutableArray *dataArray = [NSMutableArray array];
-    NSDate *nowDate = [NSDate dateWithTimeIntervalSinceReferenceDate:1];
-    BarTimeAxisData *firstData = [BarTimeAxisData dataWithDate:nowDate andNumber:[NSNumber numberWithInt:3]];
-    [dataArray addObject:firstData];
+    // SPBarChart
+    SPBarChart *barChart = [[SPBarChart alloc] initWithFrame:CGRectMake(0, 0, 1100, scrollView.frame.size.height)];
+    
+    NSMutableArray *barArray = [[NSMutableArray alloc] init];
+    NSMutableArray *heightArray = [[NSMutableArray alloc] init];
+    NSArray *colorArray = @[colorWithHexString(@"#0FCCC0") , colorWithHexString(@"#F9D063") , colorWithHexString(@"#FD7070") ];
     
     for (NSDictionary *dict in self.monthArray) {
-        BarTimeAxisData *data = [BarTimeAxisData dataWithDate:[NSDate dateWithTimeInterval:[dict[@"day"] intValue]*86400 sinceDate:nowDate] andNumber:[NSNumber numberWithInt:[dict[@"yes_number"] intValue]]];
-        [dataArray addObject:data];
+        NSString *downStr = [NSString stringWithFormat:@"%@", dict[@"yes_number"]];
+        NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"collection_number"]];
+        NSString *undownStr = [NSString stringWithFormat:@"%@", dict[@"no_number"]];
+        NSNumber *downNum = [NSNumber numberWithInteger:[downStr integerValue]];
+        NSNumber *specialNum = [NSNumber numberWithInteger:[specialStr integerValue]];
+        NSNumber *undownNum = [NSNumber numberWithInteger:[undownStr integerValue]];
+
+        NSArray *dataArray = @[downNum, specialNum, undownNum];
+        [barArray addObject:[SPBarChartData dataWithValues:dataArray colors:colorArray description:[NSString stringWithFormat:@"%@", dict[@"day"]]]];
+        
+        NSInteger sumNum = [downStr integerValue] + [specialStr integerValue] + [undownStr integerValue];
+        NSString *sumStr = [NSString stringWithFormat:@"%ld", sumNum];
+        [heightArray addObject:sumStr];
     }
     
-    barTAV.dataSource = dataArray;
-    // barGraph.colorArray = @[@"#0dccc1", @"#fad063", @"#7c99db", @"fc7070"];
+    [barChart setDatas:barArray];
     
-    self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(barTAV.frame));
+    // Set maximum value
+    NSNumber *maxNum = [heightArray valueForKeyPath:@"@max.floatValue"];
+    int max = [maxNum intValue];
+    max = ((max / 10) + 2) * 10;
+    NSLog(@"maxNum == %@", maxNum);
+    barChart.maxDataValue = max;
+    // Show axis
+    barChart.showAxis = YES;
+    // and section lines inside
+    barChart.showSectionLines = YES;
+    // Show empty message, if the chart is empty
+    barChart.emptyChartText = @"The chart is empty.";
+    
+    self.barChartView = barChart;
+    [barChart drawChart];
+    barChart.delegate = self;
+    
+    [scrollView addSubview:barChart];
+    scrollView.contentSize = CGSizeMake(barChart.frame.size.width, barChart.frame.size.height);
 }
 
 #pragma mark -
-#pragma mark - downBtnClick
-- (void)downBtnClick:(UIButton *)button {
-    NSLog(@"button.tag -- %ld", button.tag);
+#pragma mark SPChartDelegate
+- (void)SPChart:(SPBarChart *)chart barSelected:(NSInteger)barIndex barFrame:(CGRect)barFrame touchPoint:(CGPoint)touchPoint {
+    [self _dismissPopup];
+    
+    NSLog(@"Selected bar %ld", (long)barIndex);
+    
+    SPBarChartData * data = chart.datas[barIndex];
+    
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.text = [NSString stringWithFormat:@"%@ - %@ - %@", data.values[0], data.values[1], data.values[2]];
+    label.font = chart.labelFont;
+    label.textColor = [UIColor whiteColor];
+    
+    [label sizeToFit];
+    
+    NSLog(@"Selected bar %@", label.text);
+    
+    SPChartPopup * popup = [[SPChartPopup alloc] initWithContentView:label];
+    [popup setPopupColor:colorWithHexString(@"#999999")];
+    [popup sizeToFit];
+    
+    [popup showInView:chart withBottomAnchorPoint:CGPointMake(CGRectGetMidX(barFrame), CGRectGetMinY(barFrame))];
+    self.popup = popup;
+}
+
+- (void)SPChartEmptySelection:(id)chart {
+    NSLog(@"Touch outside chart bar/line/piece");
+}
+
+- (void)_dismissPopup
+{
+    if (self.popup) {
+        [self.popup dismiss];
+    }
 }
 
 #pragma mark -
 #pragma mark - 父类点击事件
 - (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
+    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
+    
     NSMutableArray *dateArray;
     switch (segmented.selectedSegmentIndex) {
         case 0:
@@ -213,12 +238,14 @@
 
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
-        [self.pieView removeFromSuperview];
+        [self.headerView.pieView removeFromSuperview];
         
         /**饼状图**/
         if (!selectedDate) {
             selectedDate = [NSDate date];
         }
+        [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
+        
         NSString *todayStr = [self transTimeWithDate:selectedDate];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_completeWithTime_start:todayStr time_end:todayStr];

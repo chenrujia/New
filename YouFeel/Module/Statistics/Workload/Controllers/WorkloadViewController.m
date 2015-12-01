@@ -70,6 +70,8 @@
         self.viView.frame = CGRectMake(0, viViewY, SCREEN_WIDTH, viViewH);
         [self.rootScrollView addSubview:self.viView];
         
+        self.viView.groupView.text = [NSString stringWithFormat:@"%@", dataDict[@"subgroup"]];
+        
         [self createWorkIoadViewOfIndex:i];
     }
     
@@ -99,9 +101,11 @@
         
         // chart
         AksStraightPieChart *straightPieChart = [[AksStraightPieChart alloc] initWithFrame:CGRectMake(80, 0, bgView.frame.size.width-95, bgViewH)];
-       // straightPieChart.tag = 1000 + i;
         straightPieChart.transPieClick = ^(void) {
-            NSLog(@"gfgdfgdfgdffgfd");
+            self.viView.nameView.text = [NSString stringWithFormat:@"%@", dict[@"name"]];
+            self.viView.downView.text = [NSString stringWithFormat:@"已完成:%@", dict[@"yes_number"]];
+            self.viView.specialView.text = [NSString stringWithFormat:@"特殊工单:%@", dict[@"collection_number"]];
+            self.viView.undownView.text = [NSString stringWithFormat:@"未完成:%@", dict[@"no_number"]];
         };
         [bgView addSubview:straightPieChart];
         
@@ -111,6 +115,51 @@
         [straightPieChart addDataToRepresent:[dict[@"collection_number"] intValue] WithColor:colorWithHexString(@"#F9D063")];
         [straightPieChart addDataToRepresent:[dict[@"no_number"] intValue] WithColor:colorWithHexString(@"#FD7070")];
     }
+}
+
+#pragma mark -
+#pragma mark - 父类点击事件
+- (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
+    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
+    
+    NSMutableArray *dateArray;
+    switch (segmented.selectedSegmentIndex) {
+        case 0:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal yearStartAndEnd]];
+            break;
+        case 1:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal monthStartAndEnd]];
+            break;
+        case 2:
+            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal dayStartAndEnd]];
+            break;
+        default:
+            break;
+    }
+    
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statistics_workloadWithTime_start:dateArray[0] time_end:dateArray[1]];
+}
+
+- (void)datePickerBtnClick:(UIButton *)button {
+    if (button.tag == 10001) {
+        
+        /**饼状图**/
+        if (!selectedDate) {
+            selectedDate = [NSDate date];
+        }
+        [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
+        
+        NSString *todayStr = [self transTimeWithDate:selectedDate];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request statistics_workloadWithTime_start:todayStr time_end:todayStr];
+    }
+    [UIView animateWithDuration:0.5 animations:^{
+        pickerbgView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        datePicker = nil;
+        [pickerbgView removeFromSuperview];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

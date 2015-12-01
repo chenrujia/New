@@ -43,10 +43,10 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PEo-TM-3Ee">
-                        <rect key="frame" x="194" y="35.5" width="107" height="44"/>
+                        <rect key="frame" x="194" y="24.5" width="107" height="65"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="44" id="TiW-m4-9KR"/>
+                            <constraint firstAttribute="height" constant="65" id="TiW-m4-9KR"/>
                             <constraint firstAttribute="width" constant="107" id="cDJ-mt-Mzy"/>
                         </constraints>
                     </imageView>
@@ -54,7 +54,7 @@
                 <animations/>
                 <constraints>
                     <constraint firstItem="PEo-TM-3Ee" firstAttribute="leading" secondItem="z1w-JD-BTc" secondAttribute="trailing" id="JqU-F3-i8j"/>
-                    <constraint firstAttribute="bottom" secondItem="PEo-TM-3Ee" secondAttribute="bottom" constant="30" id="RW8-pj-TtA"/>
+                    <constraint firstAttribute="bottom" secondItem="PEo-TM-3Ee" secondAttribute="bottom" constant="20" id="RW8-pj-TtA"/>
                     <constraint firstItem="o9m-vU-WHF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Vsv-YO-jEz"/>
                     <constraint firstItem="o9m-vU-WHF" firstAttribute="top" secondItem="z1w-JD-BTc" secondAttribute="bottom" constant="3" id="ZUy-qW-wMM"/>
                     <constraint firstItem="BdZ-2h-SaR" firstAttribute="leading" secondItem="PEo-TM-3Ee" secondAttribute="trailing" constant="20" id="gem-Nj-El1"/>

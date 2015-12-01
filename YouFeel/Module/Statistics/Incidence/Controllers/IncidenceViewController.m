@@ -135,6 +135,8 @@
 #pragma mark -
 #pragma mark - 父类点击事件
 - (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
+    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
+    
     NSMutableArray *dateArray;
     switch (segmented.selectedSegmentIndex) {
         case 0:
@@ -162,6 +164,8 @@
         if (!selectedDate) {
             selectedDate = [NSDate date];
         }
+        [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
+        
         NSString *todayStr = [self transTimeWithDate:selectedDate];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_faulttypeWithTime_start:todayStr time_end:todayStr];

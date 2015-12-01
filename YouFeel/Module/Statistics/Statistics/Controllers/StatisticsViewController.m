@@ -37,7 +37,7 @@
     self.imageArray1 = [[NSMutableArray alloc] init];
     self.imageArray2 = [[NSMutableArray alloc] init];
     for (int i=1; i<=5; i++) {
-        [self.imageArray1 addObject:[NSString stringWithFormat:@"Statistics1_%d", i]];
+        [self.imageArray1 addObject:[NSString stringWithFormat:@"Statistics_%d", i]];
         [self.imageArray2 addObject:[NSString stringWithFormat:@"Round_%d", i]];
     }
     
