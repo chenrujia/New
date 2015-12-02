@@ -383,6 +383,8 @@
             return;
         }
         NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
+        NSTimeInterval timer = [[NSDate date] timeIntervalSince1970] + [timeStr intValue]*60;
+        timeStr = [NSString stringWithFormat:@"%.0f", timer];
         
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[[BXTGlobal shareGlobal].numOfPresented-1]
@@ -448,14 +450,17 @@
 
 - (void)dateChange:(UIDatePicker *)picker
 {
-    timeInterval = [picker.date timeIntervalSinceDate:originDate];
+    // 获取分钟数
+    //timeInterval = [picker.date timeIntervalSinceDate:originDate];
+    timeInterval = [picker.date timeIntervalSince1970];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button
 {
     if (button.tag == 10001) {
         
-        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
+        //NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
+        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[[BXTGlobal shareGlobal].numOfPresented-1]
                     arrivalTime:timeStr

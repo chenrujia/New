@@ -234,7 +234,7 @@
     group_size.height = CGRectGetHeight(cell.groupName.frame);
     cell.groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(cell.groupName.frame), group_size.width, group_size.height);
     cell.groupName.text = repairInfo.subgroup_name;
-
+    
     cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
     cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
     cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
@@ -584,6 +584,8 @@
             return;
         }
         NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
+        NSTimeInterval timer = [[NSDate date] timeIntervalSince1970] + [timeStr intValue]*50;
+        timeStr = [NSString stringWithFormat:@"%.0f", timer];
         
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:orderID
@@ -649,14 +651,17 @@
 
 - (void)dateChange:(UIDatePicker *)picker
 {
-    timeInterval = [picker.date timeIntervalSinceDate:originDate];
+    // 获取分钟数
+    //timeInterval = [picker.date timeIntervalSinceDate:originDate];
+    timeInterval = [picker.date timeIntervalSince1970];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button
 {
     if (button.tag == 10001) {
         
-        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
+        //NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
+        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:orderID
                     arrivalTime:timeStr
