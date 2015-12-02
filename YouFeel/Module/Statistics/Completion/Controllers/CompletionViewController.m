@@ -41,6 +41,7 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_workload_dayWithYear:dateArray[0] month:dateArray[1]];
     });
+    
 }
 
 #pragma mark -
@@ -84,6 +85,13 @@
     for(int i=0; i<pieArray.count; i++){
         MYPieElement *elem = [MYPieElement pieElementWithValue:[pieArray[i] floatValue] color:colorWithHexString(colorArray[i])];
         elem.title = [NSString stringWithFormat:@"%@", pieArray[i]];
+        [self.headerView.pieView.layer addValues:@[elem] animated:NO];
+    }
+    
+    // 无参数处理
+    if ([pieArray[0] intValue] == 0 && [pieArray[1] intValue] == 0 && [pieArray[2] intValue] == 0) {
+        MYPieElement *elem = [MYPieElement pieElementWithValue:1 color:colorWithHexString(colorArray[0])];
+        elem.title = [NSString stringWithFormat:@"%@", @"暂无工单"];
         [self.headerView.pieView.layer addValues:@[elem] animated:NO];
     }
     
@@ -143,7 +151,7 @@
         NSNumber *downNum = [NSNumber numberWithInteger:[downStr integerValue]];
         NSNumber *specialNum = [NSNumber numberWithInteger:[specialStr integerValue]];
         NSNumber *undownNum = [NSNumber numberWithInteger:[undownStr integerValue]];
-
+        
         NSArray *dataArray = @[downNum, specialNum, undownNum];
         [barArray addObject:[SPBarChartData dataWithValues:dataArray colors:colorArray description:[NSString stringWithFormat:@"%@", dict[@"day"]]]];
         
@@ -151,6 +159,7 @@
         NSString *sumStr = [NSString stringWithFormat:@"%ld", sumNum];
         [heightArray addObject:sumStr];
     }
+    //barChart.frame = CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
     
     [barChart setDatas:barArray];
     
@@ -215,18 +224,16 @@
 #pragma mark -
 #pragma mark - 父类点击事件
 - (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
-    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
-    
     NSMutableArray *dateArray;
     switch (segmented.selectedSegmentIndex) {
         case 0:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal yearStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_YearStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         case 1:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal monthStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_MonthStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         case 2:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal dayStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_DayStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         default:
             break;
@@ -239,6 +246,7 @@
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
         [self.headerView.pieView removeFromSuperview];
+        self.rootSegmentedCtr.selectedSegmentIndex = 2;
         
         /**饼状图**/
         if (!selectedDate) {
@@ -247,8 +255,19 @@
         [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
         
         NSString *todayStr = [self transTimeWithDate:selectedDate];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statistics_completeWithTime_start:todayStr time_end:todayStr];
+        
+        dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+        dispatch_async(concurrentQueue, ^{
+            /**饼状图**/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request statistics_completeWithTime_start:todayStr time_end:todayStr];
+        });
+        dispatch_async(concurrentQueue, ^{
+            /**柱状图**/
+            NSArray *dateArray = [self timeTypeOf_YearAndMonth:todayStr];
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request statistics_workload_dayWithYear:dateArray[0] month:dateArray[1]];
+        });
     }
     [UIView animateWithDuration:0.5 animations:^{
         pickerbgView.alpha = 0.0;

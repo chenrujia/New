@@ -45,4 +45,12 @@
 
 - (void)hideMBP;
 
+/**
+ *  日期处理
+ */
+- (NSArray *)timeTypeOf_YearStartAndEnd:(NSString *)dateStr;
+- (NSArray *)timeTypeOf_MonthStartAndEnd:(NSString *)dateStr;
+- (NSArray *)timeTypeOf_DayStartAndEnd:(NSString *)dateStr;
+- (NSArray *)timeTypeOf_YearAndMonth:(NSString *)dateStr;
+
 @end

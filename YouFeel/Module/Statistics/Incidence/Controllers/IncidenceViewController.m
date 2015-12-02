@@ -78,8 +78,15 @@
         [yArray addObject:[NSString stringWithFormat:@"%@", dict[@"percent"]]];
     }
     
-    NSArray *dataArray = [NSArray arrayWithObjects:xArray, yArray, nil ];
+    // 无参数处理
+    if (self.dataArray.count == 0) {
+        for (int i=0; i<30; i++) {
+            [xArray addObject:[NSString stringWithFormat:@"%d", count++]];
+            [yArray addObject:[NSString stringWithFormat:@"%@", @"0"]];
+        }
+    }
     
+    NSArray *dataArray = [NSArray arrayWithObjects:xArray, yArray, nil];
     
     self.bciv = [[BarChatItemView alloc]initWithFrame:CGRectMake(0, 35, SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT-70)];
     self.bciv.dataArray = dataArray;
@@ -135,18 +142,16 @@
 #pragma mark -
 #pragma mark - 父类点击事件
 - (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
-    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
-    
     NSMutableArray *dateArray;
     switch (segmented.selectedSegmentIndex) {
         case 0:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal yearStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_YearStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         case 1:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal monthStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_MonthStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         case 2:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal dayStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_DayStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         default:
             break;
@@ -159,6 +164,7 @@
 
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
+        self.rootSegmentedCtr.selectedSegmentIndex = 2;
         [self showLoadingMBP:@"数据加载中"];
         
         if (!selectedDate) {

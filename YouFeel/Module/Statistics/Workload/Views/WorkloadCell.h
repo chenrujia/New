@@ -1,14 +1,14 @@
 //
-//  WorkIoadView.h
+//  WorkloadCell.h
 //  YouFeel
 //
-//  Created by 满孝意 on 15/11/30.
+//  Created by 满孝意 on 15/12/2.
 //  Copyright © 2015年 Jason. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface WorkIoadView : UIView
+@interface WorkloadCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *groupView;
 @property (weak, nonatomic) IBOutlet UILabel *nameView;

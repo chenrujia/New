@@ -70,6 +70,8 @@
     
     // 2. fill data
     NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#f1a161", @"#74bde9", @"#93c322", @"#a17bb5", nil];
+    NSMutableArray *oldDataArray = [[NSMutableArray alloc] init];
+    NSMutableArray *pieArray = [[NSMutableArray alloc] init];
     for(int i=0; i<self.dataArray.count; i++){
         UIColor *elemColor = [BXTGlobal randomColor];
         if (i<4) {
@@ -78,6 +80,17 @@
         NSDictionary *elemDict = self.dataArray[i];
         MYPieElement *elem = [MYPieElement pieElementWithValue:[elemDict[@"sum_percent"] floatValue] color:elemColor];
         elem.title = [NSString stringWithFormat:@"%@ %@", elemDict[@"subgroup"], elemDict[@"sum_percent"]];
+        [self.pieView.layer addValues:@[elem] animated:NO];
+        
+        [oldDataArray addObject:elem];
+        [pieArray addObject:elemDict[@"sum_percent"]];
+    }
+    
+    // 无参数处理
+    if ([pieArray[0] intValue] == 0 && [pieArray[1] intValue] == 0 && [pieArray[2] intValue] == 0) {
+        [self.pieView.layer deleteValues:oldDataArray animated:YES];
+        MYPieElement *elem = [MYPieElement pieElementWithValue:1 color:colorWithHexString(colorArray[0])];
+        elem.title = [NSString stringWithFormat:@"%@", @"暂无工单"];
         [self.pieView.layer addValues:@[elem] animated:NO];
     }
     
@@ -206,18 +219,16 @@
 #pragma mark -
 #pragma mark - 父类点击事件
 - (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
-    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
-    
     NSMutableArray *dateArray;
     switch (segmented.selectedSegmentIndex) {
         case 0:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal yearStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_YearStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         case 1:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal monthStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_MonthStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         case 2:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal dayStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_DayStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         default:
             break;
@@ -230,6 +241,7 @@
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
         [self.pieView removeFromSuperview];
+        self.rootSegmentedCtr.selectedSegmentIndex = 2;
         
         /**饼状图**/
         if (!selectedDate) {

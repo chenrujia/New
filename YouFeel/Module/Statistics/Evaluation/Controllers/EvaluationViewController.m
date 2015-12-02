@@ -159,18 +159,16 @@
 #pragma mark -
 #pragma mark - 父类点击事件
 - (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
-    [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
-    
     NSMutableArray *dateArray;
     switch (segmented.selectedSegmentIndex) {
         case 0:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal yearStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_YearStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         case 1:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal monthStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_MonthStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         case 2:
-            dateArray = [[NSMutableArray alloc] initWithArray:[BXTGlobal dayStartAndEnd]];
+            dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_DayStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
         default:
             break;
@@ -182,6 +180,8 @@
 
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
+        self.rootSegmentedCtr.selectedSegmentIndex = 2;
+        
         if (!selectedDate) {
             selectedDate = [NSDate date];
         }
