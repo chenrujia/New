@@ -52,14 +52,21 @@
     self.rootCenterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.rootCenterButton.frame = CGRectMake(60, 20, SCREEN_WIDTH-120, 44);
     [self.rootCenterButton setTitle:[self weekdayStringFromDate:[NSDate date]] forState:UIControlStateNormal];
+    [self.rootCenterButton setImage:[UIImage imageNamed:@"small-triangles"] forState:UIControlStateNormal];
     self.rootCenterButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [self.rootCenterButton addTarget:self action:@selector(navigationcenterButton) forControlEvents:UIControlEventTouchUpInside];
     [navBarView addSubview:self.rootCenterButton];
     
+    CGFloat titleW = 145;
+    CGFloat padding = 20;
+    [self.rootCenterButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    [self.rootCenterButton setImageEdgeInsets:UIEdgeInsetsMake(0, titleW+padding, 0, -titleW-padding)];
+    
+    
     // rightButton
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBtn.frame = CGRectMake(SCREEN_WIDTH-44-6, 20, 44, 44);
-    [rightBtn setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [rightBtn setImage:[UIImage imageNamed:@"w_small_round"] forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(navigationRightButton) forControlEvents:UIControlEventTouchUpInside];
     [navBarView addSubview:rightBtn];
     
@@ -190,6 +197,8 @@
     }
 }
 
+#pragma mark -
+#pragma mark - 封装方法
 // 时间戳转换成 2015-11-27 格式
 - (NSString *)transTimeWithDate:(NSDate *)date {
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
@@ -227,6 +236,65 @@
 - (void)hideMBP
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+#pragma mark -
+#pragma mark - 日期处理
+- (NSArray *)timeTypeOf_YearStartAndEnd:(NSString *)dateStr {
+    NSString *yearStr = [dateStr substringToIndex:4];
+    
+    NSString *startTime = [NSString stringWithFormat:@"%@-1-1", yearStr];
+    NSString *endTime = [NSString stringWithFormat:@"%@-12-31",yearStr];
+    
+    return [NSArray arrayWithObjects:startTime, endTime, nil];
+}
+
+- (NSArray *)timeTypeOf_YearAndMonth:(NSString *)dateStr {
+    NSString *yearStr = [dateStr substringToIndex:4];
+    NSString *monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
+    
+    return [NSArray arrayWithObjects:yearStr, monthStr, nil];
+}
+
+- (NSArray *)timeTypeOf_MonthStartAndEnd:(NSString *)dateStr {
+    NSString *yearStr = [dateStr substringToIndex:4];
+    NSString *monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
+    
+    int monthDays = [self howManyDaysInThisMonth:[yearStr intValue] month:[monthStr intValue]];
+    NSString *startTime = [NSString stringWithFormat:@"%@-%@-1", yearStr, monthStr];
+    NSString *endTime = [NSString stringWithFormat:@"%@-%@-%d",yearStr, monthStr, monthDays];
+    
+    return [NSArray arrayWithObjects:startTime, endTime, nil];
+}
+
+- (NSArray *)timeTypeOf_DayStartAndEnd:(NSString *)dateStr {
+    NSString *yearStr = [dateStr substringToIndex:4];
+    NSString *monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
+    NSString *dayStr = [dateStr substringWithRange:NSMakeRange(8, 2)];
+    
+    NSString *startTime = [NSString stringWithFormat:@"%@-%@-%@", yearStr, monthStr, dayStr];
+    NSString *endTime = [NSString stringWithFormat:@"%@-%@-%@",yearStr, monthStr, dayStr];
+    
+    return [NSArray arrayWithObjects:startTime, endTime, nil];
+}
+
+- (int)howManyDaysInThisMonth:(int)year month:(int)imonth {
+    if((imonth == 1)||(imonth == 3)||(imonth == 5)||(imonth == 7)||(imonth == 8)||(imonth == 10)||(imonth == 12)) {
+        return 31;
+    }
+    if((imonth == 4)||(imonth == 6)||(imonth == 9)||(imonth == 11)) {
+        return 30;
+    }
+    if((year%4 == 1)||(year%4 == 2)||(year%4 == 3)) {
+        return 28;
+    }
+    if(year%400 == 0) {
+        return 29;
+    }
+    if(year%100 == 0) {
+        return 28;
+    }
+    return 29;
 }
 
 - (void)didReceiveMemoryWarning {

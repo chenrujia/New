@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		780E9CDE1C0E90F8002F1CDE /* WorkloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 780E9CDC1C0E90F8002F1CDE /* WorkloadCell.m */; };
+		780E9CDF1C0E90F8002F1CDE /* WorkloadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 780E9CDD1C0E90F8002F1CDE /* WorkloadCell.xib */; };
 		7818DB961C08240F00DC22C6 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7818DB921C08240F00DC22C6 /* libopencore-amrnb.a */; };
 		7818DB971C08240F00DC22C6 /* RongCloud.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7818DB931C08240F00DC22C6 /* RongCloud.bundle */; };
 		7818DB981C08240F00DC22C6 /* RongIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7818DB941C08240F00DC22C6 /* RongIMKit.framework */; };
@@ -45,7 +47,6 @@
 		7818DC1F1C08586900DC22C6 /* EvaluationHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DC1E1C08586900DC22C6 /* EvaluationHeader.m */; };
 		7818DC221C08588700DC22C6 /* EvaluationFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DC211C08588700DC22C6 /* EvaluationFooter.m */; };
 		7818DC261C08597800DC22C6 /* EvaluationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7818DC251C08597800DC22C6 /* EvaluationHeader.xib */; };
-		78212D481C0C4059000F6A0D /* WorkIoadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78212D471C0C4059000F6A0D /* WorkIoadView.xib */; };
 		782D6BC11C0D6CFC00E1828F /* SPBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB51C0D6CFC00E1828F /* SPBar.m */; };
 		782D6BC21C0D6CFC00E1828F /* SPBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB71C0D6CFC00E1828F /* SPBarChart.m */; };
 		782D6BC31C0D6CFC00E1828F /* SPBarChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB91C0D6CFC00E1828F /* SPBarChartData.m */; };
@@ -56,7 +57,6 @@
 		782D6BCC1C0D711900E1828F /* CompletionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782D6BCB1C0D711900E1828F /* CompletionHeader.xib */; };
 		782D6BCF1C0D712700E1828F /* CompletionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BCE1C0D712700E1828F /* CompletionHeader.m */; };
 		782D6BD31C0D88B300E1828F /* SPChartPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BD21C0D88B300E1828F /* SPChartPopup.m */; };
-		78CB8BD41C0C40EF00973298 /* WorkIoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CB8BD31C0C40EF00973298 /* WorkIoadView.m */; };
 		78CB8BDD1C0C489400973298 /* StatisticsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CB8BDB1C0C489400973298 /* StatisticsCell.m */; };
 		78CB8BDE1C0C489400973298 /* StatisticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78CB8BDC1C0C489400973298 /* StatisticsCell.xib */; };
 		78F872B11C094B14001C6E60 /* EvaluationFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F872B01C094B14001C6E60 /* EvaluationFooter.xib */; };
@@ -384,6 +384,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		780E9CDB1C0E90F8002F1CDE /* WorkloadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkloadCell.h; sourceTree = "<group>"; };
+		780E9CDC1C0E90F8002F1CDE /* WorkloadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkloadCell.m; sourceTree = "<group>"; };
+		780E9CDD1C0E90F8002F1CDE /* WorkloadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WorkloadCell.xib; sourceTree = "<group>"; };
 		7818DB921C08240F00DC22C6 /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
 		7818DB931C08240F00DC22C6 /* RongCloud.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RongCloud.bundle; sourceTree = "<group>"; };
 		7818DB941C08240F00DC22C6 /* RongIMKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMKit.framework; sourceTree = "<group>"; };
@@ -458,7 +461,6 @@
 		7818DC201C08588700DC22C6 /* EvaluationFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvaluationFooter.h; sourceTree = "<group>"; };
 		7818DC211C08588700DC22C6 /* EvaluationFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvaluationFooter.m; sourceTree = "<group>"; };
 		7818DC251C08597800DC22C6 /* EvaluationHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvaluationHeader.xib; sourceTree = "<group>"; };
-		78212D471C0C4059000F6A0D /* WorkIoadView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WorkIoadView.xib; sourceTree = "<group>"; };
 		782D6BB41C0D6CFC00E1828F /* SPBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPBar.h; sourceTree = "<group>"; };
 		782D6BB51C0D6CFC00E1828F /* SPBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPBar.m; sourceTree = "<group>"; };
 		782D6BB61C0D6CFC00E1828F /* SPBarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPBarChart.h; sourceTree = "<group>"; };
@@ -479,8 +481,6 @@
 		782D6BCE1C0D712700E1828F /* CompletionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompletionHeader.m; sourceTree = "<group>"; };
 		782D6BD11C0D88B300E1828F /* SPChartPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPChartPopup.h; sourceTree = "<group>"; };
 		782D6BD21C0D88B300E1828F /* SPChartPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPChartPopup.m; sourceTree = "<group>"; };
-		78CB8BD21C0C40EF00973298 /* WorkIoadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkIoadView.h; sourceTree = "<group>"; };
-		78CB8BD31C0C40EF00973298 /* WorkIoadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkIoadView.m; sourceTree = "<group>"; };
 		78CB8BDA1C0C489400973298 /* StatisticsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsCell.h; sourceTree = "<group>"; };
 		78CB8BDB1C0C489400973298 /* StatisticsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticsCell.m; sourceTree = "<group>"; };
 		78CB8BDC1C0C489400973298 /* StatisticsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatisticsCell.xib; sourceTree = "<group>"; };
@@ -1424,9 +1424,9 @@
 		7818DC141C08251400DC22C6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				78CB8BD21C0C40EF00973298 /* WorkIoadView.h */,
-				78CB8BD31C0C40EF00973298 /* WorkIoadView.m */,
-				78212D471C0C4059000F6A0D /* WorkIoadView.xib */,
+				780E9CDB1C0E90F8002F1CDE /* WorkloadCell.h */,
+				780E9CDC1C0E90F8002F1CDE /* WorkloadCell.m */,
+				780E9CDD1C0E90F8002F1CDE /* WorkloadCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3639,7 +3639,6 @@
 				9652ADA01BC9170D009A666D /* ImageSelectedOff.png in Resources */,
 				9652ADB01BC9170D009A666D /* PlayButtonOverlayLargeTap@2x.png in Resources */,
 				9652AD9D1BC9170D009A666D /* ImageError.png in Resources */,
-				78212D481C0C4059000F6A0D /* WorkIoadView.xib in Resources */,
 				9652ADAF1BC9170D009A666D /* PlayButtonOverlayLargeTap.png in Resources */,
 				9652ADAB1BC9170D009A666D /* ImageSelectedSmallOn@3x.png in Resources */,
 				9652ADB51BC9170D009A666D /* UIBarButtonItemArrowRight.png in Resources */,
@@ -3661,6 +3660,7 @@
 				9652ADB61BC9170D009A666D /* UIBarButtonItemArrowRight@2x.png in Resources */,
 				96021DA01BC919B500010072 /* IQKeyboardManager.bundle in Resources */,
 				9652ADA21BC9170D009A666D /* ImageSelectedOff@3x.png in Resources */,
+				780E9CDF1C0E90F8002F1CDE /* WorkloadCell.xib in Resources */,
 				7818DC261C08597800DC22C6 /* EvaluationHeader.xib in Resources */,
 				9652ADAC1BC9170D009A666D /* PlayButtonOverlayLarge.png in Resources */,
 				9652AD9F1BC9170D009A666D /* ImageError@3x.png in Resources */,
@@ -3764,8 +3764,8 @@
 				9602229E1BC9216300010072 /* BXTShopsHomeViewController.m in Sources */,
 				960222C31BC9216300010072 /* BXTGroupInfo.m in Sources */,
 				9652ADC31BC9170D009A666D /* MWTapDetectingImageView.m in Sources */,
+				780E9CDE1C0E90F8002F1CDE /* WorkloadCell.m in Sources */,
 				96CEC83A1BD0945000D03B1B /* BXTNoneEVInfo.m in Sources */,
-				78CB8BD41C0C40EF00973298 /* WorkIoadView.m in Sources */,
 				9602228F1BC9216300010072 /* BXTBranchViewController.m in Sources */,
 				9652AE2A1BC9170E009A666D /* SDWebImageDownloaderOperation.m in Sources */,
 				960222C51BC9216300010072 /* BXTLoginViewController.m in Sources */,

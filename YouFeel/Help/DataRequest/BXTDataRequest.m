@@ -568,8 +568,7 @@ andRepairerIsReacive:(NSString *)reacive
                                  time_end:(NSString *)endTime
 {
     self.requestType = Statistics_Complete;
-    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"time_start":startTime,
+    NSDictionary *dic = @{@"time_start":startTime,
                           @"time_end":endTime};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_complete",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -579,8 +578,7 @@ andRepairerIsReacive:(NSString *)reacive
                                  time_end:(NSString *)endTime
 {
     self.requestType = Statistics_Subgroup;
-    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"time_start":startTime,
+    NSDictionary *dic = @{@"time_start":startTime,
                           @"time_end":endTime};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_subgroup",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -590,8 +588,7 @@ andRepairerIsReacive:(NSString *)reacive
                                   time_end:(NSString *)endTime
 {
     self.requestType = Statistics_Faulttype;
-    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"time_start":startTime,
+    NSDictionary *dic = @{@"time_start":startTime,
                           @"time_end":endTime};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_faulttype",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -601,8 +598,7 @@ andRepairerIsReacive:(NSString *)reacive
                                   month:(NSString *)month
 {
     self.requestType = Statistics_Workload_day;
-    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"year":year,
+    NSDictionary *dic = @{@"year":year,
                           @"month":month};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_workload_day",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -612,8 +608,7 @@ andRepairerIsReacive:(NSString *)reacive
                                  time_end:(NSString *)endTime
 {
     self.requestType = Statistics_Workload;
-    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"time_start":startTime,
+    NSDictionary *dic = @{@"time_start":startTime,
                           @"time_end":endTime};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_workload",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -623,8 +618,7 @@ andRepairerIsReacive:(NSString *)reacive
                                time_end:(NSString *)endTime
 {
     self.requestType = Statistics_Praise;
-    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"time_start":startTime,
+    NSDictionary *dic = @{@"time_start":startTime,
                           @"time_end":endTime};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_praise",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -642,6 +636,7 @@ andRepairerIsReacive:(NSString *)reacive
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+         NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
          NSDictionary *dictionary = [response JSONValue];
          [_delegate requestResponseData:dictionary requeseType:_requestType];
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
