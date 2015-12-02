@@ -252,21 +252,26 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 // 判断字符处是否为空
 + (BOOL)isBlankString:(NSString *)string
 {
-    if (string == nil || string == NULL) {
+    if (string == nil || string == NULL)
+    {
         return YES;
     }
     
-    if ([string isKindOfClass:[NSNull class]]) {
+    if ([string isKindOfClass:[NSNull class]])
+    {
         return YES;
     }
     
-    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0)
+    {
         return YES;
     }
     
-    if ([string isEqualToString:@"(null)"]) {
+    if ([string isEqualToString:@"(null)"])
+    {
         return YES;
     }
+    
     return NO;
 }
 

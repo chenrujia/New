@@ -152,6 +152,13 @@
         cell.titleLabel.frame = CGRectMake(15., 10., 160.f, 30);
         cell.titleLabel.text = groupInfo.subgroup;
     }
+    else if (_boxType == SpecialOrderView)
+    {
+        NSDictionary *dic = _dataArray[indexPath.row];
+        cell.titleLabel.frame = CGRectMake(15., 10., SCREEN_WIDTH-30, 30);
+        cell.titleLabel.text = [dic objectForKey:@"collection"];
+        cell.titleLabel.textAlignment = NSTextAlignmentCenter;
+    }
     else if (_boxType == Other)
     {
         cell.titleLabel.frame = CGRectMake(15., 10., SCREEN_WIDTH-30, 30);
@@ -219,8 +226,12 @@
     else if (_boxType == GroupingView)
     {
         BXTGroupingInfo *groupInfo = _dataArray[indexPath.row];
-        [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
         [_delegate boxSelectedObj:groupInfo selectedType:_boxType];
+    }
+    else if (_boxType == SpecialOrderView)
+    {
+        NSDictionary *dic = _dataArray[indexPath.row];
+        [_delegate boxSelectedObj:dic selectedType:_boxType];
     }
     else if (_boxType == Other)
     {
