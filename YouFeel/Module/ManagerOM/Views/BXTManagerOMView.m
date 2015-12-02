@@ -23,6 +23,10 @@
     {
         self.orderType = order_type;
         groupID = @"";
+        startTime = @"";
+        endTime = @"";
+        selectOT = @"";
+        groups = [NSArray array];
         BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
         if (groupInfo.subgroup.length > 0)
         {
@@ -73,36 +77,7 @@
     endTime = endStr;
     selectOT = theOT;
     groups = theGroups;
-    NSString *collection = @"";
-    if ([selectOT integerValue] == 3)
-    {
-        selectOT = @"";
-        collection = @"all";
-    }
-    else
-    {
-        collection = @"";
-    }
-    NSString *timeName = @"";
-    if (startTime.length)
-    {
-        timeName = @"repair_time";
-    }
-    else
-    {
-        timeName = @"";
-    }
-    
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request allRepairs:collection
-            andTimeName:timeName
-           andStartTime:startTime
-             andEndTime:endTime
-           andOrderType:priorityType
-             andGroupID:groupID
-           andSubgroups:groups
-               andState:selectOT
-                andPage:1];
+    [self loadNewData];
 }
 
 - (void)loadNewData
@@ -149,13 +124,15 @@
     else if (_orderType == AllType)
     {
         NSString *collection = @"";
+        NSString *state = @"";
         if ([selectOT integerValue] == 3)
         {
-            selectOT = @"";
+            state = @"";
             collection = @"all";
         }
         else
         {
+            state = selectOT;
             collection = @"";
         }
         NSString *timeName = @"";
@@ -174,7 +151,7 @@
                andOrderType:priorityType
                  andGroupID:groupID
                andSubgroups:groups
-                   andState:selectOT
+                   andState:state
                     andPage:1];
     }
 }
@@ -218,13 +195,15 @@
     else if (_orderType == AllType)
     {
         NSString *collection = @"";
+        NSString *state = @"";
         if ([selectOT integerValue] == 3)
         {
-            selectOT = @"";
+            state = @"";
             collection = @"all";
         }
         else
         {
+            state = selectOT;
             collection = @"";
         }
         NSString *timeName = @"";
@@ -243,7 +222,7 @@
                andOrderType:priorityType
                  andGroupID:groupID
                andSubgroups:groups
-                   andState:selectOT
+                   andState:state
                     andPage:currentPage];
     }
 }

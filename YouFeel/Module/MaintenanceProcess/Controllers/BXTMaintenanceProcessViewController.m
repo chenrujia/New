@@ -18,20 +18,34 @@
 #import "BXTFaultInfo.h"
 #import "BXTFaultTypeInfo.h"
 #import "BXTMaintenanceProcessTableViewCell.h"
+#import "BXTMMLogTableViewCell.h"
+
+#define kMMLOG 12
+#define kNOTE 11
 
 @interface BXTMaintenanceProcessViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,MWPhotoBrowserDelegate,SelectPhotoDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,BXTBoxSelectedTitleDelegate,UIPickerViewDataSource,UIPickerViewDelegate,BXTDataResponseDelegate>
 {
     UITableView      *currentTableView;
     NSMutableArray   *photosArray;
     NSMutableArray   *selectPhotos;
+    NSMutableArray   *specialArray;//特殊工单类型
+    NSMutableArray   *groupArray;
+    NSArray          *orderTypeArray;
     NSString         *notes;
     NSString         *maintenanceState;
+    NSString         *orderType;//工单类型
+    NSString         *orderTypeInfo;//工单类型描述
     BXTSelectBoxView *boxView;
     NSArray          *stateArray;
     UIPickerView     *faultPickView;
     NSMutableArray   *fau_dataSource;
     BXTFaultInfo     *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
+    NSString         *state;
+    NSString         *mmLog;
+    NSString         *specialOID;
+    NSString         *groupID;
+    BOOL             isDone;//是否修好的状态
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -39,7 +53,6 @@
 @property (nonatomic ,assign) NSInteger      currentFaultID;
 @property (nonatomic ,assign) NSInteger      repairID;
 @property (nonatomic ,strong) NSString       *reaciveTime;
-
 
 @end
 
@@ -50,6 +63,13 @@
     self = [super init];
     if (self)
     {
+        orderType = @"";
+        orderTypeInfo = @"";
+        state = @"2";
+        mmLog = @"";
+        specialOID = @"";
+        groupID = @"";
+        isDone = YES;
         [BXTGlobal shareGlobal].maxPics = 3;
         self.repairID = repairID;
         self.reaciveTime = time;
@@ -66,16 +86,27 @@
     fau_dataSource = [NSMutableArray array];
     maintenanceState = @"已修好";
     stateArray= @[@"未修好",@"已修好"];
-    
+
     [self navigationSetting:@"维修过程" andRightTitle:nil andRightImage:nil];
     [self createTableView];
     
+    orderTypeArray = @[@"特殊工单",@"协作工单"];
     photosArray = [[NSMutableArray alloc] init];
     selectPhotos = [[NSMutableArray alloc] init];
+    specialArray = [[NSMutableArray alloc] init];
+    groupArray = [[NSMutableArray alloc] init];
     
     /**请求故障类型列表**/
     BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [fau_request faultTypeList];
+    
+    /**请求特殊工单类型列表**/
+    BXTDataRequest *ot_request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [ot_request specialOrderTypes];
+    
+    /**请求分组列表**/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request propertyGrouping];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -100,13 +131,9 @@
 {
     /**提交维修中状态**/
     BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    NSString *state = @"2";
-    if ([maintenanceState isEqualToString:@"未修好"])
-    {
-        state = @"1";
-    }
     
-    if ([BXTGlobal isBlankString:notes]) {
+    if ([BXTGlobal isBlankString:notes])
+    {
         notes = @"";
     }
     
@@ -120,8 +147,11 @@
               andMaintenanceState:state
                      andFaultType:[NSString stringWithFormat:@"%ld",(long)_currentFaultID]
                       andManHours:manHours
+                andSpecialOrderID:specialOID
                         andImages:photosArray
-                         andNotes:notes];
+                         andNotes:notes
+                         andMMLog:mmLog
+               andCollectionGroup:groupID];
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)tapGR
@@ -192,10 +222,68 @@
 }
 
 #pragma mark -
+#pragma mark 创建BoxView
+- (void)createBoxView:(NSInteger)section
+{
+    UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
+    backView.backgroundColor = [UIColor blackColor];
+    backView.alpha = 0.6f;
+    backView.tag = 101;
+    [self.view addSubview:backView];
+    
+    if (section == 0)
+    {
+        [self boxViewWithType:Other andTitle:@"维修状态" andData:stateArray];
+    }
+    else if (!isDone && section == 1)
+    {
+        [self boxViewWithType:Other andTitle:@"工单类型" andData:orderTypeArray];
+    }
+    else if (!isDone && section == 2)
+    {
+        if ([orderType isEqual:@"特殊工单"])
+        {
+            [self boxViewWithType:SpecialOrderView andTitle:@"类型描述" andData:specialArray];
+        }
+        else if ([orderType isEqual:@"协作工单"])
+        {
+            [self boxViewWithType:GroupingView andTitle:@"类型描述" andData:groupArray];
+        }
+    }
+    else if (!isDone && section == 3)
+    {
+        faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
+        faultPickView.showsSelectionIndicator = YES;
+        faultPickView.backgroundColor = colorWithHexString(@"cdced1");
+        faultPickView.dataSource = self;
+        faultPickView.delegate = self;
+        [self.view addSubview:faultPickView];
+    }
+    else if (isDone && section == 1)
+    {
+        faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
+        faultPickView.showsSelectionIndicator = YES;
+        faultPickView.backgroundColor = colorWithHexString(@"cdced1");
+        faultPickView.dataSource = self;
+        faultPickView.delegate = self;
+        [self.view addSubview:faultPickView];
+    }
+}
+
+- (void)boxViewWithType:(BoxSelectedType)type andTitle:(NSString *)title andData:(NSArray *)array
+{
+    boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:title boxSelectedViewType:type listDataSource:array markID:nil actionDelegate:self];
+    
+    [self.view addSubview:boxView];
+    [UIView animateWithDuration:0.3f animations:^{
+        [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
+    }];
+}
+
+#pragma mark -
 #pragma mark 代理
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark -
+#pragma mark UITableViewDelegate && UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 10.f;//section头部高度
@@ -210,7 +298,7 @@
 //section底部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 2)
+    if ((isDone && section == 2) || (!isDone && section == 4))
     {
         return 80.f;
     }
@@ -219,7 +307,7 @@
 //section底部视图
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 2)
+    if ((isDone && section == 2) || (!isDone && section == 4))
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -244,7 +332,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2)
+    if ((isDone && indexPath.section == 2) || (!isDone && indexPath.section == 4))
     {
         return 170;
     }
@@ -253,6 +341,10 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (!isDone)
+    {
+        return 5;
+    }
     return 3;
 }
 
@@ -263,15 +355,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2)
+    if (isDone && indexPath.section == 2)
     {
-        BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarkCell"];
+        BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
         if (!cell)
         {
-            cell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RemarkCell"];
+            cell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         cell.remarkTV.delegate = self;
+        cell.remarkTV.tag = kNOTE;
         cell.titleLabel.text = @"备   注";
         
         UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
@@ -281,6 +374,20 @@
         UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
         [cell.imgViewThree addGestureRecognizer:tapGRThree];
         [cell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
+        
+        return cell;
+    }
+    if (!isDone && indexPath.section == 4)
+    {
+        BXTMMLogTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LogCell"];
+        if (!cell)
+        {
+            cell = [[BXTMMLogTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LogCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.remarkTV.delegate = self;
+        cell.remarkTV.tag = kMMLOG;
+        cell.titleLabel.text = @"维修日志";
         
         return cell;
     }
@@ -298,16 +405,50 @@
             rect.size.width -= 12.f;
             cell.detailLable.frame = rect;
         }
-        if (indexPath.section == 0)
+        if (isDone)
         {
-            cell.titleLabel.text = @"维修状态";
-            cell.detailLable.text = maintenanceState;
+            if (indexPath.section == 0)
+            {
+                cell.titleLabel.text = @"维修状态";
+                cell.detailLable.text = maintenanceState;
+            }
+            else
+            {
+                cell.titleLabel.text = @"故障类型";
+                cell.detailLable.text = _cause;
+            }
         }
         else
         {
-            cell.titleLabel.text = @"故障类型";
-            cell.detailLable.text = _cause;
+            if (indexPath.section == 0)
+            {
+                cell.titleLabel.text = @"维修状态";
+                cell.detailLable.text = maintenanceState;
+            }
+            else if (indexPath.section == 1)
+            {
+                cell.titleLabel.text = @"工单类型";
+                cell.detailLable.text = orderType.length > 0 ? orderType : @"请选择工单类型";
+            }
+            else if (indexPath.section == 2)
+            {
+                if ([orderType isEqual:@"协作工单"])
+                {
+                    cell.titleLabel.text = @"协作部门";
+                }
+                else
+                {
+                    cell.titleLabel.text = @"特殊类型";
+                }
+                cell.detailLable.text = orderTypeInfo.length > 0 ? orderTypeInfo : @"请选择类型描述";
+            }
+            else
+            {
+                cell.titleLabel.text = @"故障类型";
+                cell.detailLable.text = _cause;
+            }
         }
+        
         return cell;
     }
 }
@@ -315,34 +456,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self createBoxView:indexPath.section];
-}
-
-- (void)createBoxView:(NSInteger)section
-{
-    UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.6f;
-    backView.tag = 101;
-    [self.view addSubview:backView];
-    
-    if (section == 0)
-    {
-        boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"维修状态" boxSelectedViewType:Other listDataSource:stateArray markID:nil actionDelegate:self];
-        
-        [self.view addSubview:boxView];
-        [UIView animateWithDuration:0.3f animations:^{
-            [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
-        }];
-    }
-    else if (section == 1)
-    {
-        faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        faultPickView.showsSelectionIndicator = YES;
-        faultPickView.backgroundColor = colorWithHexString(@"cdced1");
-        faultPickView.dataSource = self;
-        faultPickView.delegate = self;
-        [self.view addSubview:faultPickView];
-    }
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -370,9 +483,44 @@
     }
 }
 
+#pragma mark -
+#pragma mark BXTBoxSelectedTitleDelegate
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
 {
-    maintenanceState = obj;
+    if (type == SpecialOrderView)
+    {
+        groupID = @"";
+        NSDictionary *dic = obj;
+        orderTypeInfo = [dic objectForKey:@"collection"];
+        specialOID = [dic objectForKey:@"id"];
+    }
+    else if (type == GroupingView)
+    {
+        specialOID = @"";
+        BXTGroupingInfo *groupInfo = obj;
+        orderTypeInfo = groupInfo.subgroup;
+        groupID = groupInfo.group_id;
+    }
+    else if (type == Other)
+    {
+        if ([obj isEqualToString:@"未修好"])
+        {
+            maintenanceState = obj;
+            state = @"1";
+            isDone = NO;
+        }
+        else if ([obj isEqualToString:@"已修好"])
+        {
+            maintenanceState = obj;
+            isDone = YES;
+            state = @"2";
+        }
+        else
+        {
+            orderType = obj;
+        }
+    }
+    
     [currentTableView reloadData];
     
     UIView *view = [self.view viewWithTag:101];
@@ -386,9 +534,8 @@
     }];
 }
 
-/**
- *  UIImagePickerControllerDelegate
- */
+#pragma mark -
+#pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     __block UIImage *headImage = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -509,9 +656,8 @@
     }
 }
 
-/**
- *  SelectPhotoDelegate
- */
+#pragma mark -
+#pragma mark SelectPhotoDelegate
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
     selectPhotos = photos;
@@ -647,9 +793,8 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
-/**
- *  MWPhotoBrowserDelegate
- */
+#pragma mark -
+#pragma mark MWPhotoBrowserDelegate
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
 {
     return self.mwPhotosArray.count;
@@ -661,30 +806,50 @@
     return photo;
 }
 
-/**
- *  UITextViewDelegate
- */
+#pragma mark -
+#pragma mark UITextViewDelegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:@"请输入报修内容"])
+    if (textView.tag == kNOTE)
     {
-        textView.text = @"";
+        if ([textView.text isEqualToString:@"请输入报修内容"])
+        {
+            textView.text = @"";
+        }
     }
+    else
+    {
+        if ([textView.text isEqualToString:@"请输入维修日志"])
+        {
+            textView.text = @"";
+        }
+    }
+    
     return YES;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    notes = textView.text;
-    if (textView.text.length < 1)
+    if (textView.tag == kNOTE)
     {
-        textView.text = @"请输入报修内容";
+        notes = textView.text;
+        if (textView.text.length < 1)
+        {
+            textView.text = @"请输入报修内容";
+        }
+    }
+    else
+    {
+        mmLog = textView.text;
+        if (textView.text.length < 1)
+        {
+            textView.text = @"请输入维修日志";
+        }
     }
 }
 
-/**
- *  UIPickerViewDelegate
- */
+#pragma mark -
+#pragma mark UIPickerViewDelegate
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 2;
@@ -730,9 +895,8 @@
     [currentTableView reloadData];
 }
 
-/**
- *  请求返回代理
- */
+#pragma mark -
+#pragma mark 请求返回代理
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
@@ -784,6 +948,31 @@
                 }
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }];
+        }
+    }
+    else if (type == SpecialOrderTypes)
+    {
+        if ([data count])
+        {
+            [specialArray addObjectsFromArray:data];
+        }
+    }
+    else if (type == PropertyGrouping)
+    {
+        if (data.count)
+        {
+            LogBlue(@"dic......%@",dic);
+            for (NSDictionary *dictionary in data)
+            {
+                DCParserConfiguration *config = [DCParserConfiguration configuration];
+                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"group_id" onClass:[BXTGroupingInfo class]];
+                [config addObjectMapping:text];
+                
+                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTGroupingInfo class] andConfiguration:config];
+                BXTGroupingInfo *groupInfo = [parser parseDictionary:dictionary];
+                
+                [groupArray addObject:groupInfo];
+            }
         }
     }
 }

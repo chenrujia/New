@@ -227,6 +227,11 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request propertyGrouping];
     }
+    else if (type == GroupingView)
+    {
+        BXTGroupingInfo *groupInfo = obj;
+        [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
+    }
 }
 
 - (void)doneClick

@@ -42,7 +42,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Statistics_Faulttype,
     Statistics_Workload_day,
     Statistics_Workload,
-    Statistics_Praise
+    Statistics_Praise,
+    SpecialOrderTypes
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -210,8 +211,11 @@ andRepairerIsReacive:(NSString *)reacive;
      andMaintenanceState:(NSString *)state
             andFaultType:(NSString *)faultType
              andManHours:(NSString *)hours
+       andSpecialOrderID:(NSString *)specialOID
                andImages:(NSArray *)images
-                andNotes:(NSString *)notes;
+                andNotes:(NSString *)notes
+                andMMLog:(NSString *)mmLog
+      andCollectionGroup:(NSString *)group;
 
 /**
  *  维修员列表
@@ -344,5 +348,10 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)statistics_praiseWithTime_start:(NSString *)startTime
                                time_end:(NSString *)endTime;
+
+/**
+ *  特殊工单类型
+ */
+- (void)specialOrderTypes;
 
 @end

@@ -262,7 +262,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     NSDictionary *dic = @{@"collection":collection,
                           @"timename":timeName,
-                          @"timename":startTime,
+                          @"timestart":startTime,
                           @"timeover":endTime,
                           @"order":orderType,
                           @"order_subgroup":groupID,
@@ -270,6 +270,7 @@ andRepairerIsReacive:(NSString *)reacive
                           @"state":state,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
+    LogBlue(@"请求数据为:%@",dic);
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -384,8 +385,11 @@ andRepairerIsReacive:(NSString *)reacive
      andMaintenanceState:(NSString *)state
             andFaultType:(NSString *)faultType
              andManHours:(NSString *)hours
+       andSpecialOrderID:(NSString *)specialOID
                andImages:(NSArray *)images
                 andNotes:(NSString *)notes
+                andMMLog:(NSString *)mmLog
+      andCollectionGroup:(NSString *)group
 {
     self.requestType = MaintenanceProcess;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
@@ -395,7 +399,10 @@ andRepairerIsReacive:(NSString *)reacive
                           @"faulttype":faultType,
                           @"id":repairID,
                           @"man_hours":hours,
-                          @"workprocess":notes};
+                          @"collection":specialOID,
+                          @"workprocess":notes,
+                          @"log_content":mmLog,
+                          @"cooperation_group":group};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_processed",[BXTGlobal shareGlobal].baseURL];
     [self uploadImageRequest:url withParameters:dic withImages:images];
 }
@@ -628,6 +635,13 @@ andRepairerIsReacive:(NSString *)reacive
                           @"time_end":endTime};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_praise",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
+}
+
+- (void)specialOrderTypes
+{
+    self.requestType = SpecialOrderTypes;
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_collection",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
 }
 
 - (void)postRequest:(NSString *)url

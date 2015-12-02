@@ -39,6 +39,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    startStr = @"";
+    endStr = @"";
+    selectOT = @"";
     orderTypeName = @[@"未完成",@"已完成",@"特殊工单"];
     groupArray = [NSMutableArray array];
     selectGroups = [NSMutableArray array];
@@ -310,7 +313,24 @@
 
 - (void)doneClick
 {
-    [omView reloadAllType:startStr andEndTime:endStr andGourps:selectGroups andSelectOT:selectOT];
+    NSMutableArray *groupsArray = [NSMutableArray array];
+    for (BXTGroupingInfo *groupInfo in selectGroups)
+    {
+        [groupsArray addObject:groupInfo.group_id];
+    }
+    [omView reloadAllType:startStr
+               andEndTime:endStr
+                andGourps:groupsArray
+              andSelectOT:selectOT];
+    
+    UIView *view = [self.view viewWithTag:101];
+    if (view)
+    {
+        [view removeFromSuperview];
+        [UIView animateWithDuration:0.3f animations:^{
+            [alertBackView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kAlertHeight)];
+        } completion:nil];
+    }
 }
 
 #pragma mark -
