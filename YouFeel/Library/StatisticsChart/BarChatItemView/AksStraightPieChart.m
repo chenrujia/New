@@ -26,7 +26,6 @@
 - (void)startUpSettings {
     dataToRepresent = [[NSMutableArray alloc] init];
     [self setBackgroundColor:colorWithHexStringForLibrary(@"#d9d9d9")];
-    
 }
 
 - (void)addDataToRepresent:(int)value WithColor:(UIColor *)color {
