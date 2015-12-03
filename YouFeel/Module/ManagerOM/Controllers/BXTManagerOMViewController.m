@@ -27,7 +27,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = colorWithHexString(@"ffffff");
-    [self navigationSetting:@"工单管理" andRightTitle:@"筛选" andRightImage:nil];
+    [self navigationSetting:@"特殊工单" andRightTitle:@"筛选" andRightImage:nil];
     [self createSubviews];
 }
 

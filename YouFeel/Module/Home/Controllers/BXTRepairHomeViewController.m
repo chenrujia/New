@@ -23,7 +23,7 @@
 #import "BXTExaminationViewController.h"
 #import "BXTManagerOMViewController.h"
 
-#import "StatisticsViewController.h"
+#import "BXTStatisticsViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -58,7 +58,7 @@
     }
     
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
-    title_label.text = @"我的新工单";
+    title_label.text = @"我的工单";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comingNewRepairs) name:@"NewRepairComing" object:nil];
 
@@ -104,8 +104,9 @@
 #pragma mark 事件处理
 - (void)repairClick
 {
-    BXTRepairWordOrderViewController *newOrderVC = [[BXTRepairWordOrderViewController alloc] init];
-    [self.navigationController pushViewController:newOrderVC animated:YES];
+    // 我的工单
+    BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
+    [self.navigationController pushViewController:orderManagerVC animated:YES];
 }
 
 - (void)comingNewRepairs
@@ -132,8 +133,8 @@
         case 1:
         {
             // 报修
-            BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-            [self.navigationController pushViewController:orderManagerVC animated:YES];
+            BXTRepairWordOrderViewController *newOrderVC = [[BXTRepairWordOrderViewController alloc] init];
+            [self.navigationController pushViewController:newOrderVC animated:YES];
         }
             break;
         case 2:
@@ -161,7 +162,7 @@
         case 5:
         {
             // 业务统计
-            StatisticsViewController *StatisticsVC = [[StatisticsViewController alloc] init];
+            BXTStatisticsViewController *StatisticsVC = [[BXTStatisticsViewController alloc] init];
             [self.navigationController pushViewController:StatisticsVC animated:YES];
         }
             break;
