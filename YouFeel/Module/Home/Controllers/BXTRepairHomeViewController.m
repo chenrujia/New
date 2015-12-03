@@ -62,16 +62,16 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comingNewRepairs) name:@"NewRepairComing" object:nil];
 
-    imgNameArray = [NSMutableArray arrayWithObjects:@"grab_one",
-                    @"notebook",
-                    @"user",
-                    @"evaluation",
-                    @"Notice",
-                    @"News",
-                    @"Feedback",
-                    @"Cuetomer_service",
-                    @"About_us", nil];
-    titleNameArray = [NSMutableArray arrayWithObjects:@"抢单",@"工单管理",@"业务申请",@"我的绩效",@"消息",@"沟通记录",@"反馈",@"客服",@"关于", nil];
+    imgNameArray = [NSMutableArray arrayWithObjects:@"grab_-one",
+                    @"repair",
+                    @"new",
+                    @"square_-bars",
+                    @"specialOrder",
+                    @"statistics",
+                    @"notices",
+                    @"list",
+                    @"round", nil];
+    titleNameArray = [NSMutableArray arrayWithObjects:@"抢单",@"报修",@"沟通记录",@"我的绩效",@"特殊工单",@"业务统计",@"消息",@"意见反馈",@"关于我们", nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -124,67 +124,79 @@
     switch (indexPath.row) {
         case 0:
         {
+            // 抢单
             BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] init];
             [self.navigationController pushViewController:reaciveVC animated:YES];
         }
             break;
         case 1:
         {
+            // 报修
             BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
             [self.navigationController pushViewController:orderManagerVC animated:YES];
         }
             break;
         case 2:
         {
-            BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
-            [self.navigationController pushViewController:examinationVC animated:YES];
+            // 沟通记录
+            BXTChatListViewController *chatListViewController = [[BXTChatListViewController alloc]init];
+            [self.navigationController pushViewController:chatListViewController animated:YES];
+            self.navigationController.navigationBar.hidden = NO;
         }
             break;
         case 3:
         {
+            // 我的绩效
             BXTAchievementsViewController *achievementVC = [[BXTAchievementsViewController alloc] init];
             [self.navigationController pushViewController:achievementVC animated:YES];
         }
             break;
         case 4:
         {
-            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
-            [self.navigationController pushViewController:messageVC animated:YES];
+            // 特殊工单
+            BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
+            [self.navigationController pushViewController:serviceVC animated:YES];
         }
             break;
         case 5:
         {
-            BXTChatListViewController *chatListViewController = [[BXTChatListViewController alloc]init];
-            [self.navigationController pushViewController:chatListViewController animated:YES];
-            self.navigationController.navigationBar.hidden = NO;
+            // 业务统计
+            StatisticsViewController *StatisticsVC = [[StatisticsViewController alloc] init];
+            [self.navigationController pushViewController:StatisticsVC animated:YES];
         }
             break;
         case 6:
         {
-//            BXTFeedbackViewController *feedbackVC = [[BXTFeedbackViewController alloc] init];
-//            [self.navigationController pushViewController:feedbackVC animated:YES];
-            BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
-            [self.navigationController pushViewController:serviceVC animated:YES];
+            // 消息
+            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
+            [self.navigationController pushViewController:messageVC animated:YES];
         }
             break;
         case 7:
         {
-//            BXTCustomerServiceViewController *serviceVC = [[BXTCustomerServiceViewController alloc] init];
-            BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
-            [self.navigationController pushViewController:serviceVC animated:YES];
+            // 意见反馈
+            BXTFeedbackViewController *feedbackVC = [[BXTFeedbackViewController alloc] init];
+            [self.navigationController pushViewController:feedbackVC animated:YES];
         }
             break;
         case 8:
         {
-            StatisticsViewController *StatisticsVC = [[StatisticsViewController alloc] init];
-            [self.navigationController pushViewController:StatisticsVC animated:YES];
-//            BXTAboutUsViewController *aboutVC = [[BXTAboutUsViewController alloc] init];
-//            [self.navigationController pushViewController:aboutVC animated:YES];
+            // 关于我们
+            BXTAboutUsViewController *aboutVC = [[BXTAboutUsViewController alloc] init];
+            [self.navigationController pushViewController:aboutVC animated:YES];
         }
             break;
         default:
             break;
     }
+    
+    // 业务申请
+    //BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
+    //[self.navigationController pushViewController:examinationVC animated:YES];
+    
+    // 客服
+    //BXTCustomerServiceViewController *serviceVC = [[BXTCustomerServiceViewController alloc] init];
+    //[self.navigationController pushViewController:serviceVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

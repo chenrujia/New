@@ -205,11 +205,11 @@
     UIImage *image = [UIImage imageNamed:imgNameArray[indexPath.row]];
     cell.namelabel.text = titleNameArray[indexPath.row];
     cell.iconImage = image;
-    if (indexPath.row == 4)
+    if (indexPath.row == 6)
     {
         [cell newsRedNumber:unreadNumber];
     }
-    else if (indexPath.row == 5)
+    else if (indexPath.row == 2)
     {
         [cell newsRedNumber:[[RCIMClient sharedRCIMClient] getTotalUnreadCount]];
     }

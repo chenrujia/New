@@ -263,6 +263,7 @@
     [self.view addSubview:bgView];
     
     originDate = [NSDate date];
+    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
     titleLabel.backgroundColor = colorWithHexString(@"ffffff");
     titleLabel.text = @"请选择到达时间";
@@ -306,7 +307,9 @@
 
 - (void)dateChange:(UIDatePicker *)picker
 {
-    timeInterval2 = [picker.date timeIntervalSinceDate:originDate];
+    // 获取分钟数
+    //timeInterval = [picker.date timeIntervalSinceDate:originDate];
+    timeInterval2 = [picker.date timeIntervalSince1970];
 }
 
 #pragma mark -
@@ -509,7 +512,8 @@
 {
     if (button.tag == 10001)
     {
-        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2/60+1];
+        //NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2/60+1];
+        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
                     arrivalTime:timeStr
@@ -538,6 +542,8 @@
             return;
         }
         NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
+        NSTimeInterval timer = [[NSDate date] timeIntervalSince1970] + [timeStr intValue]*60;
+        timeStr = [NSString stringWithFormat:@"%.0f", timer];
         
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
