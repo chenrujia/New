@@ -34,6 +34,12 @@
         [_maintenanceProcess setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
         [self addSubview:_maintenanceProcess];
         
+        _orderType = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100.f - 15.f, 10.f, 100.f, 20)];
+        _orderType.textColor = colorWithHexString(@"de1a1a");
+        _orderType.textAlignment = NSTextAlignmentRight;
+        _orderType.font = [UIFont boldSystemFontOfSize:17.f];
+        [self addSubview:_orderType];
+        
         _place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 30.f, 20)];
         _place.textColor = colorWithHexString(@"000000");
         _place.font = [UIFont boldSystemFontOfSize:17.f];

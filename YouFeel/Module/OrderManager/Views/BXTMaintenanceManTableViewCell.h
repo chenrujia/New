@@ -10,11 +10,12 @@
 
 @interface BXTMaintenanceManTableViewCell : UITableViewCell
 
-@property (nonatomic ,strong) UILabel *repairID;
-@property (nonatomic ,strong) UILabel *time;
-@property (nonatomic ,strong) UILabel *place;
-@property (nonatomic ,strong) UILabel *cause;
-@property (nonatomic ,strong) UILabel *level;
+@property (nonatomic ,strong) UILabel  *repairID;
+@property (nonatomic ,strong) UILabel  *time;
+@property (nonatomic ,strong) UILabel  *place;
+@property (nonatomic ,strong) UILabel  *cause;
+@property (nonatomic ,strong) UILabel  *level;
+@property (nonatomic ,strong) UILabel  *orderType;
 @property (nonatomic ,strong) UIButton *maintenanceProcess;
 @property (nonatomic ,strong) UIButton *reaciveBtn;
 
