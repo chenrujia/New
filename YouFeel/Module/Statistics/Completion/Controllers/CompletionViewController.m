@@ -42,6 +42,37 @@
         [request statistics_workload_dayWithYear:dateArray[0] month:dateArray[1]];
     });
     
+    
+    //[self createIntroductionView];
+}
+
+- (void)createIntroductionView {
+    pickerbgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    pickerbgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5f];
+    pickerbgView.tag = 101;
+    pickerbgView.alpha = 0.0;
+    [self.view addSubview:pickerbgView];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        pickerbgView.alpha = 1.0;
+    }];
+    
+    UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 442, 120, 25)];
+    leftLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.8];
+    leftLabel.text = @" 未完成:25单";
+    leftLabel.textColor = colorWithHexString(@"#666666");
+    leftLabel.font = [UIFont systemFontOfSize:14];
+    leftLabel.layer.cornerRadius = 15;
+    [pickerbgView addSubview:leftLabel];
+    
+    UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-15-125, 442, 120, 25)];
+    rightLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+    rightLabel.text = @" 特殊工单:15单";
+    rightLabel.textColor = colorWithHexString(@"#666666");
+    rightLabel.font = [UIFont systemFontOfSize:14];
+    rightLabel.textAlignment = NSTextAlignmentRight;
+    rightLabel.layer.cornerRadius = 15;
+    [pickerbgView addSubview:rightLabel];
 }
 
 #pragma mark -
@@ -104,7 +135,7 @@
     
     // 4. didClick
     self.headerView.pieView.transSelected = ^(NSInteger index) {
-        NSLog(@"index -- %ld", index);
+        NSLog(@"index -- %ld", (long)index);
     };
     
     
@@ -118,7 +149,7 @@
     [self.headerView.undownView setTitle:undownNumStr forState:UIControlStateNormal];
     [self.headerView.specialView setTitle:specialNumStr forState:UIControlStateNormal];
     self.headerView.transBtnClick = ^(NSInteger tag) {
-        NSLog(@"tag ---- %ld", tag);
+        NSLog(@"tag ---- %ld", (long)tag);
     };
 }
 
@@ -156,7 +187,7 @@
         [barArray addObject:[SPBarChartData dataWithValues:dataArray colors:colorArray description:[NSString stringWithFormat:@"%@", dict[@"day"]]]];
         
         NSInteger sumNum = [downStr integerValue] + [specialStr integerValue] + [undownStr integerValue];
-        NSString *sumStr = [NSString stringWithFormat:@"%ld", sumNum];
+        NSString *sumStr = [NSString stringWithFormat:@"%ld", (long)sumNum];
         [heightArray addObject:sumStr];
     }
     //barChart.frame = CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
