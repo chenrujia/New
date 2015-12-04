@@ -220,9 +220,9 @@
 
 #pragma mark -
 #pragma mark - 父类点击事件
-- (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
+- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
     NSMutableArray *dateArray;
-    switch (segmented.selectedSegmentIndex) {
+    switch (index) {
         case 0:
             dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_YearStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;

@@ -13,6 +13,7 @@
 #import "BXTIncidenceViewController.h"
 #import "BXTWorkloadViewController.h"
 #import "BXStEvaluationViewController.h"
+#import "BXTAllOrdersViewController.h"
 
 #import "BXTHeaderForVC.h"
 
@@ -31,7 +32,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self navigationSetting:@"业务统计" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"业务统计" andRightTitle:nil andRightImage:[UIImage imageNamed:@"w_small_round"]];
     
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"维修完成率统计", @"专业分组统计", @"故障发生率统计", @"维修员工作量统计", @"维修评价统计",nil];
     self.imageArray1 = [[NSMutableArray alloc] init];
@@ -46,6 +47,12 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     
+}
+
+- (void)navigationRightButton
+{
+    BXTAllOrdersViewController *allOrdersVC = [[BXTAllOrdersViewController alloc] init];
+    [self.navigationController pushViewController:allOrdersVC animated:YES];
 }
 
 #pragma mark -

@@ -47,13 +47,13 @@
         
         self.repairTime = ({
             
-            UILabel *label0 = [[UILabel alloc] initWithFrame:CGRectMake(160-25/2, CGRectGetMaxY(_imageView.frame) - 45.f, 25, 25)];
+            UILabel *label0 = [[UILabel alloc] initWithFrame:CGRectMake(170-25/2, CGRectGetMaxY(_imageView.frame) - 45.f, 25, 25)];
             label0.backgroundColor = colorWithHexString(@"c30e06");
             label0.layer.cornerRadius = 25/2;
             label0.layer.masksToBounds = YES;
             [self.imageView addSubview:label0];
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_imageView.frame) - 45.f, 160, 25)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_imageView.frame) - 45.f, 170, 25)];
             label.backgroundColor = colorWithHexString(@"c30e06");
             label.textColor = colorWithHexString(@"ffffff");
             label.font = [UIFont boldSystemFontOfSize:15.f];

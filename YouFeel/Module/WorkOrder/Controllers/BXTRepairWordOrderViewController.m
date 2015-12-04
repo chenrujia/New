@@ -140,7 +140,7 @@
         UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-80, 2, 80, 40)];
         [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
         [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        sureBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        sureBtn.titleLabel.font = [UIFont systemFontOfSize:18];
         [sureBtn addTarget:self action:@selector(toolBarDoneClick) forControlEvents:UIControlEventTouchUpInside];
         [toolView addSubview:sureBtn];
         

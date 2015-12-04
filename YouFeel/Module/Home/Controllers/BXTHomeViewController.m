@@ -22,6 +22,7 @@
 {
     NSInteger      unreadNumber;
     NSMutableArray *usersArray;
+    BOOL isConfigInfoSuccess;
 }
 @end
 
@@ -281,6 +282,7 @@
     
     if (type == ConfigInfo)
     {
+        isConfigInfoSuccess = YES;
         NSArray *dataArray = [dic objectForKey:@"data"];
         NSDictionary *dataDict = dataArray[0];
         NSMutableArray *arriveArray = [[NSMutableArray alloc] init];
@@ -328,7 +330,13 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    if (!isConfigInfoSuccess) {
+        NSMutableArray *arriveArray = [[NSMutableArray alloc] initWithObjects:@"10", @"20", nil];
+        NSMutableArray *hoursArray = [[NSMutableArray alloc] initWithObjects:@"1", @"2", @"3", @"4", nil];
+        // 存数组
+        [BXTGlobal writeFileWithfileName:@"arriveArray" Array:arriveArray];
+        [BXTGlobal writeFileWithfileName:@"hoursArray" Array:hoursArray];
+    }
 }
 
 - (void)didReceiveMemoryWarning

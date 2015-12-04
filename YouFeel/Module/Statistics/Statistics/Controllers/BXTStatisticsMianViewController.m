@@ -94,17 +94,15 @@
 #pragma mark - createSegmentedCtr
 - (void)createSegmentedCtr {
     // 分页视图
-    self.rootSegmentedCtr = [[UISegmentedControl alloc] initWithItems:@[@"年", @"月", @"日"]];
-    self.rootSegmentedCtr.frame = CGRectMake(15, 110-30-10, SCREEN_WIDTH-30, 30);
-    [self.rootSegmentedCtr setTintColor:[UIColor whiteColor]];
-    [self.rootSegmentedCtr addTarget:self action:@selector(didClicksegmentedControlAction:) forControlEvents:UIControlEventValueChanged];
+    self.rootSegmentedCtr = [[SegmentView alloc] initWithFrame:CGRectMake(15, 110-30-10, SCREEN_WIDTH-30, 30) andTitles:@[@"年", @"月", @"日"]];
+    self.rootSegmentedCtr.layer.masksToBounds = YES;
+    self.rootSegmentedCtr.layer.cornerRadius = 4.f;
+    self.rootSegmentedCtr.delegate = self;
     [self.view addSubview:self.rootSegmentedCtr];
-        
-    self.rootSegmentedCtr.selectedSegmentIndex = 0;
 }
 
-- (void)didClicksegmentedControlAction:(UISegmentedControl *)segmented {
-    //NSLog(@"selectedSegmentIndex -- %ld", segmented.selectedSegmentIndex);
+- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
+    NSLog(@"didSelectedSegmentAtIndex -- %ld", index);
 }
 
 #pragma mark -

@@ -58,6 +58,14 @@
     _currentBtn = btn;
 }
 
+- (void)setSelectedSegmentIndex:(NSInteger)selectedSegmentIndex
+{
+    UIButton *btn=(UIButton *)[self viewWithTag:selectedSegmentIndex];
+    if (btn == _currentBtn) return;
+    _currentBtn.selected = NO;
+    btn.selected = YES;
+    _currentBtn = btn;
+}
 
 - (void)setTitles:(NSArray *)titles
 {
@@ -80,22 +88,23 @@
         
         // 设置按钮的frame
         btn.frame = CGRectMake(i + i * btnWidth, 0, btnWidth, CGRectGetHeight(self.frame));
-        NSString *normal = @"Rectangle_1";
-        NSString *selected;
+        NSString *selected = @"Rectangle_1";
+        NSString *normal;
         if ([BXTGlobal shareGlobal].isRepair)
         {
-            selected = @"Rectangle_3";
-            [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateSelected];
-            [btn setTitleColor:colorWithHexString(@"0a439c") forState:UIControlStateNormal];
+            normal = @"Rectangle_3";
+            [btn setTitleColor:colorWithHexString(@"0a439c") forState:UIControlStateSelected];
+            [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         }
         else
         {
-            selected = @"Rectangle_2";
-            [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateSelected];
-            [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            normal = @"Rectangle_2";
+            [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateSelected];
+            [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         }
         [btn setBackgroundImage:[UIImage resizeImage:normal] forState:UIControlStateNormal];
         [btn setBackgroundImage:[UIImage resizeImage:selected] forState:UIControlStateSelected];
+        
         
         // 设置文字
         // btn.adjustsImageWhenHighlighted = NO;
@@ -120,4 +129,5 @@
         }
     }
 }
+
 @end

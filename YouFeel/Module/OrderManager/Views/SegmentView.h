@@ -18,6 +18,7 @@
 - (id)initWithFrame:(CGRect)frame andTitles:(NSArray *)titles;
 
 @property (nonatomic, strong) NSArray *titles;
+@property (nonatomic, assign) NSInteger selectedSegmentIndex;
 @property (nonatomic, weak) id<SegmentViewDelegate> delegate;
 
 -(void)segemtBtnChange:(NSInteger)index;

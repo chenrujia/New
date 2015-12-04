@@ -33,6 +33,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     NSString *verify_state;
     NSString *checks_user;
     NSString *checks_user_department;
+    NSString *department_id;
     BOOL isHaveChecker;
     NSDictionary *checkUserDic;
 }
@@ -409,7 +410,10 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         {
             return 2;
         }
-        return 3;
+        if ([department_id integerValue] == 2) {
+            return 3;
+        }
+        return 2;
     }
     else if (section == 3)
     {
@@ -647,6 +651,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         if (array.count > 0)
         {
             NSDictionary *dictionay = array[0];
+            department_id = [dictionay objectForKey:@"department_id"];
             verify_state = [dictionay objectForKey:@"verify_state"];
             checkUserDic = [dictionay objectForKey:@"stores_checks"];
             checks_user = [checkUserDic objectForKey:@"checks_user"];

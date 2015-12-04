@@ -11,6 +11,7 @@
 #import "BXTNewsTableViewCell.h"
 #import "BXTSelectBoxView.h"
 #import "MJRefresh.h"
+#import "BXTOrderDetailViewController.h"
 
 @interface BXTNewsViewController ()<UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 {
@@ -165,20 +166,30 @@
     cell.titleLabel.text = [dic objectForKey:@"notice_title"];
     cell.detailLabel.text = [dic objectForKey:@"notice_body"];
     cell.timeLabel.text = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:[dic objectForKey:@"send_time"]];
-    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    NSString *str = [NSString stringWithFormat:@"%@21",companyInfo.company_id];
-    if ([[dic objectForKey:@"handle_state"] integerValue] == 1 && [str isEqualToString:[dic objectForKey:@"handle_type"]])
-    {
-        cell.evaButton.hidden = NO;
-        cell.evaButton.tag = indexPath.section;
-        [cell.evaButton addTarget:self action:@selector(evaButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    else
-    {
-        cell.evaButton.hidden = YES;
-    }
+    
+    cell.evaButton.hidden = YES;
+    
+//    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+//    NSString *str = [NSString stringWithFormat:@"%@21",companyInfo.company_id];
+//    if ([[dic objectForKey:@"handle_state"] integerValue] == 1 && [str isEqualToString:[dic objectForKey:@"handle_type"]])
+//    {
+//        cell.evaButton.hidden = NO;
+//        cell.evaButton.tag = indexPath.section;
+//        [cell.evaButton addTarget:self action:@selector(evaButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    else
+//    {
+//        cell.evaButton.hidden = YES;
+//    }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dic = datasource[indexPath.section];
+    BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%@", dic[@"about_id"]]];
+    [self.navigationController pushViewController:repairDetailVC animated:YES];
 }
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type

@@ -662,7 +662,7 @@ andRepairerIsReacive:(NSString *)reacive
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-//         NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
+         NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
          NSDictionary *dictionary = [response JSONValue];
          [_delegate requestResponseData:dictionary requeseType:_requestType];
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
