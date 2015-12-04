@@ -458,6 +458,7 @@
         }
         else
         {
+            
             BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, 90.f) withRepairState:repairDetail.repairstate withIsRespairing:repairDetail.isRepairing];
             [scrollView addSubview:drawView];
             
