@@ -204,6 +204,17 @@
         cell.time.text = [NSString stringWithFormat:@"响应时间:%@",repairInfo.repair_time];
         cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
         cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
+        if (repairInfo.order_type == 3)
+        {
+            cell.orderType.hidden = NO;
+            cell.maintenanceProcess.hidden = YES;
+            cell.orderType.text = @"特殊工单";
+        }
+        else
+        {
+            cell.orderType.hidden = YES;
+            cell.maintenanceProcess.hidden = NO;
+        }
         NSString *str;
         NSRange range;
         if (repairInfo.urgent == 2)
@@ -235,7 +246,14 @@
             cell.maintenanceProcess.userInteractionEnabled = YES;
             
             cell.reaciveBtn.hidden = YES;
-            cell.maintenanceProcess.hidden = NO;
+            if (repairInfo.order_type == 3)
+            {
+                cell.maintenanceProcess.hidden = YES;
+            }
+            else
+            {
+                cell.maintenanceProcess.hidden = NO;
+            }
         }
         else
         {
@@ -259,8 +277,11 @@
     }
     else
     {
-        BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
-        [[self navigation] pushViewController:repairDetailVC animated:YES];
+        if (repairInfo.order_type != 3)
+        {
+            BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+            [[self navigation] pushViewController:repairDetailVC animated:YES];
+        }
     }
 }
 

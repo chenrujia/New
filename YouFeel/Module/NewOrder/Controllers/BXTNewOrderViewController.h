@@ -7,6 +7,7 @@
 //
 
 #import "BXTBaseViewController.h"
+#import <RongIMKit/RongIMKit.h>
 
 @interface BXTNewOrderViewController : BXTBaseViewController
 

@@ -47,11 +47,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     ++[BXTGlobal shareGlobal].numOfPresented;
-    NSLog(@"numOfPresented -- %ld", (long)[BXTGlobal shareGlobal].numOfPresented);
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewRepairAgain) name:[NSString stringWithFormat:@"%@-%ld", @"NewRepairAgain", (long)[BXTGlobal shareGlobal].numOfPresented] object:nil];
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
@@ -132,10 +128,7 @@
         label;
         
     });
-    
-    //[backView addSubview:arc_View];
-    
-    
+
     __weak BXTGrabOrderViewController *weakSelf = self;
     CGFloat grab_height = IS_IPHONE6 ? 50.f : 40.f;
     WZFlashButton *grab_button = [[WZFlashButton alloc] initWithFrame:CGRectMake(20.f, (CGRectGetHeight(backView.frame) - grab_height)/2, SCREEN_WIDTH - 40.f, grab_height) andClick:^{
@@ -178,17 +171,6 @@
     [UIView animateWithDuration:0.3f animations:^{
         [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
     }];
-}
-
-- (void)rewRepairAgain
-{
-    // 工单数 > 实时抢单页面数 -> 跳转
-    if ([BXTGlobal shareGlobal].orderIDs.count > [BXTGlobal shareGlobal].numOfPresented) {
-        BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
-        [self.navigationController pushViewController:grabOrderVC animated:YES];
-    }
-    
-    //[itemsCollectionView reloadData];
 }
 
 - (void)afterTimeWithSection:(NSInteger)section
@@ -282,7 +264,9 @@
 {
     RGCollectionViewCell *cell = (RGCollectionViewCell  *)[collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
     
-    [cell requestDetailWithOrderID:[BXTGlobal shareGlobal].orderIDs[[BXTGlobal shareGlobal].numOfPresented-1]];
+    NSInteger index = [BXTGlobal shareGlobal].numOfPresented - 1;
+    NSString *orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
+    [cell requestDetailWithOrderID:orderID];
     
     return cell;
 }
@@ -387,7 +371,9 @@
         timeStr = [NSString stringWithFormat:@"%.0f", timer];
         
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[[BXTGlobal shareGlobal].numOfPresented-1]
+        NSInteger index = [BXTGlobal shareGlobal].numOfPresented - 1;
+        NSString *orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
+        [request reaciveOrderID:orderID
                     arrivalTime:timeStr
                       andIsGrad:YES];
     }
@@ -395,15 +381,14 @@
 
 #pragma mark -
 #pragma mark - UIDatePicker
-- (void)createDatePicker {
+- (void)createDatePicker
+{
     bgView = [[UIView alloc] initWithFrame:self.view.bounds];
     bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
     bgView.tag = 101;
     [self.view addSubview:bgView];
     
-    
     originDate = [NSDate date];
-    
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
     titleLabel.backgroundColor = colorWithHexString(@"ffffff");
@@ -415,7 +400,6 @@
     line.backgroundColor = colorWithHexString(@"e2e6e8");
     [bgView addSubview:line];
     
-    
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
     datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     datePicker.backgroundColor = colorWithHexString(@"ffffff");
@@ -423,7 +407,6 @@
     datePicker.datePickerMode = UIDatePickerModeDateAndTime;
     [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
     [bgView addSubview:datePicker];
-    
     
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
     toolView.backgroundColor = colorWithHexString(@"ffffff");
@@ -462,7 +445,9 @@
         //NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:[BXTGlobal shareGlobal].orderIDs[[BXTGlobal shareGlobal].numOfPresented-1]
+        NSInteger index = [BXTGlobal shareGlobal].numOfPresented - 1;
+        NSString *orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
+        [request reaciveOrderID:orderID
                     arrivalTime:timeStr
                       andIsGrad:YES];
     }
@@ -499,12 +484,11 @@
 
 - (void)navigationLeftButton
 {
-    [[BXTGlobal shareGlobal].orderIDs removeObjectAtIndex:[BXTGlobal shareGlobal].numOfPresented-1];
-    
+    [[BXTGlobal shareGlobal].newsOrderIDs removeObjectAtIndex:[BXTGlobal shareGlobal].numOfPresented-1];
     --[BXTGlobal shareGlobal].numOfPresented;
-    NSLog(@"numOfPresented1 -- %ld", (long)[BXTGlobal shareGlobal].numOfPresented);
-    if ([BXTGlobal shareGlobal].numOfPresented < 1) {
-        [[BXTGlobal shareGlobal].orderIDs removeAllObjects];
+    if ([BXTGlobal shareGlobal].numOfPresented < 1)
+    {
+        [[BXTGlobal shareGlobal].newsOrderIDs removeAllObjects];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

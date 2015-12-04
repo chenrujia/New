@@ -321,10 +321,8 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
-#pragma mark -
-#pragma mark 代理
-- (NSMutableArray *)containAllArray {
-    
+- (NSMutableArray *)containAllArray
+{
     NSMutableArray *photos = [[NSMutableArray alloc] init];
     for (NSDictionary *dictionary in repairDetail.fault_pic)
     {
@@ -343,9 +341,10 @@
     return photos;
 }
 
-/**
- *  BXTDataRequestDelegate
- */
+#pragma mark -
+#pragma mark 代理
+#pragma mark -
+#pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = (NSDictionary *)response;

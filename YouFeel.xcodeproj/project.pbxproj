@@ -318,6 +318,7 @@
 		967679F91BD514B500D41FE2 /* BXTNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 967679F81BD514B500D41FE2 /* BXTNewsTableViewCell.m */; };
 		96805E2D1C06B0B400E6A103 /* BXTManagerOMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96805E2C1C06B0B400E6A103 /* BXTManagerOMViewController.m */; };
 		96805E331C06D8A100E6A103 /* BXTManagerOMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96805E321C06D8A100E6A103 /* BXTManagerOMTableViewCell.m */; };
+		96859C371C10369B00340C9B /* BXTRejectOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96859C361C10369B00340C9B /* BXTRejectOrderViewController.m */; };
 		9689101C1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9689101B1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a */; };
 		968910641BD1F7EA008540D0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 968910631BD1F7EA008540D0 /* libz.tbd */; };
 		968910661BD1F812008540D0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 968910651BD1F812008540D0 /* SystemConfiguration.framework */; };
@@ -977,6 +978,8 @@
 		96805E2C1C06B0B400E6A103 /* BXTManagerOMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTManagerOMViewController.m; sourceTree = "<group>"; };
 		96805E311C06D8A100E6A103 /* BXTManagerOMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTManagerOMTableViewCell.h; sourceTree = "<group>"; };
 		96805E321C06D8A100E6A103 /* BXTManagerOMTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTManagerOMTableViewCell.m; sourceTree = "<group>"; };
+		96859C351C10369B00340C9B /* BXTRejectOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRejectOrderViewController.h; sourceTree = "<group>"; };
+		96859C361C10369B00340C9B /* BXTRejectOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRejectOrderViewController.m; sourceTree = "<group>"; };
 		968910191BD1F599008540D0 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
 		9689101A1BD1F599008540D0 /* GeTuiSdkError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdkError.h; sourceTree = "<group>"; };
 		9689101B1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.2.1.a"; sourceTree = "<group>"; };
@@ -2210,10 +2213,10 @@
 		960222291BC9216300010072 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9602222A1BC9216300010072 /* BXTOrderDetailViewController.h */,
-				9602222B1BC9216300010072 /* BXTOrderDetailViewController.m */,
 				9602222C1BC9216300010072 /* BXTRepairDetailViewController.h */,
 				9602222D1BC9216300010072 /* BXTRepairDetailViewController.m */,
+				9602222A1BC9216300010072 /* BXTOrderDetailViewController.h */,
+				9602222B1BC9216300010072 /* BXTOrderDetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3404,6 +3407,8 @@
 			children = (
 				96AD525F1BF4341C00F02BE7 /* BXTNewOrderViewController.h */,
 				96AD52601BF4341C00F02BE7 /* BXTNewOrderViewController.m */,
+				96859C351C10369B00340C9B /* BXTRejectOrderViewController.h */,
+				96859C361C10369B00340C9B /* BXTRejectOrderViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3830,6 +3835,7 @@
 				78F872BC1C095BB3001C6E60 /* BXTProfessionHeader.m in Sources */,
 				967127711BE475DC0033169E /* AFHTTPRequestOperationManager.m in Sources */,
 				9652ABBC1BC9092B009A666D /* DCPropertyFinder.m in Sources */,
+				96859C371C10369B00340C9B /* BXTRejectOrderViewController.m in Sources */,
 				9602214C1BC9201400010072 /* UIViewController+DismissKeyboard.m in Sources */,
 				9652ABB21BC9092B009A666D /* DCDynamicAttribute.m in Sources */,
 				9652ABB41BC9092B009A666D /* DCKeyValueObjectMapping.m in Sources */,

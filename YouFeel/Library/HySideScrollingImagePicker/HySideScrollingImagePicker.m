@@ -427,10 +427,8 @@
     return scaledSize;
 }
 
--(void)DismissBlock:(CompleteAnimationBlock)block{
-    
-    
-    //typeof(self) __weak weak = self;
+-(void)DismissBlock:(CompleteAnimationBlock)block
+{
     CGFloat height = ((ItemHeight+0.5f)+Spacing) + (_ButtonTitles.count * (ItemHeight+0.5f)) + kCollectionViewHeight;
     UIView *TopView = [self viewWithTag:999];
     
@@ -445,7 +443,6 @@
         [self removeFromSuperview];
         
     }];
-    
 }
 
 -(void)dismiss:(UITapGestureRecognizer *)tap{

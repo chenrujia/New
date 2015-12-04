@@ -264,7 +264,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     NSString *shop_id = [taskInfo objectForKey:@"shop_id"];
     [BXTGlobal shareGlobal].newsShopID = shop_id;
-    [[BXTGlobal shareGlobal].orderIDs addObject:[taskInfo objectForKey:@"about_id"]];
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     //如果该条消息不是该项目的
     if (![shop_id isEqualToString:companyInfo.company_id])
@@ -312,22 +311,19 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         case 2://工单消息
             if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)//收到抢单信息
             {
+                [[BXTGlobal shareGlobal].newsOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
                 if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
                 {
-                    UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
-                    if ([nav.viewControllers.lastObject isKindOfClass:[BXTGrabOrderViewController class]])
-                    {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:[NSString stringWithFormat:@"%@-%ld", @"NewRepairAgain", (long)[BXTGlobal shareGlobal].numOfPresented] object:nil];
-                    }
-                    else
-                    {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairComing" object:nil];
-                    }
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairComing" object:nil];
                 }
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)//收到派工或者维修邀请
             {
-                [self showAlertView:[taskInfo objectForKey:@"notice_title"]];
+                [[BXTGlobal shareGlobal].assignOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
+                if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
+                {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"AssignOrderComing" object:nil];
+                }
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 3)//抢单后或者确认通知后回馈报修者到达时间
             {

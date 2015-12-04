@@ -20,11 +20,13 @@
 
 @property (nonatomic ,assign) NSInteger      maxPics;
 @property (nonatomic ,strong) NSString       *baseURL;
-@property (nonatomic ,strong) NSMutableArray *orderIDs;
+@property (nonatomic ,strong) NSMutableArray *newsOrderIDs;
+@property (nonatomic ,strong) NSMutableArray *assignOrderIDs;
 @property (nonatomic ,strong) NSString       *newsShopID;
 @property (nonatomic ,assign) BOOL           isRepair;
 
 @property (nonatomic, assign) NSInteger numOfPresented;
+@property (nonatomic, assign) NSInteger assignNumber;
 
 + (BXTGlobal *)shareGlobal;
 
