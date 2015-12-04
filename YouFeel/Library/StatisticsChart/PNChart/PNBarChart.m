@@ -255,7 +255,9 @@
             }
             
             if (self.labelTextColor) {
-                bar.labelTextColor = self.labelTextColor;
+                // TODO: -----------------  调试柱子中间字体  -----------------
+                //bar.labelTextColor = self.labelTextColor;
+                bar.labelTextColor = [UIColor whiteColor];
             }
 
             // Add gradient

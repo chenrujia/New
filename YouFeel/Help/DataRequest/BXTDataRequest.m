@@ -105,6 +105,7 @@
         subGroup = groupInfo.group_id;
     }
     
+    //@"is_repair":[NSString stringWithFormat:@"%ld",(long)is_repair],
     NSDictionary *dic = @{@"name":[BXTGlobal getUserProperty:U_NAME],
                           @"username":[BXTGlobal getUserProperty:U_USERNAME],
                           @"mobile":[BXTGlobal getUserProperty:U_USERNAME],
@@ -112,7 +113,6 @@
                           @"department_id":departmentInfo.dep_id,
                           @"stores_id":store_id,
                           @"clientid":@"123",
-                          @"is_repair":[NSString stringWithFormat:@"%ld",(long)is_repair],
                           @"place_id":area_id,
                           @"gender":[BXTGlobal getUserProperty:U_SEX],
                           @"out_userid":[BXTGlobal getUserProperty:U_USERID],
@@ -410,7 +410,7 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)maintenanceManList:(NSString *)groupID
 {
     self.requestType = ManList;
-    NSDictionary *dic = @{@"role":@"2",
+    NSDictionary *dic = @{@"is_repair":@"2",
                           @"subgroup":groupID};
     NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];

@@ -22,7 +22,7 @@
 #import "BXTAchievementsViewController.h"
 #import "BXTChatListViewController.h"
 #import "BXTManagerOMViewController.h"
-#import "StatisticsViewController.h"
+#import "BXTStatisticsViewController.h"
 
 @interface BXTShopsHomeViewController ()
 
@@ -133,7 +133,7 @@
         case 5:
         {
             // 业务统计
-            StatisticsViewController *StatisticsVC = [[StatisticsViewController alloc] init];
+            BXTStatisticsViewController *StatisticsVC = [[BXTStatisticsViewController alloc] init];
             [self.navigationController pushViewController:StatisticsVC animated:YES];
             break;
         }

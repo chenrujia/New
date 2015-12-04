@@ -58,7 +58,7 @@
     }
     
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
-    title_label.text = @"我的新工单";
+    title_label.text = @"我的工单";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comingNewRepairs) name:@"NewRepairComing" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assignOrderComing) name:@"AssignOrderComing" object:nil];
@@ -172,7 +172,7 @@
         case 5:
         {
             // 业务统计
-            StatisticsViewController *StatisticsVC = [[StatisticsViewController alloc] init];
+            BXTStatisticsViewController *StatisticsVC = [[BXTStatisticsViewController alloc] init];
             [self.navigationController pushViewController:StatisticsVC animated:YES];
         }
             break;
