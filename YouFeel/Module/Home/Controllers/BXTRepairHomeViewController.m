@@ -124,7 +124,7 @@
 {
     if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
     {
-        BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] init];
+        BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:NO andWithOrderID:nil];
         [self.navigationController pushViewController:newOrderVC animated:YES];
     }
 }

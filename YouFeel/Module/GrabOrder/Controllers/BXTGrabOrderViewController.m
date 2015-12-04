@@ -373,8 +373,12 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSInteger index = [BXTGlobal shareGlobal].numOfPresented - 1;
         NSString *orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
+        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        NSArray *users = @[userID];
         [request reaciveOrderID:orderID
                     arrivalTime:timeStr
+                      andUserID:userID
+                       andUsers:users
                       andIsGrad:YES];
     }
 }
@@ -447,8 +451,12 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSInteger index = [BXTGlobal shareGlobal].numOfPresented - 1;
         NSString *orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
+        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        NSArray *users = @[userID];
         [request reaciveOrderID:orderID
                     arrivalTime:timeStr
+                      andUserID:userID
+                       andUsers:users
                       andIsGrad:YES];
     }
     datePicker = nil;

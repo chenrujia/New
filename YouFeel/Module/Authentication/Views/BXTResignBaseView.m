@@ -60,6 +60,7 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
+    LogBlue(@"dic.......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == DepartmentType)
     {

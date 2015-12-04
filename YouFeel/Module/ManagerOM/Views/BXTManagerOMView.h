@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, RefreshType) {
 typedef NS_ENUM(NSInteger, OrderType) {
     OutTimeType = 0,
     DistributeType = 1,
-    DoneType = 2,
+    CloseType = 2,
     AllType = 3
 };
 

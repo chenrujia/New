@@ -516,8 +516,12 @@
         //NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2/60+1];
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        NSArray *users = @[userID];
         [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
                     arrivalTime:timeStr
+                      andUserID:userID
+                       andUsers:users
                       andIsGrad:NO];
     }
     datePicker = nil;
@@ -549,8 +553,12 @@
         timeStr = [NSString stringWithFormat:@"%.0f", timer];
         
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        NSArray *users = @[userID];
         [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
                     arrivalTime:timeStr
+                      andUserID:userID
+                       andUsers:users
                       andIsGrad:NO];
     }
 }
