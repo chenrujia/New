@@ -14,6 +14,7 @@
 #import "BXTOrderDetailViewController.h"
 #import "UIView+Nav.h"
 #import "BXTNewOrderViewController.h"
+#import "BXTRejectOrderViewController.h"
 
 @implementation BXTManagerOMView
 
@@ -352,6 +353,11 @@
     {
         BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:assignOrderVC animated:YES];
+    }
+    else if (repairInfo.order_type == 3)
+    {
+        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        [[self navigation] pushViewController:rejectVC animated:YES];
     }
     else
     {
