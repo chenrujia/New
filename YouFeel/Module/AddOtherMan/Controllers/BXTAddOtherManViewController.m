@@ -33,11 +33,13 @@
 
 @implementation BXTAddOtherManViewController
 
-- (instancetype)initWithRepairID:(NSInteger)repair_id andWithVCType:(ControllerType)vc_type
+- (instancetype)initWithRepairID:(NSInteger)repair_id
+                   andWithVCType:(ControllerType)vc_type
 {
     self = [super init];
     if (self)
     {
+        number = 0;
         repairID = repair_id;
         vcType = vc_type;
     }
@@ -52,7 +54,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"增加人员" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:vcType == AssignType ? @"指派工单" : @"增加人员" andRightTitle:nil andRightImage:nil];
     [self createTableView];
     
     dataSource = [NSMutableArray array];
@@ -168,22 +170,22 @@
 
 - (void)doneClick
 {
-    if (vcType == DetailType)
+    if (vcType == AssignType)
+    {
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairID]
+                    arrivalTime:@""
+                      andUserID:userID
+                       andUsers:[self selectMans]
+                      andIsGrad:NO];
+    }
+    else if (vcType == DetailType)
     {
         /**请求维修员列表**/
         [self showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSMutableArray *selectManIDs = [NSMutableArray array];
-        if (!isHave)
-        {
-            [selectManIDs addObject:[BXTGlobal getUserProperty:U_BRANCHUSERID]];
-        }
-        for (BXTAddOtherManInfo *otherManInfo in selectMans)
-        {
-            [selectManIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherManInfo.manID]];
-        }
-        
-        [request dispatchingMan:[NSString stringWithFormat:@"%ld",(long)repairID] andMans:selectManIDs];
+        [request dispatchingMan:[NSString stringWithFormat:@"%ld",(long)repairID] andMans:[self selectMans]];
     }
     else
     {
@@ -192,11 +194,25 @@
     }
 }
 
+- (NSArray *)selectMans
+{
+    NSMutableArray *selectManIDs = [NSMutableArray array];
+    if (!isHave && vcType != AssignType)
+    {
+        [selectManIDs addObject:[BXTGlobal getUserProperty:U_BRANCHUSERID]];
+    }
+    
+    for (BXTAddOtherManInfo *otherManInfo in selectMans)
+    {
+        [selectManIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherManInfo.manID]];
+    }
+    return selectManIDs;
+}
+
 #pragma mark -
 #pragma mark 代理
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark -
+#pragma mark UITableViewDelegate & UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return dataSource.count;
@@ -232,9 +248,8 @@
     return 100.f;
 }
 
-/**
- *  DOPDropDownMenuDataSource & DOPDropDownMenuDelegate
- */
+#pragma mark -
+#pragma mark DOPDropDownMenuDataSource & DOPDropDownMenuDelegate
 - (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu
 {
     return 1;
@@ -275,12 +290,12 @@
     }
 }
 
-/**
- *  BXTDataResponseDelegate
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
+    LogBlue(@"dic......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == PropertyGrouping)
     {
@@ -313,8 +328,11 @@
                 
                 if (otherManInfo.manID == [[BXTGlobal getUserProperty:U_BRANCHUSERID] integerValue])
                 {
-                    [selectMans addObject:otherManInfo];
-                    number = 1;
+                    if (vcType != AssignType)
+                    {
+                        number = 1;
+                        [selectMans addObject:otherManInfo];
+                    }
                     isHave = YES;
                 }
                 

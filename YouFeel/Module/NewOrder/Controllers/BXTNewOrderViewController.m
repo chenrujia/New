@@ -12,6 +12,7 @@
 #import "BXTRepairDetailInfo.h"
 #import "BXTSelectBoxView.h"
 #import "MWPhotoBrowser.h"
+#import "BXTAddOtherManViewController.h"
 #import "BXTRejectOrderViewController.h"
 
 #define ImageWidth 73.3f
@@ -40,6 +41,7 @@
     NSDate              *originDate;
     NSTimeInterval      timeInterval2;
     NSString            *currentOrderID;
+    BOOL                isAssign;//判断是派工界面还是新工单界面
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -48,10 +50,21 @@
 
 @implementation BXTNewOrderViewController
 
+- (instancetype)initWithIsAssign:(BOOL)assign
+                  andWithOrderID:(NSString *)orderID
+{
+    self = [super init];
+    if (self)
+    {
+        isAssign = assign;
+        currentOrderID = orderID;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    ++[BXTGlobal shareGlobal].assignNumber;
     [self navigationSetting:@"新工单" andRightTitle:nil andRightImage:nil];
     [self createSubviews];
     
@@ -65,8 +78,12 @@
     
     /**获取详情**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    NSInteger index = [BXTGlobal shareGlobal].assignNumber;
-    currentOrderID = [[BXTGlobal shareGlobal].assignOrderIDs objectAtIndex:index - 1];
+    if (!isAssign)
+    {
+        ++[BXTGlobal shareGlobal].assignNumber;
+        NSInteger index = [BXTGlobal shareGlobal].assignNumber;
+        currentOrderID = [[BXTGlobal shareGlobal].assignOrderIDs objectAtIndex:index - 1];
+    }
     [request repairDetail:[NSString stringWithFormat:@"%@",currentOrderID]];
 }
 
@@ -190,27 +207,69 @@
     
     CGFloat bv_height = IS_IPHONE6 ? 80.f : 70.f;
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - bv_height, SCREEN_WIDTH, bv_height)];
-    backView.backgroundColor = colorWithHexString(@"febc2d");
+    if (isAssign)
+    {
+        backView.backgroundColor = colorWithHexString(@"eff3f6");
+        
+        if ([BXTGlobal shareGlobal].isRepair)
+        {
+            CGFloat grab_height = IS_IPHONE6 ? 50.f : 40.f;
+            UIButton *reaciveBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [reaciveBtn setFrame:CGRectMake(20.f, 15.f, (SCREEN_WIDTH - 60.f)/2.f, grab_height)];
+            [reaciveBtn setBackgroundColor:colorWithHexString(@"3cafff")];
+            [reaciveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [reaciveBtn setTitle:@"我来修" forState:UIControlStateNormal];
+            reaciveBtn.layer.cornerRadius = 4.f;
+            [reaciveBtn addTarget:self action:@selector(grabBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [backView addSubview:reaciveBtn];
+            
+            UIButton *assignBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [assignBtn setFrame:CGRectMake(CGRectGetMaxX(reaciveBtn.frame) + 20.f, 15.f, (SCREEN_WIDTH - 60.f)/2.f, grab_height)];
+            [assignBtn setBackgroundColor:colorWithHexString(@"ffffff")];
+            [assignBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [assignBtn setTitle:@"指派" forState:UIControlStateNormal];
+            assignBtn.layer.cornerRadius = 4.f;
+            [assignBtn addTarget:self action:@selector(assignBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [backView addSubview:assignBtn];
+        }
+        else
+        {
+            CGFloat grab_height = IS_IPHONE6 ? 50.f : 40.f;
+            UIButton *assignBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [assignBtn setFrame:CGRectMake(20.f, 15.f, SCREEN_WIDTH - 40.f, grab_height)];
+            [assignBtn setBackgroundColor:colorWithHexString(@"ffffff")];
+            [assignBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [assignBtn setTitle:@"指派" forState:UIControlStateNormal];
+            assignBtn.layer.cornerRadius = 4.f;
+            [assignBtn addTarget:self action:@selector(assignBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [backView addSubview:assignBtn];
+        }
+    }
+    else
+    {
+        backView.backgroundColor = colorWithHexString(@"febc2d");
+        
+        CGFloat grab_height = IS_IPHONE6 ? 50.f : 40.f;
+        UIButton *grabOrderBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [grabOrderBtn setFrame:CGRectMake(20.f, 15.f, (SCREEN_WIDTH - 60.f)/2.f, grab_height)];
+        [grabOrderBtn setBackgroundColor:colorWithHexString(@"f0640f")];
+        [grabOrderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [grabOrderBtn setTitle:@"我要接" forState:UIControlStateNormal];
+        grabOrderBtn.layer.cornerRadius = 4.f;
+        [grabOrderBtn addTarget:self action:@selector(grabBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [backView addSubview:grabOrderBtn];
+        
+        UIButton *rejectBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [rejectBtn setFrame:CGRectMake(CGRectGetMaxX(grabOrderBtn.frame) + 20.f, 15.f, (SCREEN_WIDTH - 60.f)/2.f, grab_height)];
+        [rejectBtn setBackgroundColor:colorWithHexString(@"ffffff")];
+        [rejectBtn setTitleColor:colorWithHexString(@"f0640f") forState:UIControlStateNormal];
+        [rejectBtn setTitle:@"我不接" forState:UIControlStateNormal];
+        rejectBtn.layer.cornerRadius = 4.f;
+        [rejectBtn addTarget:self action:@selector(rejectBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [backView addSubview:rejectBtn];
+    }
+
     [self.view addSubview:backView];
-    
-    CGFloat grab_height = IS_IPHONE6 ? 50.f : 40.f;
-    UIButton *grabOrderBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [grabOrderBtn setFrame:CGRectMake(20.f, 15.f, (SCREEN_WIDTH - 60.f)/2.f, grab_height)];
-    [grabOrderBtn setBackgroundColor:colorWithHexString(@"f0640f")];
-    [grabOrderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [grabOrderBtn setTitle:@"我要接" forState:UIControlStateNormal];
-    grabOrderBtn.layer.cornerRadius = 4.f;
-    [grabOrderBtn addTarget:self action:@selector(grabBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:grabOrderBtn];
-    
-    UIButton *rejectBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [rejectBtn setFrame:CGRectMake(CGRectGetMaxX(grabOrderBtn.frame) + 20.f, 15.f, (SCREEN_WIDTH - 60.f)/2.f, grab_height)];
-    [rejectBtn setBackgroundColor:colorWithHexString(@"ffffff")];
-    [rejectBtn setTitleColor:colorWithHexString(@"f0640f") forState:UIControlStateNormal];
-    [rejectBtn setTitle:@"我不接" forState:UIControlStateNormal];
-    rejectBtn.layer.cornerRadius = 4.f;
-    [rejectBtn addTarget:self action:@selector(rejectBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:rejectBtn];
 }
 
 #pragma mark -
@@ -303,6 +362,12 @@
     [self.navigationController pushViewController:rejectVC animated:YES];
 }
 
+- (void)assignBtnClick
+{
+    BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[currentOrderID integerValue] andWithVCType:AssignType];
+    [self.navigationController pushViewController:addOtherVC animated:YES];
+}
+
 - (void)dateChange:(UIDatePicker *)picker
 {
     // 获取分钟数
@@ -315,8 +380,12 @@
     {
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        NSArray *users = @[userID];
         [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
                     arrivalTime:timeStr
+                      andUserID:userID
+                       andUsers:users
                       andIsGrad:NO];
     }
     datePicker = nil;
@@ -540,8 +609,12 @@
         timeStr = [NSString stringWithFormat:@"%.0f", timer];
         
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        NSArray *users = @[userID];
         [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
                     arrivalTime:timeStr
+                      andUserID:userID
+                       andUsers:users
                       andIsGrad:NO];
     }
 }

@@ -10,14 +10,16 @@
 
 typedef NS_ENUM(NSInteger, ControllerType) {
     DetailType,
-    RepairType
+    RepairType,
+    AssignType
 };
 
 typedef void (^ChooseMans)(NSMutableArray *mans);
 
 @interface BXTAddOtherManViewController : BXTBaseViewController
 
-- (instancetype)initWithRepairID:(NSInteger)repair_id andWithVCType:(ControllerType)vc_type;
+- (instancetype)initWithRepairID:(NSInteger)repair_id
+                   andWithVCType:(ControllerType)vc_type;
 
 - (void)didChoosedMans:(ChooseMans)mans;
 

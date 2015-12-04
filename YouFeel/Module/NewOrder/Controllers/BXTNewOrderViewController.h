@@ -11,4 +11,7 @@
 
 @interface BXTNewOrderViewController : BXTBaseViewController
 
+- (instancetype)initWithIsAssign:(BOOL)assign
+                  andWithOrderID:(NSString *)orderID;
+
 @end

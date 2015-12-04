@@ -349,12 +349,14 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)reaciveOrderID:(NSString *)repairID
            arrivalTime:(NSString *)time
+             andUserID:(NSString *)userID
+              andUsers:(NSArray *)users
              andIsGrad:(BOOL)isGrab
 {
     self.requestType = ReaciveOrder;
     NSDictionary *dic = @{@"is_grab":[NSString stringWithFormat:@"%d",isGrab],
-                          @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"user":@[[BXTGlobal getUserProperty:U_BRANCHUSERID]],
+                          @"user_id":userID,
+                          @"user":users,
                           @"id":repairID,
                           @"arrival_time":time};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=dispatching",[BXTGlobal shareGlobal].baseURL];

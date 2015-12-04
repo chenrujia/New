@@ -13,6 +13,7 @@
 #import "BXTRepairInfo.h"
 #import "BXTOrderDetailViewController.h"
 #import "UIView+Nav.h"
+#import "BXTNewOrderViewController.h"
 
 @implementation BXTManagerOMView
 
@@ -93,8 +94,7 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     if (_orderType == OutTimeType)
     {
-        NSString *outTime = groupID.length > 0 ? @"" : @"3600";
-        [request repairsList:outTime
+        [request repairsList:[BXTGlobal shareGlobal].longTime
                   andDisUser:@""
                 andCloseUser:@""
                 andOrderType:priorityType
@@ -111,7 +111,7 @@
                andSubgroupID:groupID
                      andPage:1];
     }
-    else if (_orderType == DoneType)
+    else if (_orderType == CloseType)
     {
         NSString *closeUser = groupID.length > 0 ? @"" : [BXTGlobal getUserProperty:U_BRANCHUSERID];
         [request repairsList:@""
@@ -164,7 +164,7 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     if (_orderType == OutTimeType)
     {
-        NSString *outTime = groupID.length > 0 ? @"" : @"3600";
+        NSString *outTime = [BXTGlobal shareGlobal].longTime;
         [request repairsList:outTime
                   andDisUser:@""
                 andCloseUser:@""
@@ -182,7 +182,7 @@
                andSubgroupID:groupID
                      andPage:currentPage];
     }
-    else if (_orderType == DistributeType)
+    else if (_orderType == CloseType)
     {
         NSString *closeUser = groupID.length > 0 ? @"" : [BXTGlobal getUserProperty:U_BRANCHUSERID];
         [request repairsList:@""
@@ -348,8 +348,16 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
-    BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
-    [[self navigation] pushViewController:repairDetailVC animated:YES];
+    if ([repairInfo.state integerValue] == 1)
+    {
+        BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        [[self navigation] pushViewController:assignOrderVC animated:YES];
+    }
+    else
+    {
+        BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        [[self navigation] pushViewController:repairDetailVC animated:YES];
+    }
 }
 
 #pragma mark -

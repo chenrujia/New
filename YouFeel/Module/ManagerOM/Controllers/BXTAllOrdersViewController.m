@@ -11,8 +11,6 @@
 #import "BXTManagerOMView.h"
 #include <math.h>
 
-#define kAlertHeight 576.f
-
 @interface BXTAllOrdersViewController ()<BXTDataResponseDelegate>
 {
     BXTManagerOMView *omView;
@@ -31,6 +29,7 @@
     UIDatePicker     *datePicker;
     BOOL             isStart;
     NSString         *selectOT;
+    CGFloat          alertHeight;
 }
 @end
 
@@ -39,6 +38,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if (IS_IPHONE6P)
+    {
+        alertHeight = 576.f;
+    }
+    else
+    {
+        alertHeight = 512.f;
+    }
     startStr = @"";
     endStr = @"";
     selectOT = @"";
@@ -69,23 +76,41 @@
     
     if (!alertBackView)
     {
-        alertBackView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kAlertHeight)];
+        alertBackView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, alertHeight)];
         alertBackView.backgroundColor = colorWithHexString(@"eff3f6");
         [self.view addSubview:alertBackView];
         
+        CGFloat timeBackHeight = 272.f;
+        CGFloat line_y = 55.f;
+        CGFloat groupBackHeight = 114.f;
+        CGFloat orderTypeBackHeight = 122;
+        CGFloat doneBtnheight = 55.f;
+        if (IS_IPHONE6)
+        {
+            timeBackHeight = 262.f;
+            line_y = 45.f;
+            groupBackHeight = 94.f;
+            orderTypeBackHeight = 96;
+            doneBtnheight = 50.f;
+        }
+        
         //时间范围白色背景图
-        UIView *timeRangeBack = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 272)];
+        UIView *timeRangeBack = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, timeBackHeight)];
         timeRangeBack.backgroundColor = colorWithHexString(@"ffffff");
         [alertBackView addSubview:timeRangeBack];
         
-        UILabel *timeAange = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 17.f, 100, 20)];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, line_y, SCREEN_WIDTH, 1.0f)];
+        lineView.backgroundColor = colorWithHexString(@"e1e5e7");
+        [timeRangeBack addSubview:lineView];
+        
+        UILabel *timeAange = [[UILabel alloc] initWithFrame:CGRectMake(15.f, (line_y - 20)/2.f, 100, 20)];
         timeAange.font = [UIFont boldSystemFontOfSize:17.f];
         timeAange.text = @"时间范围";
         [timeRangeBack addSubview:timeAange];
         
         startTime = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         startTime.tag = 1;
-        [startTime setFrame:CGRectMake(SCREEN_WIDTH - 105.f - 100.f - 15.f, 7.f, 105, 44)];
+        [startTime setFrame:CGRectMake(SCREEN_WIDTH - 105.f - 100.f - 15.f, (line_y - 44)/2.f, 105, 44)];
         [startTime setBackgroundColor:colorWithHexString(@"ffffff")];
         startTime.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
         [startTime setTitle:@"开始时间" forState:UIControlStateNormal];
@@ -95,17 +120,13 @@
         
         endTime = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         endTime.tag = 0;
-        [endTime setFrame:CGRectMake(CGRectGetMaxX(startTime.frame), 7.f, 100, 44)];
+        [endTime setFrame:CGRectMake(CGRectGetMaxX(startTime.frame), (line_y - 44)/2.f, 100, 44)];
         [endTime setBackgroundColor:colorWithHexString(@"ffffff")];
         endTime.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
         [endTime setTitle:@"结束时间" forState:UIControlStateNormal];
         [endTime setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
         [endTime addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         [timeRangeBack addSubview:endTime];
-        
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 55.f, SCREEN_WIDTH, 1.0f)];
-        lineView.backgroundColor = colorWithHexString(@"e1e5e7");
-        [timeRangeBack addSubview:lineView];
         
         datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView.frame), SCREEN_WIDTH, 216)];
         datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
@@ -115,7 +136,8 @@
         [timeRangeBack addSubview:datePicker];
 
         //专业分组白色背景图
-        UIView *groupBack = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(timeRangeBack.frame), SCREEN_WIDTH, 114)];
+        NSInteger row = floor(groupArray.count/4.f);
+        UIView *groupBack = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(timeRangeBack.frame), SCREEN_WIDTH, groupBackHeight + row * 40)];
         groupBack.backgroundColor = colorWithHexString(@"ffffff");
         [alertBackView addSubview:groupBack];
         
@@ -123,21 +145,21 @@
         lineTwo.backgroundColor = colorWithHexString(@"e1e5e7");
         [groupBack addSubview:lineTwo];
         
-        UILabel *proGroup = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 17.f, 100, 20)];
+        UIView *lineTwoView = [[UIView alloc] initWithFrame:CGRectMake(0, line_y, SCREEN_WIDTH, 1.0f)];
+        lineTwoView.backgroundColor = colorWithHexString(@"e1e5e7");
+        [groupBack addSubview:lineTwoView];
+        
+        UILabel *proGroup = [[UILabel alloc] initWithFrame:CGRectMake(15.f, (line_y - 20)/2.f, 100, 20)];
         proGroup.font = [UIFont boldSystemFontOfSize:17.f];
         proGroup.text = @"专业分组";
         [groupBack addSubview:proGroup];
         
-        groupsLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 215.f, 17.f, 200, 20.f)];
+        groupsLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 215.f, (line_y - 20)/2.f, 200, 20.f)];
         groupsLabel.font = [UIFont boldSystemFontOfSize:17.f];
         groupsLabel.textAlignment = NSTextAlignmentRight;
         groupsLabel.textColor = colorWithHexString(@"3cafff");
         [groupBack addSubview:groupsLabel];
-        
-        UIView *lineTwoView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(groupsLabel.frame) + 15.f, SCREEN_WIDTH, 1.0f)];
-        lineTwoView.backgroundColor = colorWithHexString(@"e1e5e7");
-        [groupBack addSubview:lineTwoView];
-        
+
         CGFloat width = (SCREEN_WIDTH - 75.f)/4.f;
         for (NSInteger index = 0; index < groupArray.count; index++)
         {
@@ -147,7 +169,7 @@
             NSInteger col = index%4; //列号为框框的序号对列数取余
             
             CGFloat appX = 15.f + col * (width + 15.f); // 每个框框靠左边的宽度为 (平均间隔＋框框自己的宽度）
-            CGFloat appY = CGRectGetMaxY(lineTwoView.frame) + 15.f + row * (30.f + 10.f); // 每个框框靠上面的高度为 平均间隔＋框框自己的高度
+            CGFloat appY = CGRectGetMaxY(lineTwoView.frame) + (IS_IPHONE6P ? 15 : 10) + row * (30.f + 10.f); // 每个框框靠上面的高度为 平均间隔＋框框自己的高度
             
             BXTGroupingInfo *groupInfo = groupArray[index];
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -162,7 +184,7 @@
         }
         
         //工单分类白色背景图
-        UIView *orderTypeBack = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(groupBack.frame), SCREEN_WIDTH, 122)];
+        UIView *orderTypeBack = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(groupBack.frame), SCREEN_WIDTH, orderTypeBackHeight)];
         orderTypeBack.backgroundColor = colorWithHexString(@"ffffff");
         [alertBackView addSubview:orderTypeBack];
         
@@ -170,20 +192,20 @@
         lineThree.backgroundColor = colorWithHexString(@"e1e5e7");
         [orderTypeBack addSubview:lineThree];
         
-        UILabel *orderName = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 17.f, 100, 20)];
+        UIView *lineThreeView = [[UIView alloc] initWithFrame:CGRectMake(0, line_y, SCREEN_WIDTH, 1.0f)];
+        lineThreeView.backgroundColor = colorWithHexString(@"e1e5e7");
+        [orderTypeBack addSubview:lineThreeView];
+        
+        UILabel *orderName = [[UILabel alloc] initWithFrame:CGRectMake(15.f, (line_y - 20)/2.f, 100, 20)];
         orderName.font = [UIFont boldSystemFontOfSize:17.f];
         orderName.text = @"工单分类";
         [orderTypeBack addSubview:orderName];
         
-        orderTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 115.f, 17.f, 100, 20.f)];
+        orderTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 115.f, (line_y - 20)/2.f, 100, 20.f)];
         orderTypeLabel.font = [UIFont boldSystemFontOfSize:17.f];
         orderTypeLabel.textAlignment = NSTextAlignmentRight;
         orderTypeLabel.textColor = colorWithHexString(@"3cafff");
         [orderTypeBack addSubview:orderTypeLabel];
-        
-        UIView *lineThreeView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(orderTypeLabel.frame) + 15.f, SCREEN_WIDTH, 1.0f)];
-        lineThreeView.backgroundColor = colorWithHexString(@"e1e5e7");
-        [orderTypeBack addSubview:lineThreeView];
         
         for (NSInteger index = 0; index < orderTypeName.count; index++)
         {
@@ -193,7 +215,7 @@
             NSInteger col = index%4; //列号为框框的序号对列数取余
             
             CGFloat appX = 15.f + col * (width + 15.f); // 每个框框靠左边的宽度为 (平均间隔＋框框自己的宽度）
-            CGFloat appY = CGRectGetMaxY(lineTwoView.frame) + 15.f + row * (30.f + 10.f); // 每个框框靠上面的高度为 平均间隔＋框框自己的高度
+            CGFloat appY = CGRectGetMaxY(lineTwoView.frame) + (IS_IPHONE6P ? 15 : 10) + row * (30.f + 10.f); // 每个框框靠上面的高度为 平均间隔＋框框自己的高度
             
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             [btn setFrame:CGRectMake(appX, appY, width, 30.f)];
@@ -208,7 +230,7 @@
         }
         
         UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [doneBtn setFrame:CGRectMake(0, kAlertHeight - 55.f, SCREEN_WIDTH, 55.f)];
+        [doneBtn setFrame:CGRectMake(0, alertHeight - doneBtnheight, SCREEN_WIDTH, doneBtnheight)];
         [doneBtn setBackgroundColor:colorWithHexString(@"ffffff")];
         [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
         [doneBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
@@ -217,7 +239,7 @@
     }
     [self.view bringSubviewToFront:alertBackView];
     [UIView animateWithDuration:0.3f animations:^{
-        [alertBackView setFrame:CGRectMake(0, SCREEN_HEIGHT - kAlertHeight, SCREEN_WIDTH, kAlertHeight)];
+        [alertBackView setFrame:CGRectMake(0, SCREEN_HEIGHT - alertHeight, SCREEN_WIDTH, alertHeight)];
     }];
 }
 
@@ -328,7 +350,7 @@
     {
         [view removeFromSuperview];
         [UIView animateWithDuration:0.3f animations:^{
-            [alertBackView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kAlertHeight)];
+            [alertBackView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, alertHeight)];
         } completion:nil];
     }
 }
@@ -343,7 +365,7 @@
     {
         [view removeFromSuperview];
         [UIView animateWithDuration:0.3f animations:^{
-            [alertBackView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kAlertHeight)];
+            [alertBackView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, alertHeight)];
         } completion:nil];
     }
 }
@@ -371,6 +393,9 @@
                 
                 [groupArray addObject:groupInfo];
             }
+            
+            NSInteger row = floor(groupArray.count/4.f);
+            alertHeight = alertHeight + row * 40;
         }
     }
 }

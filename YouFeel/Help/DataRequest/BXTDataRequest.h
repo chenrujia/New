@@ -189,6 +189,8 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)reaciveOrderID:(NSString *)repairID
            arrivalTime:(NSString *)time
+             andUserID:(NSString *)userID
+              andUsers:(NSArray *)users
              andIsGrad:(BOOL)isGrab;
 
 /**

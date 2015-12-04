@@ -28,6 +28,7 @@
         bxtGlobal.assignOrderIDs = [NSMutableArray array];
         bxtGlobal.numOfPresented = 0;
         bxtGlobal.assignNumber = 0;
+        bxtGlobal.longTime = @"";
     });
     return bxtGlobal;
 }
@@ -98,6 +99,7 @@
     groupInfo.subgroup = [dic objectForKey:@"subgroup_name"];
     [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
     
+    [BXTGlobal shareGlobal].longTime = [dic objectForKey:@"long_time"];
     NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
     [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
     
