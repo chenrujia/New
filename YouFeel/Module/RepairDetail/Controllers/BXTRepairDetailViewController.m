@@ -368,10 +368,10 @@
         //实例化一个NSDateFormatter对象
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         //设定时间格式,这里可以设置成自己需要的格式
-        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        [dateFormatter setDateFormat:@"MM-dd HH:mm"];
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
-        place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.place_name,repairDetail.stores_name];
+        place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.area_name,repairDetail.place_name];
         name.text = [NSString stringWithFormat:@"报修人:%@",repairDetail.fault];
         mobile.text = [NSString stringWithFormat:@"手机号:%@",repairDetail.visitmobile];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
@@ -416,7 +416,7 @@
                     imgView.userInteractionEnabled = YES;
                     imgView.layer.masksToBounds = YES;
                     imgView.contentMode = UIViewContentModeScaleAspectFill;
-                    [imgView sd_setImageWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+                    [imgView sd_setImageWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
                     imgView.tag = i;
                     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
                     [imgView addGestureRecognizer:tapGR];
@@ -533,7 +533,7 @@
     //实例化一个NSDateFormatter对象
     NSDateFormatter *repairDateFormatter = [[NSDateFormatter alloc] init];
     //设定时间格式,这里可以设置成自己需要的格式
-    [repairDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [repairDateFormatter setDateFormat:@"MM-dd HH:mm"];
     NSString *repairDateStr = [repairDateFormatter stringFromDate:repairDate];
     arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
     if (workTime.hidden)

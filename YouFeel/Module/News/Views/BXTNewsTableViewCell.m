@@ -61,7 +61,7 @@
         
         self.timeLabel = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 130.f - 15.f, CGRectGetMinY(_detailLabel.frame) + 34.f, 130, 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 140.f - 15.f, CGRectGetMinY(_detailLabel.frame) + 34.f, 140, 20)];
             label.textColor = colorWithHexString(@"909497");
             label.textAlignment = NSTextAlignmentRight;
             label.font = [UIFont boldSystemFontOfSize:15.f];

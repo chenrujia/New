@@ -18,8 +18,9 @@
 #import "SPBarChart.h"
 #import "SPBarChartData.h"
 #import "SPChartDelegate.h"
+#import "SegmentView.h"
 
-@interface BXTStatisticsMianViewController : UIViewController  {
+@interface BXTStatisticsMianViewController : UIViewController <SegmentViewDelegate>  {
     UIView *pickerbgView;
     UIDatePicker *datePicker;
     NSDate *selectedDate;
@@ -29,7 +30,7 @@
  *  所有子界面控件加载到rootScrollView上即可
  */
 @property (nonatomic, strong) UIScrollView *rootScrollView;
-@property(nonatomic, strong) UISegmentedControl *rootSegmentedCtr;
+@property(nonatomic, strong) SegmentView *rootSegmentedCtr;
 @property (nonatomic, strong) UIButton *rootCenterButton;
 
 /**

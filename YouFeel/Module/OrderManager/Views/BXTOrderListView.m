@@ -188,10 +188,15 @@
         NSArray *usersArray = repairInfo.repair_user;
         NSString *components = [usersArray componentsJoinedByString:@","];
         cell.state.text = components;
-        cell.repairState.text = repairInfo.receive_state;
         cell.tag = indexPath.section;
         cell.cancelRepair.hidden = YES;
         
+        // TODO: -----------------  调试 维修状态  -----------------
+        cell.repairState.text = repairInfo.receive_state;
+        if ([self.repairState isEqualToString:@"1"]) {
+            cell.repairState.hidden = YES;
+        }
+
         return cell;
     }
     else
@@ -282,6 +287,10 @@
             BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
             [[self navigation] pushViewController:repairDetailVC animated:YES];
         }
+        else
+        {
+            [self showAlertView:@"特殊工单不可点击"];
+        }
     }
 }
 
@@ -313,7 +322,7 @@
         {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
             hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"已经开始！";
+            hud.labelText = @"维修已开始！";
             hud.margin = 10.f;
             hud.removeFromSuperViewOnHide = YES;
             [hud hide:YES afterDelay:2.f];
@@ -357,6 +366,24 @@
 {
     [currentTableView.header endRefreshing];
     [currentTableView.footer endRefreshing];
+}
+
+- (void)showAlertView:(NSString *)title
+{
+    if (IS_IOS_8)
+    {
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+        }];
+        [alertCtr addAction:doneAction];
+        [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
 }
 
 @end

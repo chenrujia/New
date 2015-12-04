@@ -46,6 +46,9 @@
     NSString         *specialOID;
     NSString         *groupID;
     BOOL             isDone;//是否修好的状态
+    
+    UIView *pickerbackView;
+    UIView *toolView;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -139,7 +142,7 @@
     
     NSTimeInterval currentTime = [NSDate date].timeIntervalSince1970;
     NSString *finishTime = [NSString stringWithFormat:@"%.0f",currentTime];
-    NSString *manHours = [NSString stringWithFormat:@"%ld",(long)([finishTime integerValue] - [_reaciveTime integerValue])];
+    NSString *manHours = [NSString stringWithFormat:@"%.1f",(float)([finishTime integerValue] - [_reaciveTime integerValue])/60/60];
     
     [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairID]
                    andReaciveTime:_reaciveTime
@@ -225,11 +228,10 @@
 #pragma mark 创建BoxView
 - (void)createBoxView:(NSInteger)section
 {
-    UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.6f;
-    backView.tag = 101;
-    [self.view addSubview:backView];
+    pickerbackView = [[UIView alloc] initWithFrame:self.view.bounds];
+    pickerbackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    pickerbackView.tag = 101;
+    [self.view addSubview:pickerbackView];
     
     if (section == 0)
     {
@@ -267,6 +269,19 @@
         faultPickView.dataSource = self;
         faultPickView.delegate = self;
         [self.view addSubview:faultPickView];
+        
+        // 工具条
+        toolView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-44, SCREEN_WIDTH, 44)];
+        toolView.backgroundColor = colorWithHexString(@"cccdd0");
+        [pickerbackView addSubview:toolView];
+        
+        // sure
+        UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-80, 2, 80, 40)];
+        [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+        [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        sureBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+        [sureBtn addTarget:self action:@selector(toolBarDoneClick) forControlEvents:UIControlEventTouchUpInside];
+        [toolView addSubview:sureBtn];
     }
 }
 
@@ -278,6 +293,15 @@
     [UIView animateWithDuration:0.3f animations:^{
         [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
     }];
+}
+
+- (void)toolBarDoneClick {
+    if (faultPickView) {
+        [faultPickView removeFromSuperview];
+        faultPickView = nil;
+        [pickerbackView removeFromSuperview];
+        [currentTableView reloadData];
+    }
 }
 
 #pragma mark -

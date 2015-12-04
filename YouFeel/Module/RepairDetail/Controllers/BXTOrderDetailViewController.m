@@ -607,7 +607,7 @@
         //实例化一个NSDateFormatter对象
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         //设定时间格式,这里可以设置成自己需要的格式
-        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        [dateFormatter setDateFormat:@"MM-dd HH:mm"];
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:repairDetail.visitmobile];
@@ -637,7 +637,7 @@
             orderType.text = @"超时工单";
         }
 
-        place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.place_name,repairDetail.stores_name];
+        place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.area_name,repairDetail.place_name];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
         
@@ -855,9 +855,10 @@
             UIButton *repairNow = [UIButton buttonWithType:UIButtonTypeCustom];
             repairNow.layer.cornerRadius = 4.f;
             repairNow.backgroundColor = colorWithHexString(@"3cafff");
-            [repairNow setFrame:CGRectMake(SCREEN_WIDTH - 150.f - 15.f, 22.5f + 10.f, 150.f, 40.f)];
+            [repairNow setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
             [repairNow setTitle:@"开始维修" forState:UIControlStateNormal];
             [repairNow setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+            repairNow.titleLabel.font = [UIFont systemFontOfSize:15];
             [repairNow addTarget:self action:@selector(startRepairAction) forControlEvents:UIControlEventTouchUpInside];
             [userBack addSubview:repairNow];
         }

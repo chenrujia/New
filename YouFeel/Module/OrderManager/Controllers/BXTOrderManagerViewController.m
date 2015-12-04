@@ -80,6 +80,7 @@
     segment.layer.cornerRadius = 4.f;
     segment.layer.borderWidth = 1.f;
     segment.delegate = self;
+    
     [backView addSubview:segment];
     
     currentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, navBarHeight + 40.f, SCREEN_WIDTH, SCREEN_HEIGHT - navBarHeight - 40.f)];
