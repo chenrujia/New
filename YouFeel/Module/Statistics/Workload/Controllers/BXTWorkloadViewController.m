@@ -151,7 +151,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"%ld - %ld", (long)indexPath.section, indexPath.row);
+    NSLog(@"%ld - %ld", (long)indexPath.section, (long)indexPath.row);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

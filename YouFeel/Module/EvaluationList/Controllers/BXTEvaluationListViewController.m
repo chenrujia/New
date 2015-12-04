@@ -61,7 +61,7 @@
     [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
     [naviView addSubview:navi_leftButton];
     
-    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, NavBarHeight - 40.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"未评价",@"已评价"]];
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, NavBarHeight - 40.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"未评价",@"已评价"] isWhiteBGColor:0];
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
     segment.delegate = self;

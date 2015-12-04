@@ -68,14 +68,15 @@
     
     if (![BXTGlobal shareGlobal].isRepair)
     {
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"等待中",@"维修中",@"已完成"]];
+        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"等待中",@"维修中",@"已完成"] isWhiteBGColor:1];
         segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     }
     else
     {
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"待维修",@"维修中",@"维修完成"]];
+        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"待维修",@"维修中",@"维修完成"] isWhiteBGColor:1];
         segment.layer.borderColor = colorWithHexString(@"0a4197").CGColor;
     }
+    
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
     segment.layer.borderWidth = 1.f;

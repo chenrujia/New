@@ -831,9 +831,13 @@
     }
     maintenanceMan.frame = CGRectMake(20.f, CGRectGetMaxY(lineView.frame) + 10.f, SCREEN_WIDTH - 40.f, 40.f);
     
+    NSMutableArray *manIDArray = [[NSMutableArray alloc] init];
+    
     for (NSInteger i = 0; i < repairDetail.repair_user_arr.count; i++)
     {
         NSDictionary *userDic = repairDetail.repair_user_arr[i];
+        
+        [manIDArray addObject:userDic[@"id"]];
         
         UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(maintenanceMan.frame) + i * 95.f, SCREEN_WIDTH, 95.f)];
         UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
@@ -893,6 +897,8 @@
         
         [scrollView addSubview:userBack];
     }
+    
+    NSLog(@"manIDArray -- %@", manIDArray);
     
     reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(maintenanceMan.frame) + repairDetail.repair_user_arr.count * 95.f + 20.f, SCREEN_WIDTH - 40, 50.f);
 }

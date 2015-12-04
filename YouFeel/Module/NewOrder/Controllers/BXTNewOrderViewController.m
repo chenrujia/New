@@ -485,7 +485,7 @@
         //实例化一个NSDateFormatter对象
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         //设定时间格式,这里可以设置成自己需要的格式
-        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        [dateFormatter setDateFormat:@"MM-dd HH:mm"];
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:repairDetail.visitmobile];
