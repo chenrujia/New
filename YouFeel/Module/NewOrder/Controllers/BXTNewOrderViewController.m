@@ -358,7 +358,7 @@
 
 - (void)rejectBtnClick
 {
-    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:currentOrderID];
+    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:currentOrderID andIsAssign:NO];
     [self.navigationController pushViewController:rejectVC animated:YES];
 }
 

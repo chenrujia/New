@@ -12,6 +12,7 @@
 @interface BXTRejectOrderViewController ()<UITextViewDelegate,BXTDataResponseDelegate>
 {
     NSString    *notes;
+    BOOL        isAssign;
 }
 
 @property (nonatomic ,strong) NSString *currentOrderID;
@@ -20,11 +21,12 @@
 
 @implementation BXTRejectOrderViewController
 
-- (instancetype)initWithOrderID:(NSString *)orderID
+- (instancetype)initWithOrderID:(NSString *)orderID andIsAssign:(BOOL)assign
 {
     self = [super init];
     if (self)
     {
+        isAssign = assign;
         self.currentOrderID = orderID;
     }
     return self;
@@ -33,7 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"拒接原因" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:isAssign ? @"审批说明" : @"拒接原因" andRightTitle:nil andRightImage:nil];
     [self createSubviews];
     notes = @"";
 }
@@ -43,7 +45,7 @@
     UITextView *cause = [[UITextView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 20.f, SCREEN_WIDTH, 170.f)];
     cause.font = [UIFont boldSystemFontOfSize:16.];
     cause.textColor = colorWithHexString(@"909497");
-    cause.text = @"请输入您不接单的原因（500字以内）";
+    cause.text = isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）";
     cause.delegate = self;
     [self.view addSubview:cause];
     
@@ -63,17 +65,24 @@
     if (notes.length)
     {
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request rejectOrder:_currentOrderID withNotes:notes];
+        if (isAssign)
+        {
+            [request closeOrder:_currentOrderID withNotes:notes];
+        }
+        else
+        {
+            [request rejectOrder:_currentOrderID withNotes:notes];
+        }
     }
     else
     {
-        [self showMBP:@"拒接原因不能为空" withBlock:nil];
+        [self showMBP:isAssign ? @"关闭工单原因不能为空" : @"拒接原因不能为空" withBlock:nil];
     }
 }
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:@"请输入您不接单的原因（500字以内）"])
+    if ([textView.text isEqualToString:isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）"])
     {
         textView.text = @"";
     }
@@ -84,7 +93,7 @@
 {
     if (textView.text.length < 1)
     {
-        textView.text = @"请输入您不接单的原因（500字以内）";
+        textView.text = isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）";
     }
     notes = textView.text;
 }
@@ -94,11 +103,19 @@
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
-        
-        [self showMBP:@"已拒接" withBlock:^(BOOL hidden) {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            --[BXTGlobal shareGlobal].assignNumber;
-        }];
+        if (isAssign)
+        {
+            [self showMBP:@"已关闭" withBlock:^(BOOL hidden) {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }];
+        }
+        else
+        {
+            [self showMBP:@"已拒接" withBlock:^(BOOL hidden) {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                --[BXTGlobal shareGlobal].assignNumber;
+            }];
+        }
     }
 }
 

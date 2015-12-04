@@ -265,12 +265,12 @@
     if (isStart)
     {
         [startTime setTitle:[NSString stringWithFormat:@"%@ -",dateStr] forState:UIControlStateNormal];
-        startStr = [NSString stringWithFormat:@"%.0f",picker.date.timeIntervalSince1970];
+        startStr = [NSString stringWithFormat:@"%.0f",picker.date.timeIntervalSince1970 + 86399];
     }
     else
     {
         [endTime setTitle:dateStr forState:UIControlStateNormal];
-        endStr = [NSString stringWithFormat:@"%.0f",picker.date.timeIntervalSince1970];
+        endStr = [NSString stringWithFormat:@"%.0f",picker.date.timeIntervalSince1970 + 86399];
     }
 }
 

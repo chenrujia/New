@@ -249,13 +249,15 @@
     cell.repairState.text = repairInfo.receive_state;
     
     cell.tag = indexPath.section;
-    if (repairInfo.repairstate == 3)
+    if (repairInfo.repairstate != 1)
     {
+        cell.cancelRepair.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
         [cell.cancelRepair setTitleColor:colorWithHexString(@"e2e6e8") forState:UIControlStateNormal];
         cell.cancelRepair.userInteractionEnabled = NO;
     }
     else
     {
+        cell.cancelRepair.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
         [cell.cancelRepair setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
         cell.cancelRepair.userInteractionEnabled = YES;
     }
