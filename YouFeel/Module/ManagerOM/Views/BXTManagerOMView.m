@@ -349,14 +349,14 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
-    if ([repairInfo.state integerValue] == 1)
+    if (_orderType == OutTimeType && [repairInfo.state integerValue] == 1 && repairInfo.order_type != 3)
     {
         BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:assignOrderVC animated:YES];
     }
-    else if (repairInfo.order_type == 3)
+    else if (_orderType == OutTimeType && repairInfo.order_type == 3)
     {
-        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID] andIsAssign:YES];
         [[self navigation] pushViewController:rejectVC animated:YES];
     }
     else

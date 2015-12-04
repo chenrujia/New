@@ -135,7 +135,7 @@ andRepairerIsReacive:(NSString *)reacive;
 
 - (void)repairsList:(NSString *)longTime
          andDisUser:(NSString *)disUser
-       andCloseUser:(NSString *)CloseUser
+       andCloseUser:(NSString *)closeUser
        andOrderType:(NSString *)orderType
       andSubgroupID:(NSString *)groupID
             andPage:(NSInteger)page;
@@ -361,5 +361,11 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)rejectOrder:(NSString *)orderID
           withNotes:(NSString *)notes;
+
+/**
+ *  关闭工单
+ */
+- (void)closeOrder:(NSString *)orderID
+         withNotes:(NSString *)notes;
 
 @end

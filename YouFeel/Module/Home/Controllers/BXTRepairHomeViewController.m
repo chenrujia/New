@@ -24,6 +24,7 @@
 #import "BXTManagerOMViewController.h"
 #import "BXTNewOrderViewController.h"
 #import "BXTStatisticsViewController.h"
+#import "BXTMMOrderManagerViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -144,7 +145,8 @@
         case 1:
         {
             // 报修
-            BXTRepairWordOrderViewController *newOrderVC = [[BXTRepairWordOrderViewController alloc] init];
+//            BXTRepairWordOrderViewController *newOrderVC = [[BXTRepairWordOrderViewController alloc] init];
+            BXTMMOrderManagerViewController *newOrderVC = [[BXTMMOrderManagerViewController alloc] init];
             [self.navigationController pushViewController:newOrderVC animated:YES];
         }
             break;

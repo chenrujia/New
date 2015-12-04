@@ -233,14 +233,20 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)repairsList:(NSString *)longTime
          andDisUser:(NSString *)disUser
-       andCloseUser:(NSString *)CloseUser
+       andCloseUser:(NSString *)closeUser
        andOrderType:(NSString *)orderType
       andSubgroupID:(NSString *)groupID
             andPage:(NSInteger)page
 {
+    NSString *closeState = @"";
+    if (closeUser.length > 0)
+    {
+        closeState = @"2";
+    }
     NSDictionary *dic = @{@"long_time":longTime,
                           @"dispatching_user":disUser,
-                          @"close_user":CloseUser,
+                          @"close_state":closeState,
+                          @"close_user":closeUser,
                           @"order":orderType,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"order_subgroup":groupID,
@@ -647,6 +653,16 @@ andRepairerIsReacive:(NSString *)reacive
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"reject_note":notes};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=reject_workorder",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)closeOrder:(NSString *)orderID
+         withNotes:(NSString *)notes
+{
+    NSDictionary *dic = @{@"id":orderID,
+                          @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"close_cause":notes};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=close_workorder",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

@@ -11,6 +11,6 @@
 
 @interface BXTRejectOrderViewController : BXTBaseViewController
 
-- (instancetype)initWithOrderID:(NSString *)orderID;
+- (instancetype)initWithOrderID:(NSString *)orderID andIsAssign:(BOOL)assign;
 
 @end
