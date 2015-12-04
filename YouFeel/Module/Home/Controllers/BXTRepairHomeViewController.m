@@ -23,7 +23,7 @@
 #import "BXTExaminationViewController.h"
 #import "BXTManagerOMViewController.h"
 #import "BXTNewOrderViewController.h"
-#import "StatisticsViewController.h"
+#import "BXTStatisticsViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -105,6 +105,7 @@
 #pragma mark 事件处理
 - (void)repairClick
 {
+    // 我的工单
     BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
     [self.navigationController pushViewController:orderManagerVC animated:YES];
 }
