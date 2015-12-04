@@ -354,4 +354,10 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)specialOrderTypes;
 
+/**
+ *  驳回工单
+ */
+- (void)rejectOrder:(NSString *)orderID
+          withNotes:(NSString *)notes;
+
 @end

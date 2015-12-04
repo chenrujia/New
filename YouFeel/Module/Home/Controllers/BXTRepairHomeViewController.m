@@ -22,7 +22,7 @@
 #import "BXTRepairWordOrderViewController.h"
 #import "BXTExaminationViewController.h"
 #import "BXTManagerOMViewController.h"
-
+#import "BXTNewOrderViewController.h"
 #import "StatisticsViewController.h"
 
 @interface BXTRepairHomeViewController ()
@@ -61,7 +61,7 @@
     title_label.text = @"我的新工单";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comingNewRepairs) name:@"NewRepairComing" object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assignOrderComing) name:@"AssignOrderComing" object:nil];
     imgNameArray = [NSMutableArray arrayWithObjects:@"grab_-one",
                     @"repair",
                     @"new",
@@ -79,7 +79,7 @@
     [super viewDidAppear:animated];
     
     BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
-    if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&[BXTGlobal shareGlobal].orderIDs.count > 0)
+    if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&[BXTGlobal shareGlobal].newsOrderIDs.count > 0)
     {
         [self comingNewRepairs];
     }
@@ -93,7 +93,8 @@
     [shop_btn layoutIfNeeded];
     CGFloat padding = 20;
     CGFloat titleW = shop_btn.titleLabel.bounds.size.width;
-    if ((SCREEN_WIDTH == 320 && titleW > 160) || (SCREEN_WIDTH == 375 && titleW > 210) || (SCREEN_WIDTH == 414 && titleW > 250) ) {
+    if ((SCREEN_WIDTH == 320 && titleW > 160) || (SCREEN_WIDTH == 375 && titleW > 210) || (SCREEN_WIDTH == 414 && titleW > 250) )
+    {
         padding = 10;
     }
     [shop_btn setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
@@ -104,16 +105,26 @@
 #pragma mark 事件处理
 - (void)repairClick
 {
-    BXTRepairWordOrderViewController *newOrderVC = [[BXTRepairWordOrderViewController alloc] init];
-    [self.navigationController pushViewController:newOrderVC animated:YES];
+    BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
+    [self.navigationController pushViewController:orderManagerVC animated:YES];
 }
 
 - (void)comingNewRepairs
 {
     // 工单数 > 实时抢单页面数 -> 跳转
-    if ([BXTGlobal shareGlobal].orderIDs.count > [BXTGlobal shareGlobal].numOfPresented) {
+    if ([BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
+    {
         BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
         [self.navigationController pushViewController:grabOrderVC animated:YES];
+    }
+}
+
+- (void)assignOrderComing
+{
+    if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
+    {
+        BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] init];
+        [self.navigationController pushViewController:newOrderVC animated:YES];
     }
 }
 
@@ -132,8 +143,8 @@
         case 1:
         {
             // 报修
-            BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-            [self.navigationController pushViewController:orderManagerVC animated:YES];
+            BXTRepairWordOrderViewController *newOrderVC = [[BXTRepairWordOrderViewController alloc] init];
+            [self.navigationController pushViewController:newOrderVC animated:YES];
         }
             break;
         case 2:

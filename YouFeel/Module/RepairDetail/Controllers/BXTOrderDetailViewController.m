@@ -25,36 +25,36 @@
 
 @interface BXTOrderDetailViewController ()<BXTDataResponseDelegate,MWPhotoBrowserDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
 {
-    UIImageView *headImgView;
-    UILabel *repairerName;
-    UILabel *repairerDetail;
-    UILabel *repairID;
-    UILabel *groupName;
-    UILabel *orderType;
-    UILabel *time;
-    UILabel *mobile;
-    UILabel *place;
-    UILabel *faultType;
-    UILabel *cause;
-    UILabel *level;
-    UILabel *notes;
-    UILabel *arrangeTime;
-    UILabel *mmProcess;
-    UILabel *workTime;
-    UIButton *reaciveOrder;
+    UIImageView         *headImgView;
+    UILabel             *repairerName;
+    UILabel             *repairerDetail;
+    UILabel             *repairID;
+    UILabel             *groupName;
+    UILabel             *orderType;
+    UILabel             *time;
+    UILabel             *mobile;
+    UILabel             *place;
+    UILabel             *faultType;
+    UILabel             *cause;
+    UILabel             *level;
+    UILabel             *notes;
+    UILabel             *arrangeTime;
+    UILabel             *mmProcess;
+    UILabel             *workTime;
+    UIButton            *reaciveOrder;
     BXTRepairDetailInfo *repairDetail;
-    UIScrollView *scrollView;
-    BXTSelectBoxView *boxView;
-    NSArray *comeTimeArray;
-    UIView *lineView;
-    UILabel *maintenanceMan;
-    UIScrollView *imagesScrollView;
+    UIScrollView        *scrollView;
+    BXTSelectBoxView    *boxView;
+    NSArray             *comeTimeArray;
+    UIView              *lineView;
+    UILabel             *maintenanceMan;
+    UIScrollView        *imagesScrollView;
     
-    UIView *bgView;
-    UIDatePicker *datePicker;
-    NSDate *originDate;
-    NSTimeInterval timeInterval2;
-    CGFloat contentHeight;
+    UIView              *bgView;
+    UIDatePicker        *datePicker;
+    NSDate              *originDate;
+    NSTimeInterval      timeInterval2;
+    CGFloat             contentHeight;
 }
 
 @property (nonatomic ,strong) NSString *repair_id;
@@ -393,9 +393,10 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
+#pragma mark -
+#pragma mark 接单
 - (void)reaciveOrderBtn
 {
-    /**接单**/
     UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
     backView.backgroundColor = [UIColor blackColor];
     backView.alpha = 0.6f;
@@ -525,6 +526,8 @@
 
 #pragma mark -
 #pragma mark 代理
+#pragma mark -
+#pragma mark BXTBoxSelectedTitleDelegate
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
 {
     UIView *view = [self.view viewWithTag:101];
@@ -885,9 +888,8 @@
     reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(maintenanceMan.frame) + repairDetail.repair_user_arr.count * 95.f + 20.f, SCREEN_WIDTH - 40, 50.f);
 }
 
-/**
- *  MWPhotoBrowserDelegate
- */
+#pragma mark -
+#pragma mark MWPhotoBrowserDelegate
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
 {
     return self.mwPhotosArray.count;
@@ -899,9 +901,8 @@
     return photo;
 }
 
-/**
- *  UITabBarDelegate
- */
+#pragma mark -
+#pragma mark UITabBarDelegate
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     if (item.tag == 101)

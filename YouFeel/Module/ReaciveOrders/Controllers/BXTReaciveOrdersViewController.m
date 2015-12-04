@@ -596,15 +596,14 @@
 
 #pragma mark -
 #pragma mark - UIDatePicker
-- (void)createDatePicker {
+- (void)createDatePicker
+{
     bgView = [[UIView alloc] initWithFrame:self.view.bounds];
     bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
     bgView.tag = 101;
     [self.view addSubview:bgView];
     
-    
     originDate = [NSDate date];
-    
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
     titleLabel.backgroundColor = colorWithHexString(@"ffffff");
@@ -615,7 +614,6 @@
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
     line.backgroundColor = colorWithHexString(@"e2e6e8");
     [bgView addSubview:line];
-    
     
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
     datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
