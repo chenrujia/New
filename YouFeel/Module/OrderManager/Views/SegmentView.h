@@ -15,9 +15,18 @@
 
 @interface SegmentView : UIView
 
-- (id)initWithFrame:(CGRect)frame andTitles:(NSArray *)titles;
+/**
+ *  初始化SegmentView
+ *
+ *  @param isWhite 1为白底
+ */
+- (id)initWithFrame:(CGRect)frame andTitles:(NSArray *)titles isWhiteBGColor:(BOOL)isWhite;
 
 @property (nonatomic, strong) NSArray *titles;
+/**
+ *  需要白色背景
+ */
+@property (nonatomic, assign) BOOL isBgColorWhite;
 @property (nonatomic, assign) NSInteger selectedSegmentIndex;
 @property (nonatomic, weak) id<SegmentViewDelegate> delegate;
 

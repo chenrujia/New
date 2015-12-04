@@ -94,7 +94,7 @@
 #pragma mark - createSegmentedCtr
 - (void)createSegmentedCtr {
     // 分页视图
-    self.rootSegmentedCtr = [[SegmentView alloc] initWithFrame:CGRectMake(15, 110-30-10, SCREEN_WIDTH-30, 30) andTitles:@[@"年", @"月", @"日"]];
+    self.rootSegmentedCtr = [[SegmentView alloc] initWithFrame:CGRectMake(15, 110-30-10, SCREEN_WIDTH-30, 30) andTitles:@[@"年", @"月", @"日"] isWhiteBGColor:0];
     self.rootSegmentedCtr.layer.masksToBounds = YES;
     self.rootSegmentedCtr.layer.cornerRadius = 4.f;
     self.rootSegmentedCtr.delegate = self;
@@ -102,7 +102,7 @@
 }
 
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
-    NSLog(@"didSelectedSegmentAtIndex -- %ld", index);
+    NSLog(@"didSelectedSegmentAtIndex -- %ld", (long)index);
 }
 
 #pragma mark -

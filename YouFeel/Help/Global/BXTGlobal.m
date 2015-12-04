@@ -298,8 +298,8 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSRange range = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[NSDate date]];
     NSUInteger numberOfDaysInMonth = range.length;
     
-    NSString *startTime = [NSString stringWithFormat:@"%ld-%ld-1", (long)year, month];
-    NSString *endTime = [NSString stringWithFormat:@"%ld-%ld-%ld",(long)year, month, numberOfDaysInMonth];
+    NSString *startTime = [NSString stringWithFormat:@"%ld-%ld-1", (long)year, (long)month];
+    NSString *endTime = [NSString stringWithFormat:@"%ld-%ld-%ld",(long)year, (long)month, numberOfDaysInMonth];
     
     return [NSArray arrayWithObjects:startTime, endTime, nil];
 }

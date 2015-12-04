@@ -35,7 +35,7 @@
 #pragma mark 初始化视图
 - (void)createSubviews
 {
-    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f,KNAVIVIEWHEIGHT + 7.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"待处理",@"已指派",@"已关闭"]];
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f,KNAVIVIEWHEIGHT + 7.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"待处理",@"已指派",@"已关闭"] isWhiteBGColor:1];
     if (![BXTGlobal shareGlobal].isRepair)
     {
         segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
