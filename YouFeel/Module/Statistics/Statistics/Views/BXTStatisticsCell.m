@@ -14,8 +14,8 @@
 - (void)awakeFromNib {
     // Initialization code
     
-    self.detailView.text = [NSString stringWithFormat:@"当前有新版本v%@", IOSAPPVERSION];
-    
+    //self.detailView.text = [NSString stringWithFormat:@"当前有新版本v%@", IOSAPPVERSION];
+        
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

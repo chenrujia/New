@@ -42,6 +42,8 @@
     NSTimeInterval      timeInterval2;
     NSString            *currentOrderID;
     BOOL                isAssign;//判断是派工界面还是新工单界面
+    
+    AVAudioPlayer *player;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -66,6 +68,12 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"新工单" andRightTitle:nil andRightImage:nil];
+    
+    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
+    player.volume = 0.8f;
+    player.numberOfLoops = -1;
+    [self afterTime];
+    
     [self createSubviews];
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
@@ -364,6 +372,11 @@
 
 - (void)assignBtnClick
 {
+    NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
+    if (![roleArray containsObject:@"117"]) {
+        [BXTGlobal showText:@"抱歉，您无指派权限" view:self.view completionBlock:nil];
+        return;
+    }
     BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[currentOrderID integerValue] andWithVCType:AssignType];
     [self.navigationController pushViewController:addOtherVC animated:YES];
 }
@@ -630,6 +643,28 @@
 {
     MWPhoto *photo = self.mwPhotosArray[index];
     return photo;
+}
+
+#pragma mark -
+#pragma mark - 闹铃
+- (void)afterTime
+{
+    [player play];
+    __block NSInteger count = 20;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(_time, ^{
+        count--;
+        if (count <= 0)
+        {
+            dispatch_source_cancel(_time);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [player stop];
+            });
+        }
+    });
+    dispatch_resume(_time);
 }
 
 #pragma mark -

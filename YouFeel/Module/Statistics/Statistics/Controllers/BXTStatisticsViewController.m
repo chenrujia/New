@@ -73,6 +73,7 @@
     }
     
     cell.titleView.text = self.dataArray[indexPath.section];
+    cell.detailView.text = self.dataArray[indexPath.section];
     [cell.imageView1 setImage:[UIImage imageNamed:self.imageArray1[indexPath.section]]];
     [cell.imageView2 setImage:[UIImage imageNamed:self.imageArray2[indexPath.section]]];
     

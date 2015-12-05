@@ -23,7 +23,6 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
     [self createNavigationBar];
     
     
@@ -72,7 +71,7 @@
     rightBtn.frame = CGRectMake(SCREEN_WIDTH-44-6, 20, 44, 44);
     [rightBtn setImage:[UIImage imageNamed:@"w_small_round"] forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(navigationRightButton) forControlEvents:UIControlEventTouchUpInside];
-    [navBarView addSubview:rightBtn];
+    //[navBarView addSubview:rightBtn];
     
     // UISegmentedControl
     [self createSegmentedCtr];

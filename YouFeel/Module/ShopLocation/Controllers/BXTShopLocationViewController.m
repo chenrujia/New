@@ -325,7 +325,7 @@
     }
     else if (type == CommitShop)
     {
-        
+        //[BXTGlobal setUserProperty:[NSString stringWithFormat:@"%@", dic[@"finish_id"]] withKey:U_Finish_ID];
     }
 }
 

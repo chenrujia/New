@@ -87,6 +87,8 @@
         BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
         area_id = areaInfo.place_id;
         id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+        
+
         if ([shopInfo isKindOfClass:[NSString class]])
         {
             store_id = shopInfo;
@@ -119,6 +121,9 @@
                           @"shops_id":company.company_id,
                           @"subgroup":subGroup};
     NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",[BXTGlobal shareGlobal].baseURL];
+    
+    NSLog(@"dic ---- %@", dic);
+    
     [self postRequest:url withParameters:dic];
 }
 
@@ -137,12 +142,12 @@
     BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
     
     NSDictionary *dic = @{@"stores_name":shop,
-                          @"quyu_id":floorInfo.area_id,
-                          @"didian_id":areaInfo.place_id,
+                          @"area_id":floorInfo.area_id,
+                          @"place_id":areaInfo.place_id,
                           @"info":@"123",
                           @"stores_pic":@""};
     
-    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_stores",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Stores&opt=add_stores",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -169,6 +174,13 @@ andRepairerIsReacive:(NSString *)reacive
     {
         identity = @"repairer";
     }
+    if ([reacive isEqualToString:@"1"]) {
+        state = @"";
+    }
+    if ([reacive isEqualToString:@"2"]) {
+        state = @"2";
+    }
+    
     NSDictionary *dic;
     if (stateIsComplete)
     {
@@ -186,6 +198,8 @@ andRepairerIsReacive:(NSString *)reacive
                 @"page":[NSString stringWithFormat:@"%ld",(long)page],
                 @"is_repairing":reacive};
     }
+    
+    NSLog(@"dic --- %@", dic);
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

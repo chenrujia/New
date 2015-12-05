@@ -93,7 +93,7 @@
     [self navigationSetting:@"维修过程" andRightTitle:nil andRightImage:nil];
     [self createTableView];
     
-    orderTypeArray = @[@"特殊工单",@"协作工单"];
+    orderTypeArray = @[@"特殊工单"];
     photosArray = [[NSMutableArray alloc] init];
     selectPhotos = [[NSMutableArray alloc] init];
     specialArray = [[NSMutableArray alloc] init];
@@ -243,14 +243,15 @@
     }
     else if (!isDone && section == 2)
     {
-        if ([orderType isEqual:@"特殊工单"])
-        {
-            [self boxViewWithType:SpecialOrderView andTitle:@"类型描述" andData:specialArray];
-        }
-        else if ([orderType isEqual:@"协作工单"])
-        {
-            [self boxViewWithType:GroupingView andTitle:@"类型描述" andData:groupArray];
-        }
+        [self boxViewWithType:SpecialOrderView andTitle:@"类型描述" andData:specialArray];
+//        if ([orderType isEqual:@"特殊工单"])
+//        {
+//            [self boxViewWithType:SpecialOrderView andTitle:@"类型描述" andData:specialArray];
+//        }
+//        else if ([orderType isEqual:@"协作工单"])
+//        {
+//            [self boxViewWithType:GroupingView andTitle:@"类型描述" andData:groupArray];
+//        }
     }
     else if (!isDone && section == 3)
     {
@@ -452,7 +453,8 @@
             else if (indexPath.section == 1)
             {
                 cell.titleLabel.text = @"工单类型";
-                cell.detailLable.text = orderType.length > 0 ? orderType : @"请选择工单类型";
+                cell.detailLable.text = @"特殊工单";
+                //cell.detailLable.text = orderType.length > 0 ? orderType : @"请选择工单类型";
             }
             else if (indexPath.section == 2)
             {
@@ -479,7 +481,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self createBoxView:indexPath.section];
+    if (!(!isDone && indexPath.section == 1)) {
+        [self createBoxView:indexPath.section];
+    }
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

@@ -12,6 +12,7 @@
 
 @interface BXTOrderDetailViewController : BXTBaseViewController
 
+@property (nonatomic, copy) NSString *pushType;
 - (instancetype)initWithRepairID:(NSString *)reID;
 
 @end

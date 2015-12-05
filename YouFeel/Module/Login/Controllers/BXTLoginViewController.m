@@ -262,7 +262,7 @@
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
     {
-        [self hideMBP];
+        [self hideMBP];   
         BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
         [self.navigationController pushViewController:headVC animated:YES];
     }

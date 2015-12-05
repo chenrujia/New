@@ -28,8 +28,25 @@
                 </view>
                 <view contentMode="scaleToFill" restorationIdentifier="MYPieView" translatesAutoresizingMaskIntoConstraints="NO" id="Igw-Ez-GHJ" customClass="MYPieView">
                     <rect key="frame" x="0.0" y="47" width="375" height="271"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="报修总数:87单" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="png-XV-zUd">
+                            <rect key="frame" x="100" y="125" width="124" height="21"/>
+                            <animations/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="124" id="1Mz-q6-QVr"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
                     <animations/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="png-XV-zUd" secondAttribute="bottom" constant="125" id="5Lb-jb-o6k"/>
+                        <constraint firstItem="png-XV-zUd" firstAttribute="top" secondItem="Igw-Ez-GHJ" secondAttribute="top" constant="125" id="H0p-ko-oIY"/>
+                        <constraint firstItem="png-XV-zUd" firstAttribute="leading" secondItem="Igw-Ez-GHJ" secondAttribute="leading" constant="100" id="XBC-7M-McS"/>
+                    </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CZz-gt-9cx" userLabel="View2">
                     <rect key="frame" x="15" y="319" width="345" height="1"/>
@@ -210,6 +227,7 @@
                 <outlet property="downLabelView" destination="3FK-fS-ZFe" id="gLe-tA-U6Q"/>
                 <outlet property="downView" destination="Ybd-pK-1fw" id="ojj-uM-Ila"/>
                 <outlet property="pieView" destination="Igw-Ez-GHJ" id="qiZ-fr-PLj"/>
+                <outlet property="roundTitleView" destination="png-XV-zUd" id="RS0-SI-cA5"/>
                 <outlet property="roundView1" destination="RaO-VD-xBb" id="ae1-UZ-Pnh"/>
                 <outlet property="roundView2" destination="v74-Xb-5Rh" id="N6l-ED-SAW"/>
                 <outlet property="roundView3" destination="Wdz-rJ-RFh" id="yao-Kb-gdO"/>

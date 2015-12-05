@@ -61,6 +61,7 @@
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
     title_label.text = @"我的工单";
     
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comingNewRepairs) name:@"NewRepairComing" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assignOrderComing) name:@"AssignOrderComing" object:nil];
     imgNameArray = [NSMutableArray arrayWithObjects:@"grab_-one",
@@ -134,6 +135,8 @@
 #pragma mark 代理
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
+    
     switch (indexPath.row) {
         case 0:
         {
@@ -145,7 +148,7 @@
         case 1:
         {
             // 报修
-//            BXTRepairWordOrderViewController *newOrderVC = [[BXTRepairWordOrderViewController alloc] init];
+            //            BXTRepairWordOrderViewController *newOrderVC = [[BXTRepairWordOrderViewController alloc] init];
             BXTMMOrderManagerViewController *newOrderVC = [[BXTMMOrderManagerViewController alloc] init];
             [self.navigationController pushViewController:newOrderVC animated:YES];
         }
@@ -167,6 +170,10 @@
             break;
         case 4:
         {
+            if (![roleArray containsObject:@"116"]) {
+                [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
+                return;
+            }
             // 特殊工单
             BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
             [self.navigationController pushViewController:serviceVC animated:YES];
@@ -174,6 +181,10 @@
             break;
         case 5:
         {
+            if (![roleArray containsObject:@"114"]) {
+                [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
+                return;
+            }
             // 业务统计
             BXTStatisticsViewController *StatisticsVC = [[BXTStatisticsViewController alloc] init];
             [self.navigationController pushViewController:StatisticsVC animated:YES];
@@ -219,13 +230,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

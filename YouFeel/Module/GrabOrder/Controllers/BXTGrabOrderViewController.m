@@ -18,7 +18,7 @@
 
 @interface BXTGrabOrderViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate,BXTBoxSelectedTitleDelegate,BXTDataResponseDelegate>
 {
-//    AVAudioPlayer *player;
+    AVAudioPlayer *player;
     NSInteger currentPage;
     NSArray * comeTimeArray;
     BXTSelectBoxView *boxView;
@@ -57,9 +57,12 @@
     [timeArray addObject:@"自定义"];
     comeTimeArray = timeArray;
     
-//    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
-//    player.volume = 0.8f;
-//    player.numberOfLoops = -1;
+    
+    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
+    player.volume = 0.8f;
+    player.numberOfLoops = -1;
+    [self afterTimeWithSection:0];
+    
     
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     [self createCollectionView];
@@ -175,8 +178,8 @@
 
 - (void)afterTimeWithSection:(NSInteger)section
 {
-    //[player play];
-    __block NSInteger count = 60;
+    [player play];
+    __block NSInteger count = 20;
     __weak BXTGrabOrderViewController *weakSelf = self;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
@@ -210,7 +213,7 @@
 {
     if (section == currentPage)
     {
-//        [player stop];
+        [player stop];
         NSArray *dataArray = [markDic allValues];
         BOOL isAllComplete = YES;
         for (NSString *time in dataArray)
@@ -223,7 +226,7 @@
         }
         if (isAllComplete)
         {
-            [self.navigationController popViewControllerAnimated:YES];
+            //[self.navigationController popViewControllerAnimated:YES];
         }
     }
 }
@@ -232,14 +235,14 @@
 {
     if (timeNumber <= 0)
     {
-//        [player stop];
+        [player stop];
         _timeLabel.text = @"Over";
         _radialProgressView.progressCurrent = 20;
         [_radialProgressView setNeedsDisplay];
     }
     else
     {
-        //[player play];
+        [player play];
         _timeLabel.text = [NSString stringWithFormat:@"%lds",(long)timeNumber];
         NSInteger rows = 20 - ceil(timeNumber/3);
         _radialProgressView.progressCurrent = rows;
@@ -320,7 +323,7 @@
     NSString *currentKey = [NSString stringWithFormat:@"%ld",(long)currentPage];
     if (![markDic.allKeys containsObject:currentKey])
     {
-//        [player stop];
+        [player stop];
         [self afterTimeWithSection:currentPage];
         [markDic setObject:@"60" forKey:currentKey];
     }

@@ -15,6 +15,7 @@ typedef void(^blockTbtnClick)(NSInteger tag);
 @property (nonatomic, copy) blockTbtnClick transBtnClick;
 
 @property (weak, nonatomic) IBOutlet MYPieView *pieView;
+@property (weak, nonatomic) IBOutlet UILabel *roundTitleView;
 
 @property (weak, nonatomic) IBOutlet UIView *roundView1;
 @property (weak, nonatomic) IBOutlet UIView *roundView2;

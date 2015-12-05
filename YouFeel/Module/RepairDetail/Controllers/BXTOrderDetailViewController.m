@@ -17,6 +17,7 @@
 #import "BXTSelectBoxView.h"
 #import "BXTMaintenanceProcessViewController.h"
 #import "BXTAddOtherManViewController.h"
+#import "BXTRejectOrderViewController.h"
 
 #define ImageWidth 73.3f
 #define ImageHeight 73.3f
@@ -59,6 +60,8 @@
 
 @property (nonatomic ,strong) NSString *repair_id;
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
+@property (nonatomic, strong) NSMutableArray *manIDArray;
+@property (nonatomic, strong) UIView *manBgView;
 
 @end
 
@@ -80,7 +83,11 @@
     [super viewDidLoad];
     contentHeight = 300.f;
     
-    [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
+    if ([self.pushType isEqualToString:@"REJECT"]) {
+        [self navigationSetting:@"工单详情" andRightTitle:@"关闭工单" andRightImage:nil];
+    } else {
+        [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
+    }
     [self createSubViews];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestDetail) name:@"RequestDetail" object:nil];
@@ -100,6 +107,12 @@
     
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)navigationRightButton
+{
+        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%@",self.repair_id] andIsAssign:YES];
+        [self.navigationController pushViewController:rejectVC animated:YES];
 }
 
 #pragma mark -
@@ -644,7 +657,7 @@
         {
             orderType.text = @"超时工单";
         }
-
+        
         place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.area_name,repairDetail.place_name];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
@@ -703,7 +716,7 @@
             BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH, StateViewHeight) withRepairState:repairDetail.repairstate withIsRespairing:repairDetail.isRepairing];
             [scrollView addSubview:drawView];
             arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
-
+            
             if (repairDetail.man_hours.length)
             {
                 NSString *mm_content = [NSString stringWithFormat:@"维修备注:%@",repairDetail.workprocess];
@@ -736,7 +749,7 @@
             BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, StateViewHeight) withRepairState:repairDetail.repairstate withIsRespairing:repairDetail.isRepairing];
             [scrollView addSubview:drawView];
             arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
-
+            
             if (repairDetail.man_hours.length)
             {
                 NSString *mm_content = [NSString stringWithFormat:@"维修备注:%@",repairDetail.workprocess];
@@ -755,6 +768,9 @@
             {
                 [self loadingUsers];
                 scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + StateViewHeight + 40.f + RepairHeight * repairDetail.repair_user_arr.count + 100.f + 200.f/3.f);
+                if (!workTime.hidden) {
+                    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + StateViewHeight + 40.f + RepairHeight * repairDetail.repair_user_arr.count + 100.f + 200.f/3.f + 50);
+                }
             }
             else
             {
@@ -765,14 +781,16 @@
         
         if (repairDetail.repairstate == 2 && repairDetail.isRepairing == 2)
         {
-            UITabBar *tabbar = [[UITabBar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50.f, SCREEN_WIDTH, 50.f)];
-            tabbar.delegate = self;
-            UITabBarItem *leftItem = [[UITabBarItem alloc] initWithTitle:@"增加人员" image:[UIImage imageNamed:@"users"] selectedImage:[UIImage imageNamed:@"users_selected"]];
-            leftItem.tag = 101;
-            UITabBarItem *rightItem = [[UITabBarItem alloc] initWithTitle:@"维修过程" image:[UIImage imageNamed:@"pen"] selectedImage:[UIImage imageNamed:@"pen_selected"]];
-            rightItem.tag = 102;
-            [tabbar setItems:@[leftItem,rightItem]];
-            [self.view addSubview:tabbar];
+            if (![self.pushType isEqualToString:@"REJECT"]) {
+                UITabBar *tabbar = [[UITabBar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50.f, SCREEN_WIDTH, 50.f)];
+                tabbar.delegate = self;
+                UITabBarItem *leftItem = [[UITabBarItem alloc] initWithTitle:@"增加人员" image:[UIImage imageNamed:@"users"] selectedImage:[UIImage imageNamed:@"users_selected"]];
+                leftItem.tag = 101;
+                UITabBarItem *rightItem = [[UITabBarItem alloc] initWithTitle:@"维修过程" image:[UIImage imageNamed:@"pen"] selectedImage:[UIImage imageNamed:@"pen_selected"]];
+                rightItem.tag = 102;
+                [tabbar setItems:@[leftItem,rightItem]];
+                [self.view addSubview:tabbar];
+            }
         }
         
         if (repairDetail.repairstate != 1)
@@ -831,19 +849,26 @@
     }
     maintenanceMan.frame = CGRectMake(20.f, CGRectGetMaxY(lineView.frame) + 10.f, SCREEN_WIDTH - 40.f, 40.f);
     
-    NSMutableArray *manIDArray = [[NSMutableArray alloc] init];
+    self.manIDArray = [[NSMutableArray alloc] init];
+    
+    
+    // 添加维修者列表背景
+    [self.manBgView removeFromSuperview];
+    self.manBgView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(maintenanceMan.frame), SCREEN_WIDTH,  repairDetail.repair_user_arr.count * 95.f)];
+    [scrollView addSubview:self.manBgView];
+    
     
     for (NSInteger i = 0; i < repairDetail.repair_user_arr.count; i++)
     {
         NSDictionary *userDic = repairDetail.repair_user_arr[i];
         
-        [manIDArray addObject:userDic[@"id"]];
+        [self.manIDArray addObject:userDic[@"id"]];
         
-        UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(maintenanceMan.frame) + i * 95.f, SCREEN_WIDTH, 95.f)];
+        UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f,  i * 95.f, SCREEN_WIDTH, 95.f)];
         UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
         [userImgView sd_setImageWithURL:[NSURL URLWithString:[userDic objectForKey:@"head_pic"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         [userBack addSubview:userImgView];
-
+        
         UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 15.f, CGRectGetWidth(level.frame), 20)];
         userName.textColor = colorWithHexString(@"000000");
         userName.numberOfLines = 0;
@@ -859,7 +884,7 @@
         role.font = [UIFont boldSystemFontOfSize:14.f];
         role.text = [NSString stringWithFormat:@"%@-%@",[userDic objectForKey:@"department"],[userDic objectForKey:@"role"]];
         [userBack addSubview:role];
-
+        
         if ([[userDic objectForKey:@"id"] isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]] &&
             repairDetail.repairstate == 2 &&
             repairDetail.isRepairing == 1)
@@ -895,10 +920,8 @@
             [userBack addSubview:line];
         }
         
-        [scrollView addSubview:userBack];
+        [self.manBgView addSubview:userBack];
     }
-    
-    NSLog(@"manIDArray -- %@", manIDArray);
     
     reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(maintenanceMan.frame) + repairDetail.repair_user_arr.count * 95.f + 20.f, SCREEN_WIDTH - 40, 50.f);
 }
@@ -923,6 +946,7 @@
     if (item.tag == 101)
     {
         BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[_repair_id integerValue] andWithVCType:DetailType];
+        addOtherVC.manIDArray = self.manIDArray;
         [self.navigationController pushViewController:addOtherVC animated:YES];
     }
     else if (item.tag == 102)

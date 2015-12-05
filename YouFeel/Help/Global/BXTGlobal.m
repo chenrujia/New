@@ -100,6 +100,10 @@
     [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
     
     [BXTGlobal shareGlobal].longTime = [dic objectForKey:@"long_time"];
+    [[NSUserDefaults standardUserDefaults] setObject:[dic objectForKey:@"long_time"] forKey:@"LongTime"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    
     NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
     [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
     
@@ -299,7 +303,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSUInteger numberOfDaysInMonth = range.length;
     
     NSString *startTime = [NSString stringWithFormat:@"%ld-%ld-1", (long)year, (long)month];
-    NSString *endTime = [NSString stringWithFormat:@"%ld-%ld-%ld",(long)year, (long)month, numberOfDaysInMonth];
+    NSString *endTime = [NSString stringWithFormat:@"%ld-%ld-%ld",(long)year, (long)month, (unsigned long)numberOfDaysInMonth];
     
     return [NSArray arrayWithObjects:startTime, endTime, nil];
 }
@@ -332,6 +336,22 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSString *monthStr = [NSString stringWithFormat:@"%ld", (long)[components month]];
     NSString *dayStr = [NSString stringWithFormat:@"%ld", (long)[components day]];
     return [NSArray arrayWithObjects:yearStr, monthStr, dayStr, nil];
+}
+
++ (void)showText:(NSString *)text view:(UIView *)view completionBlock:(void (^)())completion {
+    [MBProgressHUD hideHUDForView:view animated:YES];
+    MBProgressHUD *showHud = [[MBProgressHUD alloc] initWithView:view];
+    [view addSubview:showHud];
+    showHud.labelText = text;
+    showHud.mode = MBProgressHUDModeText;
+    [showHud showAnimated:YES whileExecutingBlock:^{
+        sleep(1.5);
+    } completionBlock:^{
+        [showHud removeFromSuperview];
+        if (completion) {
+            completion();
+        }
+    }];
 }
 
 @end
