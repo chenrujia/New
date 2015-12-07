@@ -82,11 +82,14 @@
     refreshType = Down;
     currentPage = 1;
     /**获取报修列表**/
+    
+    NSLog(@"_repairState ---- %@", _repairState);
+    
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairsList:_repairState
                  andPage:1
      andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO
-    andRepairerIsReacive:_isReacive];
+    andRepairerIsReacive:_repairState];
 }
 
 - (void)loadMoreData
@@ -98,7 +101,7 @@
     [request repairsList:_repairState
                  andPage:currentPage
      andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO
-    andRepairerIsReacive:_isReacive];
+    andRepairerIsReacive:_repairState];
 }
 
 #pragma mark -

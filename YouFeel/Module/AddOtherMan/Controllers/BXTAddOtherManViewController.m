@@ -112,6 +112,7 @@
         {
             [UIView animateWithDuration:0.3f animations:^{
                 singleView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 60.f);
+                currentTableView.frame = CGRectMake(0, KNAVIVIEWHEIGHT + 44, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 44);
             } completion:^(BOOL finished) {
                 
             }];
@@ -124,6 +125,7 @@
         {
             [UIView animateWithDuration:0.3f animations:^{
                 singleView.frame = CGRectMake(0, SCREEN_HEIGHT - 60, SCREEN_WIDTH, 60.f);
+                currentTableView.frame = CGRectMake(0, KNAVIVIEWHEIGHT + 44, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 44-60);
             } completion:^(BOOL finished) {
                 
             }];
@@ -135,15 +137,14 @@
     if (singleView == nil)
     {
         singleView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 60.f)];
-        singleView.backgroundColor = colorWithHexString(@"000000");
-        singleView.alpha = 0.5f;
+        singleView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.65];
         [self.view addSubview:singleView];
         
         UILabel *numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 20, 180.f, 20)];
         numberLabel.tag = 2;
         numberLabel.textColor = colorWithHexString(@"ffffff");
         numberLabel.font = [UIFont systemFontOfSize:16.f];
-        numberLabel.text = [NSString stringWithFormat:@"当前已添加:%ld人",(long)number];
+        numberLabel.text = [NSString stringWithFormat:@"当前已添加:%ld人",(long)number-1];
         [singleView addSubview:numberLabel];
         
         UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -157,6 +158,7 @@
         
         [UIView animateWithDuration:0.3f animations:^{
             singleView.frame = CGRectMake(0, SCREEN_HEIGHT - 60, SCREEN_WIDTH, 60.f);
+            currentTableView.frame = CGRectMake(0, KNAVIVIEWHEIGHT + 44, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 44-60);
         } completion:^(BOOL finished) {
             
         }];
@@ -164,7 +166,7 @@
     else
     {
         UILabel *numberLabel = (UILabel *)[singleView viewWithTag:2];
-        numberLabel.text = [NSString stringWithFormat:@"当前已添加:%ld人",(long)number];
+        numberLabel.text = [NSString stringWithFormat:@"当前已添加:%ld人",(long)number-1];
     }
 }
 
@@ -202,11 +204,24 @@
         [selectManIDs addObject:[BXTGlobal getUserProperty:U_BRANCHUSERID]];
     }
     
+    // 现在加入人员ID
     for (BXTAddOtherManInfo *otherManInfo in selectMans)
     {
         [selectManIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherManInfo.manID]];
     }
-    return selectManIDs;
+    
+    // 以前人员ID
+    [selectManIDs addObjectsFromArray:self.manIDArray];
+    
+    // 去重
+    NSMutableArray *categoryArray = [[NSMutableArray alloc] init];
+    for (unsigned i = 0; i < selectManIDs.count; i++){
+        if (![categoryArray containsObject:selectManIDs[i]]){
+            [categoryArray addObject:selectManIDs[i]];
+        }
+    }
+    
+    return categoryArray;
 }
 
 #pragma mark -
@@ -234,6 +249,14 @@
         if (manInfo.manID == otherManInfo.manID)
         {
             cell.addBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+            break;
+        }
+    }
+    for (NSString *manID in self.manIDArray) {
+        if ([manID integerValue] == otherManInfo.manID)
+        {
+            cell.addBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+            cell.addBtn.userInteractionEnabled = NO;
             break;
         }
     }
@@ -338,7 +361,7 @@
                 
                 [dataSource addObject:otherManInfo];
             }
-
+            
         }
         [currentTableView reloadData];
     }
@@ -367,13 +390,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

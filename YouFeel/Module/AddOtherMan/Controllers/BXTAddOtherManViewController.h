@@ -18,6 +18,8 @@ typedef void (^ChooseMans)(NSMutableArray *mans);
 
 @interface BXTAddOtherManViewController : BXTBaseViewController
 
+@property (nonatomic, strong) NSMutableArray *manIDArray;
+
 - (instancetype)initWithRepairID:(NSInteger)repair_id
                    andWithVCType:(ControllerType)vc_type;
 

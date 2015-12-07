@@ -95,7 +95,7 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     if (_orderType == OutTimeType)
     {
-        [request repairsList:[BXTGlobal shareGlobal].longTime
+        [request repairsList:[[NSUserDefaults standardUserDefaults] objectForKey:@"LongTime"]
                   andDisUser:@""
                 andCloseUser:@""
                 andOrderType:priorityType
@@ -165,7 +165,7 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     if (_orderType == OutTimeType)
     {
-        NSString *outTime = [BXTGlobal shareGlobal].longTime;
+        NSString *outTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"LongTime"];
         [request repairsList:outTime
                   andDisUser:@""
                 andCloseUser:@""
@@ -234,7 +234,12 @@
 #pragma mark DOPDropDownMenuDataSource && DOPDropDownMenuDelegate
 - (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
 {
-    return 4;
+    BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
+    if (groupInfo.subgroup.length > 0)
+    {
+        return 4;
+    }
+    return 3;
 }
 
 - (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath
@@ -339,7 +344,7 @@
     {
         cell.orderType.text = @"超时工单";
     }
-        
+    
     cell.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
     
     return cell;
@@ -356,8 +361,11 @@
     }
     else if (_orderType == OutTimeType && repairInfo.order_type == 3)
     {
-        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID] andIsAssign:YES];
-        [[self navigation] pushViewController:rejectVC animated:YES];
+//        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID] andIsAssign:YES];
+//        [[self navigation] pushViewController:rejectVC animated:YES];
+        BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        repairDetailVC.pushType = @"REJECT";
+        [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
     else
     {

@@ -47,6 +47,7 @@
 		7818DC1F1C08586900DC22C6 /* BXTStEvaluationHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DC1E1C08586900DC22C6 /* BXTStEvaluationHeader.m */; };
 		7818DC221C08588700DC22C6 /* BXTStEvaluationFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DC211C08588700DC22C6 /* BXTStEvaluationFooter.m */; };
 		7818DC261C08597800DC22C6 /* BXTStEvaluationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7818DC251C08597800DC22C6 /* BXTStEvaluationHeader.xib */; };
+		7824DF931C12D85500384BCB /* sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7824DF921C12D85500384BCB /* sound.wav */; };
 		782D6BC11C0D6CFC00E1828F /* SPBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB51C0D6CFC00E1828F /* SPBar.m */; };
 		782D6BC21C0D6CFC00E1828F /* SPBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB71C0D6CFC00E1828F /* SPBarChart.m */; };
 		782D6BC31C0D6CFC00E1828F /* SPBarChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB91C0D6CFC00E1828F /* SPBarChartData.m */; };
@@ -463,6 +464,7 @@
 		7818DC201C08588700DC22C6 /* BXTStEvaluationFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStEvaluationFooter.h; sourceTree = "<group>"; };
 		7818DC211C08588700DC22C6 /* BXTStEvaluationFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTStEvaluationFooter.m; sourceTree = "<group>"; };
 		7818DC251C08597800DC22C6 /* BXTStEvaluationHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTStEvaluationHeader.xib; sourceTree = "<group>"; };
+		7824DF921C12D85500384BCB /* sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sound.wav; sourceTree = "<group>"; };
 		782D6BB41C0D6CFC00E1828F /* SPBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPBar.h; sourceTree = "<group>"; };
 		782D6BB51C0D6CFC00E1828F /* SPBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPBar.m; sourceTree = "<group>"; };
 		782D6BB61C0D6CFC00E1828F /* SPBarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPBarChart.h; sourceTree = "<group>"; };
@@ -1437,6 +1439,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		7824DF911C12D85500384BCB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7824DF921C12D85500384BCB /* sound.wav */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		782D6BB31C0D6CFC00E1828F /* SPBarChart */ = {
 			isa = PBXGroup;
 			children = (
@@ -1833,7 +1843,7 @@
 			isa = PBXGroup;
 			children = (
 				960221911BC9216300010072 /* Controllers */,
-				960221951BC9216300010072 /* Models */,
+				7824DF911C12D85500384BCB /* Models */,
 				960221961BC9216300010072 /* Views */,
 			);
 			path = GrabOrder;
@@ -1846,13 +1856,6 @@
 				960221931BC9216300010072 /* BXTGrabOrderViewController.m */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		960221951BC9216300010072 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		960221961BC9216300010072 /* Views */ = {
@@ -3657,6 +3660,7 @@
 				9652AC361BC90EC9009A666D /* LocalPhotoViewController.xib in Resources */,
 				9652ABF91BC90DCC009A666D /* icon_chose_arrow_sel@2x.png in Resources */,
 				9652ADBD1BC9170D009A666D /* VideoOverlay@3x.png in Resources */,
+				7824DF931C12D85500384BCB /* sound.wav in Resources */,
 				78F872C11C095BCB001C6E60 /* BXTProfessionHeader.xib in Resources */,
 				9652ADB91BC9170D009A666D /* UIBarButtonItemGrid@2x.png in Resources */,
 				9652ADA31BC9170D009A666D /* ImageSelectedOn.png in Resources */,

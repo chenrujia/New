@@ -138,7 +138,7 @@
         NSLog(@"index -- %ld", (long)index);
     };
     
-    
+    self.headerView.roundTitleView.text = [NSString stringWithFormat:@"报修总数:%@单", dataDict[@"sum_number"]];
     // Button
     NSString *allNumStr = [NSString stringWithFormat:@"报修总数:%@单", dataDict[@"sum_number"]];
     NSString *downNumStr = [NSString stringWithFormat:@"已完成:%@单", dataDict[@"yes_number"]];
@@ -190,7 +190,7 @@
         NSString *sumStr = [NSString stringWithFormat:@"%ld", (long)sumNum];
         [heightArray addObject:sumStr];
     }
-    //barChart.frame = CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
+    
     
     [barChart setDatas:barArray];
     
@@ -237,7 +237,7 @@
     [popup setPopupColor:colorWithHexString(@"#999999")];
     [popup sizeToFit];
     
-    [popup showInView:chart withBottomAnchorPoint:CGPointMake(CGRectGetMidX(barFrame), CGRectGetMinY(barFrame))];
+    //[popup showInView:chart withBottomAnchorPoint:CGPointMake(CGRectGetMidX(barFrame), CGRectGetMinY(barFrame))];
     self.popup = popup;
 }
 

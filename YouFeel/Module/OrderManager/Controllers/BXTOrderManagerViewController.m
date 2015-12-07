@@ -118,7 +118,7 @@
             NSString *repairState;
             if (i == 1)
             {
-                repairState = @"2";
+                repairState = @"1";
             }
             else if (i == 2)
             {

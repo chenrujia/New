@@ -93,6 +93,8 @@
 #pragma mark 代理
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
+    
     switch (indexPath.row) {
         case 0:
         {
@@ -125,6 +127,10 @@
             break;
         case 4:
         {
+            if (![roleArray containsObject:@"116"]) {
+                [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
+                return;
+            }
             // 特殊工单
             BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
             [self.navigationController pushViewController:serviceVC animated:YES];
@@ -132,6 +138,10 @@
             break;
         case 5:
         {
+            if (![roleArray containsObject:@"114"]) {
+                [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
+                return;
+            }
             // 业务统计
             BXTStatisticsViewController *StatisticsVC = [[BXTStatisticsViewController alloc] init];
             [self.navigationController pushViewController:StatisticsVC animated:YES];

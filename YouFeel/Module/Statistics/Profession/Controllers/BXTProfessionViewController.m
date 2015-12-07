@@ -72,6 +72,7 @@
     NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#f1a161", @"#74bde9", @"#93c322", @"#a17bb5", nil];
     NSMutableArray *oldDataArray = [[NSMutableArray alloc] init];
     NSMutableArray *pieArray = [[NSMutableArray alloc] init];
+    NSInteger sumNum = 0;
     for(int i=0; i<self.dataArray.count; i++){
         UIColor *elemColor = [BXTGlobal randomColor];
         if (i<4) {
@@ -84,6 +85,9 @@
         
         [oldDataArray addObject:elem];
         [pieArray addObject:elemDict[@"sum_percent"]];
+        
+        //NSString *sumStr = elemDict[@"sum_number"]
+        sumNum += [elemDict[@"sum_number"] integerValue];
     }
     
     // 无参数处理
@@ -112,6 +116,14 @@
         weakSelf.headerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selectedDict[@"sum_number"]];
     };
     
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 120, 124, 21)];
+    titleLabel.text = [NSString stringWithFormat:@"共计:%ld单", (long)sumNum];
+    titleLabel.textColor = colorWithHexString(@"#666666");
+    titleLabel.font = [UIFont systemFontOfSize:13];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.pieView addSubview:titleLabel];
+    
+    
     NSDictionary *selectedDict = self.dataArray[0];
     self.headerView.roundView.backgroundColor = colorWithHexString(colorArray[0]);
     self.headerView.groupView.text = [NSString stringWithFormat:@"%@", selectedDict[@"subgroup"]];
@@ -134,6 +146,7 @@
     NSMutableArray *barArray = [[NSMutableArray alloc] init];
     NSMutableArray *heightArray = [[NSMutableArray alloc] init];
     NSArray *colorArray = @[colorWithHexString(@"#0FCCC0") , colorWithHexString(@"#F9D063") , colorWithHexString(@"#FD7070") ];
+    
     
     for (NSDictionary *dict in self.dataArray) {
         NSString *downStr = [NSString stringWithFormat:@"%@", dict[@"yes_number"] ];
@@ -203,7 +216,7 @@
     [popup setPopupColor:colorWithHexString(@"#999999")];
     [popup sizeToFit];
     
-    [popup showInView:chart withBottomAnchorPoint:CGPointMake(CGRectGetMidX(barFrame), CGRectGetMinY(barFrame))];
+   //[popup showInView:chart withBottomAnchorPoint:CGPointMake(CGRectGetMidX(barFrame), CGRectGetMinY(barFrame))];
     self.popup = popup;
 }
 
