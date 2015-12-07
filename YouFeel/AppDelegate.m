@@ -325,15 +325,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"AssignOrderComing" object:nil];
                 }
             }
-            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 3)//抢单后或者确认通知后回馈报修者到达时间
-            {
-                [self showAlertView:[taskInfo objectForKey:@"notice_title"]];
-            }
-            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 4)//维修完成后通知后报修者
-            {
-                [self showAlertView:[taskInfo objectForKey:@"notice_title"]];
-            }
-            else//维修者获取好评
+            else
             {
                 [self showAlertView:[taskInfo objectForKey:@"notice_title"]];
             }
@@ -461,7 +453,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
             [pic_request updateHeadPic:[userInfoDic objectForKey:@"pic"]];
-            
+
             /**分店登录**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request branchLogin];

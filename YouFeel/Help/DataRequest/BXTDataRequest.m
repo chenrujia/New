@@ -383,6 +383,18 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)reaciveOrderForAssign:(NSString *)repairID
+                  arrivalTime:(NSString *)time
+                    andUserID:(NSString *)userID
+{
+    self.requestType = ReaciveOrder;
+    NSDictionary *dic = @{@"user_id":userID,
+                          @"id":repairID,
+                          @"receive_time":time};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=update_receive_time",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)dispatchingMan:(NSString *)repairID
                andMans:(NSArray *)mans
 {
@@ -692,7 +704,7 @@ andRepairerIsReacive:(NSString *)reacive
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-         NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
+//         NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
          NSDictionary *dictionary = [response JSONValue];
          [_delegate requestResponseData:dictionary requeseType:_requestType];
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

@@ -150,9 +150,10 @@
 		960AE9DE1BF5C62C00EB4E59 /* MLImageCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 960AE9DD1BF5C62C00EB4E59 /* MLImageCrop.m */; };
 		964A1C151BD8899900FC1622 /* BXTMessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 964A1C141BD8899900FC1622 /* BXTMessageListViewController.m */; };
 		964A1C181BD889C800FC1622 /* BXTMessageListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 964A1C171BD889C800FC1622 /* BXTMessageListTableViewCell.m */; };
+		964C4AC21C157C0800E6C8C4 /* ImageResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 964C4AC11C157C0800E6C8C4 /* ImageResources.bundle */; };
+		964C4AC41C157C7B00E6C8C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 964C4AC31C157C7B00E6C8C4 /* Assets.xcassets */; };
 		9652AB041BC902DF009A666D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB031BC902DF009A666D /* main.m */; };
 		9652AB071BC902DF009A666D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB061BC902DF009A666D /* AppDelegate.m */; };
-		9652AB091BC902DF009A666D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9652AB081BC902DF009A666D /* Assets.xcassets */; };
 		9652AB0C1BC902DF009A666D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9652AB0A1BC902DF009A666D /* LaunchScreen.storyboard */; };
 		9652AB171BC902DF009A666D /* YouFeelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB161BC902DF009A666D /* YouFeelTests.m */; };
 		9652AB221BC902DF009A666D /* YouFeelUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB211BC902DF009A666D /* YouFeelUITests.m */; };
@@ -355,7 +356,6 @@
 		96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C684891BE76B4B0038A342 /* AssetsLibraryD.m */; };
 		96C684941BE76B4B0038A342 /* HCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C6848B1BE76B4B0038A342 /* HCollectionViewCell.m */; };
 		96C684951BE76B4B0038A342 /* HySideScrollingImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C6848D1BE76B4B0038A342 /* HySideScrollingImagePicker.m */; };
-		96C684961BE76B4B0038A342 /* ImageResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96C6848E1BE76B4B0038A342 /* ImageResources.bundle */; };
 		96C684971BE76B4B0038A342 /* SideScrollingCheckCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C684901BE76B4B0038A342 /* SideScrollingCheckCell.m */; };
 		96C684981BE76B4B0038A342 /* SideScrollingLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C684921BE76B4B0038A342 /* SideScrollingLayout.m */; };
 		96CEC8341BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8331BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m */; };
@@ -668,11 +668,12 @@
 		964A1C141BD8899900FC1622 /* BXTMessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageListViewController.m; sourceTree = "<group>"; };
 		964A1C161BD889C800FC1622 /* BXTMessageListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageListTableViewCell.h; sourceTree = "<group>"; };
 		964A1C171BD889C800FC1622 /* BXTMessageListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageListTableViewCell.m; sourceTree = "<group>"; };
+		964C4AC11C157C0800E6C8C4 /* ImageResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ImageResources.bundle; sourceTree = "<group>"; };
+		964C4AC31C157C7B00E6C8C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9652AAFF1BC902DF009A666D /* YouFeel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouFeel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9652AB031BC902DF009A666D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9652AB051BC902DF009A666D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9652AB061BC902DF009A666D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9652AB081BC902DF009A666D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9652AB0B1BC902DF009A666D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9652AB0D1BC902DF009A666D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9652AB121BC902DF009A666D /* YouFeelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YouFeelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1032,7 +1033,6 @@
 		96C6848B1BE76B4B0038A342 /* HCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCollectionViewCell.m; sourceTree = "<group>"; };
 		96C6848C1BE76B4B0038A342 /* HySideScrollingImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HySideScrollingImagePicker.h; sourceTree = "<group>"; };
 		96C6848D1BE76B4B0038A342 /* HySideScrollingImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HySideScrollingImagePicker.m; sourceTree = "<group>"; };
-		96C6848E1BE76B4B0038A342 /* ImageResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ImageResources.bundle; sourceTree = "<group>"; };
 		96C6848F1BE76B4B0038A342 /* SideScrollingCheckCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideScrollingCheckCell.h; sourceTree = "<group>"; };
 		96C684901BE76B4B0038A342 /* SideScrollingCheckCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideScrollingCheckCell.m; sourceTree = "<group>"; };
 		96C684911BE76B4B0038A342 /* SideScrollingLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideScrollingLayout.h; sourceTree = "<group>"; };
@@ -2461,10 +2461,10 @@
 				9652AB331BC9069B009A666D /* Library */,
 				9652AB341BC9069B009A666D /* Module */,
 				9652AB351BC9069B009A666D /* Utilities */,
-				9652AB081BC902DF009A666D /* Assets.xcassets */,
 				9652AB0A1BC902DF009A666D /* LaunchScreen.storyboard */,
 				9652AB0D1BC902DF009A666D /* Info.plist */,
 				9607A3C41BE0BC0F000A6C5B /* Emoji.plist */,
+				964C4AC31C157C7B00E6C8C4 /* Assets.xcassets */,
 				96AABA4E1BE0BB220071B6FA /* en.lproj */,
 				96AABA511BE0BB220071B6FA /* zh-Hans.lproj */,
 				9652AB021BC902DF009A666D /* Supporting Files */,
@@ -2844,11 +2844,11 @@
 				96C6848B1BE76B4B0038A342 /* HCollectionViewCell.m */,
 				96C6848C1BE76B4B0038A342 /* HySideScrollingImagePicker.h */,
 				96C6848D1BE76B4B0038A342 /* HySideScrollingImagePicker.m */,
-				96C6848E1BE76B4B0038A342 /* ImageResources.bundle */,
 				96C6848F1BE76B4B0038A342 /* SideScrollingCheckCell.h */,
 				96C684901BE76B4B0038A342 /* SideScrollingCheckCell.m */,
 				96C684911BE76B4B0038A342 /* SideScrollingLayout.h */,
 				96C684921BE76B4B0038A342 /* SideScrollingLayout.m */,
+				964C4AC11C157C0800E6C8C4 /* ImageResources.bundle */,
 			);
 			path = HySideScrollingImagePicker;
 			sourceTree = "<group>";
@@ -3637,7 +3637,6 @@
 				9652ADB21BC9170D009A666D /* UIBarButtonItemArrowLeft.png in Resources */,
 				9652ADAA1BC9170D009A666D /* ImageSelectedSmallOn@2x.png in Resources */,
 				9652ADB71BC9170D009A666D /* UIBarButtonItemArrowRight@3x.png in Resources */,
-				9652AB091BC902DF009A666D /* Assets.xcassets in Resources */,
 				96AABA541BE0BB220071B6FA /* RongCloudKit.strings in Resources */,
 				9652ADB11BC9170D009A666D /* PlayButtonOverlayLargeTap@3x.png in Resources */,
 				9652AD9E1BC9170D009A666D /* ImageError@2x.png in Resources */,
@@ -3677,15 +3676,16 @@
 				780E9CDF1C0E90F8002F1CDE /* BXTWorkloadCell.xib in Resources */,
 				7818DC261C08597800DC22C6 /* BXTStEvaluationHeader.xib in Resources */,
 				9652ADAC1BC9170D009A666D /* PlayButtonOverlayLarge.png in Resources */,
+				964C4AC41C157C7B00E6C8C4 /* Assets.xcassets in Resources */,
 				9652AD9F1BC9170D009A666D /* ImageError@3x.png in Resources */,
 				782D6BCA1C0D6DF500E1828F /* BXTCompletionFooter.xib in Resources */,
 				9652ADA91BC9170D009A666D /* ImageSelectedSmallOn.png in Resources */,
 				9652ADBA1BC9170D009A666D /* UIBarButtonItemGrid@3x.png in Resources */,
+				964C4AC21C157C0800E6C8C4 /* ImageResources.bundle in Resources */,
 				9607A3C51BE0BC0F000A6C5B /* Emoji.plist in Resources */,
 				9652ADA51BC9170D009A666D /* ImageSelectedOn@3x.png in Resources */,
 				9652AD981BC9170D009A666D /* MJRefresh.bundle in Resources */,
 				9652ADBC1BC9170D009A666D /* VideoOverlay@2x.png in Resources */,
-				96C684961BE76B4B0038A342 /* ImageResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4157,8 +4157,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

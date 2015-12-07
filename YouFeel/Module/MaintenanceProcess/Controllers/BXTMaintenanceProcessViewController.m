@@ -423,13 +423,13 @@
         {
             cell = [[BXTSettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RepairCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.checkImgView.hidden = YES;
             cell.detailLable.textAlignment = NSTextAlignmentRight;
             CGRect rect = cell.detailLable.frame;
             rect.size.width -= 12.f;
             cell.detailLable.frame = rect;
         }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (isDone)
         {
             if (indexPath.section == 0)
@@ -454,6 +454,7 @@
             {
                 cell.titleLabel.text = @"工单类型";
                 cell.detailLable.text = @"特殊工单";
+                cell.accessoryType = UITableViewCellAccessoryNone;
                 //cell.detailLable.text = orderType.length > 0 ? orderType : @"请选择工单类型";
             }
             else if (indexPath.section == 2)
@@ -481,7 +482,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!(!isDone && indexPath.section == 1)) {
+    if (!(!isDone && indexPath.section == 1))
+    {
         [self createBoxView:indexPath.section];
     }
 }

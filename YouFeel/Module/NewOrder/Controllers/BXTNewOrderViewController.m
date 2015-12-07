@@ -103,6 +103,12 @@
     self.navigationController.navigationBar.hidden = YES;
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [player stop];
+}
+
 #pragma mark -
 #pragma mark 初始化视图
 - (void)createSubviews
@@ -336,8 +342,8 @@
 #pragma mark 事件
 - (void)navigationLeftButton
 {
-    [super navigationLeftButton];
-    --[BXTGlobal shareGlobal].assignNumber;
+    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:currentOrderID andIsAssign:NO];
+    [self.navigationController pushViewController:rejectVC animated:YES];
 }
 
 - (void)grabBtnClick
@@ -589,6 +595,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
             [self showMBP:@"接单成功！" withBlock:^(BOOL hidden) {
                 [self.navigationController popViewControllerAnimated:YES];
+                --[BXTGlobal shareGlobal].assignNumber;
             }];
         }
     }
@@ -623,12 +630,9 @@
         
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        NSArray *users = @[userID];
-        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
-                    arrivalTime:timeStr
-                      andUserID:userID
-                       andUsers:users
-                      andIsGrad:NO];
+        [request reaciveOrderForAssign:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
+                           arrivalTime:timeStr
+                             andUserID:userID];
     }
 }
 
