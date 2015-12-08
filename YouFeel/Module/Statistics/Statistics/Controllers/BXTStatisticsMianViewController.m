@@ -23,6 +23,7 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
     
+    
     [self createNavigationBar];
     
     
