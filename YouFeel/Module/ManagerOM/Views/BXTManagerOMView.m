@@ -15,19 +15,30 @@
 #import "UIView+Nav.h"
 #import "BXTNewOrderViewController.h"
 #import "BXTRejectOrderViewController.h"
+#import "BXTAllOrdersViewController.h"
 
 @implementation BXTManagerOMView
 
-- (instancetype)initWithFrame:(CGRect)frame andOrderType:(OrderType )order_type
+- (instancetype)initWithFrame:(CGRect)frame andOrderType:(OrderType )order_type WithArray:(NSArray *)transArray
 {
     self = [super initWithFrame:frame];
     if (self)
-    {
+    {        
         self.orderType = order_type;
+       
         groupID = @"";
         startTime = @"";
         endTime = @"";
         selectOT = @"";
+        if (transArray) {
+            startTime = transArray[0];
+            endTime = transArray[1];
+            if ([transArray[2] isEqualToString:@"SPECIAL"]) {
+                selectOT = @"3";
+            } else if ([transArray[2] isEqualToString:@"UNDOWN"]) {
+                selectOT = @"1";
+            }
+        }
         groups = [NSArray array];
         BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
         if (groupInfo.subgroup.length > 0)
@@ -123,6 +134,39 @@
                      andPage:1];
     }
     else if (_orderType == AllType)
+    {
+        NSString *collection = @"";
+        NSString *state = @"";
+        if ([selectOT integerValue] == 3)
+        {
+            state = @"";
+            collection = @"all";
+        }
+        else
+        {
+            state = selectOT;
+            collection = @"";
+        }
+        NSString *timeName = @"";
+        if (startTime.length)
+        {
+            timeName = @"repair_time";
+        }
+        else
+        {
+            timeName = @"";
+        }
+        [request allRepairs:collection
+                andTimeName:timeName
+               andStartTime:startTime
+                 andEndTime:endTime
+               andOrderType:priorityType
+                 andGroupID:groupID
+               andSubgroups:groups
+                   andState:state
+                    andPage:1];
+    }
+    else if (_orderType == PushType)
     {
         NSString *collection = @"";
         NSString *state = @"";

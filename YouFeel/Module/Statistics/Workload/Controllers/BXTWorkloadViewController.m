@@ -32,7 +32,8 @@
     
     [self showLoadingMBP:@"数据加载中"];
     
-    NSArray *dateArray = [BXTGlobal yearStartAndEnd];
+    
+    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_workloadWithTime_start:dateArray[0] time_end:dateArray[1]];
     
@@ -50,6 +51,7 @@
         for (int i=0; i<self.dataArray.count-1; i++) {
             [self.isShowArray addObject:@"0"];
         }
+        
         [self createUI];
     }
 }
@@ -61,6 +63,7 @@
 #pragma mark -
 #pragma mark - createUI
 - (void)createUI {
+    [self.tableView removeFromSuperview];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-100) style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
@@ -72,25 +75,48 @@
     
     NSDictionary *dataDict = self.dataArray[index];
     NSArray *workloadArray = dataDict[@"workload"];
+    NSMutableArray *sumArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *dict in workloadArray) {
+        [sumArray addObject:[NSString stringWithFormat:@"%@", dict[@"sum_number"]]];
+    }
+    NSNumber *maxNum = [sumArray valueForKeyPath:@"@max.floatValue"];
+    double maxDouble = [maxNum doubleValue];
+    if (maxDouble == 0) {
+        maxDouble = 1;
+    }
+    
+    UILabel *lineY = [[UILabel alloc] initWithFrame:CGRectMake(85, 10, SCREEN_WIDTH-120, 1)];
+    lineY.backgroundColor = colorWithHexString(@"#d9d9d9");
+    [newCell.contentView addSubview:lineY];
+    UILabel *lineYMax = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-20, 5, 20, 15)];
+    lineYMax.text = [NSString stringWithFormat:@"%@", maxNum];
+    lineYMax.textColor = colorWithHexString(@"#666666");
+    lineYMax.font = [UIFont systemFontOfSize:12];
+    [newCell addSubview:lineYMax];
+    UILabel *lineX = [[UILabel alloc] initWithFrame:CGRectMake(84, 10, 1, workloadArray.count*(bgViewH+10)+5)];
+    lineX.backgroundColor = colorWithHexString(@"#d9d9d9");
+    [newCell.contentView addSubview:lineX];
+    
     
     CGFloat bgViewY = 20;
     CGFloat margin = 5;
     for (int i=0; i<workloadArray.count; i++) {
         NSDictionary *dict = workloadArray[i];
+        int count = [[NSString stringWithFormat:@"%@", dict[@"sum_number"]] doubleValue];
         
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(15, bgViewY+(bgViewH+margin)*i, SCREEN_WIDTH-15, bgViewH)];
         bgView.backgroundColor = [UIColor clearColor];
         [newCell.contentView addSubview:bgView];
         
         // name
-        UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 80, 30)];
+        UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 70, 30)];
         nameLabel.text = dict[@"name"];
         nameLabel.textColor = colorWithHexString(@"#666666");
         nameLabel.font = [UIFont systemFontOfSize:14];
         [bgView addSubview:nameLabel];
         
         // chart
-        AksStraightPieChart *straightPieChart = [[AksStraightPieChart alloc] initWithFrame:CGRectMake(80, 0, bgView.frame.size.width-95, bgViewH)];
+        AksStraightPieChart *straightPieChart = [[AksStraightPieChart alloc] initWithFrame:CGRectMake(70, 0, (bgView.frame.size.width-105)*(count/maxDouble), bgViewH)];
         straightPieChart.transPieClick = ^(void) {
             newCell.nameView.text = [NSString stringWithFormat:@"%@", dict[@"name"]];
             newCell.downView.text = [NSString stringWithFormat:@"已完成:%@", dict[@"yes_number"]];

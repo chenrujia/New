@@ -62,7 +62,7 @@
     
     for (NSInteger i = 1; i < 4; i++)
     {
-        BXTManagerOMView *omView = [[BXTManagerOMView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andOrderType:i - 1];
+        BXTManagerOMView *omView = [[BXTManagerOMView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andOrderType:i - 1 WithArray:nil];
         [currentScrollView addSubview:omView];
     }
 }

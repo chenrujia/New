@@ -20,6 +20,7 @@
 
 @property (nonatomic ,assign) NSInteger      maxPics;
 @property (nonatomic ,strong) NSString       *baseURL;
+@property (nonatomic ,strong) NSString       *BranchURL;
 @property (nonatomic ,strong) NSMutableArray *newsOrderIDs;
 @property (nonatomic ,strong) NSMutableArray *assignOrderIDs;
 @property (nonatomic ,strong) NSString       *newsShopID;
