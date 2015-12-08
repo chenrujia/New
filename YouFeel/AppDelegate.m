@@ -42,10 +42,15 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     UIViewController* myvc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = myvc;
     
+    
     //初始化融云SDK
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
+    
+    
     //自动键盘
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
+    
+    
     //默认自动登录
     if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
     {
@@ -59,10 +64,12 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [self loadingLoginVC];
     }
 
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    
     
     // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
     [self startSdkWith:kAppId appKey:kAppKey appSecret:kAppSecret];
@@ -80,12 +87,14 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 //        [[BXTGlobal shareGlobal].orderIDs addObject:payloadMsg];
 //    }
     
+    
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];
     NSDictionary *textAttributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor whiteColor]};
     [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMessageNotification:) name:RCKitDispatchMessageNotification object:nil];
     //设置会话列表头像和会话界面头像
     [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
@@ -94,6 +103,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     //注册消息处理函数的处理方法,处理崩溃信息,写入本地
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
     
     CrashManager *crashManager = [CrashManager defaultManager];
     //Crash日志
