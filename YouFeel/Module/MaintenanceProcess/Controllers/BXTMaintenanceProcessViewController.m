@@ -108,8 +108,8 @@
     [ot_request specialOrderTypes];
     
     /**请求分组列表**/
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request propertyGrouping];
+//    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//    [request propertyGrouping];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -912,7 +912,17 @@
     {
         selectFaultInfo = fau_dataSource[row];
         NSArray *faultTypesArray = selectFaultInfo.sub_data;
-        selectFaultTypeInfo = faultTypesArray[0];
+        if (faultTypesArray.count > 0)
+        {
+            selectFaultTypeInfo = faultTypesArray[0];
+        }
+        else
+        {
+            BXTFaultTypeInfo *faultTypeInfo = [[BXTFaultTypeInfo alloc] init];
+            faultTypeInfo.faulttype = @"";
+            faultTypeInfo.fau_id = 1;
+            selectFaultTypeInfo = faultTypeInfo;
+        }
         [pickerView reloadComponent:1];
     }
     else
@@ -921,7 +931,14 @@
         selectFaultTypeInfo = faultTypesArray[row];
         _currentFaultID = selectFaultTypeInfo.fau_id;
     }
-    _cause = [NSString stringWithFormat:@"%@-%@",selectFaultInfo.faulttype_type,selectFaultTypeInfo.faulttype];
+    if (selectFaultTypeInfo.faulttype.length > 0)
+    {
+        _cause = [NSString stringWithFormat:@"%@-%@",selectFaultInfo.faulttype_type,selectFaultTypeInfo.faulttype];
+    }
+    else
+    {
+        _cause = selectFaultInfo.faulttype_type;
+    }
     [currentTableView reloadData];
 }
 

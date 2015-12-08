@@ -17,6 +17,7 @@
 #import "BXTOrderDetailViewController.h"
 #import "BXTMaintenanceProcessViewController.h"
 #import "AppDelegate.h"
+#import "BXTEvaluationViewController.h"
 
 @implementation BXTOrderListView
 
@@ -83,8 +84,6 @@
     currentPage = 1;
     /**获取报修列表**/
     
-    NSLog(@"_repairState ---- %@", _repairState);
-    
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairsList:_repairState
                  andPage:1
@@ -102,6 +101,13 @@
                  andPage:currentPage
      andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO
     andRepairerIsReacive:_repairState];
+}
+
+- (void)evaluationClick:(UIButton *)btn
+{
+    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:btn.tag];
+    BXTEvaluationViewController *evaluateVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+    [[self navigation] pushViewController:evaluateVC animated:YES];
 }
 
 #pragma mark -
@@ -196,10 +202,20 @@
         
         // TODO: -----------------  调试 维修状态  -----------------
         cell.repairState.text = repairInfo.receive_state;
-        if ([self.repairState isEqualToString:@"1"])
+        if (repairInfo.repairstate == 1)
         {
             cell.state.hidden = YES;
             cell.repairState.hidden = YES;
+        }
+        else if (repairInfo.repairstate == 3)
+        {
+            cell.evaButton.hidden = NO;
+            cell.evaButton.tag = indexPath.section;
+            [cell.evaButton addTarget:self action:@selector(evaluationClick:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        else if (repairInfo.repairstate == 5)
+        {
+            cell.evaButton.hidden = YES;
         }
 
         return cell;

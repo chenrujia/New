@@ -191,11 +191,11 @@ static const NSString *kDefaultSolidChar = @"★";
 	
 	CGPoint touchLocation = [touch locationInView:self];
 	
-	if (touchLocation.x < 0)
+	if (touchLocation.x < 1)
 	{
-		if (_rating != 0)
+		if (_rating != 1)
 		{
-			_rating = 0;
+			_rating = 1;
 			[self sendActionsForControlEvents:UIControlEventEditingChanged];
 		}
 	}

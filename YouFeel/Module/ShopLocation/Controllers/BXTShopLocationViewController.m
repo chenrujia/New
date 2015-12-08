@@ -12,6 +12,7 @@
 #import "BXTShopInfo.h"
 #import "BXTSelectBoxView.h"
 #import "ANKeyValueTable.h"
+#import "UINavigationController+YRBackGesture.h"
 
 @interface BXTShopLocationViewController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 {
@@ -320,6 +321,10 @@
                 [areaArray addObject:area];
             }
             floor.place = areaArray;
+            if ([floor.area_id isEqual:selectedFloorInfo.area_id])
+            {
+                selectedFloorInfo = floor;
+            }
             [dataArray addObject:floor];
         }
     }

@@ -106,6 +106,22 @@
         
         });
         
+        self.evaButton = ({
+            
+            CGFloat width = IS_IPHONE6 ? 84.f : 56.f;
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [button setFrame:CGRectMake(SCREEN_WIDTH - width - 15.f, CGRectGetMaxY(lineViewTwo.frame) + 15.f, width, 30.f)];
+            [button setTitle:@"评价" forState:UIControlStateNormal];
+            [button setTitleColor:colorWithHexString(@"3aaeff") forState:UIControlStateNormal];
+            button.layer.borderColor = colorWithHexString(@"3aaeff").CGColor;
+            button.layer.borderWidth = 0.7f;
+            button.layer.cornerRadius = 4.f;
+            button.hidden = YES;
+            [self addSubview:button];
+            button;
+            
+        });
+        
         self.cancelRepair = ({
         
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];

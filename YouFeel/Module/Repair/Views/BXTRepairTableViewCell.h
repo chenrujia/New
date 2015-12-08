@@ -18,6 +18,7 @@
 @property (nonatomic ,strong) UILabel *level;
 @property (nonatomic ,strong) UILabel *state;
 @property (nonatomic ,strong) UILabel *repairState;
+@property (nonatomic ,strong) UIButton *evaButton;
 @property (nonatomic ,strong) UIButton *cancelRepair;
 
 @end

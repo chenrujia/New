@@ -85,12 +85,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BoxCell"];
-    if (!cell)
-    {
-        cell = [[BXTSettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BoxCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    BXTSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BoxCell" forIndexPath:indexPath];
+    CGRect rect = cell.titleLabel.frame;
+    rect.size = CGSizeMake(SCREEN_WIDTH - 30.f, rect.size.height);
+    cell.titleLabel.frame = rect;
+    cell.titleLabel.textAlignment = NSTextAlignmentCenter;
     
     if ([markArray[indexPath.row] integerValue])
     {
@@ -106,30 +105,25 @@
     if (_boxType == DepartmentView)
     {
         BXTDepartmentInfo *departmentInfo = _dataArray[indexPath.row];
-        cell.titleLabel.frame = CGRectMake(15., 10., 160.f, 30);
         cell.titleLabel.text = departmentInfo.department;
     }
     else if (_boxType == PositionView)
     {
         BXTPostionInfo *positionInfo = _dataArray[indexPath.row];
-        cell.titleLabel.frame = CGRectMake(15., 10., 160.f, 30);
         cell.titleLabel.text = positionInfo.role;
     }
     else if (_boxType == FloorInfoView)
     {
         BXTFloorInfo *floorInfo = _dataArray[indexPath.row];
-        cell.titleLabel.frame = CGRectMake(15., 10., 160.f, 30);
         cell.titleLabel.text = floorInfo.area_name;
     }
     else if (_boxType == AreaInfoView)
     {
         BXTAreaInfo *areaInfo = _dataArray[indexPath.row];
-        cell.titleLabel.frame = CGRectMake(15., 10., 160.f, 30);
         cell.titleLabel.text = areaInfo.place_name;
     }
     else if (_boxType == ShopInfoView)
     {
-        cell.titleLabel.frame = CGRectMake(15., 10., 160.f, 30);
         if ([_dataArray[indexPath.row] isKindOfClass:[NSString class]])
         {
             cell.titleLabel.text = _dataArray[indexPath.row];
@@ -143,27 +137,21 @@
     else if (_boxType == FaultInfoView)
     {
         BXTFaultTypeInfo *faultInfo = _dataArray[indexPath.row];
-        cell.titleLabel.frame = CGRectMake(15., 10., 160.f, 30);
         cell.titleLabel.text = faultInfo.faulttype;
     }
     else if (_boxType == GroupingView)
     {
         BXTGroupingInfo *groupInfo = _dataArray[indexPath.row];
-        cell.titleLabel.frame = CGRectMake(15., 10., 160.f, 30);
         cell.titleLabel.text = groupInfo.subgroup;
     }
     else if (_boxType == SpecialOrderView)
     {
         NSDictionary *dic = _dataArray[indexPath.row];
-        cell.titleLabel.frame = CGRectMake(15., 10., SCREEN_WIDTH-30, 30);
         cell.titleLabel.text = [dic objectForKey:@"collection"];
-        cell.titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     else if (_boxType == Other)
     {
-        cell.titleLabel.frame = CGRectMake(15., 10., SCREEN_WIDTH-30, 30);
         cell.titleLabel.text = _dataArray[indexPath.row];
-        cell.titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     
     return cell;

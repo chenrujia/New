@@ -538,7 +538,7 @@
         }
         if (indexPath.section == 0)
         {
-            cell.titleLabel.text = @"商   铺";
+            cell.titleLabel.text = @"位   置";
             BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
             BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
             if (floorInfo)
