@@ -58,6 +58,7 @@
 		782D6BCC1C0D711900E1828F /* BXTCompletionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782D6BCB1C0D711900E1828F /* BXTCompletionHeader.xib */; };
 		782D6BCF1C0D712700E1828F /* BXTCompletionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BCE1C0D712700E1828F /* BXTCompletionHeader.m */; };
 		782D6BD31C0D88B300E1828F /* SPChartPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BD21C0D88B300E1828F /* SPChartPopup.m */; };
+		78AF59251C1688F3006104D3 /* BXTShopListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78AF59241C1688F3006104D3 /* BXTShopListViewController.m */; };
 		78CB8BDD1C0C489400973298 /* BXTStatisticsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CB8BDB1C0C489400973298 /* BXTStatisticsCell.m */; };
 		78CB8BDE1C0C489400973298 /* BXTStatisticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78CB8BDC1C0C489400973298 /* BXTStatisticsCell.xib */; };
 		78F872B11C094B14001C6E60 /* BXTStEvaluationFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F872B01C094B14001C6E60 /* BXTStEvaluationFooter.xib */; };
@@ -485,6 +486,8 @@
 		782D6BCE1C0D712700E1828F /* BXTCompletionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCompletionHeader.m; sourceTree = "<group>"; };
 		782D6BD11C0D88B300E1828F /* SPChartPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPChartPopup.h; sourceTree = "<group>"; };
 		782D6BD21C0D88B300E1828F /* SPChartPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPChartPopup.m; sourceTree = "<group>"; };
+		78AF59231C1688F3006104D3 /* BXTShopListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTShopListViewController.h; sourceTree = "<group>"; };
+		78AF59241C1688F3006104D3 /* BXTShopListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTShopListViewController.m; sourceTree = "<group>"; };
 		78CB8BDA1C0C489400973298 /* BXTStatisticsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStatisticsCell.h; sourceTree = "<group>"; };
 		78CB8BDB1C0C489400973298 /* BXTStatisticsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTStatisticsCell.m; sourceTree = "<group>"; };
 		78CB8BDC1C0C489400973298 /* BXTStatisticsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTStatisticsCell.xib; sourceTree = "<group>"; };
@@ -1376,6 +1379,8 @@
 		7818DC061C08251400DC22C6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				78AF59231C1688F3006104D3 /* BXTShopListViewController.h */,
+				78AF59241C1688F3006104D3 /* BXTShopListViewController.m */,
 				7818DC091C08251400DC22C6 /* BXTStatisticsViewController.h */,
 				7818DC0A1C08251400DC22C6 /* BXTStatisticsViewController.m */,
 				7818DC071C08251400DC22C6 /* BXTStatisticsMianViewController.h */,
@@ -3791,6 +3796,7 @@
 				967127701BE475DC0033169E /* AFHTTPRequestOperation.m in Sources */,
 				960222FD1BC9216300010072 /* BXTSettingViewController.m in Sources */,
 				9652ABBB1BC9092B009A666D /* DCPropertyAggregator.m in Sources */,
+				78AF59251C1688F3006104D3 /* BXTShopListViewController.m in Sources */,
 				9652AB361BC9069B009A666D /* BXTGlobal.m in Sources */,
 				9652AD8F1BC9170D009A666D /* MJRefreshAutoGifFooter.m in Sources */,
 				9602228C1BC9216300010072 /* BXTPropertyView.m in Sources */,

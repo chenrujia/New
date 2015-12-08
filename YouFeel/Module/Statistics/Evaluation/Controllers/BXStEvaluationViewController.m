@@ -28,7 +28,7 @@
     self.dataArray = [[NSMutableArray alloc] init];
     
     
-    NSArray *dateArray = [BXTGlobal yearStartAndEnd];
+    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_praiseWithTime_start:dateArray[0] time_end:dateArray[1]];
     

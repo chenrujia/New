@@ -9,6 +9,9 @@
 #import "BXTCompletionViewController.h"
 #import "BXTCompletionHeader.h"
 #import "BXTCompletionFooter.h"
+#import "BXTAllOrdersViewController.h"
+
+#define Not_First_Launch @"not_first_launch"
 
 @interface BXTCompletionViewController () <BXTDataResponseDelegate, SPChartDelegate>
 
@@ -19,6 +22,8 @@
 @property (nonatomic, strong) BXTCompletionFooter *footerView;
 @property (weak, nonatomic) SPBarChart *barChartView;
 @property (weak, nonatomic) SPChartPopup *popup;
+
+@property (nonatomic, strong) NSMutableArray *transTimeArray;
 
 @end
 
@@ -31,7 +36,8 @@
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**饼状图**/
-        NSArray *dateArray = [BXTGlobal yearStartAndEnd];
+        NSArray *dateArray = [BXTGlobal dayStartAndEnd];
+        self.transTimeArray = [[NSMutableArray alloc] initWithArray:dateArray];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
     });
@@ -43,7 +49,9 @@
     });
     
     
-    //[self createIntroductionView];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:Not_First_Launch]) {
+        [self createIntroductionView];
+    }
 }
 
 - (void)createIntroductionView {
@@ -57,22 +65,30 @@
         pickerbgView.alpha = 1.0;
     }];
     
-    UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 442, 120, 25)];
-    leftLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.8];
-    leftLabel.text = @" 未完成:25单";
-    leftLabel.textColor = colorWithHexString(@"#666666");
-    leftLabel.font = [UIFont systemFontOfSize:14];
-    leftLabel.layer.cornerRadius = 15;
-    [pickerbgView addSubview:leftLabel];
+    UILabel *centerLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 390, SCREEN_WIDTH-120, 30)];
+    centerLabel.backgroundColor = [UIColor clearColor];
+    centerLabel.text = @"点击可查看工单详情";
+    centerLabel.textColor = [UIColor whiteColor];
+    centerLabel.textAlignment = NSTextAlignmentCenter;
+    centerLabel.font = [UIFont boldSystemFontOfSize:21];
+    [pickerbgView addSubview:centerLabel];
     
-    UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-15-125, 442, 120, 25)];
-    rightLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
-    rightLabel.text = @" 特殊工单:15单";
-    rightLabel.textColor = colorWithHexString(@"#666666");
-    rightLabel.font = [UIFont systemFontOfSize:14];
-    rightLabel.textAlignment = NSTextAlignmentRight;
-    rightLabel.layer.cornerRadius = 15;
-    [pickerbgView addSubview:rightLabel];
+    UIImageView *leftArrowIV = [[UIImageView alloc] initWithFrame:CGRectMake(140, 430, 18, 31)];
+    leftArrowIV.image = [UIImage imageNamed:@"arrow_right"];
+    [pickerbgView addSubview:leftArrowIV];
+    UIImageView *rightArrowIV = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-160, 430, 18, 31)];
+    rightArrowIV.image = [UIImage imageNamed:@"arrow_left"];
+    [pickerbgView addSubview:rightArrowIV];
+    
+    UIImageView *leftIV = [[UIImageView alloc] initWithFrame:CGRectMake(5, 470, 130, 30)];
+    leftIV.image = [UIImage imageNamed:@"Unfinished_Work_Order"];
+    [pickerbgView addSubview:leftIV];
+    UIImageView *rightIV = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-5-135, 470, 130, 30)];
+    rightIV.image = [UIImage imageNamed:@"Special_tickets"];
+    [pickerbgView addSubview:rightIV];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:1 forKey:Not_First_Launch];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark -
@@ -128,7 +144,7 @@
     
     // 3. transform tilte
     self.headerView.pieView.layer.transformTitleBlock = ^(PieElement *elem, float percent){
-        NSLog(@"percent -- %f", percent);
+        //NSLog(@"percent -- %f", percent);
         return [(MYPieElement *)elem title];
     };
     self.headerView.pieView.layer.showTitles = ShowTitlesAlways;
@@ -148,8 +164,24 @@
     self.headerView.downLabelView.text = downNumStr;
     self.headerView.undownLabelView.attributedText = [self transToRichLabelOfIndex:4 String:undownNumStr];
     self.headerView.specialLabelView.attributedText = [self transToRichLabelOfIndex:4 String:specialNumStr];
+    __weak typeof(self) weakSelf = self;
     self.headerView.transBtnClick = ^(NSInteger tag) {
-        NSLog(@"tag ---- %ld", (long)tag);
+        if (tag == 3333 || tag == 4444) {
+            BXTAllOrdersViewController *allVC = [[BXTAllOrdersViewController alloc] init];
+            if (tag == 3333) {
+                allVC.transType = @"UNDOWN";
+            } else {
+                allVC.transType = @"SPECIAL";
+            }
+            allVC.transStartTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[0]];
+            allVC.transEndTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[1]];
+            NSInteger timeSp = [weakSelf.transTimeArray[1] integerValue] + 86399;
+            if ([weakSelf.transTimeArray[0] isEqualToString:weakSelf.transTimeArray[1]]) {
+                allVC.transEndTime = [weakSelf transDateToTimeStamp:[NSString stringWithFormat:@"%ld", (long)timeSp]];
+            }
+            allVC.isSpecialPush = YES;
+            [weakSelf.navigationController pushViewController:allVC animated:YES];
+        }
     };
 }
 
@@ -269,6 +301,9 @@
         default:
             break;
     }
+    [self.transTimeArray removeAllObjects];
+    [self.transTimeArray addObject:dateArray[0]];
+    [self.transTimeArray addObject:dateArray[1]];
     
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
@@ -286,6 +321,9 @@
         [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
         
         NSString *todayStr = [self transTimeWithDate:selectedDate];
+        [self.transTimeArray removeAllObjects];
+        [self.transTimeArray addObject:todayStr];
+        [self.transTimeArray addObject:todayStr];
         
         dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
         dispatch_async(concurrentQueue, ^{
@@ -316,6 +354,14 @@
                           value:colorWithHexString(@"#3AB0FF")
                           range:NSMakeRange(index, originStr.length-index)];
     return AttributedStr;
+}
+
+- (NSString *)transDateToTimeStamp:(NSString *)time{
+    NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+    [formatter1 setDateFormat:@"YYYY-MM-dd"];
+    NSDate *date = [formatter1 dateFromString:time];
+    NSString *confromTimespStr = [NSString stringWithFormat:@"%0.f", [date timeIntervalSince1970]];
+    return confromTimespStr;
 }
 
 - (void)didReceiveMemoryWarning {

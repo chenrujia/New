@@ -46,6 +46,7 @@
     {
         alertHeight = 512.f;
     }
+    
     startStr = @"";
     endStr = @"";
     selectOT = @"";
@@ -60,7 +61,13 @@
     UIImage *rightImage = [UIImage imageNamed:@"w_small_round"];
     [self navigationSetting:@"全部工单" andRightTitle:nil andRightImage:rightImage];
     
-    omView = [[BXTManagerOMView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) andOrderType:AllType];
+    
+    if (self.isSpecialPush) {
+        NSArray *transArray = [[NSArray alloc] initWithObjects:self.transStartTime, self.transEndTime, self.transType, nil];
+        omView = [[BXTManagerOMView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) andOrderType:AllType WithArray:transArray];
+    } else {
+        omView = [[BXTManagerOMView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) andOrderType:AllType WithArray:nil];
+    }
     [self.view addSubview:omView];
 }
 

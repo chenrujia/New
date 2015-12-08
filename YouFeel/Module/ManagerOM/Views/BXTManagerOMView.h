@@ -19,7 +19,8 @@ typedef NS_ENUM(NSInteger, OrderType) {
     OutTimeType = 0,
     DistributeType = 1,
     CloseType = 2,
-    AllType = 3
+    AllType = 3,
+    PushType = 4
 };
 
 @interface BXTManagerOMView : UIView <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
@@ -36,14 +37,13 @@ typedef NS_ENUM(NSInteger, OrderType) {
     NSString         *startTime;
     NSString         *endTime;
     NSString         *selectOT;//选择的工单类型
-    NSArray          *groups;
-    
+    NSArray          *groups;    
 }
 
 @property (nonatomic ,assign) BOOL isRequesting;
 @property (nonatomic ,assign) OrderType orderType;
 
-- (instancetype)initWithFrame:(CGRect)frame andOrderType:(OrderType )order_type;
+- (instancetype)initWithFrame:(CGRect)frame andOrderType:(OrderType )order_type WithArray:(NSArray *)transArray;
 - (void)reloadAllType:(NSString *)startStr
            andEndTime:(NSString *)endStr
             andGourps:(NSArray *)theGroups
