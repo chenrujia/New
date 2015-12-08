@@ -114,6 +114,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
     [crashManager clearCrashLog];//清除Crash日志
     
+    
     return YES;
 }
 
