@@ -196,7 +196,9 @@
         
         // TODO: -----------------  调试 维修状态  -----------------
         cell.repairState.text = repairInfo.receive_state;
-        if ([self.repairState isEqualToString:@"1"]) {
+        if ([self.repairState isEqualToString:@"1"])
+        {
+            cell.state.hidden = YES;
             cell.repairState.hidden = YES;
         }
 

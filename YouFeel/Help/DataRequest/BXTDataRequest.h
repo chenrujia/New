@@ -194,6 +194,13 @@ andRepairerIsReacive:(NSString *)reacive;
              andIsGrad:(BOOL)isGrab;
 
 /**
+ *  指派后的接单
+ */
+- (void)reaciveOrderForAssign:(NSString *)repairID
+                  arrivalTime:(NSString *)time
+                    andUserID:(NSString *)userID;
+
+/**
  *  派工or增员
  */
 - (void)dispatchingMan:(NSString *)repairID

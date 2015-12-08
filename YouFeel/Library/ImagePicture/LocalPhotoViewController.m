@@ -163,13 +163,16 @@
     LocalPhotoCell *cell=(LocalPhotoCell *)[collectionView cellForItemAtIndexPath:indexPath];
     if(cell.btnSelect.hidden)
     {
-        if (self.isSinglePicture) {
+        if (self.isSinglePicture)
+        {
             if (self.selectPhotos.count >= 1)
             {
                 [self showMBP:@"只能选择1张图片" withBlock:nil];
                 return;
             }
-        } else {
+        }
+        else
+        {
             if (self.selectPhotos.count >= 3)
             {
                 [self showMBP:@"最多选择3张图片" withBlock:nil];

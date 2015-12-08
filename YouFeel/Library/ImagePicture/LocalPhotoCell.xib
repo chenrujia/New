@@ -15,8 +15,8 @@
                     <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                     <animations/>
                 </imageView>
-                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="check-transparent.png" translatesAutoresizingMaskIntoConstraints="NO" id="rkG-IV-dxK">
-                    <rect key="frame" x="45" y="45" width="24" height="24"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="check_transparent" translatesAutoresizingMaskIntoConstraints="NO" id="rkG-IV-dxK">
+                    <rect key="frame" x="46" y="46" width="24" height="24"/>
                     <animations/>
                 </imageView>
             </subviews>
@@ -31,6 +31,6 @@
         </view>
     </objects>
     <resources>
-        <image name="check-transparent.png" width="34" height="34"/>
+        <image name="check_transparent" width="34" height="34"/>
     </resources>
 </document>

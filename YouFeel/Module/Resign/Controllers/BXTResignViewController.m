@@ -55,16 +55,24 @@ static NSString *cellIndentify = @"cellIndentify";
 #pragma mark 事件处理
 - (void)nextTapClick
 {
-    if (![BXTGlobal validateMobile:userName]) {
+    if (![BXTGlobal validateMobile:userName])
+    {
         [self showMBP:@"手机号格式不对" withBlock:nil];
-    } else if (![BXTGlobal validateCAPTCHA:codeNumber]) {
+    }
+    else if (![BXTGlobal validateCAPTCHA:codeNumber])
+    {
         [self showMBP:@"请输入正确4位验证码" withBlock:nil];
-    } else if (![codeNumber isEqualToString:returncode]) {
+    }
+    else if (![codeNumber isEqualToString:returncode])
+    {
         [self showMBP:@"验证码不正确" withBlock:nil];
     }
-    else if (![BXTGlobal validatePassword:passWord]) {
+    else if (![BXTGlobal validatePassword:passWord])
+    {
         [self showMBP:@"请输入至少6位密码，仅限英文、数字" withBlock:nil];
-    } else {
+    }
+    else
+    {
         [BXTGlobal setUserProperty:userName withKey:U_USERNAME];
         [BXTGlobal setUserProperty:passWord withKey:U_PASSWORD];
         

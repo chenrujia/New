@@ -12,6 +12,9 @@
 #import "BXTSelectBoxView.h"
 #import "MJRefresh.h"
 #import "BXTOrderDetailViewController.h"
+#import "BXTReaciveOrdersViewController.h"
+#import "BXTRepairDetailViewController.h"
+#import "BXTManagerOMViewController.h"
 
 @interface BXTNewsViewController ()<UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 {
@@ -166,30 +169,57 @@
     cell.titleLabel.text = [dic objectForKey:@"notice_title"];
     cell.detailLabel.text = [dic objectForKey:@"notice_body"];
     cell.timeLabel.text = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:[dic objectForKey:@"send_time"]];
-    
     cell.evaButton.hidden = YES;
-    
-//    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-//    NSString *str = [NSString stringWithFormat:@"%@21",companyInfo.company_id];
-//    if ([[dic objectForKey:@"handle_state"] integerValue] == 1 && [str isEqualToString:[dic objectForKey:@"handle_type"]])
-//    {
-//        cell.evaButton.hidden = NO;
-//        cell.evaButton.tag = indexPath.section;
-//        [cell.evaButton addTarget:self action:@selector(evaButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//    else
-//    {
-//        cell.evaButton.hidden = YES;
-//    }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /**
+     1 收到抢单信息：进入接单列表
+     2 收到派工或者维修邀请：进入接单列表
+     3 抢单后或者确认通知后回馈报修者到达时间： 进入工单详情
+     4 维修完成后通知后报修者+评价（需要加自动好评的提示信息）：进入工单详情
+     5 维修者获取好评：进入工单详情
+     6 超时工单提醒：进入“特殊工单”的待处理列表（进行指派）
+     7 收到无人响应：进入“特殊工单”的待处理列表（进行指派）
+     8 您的工单已经开始维修了：进入工单详情
+     **/
     NSDictionary *dic = datasource[indexPath.section];
-    BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%@", dic[@"about_id"]]];
-    [self.navigationController pushViewController:repairDetailVC animated:YES];
+    
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    NSString *notice_type = dic[@"notice_type"];
+    
+    if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"1"]] ||
+        [dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"2"]])
+    {
+        // 抢单
+        BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] init];
+        [self.navigationController pushViewController:reaciveVC animated:YES];
+    }
+    else if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"3"]] ||
+             [dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"4"]] ||
+             [dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"8"]])
+    {
+        //工单详情
+        BXTRepairInfo *repairInfo = [[BXTRepairInfo alloc] init];
+        repairInfo.repairID = [dic[@"about_id"] integerValue];
+        BXTRepairDetailViewController *repairDetailVC = [[BXTRepairDetailViewController alloc] initWithRepair:repairInfo];
+        [self.navigationController pushViewController:repairDetailVC animated:YES];
+    }
+    else if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"5"]])
+    {
+        BXTOrderDetailViewController *orderDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:dic[@"about_id"]];
+        [self.navigationController pushViewController:orderDetailVC animated:YES];
+    }
+    else if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"6"]] ||
+             [dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"7"]])
+    {
+        // 特殊工单
+        BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
+        [self.navigationController pushViewController:serviceVC animated:YES];
+    }
 }
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
@@ -237,7 +267,9 @@
             [datePicker removeFromSuperview];
             datePicker = nil;
             [currentTable reloadData];
-        } else {
+        }
+        else
+        {
             [UIView animateWithDuration:0.3f animations:^{
                 [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
             }];
@@ -258,7 +290,8 @@
     if ([obj isKindOfClass:[NSString class]])
     {
         NSString *tempStr = (NSString *)obj;
-        if ([tempStr isEqualToString:@"自定义"]) {
+        if ([tempStr isEqualToString:@"自定义"])
+        {
             [self createDatePicker];
             return;
         }
@@ -275,16 +308,14 @@
 
 #pragma mark -
 #pragma mark - UIDatePicker
-- (void)createDatePicker {
+- (void)createDatePicker
+{
     bgView = [[UIView alloc] initWithFrame:self.view.bounds];
     bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
     bgView.tag = 101;
     [self.view addSubview:bgView];
     
-    
     originDate = [NSDate date];
-    
-    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
     titleLabel.backgroundColor = colorWithHexString(@"ffffff");
     titleLabel.text = @"请选择到达时间";
@@ -295,7 +326,6 @@
     line.backgroundColor = colorWithHexString(@"e2e6e8");
     [bgView addSubview:line];
     
-    
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
     datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     datePicker.backgroundColor = colorWithHexString(@"ffffff");
@@ -303,7 +333,6 @@
     datePicker.datePickerMode = UIDatePickerModeDateAndTime;
     [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
     [bgView addSubview:datePicker];
-    
     
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
     toolView.backgroundColor = colorWithHexString(@"ffffff");
@@ -337,9 +366,8 @@
 
 - (void)datePickerBtnClick:(UIButton *)button
 {
-    if (button.tag == 10001) {
-        
-        //NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
+    if (button.tag == 10001)
+    {
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval];
         NSDictionary *dic = datasource[selectSection];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
