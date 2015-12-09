@@ -166,18 +166,24 @@
     self.headerView.specialLabelView.attributedText = [self transToRichLabelOfIndex:4 String:specialNumStr];
     __weak typeof(self) weakSelf = self;
     self.headerView.transBtnClick = ^(NSInteger tag) {
-        if (tag == 3333 || tag == 4444) {
+        if (tag == 3333 || tag == 4444)
+        {
             BXTAllOrdersViewController *allVC = [[BXTAllOrdersViewController alloc] init];
-            if (tag == 3333) {
+            if (tag == 3333)
+            {
                 allVC.transType = @"UNDOWN";
-            } else {
+            }
+            else
+            {
                 allVC.transType = @"SPECIAL";
             }
-            allVC.transStartTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[0]];
+            NSString *startTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[0]];
+            allVC.transStartTime = startTime;
             allVC.transEndTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[1]];
-            NSInteger timeSp = [weakSelf.transTimeArray[1] integerValue] + 86399;
-            if ([weakSelf.transTimeArray[0] isEqualToString:weakSelf.transTimeArray[1]]) {
-                allVC.transEndTime = [weakSelf transDateToTimeStamp:[NSString stringWithFormat:@"%ld", (long)timeSp]];
+            NSTimeInterval timeSp = [startTime integerValue] + 86399;
+            if ([weakSelf.transTimeArray[0] isEqualToString:weakSelf.transTimeArray[1]])
+            {
+                allVC.transEndTime = [NSString stringWithFormat:@"%.0f",timeSp];
             }
             allVC.isSpecialPush = YES;
             [weakSelf.navigationController pushViewController:allVC animated:YES];
@@ -249,7 +255,8 @@
 
 #pragma mark -
 #pragma mark SPChartDelegate
-- (void)SPChart:(SPBarChart *)chart barSelected:(NSInteger)barIndex barFrame:(CGRect)barFrame touchPoint:(CGPoint)touchPoint {
+- (void)SPChart:(SPBarChart *)chart barSelected:(NSInteger)barIndex barFrame:(CGRect)barFrame touchPoint:(CGPoint)touchPoint
+{
     [self _dismissPopup];
     
     NSLog(@"Selected bar %ld", (long)barIndex);
@@ -273,13 +280,15 @@
     self.popup = popup;
 }
 
-- (void)SPChartEmptySelection:(id)chart {
+- (void)SPChartEmptySelection:(id)chart
+{
     NSLog(@"Touch outside chart bar/line/piece");
 }
 
 - (void)_dismissPopup
 {
-    if (self.popup) {
+    if (self.popup)
+    {
         [self.popup dismiss];
     }
 }
@@ -288,7 +297,8 @@
 #pragma mark - 父类点击事件
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
     NSMutableArray *dateArray;
-    switch (index) {
+    switch (index)
+    {
         case 0:
             dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_YearStartAndEnd:self.rootCenterButton.titleLabel.text]];
             break;
@@ -309,13 +319,16 @@
     [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
 
-- (void)datePickerBtnClick:(UIButton *)button {
-    if (button.tag == 10001) {
+- (void)datePickerBtnClick:(UIButton *)button
+{
+    if (button.tag == 10001)
+    {
         [self.headerView.pieView removeFromSuperview];
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
         
         /**饼状图**/
-        if (!selectedDate) {
+        if (!selectedDate)
+        {
             selectedDate = [NSDate date];
         }
         [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
@@ -348,7 +361,8 @@
 
 #pragma mark -
 #pragma mark - 富文本转化
-- (NSMutableAttributedString *)transToRichLabelOfIndex:(NSInteger)index String:(NSString *)originStr {
+- (NSMutableAttributedString *)transToRichLabelOfIndex:(NSInteger)index String:(NSString *)originStr
+{
     NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc] initWithString:originStr];
     [AttributedStr addAttribute:NSForegroundColorAttributeName
                           value:colorWithHexString(@"#3AB0FF")
@@ -356,7 +370,8 @@
     return AttributedStr;
 }
 
-- (NSString *)transDateToTimeStamp:(NSString *)time{
+- (NSString *)transDateToTimeStamp:(NSString *)time
+{
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
     [formatter1 setDateFormat:@"YYYY-MM-dd"];
     NSDate *date = [formatter1 dateFromString:time];
@@ -364,7 +379,8 @@
     return confromTimespStr;
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
