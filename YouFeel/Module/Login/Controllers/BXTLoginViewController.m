@@ -62,12 +62,12 @@
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15.f, 0, SCREEN_WIDTH - 30.f, 1.f)];
     lineView.center = CGPointMake(lineView.center.x, textfiledBackView.bounds.size.height/2.f);
-    lineView.backgroundColor = colorWithHexString(@"294550");
+    lineView.backgroundColor = colorWithHexString(@"#ffffff");
     [textfiledBackView addSubview:lineView];
     
     UILabel *login_label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 0, 60.f, 20.f)];
     login_label.center = CGPointMake(login_label.center.x, textfiledBackView.bounds.size.height/4.f);
-    login_label.textColor = colorWithHexString(@"000000");
+    login_label.textColor = colorWithHexString(@"#3cafff");
     login_label.font = [UIFont boldSystemFontOfSize:16.f];
     login_label.text = @"登录名";
     [textfiledBackView addSubview:login_label];
@@ -77,14 +77,14 @@
     userNameTF.keyboardType = UIKeyboardTypeNumberPad;
     userNameTF.placeholder = @"输入手机号";
     userNameTF.text = [BXTGlobal getUserProperty:U_USERNAME];
-    [userNameTF setValue:colorWithHexString(@"4e74a5") forKeyPath:@"_placeholderLabel.textColor"];
+    [userNameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
     userNameTF.delegate = self;
     userNameTF.tag = UserNameTag;
     [textfiledBackView addSubview:userNameTF];
     
     UILabel *passWord_label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 0, 60.f, 20.f)];
     passWord_label.center = CGPointMake(login_label.center.x, (textfiledBackView.bounds.size.height/4.f)*3.f);
-    passWord_label.textColor = colorWithHexString(@"000000");
+    passWord_label.textColor = colorWithHexString(@"#3cafff");
     passWord_label.font = [UIFont boldSystemFontOfSize:16.f];
     passWord_label.text = @"密码";
     [textfiledBackView addSubview:passWord_label];
@@ -95,7 +95,7 @@
     passWordTF.secureTextEntry = YES;
     passWordTF.placeholder = @"输入密码";
     passWordTF.text = [BXTGlobal getUserProperty:U_PASSWORD];
-    [passWordTF setValue:colorWithHexString(@"4e74a5") forKeyPath:@"_placeholderLabel.textColor"];
+    [passWordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
     passWordTF.delegate = self;
     passWordTF.tag = PassWordTag;
     [textfiledBackView addSubview:passWordTF];
@@ -104,6 +104,7 @@
     loginBtn.frame = CGRectMake(CGRectGetMinX(textfiledBackView.frame) + 20.f, CGRectGetMaxY(textfiledBackView.frame) + 36.f, CGRectGetWidth(textfiledBackView.frame) - 40.f, 44.f);
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    loginBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [loginBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     loginBtn.layer.masksToBounds = YES;
     loginBtn.layer.cornerRadius = 6.f;

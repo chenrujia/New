@@ -116,7 +116,7 @@
         weakSelf.headerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selectedDict[@"sum_number"]];
     };
     
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 120, 124, 21)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 120, SCREEN_WIDTH-200, 21)];
     titleLabel.text = [NSString stringWithFormat:@"共计:%ld单", (long)sumNum];
     titleLabel.textColor = colorWithHexString(@"#666666");
     titleLabel.font = [UIFont systemFontOfSize:13];

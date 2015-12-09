@@ -113,13 +113,13 @@
             {
                 normal = @"Rectangle_3";
                 [btn setTitleColor:colorWithHexString(@"0a439c") forState:UIControlStateSelected];
-                [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+                [btn setTitleColor:colorWithHexString(@"7cc9ff") forState:UIControlStateNormal];
             }
             else
             {
                 normal = @"Rectangle_2";
                 [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateSelected];
-                [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+                [btn setTitleColor:colorWithHexString(@"7cc9ff") forState:UIControlStateNormal];
             }
         }
         
