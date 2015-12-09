@@ -32,6 +32,8 @@
     UILabel *level;
     UILabel *notes;
     UIButton *cancelRepair;
+    UIView *evaBackView;
+    UIButton *evaluationBtn;
     BXTRepairDetailInfo *repairDetail;
     UIScrollView *scrollView;
     UILabel *arrangeTime;
@@ -59,6 +61,11 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -66,6 +73,8 @@
     
     [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
     [self createSubViews];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideEvaBtn) name:@"HiddenEvaluationBtn" object:nil];
     
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -202,6 +211,14 @@
 
 #pragma mark -
 #pragma mark 事件处理
+- (void)hideEvaBtn
+{
+    [evaBackView removeFromSuperview];
+    evaBackView = nil;
+    [evaluationBtn removeFromSuperview];
+    evaluationBtn = nil;
+}
+
 - (void)evaluate
 {
     BXTEvaluationViewController *evaluationVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]];
@@ -273,6 +290,16 @@
     
     [self.navigationController pushViewController:browser animated:YES];
     self.navigationController.navigationBar.hidden = NO;
+}
+
+- (void)phoneClick:(UITapGestureRecognizer *)tap
+{
+    UILabel *label = (UILabel *)tap.view;
+    NSDictionary *userDic = repairDetail.repair_user_arr[label.tag];
+    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", [userDic objectForKey:@"mobile"]];
+    UIWebView *callWeb = [[UIWebView alloc] init];
+    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+    [self.view addSubview:callWeb];
 }
 
 - (void)contactRepairer:(UIButton *)btn
@@ -495,14 +522,14 @@
         }
         if (repairDetail.repairstate == 3)
         {
-            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, SCREEN_HEIGHT - 200.f/3.f, SCREEN_WIDTH, 200.f/3.f)];
-            backView.backgroundColor = [UIColor blackColor];
-            backView.alpha = 0.6;
-            [self.view addSubview:backView];
+            evaBackView = [[UIView alloc] initWithFrame:CGRectMake(0.f, SCREEN_HEIGHT - 200.f/3.f, SCREEN_WIDTH, 200.f/3.f)];
+            evaBackView.backgroundColor = [UIColor blackColor];
+            evaBackView.alpha = 0.6;
+            [self.view addSubview:evaBackView];
             
-            UIButton *evaluationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            evaluationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             [evaluationBtn setFrame:CGRectMake(0, 0, 200.f, 40.f)];
-            [evaluationBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f,CGRectGetMinY(backView.frame) + backView.bounds.size.height/2.f)];
+            [evaluationBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f,CGRectGetMinY(evaBackView.frame) + evaBackView.bounds.size.height/2.f)];
             [evaluationBtn setTitle:@"发表评价" forState:UIControlStateNormal];
             [evaluationBtn setTitleColor:colorWithHexString(@"3bb0ff") forState:UIControlStateNormal];
             [evaluationBtn setBackgroundColor:[UIColor whiteColor]];
@@ -559,13 +586,36 @@
         [userImgView sd_setImageWithURL:[NSURL URLWithString:[userDic objectForKey:@"head_pic"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         [userBack addSubview:userImgView];
         
-        UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 30.f, CGRectGetWidth(level.frame), 20)];
+        UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 8.f, CGRectGetWidth(level.frame), 20)];
         userName.textColor = colorWithHexString(@"000000");
         userName.numberOfLines = 0;
         userName.lineBreakMode = NSLineBreakByWordWrapping;
-        userName.font = [UIFont boldSystemFontOfSize:17.f];
+        userName.font = [UIFont boldSystemFontOfSize:16.f];
         userName.text = [userDic objectForKey:@"name"];
         [userBack addSubview:userName];
+        
+        UILabel *role = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 28.f, CGRectGetWidth(level.frame), 20)];
+        role.textColor = colorWithHexString(@"909497");
+        role.numberOfLines = 0;
+        role.lineBreakMode = NSLineBreakByWordWrapping;
+        role.font = [UIFont boldSystemFontOfSize:14.f];
+        role.text = [NSString stringWithFormat:@"%@-%@",[userDic objectForKey:@"department"],[userDic objectForKey:@"role"]];
+        [userBack addSubview:role];
+        
+        UILabel *phone = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 50.f, CGRectGetWidth(level.frame), 20)];
+        phone.textColor = colorWithHexString(@"909497");
+        phone.tag = i;
+        phone.numberOfLines = 0;
+        phone.lineBreakMode = NSLineBreakByWordWrapping;
+        phone.userInteractionEnabled = YES;
+        phone.font = [UIFont boldSystemFontOfSize:14.f];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[userDic objectForKey:@"mobile"]];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
+        [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
+        phone.attributedText = attributedString;
+        UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(phoneClick:)];
+        [phone addGestureRecognizer:moblieTap];
+        [userBack addSubview:phone];
         
         UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
         contact.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;

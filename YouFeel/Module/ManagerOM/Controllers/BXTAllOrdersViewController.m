@@ -42,11 +42,14 @@
     {
         alertHeight = 576.f;
     }
-    else
+    else if (IS_IPHONE6)
     {
         alertHeight = 512.f;
     }
-    
+    else
+    {
+        alertHeight = 360.f;
+    }
     startStr = @"";
     endStr = @"";
     selectOT = @"";
@@ -87,24 +90,56 @@
         alertBackView.backgroundColor = colorWithHexString(@"eff3f6");
         [self.view addSubview:alertBackView];
         
-        CGFloat timeBackHeight = 272.f;
-        CGFloat line_y = 55.f;
-        CGFloat groupBackHeight = 114.f;
-        CGFloat orderTypeBackHeight = 122;
-        CGFloat doneBtnheight = 55.f;
-        if (IS_IPHONE6)
+        CGFloat scrollViewHeight;
+        CGFloat timeBackHeight;
+        CGFloat line_y;
+        CGFloat groupBackHeight;
+        CGFloat orderTypeBackHeight;
+        CGFloat doneBtnheight = 0.0;
+        if (IS_IPHONE6P)
+        {
+            timeBackHeight = 272.f;
+            line_y = 55.f;
+            groupBackHeight = 114.f;
+            orderTypeBackHeight = 122;
+            doneBtnheight = 55.f;
+            scrollViewHeight = alertHeight - doneBtnheight - 13.f;
+        }
+        else if (IS_IPHONE6P)
         {
             timeBackHeight = 262.f;
             line_y = 45.f;
             groupBackHeight = 94.f;
             orderTypeBackHeight = 96;
             doneBtnheight = 50.f;
+            scrollViewHeight = alertHeight - doneBtnheight - 13.f;
         }
+        else
+        {
+            timeBackHeight = 262.f;
+            line_y = 45.f;
+            groupBackHeight = 94.f;
+            orderTypeBackHeight = 96;
+            doneBtnheight = 50.f;
+            scrollViewHeight = 336.f;
+        }
+        
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, scrollViewHeight)];
+        if (IS_IPHONE6)
+        {
+            scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, scrollViewHeight);
+        }
+        else
+        {
+            NSInteger row = floor(groupArray.count/4.f);
+            scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, timeBackHeight + groupBackHeight + orderTypeBackHeight + row * 40.f);
+        }
+        [alertBackView addSubview:scrollView];
         
         //时间范围白色背景图
         UIView *timeRangeBack = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, timeBackHeight)];
         timeRangeBack.backgroundColor = colorWithHexString(@"ffffff");
-        [alertBackView addSubview:timeRangeBack];
+        [scrollView addSubview:timeRangeBack];
         
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, line_y, SCREEN_WIDTH, 1.0f)];
         lineView.backgroundColor = colorWithHexString(@"e1e5e7");
@@ -146,7 +181,7 @@
         NSInteger row = floor(groupArray.count/4.f);
         UIView *groupBack = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(timeRangeBack.frame), SCREEN_WIDTH, groupBackHeight + row * 40)];
         groupBack.backgroundColor = colorWithHexString(@"ffffff");
-        [alertBackView addSubview:groupBack];
+        [scrollView addSubview:groupBack];
         
         UIView *lineTwo = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1.0f)];
         lineTwo.backgroundColor = colorWithHexString(@"e1e5e7");
@@ -193,7 +228,7 @@
         //工单分类白色背景图
         UIView *orderTypeBack = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(groupBack.frame), SCREEN_WIDTH, orderTypeBackHeight)];
         orderTypeBack.backgroundColor = colorWithHexString(@"ffffff");
-        [alertBackView addSubview:orderTypeBack];
+        [scrollView addSubview:orderTypeBack];
         
         UIView *lineThree = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1.0f)];
         lineThree.backgroundColor = colorWithHexString(@"e1e5e7");

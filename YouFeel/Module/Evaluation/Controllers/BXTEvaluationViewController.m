@@ -23,7 +23,6 @@
     BXTRemarksTableViewCell *remarkCell;
     NSMutableArray *rateArray;
     NSString *notes;
-    
     UIScrollView *scrollView;
 }
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -144,6 +143,11 @@
 #pragma mark 事件处理
 - (void)commitEvaluation
 {
+    if (notes.length == 0)
+    {
+        [self showMBP:@"备注不能为空！" withBlock:nil];
+        return;
+    }
     [self showLoadingMBP:@"正在提交..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request evaluateRepair:rateArray
@@ -533,7 +537,11 @@
     {
         [self hideMBP];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"EvaluateSuccess" object:nil];
-        [self showMBP:@"评价成功！" withBlock:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"HiddenEvaluationBtn" object:nil];
+        [self showMBP:@"评价成功！" withBlock:^(BOOL hidden) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
     }
     else
     {

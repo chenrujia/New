@@ -78,19 +78,28 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     contentHeight = 300.f;
     
-    if ([self.pushType isEqualToString:@"REJECT"]) {
+    if ([self.pushType isEqualToString:@"REJECT"])
+    {
         [self navigationSetting:@"工单详情" andRightTitle:@"关闭工单" andRightImage:nil];
-    } else {
+    }
+    else
+    {
         [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
     }
     [self createSubViews];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestDetail) name:@"RequestDetail" object:nil];
+    
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
     {
@@ -441,6 +450,16 @@
 - (void)mobileClick
 {
     NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", repairDetail.visitmobile];
+    UIWebView *callWeb = [[UIWebView alloc] init];
+    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+    [self.view addSubview:callWeb];
+}
+
+- (void)phoneClick:(UITapGestureRecognizer *)tap
+{
+    UILabel *label = (UILabel *)tap.view;
+    NSDictionary *userDic = repairDetail.repair_user_arr[label.tag];
+    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", [userDic objectForKey:@"mobile"]];
     UIWebView *callWeb = [[UIWebView alloc] init];
     [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
     [self.view addSubview:callWeb];
@@ -851,12 +870,10 @@
     
     self.manIDArray = [[NSMutableArray alloc] init];
     
-    
     // 添加维修者列表背景
     [self.manBgView removeFromSuperview];
     self.manBgView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(maintenanceMan.frame), SCREEN_WIDTH,  repairDetail.repair_user_arr.count * 95.f)];
     [scrollView addSubview:self.manBgView];
-    
     
     for (NSInteger i = 0; i < repairDetail.repair_user_arr.count; i++)
     {
@@ -869,7 +886,7 @@
         [userImgView sd_setImageWithURL:[NSURL URLWithString:[userDic objectForKey:@"head_pic"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         [userBack addSubview:userImgView];
         
-        UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 15.f, CGRectGetWidth(level.frame), 20)];
+        UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 8.f, CGRectGetWidth(level.frame), 20)];
         userName.textColor = colorWithHexString(@"000000");
         userName.numberOfLines = 0;
         userName.lineBreakMode = NSLineBreakByWordWrapping;
@@ -877,7 +894,7 @@
         userName.text = [userDic objectForKey:@"name"];
         [userBack addSubview:userName];
         
-        UILabel *role = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 40.f, CGRectGetWidth(level.frame), 20)];
+        UILabel *role = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 28.f, CGRectGetWidth(level.frame), 20)];
         role.textColor = colorWithHexString(@"909497");
         role.numberOfLines = 0;
         role.lineBreakMode = NSLineBreakByWordWrapping;
@@ -885,6 +902,21 @@
         role.text = [NSString stringWithFormat:@"%@-%@",[userDic objectForKey:@"department"],[userDic objectForKey:@"role"]];
         [userBack addSubview:role];
         
+        UILabel *phone = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 50.f, CGRectGetWidth(level.frame), 20)];
+        phone.textColor = colorWithHexString(@"909497");
+        phone.tag = i;
+        phone.numberOfLines = 0;
+        phone.lineBreakMode = NSLineBreakByWordWrapping;
+        phone.userInteractionEnabled = YES;
+        phone.font = [UIFont boldSystemFontOfSize:14.f];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[userDic objectForKey:@"mobile"]];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
+        [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
+        phone.attributedText = attributedString;
+        UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(phoneClick:)];
+        [phone addGestureRecognizer:moblieTap];
+        [userBack addSubview:phone];
+
         if ([[userDic objectForKey:@"id"] isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]] &&
             repairDetail.repairstate == 2 &&
             repairDetail.isRepairing == 1)
