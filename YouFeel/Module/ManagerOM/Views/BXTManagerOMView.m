@@ -408,7 +408,7 @@
 //        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID] andIsAssign:YES];
 //        [[self navigation] pushViewController:rejectVC animated:YES];
         BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
-        repairDetailVC.pushType = @"REJECT";
+        repairDetailVC.isRejectVC = YES;
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
     else

@@ -99,6 +99,12 @@
             store_id = tempShop.stores_id;
         }
     }
+    else
+    {
+        // 非店铺 stores_id 传空
+        [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"FINISH_ID"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     NSString *subGroup = @"";
     BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
