@@ -27,6 +27,7 @@
     BOOL           isHave;
     
     NSMutableArray *listArray;
+    NSMutableArray *indexArray;
 }
 
 @property (nonatomic ,copy) ChooseMans choosedMans;
@@ -62,6 +63,7 @@
     dataSource = [NSMutableArray array];
     selectMans = [NSMutableArray array];
     listArray = [NSMutableArray array];
+    indexArray = [NSMutableArray array];
     
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
@@ -100,6 +102,12 @@
 #pragma mark 事件处理
 - (void)addMan:(UIButton *)btn
 {
+    for (NSString *indexStr in indexArray) {
+        if (btn.tag == [indexStr intValue]) {
+            return;
+        }
+    }
+    
     btn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;;
     
     BXTAddOtherManInfo *manInfo = dataSource[btn.tag];
@@ -238,7 +246,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTAddOtherManTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OtherManCell" forIndexPath:indexPath];
+    static NSString *cellID = @"cell";
+    BXTAddOtherManTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cell == nil) {
+        cell = [[BXTAddOtherManTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     BXTAddOtherManInfo *otherManInfo = dataSource[indexPath.row];
@@ -255,14 +267,14 @@
             break;
         }
     }
-//    for (NSString *manID in self.manIDArray) {
-//        if ([manID integerValue] == otherManInfo.manID)
-//        {
-//            cell.addBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
-//            cell.addBtn.userInteractionEnabled = NO;
-//            break;
-//        }
-//    }
+    for (NSString *manID in self.manIDArray) {
+        if ([manID integerValue] == otherManInfo.manID)
+        {
+            cell.addBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+            break;
+        }
+    }
+    
     cell.addBtn.tag = indexPath.row;
     [cell.addBtn addTarget:self action:@selector(addMan:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -361,10 +373,16 @@
                     }
                     isHave = YES;
                 }
-                
                 [dataSource addObject:otherManInfo];
+                
+                [listArray addObject:[NSString stringWithFormat:@"%ld", otherManInfo.manID]];
             }
+            NSLog(@"manIDArray --- %@", self.manIDArray);
+            NSLog(@"listArray --- %@", listArray);
             
+            for (NSString *manID in self.manIDArray) {
+                [indexArray addObject:[NSString stringWithFormat:@"%ld", [listArray indexOfObject:manID]]];
+            }
         }
         [currentTableView reloadData];
     }
