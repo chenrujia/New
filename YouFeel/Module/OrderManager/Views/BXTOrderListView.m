@@ -35,7 +35,6 @@
         
         refreshType = Down;
         currentPage = 1;
-        self.isRequesting = NO;
         self.repairState = state;
         self.isReacive = reacive;
         repairListArray = [NSMutableArray array];
@@ -89,6 +88,7 @@
                  andPage:1
      andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO
     andRepairerIsReacive:_repairState];
+    _isRequesting = YES;
 }
 
 - (void)loadMoreData
@@ -101,6 +101,7 @@
                  andPage:currentPage
      andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO
     andRepairerIsReacive:_repairState];
+    _isRequesting = YES;
 }
 
 - (void)evaluationClick:(UIButton *)btn
@@ -335,7 +336,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    LogRed(@"dic......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == StartRepair)
     {
@@ -378,6 +378,7 @@
             currentPage++;
             [currentTableView reloadData];
         }
+        _isRequesting = NO;
         [currentTableView.header endRefreshing];
         [currentTableView.footer endRefreshing];
     }
@@ -385,6 +386,7 @@
 
 - (void)requestError:(NSError *)error
 {
+    _isRequesting = NO;
     [currentTableView.header endRefreshing];
     [currentTableView.footer endRefreshing];
 }

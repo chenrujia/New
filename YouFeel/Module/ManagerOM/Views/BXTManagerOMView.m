@@ -30,12 +30,16 @@
         startTime = @"";
         endTime = @"";
         selectOT = @"";
-        if (transArray) {
+        if (transArray)
+        {
             startTime = transArray[0];
             endTime = transArray[1];
-            if ([transArray[2] isEqualToString:@"SPECIAL"]) {
+            if ([transArray[2] isEqualToString:@"SPECIAL"])
+            {
                 selectOT = @"3";
-            } else if ([transArray[2] isEqualToString:@"UNDOWN"]) {
+            }
+            else if ([transArray[2] isEqualToString:@"UNDOWN"])
+            {
                 selectOT = @"1";
             }
         }
@@ -199,6 +203,7 @@
                    andState:state
                     andPage:1];
     }
+    _isRequesting = YES;
 }
 
 - (void)loadMoreData
@@ -270,6 +275,7 @@
                    andState:state
                     andPage:currentPage];
     }
+    _isRequesting = YES;
 }
 
 #pragma mark -
@@ -403,10 +409,8 @@
         BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:assignOrderVC animated:YES];
     }
-    else if (_orderType == OutTimeType && repairInfo.order_type == 3)
+    else if ((_orderType == OutTimeType || _orderType == AllType) && repairInfo.order_type == 3)
     {
-//        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID] andIsAssign:YES];
-//        [[self navigation] pushViewController:rejectVC animated:YES];
         BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         repairDetailVC.pushType = @"REJECT";
         [[self navigation] pushViewController:repairDetailVC animated:YES];
@@ -450,13 +454,14 @@
         currentPage++;
         [currentTableView reloadData];
     }
+    _isRequesting = NO;
     [currentTableView.header endRefreshing];
     [currentTableView.footer endRefreshing];
 }
 
 - (void)requestError:(NSError *)error
 {
-    
+    _isRequesting = NO;
 }
 
 @end

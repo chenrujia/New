@@ -56,7 +56,8 @@
         is_binding = YES;
     }
     
-    [self navigationSetting];
+    [self navigationSetting:@"切换位置" andRightTitle:nil andRightImage:nil];
+//    [self navigationSetting];
     [self createTableView];
 }
 
@@ -114,7 +115,7 @@
 
 - (void)createTableView
 {
-    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, NavBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT - NavBarHeight) style:UITableViewStyleGrouped];
+    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     [currentTableView registerClass:[BXTHeadquartersTableViewCell class] forCellReuseIdentifier:@"HeadquartersTableViewCell"];
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
@@ -198,9 +199,8 @@
 
 #pragma mark -
 #pragma mark 代理
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark -
+#pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 2)
@@ -391,9 +391,8 @@
     }
 }
 
-/**
- *  UISearchBarDelegate
- */
+#pragma mark -
+#pragma mark UISearchBarDelegate
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     searchBar.showsCancelButton = YES;
@@ -408,9 +407,8 @@
     }
 }
 
-/**
- *  BXTDataResponseDelegate
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;

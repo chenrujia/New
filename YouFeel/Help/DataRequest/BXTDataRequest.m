@@ -107,7 +107,6 @@
         subGroup = groupInfo.group_id;
     }
     
-    //@"is_repair":[NSString stringWithFormat:@"%ld",(long)is_repair],
     NSDictionary *dic = @{@"name":[BXTGlobal getUserProperty:U_NAME],
                           @"username":[BXTGlobal getUserProperty:U_USERNAME],
                           @"mobile":[BXTGlobal getUserProperty:U_USERNAME],

@@ -69,13 +69,15 @@
     [super viewDidLoad];
     [self navigationSetting:@"新工单" andRightTitle:nil andRightImage:nil];
     
-    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
-    player.volume = 0.8f;
-    player.numberOfLoops = -1;
-    [self afterTime];
-    
+    if (!isAssign)
+    {
+        player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
+        player.volume = 0.8f;
+        player.numberOfLoops = -1;
+        [self afterTime];
+    }
+
     [self createSubviews];
-    
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
     {
@@ -106,7 +108,10 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [player stop];
+    if (player)
+    {
+        [player stop];
+    }
 }
 
 #pragma mark -
@@ -342,8 +347,15 @@
 #pragma mark 事件
 - (void)navigationLeftButton
 {
-    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:currentOrderID andIsAssign:NO];
-    [self.navigationController pushViewController:rejectVC animated:YES];
+    if (isAssign)
+    {
+        [super navigationLeftButton];
+    }
+    else
+    {
+        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:currentOrderID andIsAssign:NO];
+        [self.navigationController pushViewController:rejectVC animated:YES];
+    }
 }
 
 - (void)grabBtnClick

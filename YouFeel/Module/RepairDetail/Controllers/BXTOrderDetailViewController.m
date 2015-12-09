@@ -120,8 +120,8 @@
 
 - (void)navigationRightButton
 {
-        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%@",self.repair_id] andIsAssign:YES];
-        [self.navigationController pushViewController:rejectVC animated:YES];
+    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%@",self.repair_id] andIsAssign:YES];
+    [self.navigationController pushViewController:rejectVC animated:YES];
 }
 
 #pragma mark -

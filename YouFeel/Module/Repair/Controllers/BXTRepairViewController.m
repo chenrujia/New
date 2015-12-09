@@ -12,6 +12,7 @@
 #import "BXTWorkOderViewController.h"
 #import "BXTRepairWordOrderViewController.h"
 #import "BXTRepairInfo.h"
+#import "MJRefresh.h"
 #import "BXTRepairTableViewCell.h"
 #import "BXTRepairDetailViewController.h"
 
@@ -20,9 +21,11 @@
     UITableView *currentTableView;
     NSMutableArray *repairListArray;
     NSInteger selectIndex;
+    NSInteger currentPage;
 }
 
 @property (nonatomic ,assign) RepairVCType repairVCType;
+@property (nonatomic ,assign) BOOL         isRequesting;
 
 @end
 
@@ -34,6 +37,7 @@
     if (self)
     {
         self.repairVCType = vcType;
+        currentPage = 1;
     }
     return self;
 }
@@ -42,7 +46,7 @@
 {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestReqairList) name:@"RequestRepairList" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewData) name:@"RequestRepairList" object:nil];
     
     repairListArray = [[NSMutableArray alloc] init];
     if (_repairVCType == ShopsVCType)
@@ -54,7 +58,7 @@
         [self navigationSetting:@"工单管理" andRightTitle:nil andRightImage:nil];
     }
     [self createTableView];
-    [self requestReqairList];
+    [self loadNewData];
 }
 
 #pragma mark -
@@ -62,6 +66,18 @@
 - (void)createTableView
 {
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 66.f) style:UITableViewStyleGrouped];
+    __weak __typeof(self) weakSelf = self;
+    // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
+    currentTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf loadNewData];
+    }];
+    // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
+    currentTableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    // 设置了底部inset
+    currentTableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+    // 忽略掉底部inset
+    currentTableView.footer.ignoredScrollViewContentInsetBottom = 30;
+    currentTableView.footer.ignoredScrollViewContentInsetBottom = 40.f;
     [currentTableView registerClass:[BXTRepairTableViewCell class] forCellReuseIdentifier:@"RepairCell"];
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
@@ -103,14 +119,35 @@
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)requestReqairList
+- (void)loadNewData
 {
+    if (_isRequesting) return;
+    
+    [repairListArray removeAllObjects];
+    [currentTableView reloadData];
+    
+    refreshType = RefreshDown;
+    currentPage = 1;
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairsList:@"0"
-                 andPage:1
+                 andPage:currentPage
      andIsMaintenanceMan:NO
     andRepairerIsReacive:@""];
+    _isRequesting = YES;
+}
+
+- (void)loadMoreData
+{
+    if (_isRequesting) return;
+    
+    refreshType = RefreshUp;
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request repairsList:@"0"
+                 andPage:currentPage
+     andIsMaintenanceMan:NO
+    andRepairerIsReacive:@""];
+    _isRequesting = YES;
 }
 
 - (void)newRepairClick
@@ -126,7 +163,6 @@
         [self.navigationController pushViewController:workOderVC animated:YES];
     }
 }
-
 
 - (void)cancelRepair:(UIButton *)btn
 {
@@ -299,9 +335,9 @@
 {
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == RepairList && data.count)
+    if (type == RepairList)
     {
-        [repairListArray removeAllObjects];
+        NSMutableArray *tempArray = [NSMutableArray array];
         for (NSDictionary *dictionary in data)
         {
             DCParserConfiguration *config = [DCParserConfiguration configuration];
@@ -311,9 +347,23 @@
             DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairInfo class] andConfiguration:config];
             BXTRepairInfo *repairInfo = [parser parseDictionary:dictionary];
             
-            [repairListArray addObject:repairInfo];
+            [tempArray addObject:repairInfo];
         }
+        
+        if (refreshType == RefreshDown)
+        {
+            [repairListArray removeAllObjects];
+            [repairListArray addObjectsFromArray:tempArray];
+        }
+        else if (refreshType == RefreshUp)
+        {
+            [repairListArray addObjectsFromArray:[[tempArray reverseObjectEnumerator] allObjects]];
+        }
+        currentPage++;
         [currentTableView reloadData];
+        _isRequesting = NO;
+        [currentTableView.header endRefreshing];
+        [currentTableView.footer endRefreshing];
     }
     else if (type == DeleteRepair)
     {
@@ -328,7 +378,9 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    _isRequesting = NO;
+    [currentTableView.header endRefreshing];
+    [currentTableView.footer endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning
