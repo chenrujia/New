@@ -4088,8 +4088,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4112,7 +4112,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "858d3687-0038-4ac2-af3c-d5ca937b86b5";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4135,8 +4135,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4151,7 +4151,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "858d3687-0038-4ac2-af3c-d5ca937b86b5";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4163,8 +4163,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4183,7 +4183,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "858d3687-0038-4ac2-af3c-d5ca937b86b5";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -4193,8 +4193,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4212,7 +4212,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "858d3687-0038-4ac2-af3c-d5ca937b86b5";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
