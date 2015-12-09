@@ -42,34 +42,37 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     UIViewController* myvc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = myvc;
     
-    
     //初始化融云SDK
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
-    
     
     //自动键盘
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     
-    
-    //默认自动登录
-    if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+    BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
+    if (isLoaded)
     {
-        NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":[BXTGlobal getUserProperty:U_PASSWORD],@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
-        
-        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-        [dataRequest loginUser:userInfoDic];
+        //默认自动登录
+        if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+        {
+            NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":[BXTGlobal getUserProperty:U_PASSWORD],@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+            
+            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+            [dataRequest loginUser:userInfoDic];
+        }
+        else
+        {
+            [self loadingLoginVC];
+        }
     }
     else
     {
-        [self loadingLoginVC];
+        [self loadingGuideView];
     }
-
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    
     
     // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
     [self startSdkWith:kAppId appKey:kAppKey appSecret:kAppSecret];
@@ -77,24 +80,12 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     // [2]:注册APNS
     [self registerRemoteNotification];
     
-    // [2-EXT]: 获取启动时收到的APN数据
-//    NSDictionary *message=[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-//    NSString *payloadMsg = [message objectForKey:@"payload"];
-//    LogRed(@"payloadMsg:%@",payloadMsg);
-//    if (payloadMsg)
-//    {
-//        #warning 记得改。。。
-//        [[BXTGlobal shareGlobal].orderIDs addObject:payloadMsg];
-//    }
-    
-    
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];
     NSDictionary *textAttributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor whiteColor]};
     [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMessageNotification:) name:RCKitDispatchMessageNotification object:nil];
     //设置会话列表头像和会话界面头像
     [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
@@ -104,7 +95,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //注册消息处理函数的处理方法,处理崩溃信息,写入本地
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
-    
     CrashManager *crashManager = [CrashManager defaultManager];
     //Crash日志
     if ([crashManager isCrashLog])
@@ -113,7 +103,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         LogRed(@"crashString = %@",crashString);//
     }
     [crashManager clearCrashLog];//清除Crash日志
-    
     
     return YES;
 }
@@ -125,6 +114,50 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     navigation.navigationBar.hidden = YES;
     navigation.enableBackGesture = YES;
     self.window.rootViewController = navigation;
+}
+
+- (void)loadingGuideView
+{
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.window.bounds];;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.pagingEnabled = YES;
+    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 5, SCREEN_HEIGHT);
+    [self.window.rootViewController.view addSubview:scrollView];
+    
+    NSString *tempValue = @"iphone4";
+    if (IS_IPHONE6P)
+    {
+        tempValue = @"plus";
+    }
+    else if (IS_IPHONE6)
+    {
+        tempValue = @"iphone6";
+    }
+    else if (IS_IPHONE5)
+    {
+        tempValue = @"iphone5";
+    }
+    
+    for (NSInteger i = 1; i < 6; i++)
+    {
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"guide_%ld_%@",(long)i,tempValue]];
+        [scrollView addSubview:imageView];
+        
+        if (i == 5)
+        {
+            imageView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTap)];
+            [imageView addGestureRecognizer:tapGesture];
+        }
+    }
+}
+
+- (void)imageViewTap
+{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"LoadedGuideView"];
+    [self loadingLoginVC];
 }
 
 /**
