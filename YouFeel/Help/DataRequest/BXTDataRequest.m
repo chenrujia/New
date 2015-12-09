@@ -113,7 +113,7 @@
                           @"mobile":[BXTGlobal getUserProperty:U_USERNAME],
                           @"role_id":postionInfo.role_id,
                           @"department_id":departmentInfo.dep_id,
-                          @"stores_id":store_id,
+                          @"stores_id":[[NSUserDefaults standardUserDefaults] valueForKey:@"FINISH_ID"],
                           @"clientid":@"123",
                           @"place_id":area_id,
                           @"gender":[BXTGlobal getUserProperty:U_SEX],
@@ -121,8 +121,6 @@
                           @"shops_id":company.company_id,
                           @"subgroup":subGroup};
     NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",[BXTGlobal shareGlobal].baseURL];
-    
-    NSLog(@"dic ---- %@", dic);
     
     [self postRequest:url withParameters:dic];
 }

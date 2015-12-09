@@ -298,6 +298,10 @@
     [self hideMBP];
     NSDictionary *dic = response;
     NSArray *array = [dic objectForKey:@"data"];
+    NSString *finish_id = [NSString stringWithFormat:@"%@", dic[@"finish_id"]];
+    [[NSUserDefaults standardUserDefaults] setValue:finish_id forKey:@"FINISH_ID"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     if (type == ShopType)
     {
         for (NSDictionary *dictionary in array)
