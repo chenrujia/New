@@ -25,6 +25,8 @@
     NSInteger      repairID;
     ControllerType vcType;
     BOOL           isHave;
+    
+    NSMutableArray *listArray;
 }
 
 @property (nonatomic ,copy) ChooseMans choosedMans;
@@ -59,6 +61,7 @@
     
     dataSource = [NSMutableArray array];
     selectMans = [NSMutableArray array];
+    listArray = [NSMutableArray array];
     
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
@@ -252,14 +255,14 @@
             break;
         }
     }
-    for (NSString *manID in self.manIDArray) {
-        if ([manID integerValue] == otherManInfo.manID)
-        {
-            cell.addBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
-            cell.addBtn.userInteractionEnabled = NO;
-            break;
-        }
-    }
+//    for (NSString *manID in self.manIDArray) {
+//        if ([manID integerValue] == otherManInfo.manID)
+//        {
+//            cell.addBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+//            cell.addBtn.userInteractionEnabled = NO;
+//            break;
+//        }
+//    }
     cell.addBtn.tag = indexPath.row;
     [cell.addBtn addTarget:self action:@selector(addMan:) forControlEvents:UIControlEventTouchUpInside];
     

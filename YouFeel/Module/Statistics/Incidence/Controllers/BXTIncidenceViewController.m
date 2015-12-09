@@ -25,7 +25,7 @@
     // Do any additional setup after loading the view.
     
     self.dataArray = [[NSMutableArray alloc] init];
-
+    
     [self showLoadingMBP:@"数据加载中"];
     
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
@@ -43,8 +43,7 @@
     }
     
     NSDictionary *dic = (NSDictionary *)response;
-    NSArray *data = [dic objectForKey:@"data"];
-    if (type == Statistics_Faulttype && data.count > 0) {
+    if (type == Statistics_Faulttype) {
         self.dataArray = dic[@"data"];
         [self createUI];
     }
@@ -190,13 +189,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
