@@ -12,6 +12,7 @@
 #import "BXTHeaderFile.h"
 #import "BXTResignTableViewCell.h"
 #import "BXTDataRequest.h"
+#import "ANKeyValueTable.h"
 
 static NSString *cellIndentify = @"cellIndentify";
 
@@ -34,6 +35,8 @@ static NSString *cellIndentify = @"cellIndentify";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //注册前删除任何缓存数据
+    [[ANKeyValueTable userDefaultTable] clear];
     [self navigationSetting:@"注册" andRightTitle:nil andRightImage:nil];
     [self initContentViews];
     [self setupForDismissKeyboard];

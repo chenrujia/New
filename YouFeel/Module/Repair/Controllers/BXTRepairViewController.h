@@ -8,12 +8,20 @@
 
 #import "BXTBaseViewController.h"
 
+typedef NS_ENUM(NSInteger, BXTRefreshType) {
+    RefreshDown,
+    RefreshUp
+};
+
 typedef NS_ENUM(NSInteger, RepairVCType) {
     ShopsVCType,
     MMVCType
 };
 
 @interface BXTRepairViewController : BXTBaseViewController
+{
+    BXTRefreshType      refreshType;
+}
 
 - (instancetype)initWithVCType:(RepairVCType)vcType;
 
