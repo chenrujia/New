@@ -65,10 +65,13 @@
     [self navigationSetting:@"全部工单" andRightTitle:nil andRightImage:rightImage];
     
     
-    if (self.isSpecialPush) {
+    if (self.isSpecialPush)
+    {
         NSArray *transArray = [[NSArray alloc] initWithObjects:self.transStartTime, self.transEndTime, self.transType, nil];
         omView = [[BXTManagerOMView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) andOrderType:AllType WithArray:transArray];
-    } else {
+    }
+    else
+    {
         omView = [[BXTManagerOMView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) andOrderType:AllType WithArray:nil];
     }
     [self.view addSubview:omView];
