@@ -280,6 +280,7 @@
     [datasource removeAllObjects];
     NSArray *array = [dic objectForKey:@"data"];
     
+    
     if (type == ConfigInfo)
     {
         isConfigInfoSuccess = YES;
