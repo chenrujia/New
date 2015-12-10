@@ -41,6 +41,7 @@
     }
     else
     {
+        
         naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
     }    naviView.userInteractionEnabled = YES;
     [self.view addSubview:naviView];
