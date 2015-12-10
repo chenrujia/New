@@ -155,7 +155,11 @@
         numberLabel.tag = 2;
         numberLabel.textColor = colorWithHexString(@"ffffff");
         numberLabel.font = [UIFont systemFontOfSize:16.f];
-        numberLabel.text = [NSString stringWithFormat:@"当前已添加:%ld人",(long)number-1];
+        long sumNum = number - 1;
+        if (self.isAssignVCPushed) {
+            sumNum = number;
+        }
+        numberLabel.text = [NSString stringWithFormat:@"当前已添加:%ld人", sumNum];
         [singleView addSubview:numberLabel];
         
         UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -177,7 +181,11 @@
     else
     {
         UILabel *numberLabel = (UILabel *)[singleView viewWithTag:2];
-        numberLabel.text = [NSString stringWithFormat:@"当前已添加:%ld人",(long)number-1];
+        long sumNum = number - 1;
+        if (self.isAssignVCPushed) {
+            sumNum = number;
+        }
+        numberLabel.text = [NSString stringWithFormat:@"当前已添加:%ld人", sumNum];
     }
 }
 
@@ -377,8 +385,6 @@
                 
                 [listArray addObject:[NSString stringWithFormat:@"%ld", otherManInfo.manID]];
             }
-            NSLog(@"manIDArray --- %@", self.manIDArray);
-            NSLog(@"listArray --- %@", listArray);
             
             for (NSString *manID in self.manIDArray) {
                 [indexArray addObject:[NSString stringWithFormat:@"%ld", [listArray indexOfObject:manID]]];
@@ -392,7 +398,11 @@
         {
             [self showMBP:@"添加成功！" withBlock:^(BOOL hidden) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-                [self.navigationController popViewControllerAnimated:YES];
+                if (self.isAssignVCPushed) {
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                } else {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
             }];
         }
     }

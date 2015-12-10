@@ -64,7 +64,7 @@
     navi_titleLabel.text = [NSString stringWithFormat:@"身份验证"];
     [naviView addSubview:navi_titleLabel];
     
-    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, NavBarHeight - 40.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"我要报修",@"我是维修员"] isWhiteBGColor:1];
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, NavBarHeight - 40.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"我要报修",@"我是维修员"] isWhiteBGColor:0];
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
     segment.delegate = self;

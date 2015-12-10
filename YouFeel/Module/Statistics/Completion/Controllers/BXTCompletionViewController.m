@@ -33,6 +33,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self showLoadingMBP:@"数据加载中"];
+    
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**饼状图**/
@@ -97,6 +99,8 @@
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = dic[@"data"];
     if (type == Statistics_Complete && data.count > 0) {
+        [self hideMBP];
+        
         self.percentArrat = dic[@"data"];
         [self createPieView];
         
@@ -107,7 +111,7 @@
 }
 
 - (void)requestError:(NSError *)error {
-    
+    [self hideMBP];
 }
 
 #pragma mark -
@@ -315,6 +319,7 @@
     [self.transTimeArray addObject:dateArray[0]];
     [self.transTimeArray addObject:dateArray[1]];
     
+    [self showLoadingMBP:@"数据加载中"];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
@@ -325,6 +330,7 @@
     {
         [self.headerView.pieView removeFromSuperview];
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
+        [self showLoadingMBP:@"数据加载中"];
         
         /**饼状图**/
         if (!selectedDate)

@@ -24,6 +24,7 @@
 #import "BXTManagerOMViewController.h"
 #import "BXTStatisticsViewController.h"
 #import "BXTShopListViewController.h"
+#import "BXTGrabOrderViewController.h"
 
 @interface BXTShopsHomeViewController ()
 

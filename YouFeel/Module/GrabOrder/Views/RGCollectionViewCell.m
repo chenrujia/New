@@ -22,7 +22,7 @@
         self.backgroundColor = colorWithHexString(@"ffffff");
         //self.layer.cornerRadius = 10.f;
         //self.layer.masksToBounds = YES;
-
+        
         CGFloat space = IS_IPHONE6 ? 15.f : 10.f;
         CGFloat height = IS_IPHONE6 ? 263.f : 175;
         CGFloat moreH = IS_IPHONE6 ? 80.f : 70;
@@ -34,9 +34,9 @@
             scrollView;
             
         });
-
-        self.imageView = ({
         
+        self.imageView = ({
+            
             UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(space, space, frame.size.width - space * 2.f, height)];
             imgView.contentMode = UIViewContentModeScaleAspectFill;
             imgView.layer.masksToBounds = YES;
@@ -77,23 +77,23 @@
         });
         
         self.repairID = ({
-        
+            
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_imageView.frame) + 15.f, CGRectGetWidth(_imageView.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self.scrollView addSubview:label];
             label;
-        
+            
         });
         
         self.location = ({
-        
+            
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_repairID.frame) + 10.f, CGRectGetWidth(_repairID.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self.scrollView addSubview:label];
             label;
-        
+            
         });
         
         self.cause = ({
@@ -107,7 +107,7 @@
         });
         
         self.notes = ({
-        
+            
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
             label.numberOfLines = 0;
@@ -115,17 +115,17 @@
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self.scrollView addSubview:label];
             label;
-        
+            
         });
         
         self.level = ({
-        
+            
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_notes.frame) + 10.f, CGRectGetWidth(_notes.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self.scrollView addSubview:label];
             label;
-        
+            
         });
         
         self.remarks = ({
@@ -140,32 +140,32 @@
             
         });
         
-//        self.backView = ({
-//        
-//            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - 140.f + 4.f, CGRectGetMinY(_level.frame) + 15.f, 140.f, 42.f)];
-//            view.backgroundColor = colorWithHexString(@"9bba30");
-//            view.layer.cornerRadius = 5;
-//            [self addSubview:view];
-//            view;
-//        
-//        });
-//        
-//        
-//        UIImageView *coinImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10.f, 10.f, 22.f, 22.f)];
-//        coinImgView.image = [UIImage imageNamed:@"Coin_icon"];
-//        [_backView addSubview:coinImgView];
-//        
-//        self.coinLabel = ({
-//            
-//            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(coinImgView.frame), 10.f, CGRectGetWidth(_backView.frame) - CGRectGetMaxX(coinImgView.frame), 22)];
-//            label.textColor = colorWithHexString(@"ffffff");
-//            label.textAlignment = NSTextAlignmentCenter;
-//            label.font = [UIFont boldSystemFontOfSize:14.f];
-//            label.text = @"可获得25金币";
-//            [_backView addSubview:label];
-//            label;
-//            
-//        });
+        //        self.backView = ({
+        //
+        //            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - 140.f + 4.f, CGRectGetMinY(_level.frame) + 15.f, 140.f, 42.f)];
+        //            view.backgroundColor = colorWithHexString(@"9bba30");
+        //            view.layer.cornerRadius = 5;
+        //            [self addSubview:view];
+        //            view;
+        //
+        //        });
+        //
+        //
+        //        UIImageView *coinImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10.f, 10.f, 22.f, 22.f)];
+        //        coinImgView.image = [UIImage imageNamed:@"Coin_icon"];
+        //        [_backView addSubview:coinImgView];
+        //
+        //        self.coinLabel = ({
+        //
+        //            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(coinImgView.frame), 10.f, CGRectGetWidth(_backView.frame) - CGRectGetMaxX(coinImgView.frame), 22)];
+        //            label.textColor = colorWithHexString(@"ffffff");
+        //            label.textAlignment = NSTextAlignmentCenter;
+        //            label.font = [UIFont boldSystemFontOfSize:14.f];
+        //            label.text = @"可获得25金币";
+        //            [_backView addSubview:label];
+        //            label;
+        //
+        //        });
         
     }
     return self;
@@ -189,6 +189,8 @@
     if (type == RepairDetail && data.count > 0)
     {
         NSDictionary *dictionary = data[0];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SUBGROUP_NOTIFICATION" object:dictionary[@"subgroup_name"]];
         
         DCParserConfiguration *config = [DCParserConfiguration configuration];
         DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairDetailInfo class]];

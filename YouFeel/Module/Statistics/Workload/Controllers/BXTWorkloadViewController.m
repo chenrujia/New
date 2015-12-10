@@ -274,6 +274,7 @@
             break;
     }
     
+    [self showLoadingMBP:@"数据加载中"];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_workloadWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
@@ -281,6 +282,7 @@
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
+        [self showLoadingMBP:@"数据加载中"];
         
         /**饼状图**/
         if (!selectedDate) {

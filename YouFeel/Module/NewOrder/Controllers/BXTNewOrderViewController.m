@@ -47,6 +47,7 @@
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
+@property (nonatomic, strong) NSMutableArray *manIDArray;
 
 @end
 
@@ -68,6 +69,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"新工单" andRightTitle:nil andRightImage:nil];
+    self.manIDArray = [NSMutableArray array];
     
     if (!isAssign)
     {
@@ -396,6 +398,9 @@
         return;
     }
     BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[currentOrderID integerValue] andWithVCType:AssignType];
+    [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
+    addOtherVC.manIDArray = self.manIDArray;
+    addOtherVC.isAssignVCPushed = YES;
     [self.navigationController pushViewController:addOtherVC animated:YES];
 }
 

@@ -18,6 +18,10 @@ typedef void (^ChooseMans)(NSMutableArray *mans);
 
 @interface BXTAddOtherManViewController : BXTBaseViewController
 
+/**
+ *  派单页面跳转
+ */
+@property (nonatomic, assign) BOOL isAssignVCPushed;
 @property (nonatomic, strong) NSMutableArray *manIDArray;
 
 - (instancetype)initWithRepairID:(NSInteger)repair_id

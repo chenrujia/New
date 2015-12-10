@@ -31,6 +31,7 @@
     
     self.dataArray = [[NSMutableArray alloc] init];
     
+    [self showLoadingMBP:@"数据加载中"];
     
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -40,6 +41,8 @@
 #pragma mark -
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type {
+    [self hideMBP];
+    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = dic[@"data"];
     if (type == Statistics_Subgroup && data.count > 0) {
@@ -50,7 +53,7 @@
 }
 
 - (void)requestError:(NSError *)error {
-    
+    [self hideMBP];
 }
 
 #pragma mark -
@@ -249,6 +252,7 @@
             break;
     }
     
+    [self showLoadingMBP:@"数据加载中"];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_subgroupWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
@@ -257,6 +261,7 @@
     if (button.tag == 10001) {
         [self.pieView removeFromSuperview];
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
+        [self showLoadingMBP:@"数据加载中"];
         
         /**饼状图**/
         if (!selectedDate) {

@@ -66,9 +66,10 @@
     
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     [self createCollectionView];
-    [self createSubviews];
     
     markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createSubviews:) name:@"SUBGROUP_NOTIFICATION" object:nil];
 }
 
 #pragma mark -
@@ -84,15 +85,11 @@
     itemsCollectionView.showsHorizontalScrollIndicator = NO;
     itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f6");
     [self.view addSubview:itemsCollectionView];
+    
 }
 
-- (void)createSubviews
+- (void)createSubviews:(NSNotification *)notify
 {
-    CGFloat bv_height = IS_IPHONE6 ? 80.f : 70.f;
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - bv_height, SCREEN_WIDTH, bv_height)];
-    backView.backgroundColor = colorWithHexString(@"febc2d");
-    [self.view addSubview:backView];
-    
     CGFloat arc_height = IS_IPHONE6 ? 168.f : 112.f;
     UIView *arc_View = [[UIView alloc] initWithFrame:CGRectMake(0, 0, arc_height, arc_height)];
     arc_View.center = CGPointMake(SCREEN_WIDTH/2.f, 0);
@@ -131,21 +128,19 @@
         label;
         
     });
-
-    __weak BXTGrabOrderViewController *weakSelf = self;
-    CGFloat grab_height = IS_IPHONE6 ? 50.f : 40.f;
-    WZFlashButton *grab_button = [[WZFlashButton alloc] initWithFrame:CGRectMake(20.f, (CGRectGetHeight(backView.frame) - grab_height)/2, SCREEN_WIDTH - 40.f, grab_height) andClick:^{
-        [weakSelf reaciveOrder];
-    }];
-    [grab_button setBackgroundColor:colorWithHexString(@"f0640f")];
-    [grab_button setText:@"抢单" withTextColor:[UIColor whiteColor]];
-    grab_button.flashColor = [UIColor whiteColor];
-    grab_button.layer.cornerRadius = 4.f;
-    grab_button.layer.shadowColor = [UIColor blackColor].CGColor;
-    grab_button.layer.shadowOpacity = 0.8;//阴影透明度，默认0
-    grab_button.layer.shadowOffset = CGSizeMake(0,3);
     
-    [backView addSubview:grab_button];
+    CGFloat grab_buttonH = SCREEN_WIDTH/4.57;
+    UIButton *grab_button = [[UIButton alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-grab_buttonH, SCREEN_WIDTH, grab_buttonH)];
+    [grab_button setBackgroundImage:[UIImage imageNamed:@"Grab_btn"] forState:UIControlStateNormal];
+    [grab_button addTarget:self action:@selector(reaciveOrder) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:grab_button];
+    
+    UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, grab_buttonH-30, SCREEN_WIDTH-120, 30)];
+    contentLabel.text = notify.object;
+    contentLabel.textColor = [UIColor whiteColor];
+    contentLabel.font = [UIFont systemFontOfSize:13];
+    contentLabel.textAlignment = NSTextAlignmentCenter;
+    [grab_button addSubview:contentLabel];
 }
 
 #pragma mark -
