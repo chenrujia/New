@@ -373,6 +373,7 @@
         NSTimeInterval timer = [[NSDate date] timeIntervalSince1970] + [timeStr intValue]*60;
         timeStr = [NSString stringWithFormat:@"%.0f", timer];
         
+        [self showLoadingMBP:@"奋力争抢中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSInteger index = [BXTGlobal shareGlobal].numOfPresented - 1;
         NSString *orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
@@ -447,8 +448,9 @@
 
 - (void)datePickerBtnClick:(UIButton *)button
 {
-    if (button.tag == 10001) {
-        
+    if (button.tag == 10001)
+    {
+        [self showLoadingMBP:@"奋力争抢中..."];
         //NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];

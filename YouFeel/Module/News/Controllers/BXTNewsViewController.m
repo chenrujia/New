@@ -48,6 +48,7 @@
     [timeArray addObject:@"自定义"];
     comeTimeArray = timeArray;
     currentPage = 1;
+    [self showLoadingMBP:@"努力加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request newsListWithPage:currentPage];
     _isRequesting = YES;
@@ -224,6 +225,7 @@
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     LogRed(@"%@",dic);
     if (type == UpdateTime)

@@ -149,7 +149,6 @@
         case 1:
         {
             // 报修
-            //            BXTRepairWordOrderViewController *newOrderVC = [[BXTRepairWordOrderViewController alloc] init];
             BXTMMOrderManagerViewController *newOrderVC = [[BXTMMOrderManagerViewController alloc] init];
             [self.navigationController pushViewController:newOrderVC animated:YES];
         }
@@ -171,7 +170,8 @@
             break;
         case 4:
         {
-            if (![roleArray containsObject:@"116"]) {
+            if (![roleArray containsObject:@"116"])
+            {
                 [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
                 return;
             }
@@ -182,7 +182,8 @@
             break;
         case 5:
         {
-            if (![roleArray containsObject:@"114"]) {
+            if (![roleArray containsObject:@"114"])
+            {
                 [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
                 return;
             }

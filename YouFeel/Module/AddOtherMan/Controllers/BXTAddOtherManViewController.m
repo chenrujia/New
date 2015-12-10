@@ -65,6 +65,7 @@
     listArray = [NSMutableArray array];
     indexArray = [NSMutableArray array];
     
+    [self showLoadingMBP:@"努力加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**请求维修员列表**/
@@ -102,8 +103,10 @@
 #pragma mark 事件处理
 - (void)addMan:(UIButton *)btn
 {
-    for (NSString *indexStr in indexArray) {
-        if (btn.tag == [indexStr intValue]) {
+    for (NSString *indexStr in indexArray)
+    {
+        if (btn.tag == [indexStr intValue])
+        {
             return;
         }
     }
@@ -185,6 +188,7 @@
 {
     if (vcType == AssignType)
     {
+        [self showLoadingMBP:@"请稍候..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
         [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairID]
@@ -195,8 +199,8 @@
     }
     else if (vcType == DetailType)
     {
+        [self showLoadingMBP:@"请稍候..."];
         /**请求维修员列表**/
-        [self showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request dispatchingMan:[NSString stringWithFormat:@"%ld",(long)repairID] andMans:[self selectMans]];
     }
@@ -313,6 +317,7 @@
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {
+    [self showLoadingMBP:@"努力加载中..."];
     if (indexPath.row == 0)
     {
         /**请求维修员列表**/
@@ -332,6 +337,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     LogBlue(@"dic......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];

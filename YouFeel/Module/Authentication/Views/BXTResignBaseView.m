@@ -59,6 +59,7 @@
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     LogBlue(@"dic.......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
@@ -171,7 +172,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 #pragma mark -

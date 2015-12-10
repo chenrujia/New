@@ -87,6 +87,7 @@
     comeTimeArray = timeArray;
     
     /**获取详情**/
+    [self showLoadingMBP:@"努力加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     if (!isAssign)
     {
@@ -409,6 +410,7 @@
 {
     if (button.tag == 10001)
     {
+        [self showLoadingMBP:@"请稍候..."];
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
@@ -489,6 +491,7 @@
 #pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     LogRed(@"........%@", dic);
     NSArray *data = [dic objectForKey:@"data"];
@@ -640,6 +643,7 @@
         NSTimeInterval timer = [[NSDate date] timeIntervalSince1970] + [timeStr intValue]*60;
         timeStr = [NSString stringWithFormat:@"%.0f", timer];
         
+        [self showLoadingMBP:@"请稍候..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
         [request reaciveOrderForAssign:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]

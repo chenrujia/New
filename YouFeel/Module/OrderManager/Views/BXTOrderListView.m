@@ -81,8 +81,8 @@
     if (_isRequesting) return;
     refreshType = Down;
     currentPage = 1;
+    [self showLoadingMBP:@"努力加载中..."];
     /**获取报修列表**/
-    
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairsList:_repairState
                  andPage:1
@@ -327,6 +327,7 @@
 {
     selectTag = btn.tag;
     BXTRepairInfo *repairInfo = repairListArray[selectTag];
+    [self showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request startRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
 }
@@ -335,6 +336,7 @@
 #pragma mark 请求返回代理
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == StartRepair)
@@ -386,6 +388,7 @@
 
 - (void)requestError:(NSError *)error
 {
+    [self hideMBP];
     _isRequesting = NO;
     [currentTableView.header endRefreshing];
     [currentTableView.footer endRefreshing];

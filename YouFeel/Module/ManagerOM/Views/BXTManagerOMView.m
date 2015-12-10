@@ -107,6 +107,7 @@
     refreshType = Down;
     currentPage = 1;
     /**获取报修列表**/
+    [self showLoadingMBP:@"努力加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     if (_orderType == OutTimeType)
     {
@@ -409,10 +410,16 @@
         BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:assignOrderVC animated:YES];
     }
-    else if ((_orderType == OutTimeType || _orderType == AllType) && repairInfo.order_type == 3)
+    else if (_orderType == OutTimeType && repairInfo.order_type == 3)
     {
         BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         repairDetailVC.isRejectVC = YES;
+        [[self navigation] pushViewController:repairDetailVC animated:YES];
+    }
+    else if (_orderType == AllType)
+    {
+        BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        repairDetailVC.isAllOrderType = YES;
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
     else
@@ -426,6 +433,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     LogRed(@"dic....%@",dic);
     NSArray *data = [dic objectForKey:@"data"];

@@ -30,7 +30,7 @@
     self.dataArray = [[NSMutableArray alloc] init];
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
     
-    [self showLoadingMBP:@"数据加载中"];
+    [self showLoadingMBP:@"数据加载中..."];
     
     
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];

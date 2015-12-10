@@ -21,14 +21,13 @@
 
 @implementation BXStEvaluationViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.dataArray = [[NSMutableArray alloc] init];
-    
-    
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
+    [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_praiseWithTime_start:dateArray[0] time_end:dateArray[1]];
     
@@ -37,6 +36,7 @@
 #pragma mark -
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type {
+    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Statistics_Praise && data.count > 0) {
@@ -46,7 +46,7 @@
 }
 
 - (void)requestError:(NSError *)error {
-    
+    [self hideMBP];
 }
 
 #pragma mark -

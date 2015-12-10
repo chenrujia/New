@@ -8,6 +8,7 @@
 
 #import "UIView+Nav.h"
 #import "AppDelegate.h"
+#import "MBProgressHUD.h"
 
 @implementation UIView (Nav)
 
@@ -15,6 +16,20 @@
 {
     UINavigationController *nav = (UINavigationController *)[AppDelegate appdelegete].window.rootViewController;
     return nav;
+}
+
+- (void)showLoadingMBP:(NSString *)text
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = text;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+}
+
+- (void)hideMBP
+{
+    [MBProgressHUD hideHUDForView:self animated:YES];
 }
 
 @end
