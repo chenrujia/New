@@ -146,7 +146,6 @@
             BXTStatisticsViewController *StatisticsVC = [[BXTStatisticsViewController alloc] init];
             [self.navigationController pushViewController:StatisticsVC animated:YES];
             
-            
 //            NSArray *dataArray = [BXTGlobal getUserProperty:U_MYSHOP];
 //            if (dataArray.count == 1) {
 //                // 业务统计
