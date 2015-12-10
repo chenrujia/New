@@ -33,7 +33,7 @@
     datasource = [[NSMutableArray alloc] init];
     imgsArray = @[@"bar_graph",@"chart",@"thumb_up",@"calendar_ok"];
     titlesArray = @[@"接单量",@"完成度",@"好评度",@"月排名"];
-    [self showLoadingMBP:@"加载中..."];
+    [self showLoadingMBP:@"努力加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request achievementsList:6];
 }

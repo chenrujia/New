@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "BXTRepairDetailInfo.h"
 #import "BXTGlobal.h"
+#import "UIView+Nav.h"
 
 @implementation RGCollectionViewCell
 
@@ -176,6 +177,7 @@
 - (void)requestDetailWithOrderID:(NSString *)orderID
 {
     /**获取详情**/
+    [self showLoadingMBP:@"努力加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairDetail:orderID];
 }
@@ -184,6 +186,7 @@
 #pragma mark 代理
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count > 0)
@@ -281,7 +284,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (NSString *)transTimeStampToTime:(NSString *)timeStr

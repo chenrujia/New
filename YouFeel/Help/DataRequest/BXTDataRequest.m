@@ -748,12 +748,12 @@ andRepairerIsReacive:(NSString *)reacive
         [_delegate requestError:error];
     }];
     
-    [self showHUD];
+//    [self showHUD];
     
     [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         
-        CGFloat progress = totalBytesWritten/totalBytesExpectedToWrite;
-        [self setProgress:progress];
+//        CGFloat progress = totalBytesWritten/totalBytesExpectedToWrite;
+//        [self setProgress:progress];
         NSLog(@"bytesWritten=%lu, totalBytesWritten=%lld, totalBytesExpectedToWrite=%lld", (unsigned long)bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
     }];
 }

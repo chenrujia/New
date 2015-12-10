@@ -98,6 +98,7 @@
 
 - (void)requestData
 {
+    [self showLoadingMBP:@"努力加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**获取报修列表**/
@@ -385,6 +386,7 @@
         }
         else if (indexPath.row == 1)
         {
+            [self showLoadingMBP:@"努力加载中..."];
             /**获取报修列表**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request repairerList:@"1"
@@ -440,6 +442,7 @@
     NSString *department_id = selectDepartment ? selectDepartment.dep_id : @"";
     NSString *fault_type_id = selectFaultType ? [NSString stringWithFormat:@"%ld",(long)selectFaultType.fau_id] : @"";
     
+    [self showLoadingMBP:@"努力加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairerList:@"1"
                   andPage:1
@@ -475,6 +478,7 @@
             }
         }
         [currentTableView reloadData];
+        [self hideMBP];
     }
     else if (type == ShopType)
     {
@@ -544,7 +548,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -587,6 +591,7 @@
         NSTimeInterval timer = [[NSDate date] timeIntervalSince1970] + [timeStr intValue]*50;
         timeStr = [NSString stringWithFormat:@"%.0f", timer];
         
+        [self showLoadingMBP:@"请稍候..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
         NSArray *users = @[userID];
@@ -654,15 +659,14 @@
 - (void)dateChange:(UIDatePicker *)picker
 {
     // 获取分钟数
-    //timeInterval = [picker.date timeIntervalSinceDate:originDate];
     timeInterval = [picker.date timeIntervalSince1970];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button
 {
-    if (button.tag == 10001) {
-        
-        //NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
+    if (button.tag == 10001)
+    {
+        [self showLoadingMBP:@"请稍候..."];
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];

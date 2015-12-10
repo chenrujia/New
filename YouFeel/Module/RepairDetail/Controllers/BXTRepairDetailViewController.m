@@ -77,6 +77,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideEvaBtn) name:@"HiddenEvaluationBtn" object:nil];
     
     /**获取报修列表**/
+    [self showLoadingMBP:@"努力加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairDetail:[NSString stringWithFormat:@"%ld",(long)_repairInfo.repairID]];
 }
@@ -228,6 +229,7 @@
 - (void)cancelBtn
 {
     /**删除工单**/
+    [self showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]];
 }
@@ -374,6 +376,7 @@
 #pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     LogRed(@"%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
@@ -551,7 +554,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)loadingUsers

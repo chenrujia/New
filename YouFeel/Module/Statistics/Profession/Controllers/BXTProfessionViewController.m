@@ -25,15 +25,15 @@
 
 @implementation BXTProfessionViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     self.dataArray = [[NSMutableArray alloc] init];
     
     [self showLoadingMBP:@"数据加载中"];
     
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
+    [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_subgroupWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
@@ -45,7 +45,8 @@
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = dic[@"data"];
-    if (type == Statistics_Subgroup && data.count > 0) {
+    if (type == Statistics_Subgroup && data.count > 0)
+    {
         self.dataArray = dic[@"data"];
         [self createPieView];
         [self createBarChartView];
@@ -58,7 +59,8 @@
 
 #pragma mark -
 #pragma mark - createUI
-- (void)createPieView {
+- (void)createPieView
+{
     // ProfessionHeader
     self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTProfessionHeader" owner:nil options:nil] lastObject];
     self.headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 400);
@@ -270,6 +272,7 @@
         [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
         
         NSString *todayStr = [self transTimeWithDate:selectedDate];
+        [self showLoadingMBP:@"数据加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_subgroupWithTime_start:todayStr time_end:todayStr];
     }

@@ -110,6 +110,7 @@
     refreshType = RefreshDown;
     currentPage = 1;
     /**获取报修列表**/
+    [self showLoadingMBP:@"努力加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairsList:@"0"
                  andPage:currentPage
@@ -150,6 +151,7 @@
             [alertCtr addAction:cancelAction];
             UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
                 /**删除工单**/
+                [self showLoadingMBP:@"请稍候..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
             }];
@@ -288,6 +290,7 @@
     {
         BXTRepairInfo *repairInfo = repairListArray[selectIndex];
         /**删除工单**/
+        [self showLoadingMBP:@"请稍候..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
     }
@@ -306,6 +309,7 @@
  */
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairList)
@@ -351,6 +355,7 @@
 
 - (void)requestError:(NSError *)error
 {
+    [self hideMBP];
     _isRequesting = NO;
     [currentTableView.header endRefreshing];
     [currentTableView.footer endRefreshing];

@@ -29,7 +29,8 @@
 
 @implementation BXTCompletionViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -56,7 +57,8 @@
     }
 }
 
-- (void)createIntroductionView {
+- (void)createIntroductionView
+{
     pickerbgView = [[UIView alloc] initWithFrame:self.view.bounds];
     pickerbgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5f];
     pickerbgView.tag = 101;
@@ -95,7 +97,9 @@
 
 #pragma mark -
 #pragma mark - getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type {
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = dic[@"data"];
     if (type == Statistics_Complete && data.count > 0) {
@@ -103,8 +107,9 @@
         
         self.percentArrat = dic[@"data"];
         [self createPieView];
-        
-    } else if (type == Statistics_Workload_day && data.count > 0) {
+    }
+    else if (type == Statistics_Workload_day && data.count > 0)
+    {
         self.monthArray = [[NSMutableArray alloc] initWithArray:data];
         [self createBarChartView];
     }
@@ -116,13 +121,13 @@
 
 #pragma mark -
 #pragma mark - createUI
-- (void)createPieView {
+- (void)createPieView
+{
     //  ---------- 饼状图 ----------
     // CompletionHeader
     self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTCompletionHeader" owner:nil options:nil] lastObject];
     self.headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 400);
     [self.rootScrollView addSubview:self.headerView];
-    
     
     // MYPieView
     NSDictionary *dataDict = self.percentArrat[0];
@@ -344,6 +349,7 @@
         [self.transTimeArray addObject:todayStr];
         [self.transTimeArray addObject:todayStr];
         
+        [self showLoadingMBP:@"数据加载中..."];
         dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
         dispatch_async(concurrentQueue, ^{
             /**饼状图**/

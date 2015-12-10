@@ -272,6 +272,7 @@
 
 - (void)doneClick
 {
+    [self showLoadingMBP:@"注册中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request branchResign:1];
 }

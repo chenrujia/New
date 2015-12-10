@@ -177,6 +177,7 @@
         datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
         datePicker.backgroundColor = colorWithHexString(@"ffffff");
         datePicker.datePickerMode = UIDatePickerModeDate;
+        NSLog(@"%@",[[NSDate date] description]);
         [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
         [timeRangeBack addSubview:datePicker];
 
@@ -310,7 +311,7 @@
     if (isStart)
     {
         [startTime setTitle:[NSString stringWithFormat:@"%@ -",dateStr] forState:UIControlStateNormal];
-        startStr = [NSString stringWithFormat:@"%.0f",picker.date.timeIntervalSince1970 + 86399];
+        startStr = [NSString stringWithFormat:@"%.0f",picker.date.timeIntervalSince1970];
     }
     else
     {

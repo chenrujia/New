@@ -266,7 +266,8 @@
     maintenanceMan.text = @"维修人员:";
     [scrollView addSubview:maintenanceMan];
     
-    if ([BXTGlobal shareGlobal].isRepair) {
+    if ([BXTGlobal shareGlobal].isRepair && !_isAllOrderType)
+    {
         reaciveOrder = [UIButton buttonWithType:UIButtonTypeCustom];
         reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
         [reaciveOrder setTitle:@"接单" forState:UIControlStateNormal];
@@ -341,6 +342,7 @@
 - (void)requestDetail
 {
     /**获取详情**/
+    [self showLoadingMBP:@"努力加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
 }
@@ -368,6 +370,7 @@
 //开始维修
 - (void)startRepairAction
 {
+    [self showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request startRepair:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]];
 }
@@ -549,6 +552,7 @@
     {
         //NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2/60+1];
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2];
+        [self showLoadingMBP:@"请稍候..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
         NSArray *users = @[userID];
@@ -586,6 +590,7 @@
         NSTimeInterval timer = [[NSDate date] timeIntervalSince1970] + [timeStr intValue]*60;
         timeStr = [NSString stringWithFormat:@"%.0f", timer];
         
+        [self showLoadingMBP:@"请稍候..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
         NSArray *users = @[userID];
@@ -622,6 +627,7 @@
 #pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     LogRed(@"........%@", dic);
     NSArray *data = [dic objectForKey:@"data"];
@@ -845,7 +851,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)loadingUsers

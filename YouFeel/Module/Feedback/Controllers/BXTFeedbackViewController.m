@@ -67,6 +67,7 @@
     }
     else
     {
+        [self showLoadingMBP:@"提交中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request feedback:feedbackStr];
     }
@@ -105,7 +106,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

@@ -12,4 +12,8 @@
 
 - (UINavigationController *)navigation;
 
+- (void)showLoadingMBP:(NSString *)text;
+
+- (void)hideMBP;
+
 @end

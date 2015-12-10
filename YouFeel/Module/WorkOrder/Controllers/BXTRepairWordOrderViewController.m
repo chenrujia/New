@@ -239,18 +239,22 @@
 
 - (void)createNewWorkOrder:(NSArray *)array
 {
-    if ([self.faultType isEqualToString:@"请选择故障类型"]) {
+    if ([self.faultType isEqualToString:@"请选择故障类型"])
+    {
         [self showAlertView:@"请选择故障类型"];
         return;
     }
-    if ([BXTGlobal isBlankString:cause]) {
+    if ([BXTGlobal isBlankString:cause])
+    {
         [self showAlertView:@"请输入故障描述"];
         return;
     }
-    if (faulttype_type == 0) {
+    if (faulttype_type == 0)
+    {
         faulttype_type = 1;
     }
-    if ([BXTGlobal isBlankString:notes]) {
+    if ([BXTGlobal isBlankString:notes])
+    {
         notes = @"";
     }
     
@@ -261,6 +265,7 @@
     BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
     BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
     
+    [self showLoadingMBP:@"新工单创建中..."];
     [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
                faultType_type:[NSString stringWithFormat:@"%ld", (long)faulttype_type]
                    faultCause:cause

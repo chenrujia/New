@@ -86,6 +86,8 @@
 
 - (void)showMBP:(NSString *)text withBlock:(HaveHidden)block
 {
+    //把其余的都隐藏了
+    [self hideMBP];
     _havedHidden = block;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeText;
