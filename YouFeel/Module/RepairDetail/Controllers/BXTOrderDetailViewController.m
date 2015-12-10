@@ -88,7 +88,7 @@
     [super viewDidLoad];
     contentHeight = 300.f;
     
-    if ([self.pushType isEqualToString:@"REJECT"])
+    if (self.isRejectVC)
     {
         [self navigationSetting:@"工单详情" andRightTitle:@"关闭工单" andRightImage:nil];
     }
@@ -266,15 +266,17 @@
     maintenanceMan.text = @"维修人员:";
     [scrollView addSubview:maintenanceMan];
     
-    reaciveOrder = [UIButton buttonWithType:UIButtonTypeCustom];
-    reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
-    [reaciveOrder setTitle:@"接单" forState:UIControlStateNormal];
-    [reaciveOrder setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    [reaciveOrder setBackgroundColor:colorWithHexString(@"3cafff")];
-    reaciveOrder.layer.masksToBounds = YES;
-    reaciveOrder.layer.cornerRadius = 6.f;
-    [reaciveOrder addTarget:self action:@selector(reaciveOrderBtn) forControlEvents:UIControlEventTouchUpInside];
-    [scrollView addSubview:reaciveOrder];
+    if ([BXTGlobal shareGlobal].isRepair) {
+        reaciveOrder = [UIButton buttonWithType:UIButtonTypeCustom];
+        reaciveOrder.frame = CGRectMake(20, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
+        [reaciveOrder setTitle:@"接单" forState:UIControlStateNormal];
+        [reaciveOrder setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+        [reaciveOrder setBackgroundColor:colorWithHexString(@"3cafff")];
+        reaciveOrder.layer.masksToBounds = YES;
+        reaciveOrder.layer.cornerRadius = 6.f;
+        [reaciveOrder addTarget:self action:@selector(reaciveOrderBtn) forControlEvents:UIControlEventTouchUpInside];
+        [scrollView addSubview:reaciveOrder];
+    }
 }
 
 - (void)createDatePicker
@@ -800,7 +802,7 @@
         
         if (repairDetail.repairstate == 2 && repairDetail.isRepairing == 2)
         {
-            if (![self.pushType isEqualToString:@"REJECT"]) {
+            if (!self.isRejectVC && [BXTGlobal shareGlobal].isRepair) {
                 UITabBar *tabbar = [[UITabBar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50.f, SCREEN_WIDTH, 50.f)];
                 tabbar.delegate = self;
                 UITabBarItem *leftItem = [[UITabBarItem alloc] initWithTitle:@"增加人员" image:[UIImage imageNamed:@"users"] selectedImage:[UIImage imageNamed:@"users_selected"]];

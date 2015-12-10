@@ -12,7 +12,10 @@
 
 @interface BXTOrderDetailViewController : BXTBaseViewController
 
-@property (nonatomic, copy) NSString *pushType;
+/**
+ *  是否有关闭工单按钮
+ */
+@property (nonatomic, assign) BOOL isRejectVC;
 
 - (instancetype)initWithRepairID:(NSString *)reID;
 
