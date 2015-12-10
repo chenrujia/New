@@ -53,7 +53,8 @@
     }
 }
 
-- (void)requestError:(NSError *)error {
+- (void)requestError:(NSError *)error
+{
     [self hideMBP];
 }
 
@@ -254,7 +255,7 @@
             break;
     }
     
-    [self showLoadingMBP:@"数据加载中"];
+    [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_subgroupWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
