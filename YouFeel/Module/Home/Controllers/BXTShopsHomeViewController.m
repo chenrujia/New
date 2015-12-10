@@ -151,7 +151,7 @@
 //                // 业务统计
 //                NSDictionary *dict = dataArray[0];
 //                BXTStatisticsViewController *StatisticsVC = [[BXTStatisticsViewController alloc] init];
-//                NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@", dict[@"id"]];
+//                NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@", dict[@"id"]];
 //                [BXTGlobal shareGlobal].BranchURL = url;
 //                [self.navigationController pushViewController:StatisticsVC animated:YES];
 //            } else {
