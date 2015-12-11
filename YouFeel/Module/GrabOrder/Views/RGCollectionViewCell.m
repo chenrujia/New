@@ -193,7 +193,7 @@
     {
         NSDictionary *dictionary = data[0];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"SUBGROUP_NOTIFICATION" object:dictionary[@"subgroup_name"]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SUBGROUP_NOTIFICATION" object:dictionary[@"faulttype_type_name"]];
         
         DCParserConfiguration *config = [DCParserConfiguration configuration];
         DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairDetailInfo class]];

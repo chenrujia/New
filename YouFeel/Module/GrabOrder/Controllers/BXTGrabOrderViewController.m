@@ -136,7 +136,7 @@
     [self.view addSubview:grab_button];
     
     UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, grab_buttonH-30, SCREEN_WIDTH-120, 30)];
-    contentLabel.text = notify.object;
+    contentLabel.text = [NSString stringWithFormat:@"%@问题", notify.object];
     contentLabel.textColor = [UIColor whiteColor];
     contentLabel.font = [UIFont systemFontOfSize:13];
     contentLabel.textAlignment = NSTextAlignmentCenter;
