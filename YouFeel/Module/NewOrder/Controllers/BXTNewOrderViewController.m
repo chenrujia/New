@@ -401,7 +401,6 @@
     BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[currentOrderID integerValue] andWithVCType:AssignType];
     [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
     addOtherVC.manIDArray = self.manIDArray;
-    addOtherVC.isAssignVCPushed = YES;
     [self.navigationController pushViewController:addOtherVC animated:YES];
 }
 

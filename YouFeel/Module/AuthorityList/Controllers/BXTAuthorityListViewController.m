@@ -77,7 +77,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self showLoadingMBP:@"权限切换中"];
     NSDictionary *dict = self.dataArray[indexPath.section];
+    
+    BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
+    companyInfo.company_id = dict[@"id"];
+    companyInfo.name = dict[@"shop_name"];
+    [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
+    
     NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@", dict[@"id"]];
     [BXTGlobal shareGlobal].baseURL = url;
     
@@ -90,29 +97,23 @@
 
 #pragma mark -
 #pragma mark - getDataResource
-- (void)requestResponseData:(id)response
-                requeseType:(RequestType)type
-{
+- (void)requestResponseData:(id)response requeseType:(RequestType)type {
     [self hideMBP];
-    NSLog(@"%@", response);
+    
+    //NSLog(@"%@", response);
     NSDictionary *dic = response;
-    if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
-    {
+    if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"]) {
         NSArray *data = [dic objectForKey:@"data"];
-        if (data.count > 0)
-        {
+        if (data.count > 0) {
             NSDictionary *userInfo = data[0];
             [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
         }
-    }
-    else
-    {
+    } else {
         [self showMBP:@"登录失败，请仔细检查！" withBlock:nil];
     }
 }
 
-- (void)requestError:(NSError *)error
-{
+- (void)requestError:(NSError *)error {
     [self hideMBP];
 }
 
