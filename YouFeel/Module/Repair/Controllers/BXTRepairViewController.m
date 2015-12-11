@@ -128,6 +128,7 @@
     
     refreshType = RefreshDown;
     currentPage = 1;
+    [self showLoadingMBP:@"努力加载中..."];
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairsList:@"0"
@@ -333,6 +334,7 @@
  */
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairList)
@@ -378,6 +380,7 @@
 
 - (void)requestError:(NSError *)error
 {
+    [self hideMBP];
     _isRequesting = NO;
     [currentTableView.header endRefreshing];
     [currentTableView.footer endRefreshing];

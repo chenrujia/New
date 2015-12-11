@@ -36,6 +36,7 @@
         currentTable.dataSource = self;
         [self addSubview:currentTable];
         
+        [self showLoadingMBP:@"努力加载中..."];
         [self requestData];
     }
     return self;
@@ -124,6 +125,7 @@
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     LogRed(@"%@",dic);
     
@@ -144,7 +146,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 
