@@ -14,6 +14,7 @@
 #include <math.h>
 #import "BXTDataRequest.h"
 #import "BXTHeadquartersViewController.h"
+#import "BXTAuthorityListViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -147,8 +148,10 @@
 
 - (void)shopClick
 {
-    BXTHeadquartersViewController *company = [[BXTHeadquartersViewController alloc] initWithType:YES];
-    [self.navigationController pushViewController:company animated:YES];
+    BXTAuthorityListViewController *aboutVC = [[BXTAuthorityListViewController alloc] init];
+    [self.navigationController pushViewController:aboutVC animated:YES];
+//    BXTHeadquartersViewController *company = [[BXTHeadquartersViewController alloc] initWithType:YES];
+//    [self.navigationController pushViewController:company animated:YES];
 }
 
 - (void)repairClick

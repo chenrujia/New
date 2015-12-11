@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		780177161C1A5CCE0016D3F6 /* BXTAuthorityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 780177131C1A5CCE0016D3F6 /* BXTAuthorityListViewController.m */; };
 		780E9CDE1C0E90F8002F1CDE /* BXTWorkloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 780E9CDC1C0E90F8002F1CDE /* BXTWorkloadCell.m */; };
 		780E9CDF1C0E90F8002F1CDE /* BXTWorkloadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 780E9CDD1C0E90F8002F1CDE /* BXTWorkloadCell.xib */; };
 		7818DB961C08240F00DC22C6 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7818DB921C08240F00DC22C6 /* libopencore-amrnb.a */; };
@@ -388,6 +389,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		780177121C1A5CCE0016D3F6 /* BXTAuthorityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAuthorityListViewController.h; sourceTree = "<group>"; };
+		780177131C1A5CCE0016D3F6 /* BXTAuthorityListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAuthorityListViewController.m; sourceTree = "<group>"; };
 		780E9CDB1C0E90F8002F1CDE /* BXTWorkloadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTWorkloadCell.h; sourceTree = "<group>"; };
 		780E9CDC1C0E90F8002F1CDE /* BXTWorkloadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTWorkloadCell.m; sourceTree = "<group>"; };
 		780E9CDD1C0E90F8002F1CDE /* BXTWorkloadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTWorkloadCell.xib; sourceTree = "<group>"; };
@@ -1109,6 +1112,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		780177101C1A5CCE0016D3F6 /* AuthorityList */ = {
+			isa = PBXGroup;
+			children = (
+				780177111C1A5CCE0016D3F6 /* Controllers */,
+				780177141C1A5CCE0016D3F6 /* Models */,
+				780177151C1A5CCE0016D3F6 /* Views */,
+			);
+			path = AuthorityList;
+			sourceTree = "<group>";
+		};
+		780177111C1A5CCE0016D3F6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				780177121C1A5CCE0016D3F6 /* BXTAuthorityListViewController.h */,
+				780177131C1A5CCE0016D3F6 /* BXTAuthorityListViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		780177141C1A5CCE0016D3F6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		780177151C1A5CCE0016D3F6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		7818DB911C08240F00DC22C6 /* RongCloud */ = {
 			isa = PBXGroup;
 			children = (
@@ -1487,6 +1523,15 @@
 				782D6BD21C0D88B300E1828F /* SPChartPopup.m */,
 			);
 			path = Popup;
+			sourceTree = "<group>";
+		};
+		78346CF41C198DAE0086C234 /* Settting/Authority */ = {
+			isa = PBXGroup;
+			children = (
+				9602224E1BC9216300010072 /* Setting */,
+				780177101C1A5CCE0016D3F6 /* AuthorityList */,
+			);
+			name = Settting/Authority;
 			sourceTree = "<group>";
 		};
 		78B1830A1BF2EA2F007D5B24 /* Resign/Login */ = {
@@ -2563,7 +2608,7 @@
 				78B1830C1BF2EAF2007D5B24 /* Repair/ReaciveOrders */,
 				78B1830A1BF2EA2F007D5B24 /* Resign/Login */,
 				96805E261C06AF6000E6A103 /* Service */,
-				9602224E1BC9216300010072 /* Setting */,
+				78346CF41C198DAE0086C234 /* Settting/Authority */,
 				7818DBEC1C08251400DC22C6 /* Statistics */,
 				960222661BC9216300010072 /* UserInfo */,
 				78B1830B1BF2EAC8007D5B24 /* WorkOrder */,
@@ -3856,6 +3901,7 @@
 				7818DBEA1C0824D800DC22C6 /* PNScatterChartDataItem.m in Sources */,
 				969A424D1BCBD4DF0034FC84 /* RGCollectionViewCell.m in Sources */,
 				960222911BC9216300010072 /* BXTEvaluationViewController.m in Sources */,
+				780177161C1A5CCE0016D3F6 /* BXTAuthorityListViewController.m in Sources */,
 				9652AE2C1BC9170E009A666D /* SDWebImagePrefetcher.m in Sources */,
 				96021DA31BC919B500010072 /* IQNSArray+Sort.m in Sources */,
 				9652AE321BC9170E009A666D /* UIView+WebCacheOperation.m in Sources */,

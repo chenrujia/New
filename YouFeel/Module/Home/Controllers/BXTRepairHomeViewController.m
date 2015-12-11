@@ -26,6 +26,7 @@
 #import "BXTStatisticsViewController.h"
 #import "BXTMMOrderManagerViewController.h"
 #import "BXTShopListViewController.h"
+#import "BXTAuthorityListViewController.h"
 
 @interface BXTRepairHomeViewController ()
 

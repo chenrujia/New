@@ -60,7 +60,7 @@
     [naviView addSubview:navi_leftButton];
     
     //logo
-    [self createLogoView];
+    //[self createLogoView];
     
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, navBarHeight, SCREEN_WIDTH, 40.f)];
     [backView setBackgroundColor:colorWithHexString(@"ffffff")];
