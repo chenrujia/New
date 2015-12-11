@@ -190,21 +190,6 @@
             }
             BXTStatisticsViewController *StatisticsVC = [[BXTStatisticsViewController alloc] init];
             [self.navigationController pushViewController:StatisticsVC animated:YES];
-            
-            
-//            NSArray *dataArray = [BXTGlobal getUserProperty:U_MYSHOP];
-//            if (dataArray.count == 1) {
-//                // 业务统计
-//                NSDictionary *dict = dataArray[0];
-//                BXTStatisticsViewController *StatisticsVC = [[BXTStatisticsViewController alloc] init];
-//                NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@", dict[@"id"]];
-//                [BXTGlobal shareGlobal].BranchURL = url;
-//                [self.navigationController pushViewController:StatisticsVC animated:YES];
-//            } else {
-//                // 商铺列表
-//                BXTShopListViewController *shopListVC = [[BXTShopListViewController alloc] init];
-//                [self.navigationController pushViewController:shopListVC animated:YES];
-//            }
         }
             break;
         case 6:

@@ -67,7 +67,7 @@
 #define KNAVIVIEWHEIGHT         ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? 64 : 44)
 
 //  请求地址
-#define KURLREQUEST             @"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port"
+#define KURLREQUEST             @"http://admin.hellouf.com/?r=port/Get_iPhone_v2_Port"
 
 //  动态计算高度
 #define MB_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text \

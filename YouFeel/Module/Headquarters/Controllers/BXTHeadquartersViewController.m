@@ -56,7 +56,7 @@
         is_binding = YES;
     }
     
-    [self navigationSetting:@"切换位置" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"添加新项目" andRightTitle:nil andRightImage:nil];
 //    [self navigationSetting];
     [self createTableView];
 }
@@ -190,7 +190,7 @@
     companyInfo.company_id = [companyDic objectForKey:@"id"];
     companyInfo.name = [companyDic objectForKey:@"shop_name"];
     [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",[companyDic objectForKey:@"id"]];
+    NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",[companyDic objectForKey:@"id"]];
     [BXTGlobal shareGlobal].baseURL = url;
     /**请求分店位置**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
