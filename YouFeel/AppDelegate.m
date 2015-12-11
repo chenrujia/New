@@ -305,7 +305,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     NSString *dicStr = [record substringWithRange:NSMakeRange(startRange.location, endRange.location - startRange.location + 1)];
     NSDictionary *taskInfo = [dicStr JSONValue];
-    
+    LogRed(@"通知:%@",taskInfo);
     NSString *shop_id = [taskInfo objectForKey:@"shop_id"];
     [BXTGlobal shareGlobal].newsShopID = shop_id;
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];

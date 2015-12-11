@@ -553,7 +553,7 @@
             orderType.text = @"超时工单";
         }
         
-        place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.place_name,repairDetail.stores_name];
+        place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.area_name,repairDetail.place_name];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
         

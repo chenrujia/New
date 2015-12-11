@@ -49,7 +49,7 @@
         
         self.detailLabel = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 130.f - 10.f - 30.f, 40)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 30.f, 40)];
             label.textColor = colorWithHexString(@"909497");
             label.numberOfLines = 0.f;
             label.lineBreakMode = NSLineBreakByWordWrapping;

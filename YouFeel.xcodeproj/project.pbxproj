@@ -369,6 +369,7 @@
 		96CEC8451BD0F21E00D03B1B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96CEC8441BD0F21E00D03B1B /* CoreLocation.framework */; };
 		96CF3A871C0445E80055FC4B /* AppTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CF3A841C0445E80055FC4B /* AppTools.m */; };
 		96CF3A881C0445E80055FC4B /* CrashManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CF3A861C0445E80055FC4B /* CrashManager.m */; };
+		D9F137856E328841CD72D79B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA5F50D000BC92D1E91E7C7 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -503,6 +504,7 @@
 		78F872C21C095BD5001C6E60 /* BXTProfessionFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTProfessionFooter.xib; sourceTree = "<group>"; };
 		78F873081C09A73C001C6E60 /* BXTIncidenceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTIncidenceView.h; sourceTree = "<group>"; };
 		78F873091C09A73C001C6E60 /* BXTIncidenceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTIncidenceView.m; sourceTree = "<group>"; };
+		90BF6A988968FE6A5238A3AF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		96021D811BC919B500010072 /* IQBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQBarButtonItem.h; sourceTree = "<group>"; };
 		96021D821BC919B500010072 /* IQBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQBarButtonItem.m; sourceTree = "<group>"; };
 		96021D831BC919B500010072 /* IQKeyboardManager.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IQKeyboardManager.bundle; sourceTree = "<group>"; };
@@ -1060,6 +1062,8 @@
 		96CF3A841C0445E80055FC4B /* AppTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppTools.m; sourceTree = "<group>"; };
 		96CF3A851C0445E80055FC4B /* CrashManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashManager.h; sourceTree = "<group>"; };
 		96CF3A861C0445E80055FC4B /* CrashManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashManager.m; sourceTree = "<group>"; };
+		FABDF5345A121873F11CC6E9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		FBA5F50D000BC92D1E91E7C7 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1092,6 +1096,7 @@
 				96CEC8451BD0F21E00D03B1B /* CoreLocation.framework in Frameworks */,
 				9689101C1BD1F599008540D0 /* libGeTuiSdk-1.2.1.a in Frameworks */,
 				960223121BC922DB00010072 /* libsqlite3.tbd in Frameworks */,
+				D9F137856E328841CD72D79B /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1112,6 +1117,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6EBD0DB1119C4D7819346582 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FABDF5345A121873F11CC6E9 /* Pods.debug.xcconfig */,
+				90BF6A988968FE6A5238A3AF /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		780177101C1A5CCE0016D3F6 /* AuthorityList */ = {
 			isa = PBXGroup;
 			children = (
@@ -2489,6 +2503,7 @@
 				9652AB151BC902DF009A666D /* YouFeelTests */,
 				9652AB201BC902DF009A666D /* YouFeelUITests */,
 				9652AB001BC902DF009A666D /* Products */,
+				6EBD0DB1119C4D7819346582 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3357,6 +3372,7 @@
 				968910631BD1F7EA008540D0 /* libz.tbd */,
 				960223111BC922DB00010072 /* libsqlite3.tbd */,
 				96CEC8441BD0F21E00D03B1B /* CoreLocation.framework */,
+				FBA5F50D000BC92D1E91E7C7 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3573,10 +3589,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9652AB261BC902DF009A666D /* Build configuration list for PBXNativeTarget "YouFeel" */;
 			buildPhases = (
+				AAAFEC7E2A95BCE50ACD3BF8 /* Check Pods Manifest.lock */,
 				9652AAFB1BC902DF009A666D /* Sources */,
 				9652AAFC1BC902DF009A666D /* Frameworks */,
 				9652AAFD1BC902DF009A666D /* Resources */,
 				960001D61BD774620037FF57 /* ShellScript */,
+				33F29C2EBAE072FDD7C1E8F7 /* Embed Pods Frameworks */,
+				4760686B218149CB09B94DBC /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3756,6 +3775,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		33F29C2EBAE072FDD7C1E8F7 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4760686B218149CB09B94DBC /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		960001D61BD774620037FF57 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3768,6 +3817,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo \"$CODESIGNING_FOLDER_PATH\" >/tmp/\"$USER.ident\" && echo \"$CODE_SIGN_IDENTITY\" >>/tmp/\"$USER.ident\" && exit; ";
+		};
+		AAAFEC7E2A95BCE50ACD3BF8 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4206,6 +4270,7 @@
 		};
 		9652AB271BC902DF009A666D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FABDF5345A121873F11CC6E9 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4231,11 +4296,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Debug;
 		};
 		9652AB281BC902DF009A666D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 90BF6A988968FE6A5238A3AF /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4260,6 +4327,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Release;
 		};

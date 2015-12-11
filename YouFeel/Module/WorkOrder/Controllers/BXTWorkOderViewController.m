@@ -220,6 +220,7 @@
         notes = @"";
     }
     
+    [self showLoadingMBP:@"新工单创建中..."];
     /**请求新建工单**/
     BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
