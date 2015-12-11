@@ -10,6 +10,8 @@
 #import "BXTHeaderFile.h"
 #import "BXTStatisticsViewController.h"
 #import "BXTDataRequest.h"
+#import "BXTAuthorityListCell.h"
+#import "UIImageView+WebCache.h"
 
 @interface BXTAuthorityListViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -24,7 +26,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self navigationSetting:@"商铺列表" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"项目列表" andRightTitle:nil andRightImage:nil];
     
     self.dataArray = [[NSMutableArray alloc] init];
     self.dataArray = [BXTGlobal getUserProperty:U_MYSHOP];
@@ -44,28 +46,34 @@
 #pragma mark -
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.dataArray.count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellID = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    BXTAuthorityListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTAuthorityListCell" owner:nil options:nil] lastObject];
     }
     
-    NSDictionary *dict = self.dataArray[indexPath.section];
-    cell.textLabel.text = dict[@"shop_name"];
+    NSDictionary *dict = self.dataArray[indexPath.row];
+    [cell.iconView sd_setImageWithURL:dict[@"shop_pic"] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
+    cell.titleView.text = dict[@"shop_name"];
+    cell.addressView.text = [NSString stringWithFormat:@"地址：%@", dict[@"shop_address"]];
+    if ([BXTGlobal isBlankString:dict[@"shop_address"]]) {
+        cell.addressView.text = @"";
+    }
+    
     
     return cell;
 }
 
 -  (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 70;
+    return 80;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -78,14 +86,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self showLoadingMBP:@"权限切换中"];
-    NSDictionary *dict = self.dataArray[indexPath.section];
+    NSDictionary *dict = self.dataArray[indexPath.row];
     
     BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
     companyInfo.company_id = dict[@"id"];
     companyInfo.name = dict[@"shop_name"];
     [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
     
-    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@", dict[@"id"]];
+    NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@", dict[@"id"]];
     [BXTGlobal shareGlobal].baseURL = url;
     
     /**分店登录**/

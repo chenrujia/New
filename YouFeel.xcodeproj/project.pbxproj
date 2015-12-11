@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		780177161C1A5CCE0016D3F6 /* BXTAuthorityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 780177131C1A5CCE0016D3F6 /* BXTAuthorityListViewController.m */; };
+		780177651C1ACF710016D3F6 /* BXTAuthorityListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 780177631C1ACF710016D3F6 /* BXTAuthorityListCell.m */; };
+		780177661C1ACF710016D3F6 /* BXTAuthorityListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 780177641C1ACF710016D3F6 /* BXTAuthorityListCell.xib */; };
 		780E9CDE1C0E90F8002F1CDE /* BXTWorkloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 780E9CDC1C0E90F8002F1CDE /* BXTWorkloadCell.m */; };
 		780E9CDF1C0E90F8002F1CDE /* BXTWorkloadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 780E9CDD1C0E90F8002F1CDE /* BXTWorkloadCell.xib */; };
 		7818DB961C08240F00DC22C6 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7818DB921C08240F00DC22C6 /* libopencore-amrnb.a */; };
@@ -369,7 +371,7 @@
 		96CEC8451BD0F21E00D03B1B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96CEC8441BD0F21E00D03B1B /* CoreLocation.framework */; };
 		96CF3A871C0445E80055FC4B /* AppTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CF3A841C0445E80055FC4B /* AppTools.m */; };
 		96CF3A881C0445E80055FC4B /* CrashManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CF3A861C0445E80055FC4B /* CrashManager.m */; };
-		D9F137856E328841CD72D79B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA5F50D000BC92D1E91E7C7 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D9F137856E328841CD72D79B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA5F50D000BC92D1E91E7C7 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -392,6 +394,9 @@
 /* Begin PBXFileReference section */
 		780177121C1A5CCE0016D3F6 /* BXTAuthorityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAuthorityListViewController.h; sourceTree = "<group>"; };
 		780177131C1A5CCE0016D3F6 /* BXTAuthorityListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAuthorityListViewController.m; sourceTree = "<group>"; };
+		780177621C1ACF710016D3F6 /* BXTAuthorityListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAuthorityListCell.h; sourceTree = "<group>"; };
+		780177631C1ACF710016D3F6 /* BXTAuthorityListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAuthorityListCell.m; sourceTree = "<group>"; };
+		780177641C1ACF710016D3F6 /* BXTAuthorityListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTAuthorityListCell.xib; sourceTree = "<group>"; };
 		780E9CDB1C0E90F8002F1CDE /* BXTWorkloadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTWorkloadCell.h; sourceTree = "<group>"; };
 		780E9CDC1C0E90F8002F1CDE /* BXTWorkloadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTWorkloadCell.m; sourceTree = "<group>"; };
 		780E9CDD1C0E90F8002F1CDE /* BXTWorkloadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTWorkloadCell.xib; sourceTree = "<group>"; };
@@ -1156,6 +1161,9 @@
 		780177151C1A5CCE0016D3F6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				780177621C1ACF710016D3F6 /* BXTAuthorityListCell.h */,
+				780177631C1ACF710016D3F6 /* BXTAuthorityListCell.m */,
+				780177641C1ACF710016D3F6 /* BXTAuthorityListCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3754,6 +3762,7 @@
 				9652ADBA1BC9170D009A666D /* UIBarButtonItemGrid@3x.png in Resources */,
 				964C4AC21C157C0800E6C8C4 /* ImageResources.bundle in Resources */,
 				9607A3C51BE0BC0F000A6C5B /* Emoji.plist in Resources */,
+				780177661C1ACF710016D3F6 /* BXTAuthorityListCell.xib in Resources */,
 				9652ADA51BC9170D009A666D /* ImageSelectedOn@3x.png in Resources */,
 				9652AD981BC9170D009A666D /* MJRefresh.bundle in Resources */,
 				9652ADBC1BC9170D009A666D /* VideoOverlay@2x.png in Resources */,
@@ -3845,6 +3854,7 @@
 				9652ABAE1BC9092B009A666D /* DCAttributeSetter.m in Sources */,
 				782D6BC31C0D6CFC00E1828F /* SPBarChartData.m in Sources */,
 				9652ABEE1BC90DCC009A666D /* ANKeyValueCache.m in Sources */,
+				780177651C1ACF710016D3F6 /* BXTAuthorityListCell.m in Sources */,
 				9652ABEF1BC90DCC009A666D /* ANKeyValueData.m in Sources */,
 				960222FF1BC9216300010072 /* BXTSettingTableViewCell.m in Sources */,
 				960222961BC9216300010072 /* AMRatingControl.m in Sources */,

@@ -10,6 +10,4 @@
 
 @interface BXTChatListViewController : RCConversationListViewController
 
-
-
 @end

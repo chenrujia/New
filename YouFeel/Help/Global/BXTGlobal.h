@@ -124,4 +124,9 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
  */
 + (void)showText:(NSString *)text view:(UIView *)view completionBlock:(void (^)())completion;
 
+/**
+ *  MD5加密
+ */
++ (NSString *)md5:(NSString *)inPutText;
+
 @end

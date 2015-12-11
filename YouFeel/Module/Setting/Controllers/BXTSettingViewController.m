@@ -23,6 +23,8 @@
 #import "BXTHeadquartersInfo.h"
 #import "ANKeyValueTable.h"
 #import "MLImageCrop.h"
+#import "BXTHeadquartersViewController.h"
+#import "BXTChangePassWordViewController.h"
 
 static NSString *settingCellIndentify = @"settingCellIndentify";
 
@@ -295,15 +297,15 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 //section底部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 3)
+    if (section == 4)
     {
         if (!isHaveChecker)
         {
-           return 100.f;
+            return 100.f;
         }
         return 40.f;
     }
-    else if (section == 4 && isHaveChecker)
+    else if (section == 5 && isHaveChecker)
     {
         return 100.f;
     }
@@ -312,7 +314,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 //section底部视图
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 3)
+    if (section == 4)
     {
         if (!isHaveChecker)
         {
@@ -351,7 +353,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         
         return view;
     }
-    else if (section == 4 && isHaveChecker)
+    else if (section == 5 && isHaveChecker)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -382,7 +384,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     {
         return 100.f;
     }
-    else if (indexPath.section == 4 && isHaveChecker)
+    else if (indexPath.section == 5 && isHaveChecker)
     {
         return 124.f;
     }
@@ -393,9 +395,9 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 {
     if (isHaveChecker)
     {
-        return 5;
+        return 6;
     }
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -417,14 +419,14 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     }
     else if (section == 3)
     {
-        return 1;
+        return 2;
     }
     return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4 && isHaveChecker)
+    if (indexPath.section == 5 && isHaveChecker)
     {
         BXTAuditerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AuditerCell"];
         if (!cell)
@@ -534,18 +536,33 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
                 }
             }
         }
+        else if (indexPath.section == 3)
+        {
+            if (indexPath.row == 0) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.detailLable.hidden = NO;
+                cell.titleLabel.frame = CGRectMake(15.f, 15.f, 60.f, 20);
+                cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
+                [cell.auditStatusLabel setFrame:CGRectMake(CGRectGetMaxX(cell.detailLable.frame) + 20.f, 15.f, 80.f, 20.f)];
+                cell.auditStatusLabel.text = verify_state;
+                BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
+                cell.titleLabel.text = @"职   位";
+                cell.detailLable.text = positionInfo.role;
+            }
+            else if (indexPath.row) {
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.titleLabel.frame = CGRectMake(15.f, 15.f, 120.f, 20);
+                cell.titleLabel.text = @"重置密码";
+            }
+            
+        }
         else
         {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.detailLable.hidden = NO;
-            cell.titleLabel.frame = CGRectMake(15.f, 15.f, 60.f, 20);
-            cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
-            [cell.auditStatusLabel setFrame:CGRectMake(CGRectGetMaxX(cell.detailLable.frame) + 20.f, 15.f, 80.f, 20.f)];
-            cell.auditStatusLabel.text = verify_state;
-            BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
-            cell.titleLabel.text = @"职   位";
-            cell.detailLable.text = positionInfo.role;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.titleLabel.frame = CGRectMake(15.f, 15.f, 120.f, 20);
+            cell.titleLabel.text = @"注册新项目";
         }
+        
         return cell;
     }
 }
@@ -555,6 +572,20 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     if (indexPath.section == 0)
     {
         [self addImages];
+    }
+    else if (indexPath.section == 3 && indexPath.row == 1)
+    {
+        // 重置密码
+        NSString *userID = [BXTGlobal getUserProperty:U_USERID];
+        NSString *username = [BXTGlobal getUserProperty:U_USERNAME];
+        NSString *key = [BXTGlobal md5:[NSString stringWithFormat:@"%@%@", userID, username]];
+        BXTChangePassWordViewController *changePW = [[BXTChangePassWordViewController alloc] initWithID:userID andWithKey:key];
+        [self.navigationController pushViewController:changePW animated:YES];
+    }
+    else if (indexPath.section == 4)
+    {
+        BXTHeadquartersViewController *company = [[BXTHeadquartersViewController alloc] initWithType:YES];
+        [self.navigationController pushViewController:company animated:YES];
     }
 }
 
@@ -687,13 +718,13 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

@@ -57,7 +57,7 @@
     if (right_title == nil && image == nil) return nil;
     
     UIButton * nav_rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    nav_rightButton.frame = CGRectMake(SCREEN_WIDTH - 75, 20, 65, 44);
+    nav_rightButton.frame = CGRectMake(SCREEN_WIDTH - 75, 20, 70, 44);
     nav_rightButton.titleLabel.font = [UIFont systemFontOfSize:14];
     if (image)
     {

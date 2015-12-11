@@ -24,8 +24,16 @@
     [self setDisplayConversationTypes:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION)]];
     
     self.title = @"会话";
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"  返回" style:UIBarButtonItemStylePlain target:self action:@selector(navigationLeftButton)];
-    self.navigationItem.leftBarButtonItem = leftItem;
+    UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    navi_leftButton.frame = CGRectMake(0, 20, 44, 44);
+    [navi_leftButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:navi_leftButton];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                       target:nil action:nil];
+    negativeSpacer.width = -10;
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:negativeSpacer, leftItem, nil];
 }
 
 - (void)navigationLeftButton
