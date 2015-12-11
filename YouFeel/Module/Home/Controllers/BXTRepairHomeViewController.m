@@ -34,11 +34,6 @@
 
 @implementation BXTRepairHomeViewController
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -63,9 +58,7 @@
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
     title_label.text = @"我的工单";
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comingNewRepairs) name:@"NewRepairComing" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assignOrderComing) name:@"AssignOrderComing" object:nil];
+    [self addNotifications];
     imgNameArray = [NSMutableArray arrayWithObjects:@"grab_-one",
                     @"repair",
                     @"new",
@@ -105,6 +98,21 @@
     [shop_btn setImageEdgeInsets:UIEdgeInsetsMake(0, titleW+padding, 0, -titleW-padding)];
 }
 
+- (void)addNotifications
+{
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"NewRepairComing" object:nil] subscribeNext:^(id x) {
+        [self comingNewRepairs];
+    }];
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"AssignOrderComing" object:nil] subscribeNext:^(id x) {
+        if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
+        {
+            BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:NO andWithOrderID:nil];
+            [self.navigationController pushViewController:newOrderVC animated:YES];
+        }
+    }];
+}
+
 #pragma mark -
 #pragma mark 事件处理
 - (void)repairClick
@@ -121,15 +129,6 @@
     {
         BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
         [self.navigationController pushViewController:grabOrderVC animated:YES];
-    }
-}
-
-- (void)assignOrderComing
-{
-    if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
-    {
-        BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:NO andWithOrderID:nil];
-        [self.navigationController pushViewController:newOrderVC animated:YES];
     }
 }
 
@@ -210,8 +209,9 @@
         case 6:
         {
             // 消息
-            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
-            [self.navigationController pushViewController:messageVC animated:YES];
+//            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
+//            [self.navigationController pushViewController:messageVC animated:YES];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"Notify" object:@"1"];
         }
             break;
         case 7:

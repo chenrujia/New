@@ -15,17 +15,14 @@
 
 @implementation BXTHaveEvaluationView
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestData) name:@"EvaluateSuccess" object:nil];
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"EvaluateSuccess" object:nil] subscribeNext:^(id x) {
+            [self requestData];
+        }];
         
         datasource = [NSMutableArray array];
         currentTable = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];

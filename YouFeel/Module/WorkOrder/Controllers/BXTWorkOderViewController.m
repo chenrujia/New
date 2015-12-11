@@ -63,8 +63,6 @@
         area.place_name = [areaDic objectForKey:@"place_name"];
         [BXTGlobal setUserProperty:area withKey:U_AREA];
     }
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
@@ -72,8 +70,7 @@
     [super viewDidLoad];
     
     [BXTGlobal shareGlobal].maxPics = 3;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTable) name:@"ChangeShopLocation" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publicRepair:) name:@"PublicRepair" object:nil];
+    [self allNotifications];
     
     repairState = @"2";
     photosArray = [[NSMutableArray alloc] init];
@@ -94,6 +91,16 @@
     self.navigationController.navigationBar.hidden = YES;
 }
 
+- (void)allNotifications
+{
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeShopLocation" object:nil] subscribeNext:^(id x) {
+        [currentTableView reloadData];
+    }];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"PublicRepair" object:nil] subscribeNext:^(id x) {
+        [currentTableView reloadData];
+    }];
+}
+
 #pragma mark -
 #pragma mark 初始化视图
 - (void)createTableView
@@ -108,16 +115,6 @@
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)reloadTable
-{
-    [currentTableView reloadData];
-}
-
-- (void)publicRepair:(NSNotification *)notification
-{
-    [currentTableView reloadData];
-}
-
 - (void)selectFloorInfo:(BXTFloorInfo *)floor areaInfo:(BXTAreaInfo *)area
 {
     isPublic = YES;

@@ -46,7 +46,9 @@
 {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewData) name:@"RequestRepairList" object:nil];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestRepairList" object:nil] subscribeNext:^(id x) {
+        [self loadNewData];
+    }];
     
     repairListArray = [[NSMutableArray alloc] init];
     if (_repairVCType == ShopsVCType)

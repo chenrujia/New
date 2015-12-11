@@ -21,17 +21,16 @@
 
 @implementation BXTOrderListView
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andRepairerIsReacive:(NSString *)reacive
 {
     self = [super initWithFrame:frame];
     if (self)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:@"ReloadData" object:nil];
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ReloadData" object:nil] subscribeNext:^(id x) {
+            [repairListArray removeAllObjects];
+            [currentTableView reloadData];
+            [self loadNewData];
+        }];
         
         refreshType = Down;
         currentPage = 1;
@@ -67,13 +66,6 @@
         [self loadNewData];
     }
     return self;
-}
-
-- (void)reloadAllData
-{
-    [repairListArray removeAllObjects];
-    [currentTableView reloadData];
-    [self loadNewData];
 }
 
 - (void)loadNewData

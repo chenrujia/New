@@ -1031,6 +1031,7 @@
 		96AABA531BE0BB220071B6FA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = RongCloudKit.strings; sourceTree = "<group>"; };
 		96AD525F1BF4341C00F02BE7 /* BXTNewOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNewOrderViewController.h; sourceTree = "<group>"; };
 		96AD52601BF4341C00F02BE7 /* BXTNewOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewOrderViewController.m; sourceTree = "<group>"; };
+		96BA7C411C1ABFAE00F02EF0 /* BXTPCH.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BXTPCH.pch; sourceTree = "<group>"; };
 		96C0FEE61BDB357100580355 /* BXTFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFeedbackViewController.h; sourceTree = "<group>"; };
 		96C0FEE71BDB357100580355 /* BXTFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFeedbackViewController.m; sourceTree = "<group>"; };
 		96C0FEEE1BDB445E00580355 /* BXTCustomerServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomerServiceViewController.h; sourceTree = "<group>"; };
@@ -2550,6 +2551,7 @@
 			children = (
 				9652AB161BC902DF009A666D /* YouFeelTests.m */,
 				9652AB181BC902DF009A666D /* Info.plist */,
+				96BA7C411C1ABFAE00F02EF0 /* BXTPCH.pch */,
 			);
 			path = YouFeelTests;
 			sourceTree = "<group>";
@@ -4282,6 +4284,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/YouFeel/Library/RongCloud",
 				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/YouFeelTests/BXTPCH.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = YouFeel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -4291,7 +4294,7 @@
 					"$(PROJECT_DIR)/YouFeel/Library/GeTui",
 					"$(PROJECT_DIR)/YouFeel/Library/RongCloud",
 				);
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
@@ -4314,6 +4317,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/YouFeel/Library/RongCloud",
 				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/YouFeelTests/BXTPCH.pch";
 				INFOPLIST_FILE = YouFeel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -4322,7 +4326,7 @@
 					"$(PROJECT_DIR)/YouFeel/Library/GeTui",
 					"$(PROJECT_DIR)/YouFeel/Library/RongCloud",
 				);
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";

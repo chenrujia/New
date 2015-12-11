@@ -56,11 +56,6 @@
 
 @implementation BXTRepairWordOrderViewController
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -68,7 +63,9 @@
     manIDs = [NSMutableArray array];
     self.mans = [NSMutableArray array];
     [BXTGlobal shareGlobal].maxPics = 3;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTable) name:@"ChangeShopLocation" object:nil];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeShopLocation" object:nil] subscribeNext:^(id x) {
+        [currentTableView reloadData];
+    }];
     
     repairState = @"2";
     photosArray = [[NSMutableArray alloc] init];
@@ -104,11 +101,6 @@
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)reloadTable
-{
-    [currentTableView reloadData];
-}
-
 - (void)selectFloorInfo:(BXTFloorInfo *)floor areaInfo:(BXTAreaInfo *)area
 {
     [currentTableView reloadData];

@@ -15,8 +15,9 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTable) name:@"ChangeShopLocation" object:nil];
-        
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeShopLocation" object:nil] subscribeNext:^(id x) {
+            [currentTableView reloadData];
+        }];
         self.viewType = type;
         BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
         if (departmentInfo && [departmentInfo.dep_id integerValue] == 2)
@@ -39,11 +40,6 @@
         [self addSubview:currentTableView];
     }
     return self;
-}
-
-- (void)reloadTable
-{
-    [currentTableView reloadData];
 }
 
 - (void)showMBP:(NSString *)text
@@ -360,11 +356,6 @@
 - (void)hudWasHidden:(MBProgressHUD *)hud
 {
     [hud removeFromSuperview];
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

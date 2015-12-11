@@ -35,7 +35,9 @@
     [super viewDidLoad];
     [self navigationSetting:@"工单管理" andRightTitle:nil andRightImage:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewData) name:@"RequestRepairList" object:nil];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestRepairList" object:nil] subscribeNext:^(id x) {
+        [self loadNewData];
+    }];
     repairListArray = [[NSMutableArray alloc] init];
     
     [self createTableView];

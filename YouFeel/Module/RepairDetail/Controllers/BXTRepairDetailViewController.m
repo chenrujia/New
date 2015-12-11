@@ -74,7 +74,12 @@
     [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
     [self createSubViews];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideEvaBtn) name:@"HiddenEvaluationBtn" object:nil];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"HiddenEvaluationBtn" object:nil] subscribeNext:^(id x) {
+        [evaBackView removeFromSuperview];
+        evaBackView = nil;
+        [evaluationBtn removeFromSuperview];
+        evaluationBtn = nil;
+    }];
     
     /**获取报修列表**/
     [self showLoadingMBP:@"努力加载中..."];
@@ -212,14 +217,6 @@
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)hideEvaBtn
-{
-    [evaBackView removeFromSuperview];
-    evaBackView = nil;
-    [evaluationBtn removeFromSuperview];
-    evaluationBtn = nil;
-}
-
 - (void)evaluate
 {
     BXTEvaluationViewController *evaluationVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]];

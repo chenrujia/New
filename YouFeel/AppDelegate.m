@@ -9,13 +9,10 @@
 #import "AppDelegate.h"
 #import "BXTHeaderFile.h"
 #import "NSString+URL.h"
-#import "BXTLoginViewController.h"
-#import "UINavigationController+YRBackGesture.h"
-#import "BXTShopsHomeViewController.h"
-#import "BXTRepairHomeViewController.h"
-#import "BXTGrabOrderViewController.h"
-#import "BXTHeadquartersViewController.h"
 #import "CrashManager.h"
+#import "BXTLoginViewController.h"
+#import "BXTHeadquartersViewController.h"
+#import "UINavigationController+YRBackGesture.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -86,7 +83,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMessageNotification:) name:RCKitDispatchMessageNotification object:nil];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:RCKitDispatchMessageNotification object:nil] subscribeNext:^(id x) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
+    }];
+    
     //设置会话列表头像和会话界面头像
     [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
     //设置接收消息代理
@@ -562,11 +562,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         UINavigationController *_navi = [[UINavigationController alloc] initWithRootViewController:loginVC];
         self.window.rootViewController = _navi;
     }
-}
-
-- (void)didReceiveMessageNotification:(NSNotification *)notification
-{
-//    [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
 }
 
 - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left

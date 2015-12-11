@@ -40,7 +40,6 @@ static NSString *cellIndentify = @"cellIndentify";
     [self navigationSetting:@"注册" andRightTitle:nil andRightImage:nil];
     [self initContentViews];
     [self setupForDismissKeyboard];
-    
 }
 
 #pragma mark -
@@ -55,91 +54,9 @@ static NSString *cellIndentify = @"cellIndentify";
 }
 
 #pragma mark -
-#pragma mark 事件处理
-- (void)nextTapClick
-{
-    if (![BXTGlobal validateMobile:userName])
-    {
-        [self showMBP:@"手机号格式不对" withBlock:nil];
-    }
-    else if (![BXTGlobal validateCAPTCHA:codeNumber])
-    {
-        [self showMBP:@"请输入正确4位验证码" withBlock:nil];
-    }
-    else if (![codeNumber isEqualToString:returncode])
-    {
-        [self showMBP:@"验证码不正确" withBlock:nil];
-    }
-    else if (![BXTGlobal validatePassword:passWord])
-    {
-        [self showMBP:@"请输入至少6位密码，仅限英文、数字" withBlock:nil];
-    }
-    else
-    {
-        [BXTGlobal setUserProperty:userName withKey:U_USERNAME];
-        [BXTGlobal setUserProperty:passWord withKey:U_PASSWORD];
-        
-        BXTNickNameViewController *nickNameVC = [[BXTNickNameViewController alloc] init];
-        [self.navigationController pushViewController:nickNameVC animated:YES];
-    }
-}
-
-- (void)backBtnClick
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (void)getVerCode
-{
-    if ([BXTGlobal validateMobile:userName])
-    {
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request mobileVerCode:userName];
-        codeBtn.userInteractionEnabled = NO;
-        [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    }
-    else
-    {
-        [self showMBP:@"手机号格式不对" withBlock:nil];
-    }
-}
-
-#pragma mark -
 #pragma mark 代理
-/**
- *  UITextFiledDelegate
- */
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    NSString *resultString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if (textField.tag == UserNameTag)
-    {
-        userName = resultString;
-        if (resultString.length > 11)
-        {
-            return NO;
-        }
-    }
-    else if (textField.tag == CodeTag)
-    {
-        codeNumber = resultString;
-    }
-    else if (textField.tag == PassWordTag)
-    {
-        passWord = resultString;
-    }
-    return YES;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark -
+#pragma mark UITableViewDelegate & UITableViewDatasource
 //section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -184,7 +101,32 @@ static NSString *cellIndentify = @"cellIndentify";
         [nextTapBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         nextTapBtn.layer.masksToBounds = YES;
         nextTapBtn.layer.cornerRadius = 6.f;
-        [nextTapBtn addTarget:self action:@selector(nextTapClick) forControlEvents:UIControlEventTouchUpInside];
+        [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            if (![BXTGlobal validateMobile:userName])
+            {
+                [self showMBP:@"手机号格式不对" withBlock:nil];
+            }
+            else if (![BXTGlobal validateCAPTCHA:codeNumber])
+            {
+                [self showMBP:@"请输入正确4位验证码" withBlock:nil];
+            }
+            else if (![codeNumber isEqualToString:returncode])
+            {
+                [self showMBP:@"验证码不正确" withBlock:nil];
+            }
+            else if (![BXTGlobal validatePassword:passWord])
+            {
+                [self showMBP:@"请输入至少6位密码，仅限英文、数字" withBlock:nil];
+            }
+            else
+            {
+                [BXTGlobal setUserProperty:userName withKey:U_USERNAME];
+                [BXTGlobal setUserProperty:passWord withKey:U_PASSWORD];
+                
+                BXTNickNameViewController *nickNameVC = [[BXTNickNameViewController alloc] init];
+                [self.navigationController pushViewController:nickNameVC animated:YES];
+            }
+        }];
         [view addSubview:nextTapBtn];
         return view;
     }
@@ -222,6 +164,12 @@ static NSString *cellIndentify = @"cellIndentify";
         cell.textField.placeholder = @"请输入有效的手机号码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         cell.textField.tag = UserNameTag;
+        [[cell.textField.rac_textSignal filter:^BOOL(id value) {
+            NSString *str = value;
+            return str.length == 11;
+        }] subscribeNext:^(id x) {
+            userName = x;
+        }];
         cell.codeButton.hidden = YES;
     }
     else if (indexPath.section == 1)
@@ -230,9 +178,25 @@ static NSString *cellIndentify = @"cellIndentify";
         cell.textField.placeholder = @"请输入短信验证码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         cell.codeButton.hidden = NO;
-        [cell.codeButton addTarget:self action:@selector(getVerCode) forControlEvents:UIControlEventTouchUpInside];
+        [[cell.codeButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            if ([BXTGlobal validateMobile:userName])
+            {
+                [self showLoadingMBP:@"正在获取..."];
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request mobileVerCode:userName];
+                codeBtn.userInteractionEnabled = NO;
+                [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            }
+            else
+            {
+                [self showMBP:@"手机号格式不对" withBlock:nil];
+            }
+        }];
         codeBtn = cell.codeButton;
         cell.textField.tag = CodeTag;
+        [cell.textField.rac_textSignal subscribeNext:^(id x) {
+            codeNumber = x;
+        }];
     }
     else
     {
@@ -241,6 +205,9 @@ static NSString *cellIndentify = @"cellIndentify";
         cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
         cell.codeButton.hidden = YES;
         cell.textField.tag = PassWordTag;
+        [cell.textField.rac_textSignal subscribeNext:^(id x) {
+            passWord = x;
+        }];
     }
     
     cell.boyBtn.hidden = YES;
@@ -250,19 +217,23 @@ static NSString *cellIndentify = @"cellIndentify";
     return cell;
 }
 
-/**
- *  BXTDataRequestDelegate
- */
+#pragma mark -
+#pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response
                 requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
-    NSLog(@"----- %@", dic);
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         returncode = [NSString stringWithFormat:@"%@", [dic objectForKey:@"verification_code"]];
         [self updateTime];
     }
+}
+
+- (void)requestError:(NSError *)error
+{
+    
 }
 
 - (void)updateTime
@@ -290,11 +261,6 @@ static NSString *cellIndentify = @"cellIndentify";
         }
     });
     dispatch_resume(_time);
-}
-
-- (void)requestError:(NSError *)error
-{
-    
 }
 
 - (void)didReceiveMemoryWarning

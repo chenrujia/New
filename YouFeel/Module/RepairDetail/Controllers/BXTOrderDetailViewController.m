@@ -78,11 +78,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -98,7 +93,9 @@
     }
     [self createSubViews];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestDetail) name:@"RequestDetail" object:nil];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestDetail" object:nil] subscribeNext:^(id x) {
+        [self requestDetail];
+    }];
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])

@@ -21,7 +21,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 #define NickNameTag 11
 #define SexTag 12
 
-@interface BXTNickNameViewController ()<UITextFieldDelegate,MBProgressHUDDelegate,BXTDataResponseDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface BXTNickNameViewController ()<MBProgressHUDDelegate,BXTDataResponseDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     NSString *nickName;
     NSString *sex;
@@ -53,30 +53,6 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)doneClick
-{
-    [self.view endEditing:YES];
-    
-    if (![BXTGlobal validateUserName:nickName]) {
-        [self showMBP:@"请输入您的真实姓名" withBlock:nil];
-        return;
-    }
-    
-    [BXTGlobal setUserProperty:@[] withKey:U_MYSHOP];
-    
-    [self showLoadingMBP:@"注册中..."];
-    [BXTGlobal setUserProperty:nickName withKey:U_NAME];
-    [BXTGlobal setUserProperty:sex withKey:U_SEX];
-    
-    NSString *userName = [BXTGlobal getUserProperty:U_USERNAME];
-    NSString *passWord = [BXTGlobal getUserProperty:U_PASSWORD];
-    
-    NSDictionary *userInfoDic = @{@"name":nickName,@"password":passWord,@"username":userName,@"gender":sex,@"mailmatch":@"123",@"roletype":@"1",@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
-    
-    BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dataRequest resignUser:userInfoDic];
-}
-
 - (void)sexClick:(UIButton *)btn
 {
     BXTResignTableViewCell *cell = [currentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
@@ -95,28 +71,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 }
 
 #pragma mark -
-#pragma mark 代理
-/**
- * UITextFiledDelegate
- */
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
-{
-    if (textField.tag == NickNameTag)
-    {
-        nickName = textField.text;
-    }
-    return YES;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
-/**
- * UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark UITableViewDelegate & UITableViewDatasource
 //section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -161,7 +116,27 @@ static NSString *cellIndentify = @"resignCellIndentify";
         [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         doneBtn.layer.masksToBounds = YES;
         doneBtn.layer.cornerRadius = 6.f;
-        [doneBtn addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
+        [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [self resignFirstResponder];
+            if (![BXTGlobal validateUserName:nickName])
+            {
+                [self showMBP:@"请输入您的真实姓名" withBlock:nil];
+                return;
+            }
+            
+            [BXTGlobal setUserProperty:@[] withKey:U_MYSHOP];
+            [self showLoadingMBP:@"注册中..."];
+            [BXTGlobal setUserProperty:nickName withKey:U_NAME];
+            [BXTGlobal setUserProperty:sex withKey:U_SEX];
+            
+            NSString *userName = [BXTGlobal getUserProperty:U_USERNAME];
+            NSString *passWord = [BXTGlobal getUserProperty:U_PASSWORD];
+            
+            NSDictionary *userInfoDic = @{@"name":nickName,@"password":passWord,@"username":userName,@"gender":sex,@"mailmatch":@"123",@"roletype":@"1",@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+            
+            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+            [dataRequest resignUser:userInfoDic];
+        }];
         [view addSubview:doneBtn];
         return view;
     }
@@ -210,6 +185,9 @@ static NSString *cellIndentify = @"resignCellIndentify";
         cell.boyBtn.hidden = YES;
         cell.girlBtn.hidden = YES;
         cell.textField.hidden = NO;
+        [cell.textField.rac_textSignal subscribeNext:^(id x) {
+            nickName = x;
+        }];
     }
     else
     {
@@ -222,15 +200,13 @@ static NSString *cellIndentify = @"resignCellIndentify";
         [cell.girlBtn addTarget:self action:@selector(sexClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    cell.textField.delegate = self;
     cell.codeButton.hidden = YES;
 
     return cell;
 }
 
-/**
- * BXTDataResponseDelegate
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response
                 requeseType:(RequestType)type
 {

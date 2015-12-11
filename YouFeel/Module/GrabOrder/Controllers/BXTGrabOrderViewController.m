@@ -8,7 +8,6 @@
 
 #import "BXTGrabOrderViewController.h"
 #import "BXTHeaderForVC.h"
-#include <math.h>
 #import "WZFlashButton.h"
 #import "MDRadialProgressView.h"
 #import "RGCardViewLayout.h"
@@ -39,11 +38,6 @@
 
 @implementation BXTGrabOrderViewController
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -62,14 +56,67 @@
     player.volume = 0.8f;
     player.numberOfLoops = -1;
     [self afterTimeWithSection:0];
-    
-    
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     [self createCollectionView];
     
     markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createSubviews:) name:@"SUBGROUP_NOTIFICATION" object:nil];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"SUBGROUP_NOTIFICATION" object:nil] subscribeNext:^(id x) {
+        
+        NSNotification *notify = x;
+        CGFloat arc_height = IS_IPHONE6 ? 168.f : 112.f;
+        UIView *arc_View = [[UIView alloc] initWithFrame:CGRectMake(0, 0, arc_height, arc_height)];
+        arc_View.center = CGPointMake(SCREEN_WIDTH/2.f, 0);
+        arc_View.layer.masksToBounds = YES;
+        arc_View.layer.cornerRadius = arc_height/2.f;
+        arc_View.backgroundColor = colorWithHexString(@"febc2d");
+        
+        self.radialProgressView = ({
+            
+            CGFloat radia_height = IS_IPHONE6 ? 130.f : 86.7f;
+            MDRadialProgressView *radialView = [[MDRadialProgressView alloc] initWithFrame:CGRectMake(0, 0, radia_height, radia_height)];
+            radialView.center = CGPointMake(arc_height/2.f, arc_height/2.f);
+            radialView.progressTotal = 20;
+            radialView.progressCurrent = 0;
+            radialView.completedColor = [UIColor whiteColor];
+            radialView.incompletedColor = colorWithHexString(@"ffcc59");
+            radialView.thickness = 10;
+            radialView.backgroundColor = colorWithHexString(@"febc2d");
+            radialView.sliceDividerHidden = NO;
+            radialView.sliceDividerColor = colorWithHexString(@"febc2d");
+            radialView.sliceDividerThickness = 1;
+            [arc_View addSubview:radialView];
+            radialView;
+            
+        });
+        
+        self.timeLabel = ({
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30.f)];
+            label.center = CGPointMake(arc_height/2.f, arc_height/2.f);
+            label.textAlignment = NSTextAlignmentCenter;
+            label.textColor = [UIColor whiteColor];
+            label.font = [UIFont boldSystemFontOfSize:20.f];
+            label.text = @"60s";
+            [arc_View addSubview:label];
+            label;
+            
+        });
+        
+        CGFloat grab_buttonH = SCREEN_WIDTH/4.57;
+        UIButton *grab_button = [[UIButton alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-grab_buttonH, SCREEN_WIDTH, grab_buttonH)];
+        [grab_button setBackgroundImage:[UIImage imageNamed:@"Grab_btn"] forState:UIControlStateNormal];
+        [grab_button addTarget:self action:@selector(reaciveOrder) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:grab_button];
+        
+        UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, grab_buttonH-30, SCREEN_WIDTH-120, 30)];
+        contentLabel.text = notify.object;
+        contentLabel.textColor = [UIColor whiteColor];
+        contentLabel.font = [UIFont systemFontOfSize:13];
+        contentLabel.textAlignment = NSTextAlignmentCenter;
+        [grab_button addSubview:contentLabel];
+        
+    }];
 }
 
 #pragma mark -
@@ -85,62 +132,6 @@
     itemsCollectionView.showsHorizontalScrollIndicator = NO;
     itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f6");
     [self.view addSubview:itemsCollectionView];
-    
-}
-
-- (void)createSubviews:(NSNotification *)notify
-{
-    CGFloat arc_height = IS_IPHONE6 ? 168.f : 112.f;
-    UIView *arc_View = [[UIView alloc] initWithFrame:CGRectMake(0, 0, arc_height, arc_height)];
-    arc_View.center = CGPointMake(SCREEN_WIDTH/2.f, 0);
-    arc_View.layer.masksToBounds = YES;
-    arc_View.layer.cornerRadius = arc_height/2.f;
-    arc_View.backgroundColor = colorWithHexString(@"febc2d");
-    
-    self.radialProgressView = ({
-        
-        CGFloat radia_height = IS_IPHONE6 ? 130.f : 86.7f;
-        MDRadialProgressView *radialView = [[MDRadialProgressView alloc] initWithFrame:CGRectMake(0, 0, radia_height, radia_height)];
-        radialView.center = CGPointMake(arc_height/2.f, arc_height/2.f);
-        radialView.progressTotal = 20;
-        radialView.progressCurrent = 0;
-        radialView.completedColor = [UIColor whiteColor];
-        radialView.incompletedColor = colorWithHexString(@"ffcc59");
-        radialView.thickness = 10;
-        radialView.backgroundColor = colorWithHexString(@"febc2d");
-        radialView.sliceDividerHidden = NO;
-        radialView.sliceDividerColor = colorWithHexString(@"febc2d");
-        radialView.sliceDividerThickness = 1;
-        [arc_View addSubview:radialView];
-        radialView;
-        
-    });
-    
-    self.timeLabel = ({
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30.f)];
-        label.center = CGPointMake(arc_height/2.f, arc_height/2.f);
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor whiteColor];
-        label.font = [UIFont boldSystemFontOfSize:20.f];
-        label.text = @"60s";
-        [arc_View addSubview:label];
-        label;
-        
-    });
-    
-    CGFloat grab_buttonH = SCREEN_WIDTH/4.57;
-    UIButton *grab_button = [[UIButton alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-grab_buttonH, SCREEN_WIDTH, grab_buttonH)];
-    [grab_button setBackgroundImage:[UIImage imageNamed:@"Grab_btn"] forState:UIControlStateNormal];
-    [grab_button addTarget:self action:@selector(reaciveOrder) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:grab_button];
-    
-    UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, grab_buttonH-30, SCREEN_WIDTH-120, 30)];
-    contentLabel.text = notify.object;
-    contentLabel.textColor = [UIColor whiteColor];
-    contentLabel.font = [UIFont systemFontOfSize:13];
-    contentLabel.textAlignment = NSTextAlignmentCenter;
-    [grab_button addSubview:contentLabel];
 }
 
 #pragma mark -

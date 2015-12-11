@@ -29,11 +29,6 @@
 
 @implementation BXTHomeViewController
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -47,13 +42,19 @@
         [self.navigationController.navigationBar setBarTintColor:colorWithHexString(@"3cafff")];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newsComing:) name:@"NewsComing" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(haveConnact) name:@"HaveConnact" object:nil];
+    [self addNotifications];
     [self createLogoView];
     [self loginRongCloud];
     datasource = [NSMutableArray array];
-    
-    [self haveConnact];
+    NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (users)
+    {
+        usersArray = [NSMutableArray arrayWithArray:users];
+    }
+    else
+    {
+        usersArray = [NSMutableArray array];
+    }
     
     if ([BXTGlobal shareGlobal].isRepair)
     {
@@ -68,6 +69,35 @@
     
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request messageList];
+}
+
+- (void)addNotifications
+{
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"NewsComing" object:nil] subscribeNext:^(id x) {
+        NSNotification *notification = x;
+        NSString *str = notification.object;
+        if ([str isEqualToString:@"1"])
+        {
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request messageList];
+        }
+        else if ([str isEqualToString:@"2"])
+        {
+            [itemsCollectionView reloadData];
+        }
+    }];
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"HaveConnact" object:nil] subscribeNext:^(id x) {
+        NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
+        if (users)
+        {
+            usersArray = [NSMutableArray arrayWithArray:users];
+        }
+        else
+        {
+            usersArray = [NSMutableArray array];
+        }
+    }];
 }
 
 #pragma mark -
@@ -150,8 +180,7 @@
 {
 //    BXTHeadquartersViewController *company = [[BXTHeadquartersViewController alloc] initWithType:YES];
 //    [self.navigationController pushViewController:company animated:YES];
-    
-    
+
     // 商铺列表
     BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
     [self.navigationController pushViewController:alVC animated:YES];
@@ -170,33 +199,6 @@
 - (void)repairClick
 {
     
-}
-
-- (void)newsComing:(NSNotification *)notification
-{
-    NSString *str = notification.object;
-    if ([str isEqualToString:@"1"])
-    {
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request messageList];
-    }
-    else if ([str isEqualToString:@"2"])
-    {
-        [itemsCollectionView reloadData];
-    }
-}
-
-- (void)haveConnact
-{
-    NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
-    if (users)
-    {
-        usersArray = [NSMutableArray arrayWithArray:users];
-    }
-    else
-    {
-        usersArray = [NSMutableArray array];
-    }
 }
 
 #pragma mark -
