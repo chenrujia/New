@@ -14,6 +14,7 @@
 #include <math.h>
 #import "BXTDataRequest.h"
 #import "BXTHeadquartersViewController.h"
+#import "BXTAuthorityListViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -147,8 +148,23 @@
 
 - (void)shopClick
 {
-    BXTHeadquartersViewController *company = [[BXTHeadquartersViewController alloc] initWithType:YES];
-    [self.navigationController pushViewController:company animated:YES];
+//    BXTHeadquartersViewController *company = [[BXTHeadquartersViewController alloc] initWithType:YES];
+//    [self.navigationController pushViewController:company animated:YES];
+    
+    
+    // 商铺列表
+    BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
+    [self.navigationController pushViewController:alVC animated:YES];
+    
+//        NSArray *dataArray = [BXTGlobal getUserProperty:U_MYSHOP];
+//        if (dataArray.count == 1) {
+//            // 业务统计
+//            [BXTGlobal showText:@"暂无权限" view:self.view completionBlock:nil];
+//        } else {
+//            // 商铺列表
+//            BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
+//            [self.navigationController pushViewController:alVC animated:YES];
+//        }
 }
 
 - (void)repairClick
