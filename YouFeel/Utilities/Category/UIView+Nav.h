@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^HaveHidden)(BOOL hidden);
+
 @interface UIView (Nav)
 
 - (UINavigationController *)navigation;
