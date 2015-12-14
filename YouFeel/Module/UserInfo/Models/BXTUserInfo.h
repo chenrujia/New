@@ -37,6 +37,7 @@
 #define U_MYSHOP       @"my_shop"
 #define U_IMTOKEN      @"im_token"
 #define U_USERSARRAY   @"usersArray"
+#define U_TOKEN           @"token"
 
 @interface BXTUserInfo : NSObject
 
@@ -61,5 +62,6 @@
 @property (nonatomic ,strong) NSArray             *my_shop;
 @property (nonatomic ,strong) NSString            *im_token;
 @property (nonatomic ,strong) NSMutableArray      *usersArray;
+@property (nonatomic, strong) NSString             *token;
 
 @end

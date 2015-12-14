@@ -9,6 +9,8 @@
 #import "BXTWorkloadViewController.h"
 #import "BXTWorkloadCell.h"
 
+#define Margin 5
+
 @interface BXTWorkloadViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 {
     CGFloat bgViewH;
@@ -31,7 +33,6 @@
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
     
     [self showLoadingMBP:@"数据加载中..."];
-    
     
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -85,26 +86,27 @@
         maxDouble = 1;
     }
     
+    CGFloat bgViewY = 20;
+    
+    
     UILabel *lineY = [[UILabel alloc] initWithFrame:CGRectMake(85, 10, SCREEN_WIDTH-120, 1)];
     lineY.backgroundColor = colorWithHexString(@"#d9d9d9");
     [newCell.contentView addSubview:lineY];
-    UILabel *lineYMax = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-20, 5, 20, 15)];
+    UILabel *lineYMax = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-33, 5, 33, 15)];
     lineYMax.text = [NSString stringWithFormat:@"%@", maxNum];
     lineYMax.textColor = colorWithHexString(@"#666666");
     lineYMax.font = [UIFont systemFontOfSize:12];
     [newCell addSubview:lineYMax];
-    UILabel *lineX = [[UILabel alloc] initWithFrame:CGRectMake(84, 10, 1, workloadArray.count*(bgViewH+10)+5)];
+    UILabel *lineX = [[UILabel alloc] initWithFrame:CGRectMake(84, 10, 1, workloadArray.count*(bgViewH+Margin)+15)];
     lineX.backgroundColor = colorWithHexString(@"#d9d9d9");
     [newCell.contentView addSubview:lineX];
     
-    
-    CGFloat bgViewY = 20;
-    CGFloat margin = 5;
+
     for (int i=0; i<workloadArray.count; i++) {
         NSDictionary *dict = workloadArray[i];
         int count = [[NSString stringWithFormat:@"%@", dict[@"sum_number"]] doubleValue];
         
-        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(15, bgViewY+(bgViewH+margin)*i, SCREEN_WIDTH-15, bgViewH)];
+        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(15, bgViewY+(bgViewH+Margin)*i, SCREEN_WIDTH-15, bgViewH)];
         bgView.backgroundColor = [UIColor clearColor];
         [newCell.contentView addSubview:bgView];
         
@@ -172,7 +174,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *dataDict = self.dataArray[indexPath.section];
     NSArray *workloadArray = dataDict[@"workload"];
-    CGFloat viViewH = (workloadArray.count-1) * bgViewH + 160;
+    CGFloat viViewH = (workloadArray.count-1) * (bgViewH+Margin) + 150;
     return viViewH;
 }
 
@@ -274,7 +276,7 @@
             break;
     }
     
-    [self showLoadingMBP:@"数据加载中"];
+    [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_workloadWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
@@ -282,7 +284,7 @@
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
-        [self showLoadingMBP:@"数据加载中"];
+        [self showLoadingMBP:@"数据加载中..."];
         
         /**饼状图**/
         if (!selectedDate) {

@@ -35,6 +35,7 @@
     // Do any additional setup after loading the view.
     
     [self showLoadingMBP:@"数据加载中..."];
+    
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**饼状图**/
@@ -333,7 +334,6 @@
     {
         [self.headerView.pieView removeFromSuperview];
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
-        [self showLoadingMBP:@"数据加载中"];
         
         /**饼状图**/
         if (!selectedDate)

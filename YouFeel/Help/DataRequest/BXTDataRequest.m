@@ -695,6 +695,14 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)exit_loginWithClientID:(NSString *)clientid
+{
+    self.requestType = Exit_Login;
+    NSDictionary *dic = @{@"clientid": clientid};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Login&opt=exit_login",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {
@@ -710,6 +718,10 @@ andRepairerIsReacive:(NSString *)reacive
          NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
          NSDictionary *dictionary = [response JSONValue];
          [_delegate requestResponseData:dictionary requeseType:_requestType];
+         // token验证失败
+         if ([dictionary[@"returncode"] isEqualToString:@"037"]) {
+             NSLog(@"\n\n\n---------------token验证失败----------------\n\n\n");
+         }
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          [_delegate requestError:error];
          LogBlue(@"error:%@",error);

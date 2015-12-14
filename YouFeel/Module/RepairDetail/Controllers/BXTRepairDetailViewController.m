@@ -149,20 +149,14 @@
     level = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(cause.frame) + 10.f, CGRectGetWidth(cause.frame), 20)];
     level.textColor = colorWithHexString(@"000000");
     level.font = [UIFont boldSystemFontOfSize:17.f];
-    NSString *str;
-    NSRange range;
     if (_repairInfo.urgent == 2)
     {
-        str = @"等级:一般";
-        range = [str rangeOfString:@"一般"];
-        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-        level.attributedText = attributeStr;
+        level.text = @"等级:一般";
     }
     else
     {
-        str = @"等级:紧急";
-        range = [str rangeOfString:@"紧急"];
+        NSString *str = @"等级:紧急";
+        NSRange range = [str rangeOfString:@"紧急"];
         NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
         level.attributedText = attributeStr;
@@ -343,6 +337,8 @@
     conversationVC.targetId = userInfo.userId;
     conversationVC.userName = userInfo.name;
     conversationVC.title = userInfo.name;
+    // 删除位置功能
+    [conversationVC.pluginBoardView removeItemAtIndex:2];
     [self.navigationController pushViewController:conversationVC animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }
@@ -404,21 +400,18 @@
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
         
-        NSString *str;
-        NSRange range;
-        if (repairDetail.urgent == 1)
+        if (repairDetail.urgent == 2)
         {
-            str = @"等级:紧急";
-            range = [str rangeOfString:@"紧急"];
+            level.text = @"等级:一般";
         }
         else
         {
-            str = @"等级:一般";
-            range = [str rangeOfString:@"一般"];
+            NSString *str = @"等级:紧急";
+            NSRange range = [str rangeOfString:@"紧急"];
+            NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+            [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
+            level.attributedText = attributeStr;
         }
-        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-        level.attributedText = attributeStr;
         
         NSString *contents = [NSString stringWithFormat:@"报修内容:%@",repairDetail.notes];
         UIFont *font = [UIFont boldSystemFontOfSize:17.f];

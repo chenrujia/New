@@ -110,19 +110,25 @@
     logoImgView.userInteractionEnabled = YES;
     [self.view addSubview:logoImgView];
     
+    // 项目列表
+    branchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    branchBtn.frame = CGRectMake(0, valueForDevice(25.f, 25.f, 20.f, 15.f), 44, 44);
+    [branchBtn setBackgroundImage:[UIImage imageNamed:@"list_button"] forState:UIControlStateNormal];
+    [branchBtn addTarget:self action:@selector(shopClick) forControlEvents:UIControlEventTouchUpInside];
+    [logoImgView addSubview:branchBtn];
+    
     //店名
     shop_btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shop_btn setFrame:CGRectMake(0, valueForDevice(35.f, 35.f, 30.f, 25.f), SCREEN_WIDTH-130, 20.f)];
-    shop_btn.center = CGPointMake(SCREEN_WIDTH/2.f - 10.f, shop_btn.center.y);
+    shop_btn.center = CGPointMake(SCREEN_WIDTH/2.f, shop_btn.center.y);
     shop_btn.titleLabel.font = [UIFont boldSystemFontOfSize:17.f];
     [shop_btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    [shop_btn setImage:[UIImage imageNamed:@"down_arrow"] forState:UIControlStateNormal];
-    [shop_btn addTarget:self action:@selector(shopClick) forControlEvents:UIControlEventTouchUpInside];
+    //[shop_btn addTarget:self action:@selector(shopClick) forControlEvents:UIControlEventTouchUpInside];
     [logoImgView addSubview:shop_btn];
     
     //设置
     UIButton *settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [settingBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 15.f, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
+    [settingBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 5.f, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
     [settingBtn setTitle:@"设置" forState:UIControlStateNormal];
     settingBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [settingBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];

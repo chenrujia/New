@@ -396,11 +396,11 @@
                 }
                 [dataSource addObject:otherManInfo];
                 
-                [listArray addObject:[NSString stringWithFormat:@"%ld", otherManInfo.manID]];
+                [listArray addObject:[NSString stringWithFormat:@"%ld", (long)otherManInfo.manID]];
             }
             
             for (NSString *manID in self.manIDArray) {
-                [indexArray addObject:[NSString stringWithFormat:@"%ld", [listArray indexOfObject:manID]]];
+                [indexArray addObject:[NSString stringWithFormat:@"%ld", (unsigned long)[listArray indexOfObject:manID]]];
             }
         }
         [currentTableView reloadData];

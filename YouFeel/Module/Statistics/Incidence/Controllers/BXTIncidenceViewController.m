@@ -27,6 +27,7 @@
     self.dataArray = [[NSMutableArray alloc] init];
     
     [self showLoadingMBP:@"数据加载中..."];
+    
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_faulttypeWithTime_start:dateArray[0] time_end:dateArray[1]];

@@ -19,6 +19,7 @@
     UILabel          *title_label;
     NSMutableArray   *datasource;
     UIImageView      *logoImgView;
+    UIButton         *branchBtn;
 }
 
 - (void)createLogoView;
