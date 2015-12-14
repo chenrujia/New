@@ -186,13 +186,12 @@
 #pragma mark 代理
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == RepairDetail && data.count > 0)
+    if (data.count > 0)
     {
+        [self hideMBP];
         NSDictionary *dictionary = data[0];
-        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"SUBGROUP_NOTIFICATION" object:dictionary[@"faulttype_type_name"]];
         
         DCParserConfiguration *config = [DCParserConfiguration configuration];
@@ -280,11 +279,15 @@
         
         _scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width, CGRectGetMaxY(_remarks.frame));
     }
+    else
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ShowError" object:nil];
+    }
 }
 
 - (void)requestError:(NSError *)error
 {
-    [self hideMBP];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ShowError" object:nil];
 }
 
 - (NSString *)transTimeStampToTime:(NSString *)timeStr

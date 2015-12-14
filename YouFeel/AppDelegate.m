@@ -10,6 +10,7 @@
 #import "BXTHeaderFile.h"
 #import "NSString+URL.h"
 #import "CrashManager.h"
+#import "MobClick.h"
 #import "BXTLoginViewController.h"
 #import "BXTHeadquartersViewController.h"
 #import "UINavigationController+YRBackGesture.h"
@@ -76,6 +77,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     // [2]:注册APNS
     [self registerRemoteNotification];
+    
+    // [3]:友盟配置
+    [MobClick startWithAppkey:@"566e7c1867e58e7160002af5" reportPolicy:BATCH channelId:nil];
     
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];

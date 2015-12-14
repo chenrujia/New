@@ -60,6 +60,11 @@
     
     markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
     
+    [self addNotifications];
+}
+
+- (void)addNotifications
+{
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"SUBGROUP_NOTIFICATION" object:nil] subscribeNext:^(id x) {
         @strongify(self);
@@ -116,6 +121,19 @@
         contentLabel.textAlignment = NSTextAlignmentCenter;
         [grab_button addSubview:contentLabel];
         
+    }];
+
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ShowError" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        [self showMBP:@"数据出错了！！" withBlock:^(BOOL hidden) {
+            [[BXTGlobal shareGlobal].newsOrderIDs removeObjectAtIndex:[BXTGlobal shareGlobal].numOfPresented-1];
+            --[BXTGlobal shareGlobal].numOfPresented;
+            if ([BXTGlobal shareGlobal].numOfPresented < 1)
+            {
+                [[BXTGlobal shareGlobal].newsOrderIDs removeAllObjects];
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
     }];
 }
 

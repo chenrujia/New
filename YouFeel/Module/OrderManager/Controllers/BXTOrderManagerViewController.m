@@ -192,15 +192,16 @@
 
 #pragma mark -
 #pragma mark 代理
-/**
- *  SegmentViewDelegate
- */
+#pragma mark -
+#pragma mark SegmentViewDelegate
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
 {
     currentPage = index;
     [currentScrollView setContentOffset:CGPointMake(currentPage * SCREEN_WIDTH, 0) animated:YES];
 }
 
+#pragma mark -
+#pragma mark SegmentViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     // 得到每页宽度
@@ -212,6 +213,12 @@
     currentPage = page;
     
     [segment segemtBtnChange:currentPage];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat down = scrollView.contentOffset.y;
+    LogBlue(@"%f",down);
 }
 
 - (void)didReceiveMemoryWarning
