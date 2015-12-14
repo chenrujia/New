@@ -68,7 +68,7 @@
     BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [dep_request shopLocation];
     
-    [self navigationSetting:@"选择商户位置" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"选择位置" andRightTitle:nil andRightImage:nil];
     [self createTableView];
 }
 
@@ -102,11 +102,11 @@
     
     if (section == 0)
     {
-        boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"楼层" boxSelectedViewType:FloorInfoView listDataSource:dataArray markID:nil actionDelegate:self];
+        boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"区域" boxSelectedViewType:FloorInfoView listDataSource:dataArray markID:nil actionDelegate:self];
     }
     else if (section == 1)
     {
-        boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"区域" boxSelectedViewType:AreaInfoView listDataSource:selectedFloorInfo.place markID:nil actionDelegate:self];
+        boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"地点" boxSelectedViewType:AreaInfoView listDataSource:selectedFloorInfo.place markID:nil actionDelegate:self];
     }
     else if (section == 2)
     {

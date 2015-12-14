@@ -50,6 +50,8 @@
     conversationVC.targetId = model.targetId;
     conversationVC.userName = model.conversationTitle;
     conversationVC.title = model.conversationTitle;
+    // 删除位置功能
+    [conversationVC.pluginBoardView removeItemAtIndex:2];
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
 

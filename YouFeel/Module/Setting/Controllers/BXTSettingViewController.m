@@ -174,6 +174,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 
 - (void)quitOutClick
 {
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request exit_loginWithClientID:@""];
     [[RCIM sharedRCIM] disconnect];
     [[ANKeyValueTable userDefaultTable] clear];
     [BXTGlobal shareGlobal].isRepair = NO;
@@ -530,7 +532,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
                 }
                 else
                 {
-                    cell.titleLabel.text = @"商   店";
+                    cell.titleLabel.text = @"商   铺";
                     BXTShopInfo *shopInfo = [BXTGlobal getUserProperty:U_SHOP];
                     cell.detailLable.text = shopInfo.stores_name;
                 }
@@ -697,6 +699,11 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             checks_user_department = [checkUserDic objectForKey:@"checks_user_department"];
         }
     }
+    
+    if (type == LoginType) {
+            
+    }
+    
     [currentTableView reloadData];
 }
 

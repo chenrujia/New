@@ -30,7 +30,7 @@
     [super viewDidLoad];
     self.dataArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"数据加载中"];
+    [self showLoadingMBP:@"数据加载中..."];
     
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -263,7 +263,6 @@
     if (button.tag == 10001) {
         [self.pieView removeFromSuperview];
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
-        [self showLoadingMBP:@"数据加载中"];
         
         /**饼状图**/
         if (!selectedDate) {

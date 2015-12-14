@@ -27,7 +27,7 @@
     
     self.dataArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"数据加载中"];
+    [self showLoadingMBP:@"数据加载中..."];
     
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -177,7 +177,7 @@
             break;
     }
     
-    [self showLoadingMBP:@"数据加载中"];
+    [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_praiseWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
@@ -185,7 +185,7 @@
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
-        [self showLoadingMBP:@"数据加载中"];
+        [self showLoadingMBP:@"数据加载中..."];
         
         if (!selectedDate) {
             selectedDate = [NSDate date];

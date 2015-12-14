@@ -695,6 +695,14 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)exit_loginWithClientID:(NSString *)clientid
+{
+    self.requestType = Exit_Login;
+    NSDictionary *dic = @{@"clientid": clientid};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Login&opt=exit_login",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {

@@ -334,7 +334,6 @@
     {
         [self.headerView.pieView removeFromSuperview];
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
-        [self showLoadingMBP:@"数据加载中"];
         
         /**饼状图**/
         if (!selectedDate)

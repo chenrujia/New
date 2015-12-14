@@ -84,21 +84,22 @@
         maxDouble = 1;
     }
     
+    CGFloat bgViewY = 20;
+    CGFloat margin = 5;
+    
     UILabel *lineY = [[UILabel alloc] initWithFrame:CGRectMake(85, 10, SCREEN_WIDTH-120, 1)];
     lineY.backgroundColor = colorWithHexString(@"#d9d9d9");
     [newCell.contentView addSubview:lineY];
-    UILabel *lineYMax = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-20, 5, 20, 15)];
+    UILabel *lineYMax = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-33, 5, 33, 15)];
     lineYMax.text = [NSString stringWithFormat:@"%@", maxNum];
     lineYMax.textColor = colorWithHexString(@"#666666");
     lineYMax.font = [UIFont systemFontOfSize:12];
     [newCell addSubview:lineYMax];
-    UILabel *lineX = [[UILabel alloc] initWithFrame:CGRectMake(84, 10, 1, workloadArray.count*(bgViewH+10)+5)];
+    UILabel *lineX = [[UILabel alloc] initWithFrame:CGRectMake(84, 10, 1, workloadArray.count*(bgViewH+margin)+15)];
     lineX.backgroundColor = colorWithHexString(@"#d9d9d9");
     [newCell.contentView addSubview:lineX];
     
-    
-    CGFloat bgViewY = 20;
-    CGFloat margin = 5;
+
     for (int i=0; i<workloadArray.count; i++) {
         NSDictionary *dict = workloadArray[i];
         int count = [[NSString stringWithFormat:@"%@", dict[@"sum_number"]] doubleValue];
@@ -273,7 +274,7 @@
             break;
     }
     
-    [self showLoadingMBP:@"数据加载中"];
+    [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_workloadWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
@@ -281,7 +282,7 @@
 - (void)datePickerBtnClick:(UIButton *)button {
     if (button.tag == 10001) {
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
-        [self showLoadingMBP:@"数据加载中"];
+        [self showLoadingMBP:@"数据加载中..."];
         
         /**饼状图**/
         if (!selectedDate) {
