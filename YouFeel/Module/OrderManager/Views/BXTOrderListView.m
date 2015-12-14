@@ -26,9 +26,11 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+        @weakify(self);
         [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ReloadData" object:nil] subscribeNext:^(id x) {
             [repairListArray removeAllObjects];
             [currentTableView reloadData];
+            @strongify(self);
             [self loadNewData];
         }];
         

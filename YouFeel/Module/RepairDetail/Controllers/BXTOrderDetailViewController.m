@@ -93,7 +93,9 @@
     }
     [self createSubViews];
     
+    @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestDetail" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
         [self requestDetail];
     }];
     

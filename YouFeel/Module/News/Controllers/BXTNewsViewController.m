@@ -192,8 +192,7 @@
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *notice_type = dic[@"notice_type"];
     
-    if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"1"]] ||
-        [dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"2"]])
+    if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"2"]])
     {
         // 抢单
         BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] init];
@@ -209,7 +208,8 @@
         BXTRepairDetailViewController *repairDetailVC = [[BXTRepairDetailViewController alloc] initWithRepair:repairInfo];
         [self.navigationController pushViewController:repairDetailVC animated:YES];
     }
-    else if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"5"]])
+    else if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"1"]] ||
+             [dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"5"]])
     {
         BXTOrderDetailViewController *orderDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:dic[@"about_id"]];
         [self.navigationController pushViewController:orderDetailVC animated:YES];

@@ -358,7 +358,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 [[BXTGlobal shareGlobal].newsOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
                 if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
                 {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairComing" object:nil];
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:@""];
                 }
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)//收到派工或者维修邀请
@@ -492,7 +493,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
+            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@",shopID];
             [BXTGlobal shareGlobal].baseURL = url;
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];

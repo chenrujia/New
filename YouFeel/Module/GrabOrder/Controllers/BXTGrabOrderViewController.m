@@ -51,7 +51,6 @@
     [timeArray addObject:@"自定义"];
     comeTimeArray = timeArray;
     
-    
     player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
     player.volume = 0.8f;
     player.numberOfLoops = -1;
@@ -61,8 +60,9 @@
     
     markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
     
+    @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"SUBGROUP_NOTIFICATION" object:nil] subscribeNext:^(id x) {
-        
+        @strongify(self);
         NSNotification *notify = x;
         CGFloat arc_height = IS_IPHONE6 ? 168.f : 112.f;
         UIView *arc_View = [[UIView alloc] initWithFrame:CGRectMake(0, 0, arc_height, arc_height)];

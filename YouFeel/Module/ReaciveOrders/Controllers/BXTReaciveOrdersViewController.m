@@ -93,7 +93,9 @@
 #pragma mark 事件处理
 - (void)resignNotifacation
 {
+    @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ReaciveOrderSuccess" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
         [self reloadTable];
     }];
 }

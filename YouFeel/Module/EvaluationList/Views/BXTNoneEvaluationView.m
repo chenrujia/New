@@ -22,7 +22,9 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+        @weakify(self);
         [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"EvaluateSuccess" object:nil] subscribeNext:^(id x) {
+            @strongify(self);
             [self requestData];
         }];
         

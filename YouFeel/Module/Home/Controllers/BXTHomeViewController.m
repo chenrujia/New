@@ -73,7 +73,9 @@
 
 - (void)addNotifications
 {
+    @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"NewsComing" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
         NSNotification *notification = x;
         NSString *str = notification.object;
         if ([str isEqualToString:@"1"])

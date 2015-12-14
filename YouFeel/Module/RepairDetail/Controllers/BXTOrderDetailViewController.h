@@ -10,6 +10,7 @@
 #import "BXTRepairInfo.h"
 #import <RongIMKit/RongIMKit.h>
 
+//维修员版工单详情
 @interface BXTOrderDetailViewController : BXTBaseViewController
 
 /**

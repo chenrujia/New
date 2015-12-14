@@ -10,6 +10,7 @@
 #import "BXTRepairInfo.h"
 #import <RongIMKit/RongIMKit.h>
 
+//商铺版工单详情
 @interface BXTRepairDetailViewController : BXTBaseViewController
 
 - (instancetype)initWithRepair:(BXTRepairInfo *)repair;
