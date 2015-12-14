@@ -50,7 +50,7 @@
     ItemShowViewArray = [[NSMutableArray alloc]init];
     
     contentView.frame = CGRectMake(0, 0, self.frame.size.width, (VERTICALE_DATA_SPACES+view_width)*[ItemArray count]+VERTICALE_DATA_SPACES);
-    NSLog(@"AllHeihht - %lu \nItemArray.count - %lu",(VERTICALE_DATA_SPACES+view_width)*[ItemArray count],(unsigned long)[ItemArray count]);
+    NSLog(@"AllHeihht - %lu \nItemArray.count - %lu",(unsigned long)(VERTICALE_DATA_SPACES+view_width)*[ItemArray count],(unsigned long)[ItemArray count]);
     [contentSV setContentSize:CGSizeMake(contentSV.frame.size.width, contentView.frame.size.height)];
     
     [self initDate];
