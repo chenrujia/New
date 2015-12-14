@@ -35,7 +35,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        
+    
     //新的SDK不允许在设置rootViewController之前做过于复杂的操作,So.....坑
     UIViewController* myvc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = myvc;
@@ -47,7 +47,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     
     // token验证失败
-    
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"VERIFY_TOKEN_FAIL" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        [self loadingLoginVC];
+    }];
     
     BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
     if (isLoaded)
@@ -89,7 +93,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSDictionary *textAttributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor whiteColor]};
     [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-
+    
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:RCKitDispatchMessageNotification object:nil] subscribeNext:^(id x) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
     }];
@@ -240,7 +244,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     _deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     LogRed(@"deviceToken:%@",_deviceToken);
-
+    
     [GeTuiSdk registerDeviceToken:_deviceToken];
     [[RCIMClient sharedRCIMClient] setDeviceToken:_deviceToken];
 }
@@ -365,7 +369,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 [[BXTGlobal shareGlobal].newsOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
                 if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
                 {
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:nil];
+                    //                    [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:nil];
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:@""];
                 }
             }
@@ -423,8 +427,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)GeTuiSdkDidSendMessage:(NSString *)messageId
                         result:(int)result
 {
-//    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
-//    NSLog(@"record  %@",record);
+    //    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
+    //    NSLog(@"record  %@",record);
 }
 
 /**
@@ -489,7 +493,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         
         NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
         [BXTGlobal setUserProperty:userID withKey:U_USERID];
-
+        
         NSArray *my_shop = [userInfoDic objectForKey:@"my_shop"];
         [BXTGlobal setUserProperty:my_shop withKey:U_MYSHOP];
         if (my_shop && my_shop.count > 0)
@@ -506,7 +510,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
             [pic_request updateHeadPic:[userInfoDic objectForKey:@"pic"]];
-
+            
             /**分店登录**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request branchLogin];
@@ -564,8 +568,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     if (status == ConnectionStatus_KICKED_OFFLINE_BY_OTHER_CLIENT)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您的帐号在别的设备上登录，您被迫下线！" delegate:nil
-                              cancelButtonTitle:@"知道了"
-                              otherButtonTitles:nil, nil];
+                                              cancelButtonTitle:@"知道了"
+                                              otherButtonTitles:nil, nil];
         [alert show];
         BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
         UINavigationController *_navi = [[UINavigationController alloc] initWithRootViewController:loginVC];
@@ -589,7 +593,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [GeTuiSdk resume];  // 恢复个推SDK运行
-//    completionHandler(UIBackgroundFetchResultNewData);
+    //    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -606,6 +610,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

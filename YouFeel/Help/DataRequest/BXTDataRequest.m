@@ -720,7 +720,7 @@ andRepairerIsReacive:(NSString *)reacive
          [_delegate requestResponseData:dictionary requeseType:_requestType];
          // token验证失败
          if ([dictionary[@"returncode"] isEqualToString:@"037"]) {
-             NSLog(@"\n\n\n---------------token验证失败----------------\n\n\n");
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"VERIFY_TOKEN_FAIL" object:nil];
          }
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          [_delegate requestError:error];
