@@ -46,7 +46,9 @@
 {
     [super viewDidLoad];
     
+    @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestRepairList" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
         [self loadNewData];
     }];
     

@@ -35,7 +35,9 @@
     [super viewDidLoad];
     [self navigationSetting:@"工单管理" andRightTitle:nil andRightImage:nil];
     
+    @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestRepairList" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
         [self loadNewData];
     }];
     repairListArray = [[NSMutableArray alloc] init];

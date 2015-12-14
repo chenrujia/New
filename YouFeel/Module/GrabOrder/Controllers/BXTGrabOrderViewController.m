@@ -51,7 +51,6 @@
     [timeArray addObject:@"自定义"];
     comeTimeArray = timeArray;
     
-    
     player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
     player.volume = 0.8f;
     player.numberOfLoops = -1;

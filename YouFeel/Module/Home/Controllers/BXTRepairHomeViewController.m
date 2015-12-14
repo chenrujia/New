@@ -34,6 +34,11 @@
 
 @implementation BXTRepairHomeViewController
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -58,7 +63,7 @@
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
     title_label.text = @"我的工单";
     
-    [self addNotifications];
+    [self addGrabAndAssignOrderNotifications];
     imgNameArray = [NSMutableArray arrayWithObjects:@"grab_-one",
                     @"repair",
                     @"new",
@@ -69,17 +74,6 @@
                     @"list",
                     @"round", nil];
     titleNameArray = [NSMutableArray arrayWithObjects:@"抢单",@"报修",@"沟通记录",@"我的绩效",@"特殊工单",@"业务统计",@"消息",@"意见反馈",@"关于我们", nil];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
-    if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&[BXTGlobal shareGlobal].newsOrderIDs.count > 0)
-    {
-        [self comingNewRepairs];
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -98,15 +92,18 @@
     [shop_btn setImageEdgeInsets:UIEdgeInsetsMake(0, titleW+padding, 0, -titleW-padding)];
 }
 
-- (void)addNotifications
+- (void)addGrabAndAssignOrderNotifications
 {
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"NewRepairComing" object:nil] subscribeNext:^(id x) {
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"GrabOrder" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
         [self comingNewRepairs];
     }];
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"AssignOrderComing" object:nil] subscribeNext:^(id x) {
         if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
         {
+            @strongify(self);
             BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:NO andWithOrderID:nil];
             [self.navigationController pushViewController:newOrderVC animated:YES];
         }
@@ -125,7 +122,8 @@
 - (void)comingNewRepairs
 {
     // 工单数 > 实时抢单页面数 -> 跳转
-    if ([BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
+    BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
+    if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] && [BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
     {
         BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
         [self.navigationController pushViewController:grabOrderVC animated:YES];
@@ -194,9 +192,8 @@
         case 6:
         {
             // 消息
-//            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
-//            [self.navigationController pushViewController:messageVC animated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"Notify" object:@"1"];
+            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
+            [self.navigationController pushViewController:messageVC animated:YES];
         }
             break;
         case 7:

@@ -358,7 +358,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 [[BXTGlobal shareGlobal].newsOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
                 if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
                 {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRepairComing" object:nil];
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:@""];
                 }
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)//收到派工或者维修邀请
