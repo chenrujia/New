@@ -9,8 +9,8 @@
 
 // Constants :
 static const CGFloat kFontSize = 20;
-static const NSInteger kStarWidth = 25;
-static const NSInteger kStarHeight = 23;
+static const NSInteger kStarWidth = 35;
+static const NSInteger kStarHeight = 33;
 
 static const NSString *kDefaultEmptyChar = @"☆";
 static const NSString *kDefaultSolidChar = @"★";

@@ -257,21 +257,18 @@
         _level.frame = CGRectMake(15.f, CGRectGetMaxY(_notes.frame) + 10.f, CGRectGetWidth(_notes.frame), 20);
         _notes.text = contents;
         
-        NSString *str;
-        NSRange range;
-        if (repairDetail.urgent == 1)
+        if (repairDetail.urgent == 2)
         {
-            str = @"等级：紧急";
-            range = [str rangeOfString:@"紧急"];
+            _level.text = @"等级:一般";
         }
         else
         {
-            str = @"等级：一般";
-            range = [str rangeOfString:@"一般"];
+            NSString *str = @"等级:紧急";
+            NSRange range = [str rangeOfString:@"紧急"];
+            NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+            [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
+            _level.attributedText = attributeStr;
         }
-        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-        _level.attributedText = attributeStr;
         
         NSString *contents2 = [NSString stringWithFormat:@"备注：%@", repairDetail.notes];
         CGSize size2 = MB_MULTILINE_TEXTSIZE(contents2, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);

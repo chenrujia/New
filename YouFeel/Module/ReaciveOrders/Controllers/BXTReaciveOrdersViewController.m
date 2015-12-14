@@ -247,21 +247,18 @@
     NSString *time = [self transTimeStampToTime:repairInfo.long_time];
     cell.longTime.text = [NSString stringWithFormat:@"截止时间:%@",time];
     
-    NSString *str;
-    NSRange range;
     if (repairInfo.urgent == 2)
     {
-        str = @"等级:一般";
-        range = [str rangeOfString:@"一般"];
+        cell.level.text = @"等级:一般";
     }
     else
     {
-        str = @"等级:紧急";
-        range = [str rangeOfString:@"紧急"];
+        NSString *str = @"等级:紧急";
+        NSRange range = [str rangeOfString:@"紧急"];
+        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
+        cell.level.attributedText = attributeStr;
     }
-    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-    [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-    cell.level.attributedText = attributeStr;
     cell.reaciveBtn.tag = indexPath.section;
     [cell.reaciveBtn addTarget:self action:@selector(reaciveOrder:) forControlEvents:UIControlEventTouchUpInside];
     

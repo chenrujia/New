@@ -62,11 +62,12 @@
         
             UIImage *dot = [UIImage imageNamed:@"star_selected"];
             UIImage *star = [UIImage imageNamed:@"star"];
-            AMRatingControl *rateView = [[AMRatingControl alloc] initWithLocation:CGPointMake(112, CGRectGetMaxY(_cause.frame) + 2.f)
+            AMRatingControl *rateView = [[AMRatingControl alloc] initWithLocation:CGPointMake(70, CGRectGetMaxY(_cause.frame) + 2.f)
                                                                                   emptyImage:dot
                                                                                   solidImage:star
                                                                                 andMaxRating:5];
             rateView.userInteractionEnabled = NO;
+            rateView.transform = CGAffineTransformMakeScale(0.7, 0.7);
             [self addSubview:rateView];
             rateView;
         

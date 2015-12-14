@@ -175,7 +175,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)quitOutClick
 {
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request exit_loginWithClientID:@""];
+    [request exit_loginWithClientID:[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]];
     [[RCIM sharedRCIM] disconnect];
     [[ANKeyValueTable userDefaultTable] clear];
     [BXTGlobal shareGlobal].isRepair = NO;
@@ -264,6 +264,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     conversationVC.targetId = userInfo.userId;
     conversationVC.userName = userInfo.name;
     conversationVC.title = userInfo.name;
+    // 删除位置功能
+    [conversationVC.pluginBoardView removeItemAtIndex:2];
     [self.navigationController pushViewController:conversationVC animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }

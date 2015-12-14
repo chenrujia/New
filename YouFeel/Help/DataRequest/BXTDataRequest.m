@@ -718,6 +718,10 @@ andRepairerIsReacive:(NSString *)reacive
          NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
          NSDictionary *dictionary = [response JSONValue];
          [_delegate requestResponseData:dictionary requeseType:_requestType];
+         // token验证失败
+         if ([dictionary[@"returncode"] isEqualToString:@"037"]) {
+             NSLog(@"\n\n\n---------------token验证失败----------------\n\n\n");
+         }
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          [_delegate requestError:error];
          LogBlue(@"error:%@",error);
