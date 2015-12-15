@@ -272,13 +272,16 @@
 
 - (void)doneClick
 {
+    
+    
+    
+    
     [self showLoadingMBP:@"注册中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request branchResign:1];
 }
 
-- (void)showAlertView:(NSString *)title
-{
+- (void)showAlertView:(NSString *)title {
     if (IS_IOS_8)
     {
         UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
