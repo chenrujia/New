@@ -22,7 +22,7 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow-right" translatesAutoresizingMaskIntoConstraints="NO" id="ziX-xy-tbc">
-                        <rect key="frame" x="351" y="27" width="9" height="15"/>
+                        <rect key="frame" x="351" y="32.5" width="9" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="9" id="D6Y-SP-xiW"/>
                             <constraint firstAttribute="height" constant="15" id="mET-9U-G43"/>
@@ -54,9 +54,9 @@
                     <constraint firstItem="HXH-e5-4xQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="Vf1-Cy-qk0"/>
                     <constraint firstItem="CLQ-eN-0D3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="W3W-GL-CRU"/>
                     <constraint firstItem="CLQ-eN-0D3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="WTk-ZM-ghg"/>
+                    <constraint firstItem="ziX-xy-tbc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Zur-DN-VUY"/>
                     <constraint firstItem="wcF-Et-Rxg" firstAttribute="top" secondItem="HXH-e5-4xQ" secondAttribute="bottom" constant="4" id="dIL-oW-2kf"/>
                     <constraint firstItem="wcF-Et-Rxg" firstAttribute="leading" secondItem="CLQ-eN-0D3" secondAttribute="trailing" constant="10" id="gDe-Ln-SgS"/>
-                    <constraint firstItem="ziX-xy-tbc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="27" id="raQ-Vs-20F"/>
                     <constraint firstAttribute="trailing" secondItem="ziX-xy-tbc" secondAttribute="trailing" constant="15" id="t1G-3H-afr"/>
                 </constraints>
             </tableViewCellContentView>
