@@ -10,7 +10,7 @@
 #import "NSString+URL.h"
 #import "BXTHeaderFile.h"
 #import "AppDelegate.h"
-#import "AFHTTPRequestOperationManager.h"
+#import "AFHTTPSessionManager.h"
 
 @implementation BXTDataRequest
 
@@ -707,25 +707,26 @@ andRepairerIsReacive:(NSString *)reacive
      withParameters:(NSDictionary *)parameters
 {
     LogRed(@"url......%@",url);
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     // 设置返回格式
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject)
-     {
-         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-         NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
-         NSDictionary *dictionary = [response JSONValue];
-         [_delegate requestResponseData:dictionary requeseType:_requestType];
-         // token验证失败
-         if ([dictionary[@"returncode"] isEqualToString:@"037"]) {
-             NSLog(@"\n\n\n---------------token验证失败----------------\n\n\n");
-         }
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         [_delegate requestError:error];
-         LogBlue(@"error:%@",error);
-     }];
+    [manager POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
+        NSDictionary *dictionary = [response JSONValue];
+        [_delegate requestResponseData:dictionary requeseType:_requestType];
+        // token验证失败
+        if ([dictionary[@"returncode"] isEqualToString:@"037"]) {
+            NSLog(@"\n\n\n---------------token验证失败----------------\n\n\n");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [_delegate requestError:error];
+        LogBlue(@"error:%@",error);
+    }];
 }
 
 - (void)uploadImageRequest:(NSString *)url
@@ -733,13 +734,13 @@ andRepairerIsReacive:(NSString *)reacive
                 withImages:(NSArray *)images
 {
     LogRed(@"url......%@",url);
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     // 设置返回格式
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     // 显示进度
-    AFHTTPRequestOperation *operation = [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         // 上传 多张图片
         for(NSInteger i = 0; i < images.count; i++)
         {
@@ -752,35 +753,30 @@ andRepairerIsReacive:(NSString *)reacive
             NSString * fileName = [NSString stringWithFormat:@"%@.jpg", Name];
             [formData appendPartWithFileData:imageData name:Name fileName:fileName mimeType:@"image/jpeg"];
         }
-    } success:^(AFHTTPRequestOperation *operation, id responseObject){
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *result = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [result JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [_delegate requestError:error];
-    }];
-    
-//    [self showHUD];
-    
-    [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-        
-//        CGFloat progress = totalBytesWritten/totalBytesExpectedToWrite;
-//        [self setProgress:progress];
-        NSLog(@"bytesWritten=%lu, totalBytesWritten=%lld, totalBytesExpectedToWrite=%lld", (unsigned long)bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
     }];
 }
 
 - (void)getRequest:(NSString *)url
 {
     LogRed(@"%@",url);
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置返回格式
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [_delegate requestError:error];
     }];
 }
