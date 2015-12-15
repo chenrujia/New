@@ -23,7 +23,7 @@
 {
     NSInteger      unreadNumber;
     NSMutableArray *usersArray;
-    BOOL isConfigInfoSuccess;
+    BOOL           isConfigInfoSuccess;
 }
 @end
 
@@ -110,21 +110,23 @@
     logoImgView.userInteractionEnabled = YES;
     [self.view addSubview:logoImgView];
     
-    // 项目列表
-    branchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //项目列表
+    UIButton *branchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     branchBtn.frame = CGRectMake(0, valueForDevice(25.f, 25.f, 20.f, 15.f), 44, 44);
     [branchBtn setBackgroundImage:[UIImage imageNamed:@"list_button"] forState:UIControlStateNormal];
-    [branchBtn addTarget:self action:@selector(shopClick) forControlEvents:UIControlEventTouchUpInside];
+    [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        // 商铺列表
+        BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
+        [self.navigationController pushViewController:alVC animated:YES];
+    }];
     [logoImgView addSubview:branchBtn];
     
     //店名
-    shop_btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shop_btn setFrame:CGRectMake(0, valueForDevice(35.f, 35.f, 30.f, 25.f), SCREEN_WIDTH-130, 20.f)];
-    shop_btn.center = CGPointMake(SCREEN_WIDTH/2.f, shop_btn.center.y);
-    shop_btn.titleLabel.font = [UIFont boldSystemFontOfSize:17.f];
-    [shop_btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    //[shop_btn addTarget:self action:@selector(shopClick) forControlEvents:UIControlEventTouchUpInside];
-    [logoImgView addSubview:shop_btn];
+    shop_label = [[UILabel alloc] initWithFrame:CGRectMake(0, valueForDevice(35.f, 35.f, 30.f, 25.f), SCREEN_WIDTH-130, 20.f)];
+    shop_label.center = CGPointMake(SCREEN_WIDTH/2.f, shop_label.center.y);
+    shop_label.font = [UIFont boldSystemFontOfSize:17.f];
+    [shop_label setTextColor:colorWithHexString(@"ffffff")];
+    [logoImgView addSubview:shop_label];
     
     //设置
     UIButton *settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -137,7 +139,7 @@
     
     //logo
     logo_Btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [logo_Btn setFrame:CGRectMake(0, CGRectGetMaxY(shop_btn.frame) + valueForDevice(25, 20, 12, 10), valueForDevice(90, 90, 80, 65), valueForDevice(90, 90, 80, 65))];
+    [logo_Btn setFrame:CGRectMake(0, CGRectGetMaxY(shop_label.frame) + valueForDevice(25, 20, 12, 10), valueForDevice(90, 90, 80, 65), valueForDevice(90, 90, 80, 65))];
     [logo_Btn setCenter:CGPointMake(SCREEN_WIDTH/2.f, logo_Btn.center.y)];
     [logo_Btn addTarget:self action:@selector(repairClick) forControlEvents:UIControlEventTouchUpInside];
     [logoImgView addSubview:logo_Btn];
@@ -302,10 +304,8 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    LogRed(@"%@",dic);
     [datasource removeAllObjects];
     NSArray *array = [dic objectForKey:@"data"];
-    
     
     if (type == ConfigInfo)
     {

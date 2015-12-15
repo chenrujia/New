@@ -11,9 +11,6 @@
 #import "BXTResignTableViewCell.h"
 #import "BXTChangePassWordViewController.h"
 
-#define UserNameTag 11
-#define CodeTag 12
-
 @interface BXTFindPassWordViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,BXTDataResponseDelegate>
 {
     UIButton *codeBtn;
@@ -43,67 +40,7 @@
 }
 
 #pragma mark -
-#pragma mark 事件处理
-- (void)nextTapClick
-{
-    if ([BXTGlobal validateMobile:userName])
-    {
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request findPassWordWithMobile:userName andWithCode:codeNumber];
-    }
-    else
-    {
-        [self showMBP:@"手机号格式不对" withBlock:nil];
-    }
-}
-
-- (void)getVerCode
-{
-    if ([BXTGlobal validateMobile:userName])
-    {
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request mobileVerCode:userName];
-        codeBtn.userInteractionEnabled = NO;
-        [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    }
-    else
-    {
-        [self showMBP:@"手机号格式不对" withBlock:nil];
-    }
-}
-
-#pragma mark -
-#pragma mark 代理
-/**
- *  UITextFiledDelegate
- */
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    NSString *resultString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if (textField.tag == UserNameTag)
-    {
-        userName = resultString;
-        if (resultString.length > 11)
-        {
-            return NO;
-        }
-    }
-    else if (textField.tag == CodeTag)
-    {
-        codeNumber = resultString;
-    }
-    return YES;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark UITableViewDelegate & UITableViewDatasource
 //section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -148,7 +85,19 @@
         [nextTapBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         nextTapBtn.layer.masksToBounds = YES;
         nextTapBtn.layer.cornerRadius = 6.f;
-        [nextTapBtn addTarget:self action:@selector(nextTapClick) forControlEvents:UIControlEventTouchUpInside];
+        @weakify(self);
+        [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            if ([BXTGlobal validateMobile:userName])
+            {
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request findPassWordWithMobile:userName andWithCode:codeNumber];
+            }
+            else
+            {
+                [self showMBP:@"手机号格式不对" withBlock:nil];
+            }
+        }];
         [view addSubview:nextTapBtn];
         return view;
     }
@@ -185,7 +134,11 @@
         cell.nameLabel.text = @"手机号";
         cell.textField.placeholder = @"请输入有效的手机号码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
-        cell.textField.tag = UserNameTag;
+        [[cell.textField.rac_textSignal filter:^BOOL(NSString *text) {
+            return text.length == 11;
+        }] subscribeNext:^(NSString *text) {
+            userName = text;
+        }];
         cell.codeButton.hidden = YES;
     }
     else
@@ -193,10 +146,26 @@
         cell.nameLabel.text = @"验证码";
         cell.textField.placeholder = @"请输入短信验证码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+        [cell.textField.rac_textSignal subscribeNext:^(NSString *text) {
+            codeNumber = text;
+        }];
         cell.codeButton.hidden = NO;
-        [cell.codeButton addTarget:self action:@selector(getVerCode) forControlEvents:UIControlEventTouchUpInside];
         codeBtn = cell.codeButton;
-        cell.textField.tag = CodeTag;
+        @weakify(self);
+        [[cell.codeButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            if ([BXTGlobal validateMobile:userName])
+            {
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request mobileVerCode:userName];
+                codeBtn.userInteractionEnabled = NO;
+                [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            }
+            else
+            {
+                [self showMBP:@"手机号格式不对" withBlock:nil];
+            }
+        }];
     }
     
     cell.boyBtn.hidden = YES;
@@ -206,9 +175,8 @@
     return cell;
 }
 
-/**
- *  BXTDataRequestDelegate
- */
+#pragma mark -
+#pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;

@@ -1008,7 +1008,6 @@
     {
         if (data.count)
         {
-            LogBlue(@"dic......%@",dic);
             for (NSDictionary *dictionary in data)
             {
                 DCParserConfiguration *config = [DCParserConfiguration configuration];

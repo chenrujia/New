@@ -125,9 +125,7 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
-    NSDictionary *dic = response;
-    LogRed(@"%@",dic);
-    
+    NSDictionary *dic = response;    
     NSArray *array = [dic objectForKey:@"data"];
     for (NSDictionary *dictionary in array)
     {

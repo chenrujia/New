@@ -371,7 +371,6 @@
 {
     [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
-    LogRed(@"%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count > 0)
     {

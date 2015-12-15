@@ -71,7 +71,7 @@
 {
     [super viewWillAppear:animated];
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    [shop_btn setTitle:companyInfo.name forState:UIControlStateNormal];
+    [shop_label setText:companyInfo.name];
 }
 
 #pragma mark -

@@ -79,9 +79,8 @@
     userNameTF.placeholder = @"输入手机号";
     userNameTF.text = [BXTGlobal getUserProperty:U_USERNAME];
     [userNameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
-    [[userNameTF.rac_textSignal filter:^BOOL(id value) {
-        NSString *str = value;
-        return str.length == 11;
+    [[userNameTF.rac_textSignal filter:^BOOL(NSString *text) {
+        return text.length == 11;
     }] subscribeNext:^(id x) {
         userName = x;
     }];
@@ -171,13 +170,10 @@
 }
 
 #pragma mark -
-#pragma mark 代理
-#pragma mark -
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response
                 requeseType:(RequestType)type
 {
-    NSLog(@"%@", response);
     NSDictionary *dic = response;
     if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {

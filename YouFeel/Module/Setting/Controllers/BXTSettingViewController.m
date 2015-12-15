@@ -675,7 +675,6 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    LogBlue(@"%@",dic);
     if (type == UploadHeadImage && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [BXTGlobal setUserProperty:[dic objectForKey:@"pic"] withKey:U_HEADERIMAGE];

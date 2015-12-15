@@ -16,10 +16,6 @@
 
 static NSString *cellIndentify = @"cellIndentify";
 
-#define UserNameTag 11
-#define CodeTag 12
-#define PassWordTag 13
-
 @interface BXTResignViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
     NSString *userName;
@@ -163,7 +159,6 @@ static NSString *cellIndentify = @"cellIndentify";
         cell.nameLabel.text = @"手机号";
         cell.textField.placeholder = @"请输入有效的手机号码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
-        cell.textField.tag = UserNameTag;
         [[cell.textField.rac_textSignal filter:^BOOL(id value) {
             NSString *str = value;
             return str.length == 11;
@@ -193,7 +188,6 @@ static NSString *cellIndentify = @"cellIndentify";
             }
         }];
         codeBtn = cell.codeButton;
-        cell.textField.tag = CodeTag;
         [cell.textField.rac_textSignal subscribeNext:^(id x) {
             codeNumber = x;
         }];
@@ -204,7 +198,6 @@ static NSString *cellIndentify = @"cellIndentify";
         cell.textField.placeholder = @"请输入登录密码，至少6位";
         cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
         cell.codeButton.hidden = YES;
-        cell.textField.tag = PassWordTag;
         [cell.textField.rac_textSignal subscribeNext:^(id x) {
             passWord = x;
         }];

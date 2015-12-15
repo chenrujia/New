@@ -11,9 +11,6 @@
 #import "BXTResignTableViewCell.h"
 #import "BXTHeadquartersViewController.h"
 
-#define Password 11
-#define PasswordAgain 12
-
 @interface BXTChangePassWordViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate>
 {
     NSString *pwStr;
@@ -55,52 +52,7 @@
 }
 
 #pragma mark -
-#pragma mark 事件处理
-- (void)nextTapClick
-{
-    if ([pwStr isEqual:pwAgainStr])
-    {
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request changePassWord:pwStr andWithID:pw_ID andWithKey:pw_Key];
-    }
-    else
-    {
-        [self showMBP:@"两次输入不一致！" withBlock:nil];
-    }
-}
-
-#pragma mark -
-#pragma mark 代理
-/**
- *  UITextFiledDelegate
- */
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    NSString *resultString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if (textField.tag == Password)
-    {
-        pwStr = resultString;
-        if (resultString.length > 11)
-        {
-            return NO;
-        }
-    }
-    else if (textField.tag == PasswordAgain)
-    {
-        pwAgainStr = resultString;
-    }
-    return YES;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark UITableViewDelegate & UITableViewDatasource
 //section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -145,7 +97,19 @@
         [nextTapBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         nextTapBtn.layer.masksToBounds = YES;
         nextTapBtn.layer.cornerRadius = 6.f;
-        [nextTapBtn addTarget:self action:@selector(nextTapClick) forControlEvents:UIControlEventTouchUpInside];
+        @weakify(self);
+        [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            if ([pwStr isEqual:pwAgainStr])
+            {
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request changePassWord:pwStr andWithID:pw_ID andWithKey:pw_Key];
+            }
+            else
+            {
+                [self showMBP:@"两次输入不一致！" withBlock:nil];
+            }
+        }];
         [view addSubview:nextTapBtn];
         return view;
     }
@@ -185,13 +149,17 @@
     {
         cell.textField.placeholder = @"设置新密码（长度在6~32字符之间）";
         cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
-        cell.textField.tag = Password;
+        [cell.textField.rac_textSignal subscribeNext:^(id x) {
+            pwStr = x;
+        }];
     }
     else
     {
         cell.textField.placeholder = @"再次确认密码";
         cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
-        cell.textField.tag = PasswordAgain;
+        [cell.textField.rac_textSignal subscribeNext:^(id x) {
+            pwAgainStr = x;
+        }];
     }
     
     cell.boyBtn.hidden = YES;
@@ -201,13 +169,11 @@
     return cell;
 }
 
-/**
- *  BXTDataRequestDelegate
- */
+#pragma mark -
+#pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    LogRed(@"dic....%@",dic);
     if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
         NSArray *dataArray = [dic objectForKey:@"data"];
