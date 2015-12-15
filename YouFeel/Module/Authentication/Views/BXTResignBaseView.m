@@ -15,11 +15,30 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+        // 初始化
+        BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
+        departmentInfo.department = @"";
+        //departmentInfo.dep_id = @"";
+        [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
+        
+        BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
+        positionInfo.department = @"";
+        //positionInfo.role_id = @"";
+        positionInfo.role = @"";
+        //positionInfo.is_repair = @"";
+        [BXTGlobal setUserProperty:positionInfo withKey:U_POSITION];
+        
+        BXTGroupingInfo *groupingInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
+        groupingInfo.subgroup = @"";
+        //groupingInfo.group_id = @"";
+        [BXTGlobal setUserProperty:groupingInfo withKey:U_GROUPINGINFO];
+        
+        
         [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeShopLocation" object:nil] subscribeNext:^(id x) {
             [currentTableView reloadData];
         }];
         self.viewType = type;
-        BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
+        departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
         if (departmentInfo && [departmentInfo.dep_id integerValue] == 2)
         {
             indexRow = 1;
