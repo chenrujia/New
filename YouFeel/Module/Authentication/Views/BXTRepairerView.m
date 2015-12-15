@@ -229,6 +229,12 @@
     else
     {
         BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
+        if ([BXTGlobal isBlankString:departmentInfo.department]) {
+            [self showAlertView:@"请选择你所在部门"];
+            return;
+        }
+    
+        departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
         if (departmentInfo && [departmentInfo.dep_id integerValue] == 2)
         {
             if (indexPath.section == 5)

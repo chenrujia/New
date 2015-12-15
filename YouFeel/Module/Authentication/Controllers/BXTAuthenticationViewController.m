@@ -110,8 +110,27 @@
     
     if (page == currentPage) return;
     currentPage = page;
-    
+    [self removeAllInformation];
     [segment segemtBtnChange:currentPage];
+}
+
+- (void)removeAllInformation {
+    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
+    departmentInfo.department = @"";
+    //departmentInfo.dep_id = @"";
+    [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
+    
+    BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
+    positionInfo.department = @"";
+    //positionInfo.role_id = @"";
+    positionInfo.role = @"";
+    //positionInfo.is_repair = @"";
+    [BXTGlobal setUserProperty:positionInfo withKey:U_POSITION];
+    
+    BXTGroupingInfo *groupingInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
+    groupingInfo.subgroup = @"";
+    //groupingInfo.group_id = @"";
+    [BXTGlobal setUserProperty:groupingInfo withKey:U_GROUPINGINFO];
 }
 
 - (void)didReceiveMemoryWarning

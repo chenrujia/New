@@ -40,7 +40,12 @@
 //section底部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 6)
+    BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
+    NSInteger index = 5;
+    if ([postionInfo.is_repair integerValue] == 2) {
+        index = 6;
+    }
+    if (section == index)
     {
         return 80.f;
     }
@@ -51,7 +56,12 @@
 //section底部视图
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 6)
+    BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
+    NSInteger index = 5;
+    if ([postionInfo.is_repair integerValue] == 2) {
+        index = 6;
+    }
+    if (section == index)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -81,7 +91,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 7;
+    BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
+    if ([postionInfo.is_repair integerValue] == 2) {
+        return 7;
+    }
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -129,7 +143,7 @@
     {
         BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
         cell.titleLabel.text = @"部   门";
-        if (departmentInfo)
+        if (![BXTGlobal isBlankString:departmentInfo.department])
         {
             cell.detailLable.text = departmentInfo.department;
         }
@@ -147,7 +161,7 @@
         cell.detailTF.hidden = YES;
         cell.detailLable.hidden = NO;
         BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-        if (postionInfo)
+        if (![BXTGlobal isBlankString:postionInfo.role])
         {
             cell.detailLable.text = postionInfo.role;
         }
@@ -165,7 +179,7 @@
         cell.detailTF.hidden = YES;
         cell.detailLable.hidden = NO;
         BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
-        if (groupInfo)
+        if (![BXTGlobal isBlankString:groupInfo.subgroup])
         {
             cell.detailLable.text = groupInfo.subgroup;
         }
@@ -175,7 +189,7 @@
         }
         cell.checkImgView.hidden = YES;
     }
-
+    
     return cell;
 }
 
@@ -188,6 +202,11 @@
     }
     else if (indexPath.section == 5)
     {
+        BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
+        if ([BXTGlobal isBlankString:departmentInfo.department]) {
+            [self showAlertView:@"请先选择你所在部门"];
+            return;
+        }
         //先选部门，后选职位
         if ([BXTGlobal getUserProperty:U_DEPARTMENT])
         {
@@ -196,6 +215,17 @@
     }
     else if (indexPath.section == 6)
     {
+        BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
+        if ([BXTGlobal isBlankString:departmentInfo.department]) {
+            [self showAlertView:@"请选择你所在部门"];
+            return;
+        }
+        
+        BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
+        if ([BXTGlobal isBlankString:postionInfo.role]) {
+            [self showAlertView:@"请选择你的职位"];
+            return;
+        }
         //先选部门，后选职位
         if ([BXTGlobal getUserProperty:U_POSITION])
         {
@@ -236,6 +266,26 @@
 
 - (void)doneClick
 {
+    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
+    if ([BXTGlobal isBlankString:departmentInfo.department]) {
+        [self showAlertView:@"请选择你所在部门"];
+        return;
+    }
+    
+    BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
+    if ([BXTGlobal isBlankString:postionInfo.role]) {
+        [self showAlertView:@"请选择你的职位"];
+        return;
+    }
+    
+    if ([postionInfo.is_repair integerValue] == 2) {
+        BXTGroupingInfo *groupingInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
+        if ([BXTGlobal isBlankString:groupingInfo.subgroup]) {
+            [self showAlertView:@"请选择你的职位"];
+            return;
+        }
+    }
+    
     [self showLoadingMBP:@"注册中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request branchResign:2];
