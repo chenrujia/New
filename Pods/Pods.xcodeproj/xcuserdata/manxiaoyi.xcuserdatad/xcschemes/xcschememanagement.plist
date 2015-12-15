@@ -9,6 +9,46 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>DACircularProgress.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>DCKeyValueObjectMapping.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>DZNEmptyDataSet.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
+		<key>IQKeyboardManager.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
+		<key>MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
+		<key>MJRefresh.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
+		</dict>
+		<key>MWPhotoBrowser-MWPhotoBrowser.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
+		<key>MWPhotoBrowser.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -23,10 +63,30 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>2133FF3349D709CDF03476C3FEC0BBCA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>2F2693522709BFA051A15D5E4FDFB9C2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>319DC27F07C7DE0D11BA2B764B736F77</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5920CC824ED1D9738FB34980B8470BFE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -36,7 +96,47 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>637B81D1F575EAA74EE0E13EB71D6914</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9666688CB41B38A9914616144C9C7A3E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>97709D562275972F2D10EAB4BB77BF13</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A9BAC55C8E1B7867C6102565D70B5D76</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B3843BAF0F46F8011E09A3D61B937758</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>BC8923913D4CEE9471212638D2FDA38C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C0E069144714254E813191CCF2DACA2C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C6BC2D311195D57242B1C7307C17F9CF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CD585A9D1E0F9897ABAAB74D1B966413</key>
 		<dict>
 			<key>primary</key>
 			<true/>
