@@ -46,12 +46,14 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //自动键盘
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     
-    // token验证失败
+    
+    // token验证失败 - 退出登录
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"VERIFY_TOKEN_FAIL" object:nil] subscribeNext:^(id x) {
         @strongify(self);
         [self loadingLoginVC];
     }];
+    
     
     BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
     if (isLoaded)
@@ -88,6 +90,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     // [3]:友盟配置
     [MobClick startWithAppkey:@"566e7c1867e58e7160002af5" reportPolicy:BATCH channelId:nil];
     
+    
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];
     NSDictionary *textAttributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor whiteColor]};
@@ -98,13 +101,16 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
     }];
     
+    
     //设置会话列表头像和会话界面头像
     [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
     //设置接收消息代理
     [RCIM sharedRCIM].receiveMessageDelegate=self;
     
+    
     //注册消息处理函数的处理方法,处理崩溃信息,写入本地
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
     
     CrashManager *crashManager = [CrashManager defaultManager];
     //Crash日志
