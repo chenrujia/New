@@ -720,8 +720,8 @@ andRepairerIsReacive:(NSString *)reacive
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
         // token验证失败
-        if ([dictionary[@"returncode"] isEqualToString:@"037"]) {
-            NSLog(@"\n\n\n---------------token验证失败----------------\n\n\n");
+        if ([[NSString stringWithFormat:@"%@", dictionary[@"returncode"]] isEqualToString:@"037"]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"VERIFY_TOKEN_FAIL" object:nil];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [_delegate requestError:error];
@@ -774,6 +774,7 @@ andRepairerIsReacive:(NSString *)reacive
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

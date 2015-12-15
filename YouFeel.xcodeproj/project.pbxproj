@@ -1310,10 +1310,10 @@
 		9602216C1BC9216300010072 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9602216D1BC9216300010072 /* BXTPropertyView.h */,
-				9602216E1BC9216300010072 /* BXTPropertyView.m */,
 				9602216F1BC9216300010072 /* BXTRepairerView.h */,
 				960221701BC9216300010072 /* BXTRepairerView.m */,
+				9602216D1BC9216300010072 /* BXTPropertyView.h */,
+				9602216E1BC9216300010072 /* BXTPropertyView.m */,
 				960221711BC9216300010072 /* BXTResignBaseView.h */,
 				960221721BC9216300010072 /* BXTResignBaseView.m */,
 			);

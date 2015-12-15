@@ -133,7 +133,7 @@
     {
         BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
         cell.titleLabel.text = @"部   门";
-        if (departmentInfo)
+        if (![BXTGlobal isBlankString:departmentInfo.department])
         {
             cell.detailLable.text = departmentInfo.department;
         }
@@ -183,7 +183,7 @@
                 cell.detailTF.hidden = YES;
                 cell.detailLable.hidden = NO;
                 BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-                if (postionInfo)
+                if (![BXTGlobal isBlankString:postionInfo.role])
                 {
                     cell.detailLable.text = postionInfo.role;
                 }
@@ -202,7 +202,7 @@
             cell.detailTF.hidden = YES;
             cell.detailLable.hidden = NO;
             BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-            if (postionInfo)
+            if (![BXTGlobal isBlankString:postionInfo.role])
             {
                 cell.detailLable.text = postionInfo.role;
             }
@@ -272,9 +272,29 @@
 
 - (void)doneClick
 {
+    
     [self showLoadingMBP:@"注册中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request branchResign:1];
+}
+
+- (void)showAlertView:(NSString *)title
+{
+    if (IS_IOS_8)
+    {
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+        }];
+        [alertCtr addAction:doneAction];
+        [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 @end
