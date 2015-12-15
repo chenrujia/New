@@ -53,9 +53,25 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods/AFNetworking.framework'
+  install_framework 'Pods/DACircularProgress.framework'
+  install_framework 'Pods/DCKeyValueObjectMapping.framework'
+  install_framework 'Pods/DZNEmptyDataSet.framework'
+  install_framework 'Pods/IQKeyboardManager.framework'
+  install_framework 'Pods/MBProgressHUD.framework'
+  install_framework 'Pods/MJRefresh.framework'
+  install_framework 'Pods/MWPhotoBrowser.framework'
   install_framework 'Pods/ReactiveCocoa.framework'
+  install_framework 'Pods/SDWebImage.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods/AFNetworking.framework'
+  install_framework 'Pods/DACircularProgress.framework'
+  install_framework 'Pods/DCKeyValueObjectMapping.framework'
+  install_framework 'Pods/DZNEmptyDataSet.framework'
+  install_framework 'Pods/IQKeyboardManager.framework'
+  install_framework 'Pods/MBProgressHUD.framework'
+  install_framework 'Pods/MJRefresh.framework'
+  install_framework 'Pods/MWPhotoBrowser.framework'
   install_framework 'Pods/ReactiveCocoa.framework'
+  install_framework 'Pods/SDWebImage.framework'
 fi
