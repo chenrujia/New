@@ -18,9 +18,6 @@
 
 static NSString *cellIndentify = @"resignCellIndentify";
 
-#define NickNameTag 11
-#define SexTag 12
-
 @interface BXTNickNameViewController ()<MBProgressHUDDelegate,BXTDataResponseDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     NSString *nickName;
@@ -49,25 +46,6 @@ static NSString *cellIndentify = @"resignCellIndentify";
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     [self.view addSubview:currentTableView];
-}
-
-#pragma mark -
-#pragma mark 事件处理
-- (void)sexClick:(UIButton *)btn
-{
-    BXTResignTableViewCell *cell = [currentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-    if (btn.tag == 11)
-    {
-        sex = @"1";
-        cell.boyBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-        cell.girlBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
-    }
-    else if (btn.tag == 12)
-    {
-        sex = @"2";
-        cell.boyBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
-        cell.girlBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    }
 }
 
 #pragma mark -
@@ -131,8 +109,13 @@ static NSString *cellIndentify = @"resignCellIndentify";
             
             NSString *userName = [BXTGlobal getUserProperty:U_USERNAME];
             NSString *passWord = [BXTGlobal getUserProperty:U_PASSWORD];
-            
-            NSDictionary *userInfoDic = @{@"name":nickName,@"password":passWord,@"username":userName,@"gender":sex,@"mailmatch":@"123",@"roletype":@"1",@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+            NSDictionary *userInfoDic = @{@"name":nickName,
+                                          @"password":passWord,
+                                          @"username":userName,
+                                          @"gender":sex,
+                                          @"mailmatch":@"123",
+                                          @"roletype":@"1",
+                                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
             
             BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
             [dataRequest resignUser:userInfoDic];
@@ -181,7 +164,6 @@ static NSString *cellIndentify = @"resignCellIndentify";
     {
         cell.nameLabel.text = @"姓   名";
         cell.textField.placeholder = @"请填写您的真实姓名";
-        cell.textField.tag = NickNameTag;
         cell.boyBtn.hidden = YES;
         cell.girlBtn.hidden = YES;
         cell.textField.hidden = NO;
@@ -195,9 +177,16 @@ static NSString *cellIndentify = @"resignCellIndentify";
         cell.boyBtn.hidden = NO;
         cell.girlBtn.hidden = NO;
         cell.textField.hidden = YES;
-        cell.textField.tag = SexTag;
-        [cell.boyBtn addTarget:self action:@selector(sexClick:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.girlBtn addTarget:self action:@selector(sexClick:) forControlEvents:UIControlEventTouchUpInside];
+        [[cell.boyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            sex = @"1";
+            cell.boyBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+            cell.girlBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+        }];
+        [[cell.girlBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            sex = @"2";
+            cell.boyBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+            cell.girlBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+        }];
     }
     
     cell.codeButton.hidden = YES;
@@ -211,8 +200,6 @@ static NSString *cellIndentify = @"resignCellIndentify";
                 requeseType:(RequestType)type
 {
     [self hideMBP];
-    
-    LogRed(@"%@", response);
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"state"] integerValue] == 1)
     {

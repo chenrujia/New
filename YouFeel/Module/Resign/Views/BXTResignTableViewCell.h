@@ -13,7 +13,6 @@
 @property (nonatomic ,strong) UILabel *nameLabel;
 @property (nonatomic ,strong) UITextField *textField;
 @property (nonatomic ,strong) UIButton *codeButton;
-
 @property (nonatomic ,strong) UIButton *boyBtn;
 @property (nonatomic ,strong) UIButton *girlBtn;
 

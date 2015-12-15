@@ -435,7 +435,6 @@
 {
     [self hideMBP];
     NSDictionary *dic = response;
-    LogRed(@"dic....%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (data.count > 0)
     {

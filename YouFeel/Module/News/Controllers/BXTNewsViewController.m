@@ -227,7 +227,6 @@
 {
     [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
-    LogRed(@"%@",dic);
     if (type == UpdateTime)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)

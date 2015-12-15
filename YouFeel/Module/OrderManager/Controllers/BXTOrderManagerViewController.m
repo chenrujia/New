@@ -215,12 +215,6 @@
     [segment segemtBtnChange:currentPage];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    CGFloat down = scrollView.contentOffset.y;
-    LogBlue(@"%f",down);
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

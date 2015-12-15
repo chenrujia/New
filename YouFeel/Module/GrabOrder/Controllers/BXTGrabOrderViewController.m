@@ -475,7 +475,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = (NSDictionary *)response;
-    //LogRed(@"%@",dic);
     if (type == ReaciveOrder)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)

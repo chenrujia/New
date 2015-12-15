@@ -293,7 +293,6 @@ andRepairerIsReacive:(NSString *)reacive
                           @"state":state,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
-    LogBlue(@"请求数据为:%@",dic);
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -720,7 +719,8 @@ andRepairerIsReacive:(NSString *)reacive
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
         // token验证失败
-        if ([dictionary[@"returncode"] isEqualToString:@"037"]) {
+        if ([dictionary[@"returncode"] isEqualToString:@"037"])
+        {
             NSLog(@"\n\n\n---------------token验证失败----------------\n\n\n");
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -746,7 +746,6 @@ andRepairerIsReacive:(NSString *)reacive
         {
             UIImage *image = [images objectAtIndex:i];
             NSData  *imageData = UIImageJPEGRepresentation(image, 0.9f);
-            LogRed(@"%lu",(unsigned long)imageData.length);
             // 上传的参数名
             NSString * Name = [NSString stringWithFormat:@"image%ld", (long)i];
             // 上传filename

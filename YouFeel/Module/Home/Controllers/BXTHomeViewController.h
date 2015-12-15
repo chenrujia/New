@@ -14,12 +14,11 @@
     UICollectionView *itemsCollectionView;
     NSMutableArray   *imgNameArray;
     NSMutableArray   *titleNameArray;
-    UIButton         *shop_btn;
+    UILabel          *shop_label;
     UIButton         *logo_Btn;
     UILabel          *title_label;
     NSMutableArray   *datasource;
     UIImageView      *logoImgView;
-    UIButton         *branchBtn;
 }
 
 - (void)createLogoView;

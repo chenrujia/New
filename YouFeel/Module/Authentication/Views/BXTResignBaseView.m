@@ -57,7 +57,6 @@
 {
     [self hideMBP];
     NSDictionary *dic = response;
-    LogBlue(@"dic.......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == DepartmentType)
     {
