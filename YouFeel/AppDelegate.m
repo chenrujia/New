@@ -40,6 +40,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     UIViewController* myvc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = myvc;
     
+    
     //初始化融云SDK
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
     
