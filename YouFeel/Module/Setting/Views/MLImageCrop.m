@@ -292,7 +292,7 @@
     }
     _image = image;
     
-    [self.imageView cancelImageRequestOperation];
+    [self.imageView cancelImageDownloadTask];
     self.imageView.image = [image MLImageCrop_fixOrientation];
     if (self.isViewLoaded) {
         [self.view setNeedsLayout];
