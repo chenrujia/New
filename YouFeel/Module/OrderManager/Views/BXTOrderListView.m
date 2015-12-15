@@ -43,16 +43,16 @@
         currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStyleGrouped];
         __weak __typeof(self) weakSelf = self;
         // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
-        currentTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        currentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             [weakSelf loadNewData];
         }];
         // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
-        currentTableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+        currentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
         // 设置了底部inset
         currentTableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
         // 忽略掉底部inset
-        currentTableView.footer.ignoredScrollViewContentInsetBottom = 30;
-        currentTableView.footer.ignoredScrollViewContentInsetBottom = 40.f;
+        currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+        currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 40.f;
         if (![BXTGlobal shareGlobal].isRepair)
         {
             [currentTableView registerClass:[BXTRepairTableViewCell class] forCellReuseIdentifier:@"OrderListCell"];
@@ -368,8 +368,8 @@
             [currentTableView reloadData];
         }
         _isRequesting = NO;
-        [currentTableView.header endRefreshing];
-        [currentTableView.footer endRefreshing];
+        [currentTableView.mj_header endRefreshing];
+        [currentTableView.mj_footer endRefreshing];
     }
 }
 
@@ -377,8 +377,8 @@
 {
     [self hideMBP];
     _isRequesting = NO;
-    [currentTableView.header endRefreshing];
-    [currentTableView.footer endRefreshing];
+    [currentTableView.mj_header endRefreshing];
+    [currentTableView.mj_footer endRefreshing];
 }
 
 - (void)showAlertView:(NSString *)title

@@ -59,7 +59,7 @@
 - (void)createTableView
 {
     currentTable = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
-    currentTable.footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    currentTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     currentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     currentTable.backgroundColor = colorWithHexString(@"eff3f6");
     [currentTable registerClass:[BXTNewsTableViewCell class] forCellReuseIdentifier:@"Cell"];
@@ -250,7 +250,7 @@
         }
         _isRequesting = NO;
     }
-    [currentTable.footer endRefreshing];
+    [currentTable.mj_footer endRefreshing];
 }
 
 - (void)requestError:(NSError *)error

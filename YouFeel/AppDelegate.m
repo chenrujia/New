@@ -235,9 +235,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
               appKey:(NSString*)appKey
            appSecret:(NSString *)appSecret
 {
-    NSError *err =nil;
     //[1-1]:通过 AppId、appKey 、appSecret 启动SDK
-    [GeTuiSdk startSdkWithAppId:appID appKey:appKey appSecret:appSecret delegate:self error:&err];
+    [GeTuiSdk startSdkWithAppId:appID appKey:appKey appSecret:appSecret delegate:self];
     //[1-2]:设置是否后台运行开关
     [GeTuiSdk runBackgroundEnable:YES];
     //[1-3]:设置地理围栏功能，开启LBS定位服务和是否允许SDK 弹出用户定位请求，请求NSLocationAlwaysUsageDescription权限,如果UserVerify设置为NO，需第三方负责提示用户定位授权。
@@ -607,7 +606,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     // [EXT] APP进入后台时，通知个推SDK进入后台
-    [GeTuiSdk enterBackground];
+    [GeTuiSdk runBackgroundEnable:YES];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
