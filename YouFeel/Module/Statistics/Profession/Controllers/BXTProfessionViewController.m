@@ -85,7 +85,7 @@
         }
         NSDictionary *elemDict = self.dataArray[i];
         MYPieElement *elem = [MYPieElement pieElementWithValue:[elemDict[@"sum_percent"] floatValue] color:elemColor];
-        elem.title = [NSString stringWithFormat:@"%@ %@", elemDict[@"subgroup"], elemDict[@"sum_percent"]];
+        elem.title = [NSString stringWithFormat:@"%@ %@%%", elemDict[@"subgroup"], elemDict[@"sum_percent"]];
         [self.pieView.layer addValues:@[elem] animated:NO];
         
         [oldDataArray addObject:elem];
