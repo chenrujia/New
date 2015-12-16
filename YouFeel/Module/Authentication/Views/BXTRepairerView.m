@@ -229,6 +229,12 @@
     else
     {
         BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
+        if ([BXTGlobal isBlankString:departmentInfo.department]) {
+            [self showAlertView:@"请选择你所在部门"];
+            return;
+        }
+    
+        departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
         if (departmentInfo && [departmentInfo.dep_id integerValue] == 2)
         {
             if (indexPath.section == 5)
@@ -272,9 +278,17 @@
 
 - (void)doneClick
 {
+    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
+    if ([BXTGlobal isBlankString:departmentInfo.department]) {
+        [self showAlertView:@"请选择你所在部门"];
+        return;
+    }
     
-    
-    
+    BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
+    if ([BXTGlobal isBlankString:postionInfo.role]) {
+        [self showAlertView:@"请选择你的职位"];
+        return;
+    }
     
     [self showLoadingMBP:@"注册中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
