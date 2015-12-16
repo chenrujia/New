@@ -12,14 +12,12 @@
 
 @interface BXTRemarksTableViewCell : UITableViewCell
 
-@property (nonatomic ,strong) UILabel *titleLabel;
-@property (nonatomic ,strong) UITextView *remarkTV;
-@property (nonatomic ,strong) UIButton *addBtn;
-
-@property (nonatomic ,strong) UIImageView *imgViewOne;
-@property (nonatomic ,strong) UIImageView *imgViewTwo;
-@property (nonatomic ,strong) UIImageView *imgViewThree;
-
+@property (nonatomic ,strong) UILabel        *titleLabel;
+@property (nonatomic ,strong) UIButton       *addBtn;
+@property (nonatomic ,strong) UITextView     *remarkTV;
+@property (nonatomic ,strong) UIImageView    *imgViewOne;
+@property (nonatomic ,strong) UIImageView    *imgViewTwo;
+@property (nonatomic ,strong) UIImageView    *imgViewThree;
 @property (nonatomic ,strong) NSMutableArray *photosArray;
 
 @end

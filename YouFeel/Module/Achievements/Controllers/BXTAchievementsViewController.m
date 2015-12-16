@@ -15,9 +15,9 @@
 @interface BXTAchievementsViewController ()<BXTDataResponseDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     NSMutableArray *datasource;
-    UITableView *currentTableView;
-    NSArray *imgsArray;
-    NSArray *titlesArray;
+    UITableView    *currentTableView;
+    NSArray        *imgsArray;
+    NSArray        *titlesArray;
 }
 @end
 
@@ -27,7 +27,6 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"绩效" andRightTitle:nil andRightImage:nil];
-    
     [self initContentViews];
     
     datasource = [[NSMutableArray alloc] init];

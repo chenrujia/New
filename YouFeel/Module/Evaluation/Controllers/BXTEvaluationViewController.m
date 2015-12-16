@@ -16,19 +16,23 @@
 #import "LocalPhotoViewController.h"
 #import "BXTDataRequest.h"
 
-@interface BXTEvaluationViewController ()<AMRateDelegate,UITextViewDelegate,MWPhotoBrowserDelegate,SelectPhotoDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,BXTDataResponseDelegate>
-{
-    NSMutableArray *photosArray;
-    NSMutableArray *selectPhotos;
-    BXTRemarksTableViewCell *remarkCell;
-    NSMutableArray *rateArray;
-    NSString *notes;
-    UIScrollView *scrollView;
-}
-@property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
+@interface BXTEvaluationViewController ()<AMRateDelegate,MWPhotoBrowserDelegate,SelectPhotoDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate,BXTDataResponseDelegate>
+
+@property (nonatomic ,strong) NSString                *notes;
+@property (nonatomic ,strong) NSMutableArray          *rateArray;
+@property (nonatomic ,strong) NSMutableArray          *photosArray;
+@property (nonatomic ,strong) NSMutableArray          *selectPhotos;
+@property (nonatomic ,strong) NSMutableArray          *mwPhotosArray;
+@property (nonatomic ,strong) BXTRemarksTableViewCell *remarkCell;
+
 @end
 
 @implementation BXTEvaluationViewController
+
+- (void)dealloc
+{
+    LogBlue(@"评价界面释放了！！！！！！");
+}
 
 - (instancetype)initWithRepairID:(NSString *)reID
 {
@@ -44,11 +48,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    notes = @"";
-    rateArray = [NSMutableArray arrayWithObjects:@"5",@"5",@"5", nil];
-    photosArray = [[NSMutableArray alloc] init];
-    selectPhotos = [[NSMutableArray alloc] init];
+    self.notes = @"";
+    self.rateArray = [NSMutableArray arrayWithObjects:@"5",@"5",@"5", nil];
+    self.photosArray = [[NSMutableArray alloc] init];
+    self.selectPhotos = [[NSMutableArray alloc] init];
     
     [self createSubviews];
     [self navigationSetting:@"评价" andRightTitle:nil andRightImage:nil];
@@ -70,11 +73,10 @@
 #pragma mark 初始化视图
 - (void)createSubviews
 {
-    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
     scrollView.backgroundColor = colorWithHexString(@"ffffff");
     [self.view addSubview:scrollView];
-    
     
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT)];
     backView.backgroundColor = colorWithHexString(@"ffffff");
@@ -101,31 +103,49 @@
         imagesRatingControl.delegate = self;
         [backView addSubview:imagesRatingControl];
     }
+    
     UIView *lineViewOne = [[UIView alloc] initWithFrame:CGRectMake(0, 209.5f, SCREEN_WIDTH, 0.5f)];
     lineViewOne.backgroundColor = colorWithHexString(@"909497");
     [backView addSubview:lineViewOne];
     
-    remarkCell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ReCell"];
-    remarkCell.frame = CGRectMake(0, CGRectGetMaxY(lineViewOne.frame), SCREEN_WIDTH, 170);
-    remarkCell.remarkTV.delegate = self;
-    remarkCell.titleLabel.text = @"备   注";
+    self.remarkCell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ReCell"];
+    self.remarkCell.frame = CGRectMake(0, CGRectGetMaxY(lineViewOne.frame), SCREEN_WIDTH, 170);
+    self.remarkCell.remarkTV.delegate = self;
+    self.remarkCell.titleLabel.text = @"备   注";
     
-    UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-    [remarkCell.imgViewOne addGestureRecognizer:tapGROne];
-    UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-    [remarkCell.imgViewTwo addGestureRecognizer:tapGRTwo];
-    UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-    [remarkCell.imgViewThree addGestureRecognizer:tapGRThree];
-    [remarkCell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:remarkCell];
+    @weakify(self);
+    UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
+    [self.remarkCell.imgViewOne addGestureRecognizer:tapGROne];
+    [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        [self loadMWPhotoBrowser:self.remarkCell.imgViewOne.tag];
+    }];
     
-    UIView *lineViewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(remarkCell.frame), SCREEN_WIDTH, 0.5f)];
+    UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
+    [self.remarkCell.imgViewTwo addGestureRecognizer:tapGRTwo];
+    [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        [self loadMWPhotoBrowser:self.remarkCell.imgViewTwo.tag];
+    }];
+    
+    UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
+    [self.remarkCell.imgViewThree addGestureRecognizer:tapGRThree];
+    [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        [self loadMWPhotoBrowser:self.remarkCell.imgViewThree.tag];
+    }];
+    
+    [self.remarkCell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
+    [backView addSubview:self.remarkCell];
+    
+    UIView *lineViewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.remarkCell.frame), SCREEN_WIDTH, 0.5f)];
     lineViewTwo.backgroundColor = colorWithHexString(@"909497");
     [backView addSubview:lineViewTwo];
     
     UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 40.f, SCREEN_WIDTH - 40, 50.f);
-    if (IS_IPHONE4) {
+    if (IS_IPHONE4)
+    {
         commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
     }
     [commitBtn setTitle:@"提交" forState:UIControlStateNormal];
@@ -133,7 +153,15 @@
     [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     commitBtn.layer.masksToBounds = YES;
     commitBtn.layer.cornerRadius = 6.f;
-    [commitBtn addTarget:self action:@selector(commitEvaluation) forControlEvents:UIControlEventTouchUpInside];
+    [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self showLoadingMBP:@"正在提交..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request evaluateRepair:self.rateArray
+                evaluationNotes:self.notes
+                       repairID:self.repairID
+                     imageArray:self.photosArray];
+    }];
     [backView addSubview:commitBtn];
     
     scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(commitBtn.frame)+70);
@@ -141,26 +169,10 @@
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)commitEvaluation
-{
-    [self showLoadingMBP:@"正在提交..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request evaluateRepair:rateArray
-            evaluationNotes:notes
-                   repairID:_repairID
-                 imageArray:photosArray];
-}
-
-- (void)tapGesture:(UITapGestureRecognizer *)tapGR
-{
-    UIView *tapView = [tapGR view];
-    [self loadMWPhotoBrowser:tapView.tag];
-}
-
 - (void)loadMWPhotoBrowser:(NSInteger)index
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (UIImage *image in photosArray)
+    for (UIImage *image in self.photosArray)
     {
         MWPhoto *photo = [MWPhoto photoWithImage:image];
         [photos addObject:photo];
@@ -182,22 +194,25 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
+#pragma mark -
+#pragma mark 图片相关
 - (void)addImages
 {
+    @weakify(self);
     HySideScrollingImagePicker *hy = [[HySideScrollingImagePicker alloc] initWithCancelStr:@"取消" otherButtonTitles:@[@"拍摄",@"从相册选择"]];
     hy.isMultipleSelection = NO;
     
     hy.SeletedImages = ^(NSArray *GetImages, NSInteger Buttonindex){
-        
+        @strongify(self);
         switch (Buttonindex) {
             case 1:
             {
                 if (GetImages.count != 0)
                 {
-                    [selectPhotos removeAllObjects];
-                    [photosArray removeAllObjects];
+                    [self.selectPhotos removeAllObjects];
+                    [self.photosArray removeAllObjects];
                     //取原图
-                    [selectPhotos addObjectsFromArray:GetImages];
+                    [self.selectPhotos addObjectsFromArray:GetImages];
                     [self selectImages];
                 }
                 else
@@ -233,7 +248,7 @@
             {
                 LocalPhotoViewController *pick = [[LocalPhotoViewController alloc] init];
                 pick.selectPhotoDelegate = self;
-                pick.selectPhotos = selectPhotos;
+                pick.selectPhotos = self.selectPhotos;
                 [self.navigationController pushViewController:pick animated:YES];
             }
                 break;
@@ -263,42 +278,42 @@
 
 - (void)selectImages
 {
-    if (selectPhotos.count == 1)
+    if (self.selectPhotos.count == 1)
     {
-        [self resetCell:remarkCell];
-        [self resetDatasource:remarkCell arrayWithIndex:0];
+        [self resetCell:self.remarkCell];
+        [self resetDatasource:self.remarkCell arrayWithIndex:0];
         
         [UIView animateWithDuration:1.f animations:^{
             
-            [self resetFrame:remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
+            [self resetFrame:self.remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
             
         } completion:nil];
     }
-    else if (selectPhotos.count == 2)
+    else if (self.selectPhotos.count == 2)
     {
-        [self resetCell:remarkCell];
-        [self resetDatasource:remarkCell arrayWithIndex:0];
-        [self resetDatasource:remarkCell arrayWithIndex:1];
+        [self resetCell:self.remarkCell];
+        [self resetDatasource:self.remarkCell arrayWithIndex:0];
+        [self resetDatasource:self.remarkCell arrayWithIndex:1];
         
         [UIView animateWithDuration:1.f animations:^{
             
-            [self resetFrame:remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:remarkCell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
+            [self resetFrame:self.remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
+            [self resetFrame:self.remarkCell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
             
         } completion:nil];
     }
-    else if (selectPhotos.count == 3)
+    else if (self.selectPhotos.count == 3)
     {
-        [self resetCell:remarkCell];
-        [self resetDatasource:remarkCell arrayWithIndex:0];
-        [self resetDatasource:remarkCell arrayWithIndex:1];
-        [self resetDatasource:remarkCell arrayWithIndex:2];
+        [self resetCell:self.remarkCell];
+        [self resetDatasource:self.remarkCell arrayWithIndex:0];
+        [self resetDatasource:self.remarkCell arrayWithIndex:1];
+        [self resetDatasource:self.remarkCell arrayWithIndex:2];
         
         [UIView animateWithDuration:1.f animations:^{
             
-            [self resetFrame:remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:remarkCell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
-            [self resetFrame:remarkCell arrayWithIndex:2 withValue:(IMAGEWIDTH + 10.f) * 3];
+            [self resetFrame:self.remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
+            [self resetFrame:self.remarkCell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
+            [self resetFrame:self.remarkCell arrayWithIndex:2 withValue:(IMAGEWIDTH + 10.f) * 3];
             
         } completion:nil];
     }
@@ -317,7 +332,7 @@
 
 - (void)resetDatasource:(BXTRemarksTableViewCell *)cell arrayWithIndex:(NSInteger)index
 {
-    id obj = [selectPhotos objectAtIndex:index];
+    id obj = [self.selectPhotos objectAtIndex:index];
     UIImage *newImage = nil;
     if ([obj isKindOfClass:[UIImage class]])
     {
@@ -333,7 +348,7 @@
         newImage = posterImage;
     }
     [cell.photosArray addObject:newImage];
-    [photosArray addObject:newImage];
+    [self.photosArray addObject:newImage];
     
     if (index == 0)
     {
@@ -369,18 +384,14 @@
 }
 
 #pragma mark -
-#pragma mark 代理
-/**
- *  AMRateDeletage
- */
+#pragma mark AMRateDeletage
 - (void)rateNumber:(NSInteger)rate withRateControl:(AMRatingControl *)ctr
 {
-    [rateArray replaceObjectAtIndex:ctr.tag withObject:[NSString stringWithFormat:@"%ld",(long)rate]];
+    [self.rateArray replaceObjectAtIndex:ctr.tag withObject:[NSString stringWithFormat:@"%ld",(long)rate]];
 }
 
-/**
- *  MWPhotoBrowserDelegate
- */
+#pragma mark -
+#pragma mark MWPhotoBrowserDelegate
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
 {
     return self.mwPhotosArray.count;
@@ -392,9 +403,8 @@
     return photo;
 }
 
-/**
- *  UIImagePickerControllerDelegate
- */
+#pragma mark -
+#pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     __block UIImage *headImage = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -405,20 +415,19 @@
         __weak BXTEvaluationViewController *weakSelf = self;
         [picker dismissViewControllerAnimated:YES completion:^{
             [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-            [selectPhotos addObject:headImage];
+            [weakSelf.selectPhotos addObject:headImage];
             [weakSelf selectImages];
         }];
     }
     else
     {
         NSURL *path = [info objectForKey:UIImagePickerControllerReferenceURL];
-        
+        __weak BXTEvaluationViewController *weakSelf = self;
         [self loadImageFromAssertByUrl:path completion:^(UIImage * img)
          {
-             __weak BXTEvaluationViewController *weakSelf = self;
              [picker dismissViewControllerAnimated:YES completion:^{
                  [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-                 [selectPhotos addObject:img];
+                 [weakSelf.selectPhotos addObject:img];
                  [weakSelf selectImages];
              }];
          }];
@@ -438,9 +447,7 @@
 - (void)loadImageFromAssertByUrl:(NSURL *)url completion:(void (^)(UIImage *))completion{
     
     __block UIImage* img;
-    
     ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
-    
     [assetLibrary assetForURL:url resultBlock:^(ALAsset *asset)
      {
          ALAssetRepresentation *rep = [asset defaultRepresentation];
@@ -454,56 +461,54 @@
      }];
 }
 
-/**
- *  SelectPhotoDelegate
- */
+#pragma mark -
+#pragma mark SelectPhotoDelegate
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
-    selectPhotos = photos;
+    self.selectPhotos = photos;
     if (photos.count == 1)
     {
-        [self resetCell:remarkCell];
-        [self resetDatasource:remarkCell arrayWithIndex:0];
+        [self resetCell:self.remarkCell];
+        [self resetDatasource:self.remarkCell arrayWithIndex:0];
         
         [UIView animateWithDuration:1.f animations:^{
             
-            [self resetFrame:remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
+            [self resetFrame:self.remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
             
         } completion:nil];
     }
     else if (photos.count == 2)
     {
-        [self resetCell:remarkCell];
-        [self resetDatasource:remarkCell arrayWithIndex:0];
-        [self resetDatasource:remarkCell arrayWithIndex:1];
+        [self resetCell:self.remarkCell];
+        [self resetDatasource:self.remarkCell arrayWithIndex:0];
+        [self resetDatasource:self.remarkCell arrayWithIndex:1];
         
         [UIView animateWithDuration:1.f animations:^{
             
-            [self resetFrame:remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:remarkCell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
+            [self resetFrame:self.remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
+            [self resetFrame:self.remarkCell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
             
         } completion:nil];
     }
     else if (photos.count == 3)
     {
-        [self resetCell:remarkCell];
-        [self resetDatasource:remarkCell arrayWithIndex:0];
-        [self resetDatasource:remarkCell arrayWithIndex:1];
-        [self resetDatasource:remarkCell arrayWithIndex:2];
+        [self resetCell:self.remarkCell];
+        [self resetDatasource:self.remarkCell arrayWithIndex:0];
+        [self resetDatasource:self.remarkCell arrayWithIndex:1];
+        [self resetDatasource:self.remarkCell arrayWithIndex:2];
         
         [UIView animateWithDuration:1.f animations:^{
             
-            [self resetFrame:remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:remarkCell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
-            [self resetFrame:remarkCell arrayWithIndex:2 withValue:(IMAGEWIDTH + 10.f) * 3];
+            [self resetFrame:self.remarkCell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
+            [self resetFrame:self.remarkCell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
+            [self resetFrame:self.remarkCell arrayWithIndex:2 withValue:(IMAGEWIDTH + 10.f) * 3];
             
         } completion:nil];
     }
 }
 
-/**
- *  UITextViewDelegate
- */
+#pragma mark -
+#pragma mark UITextViewDelegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@"请输入报修内容"])
@@ -515,16 +520,15 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    notes = textView.text;
+    self.notes = textView.text;
     if (textView.text.length < 1)
     {
         textView.text = @"请输入报修内容";
     }
 }
 
-/**
- *  BXTDataResponseDelegate
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
@@ -534,7 +538,9 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"EvaluateSuccess" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"HiddenEvaluationBtn" object:nil];
+        @weakify(self);
         [self showMBP:@"评价成功！" withBlock:^(BOOL hidden) {
+            @strongify(self);
             [self.navigationController popViewControllerAnimated:YES];
         }];
     }

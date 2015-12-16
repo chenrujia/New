@@ -12,14 +12,19 @@
 #import "BXTChangePassWordViewController.h"
 
 @interface BXTFindPassWordViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,BXTDataResponseDelegate>
-{
-    UIButton *codeBtn;
-    NSString *userName;
-    NSString *codeNumber;
-}
+
+@property (nonatomic ,strong) NSString *userName;
+@property (nonatomic ,strong) NSString *codeNumber;
+@property (nonatomic ,strong) UIButton *codeBtn;
+
 @end
 
 @implementation BXTFindPassWordViewController
+
+- (void)dealloc
+{
+    LogBlue(@"找回密码界面释放了！！！！！！");
+}
 
 - (void)viewDidLoad
 {
@@ -41,7 +46,6 @@
 
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
-//section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -50,7 +54,7 @@
     }
     return 10.f;//section头部高度
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -62,7 +66,7 @@
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 1)
@@ -71,7 +75,7 @@
     }
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 1)
@@ -88,10 +92,10 @@
         @weakify(self);
         [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            if ([BXTGlobal validateMobile:userName])
+            if ([BXTGlobal validateMobile:self.userName])
             {
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request findPassWordWithMobile:userName andWithCode:codeNumber];
+                [request findPassWordWithMobile:self.userName andWithCode:self.codeNumber];
             }
             else
             {
@@ -134,10 +138,12 @@
         cell.nameLabel.text = @"手机号";
         cell.textField.placeholder = @"请输入有效的手机号码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+        @weakify(self);
         [[cell.textField.rac_textSignal filter:^BOOL(NSString *text) {
             return text.length == 11;
         }] subscribeNext:^(NSString *text) {
-            userName = text;
+            @strongify(self);
+            self.userName = text;
         }];
         cell.codeButton.hidden = YES;
     }
@@ -146,20 +152,21 @@
         cell.nameLabel.text = @"验证码";
         cell.textField.placeholder = @"请输入短信验证码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+        @weakify(self);
         [cell.textField.rac_textSignal subscribeNext:^(NSString *text) {
-            codeNumber = text;
+            @strongify(self);
+            self.codeNumber = text;
         }];
         cell.codeButton.hidden = NO;
-        codeBtn = cell.codeButton;
-        @weakify(self);
+        self.codeBtn = cell.codeButton;
         [[cell.codeButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            if ([BXTGlobal validateMobile:userName])
+            if ([BXTGlobal validateMobile:self.userName])
             {
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request mobileVerCode:userName];
-                codeBtn.userInteractionEnabled = NO;
-                [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                [request mobileVerCode:self.userName];
+                self.codeBtn.userInteractionEnabled = NO;
+                [self.codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
             }
             else
             {
@@ -186,7 +193,7 @@
         {
             NSArray *data = [dic objectForKey:@"data"];
             NSDictionary *dictionary = data[0];
-            [BXTGlobal setUserProperty:userName withKey:U_USERNAME];
+            [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
             BXTChangePassWordViewController *changeVC = [[BXTChangePassWordViewController alloc] initWithID:[dictionary objectForKey:@"id"] andWithKey:[dictionary objectForKey:@"key"]];
             [self.navigationController pushViewController:changeVC animated:YES];
         }
@@ -207,24 +214,26 @@
 - (void)updateTime
 {
     __block NSInteger count = 60;
+    @weakify(self);
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
     dispatch_source_set_event_handler(_time, ^{
+        @strongify(self);
         count--;
         if (count <= 0)
         {
             dispatch_source_cancel(_time);
             dispatch_async(dispatch_get_main_queue(), ^{
-                codeBtn.userInteractionEnabled = YES;
-                [codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-                [codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+                self.codeBtn.userInteractionEnabled = YES;
+                [self.codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+                [self.codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
             });
         }
         else
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [codeBtn setTitle:[NSString stringWithFormat:@"重新获取 %ld",(long)count] forState:UIControlStateNormal];
+                [self.codeBtn setTitle:[NSString stringWithFormat:@"重新获取 %ld",(long)count] forState:UIControlStateNormal];
             });
         }
     });
