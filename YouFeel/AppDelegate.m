@@ -36,6 +36,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    
     //新的SDK不允许在设置rootViewController之前做过于复杂的操作,So.....坑
     UIViewController* myvc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = myvc;
@@ -43,6 +44,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     //初始化融云SDK
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
+    
     
     //自动键盘
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
