@@ -12,23 +12,28 @@
 #import "BXTHeadquartersViewController.h"
 
 @interface BXTChangePassWordViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate>
-{
-    NSString *pwStr;
-    NSString *pwAgainStr;
-    NSString *pw_ID;
-    NSString *pw_Key;
-}
+
+@property (nonatomic ,strong) NSString *pwStr;
+@property (nonatomic ,strong) NSString *pwAgainStr;
+@property (nonatomic ,strong) NSString *pw_ID;
+@property (nonatomic ,strong) NSString *pw_Key;
+
 @end
 
 @implementation BXTChangePassWordViewController
+
+- (void)dealloc
+{
+    LogBlue(@"重置密码界面释放了！！！！！！");
+}
 
 - (instancetype)initWithID:(NSString *)fp_ID andWithKey:(NSString *)key
 {
     self = [super init];
     if (self)
     {
-        pw_ID = fp_ID;
-        pw_Key = key;
+        self.pw_ID = fp_ID;
+        self.pw_Key = key;
     }
     return self;
 }
@@ -53,7 +58,6 @@
 
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
-//section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -62,7 +66,7 @@
     }
     return 10.f;//section头部高度
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -74,7 +78,7 @@
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 1)
@@ -83,7 +87,7 @@
     }
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 1)
@@ -100,10 +104,10 @@
         @weakify(self);
         [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            if ([pwStr isEqual:pwAgainStr])
+            if ([self.pwStr isEqual:self.pwAgainStr])
             {
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request changePassWord:pwStr andWithID:pw_ID andWithKey:pw_Key];
+                [request changePassWord:self.pwStr andWithID:self.pw_ID andWithKey:self.pw_Key];
             }
             else
             {
@@ -145,12 +149,14 @@
     cell.codeButton.hidden = YES;
     cell.textField.frame = CGRectMake(15.f, 3, SCREEN_WIDTH - 30.f, 44.f);
     cell.textField.secureTextEntry = YES;
+    @weakify(self);
     if (indexPath.section == 0)
     {
         cell.textField.placeholder = @"设置新密码（长度在6~32字符之间）";
         cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
         [cell.textField.rac_textSignal subscribeNext:^(id x) {
-            pwStr = x;
+            @strongify(self);
+            self.pwStr = x;
         }];
     }
     else
@@ -158,7 +164,8 @@
         cell.textField.placeholder = @"再次确认密码";
         cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
         [cell.textField.rac_textSignal subscribeNext:^(id x) {
-            pwAgainStr = x;
+            @strongify(self);
+            self.pwAgainStr = x;
         }];
     }
     
@@ -202,7 +209,7 @@
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
             [BXTGlobal shareGlobal].baseURL = url;
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -235,9 +242,11 @@
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
+            @weakify(self);
             [self showMBP:@"重设密码成功！" withBlock:^(BOOL hidden) {
-                [BXTGlobal setUserProperty:pwStr withKey:U_PASSWORD];
-                NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":pwStr,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+                @strongify(self);
+                [BXTGlobal setUserProperty:self.pwStr withKey:U_PASSWORD];
+                NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":self.pwStr,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
                 BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
                 [dataRequest loginUser:userInfoDic];
             }];

@@ -30,14 +30,14 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 
 @interface BXTSettingViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,MWPhotoBrowserDelegate,SelectPhotoDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,MLImageCropDelegate>
 {
-    UITableView *currentTableView;
+    UITableView    *currentTableView;
     NSMutableArray *selectPhotos;
-    NSString *verify_state;
-    NSString *checks_user;
-    NSString *checks_user_department;
-    NSString *department_id;
-    BOOL isHaveChecker;
-    NSDictionary *checkUserDic;
+    NSString       *verify_state;
+    NSString       *checks_user;
+    NSString       *checks_user_department;
+    NSString       *department_id;
+    BOOL           isHaveChecker;
+    NSDictionary   *checkUserDic;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -45,6 +45,11 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 @end
 
 @implementation BXTSettingViewController
+
+- (void)dealloc
+{
+    LogBlue(@"设置界面释放了！！！！！！");
+}
 
 - (void)viewDidLoad
 {
@@ -164,29 +169,6 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     return newImage;
 }
 
-#pragma mark -
-#pragma mark 上传头像
-- (void)updateImage:(UIImage *)image
-{
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request uploadHeaderImage:image];
-}
-
-- (void)quitOutClick
-{
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request exit_loginWithClientID:[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]];
-    [[RCIM sharedRCIM] disconnect];
-    [[ANKeyValueTable userDefaultTable] clear];
-    [BXTGlobal shareGlobal].isRepair = NO;
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
-    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    navigation.navigationBar.hidden = YES;
-    navigation.enableBackGesture = YES;
-    [AppDelegate appdelegete].window.rootViewController = navigation;
-}
-
 //有的图片在Ipad的情况下
 - (void)loadImageFromAssertByUrl:(NSURL *)url completion:(void (^)(UIImage *))completion{
     
@@ -271,12 +253,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 }
 
 #pragma mark -
-#pragma mark 代理
-
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
-//section头部间距
+#pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -285,7 +262,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     }
     return 10.f;//section头部高度
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -298,7 +275,6 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     return view;
 }
 
-//section底部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 4)
@@ -315,7 +291,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     }
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 4)
@@ -339,7 +315,21 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             [quitOut setBackgroundColor:colorWithHexString(@"3cafff")];
             quitOut.layer.masksToBounds = YES;
             quitOut.layer.cornerRadius = 6.f;
-            [quitOut addTarget:self action:@selector(quitOutClick) forControlEvents:UIControlEventTouchUpInside];
+            @weakify(self);
+            [[quitOut rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                @strongify(self);
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request exit_loginWithClientID:[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]];
+                [[RCIM sharedRCIM] disconnect];
+                [[ANKeyValueTable userDefaultTable] clear];
+                [BXTGlobal shareGlobal].isRepair = NO;
+                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+                BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+                UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
+                navigation.navigationBar.hidden = YES;
+                navigation.enableBackGesture = YES;
+                [AppDelegate appdelegete].window.rootViewController = navigation;
+            }];
             [view addSubview:quitOut];
             
             return view;
@@ -369,7 +359,21 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         [quitOut setBackgroundColor:colorWithHexString(@"3cafff")];
         quitOut.layer.masksToBounds = YES;
         quitOut.layer.cornerRadius = 6.f;
-        [quitOut addTarget:self action:@selector(quitOutClick) forControlEvents:UIControlEventTouchUpInside];
+        @weakify(self);
+        [[quitOut rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request exit_loginWithClientID:[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]];
+            [[RCIM sharedRCIM] disconnect];
+            [[ANKeyValueTable userDefaultTable] clear];
+            [BXTGlobal shareGlobal].isRepair = NO;
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+            BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+            UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
+            navigation.navigationBar.hidden = YES;
+            navigation.enableBackGesture = YES;
+            [AppDelegate appdelegete].window.rootViewController = navigation;
+        }];
         [view addSubview:quitOut];
         
         return view;
@@ -593,9 +597,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     }
 }
 
-/**
- *  UIImagePickerControllerDelegate
- */
+#pragma mark -
+#pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     __block UIImage *headImage = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -636,9 +639,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     }];
 }
 
-/**
- *  SelectPhotoDelegate
- */
+#pragma mark -
+#pragma mark SelectPhotoDelegate
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
     selectPhotos = photos;
@@ -655,9 +657,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     [imageCrop showWithAnimation:YES];
 }
 
-/**
- *  MWPhotoBrowserDelegate
- */
+#pragma mark -
+#pragma mark MWPhotoBrowserDelegate
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
 {
     return self.mwPhotosArray.count;
@@ -669,9 +670,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     return photo;
 }
 
-/**
- *  BXTDataResponseDelegate
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
@@ -717,7 +717,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 #pragma mark crop delegate
 - (void)cropImage:(UIImage*)cropImage forOriginalImage:(UIImage*)originalImage
 {
-    [self updateImage:cropImage];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request uploadHeaderImage:cropImage];
 }
 
 - (void)didReceiveMemoryWarning

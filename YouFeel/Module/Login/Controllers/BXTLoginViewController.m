@@ -19,13 +19,18 @@
 #define PassWordTag 12
 
 @interface BXTLoginViewController ()<BXTDataResponseDelegate>
-{
-    NSString    *userName;
-    NSString    *passWord;
-}
+
+@property (nonatomic ,strong) NSString *userName;
+@property (nonatomic ,strong) NSString *passWord;
+
 @end
 
 @implementation BXTLoginViewController
+
+- (void)dealloc
+{
+    LogBlue(@"登录界面释放了。。。。。。。。。");
+}
 
 - (void)viewDidLoad
 {
@@ -79,10 +84,12 @@
     userNameTF.placeholder = @"输入手机号";
     userNameTF.text = [BXTGlobal getUserProperty:U_USERNAME];
     [userNameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
+    @weakify(self);
     [[userNameTF.rac_textSignal filter:^BOOL(NSString *text) {
         return text.length == 11;
     }] subscribeNext:^(id x) {
-        userName = x;
+        @strongify(self);
+        self.userName = x;
     }];
     userNameTF.tag = UserNameTag;
     [textfiledBackView addSubview:userNameTF];
@@ -103,7 +110,8 @@
     passWordTF.text = [BXTGlobal getUserProperty:U_PASSWORD];
     [passWordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
     [passWordTF.rac_textSignal subscribeNext:^(id x) {
-        passWord = x;
+        @strongify(self);
+        self.passWord = x;
     }];
     passWordTF.tag = PassWordTag;
     [textfiledBackView addSubview:passWordTF];
@@ -121,17 +129,18 @@
         [loginBtn setBackgroundColor:colorWithHexString(@"4d81e5")];
     }];
     [[loginBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         [self resignFirstResponder];
         [loginBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         
-        if ([BXTGlobal validateMobile:userName])
+        if ([BXTGlobal validateMobile:self.userName])
         {
             [self showLoadingMBP:@"正在登录..."];
             
-            [BXTGlobal setUserProperty:userName withKey:U_USERNAME];
-            [BXTGlobal setUserProperty:passWord withKey:U_PASSWORD];
+            [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
+            [BXTGlobal setUserProperty:self.passWord withKey:U_PASSWORD];
             
-            NSDictionary *userInfoDic = @{@"username":userName,@"password":passWord,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+            NSDictionary *userInfoDic = @{@"username":self.userName,@"password":self.passWord,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
             
             BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
             [dataRequest loginUser:userInfoDic];
@@ -152,6 +161,7 @@
     [findPassWordBtn setTitle:@"忘记密码？" forState:UIControlStateNormal];
     [findPassWordBtn setTitleColor:colorWithHexString(@"4e74a5") forState:UIControlStateNormal];
     [[findPassWordBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         BXTFindPassWordViewController *findVC = [[BXTFindPassWordViewController alloc] init];
         [self.navigationController pushViewController:findVC animated:YES];
     }];
@@ -163,6 +173,7 @@
     [resignBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f, resignBtn.center.y)];
     [resignBtn setImage:[UIImage imageNamed:@"Registered"] forState:UIControlStateNormal];
     [[resignBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         BXTResignViewController *resignVC = [[BXTResignViewController alloc] init];
         [self.navigationController pushViewController:resignVC animated:YES];
     }];
@@ -204,7 +215,7 @@
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
             [BXTGlobal shareGlobal].baseURL = url;
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];

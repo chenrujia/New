@@ -17,20 +17,20 @@
 static NSString *cellIndentify = @"cellIndentify";
 
 @interface BXTResignViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
-{
-    NSString *userName;
-    NSString *codeNumber;
-    NSString *returncode;
-    NSString *passWord;
-    UIButton *codeBtn;
-}
+
+@property (nonatomic ,strong) NSString *userName;
+@property (nonatomic ,strong) NSString *passWord;
+@property (nonatomic ,strong) NSString *codeNumber;
+@property (nonatomic ,strong) NSString *returncode;
+@property (nonatomic ,strong) UIButton *codeBtn;
+
 @end
 
 @implementation BXTResignViewController
 
 - (void)dealloc
 {
-    LogBlue(@"执行了！！！！！！");
+    LogBlue(@"注册界面释放了！！！！！！");
 }
 
 - (void)viewDidLoad
@@ -58,7 +58,6 @@ static NSString *cellIndentify = @"cellIndentify";
 #pragma mark 代理
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
-//section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -67,7 +66,7 @@ static NSString *cellIndentify = @"cellIndentify";
     }
     return 10.f;//section头部高度
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -79,7 +78,7 @@ static NSString *cellIndentify = @"cellIndentify";
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 2)
@@ -88,7 +87,7 @@ static NSString *cellIndentify = @"cellIndentify";
     }
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 2)
@@ -102,27 +101,29 @@ static NSString *cellIndentify = @"cellIndentify";
         [nextTapBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         nextTapBtn.layer.masksToBounds = YES;
         nextTapBtn.layer.cornerRadius = 6.f;
+        @weakify(self);
         [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            if (![BXTGlobal validateMobile:userName])
+            @strongify(self);
+            if (![BXTGlobal validateMobile:self.userName])
             {
                 [self showMBP:@"手机号格式不对" withBlock:nil];
             }
-            else if (![BXTGlobal validateCAPTCHA:codeNumber])
+            else if (![BXTGlobal validateCAPTCHA:self.codeNumber])
             {
                 [self showMBP:@"请输入正确4位验证码" withBlock:nil];
             }
-            else if (![codeNumber isEqualToString:returncode])
+            else if (![self.codeNumber isEqualToString:self.returncode])
             {
                 [self showMBP:@"验证码不正确" withBlock:nil];
             }
-            else if (![BXTGlobal validatePassword:passWord])
+            else if (![BXTGlobal validatePassword:self.passWord])
             {
                 [self showMBP:@"请输入至少6位密码，仅限英文、数字" withBlock:nil];
             }
             else
             {
-                [BXTGlobal setUserProperty:userName withKey:U_USERNAME];
-                [BXTGlobal setUserProperty:passWord withKey:U_PASSWORD];
+                [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
+                [BXTGlobal setUserProperty:self.passWord withKey:U_PASSWORD];
                 
                 BXTNickNameViewController *nickNameVC = [[BXTNickNameViewController alloc] init];
                 [self.navigationController pushViewController:nickNameVC animated:YES];
@@ -164,11 +165,13 @@ static NSString *cellIndentify = @"cellIndentify";
         cell.nameLabel.text = @"手机号";
         cell.textField.placeholder = @"请输入有效的手机号码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+        @weakify(self);
         [[cell.textField.rac_textSignal filter:^BOOL(id value) {
             NSString *str = value;
             return str.length == 11;
         }] subscribeNext:^(id x) {
-            userName = x;
+            @strongify(self);
+            self.userName = x;
         }];
         cell.codeButton.hidden = YES;
     }
@@ -181,22 +184,23 @@ static NSString *cellIndentify = @"cellIndentify";
         @weakify(self);
         [[cell.codeButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            if ([BXTGlobal validateMobile:userName])
+            if ([BXTGlobal validateMobile:self.userName])
             {
                 [self showLoadingMBP:@"正在获取..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request mobileVerCode:userName];
-                codeBtn.userInteractionEnabled = NO;
-                [codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                [request mobileVerCode:self.userName];
+                self.codeBtn.userInteractionEnabled = NO;
+                [self.codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
             }
             else
             {
                 [self showMBP:@"手机号格式不对" withBlock:nil];
             }
         }];
-        codeBtn = cell.codeButton;
+        self.codeBtn = cell.codeButton;
         [cell.textField.rac_textSignal subscribeNext:^(id x) {
-            codeNumber = x;
+            @strongify(self);
+            self.codeNumber = x;
         }];
     }
     else
@@ -205,8 +209,10 @@ static NSString *cellIndentify = @"cellIndentify";
         cell.textField.placeholder = @"请输入登录密码，至少6位";
         cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
         cell.codeButton.hidden = YES;
+        @weakify(self);
         [cell.textField.rac_textSignal subscribeNext:^(id x) {
-            passWord = x;
+            @strongify(self);
+            self.passWord = x;
         }];
     }
     
@@ -226,7 +232,7 @@ static NSString *cellIndentify = @"cellIndentify";
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
-        returncode = [NSString stringWithFormat:@"%@", [dic objectForKey:@"verification_code"]];
+        self.returncode = [NSString stringWithFormat:@"%@", [dic objectForKey:@"verification_code"]];
         [self updateTime];
     }
 }
@@ -242,21 +248,23 @@ static NSString *cellIndentify = @"cellIndentify";
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
+    @weakify(self);
     dispatch_source_set_event_handler(_time, ^{
+        @strongify(self);
         count--;
         if (count <= 0)
         {
             dispatch_source_cancel(_time);
             dispatch_async(dispatch_get_main_queue(), ^{
-                codeBtn.userInteractionEnabled = YES;
-                [codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-                [codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+                self.codeBtn.userInteractionEnabled = YES;
+                [self.codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+                [self.codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
             });
         }
         else
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [codeBtn setTitle:[NSString stringWithFormat:@"重新获取 %ld",(long)count] forState:UIControlStateNormal];
+                [self.codeBtn setTitle:[NSString stringWithFormat:@"重新获取 %ld",(long)count] forState:UIControlStateNormal];
             });
         }
     });

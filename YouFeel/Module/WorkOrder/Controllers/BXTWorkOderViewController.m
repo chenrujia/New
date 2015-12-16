@@ -152,8 +152,10 @@
     [self.view addSubview:pickView];
 }
 
-- (void)toolBarDoneClick {
-    if (pickView) {
+- (void)toolBarDoneClick
+{
+    if (pickView)
+    {
         [pickView removeFromSuperview];
         pickView = nil;
         [pickerbackView removeFromSuperview];

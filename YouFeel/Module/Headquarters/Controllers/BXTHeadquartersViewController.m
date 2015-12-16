@@ -17,17 +17,22 @@
 
 @interface BXTHeadquartersViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,BXTDataResponseDelegate,CLLocationManagerDelegate>
 {
-    NSMutableArray *shopsArray;
-    NSMutableArray *locationShopsArray;
-    UISearchBar *headSearchBar;
-    UITableView *currentTableView;
-    BOOL isPush;
-    BOOL is_binding;
+    NSMutableArray    *shopsArray;
+    NSMutableArray    *locationShopsArray;
+    UISearchBar       *headSearchBar;
+    UITableView       *currentTableView;
+    BOOL              isPush;
+    BOOL              is_binding;
     CLLocationManager *locationManager;
 }
 @end
 
 @implementation BXTHeadquartersViewController
+
+- (void)dealloc
+{
+    LogBlue(@"Header界面释放了！！！！！！");
+}
 
 - (instancetype)initWithType:(BOOL)push
 {
@@ -42,23 +47,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //定位
     [self locationPoint];
-    
     shopsArray = [NSMutableArray array];
     locationShopsArray = [NSMutableArray array];
-    /**请求分店位置**/
-    BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dep_request shopLists:nil];
-    
     NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
     if (my_shops.count)
     {
         is_binding = YES;
     }
-    
     [self navigationSetting:@"添加新项目" andRightTitle:nil andRightImage:nil];
-//    [self navigationSetting];
     [self createTableView];
+    [self showLoadingMBP:@"努力加载中..."];
+    /**请求分店位置**/
+    BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [dep_request shopLists:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -68,51 +71,6 @@
 
 #pragma mark -
 #pragma mark 初始化视图
-- (void)navigationSetting
-{
-    UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, NavBarHeight)];
-    if ([BXTGlobal shareGlobal].isRepair)
-    {
-        naviView.image = [[UIImage imageNamed:@"Nav_Bars"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    }
-    else
-    {
-        naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    }    naviView.userInteractionEnabled = YES;
-    [self.view addSubview:naviView];
-    
-    UILabel *navi_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64, 20, SCREEN_WIDTH-128, 44)];
-    navi_titleLabel.backgroundColor = [UIColor clearColor];
-    navi_titleLabel.font = [UIFont systemFontOfSize:18];
-    navi_titleLabel.textColor = [UIColor whiteColor];
-    navi_titleLabel.textAlignment = NSTextAlignmentCenter;
-    navi_titleLabel.text = [NSString stringWithFormat:@"切换位置"];
-    [naviView addSubview:navi_titleLabel];
-    
-    if (isPush)
-    {
-        UIButton * navi_leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 50, 44)];
-        navi_leftButton.backgroundColor = [UIColor clearColor];
-        [navi_leftButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-        [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
-        [naviView addSubview:navi_leftButton];
-    }
-    
-    headSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(10.f, NavBarHeight - 44, SCREEN_WIDTH - 20.f, 44.f)];
-    headSearchBar.delegate = self;
-    headSearchBar.placeholder = @"快速查找";
-    headSearchBar.backgroundColor = [UIColor clearColor];
-    headSearchBar.barStyle = UIBarStyleDefault;
-    [[[[headSearchBar.subviews objectAtIndex:0] subviews] objectAtIndex:0] removeFromSuperview];
-    [headSearchBar setBackgroundColor:[UIColor clearColor]];
-    UITextField *searchField=[((UIView *)[headSearchBar.subviews objectAtIndex:0]).subviews lastObject];
-    searchField.layer.cornerRadius = 6.0;
-    searchField.layer.masksToBounds = YES;
-    searchField.layer.borderWidth = 0.5;
-    searchField.layer.borderColor = [UIColor colorWithRed:166.0/255.0 green:166.0/255.0 blue:166.0/255.0 alpha:1.0].CGColor;
-    [naviView addSubview:headSearchBar];
-}
-
 - (void)createTableView
 {
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
@@ -161,44 +119,6 @@
     }
 }
 
-#pragma mark -
-#pragma mark 事件
-- (void)barItmeClick:(UIButton *)btn
-{
-    if (btn.tag == 1)
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else if (btn.tag == 2)
-    {
-        BXTBranchViewController *branchVC = [[BXTBranchViewController alloc] init];
-        [self.navigationController pushViewController:branchVC animated:YES];
-    }
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    [searchBar endEditing:YES];
-    searchBar.showsCancelButton = NO;
-}
-
-- (void)shopBtnClick:(UIButton *)btn
-{
-    NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
-    NSDictionary *companyDic = my_shops[btn.tag];
-    BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
-    companyInfo.company_id = [companyDic objectForKey:@"id"];
-    companyInfo.name = [companyDic objectForKey:@"shop_name"];
-    [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", companyDic[@"id"], [BXTGlobal getUserProperty:U_TOKEN]];
-    [BXTGlobal shareGlobal].baseURL = url;
-    /**请求分店位置**/
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request branchLogin];
-}
-
-#pragma mark -
-#pragma mark 代理
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -266,11 +186,24 @@
             [btn setFrame:CGRectMake(appX, appY, width, 30.f)];
             [btn setTitle:[infoDic objectForKey:@"shop_name"] forState:UIControlStateNormal];
             [btn setTitleColor:colorWithHexString(@"929697") forState:UIControlStateNormal];
-            btn.tag = index;
             btn.layer.cornerRadius = 4.f;
             btn.layer.borderColor = colorWithHexString(@"e6e5e6").CGColor;
             btn.layer.borderWidth = 1.f;
-            [btn addTarget:self action:@selector(shopBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+            @weakify(self);
+            [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                @strongify(self);
+                NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
+                NSDictionary *companyDic = my_shops[index];
+                BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
+                companyInfo.company_id = [companyDic objectForKey:@"id"];
+                companyInfo.name = [companyDic objectForKey:@"shop_name"];
+                [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
+                NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", companyDic[@"id"], [BXTGlobal getUserProperty:U_TOKEN]];
+                [BXTGlobal shareGlobal].baseURL = url;
+                /**请求分店位置**/
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request branchLogin];
+            }];
             [backView addSubview:btn];
         }
         [view addSubview:backView];
@@ -392,25 +325,10 @@
 }
 
 #pragma mark -
-#pragma mark UISearchBarDelegate
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
-    searchBar.showsCancelButton = YES;
-    for(id cc in [[[searchBar subviews] objectAtIndex:0] subviews])
-    {
-        if([cc isKindOfClass:[UIButton class]])
-        {
-            UIButton *btn = (UIButton *)cc;
-            [btn setTitle:@"取消" forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        }
-    }
-}
-
-#pragma mark -
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     NSArray *array = [dic objectForKey:@"data"];
     
@@ -458,9 +376,11 @@
 
 - (void)requestError:(NSError *)error
 {
-//    [self hideMBP];
+    [self hideMBP];
 }
 
+#pragma mark -
+#pragma mark CLLocationManagerDelegate
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
 {
     NSLog(@"%@",locations);
