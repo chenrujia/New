@@ -28,6 +28,11 @@ static NSString *cellIndentify = @"cellIndentify";
 
 @implementation BXTResignViewController
 
+- (void)dealloc
+{
+    LogBlue(@"执行了！！！！！！");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -173,7 +178,9 @@ static NSString *cellIndentify = @"cellIndentify";
         cell.textField.placeholder = @"请输入短信验证码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         cell.codeButton.hidden = NO;
+        @weakify(self);
         [[cell.codeButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
             if ([BXTGlobal validateMobile:userName])
             {
                 [self showLoadingMBP:@"正在获取..."];
