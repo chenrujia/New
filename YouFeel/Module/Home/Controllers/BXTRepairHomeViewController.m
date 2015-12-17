@@ -26,6 +26,7 @@
 #import "BXTStatisticsViewController.h"
 #import "BXTMMOrderManagerViewController.h"
 #import "BXTAuthorityListViewController.h"
+#import "BXTSettingViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -104,6 +105,9 @@
 #pragma mark 事件处理
 - (void)repairClick
 {
+    if ([self is_verify]) {
+        return;
+    }
     // 我的工单
     BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
     [self.navigationController pushViewController:orderManagerVC animated:YES];
@@ -125,7 +129,11 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
-    
+    if (indexPath.row <= 6) {
+        if ([self is_verify]) {
+            return;
+        }
+    }
     switch (indexPath.row) {
         case 0:
         {

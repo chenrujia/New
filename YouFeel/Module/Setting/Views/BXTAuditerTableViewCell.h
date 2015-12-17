@@ -12,6 +12,7 @@
 
 @property (nonatomic ,strong) UILabel *titleLabel;
 @property (nonatomic ,strong) UILabel *auditNameLabel;
+@property (nonatomic, strong) UIButton *phoneBtn;
 @property (nonatomic ,strong) UILabel *positionLabel;
 @property (nonatomic ,strong) UIButton *contactBtn;
 

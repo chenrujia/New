@@ -78,6 +78,10 @@
 #pragma mark 事件处理
 - (void)repairClick
 {
+    if ([self is_verify]) {
+        return;
+    }
+    // 我的工单
     BXTWorkOderViewController *workOrderVC = [[BXTWorkOderViewController alloc] init];
     [self.navigationController pushViewController:workOrderVC animated:YES];
 }
@@ -87,7 +91,11 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
-    
+    if (indexPath.row <= 6) {
+        if ([self is_verify]) {
+            return;
+        }
+    }
     switch (indexPath.row) {
         case 0:
         {
@@ -172,13 +180,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
