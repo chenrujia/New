@@ -32,9 +32,6 @@
     UILabel *level;
     UILabel *notes;
     UIButton *cancelRepair;
-    UIView *evaBackView;
-    UIButton *evaluationBtn;
-    BXTRepairDetailInfo *repairDetail;
     UIScrollView *scrollView;
     UILabel *arrangeTime;
     UILabel *mmProcess;
@@ -44,8 +41,11 @@
     CGFloat contentHeight;
 }
 
-@property (nonatomic ,strong) BXTRepairInfo *repairInfo;
-@property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
+@property (nonatomic ,strong) UIButton            *evaluationBtn;
+@property (nonatomic ,strong) UIView              *evaBackView;
+@property (nonatomic ,strong) NSMutableArray      *mwPhotosArray;
+@property (nonatomic ,strong) BXTRepairInfo       *repairInfo;
+@property (nonatomic ,strong) BXTRepairDetailInfo *repairDetail;
 
 @end
 
@@ -63,22 +63,23 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    LogBlue(@"工单详情被释放了。。。");
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     contentHeight = 300;
-    
     [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
     [self createSubViews];
     
+    @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"HiddenEvaluationBtn" object:nil] subscribeNext:^(id x) {
-        [evaBackView removeFromSuperview];
-        evaBackView = nil;
-        [evaluationBtn removeFromSuperview];
-        evaluationBtn = nil;
+        @strongify(self);
+        [self.evaBackView removeFromSuperview];
+        self.evaBackView = nil;
+        [self.evaluationBtn removeFromSuperview];
+        self.evaluationBtn = nil;
     }];
     
     /**获取报修列表**/
@@ -90,7 +91,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     self.navigationController.navigationBar.hidden = YES;
 }
@@ -205,36 +205,23 @@
     [cancelRepair setBackgroundColor:colorWithHexString(@"3cafff")];
     cancelRepair.layer.masksToBounds = YES;
     cancelRepair.layer.cornerRadius = 6.f;
-    [cancelRepair addTarget:self action:@selector(cancelBtn) forControlEvents:UIControlEventTouchUpInside];
+    @weakify(self);
+    [[cancelRepair rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        /**删除工单**/
+        [self showLoadingMBP:@"请稍候..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]];
+    }];
     [scrollView addSubview:cancelRepair];
 }
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)evaluate
+- (NSMutableArray *)containAllPhotosForMWPhotoBrowser
 {
-    BXTEvaluationViewController *evaluationVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]];
-    [self.navigationController pushViewController:evaluationVC animated:YES];
-}
-
-- (void)cancelBtn
-{
-    /**删除工单**/
-    [self showLoadingMBP:@"请稍候..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]];
-}
-
-- (void)tapGesture:(UITapGestureRecognizer *)tapGR
-{
-    UIView *tapView = [tapGR view];
-    [self loadMWPhotoBrowser:tapView.tag];
-}
-
-- (NSMutableArray *)containAllPhotosForMWPhotoBrowser {
-    
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in repairDetail.fault_pic)
+    for (NSDictionary *dictionary in _repairDetail.fault_pic)
     {
         if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
         {
@@ -242,7 +229,7 @@
             [photos addObject:photo];
         }
     }
-    for (NSDictionary *dictionary in repairDetail.fixed_pic)
+    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
     {
         if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
         {
@@ -251,7 +238,7 @@
         }
     }
     
-    for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
     {
         if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
         {
@@ -278,26 +265,16 @@
     browser.enableSwipeToDismiss = YES;
     [browser setCurrentPhotoIndex:index];
     
-    browser.titlePreNumStr = [NSString stringWithFormat:@"%d%d%d", (int)repairDetail.fault_pic.count, (int)repairDetail.fixed_pic.count, (int)repairDetail.evaluation_pic.count];
+    browser.titlePreNumStr = [NSString stringWithFormat:@"%d%d%d", (int)_repairDetail.fault_pic.count, (int)_repairDetail.fixed_pic.count, (int)_repairDetail.evaluation_pic.count];
     NSLog(@"titlePreNumStr == %@", browser.titlePreNumStr);
     
     [self.navigationController pushViewController:browser animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }
 
-- (void)phoneClick:(UITapGestureRecognizer *)tap
-{
-    UILabel *label = (UILabel *)tap.view;
-    NSDictionary *userDic = repairDetail.repair_user_arr[label.tag];
-    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", [userDic objectForKey:@"mobile"]];
-    UIWebView *callWeb = [[UIWebView alloc] init];
-    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-    [self.view addSubview:callWeb];
-}
-
 - (void)contactRepairer:(UIButton *)btn
 {
-    NSDictionary *userDic = repairDetail.repair_user_arr[btn.tag];
+    NSDictionary *userDic = self.repairDetail.repair_user_arr[btn.tag];
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = [userDic objectForKey:@"out_userid"];
     
@@ -346,16 +323,16 @@
 - (NSMutableArray *)containAllArray
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in repairDetail.fault_pic)
+    for (NSDictionary *dictionary in _repairDetail.fault_pic)
     {
         [photos addObject:dictionary];
     }
-    for (NSDictionary *dictionary in repairDetail.fixed_pic)
+    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
     {
         [photos addObject:dictionary];
     }
     
-    for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
     {
         [photos addObject:dictionary];
     }
@@ -363,192 +340,9 @@
     return photos;
 }
 
-#pragma mark -
-#pragma mark 代理
-#pragma mark -
-#pragma mark BXTDataRequestDelegate
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
-{
-    [self hideMBP];
-    NSDictionary *dic = (NSDictionary *)response;
-    NSArray *data = [dic objectForKey:@"data"];
-    if (type == RepairDetail && data.count > 0)
-    {
-        NSDictionary *dictionary = data[0];
-        
-        DCParserConfiguration *config = [DCParserConfiguration configuration];
-        DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairDetailInfo class]];
-        [config addObjectMapping:map];
-        
-        DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairDetailInfo class] andConfiguration:config];
-        repairDetail = [parser parseDictionary:dictionary];
-        
-        repairID.text = [NSString stringWithFormat:@"工单号:%@",repairDetail.orderid];
-        
-        NSTimeInterval timeInterval = [repairDetail.repair_time doubleValue];
-        NSDate *detaildate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-        //实例化一个NSDateFormatter对象
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        //设定时间格式,这里可以设置成自己需要的格式
-        [dateFormatter setDateFormat:@"MM-dd HH:mm"];
-        NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
-        time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
-        place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.area_name,repairDetail.place_name];
-        name.text = [NSString stringWithFormat:@"报修人:%@",repairDetail.fault];
-        mobile.text = [NSString stringWithFormat:@"手机号:%@",repairDetail.visitmobile];
-        faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
-        cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
-        
-        if (repairDetail.urgent == 2)
-        {
-            level.text = @"等级:一般";
-        }
-        else
-        {
-            NSString *str = @"等级:紧急";
-            NSRange range = [str rangeOfString:@"紧急"];
-            NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-            [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-            level.attributedText = attributeStr;
-        }
-        
-        NSString *contents = [NSString stringWithFormat:@"报修内容:%@",repairDetail.notes];
-        UIFont *font = [UIFont boldSystemFontOfSize:17.f];
-        CGSize size = MB_MULTILINE_TEXTSIZE(contents, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000.f), NSLineBreakByWordWrapping);
-        CGRect rect = notes.frame;
-        rect.size = size;
-        notes.frame = rect;
-        notes.text = contents;
-        
-        NSArray *imgArray = [self containAllArray];
-        if (imgArray.count > 0)
-        {
-            NSInteger i = 0;
-            UIScrollView *imagesScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, ImageHeight)];
-            imagesScrollView.contentSize = CGSizeMake((ImageWidth + 25) * imgArray.count + 25.f, ImageHeight);
-            [imagesScrollView setShowsHorizontalScrollIndicator:NO];
-            for (NSDictionary *dictionary in imgArray)
-            {
-                if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
-                {
-                    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(25.f * (i + 1) + ImageWidth * i, 0, ImageWidth, ImageHeight)];
-                    imgView.userInteractionEnabled = YES;
-                    imgView.layer.masksToBounds = YES;
-                    imgView.contentMode = UIViewContentModeScaleAspectFill;
-                    [imgView sd_setImageWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-                    imgView.tag = i;
-                    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-                    [imgView addGestureRecognizer:tapGR];
-                    [imagesScrollView addSubview:imgView];
-                    i++;
-                }
-            }
-            [scrollView addSubview:imagesScrollView];
-            
-            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH, StateViewHeight) withRepairState:repairDetail.repairstate withIsRespairing:repairDetail.isRepairing];
-            [scrollView addSubview:drawView];
-            
-            arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
-            if (repairDetail.man_hours.length)
-            {
-                NSString *mm_content = [NSString stringWithFormat:@"维修备注:%@",repairDetail.workprocess];
-                CGSize mmProcessSize = MB_MULTILINE_TEXTSIZE(mm_content, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
-                contentHeight += mmProcessSize.height;
-                mmProcess.frame = CGRectMake(20.f, CGRectGetMaxY(arrangeTime.frame) + 15.f, SCREEN_WIDTH - 40.f, mmProcessSize.height);
-                workTime.frame = CGRectMake(20.f, CGRectGetMaxY(mmProcess.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
-            }
-            else
-            {
-                mmProcess.hidden = YES;
-                workTime.hidden = YES;
-            }
-            
-            if (repairDetail.repair_user_arr.count > 0)
-            {
-                [self loadingUsers];
-                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + ImageHeight + 40.f + StateViewHeight + 40.f + RepairHeight * repairDetail.repair_user_arr.count + 60.f + 200.f/3.f);
-                cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(maintenanceMan.frame) + repairDetail.repair_user_arr.count * 95.f + 20.f, SCREEN_WIDTH - 40, 50.f);
-            }
-            else
-            {
-                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + ImageHeight + 40.f + StateViewHeight + 40.f);
-                cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(drawView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
-            }
-        }
-        else
-        {
-            
-            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, 90.f) withRepairState:repairDetail.repairstate withIsRespairing:repairDetail.isRepairing];
-            [scrollView addSubview:drawView];
-            
-            arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
-            if (repairDetail.man_hours.length)
-            {
-                NSString *mm_content = [NSString stringWithFormat:@"维修备注:%@",repairDetail.workprocess];
-                CGSize mmProcessSize = MB_MULTILINE_TEXTSIZE(mm_content, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
-                contentHeight += mmProcessSize.height;
-                mmProcess.frame = CGRectMake(20.f, CGRectGetMaxY(arrangeTime.frame) + 15.f, SCREEN_WIDTH - 40.f, mmProcessSize.height);
-                workTime.frame = CGRectMake(20.f, CGRectGetMaxY(mmProcess.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
-            }
-            else
-            {
-                mmProcess.hidden = YES;
-                workTime.hidden = YES;
-            }
-            
-            if (repairDetail.repair_user_arr.count > 0)
-            {
-                [self loadingUsers];
-                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + StateViewHeight + 40.f + RepairHeight * repairDetail.repair_user_arr.count + 60.f + 200.f/3.f);
-                cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(maintenanceMan.frame) + repairDetail.repair_user_arr.count * 95.f + 20.f, SCREEN_WIDTH - 40, 50.f);
-            }
-            else
-            {
-                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + StateViewHeight + 40.f);
-                cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(drawView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
-            }
-        }
-        if (repairDetail.repairstate != 1)
-        {
-            cancelRepair.hidden = YES;
-        }
-        if (repairDetail.repairstate == 3)
-        {
-            evaBackView = [[UIView alloc] initWithFrame:CGRectMake(0.f, SCREEN_HEIGHT - 200.f/3.f, SCREEN_WIDTH, 200.f/3.f)];
-            evaBackView.backgroundColor = [UIColor blackColor];
-            evaBackView.alpha = 0.6;
-            [self.view addSubview:evaBackView];
-            
-            evaluationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [evaluationBtn setFrame:CGRectMake(0, 0, 200.f, 40.f)];
-            [evaluationBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f,CGRectGetMinY(evaBackView.frame) + evaBackView.bounds.size.height/2.f)];
-            [evaluationBtn setTitle:@"发表评价" forState:UIControlStateNormal];
-            [evaluationBtn setTitleColor:colorWithHexString(@"3bb0ff") forState:UIControlStateNormal];
-            [evaluationBtn setBackgroundColor:[UIColor whiteColor]];
-            evaluationBtn.layer.cornerRadius = 4.f;
-            evaluationBtn.layer.masksToBounds = YES;
-            [evaluationBtn addTarget:self action:@selector(evaluate) forControlEvents:UIControlEventTouchUpInside];
-            [self.view addSubview:evaluationBtn];
-        }
-    }
-    else if (type == DeleteRepair)
-    {
-        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
-        {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestRepairList" object:nil];
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    }
-}
-
-- (void)requestError:(NSError *)error
-{
-    [self hideMBP];
-}
-
 - (void)loadingUsers
 {
-    NSTimeInterval repairTime = [repairDetail.dispatching_time doubleValue];
+    NSTimeInterval repairTime = [_repairDetail.dispatching_time doubleValue];
     NSDate *repairDate = [NSDate dateWithTimeIntervalSince1970:repairTime];
     //实例化一个NSDateFormatter对象
     NSDateFormatter *repairDateFormatter = [[NSDateFormatter alloc] init];
@@ -562,16 +356,16 @@
     }
     else
     {
-        mmProcess.text = [NSString stringWithFormat:@"维修备注:%@",repairDetail.workprocess];
-        workTime.text = [NSString stringWithFormat:@"维修工时:%@小时",repairDetail.man_hours];
+        mmProcess.text = [NSString stringWithFormat:@"维修备注:%@",_repairDetail.workprocess];
+        workTime.text = [NSString stringWithFormat:@"维修工时:%@小时",_repairDetail.man_hours];
         lineView.frame = CGRectMake(15.f, CGRectGetMaxY(workTime.frame) + 15.f, SCREEN_WIDTH - 30.f, 1.f);
     }
-   
+    
     maintenanceMan.frame = CGRectMake(20.f, CGRectGetMaxY(lineView.frame) + 10.f, SCREEN_WIDTH - 40.f, 40.f);
     
-    for (NSInteger i = 0; i < repairDetail.repair_user_arr.count; i++)
+    for (NSInteger i = 0; i < _repairDetail.repair_user_arr.count; i++)
     {
-        NSDictionary *userDic = repairDetail.repair_user_arr[i];
+        NSDictionary *userDic = _repairDetail.repair_user_arr[i];
         
         UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(maintenanceMan.frame) + i * 95.f, SCREEN_WIDTH, RepairHeight)];
         UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
@@ -596,7 +390,6 @@
         
         UILabel *phone = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 50.f, CGRectGetWidth(level.frame), 20)];
         phone.textColor = colorWithHexString(@"909497");
-        phone.tag = i;
         phone.numberOfLines = 0;
         phone.lineBreakMode = NSLineBreakByWordWrapping;
         phone.userInteractionEnabled = YES;
@@ -605,8 +398,17 @@
         [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
         [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
         phone.attributedText = attributedString;
-        UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(phoneClick:)];
+        UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] init];
         [phone addGestureRecognizer:moblieTap];
+        @weakify(self);
+        [[moblieTap rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
+            NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", [userDic objectForKey:@"mobile"]];
+            UIWebView *callWeb = [[UIWebView alloc] init];
+            [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+            [self.view addSubview:callWeb];
+        }];
         [userBack addSubview:phone];
         
         UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -620,7 +422,7 @@
         [contact addTarget:self action:@selector(contactRepairer:) forControlEvents:UIControlEventTouchUpInside];
         [userBack addSubview:contact];
         
-        if (i != repairDetail.repair_user_arr.count -1)
+        if (i != _repairDetail.repair_user_arr.count -1)
         {
             UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, userBack.bounds.size.height - 1.f, SCREEN_WIDTH - 30.f, 1.f)];
             line.backgroundColor = colorWithHexString(@"e2e6e8");
@@ -631,9 +433,198 @@
     }
 }
 
-/**
- *  MWPhotoBrowserDelegate
- */
+#pragma mark -
+#pragma mark BXTDataRequestDelegate
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == RepairDetail && data.count > 0)
+    {
+        NSDictionary *dictionary = data[0];
+        
+        DCParserConfiguration *config = [DCParserConfiguration configuration];
+        DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairDetailInfo class]];
+        [config addObjectMapping:map];
+        
+        DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairDetailInfo class] andConfiguration:config];
+        self.repairDetail = [parser parseDictionary:dictionary];
+        
+        repairID.text = [NSString stringWithFormat:@"工单号:%@",_repairDetail.orderid];
+        
+        NSTimeInterval timeInterval = [_repairDetail.repair_time doubleValue];
+        NSDate *detaildate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
+        //实例化一个NSDateFormatter对象
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        //设定时间格式,这里可以设置成自己需要的格式
+        [dateFormatter setDateFormat:@"MM-dd HH:mm"];
+        NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
+        time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
+        place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
+        name.text = [NSString stringWithFormat:@"报修人:%@",_repairDetail.fault];
+        mobile.text = [NSString stringWithFormat:@"手机号:%@",_repairDetail.visitmobile];
+        faultType.text = [NSString stringWithFormat:@"故障类型:%@",_repairDetail.faulttype_name];
+        cause.text = [NSString stringWithFormat:@"故障描述:%@",_repairDetail.cause];
+        
+        if (_repairDetail.urgent == 2)
+        {
+            level.text = @"等级:一般";
+        }
+        else
+        {
+            NSString *str = @"等级:紧急";
+            NSRange range = [str rangeOfString:@"紧急"];
+            NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+            [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
+            level.attributedText = attributeStr;
+        }
+        
+        NSString *contents = [NSString stringWithFormat:@"报修内容:%@",_repairDetail.notes];
+        UIFont *font = [UIFont boldSystemFontOfSize:17.f];
+        CGSize size = MB_MULTILINE_TEXTSIZE(contents, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000.f), NSLineBreakByWordWrapping);
+        CGRect rect = notes.frame;
+        rect.size = size;
+        notes.frame = rect;
+        notes.text = contents;
+        
+        NSArray *imgArray = [self containAllArray];
+        if (imgArray.count > 0)
+        {
+            NSInteger i = 0;
+            UIScrollView *imagesScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, ImageHeight)];
+            imagesScrollView.contentSize = CGSizeMake((ImageWidth + 25) * imgArray.count + 25.f, ImageHeight);
+            [imagesScrollView setShowsHorizontalScrollIndicator:NO];
+            for (NSDictionary *dictionary in imgArray)
+            {
+                if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+                {
+                    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(25.f * (i + 1) + ImageWidth * i, 0, ImageWidth, ImageHeight)];
+                    imgView.userInteractionEnabled = YES;
+                    imgView.layer.masksToBounds = YES;
+                    imgView.contentMode = UIViewContentModeScaleAspectFill;
+                    [imgView sd_setImageWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
+                    [imgView addGestureRecognizer:tapGR];
+                    @weakify(self);
+                    [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
+                        @strongify(self);
+                        [self loadMWPhotoBrowser:i];
+                    }];
+                    [imagesScrollView addSubview:imgView];
+                    i++;
+                }
+            }
+            [scrollView addSubview:imagesScrollView];
+            
+            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + ImageHeight + 20.f + 20.f, SCREEN_WIDTH, StateViewHeight) withRepairState:_repairDetail.repairstate withIsRespairing:_repairDetail.isRepairing];
+            [scrollView addSubview:drawView];
+            
+            arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
+            if (_repairDetail.man_hours.length)
+            {
+                NSString *mm_content = [NSString stringWithFormat:@"维修备注:%@",_repairDetail.workprocess];
+                CGSize mmProcessSize = MB_MULTILINE_TEXTSIZE(mm_content, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
+                contentHeight += mmProcessSize.height;
+                mmProcess.frame = CGRectMake(20.f, CGRectGetMaxY(arrangeTime.frame) + 15.f, SCREEN_WIDTH - 40.f, mmProcessSize.height);
+                workTime.frame = CGRectMake(20.f, CGRectGetMaxY(mmProcess.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
+            }
+            else
+            {
+                mmProcess.hidden = YES;
+                workTime.hidden = YES;
+            }
+            
+            if (_repairDetail.repair_user_arr.count > 0)
+            {
+                [self loadingUsers];
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + ImageHeight + 40.f + StateViewHeight + 40.f + RepairHeight * _repairDetail.repair_user_arr.count + 60.f + 200.f/3.f);
+                cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(maintenanceMan.frame) + _repairDetail.repair_user_arr.count * 95.f + 20.f, SCREEN_WIDTH - 40, 50.f);
+            }
+            else
+            {
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + ImageHeight + 40.f + StateViewHeight + 40.f);
+                cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(drawView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
+            }
+        }
+        else
+        {
+            
+            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, 90.f) withRepairState:_repairDetail.repairstate withIsRespairing:_repairDetail.isRepairing];
+            [scrollView addSubview:drawView];
+            
+            arrangeTime.frame = CGRectMake(20.f, CGRectGetMaxY(drawView.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
+            if (_repairDetail.man_hours.length)
+            {
+                NSString *mm_content = [NSString stringWithFormat:@"维修备注:%@",_repairDetail.workprocess];
+                CGSize mmProcessSize = MB_MULTILINE_TEXTSIZE(mm_content, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
+                contentHeight += mmProcessSize.height;
+                mmProcess.frame = CGRectMake(20.f, CGRectGetMaxY(arrangeTime.frame) + 15.f, SCREEN_WIDTH - 40.f, mmProcessSize.height);
+                workTime.frame = CGRectMake(20.f, CGRectGetMaxY(mmProcess.frame) + 15.f, SCREEN_WIDTH - 40.f, 20.f);
+            }
+            else
+            {
+                mmProcess.hidden = YES;
+                workTime.hidden = YES;
+            }
+            
+            if (_repairDetail.repair_user_arr.count > 0)
+            {
+                [self loadingUsers];
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + StateViewHeight + 40.f + RepairHeight * _repairDetail.repair_user_arr.count + 60.f + 200.f/3.f);
+                cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(maintenanceMan.frame) + _repairDetail.repair_user_arr.count * 95.f + 20.f, SCREEN_WIDTH - 40, 50.f);
+            }
+            else
+            {
+                scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, contentHeight + StateViewHeight + 40.f);
+                cancelRepair.frame = CGRectMake(20, CGRectGetMaxY(drawView.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
+            }
+        }
+        if (_repairDetail.repairstate != 1)
+        {
+            cancelRepair.hidden = YES;
+        }
+        if (_repairDetail.repairstate == 3)
+        {
+            self.evaBackView = [[UIView alloc] initWithFrame:CGRectMake(0.f, SCREEN_HEIGHT - 200.f/3.f, SCREEN_WIDTH, 200.f/3.f)];
+            _evaBackView.backgroundColor = [UIColor blackColor];
+            _evaBackView.alpha = 0.6;
+            [self.view addSubview:_evaBackView];
+            
+            self.evaluationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [_evaluationBtn setFrame:CGRectMake(0, 0, 200.f, 40.f)];
+            [_evaluationBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f,CGRectGetMinY(_evaBackView.frame) + _evaBackView.bounds.size.height/2.f)];
+            [_evaluationBtn setTitle:@"发表评价" forState:UIControlStateNormal];
+            [_evaluationBtn setTitleColor:colorWithHexString(@"3bb0ff") forState:UIControlStateNormal];
+            [_evaluationBtn setBackgroundColor:[UIColor whiteColor]];
+            _evaluationBtn.layer.cornerRadius = 4.f;
+            _evaluationBtn.layer.masksToBounds = YES;
+            @weakify(self);
+            [[_evaluationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                @strongify(self);
+                BXTEvaluationViewController *evaluationVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]];
+                [self.navigationController pushViewController:evaluationVC animated:YES];
+            }];
+            [self.view addSubview:_evaluationBtn];
+        }
+    }
+    else if (type == DeleteRepair)
+    {
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestRepairList" object:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
+}
+
+#pragma mark -
+#pragma mark MWPhotoBrowserDelegate
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
 {
     return self.mwPhotosArray.count;
