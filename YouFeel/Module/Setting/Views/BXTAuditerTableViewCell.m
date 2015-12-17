@@ -26,10 +26,15 @@
         lineView.backgroundColor = colorWithHexString(@"e2e6e8");
         [self addSubview:lineView];
         
-        _auditNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 12.f, 80.f, 20)];
+        _auditNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 12.f, 70.f, 20)];
         _auditNameLabel.textColor = colorWithHexString(@"000000");
         _auditNameLabel.font = [UIFont boldSystemFontOfSize:18.];
         [self addSubview:_auditNameLabel];
+        
+        _phoneBtn = [[UIButton alloc] initWithFrame:CGRectMake(80, CGRectGetMaxY(lineView.frame)+ 8.f, 100, 30)];
+        _phoneBtn.titleLabel.textColor = colorWithHexString(@"#00B1FF");
+        _phoneBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        [self addSubview:_phoneBtn];
         
         _positionLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_auditNameLabel.frame) + 12.f, 80.f, 20)];
         _positionLabel.textColor = colorWithHexString(@"909497");

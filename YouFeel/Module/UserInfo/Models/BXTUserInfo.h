@@ -38,6 +38,7 @@
 #define U_IMTOKEN      @"im_token"
 #define U_USERSARRAY   @"usersArray"
 #define U_TOKEN           @"token"
+#define U_IS_VERIFY     @"is_verify"
 
 @interface BXTUserInfo : NSObject
 
@@ -63,5 +64,6 @@
 @property (nonatomic ,strong) NSString            *im_token;
 @property (nonatomic ,strong) NSMutableArray      *usersArray;
 @property (nonatomic, strong) NSString             *token;
+@property (nonatomic, strong) NSString             *is_verify;
 
 @end

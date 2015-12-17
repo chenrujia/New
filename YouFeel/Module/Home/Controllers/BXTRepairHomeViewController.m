@@ -26,6 +26,7 @@
 #import "BXTStatisticsViewController.h"
 #import "BXTMMOrderManagerViewController.h"
 #import "BXTAuthorityListViewController.h"
+#import "BXTSettingViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -104,6 +105,9 @@
 #pragma mark 事件处理
 - (void)repairClick
 {
+    if ([self is_verify]) {
+        return;
+    }
     // 我的工单
     BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
     [self.navigationController pushViewController:orderManagerVC animated:YES];
@@ -129,6 +133,9 @@
     switch (indexPath.row) {
         case 0:
         {
+            if ([self is_verify]) {
+                return;
+            }
             // 抢单
             BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] init];
             [self.navigationController pushViewController:reaciveVC animated:YES];
@@ -136,6 +143,9 @@
             break;
         case 1:
         {
+            if ([self is_verify]) {
+                return;
+            }
             // 报修
             BXTMMOrderManagerViewController *newOrderVC = [[BXTMMOrderManagerViewController alloc] init];
             [self.navigationController pushViewController:newOrderVC animated:YES];
@@ -143,6 +153,9 @@
             break;
         case 2:
         {
+            if ([self is_verify]) {
+                return;
+            }
             // 沟通记录
             BXTChatListViewController *chatListViewController = [[BXTChatListViewController alloc]init];
             [self.navigationController pushViewController:chatListViewController animated:YES];
@@ -151,6 +164,9 @@
             break;
         case 3:
         {
+            if ([self is_verify]) {
+                return;
+            }
             // 我的绩效
             BXTAchievementsViewController *achievementVC = [[BXTAchievementsViewController alloc] init];
             [self.navigationController pushViewController:achievementVC animated:YES];
@@ -158,6 +174,9 @@
             break;
         case 4:
         {
+            if ([self is_verify]) {
+                return;
+            }
             if (![roleArray containsObject:@"116"])
             {
                 [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
@@ -170,6 +189,9 @@
             break;
         case 5:
         {
+            if ([self is_verify]) {
+                return;
+            }
             if (![roleArray containsObject:@"114"])
             {
                 [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
@@ -181,6 +203,9 @@
             break;
         case 6:
         {
+            if ([self is_verify]) {
+                return;
+            }
             // 消息
             BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
             [self.navigationController pushViewController:messageVC animated:YES];

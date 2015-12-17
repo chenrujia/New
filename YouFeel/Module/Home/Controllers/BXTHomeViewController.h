@@ -23,5 +23,9 @@
 
 - (void)createLogoView;
 - (void)repairClick;
+/**
+ *  是否已验证
+ */
+- (BOOL)is_verify;
 
 @end

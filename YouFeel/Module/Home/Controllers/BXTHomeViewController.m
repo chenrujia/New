@@ -194,22 +194,22 @@
 
 - (void)shopClick
 {
-//    BXTHeadquartersViewController *company = [[BXTHeadquartersViewController alloc] initWithType:YES];
-//    [self.navigationController pushViewController:company animated:YES];
-
+    //    BXTHeadquartersViewController *company = [[BXTHeadquartersViewController alloc] initWithType:YES];
+    //    [self.navigationController pushViewController:company animated:YES];
+    
     // 商铺列表
     BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
     [self.navigationController pushViewController:alVC animated:YES];
     
-//        NSArray *dataArray = [BXTGlobal getUserProperty:U_MYSHOP];
-//        if (dataArray.count == 1) {
-//            // 业务统计
-//            [BXTGlobal showText:@"暂无权限" view:self.view completionBlock:nil];
-//        } else {
-//            // 商铺列表
-//            BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
-//            [self.navigationController pushViewController:alVC animated:YES];
-//        }
+    //        NSArray *dataArray = [BXTGlobal getUserProperty:U_MYSHOP];
+    //        if (dataArray.count == 1) {
+    //            // 业务统计
+    //            [BXTGlobal showText:@"暂无权限" view:self.view completionBlock:nil];
+    //        } else {
+    //            // 商铺列表
+    //            BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
+    //            [self.navigationController pushViewController:alVC animated:YES];
+    //        }
 }
 
 - (void)repairClick
@@ -370,6 +370,18 @@
         [BXTGlobal writeFileWithfileName:@"arriveArray" Array:arriveArray];
         [BXTGlobal writeFileWithfileName:@"hoursArray" Array:hoursArray];
     }
+}
+
+- (BOOL)is_verify {
+    NSString *is_verify = [BXTGlobal getUserProperty:U_IS_VERIFY];
+    if ([is_verify integerValue] != 1) {
+        [BXTGlobal showText:@"您尚未验证，现在去验证" view:self.view completionBlock:^{
+            BXTSettingViewController *svc = [[BXTSettingViewController alloc] init];
+            [self.navigationController pushViewController:svc animated:YES];
+        }];
+        return YES;
+    }
+    return NO;
 }
 
 - (void)didReceiveMemoryWarning

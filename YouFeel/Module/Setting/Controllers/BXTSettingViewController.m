@@ -34,6 +34,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     NSMutableArray *selectPhotos;
     NSString       *verify_state;
     NSString       *checks_user;
+    NSString       *checks_phone;
     NSString       *checks_user_department;
     NSString       *department_id;
     BOOL           isHaveChecker;
@@ -444,6 +445,20 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             cell.auditNameLabel.text = checks_user;
             cell.positionLabel.text = checks_user_department;
             [cell.contactBtn addTarget:self action:@selector(contactTa) forControlEvents:UIControlEventTouchUpInside];
+            
+            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:checks_phone];
+            NSRange strRange = {0, [str length]};
+            [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
+            [cell.phoneBtn setAttributedTitle:str forState:UIControlStateNormal];
+            [cell.phoneBtn sizeToFit];
+            @weakify(self);
+            [[cell.phoneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                @strongify(self);
+                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", checks_phone];
+                UIWebView *callWeb = [[UIWebView alloc] init];
+                [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+                [self.view addSubview:callWeb];
+            }];
         }
         
         return cell;
@@ -689,6 +704,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             verify_state = [dictionay objectForKey:@"verify_state"];
             checkUserDic = [dictionay objectForKey:@"stores_checks"];
             checks_user = [checkUserDic objectForKey:@"checks_user"];
+            checks_phone = [checkUserDic objectForKey:@"checks_user_mobile"];
             if (checks_user.length)
             {
                 isHaveChecker = YES;

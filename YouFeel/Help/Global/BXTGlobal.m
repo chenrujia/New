@@ -116,6 +116,7 @@
     [BXTGlobal setUserProperty:[dic objectForKey:@"username"] withKey:U_USERNAME];
     [BXTGlobal setUserProperty:[dic objectForKey:@"role_con"] withKey:U_ROLEARRAY];
     [BXTGlobal setUserProperty:[dic objectForKey:@"mobile"] withKey:U_MOBILE];
+    [BXTGlobal setUserProperty:[dic objectForKey:@"is_verify"] withKey:U_IS_VERIFY];
     
     UINavigationController *nav;
     if ([[dic objectForKey:@"is_repair"] integerValue] == 1)
