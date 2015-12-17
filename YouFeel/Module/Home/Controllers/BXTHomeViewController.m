@@ -379,8 +379,10 @@
             BXTSettingViewController *svc = [[BXTSettingViewController alloc] init];
             [self.navigationController pushViewController:svc animated:YES];
         }];
+        
         return YES;
     }
+    
     return NO;
 }
 
