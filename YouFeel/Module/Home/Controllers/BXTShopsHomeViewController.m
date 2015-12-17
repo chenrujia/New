@@ -81,6 +81,7 @@
     if ([self is_verify]) {
         return;
     }
+    // 我的工单
     BXTWorkOderViewController *workOrderVC = [[BXTWorkOderViewController alloc] init];
     [self.navigationController pushViewController:workOrderVC animated:YES];
 }
@@ -90,13 +91,14 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
-    
+    if (indexPath.row <= 6) {
+        if ([self is_verify]) {
+            return;
+        }
+    }
     switch (indexPath.row) {
         case 0:
         {
-            if ([self is_verify]) {
-                return;
-            }
             // 新工单
             BXTRepairViewController *repairVC = [[BXTRepairViewController alloc] initWithVCType:ShopsVCType];
             [self.navigationController pushViewController:repairVC animated:YES];
@@ -104,9 +106,6 @@
             break;
         case 1:
         {
-            if ([self is_verify]) {
-                return;
-            }
             // 我的工单
             BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
             [self.navigationController pushViewController:orderManagerVC animated:YES];
@@ -114,9 +113,6 @@
             break;
         case 2:
         {
-            if ([self is_verify]) {
-                return;
-            }
             // 沟通记录
             BXTChatListViewController *chatListViewController = [[BXTChatListViewController alloc]init];
             [self.navigationController pushViewController:chatListViewController animated:YES];
@@ -125,9 +121,6 @@
             break;
         case 3:
         {
-            if ([self is_verify]) {
-                return;
-            }
             // 评价
             BXTEvaluationListViewController *achievementVC = [[BXTEvaluationListViewController alloc] init];
             [self.navigationController pushViewController:achievementVC animated:YES];
@@ -135,9 +128,6 @@
             break;
         case 4:
         {
-            if ([self is_verify]) {
-                return;
-            }
             if (![roleArray containsObject:@"116"]) {
                 [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
                 return;
@@ -149,9 +139,6 @@
             break;
         case 5:
         {
-            if ([self is_verify]) {
-                return;
-            }
             if (![roleArray containsObject:@"114"]) {
                 [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
                 return;
@@ -163,9 +150,6 @@
             break;
         case 6:
         {
-            if ([self is_verify]) {
-                return;
-            }
             // 消息
             BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
             [self.navigationController pushViewController:messageVC animated:YES];
