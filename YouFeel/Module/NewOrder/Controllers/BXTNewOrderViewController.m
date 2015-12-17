@@ -34,24 +34,28 @@
     UILabel             *level;
     UILabel             *notes;
     NSArray             *comeTimeArray;
-    UIView              *bgView;
-    BXTRepairDetailInfo *repairDetail;
     BXTSelectBoxView    *boxView;
-    UIDatePicker        *datePicker;
     NSDate              *originDate;
-    NSTimeInterval      timeInterval2;
-    NSString            *currentOrderID;
     BOOL                isAssign;//判断是派工界面还是新工单界面
-    
-    AVAudioPlayer *player;
+    AVAudioPlayer       *player;
 }
 
-@property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
-@property (nonatomic, strong) NSMutableArray *manIDArray;
+@property (nonatomic ,strong) BXTRepairDetailInfo *repairDetail;
+@property (nonatomic ,strong) NSString            *currentOrderID;
+@property (nonatomic ,strong) NSMutableArray      *mwPhotosArray;
+@property (nonatomic ,strong) NSMutableArray      *manIDArray;
+@property (nonatomic ,assign) NSTimeInterval      timeInterval2;
+@property (nonatomic ,strong) UIDatePicker        *datePicker;
+@property (nonatomic ,strong) UIView              *bgView;
 
 @end
 
 @implementation BXTNewOrderViewController
+
+- (void)dealloc
+{
+    LogBlue(@"工单详情被释放了。。。。。。");
+}
 
 - (instancetype)initWithIsAssign:(BOOL)assign
                   andWithOrderID:(NSString *)orderID
@@ -60,7 +64,7 @@
     if (self)
     {
         isAssign = assign;
-        currentOrderID = orderID;
+        self.currentOrderID = orderID;
     }
     return self;
 }
@@ -95,9 +99,9 @@
     {
         ++[BXTGlobal shareGlobal].assignNumber;
         NSInteger index = [BXTGlobal shareGlobal].assignNumber;
-        currentOrderID = [[BXTGlobal shareGlobal].assignOrderIDs objectAtIndex:index - 1];
+        self.currentOrderID = [[BXTGlobal shareGlobal].assignOrderIDs objectAtIndex:index - 1];
     }
-    [request repairDetail:[NSString stringWithFormat:@"%@",currentOrderID]];
+    [request repairDetail:[NSString stringWithFormat:@"%@",_currentOrderID]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -140,7 +144,15 @@
     mobile.font = [UIFont systemFontOfSize:15.f];
     mobile.userInteractionEnabled = YES;
     [self.view addSubview:mobile];
-    UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mobileClick)];
+    UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] init];
+    @weakify(self);
+    [[moblieTap rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", self.repairDetail.visitmobile];
+        UIWebView *callWeb = [[UIWebView alloc] init];
+        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+        [self.view addSubview:callWeb];
+    }];
     [mobile addGestureRecognizer:moblieTap];
     
     UIButton *connetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -287,7 +299,12 @@
         [rejectBtn setTitleColor:colorWithHexString(@"f0640f") forState:UIControlStateNormal];
         [rejectBtn setTitle:@"我不接" forState:UIControlStateNormal];
         rejectBtn.layer.cornerRadius = 4.f;
-        [rejectBtn addTarget:self action:@selector(rejectBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        @weakify(self);
+        [[rejectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID andIsAssign:NO];
+            [self.navigationController pushViewController:rejectVC animated:YES];
+        }];
         [backView addSubview:rejectBtn];
     }
 
@@ -298,10 +315,10 @@
 #pragma mark - UIDatePicker
 - (void)createDatePicker
 {
-    bgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
-    bgView.tag = 101;
-    [self.view addSubview:bgView];
+    self.bgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    _bgView.tag = 101;
+    [self.view addSubview:_bgView];
     
     originDate = [NSDate date];
     
@@ -310,39 +327,61 @@
     titleLabel.text = @"请选择到达时间";
     titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     titleLabel.textAlignment = NSTextAlignmentCenter;
-    [bgView addSubview:titleLabel];
+    [_bgView addSubview:titleLabel];
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
     line.backgroundColor = colorWithHexString(@"e2e6e8");
-    [bgView addSubview:line];
+    [_bgView addSubview:line];
     
-    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
-    datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
-    datePicker.backgroundColor = colorWithHexString(@"ffffff");
-    datePicker.minimumDate = [NSDate date];
-    datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-    [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
-    [bgView addSubview:datePicker];
+    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
+    _datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    _datePicker.backgroundColor = colorWithHexString(@"ffffff");
+    _datePicker.minimumDate = [NSDate date];
+    _datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    @weakify(self);
+    [[_datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+        @strongify(self);
+        // 获取分钟数
+        self.timeInterval2 = [self.datePicker.date timeIntervalSince1970];
+    }];
+    [_bgView addSubview:_datePicker];
     
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
     toolView.backgroundColor = colorWithHexString(@"ffffff");
-    [bgView addSubview:toolView];
+    [_bgView addSubview:toolView];
     // sure
     UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 50)];
     [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
     [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [sureBtn addTarget:self action:@selector(datePickerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    sureBtn.tag = 10001;
     sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
     sureBtn.layer.borderWidth = 0.5;
+    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self showLoadingMBP:@"请稍候..."];
+        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)self.timeInterval2];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        NSArray *users = @[userID];
+        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]
+                    arrivalTime:timeStr
+                      andUserID:userID
+                       andUsers:users
+                      andIsGrad:NO];
+        self.datePicker = nil;
+        [self.bgView removeFromSuperview];
+    }];
     [toolView addSubview:sureBtn];
+    
     // cancel
     UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 50)];
     [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
     [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [cancelBtn addTarget:self action:@selector(datePickerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
     cancelBtn.layer.borderWidth = 0.5;
-    cancelBtn.tag = 10002;
+    [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        self.datePicker = nil;
+        [self.bgView removeFromSuperview];
+    }];
     [toolView addSubview:cancelBtn];
 }
 
@@ -356,7 +395,7 @@
     }
     else
     {
-        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:currentOrderID andIsAssign:NO];
+        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID andIsAssign:NO];
         [self.navigationController pushViewController:rejectVC animated:YES];
     }
 }
@@ -385,53 +424,23 @@
     }];
 }
 
-- (void)rejectBtnClick
-{
-    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:currentOrderID andIsAssign:NO];
-    [self.navigationController pushViewController:rejectVC animated:YES];
-}
-
 - (void)assignBtnClick
 {
     NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
-    if (![roleArray containsObject:@"117"]) {
+    if (![roleArray containsObject:@"117"])
+    {
         [BXTGlobal showText:@"抱歉，您无指派权限" view:self.view completionBlock:nil];
         return;
     }
-    BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[currentOrderID integerValue] andWithVCType:AssignType];
+    BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[self.currentOrderID integerValue] andWithVCType:AssignType];
     [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
     addOtherVC.manIDArray = self.manIDArray;
     [self.navigationController pushViewController:addOtherVC animated:YES];
 }
 
-- (void)dateChange:(UIDatePicker *)picker
-{
-    // 获取分钟数
-    timeInterval2 = [picker.date timeIntervalSince1970];
-}
-
-- (void)datePickerBtnClick:(UIButton *)button
-{
-    if (button.tag == 10001)
-    {
-        [self showLoadingMBP:@"请稍候..."];
-        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval2];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        NSArray *users = @[userID];
-        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
-                    arrivalTime:timeStr
-                      andUserID:userID
-                       andUsers:users
-                      andIsGrad:NO];
-    }
-    datePicker = nil;
-    [bgView removeFromSuperview];
-}
-
 - (void)connectTa
 {
-    NSDictionary *repaier_fault_dic = repairDetail.repair_fault_arr[0];
+    NSDictionary *repaier_fault_dic = _repairDetail.repair_fault_arr[0];
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = [repaier_fault_dic objectForKey:@"out_userid"];
     
@@ -477,22 +486,28 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
-- (void)mobileClick
-{
-    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", repairDetail.visitmobile];
-    UIWebView *callWeb = [[UIWebView alloc] init];
-    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-    [self.view addSubview:callWeb];
-}
-
-- (void)tapGesture:(UITapGestureRecognizer *)tapGR
-{
-    UIView *tapView = [tapGR view];
-    [self loadMWPhotoBrowser:tapView.tag];
-}
-
 #pragma mark -
-#pragma mark 代理
+#pragma mark 闹铃
+- (void)afterTime
+{
+    [player play];
+    __block NSInteger count = 20;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(_time, ^{
+        count--;
+        if (count <= 0)
+        {
+            dispatch_source_cancel(_time);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [player stop];
+            });
+        }
+    });
+    dispatch_resume(_time);
+}
+
 #pragma mark -
 #pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
@@ -509,17 +524,17 @@
         [config addObjectMapping:map];
         
         DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairDetailInfo class] andConfiguration:config];
-        repairDetail = [parser parseDictionary:dictionary];
+        self.repairDetail = [parser parseDictionary:dictionary];
         
-        NSDictionary *repaier_fault_dic = repairDetail.repair_fault_arr[0];
+        NSDictionary *repaier_fault_dic = _repairDetail.repair_fault_arr[0];
         NSString *headURL = [repaier_fault_dic objectForKey:@"head_pic"];
         [headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         repairerName.text = [repaier_fault_dic objectForKey:@"name"];
         repairerDetail.text = [repaier_fault_dic objectForKey:@"role"];
         
-        repairID.text = [NSString stringWithFormat:@"工单号:%@",repairDetail.orderid];
+        repairID.text = [NSString stringWithFormat:@"工单号:%@",_repairDetail.orderid];
         
-        NSTimeInterval timeInterval = [repairDetail.repair_time doubleValue];
+        NSTimeInterval timeInterval = [_repairDetail.repair_time doubleValue];
         NSDate *detaildate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
         //实例化一个NSDateFormatter对象
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -527,38 +542,45 @@
         [dateFormatter setDateFormat:@"MM-dd HH:mm"];
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:repairDetail.visitmobile];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_repairDetail.visitmobile];
         [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
         [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
         mobile.attributedText = attributedString;
         
-        CGSize group_size = MB_MULTILINE_TEXTSIZE(repairDetail.subgroup_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
+        CGSize group_size = MB_MULTILINE_TEXTSIZE(_repairDetail.subgroup_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
         group_size.width += 10.f;
         group_size.height = CGRectGetHeight(groupName.frame);
         groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(groupName.frame), group_size.width, group_size.height);
-        groupName.text = repairDetail.subgroup_name;
-        if (repairDetail.order_type == 1)
+        if (_repairDetail.subgroup_name.length > 0)
+        {
+            groupName.text = _repairDetail.subgroup_name;
+        }
+        else
+        {
+            groupName.hidden = YES;
+        }
+        if (_repairDetail.order_type == 1)
         {
             orderType.text = @"";
         }
-        else if (repairDetail.order_type == 2)
+        else if (_repairDetail.order_type == 2)
         {
             orderType.text = @"协作工单";
         }
-        else if (repairDetail.order_type == 3)
+        else if (_repairDetail.order_type == 3)
         {
             orderType.text = @"特殊工单";
         }
-        else if (repairDetail.order_type == 4)
+        else if (_repairDetail.order_type == 4)
         {
             orderType.text = @"超时工单";
         }
         
-        place.text = [NSString stringWithFormat:@"位置:%@-%@",repairDetail.area_name,repairDetail.place_name];
-        faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
-        cause.text = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
+        place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
+        faultType.text = [NSString stringWithFormat:@"故障类型:%@",_repairDetail.faulttype_name];
+        cause.text = [NSString stringWithFormat:@"故障描述:%@",_repairDetail.cause];
         
-        if (repairDetail.urgent == 2)
+        if (_repairDetail.urgent == 2)
         {
             level.text = @"等级:一般";
         }
@@ -571,7 +593,7 @@
             level.attributedText = attributeStr;
         }
         
-        NSString *contents = [NSString stringWithFormat:@"报修内容:%@",repairDetail.notes];
+        NSString *contents = [NSString stringWithFormat:@"报修内容:%@",_repairDetail.notes];
         UIFont *font = [UIFont boldSystemFontOfSize:17.f];
         CGSize size = MB_MULTILINE_TEXTSIZE(contents, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000.f), NSLineBreakByWordWrapping);
         CGRect rect = notes.frame;
@@ -595,8 +617,12 @@
                     imgView.layer.masksToBounds = YES;
                     imgView.contentMode = UIViewContentModeScaleAspectFill;
                     [imgView sd_setImageWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
-                    imgView.tag = i;
-                    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+                    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
+                    @weakify(self);
+                    [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
+                        @strongify(self);
+                        [self loadMWPhotoBrowser:i];
+                    }];
                     [imgView addGestureRecognizer:tapGR];
                     [imagesScrollView addSubview:imgView];
                     i++;
@@ -648,7 +674,7 @@
         [self showLoadingMBP:@"请稍候..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        [request reaciveOrderForAssign:[NSString stringWithFormat:@"%ld",(long)repairDetail.repairID]
+        [request reaciveOrderForAssign:[NSString stringWithFormat:@"%ld",(long)_repairDetail.repairID]
                            arrivalTime:timeStr
                              andUserID:userID];
     }
@@ -668,46 +694,22 @@
 }
 
 #pragma mark -
-#pragma mark - 闹铃
-- (void)afterTime
-{
-    [player play];
-    __block NSInteger count = 20;
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-    dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
-    dispatch_source_set_event_handler(_time, ^{
-        count--;
-        if (count <= 0)
-        {
-            dispatch_source_cancel(_time);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                 [player stop];
-            });
-        }
-    });
-    dispatch_resume(_time);
-}
-
-#pragma mark -
 #pragma mark 其他
 - (NSMutableArray *)containAllArray
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in repairDetail.fault_pic)
+    for (NSDictionary *dictionary in _repairDetail.fault_pic)
     {
         [photos addObject:dictionary];
     }
-    for (NSDictionary *dictionary in repairDetail.fixed_pic)
+    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
     {
         [photos addObject:dictionary];
     }
-    
-    for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
     {
         [photos addObject:dictionary];
     }
-    
     return photos;
 }
 
@@ -726,7 +728,7 @@
     browser.enableSwipeToDismiss = YES;
     [browser setCurrentPhotoIndex:index];
     
-    browser.titlePreNumStr = [NSString stringWithFormat:@"%d%d%d", (int)repairDetail.fault_pic.count, (int)repairDetail.fixed_pic.count, (int)repairDetail.evaluation_pic.count];
+    browser.titlePreNumStr = [NSString stringWithFormat:@"%d%d%d", (int)_repairDetail.fault_pic.count, (int)_repairDetail.fixed_pic.count, (int)_repairDetail.evaluation_pic.count];
     
     [self.navigationController pushViewController:browser animated:YES];
     self.navigationController.navigationBar.hidden = NO;
@@ -738,10 +740,10 @@
     UIView *view = touch.view;
     if (view.tag == 101)
     {
-        if (datePicker)
+        if (_datePicker)
         {
-            [datePicker removeFromSuperview];
-            datePicker = nil;
+            [_datePicker removeFromSuperview];
+            _datePicker = nil;
         }
         else
         {
@@ -757,7 +759,7 @@
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in repairDetail.fault_pic)
+    for (NSDictionary *dictionary in _repairDetail.fault_pic)
     {
         if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
         {
@@ -766,7 +768,7 @@
         }
     }
     
-    for (NSDictionary *dictionary in repairDetail.fixed_pic)
+    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
     {
         if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
         {
@@ -775,7 +777,7 @@
         }
     }
     
-    for (NSDictionary *dictionary in repairDetail.evaluation_pic)
+    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
     {
         if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
         {
