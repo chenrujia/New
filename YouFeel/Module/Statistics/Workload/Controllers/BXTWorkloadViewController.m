@@ -101,7 +101,7 @@
     lineX.backgroundColor = colorWithHexString(@"#d9d9d9");
     [newCell.contentView addSubview:lineX];
     
-
+    
     for (int i=0; i<workloadArray.count; i++) {
         NSDictionary *dict = workloadArray[i];
         int count = [[NSString stringWithFormat:@"%@", dict[@"sum_number"]] doubleValue];
@@ -118,6 +118,9 @@
         [bgView addSubview:nameLabel];
         
         // chart
+        if (count == 0) {
+            count = maxDouble;
+        }
         AksStraightPieChart *straightPieChart = [[AksStraightPieChart alloc] initWithFrame:CGRectMake(70, 0, (bgView.frame.size.width-105)*(count/maxDouble), bgViewH)];
         straightPieChart.transPieClick = ^(void) {
             newCell.nameView.text = [NSString stringWithFormat:@"%@", dict[@"name"]];

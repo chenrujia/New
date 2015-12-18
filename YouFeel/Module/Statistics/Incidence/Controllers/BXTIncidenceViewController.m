@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) BarChatItemView *bciv;
 @property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, strong) NSString *titleStr;
 
 @end
 
@@ -129,6 +130,7 @@
     NSRange range = [faulttypeStr rangeOfString:@"-"];
     NSString *groupStr = [faulttypeStr substringToIndex:range.location];
     
+    view.titleView.text = self.titleStr;
     view.rangkingView.text = [NSString stringWithFormat:@"排名：%@", dict[@"rank"]];
     view.groupView.text = [NSString stringWithFormat:@"故障分类：%@", groupStr];
     view.typeView.text = [NSString stringWithFormat:@"故障类型：%@", dict[@"faulttype"]];
@@ -143,14 +145,20 @@
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
     NSMutableArray *dateArray;
     switch (index) {
-        case 0:
+        case 0: {
             dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_YearStartAndEnd:self.rootCenterButton.titleLabel.text]];
+            self.titleStr = @"年度排名";
+        }
             break;
-        case 1:
+        case 1: {
             dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_MonthStartAndEnd:self.rootCenterButton.titleLabel.text]];
+            self.titleStr = @"月度排名";
+        }
             break;
-        case 2:
+        case 2: {
             dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_DayStartAndEnd:self.rootCenterButton.titleLabel.text]];
+            self.titleStr = @"每日排名";
+        }
             break;
         default:
             break;
@@ -163,6 +171,7 @@
 
 - (void)datePickerBtnClick:(UIButton *)button
 {
+    self.titleStr = @"每日排名";
     if (button.tag == 10001)
     {
         self.rootSegmentedCtr.selectedSegmentIndex = 2;

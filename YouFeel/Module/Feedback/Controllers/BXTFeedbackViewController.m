@@ -35,7 +35,7 @@
     titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     titleLabel.textColor = colorWithHexString(@"34afff");
     titleLabel.font = [UIFont systemFontOfSize:14.f];
-    titleLabel.text = @"欢迎你提出宝贵的意见和建议，您留下的每个字都将用来改善我们的软件。";
+    titleLabel.text = @"欢迎您提出宝贵的意见和建议，您留下的每个字都将用来改善我们的软件。";
     [self.view addSubview:titleLabel];
     
     UITextView *feedbackTV = [[UITextView alloc] initWithFrame:CGRectMake(10.f, CGRectGetMaxY(titleLabel.frame) + 10.f, SCREEN_WIDTH - 20.f, 170.f)];

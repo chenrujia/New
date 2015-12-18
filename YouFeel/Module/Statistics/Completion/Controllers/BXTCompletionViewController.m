@@ -12,11 +12,16 @@
 #import "BXTAllOrdersViewController.h"
 
 #define Not_First_Launch @"not_first_launch"
+typedef enum {
+    year,
+    month
+}DateStr;
 
 @interface BXTCompletionViewController () <BXTDataResponseDelegate, SPChartDelegate>
 
 @property (nonatomic, strong) NSMutableArray *percentArrat;
 @property (nonatomic, strong) NSMutableArray *monthArray;
+@property (nonatomic, strong) NSMutableArray *yearArray;
 
 @property (nonatomic, strong) BXTCompletionHeader *headerView;
 @property (nonatomic, strong) BXTCompletionFooter *footerView;
@@ -36,21 +41,11 @@
     
     [self showLoadingMBP:@"数据加载中..."];
     
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /**饼状图**/
-        NSArray *dateArray = [BXTGlobal dayStartAndEnd];
-        self.transTimeArray = [[NSMutableArray alloc] initWithArray:dateArray];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**柱状图**/
-        NSArray *dateArray = [BXTGlobal yearAndmonthAndDay];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statistics_workload_dayWithYear:dateArray[0] month:dateArray[1]];
-    });
-    
+    /**饼状图**/
+    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
+    self.transTimeArray = [[NSMutableArray alloc] initWithArray:dateArray];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:Not_First_Launch]) {
         [self createIntroductionView];
@@ -110,7 +105,11 @@
     else if (type == Statistics_Workload_day && data.count > 0)
     {
         self.monthArray = [[NSMutableArray alloc] initWithArray:data];
-        [self createBarChartView];
+        [self createBarChartViewWithType:month];
+    }
+    else if (type == Statistics_Workload_year && data.count > 0) {
+        self.yearArray = [[NSMutableArray alloc] initWithArray:data];
+        [self createBarChartViewWithType:year];
     }
 }
 
@@ -199,7 +198,7 @@
     };
 }
 
-- (void)createBarChartView {
+- (void)createBarChartViewWithType:(DateStr)type {
     //  ---------- 柱状图 ----------
     // CompletionFooter
     self.footerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTCompletionFooter" owner:nil options:nil] lastObject];
@@ -207,21 +206,34 @@
     [self.rootScrollView addSubview:self.footerView];
     self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.footerView.frame));
     
-    
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, SCREEN_WIDTH, 350)];
     scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 350);
     scrollView.showsHorizontalScrollIndicator = NO;
     [self.footerView addSubview:scrollView];
     self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.footerView.frame));
     
+    // 初始化
+    NSMutableArray *finalArray = [[NSMutableArray alloc] init];
+    NSString *xText;
+    CGFloat barChartW;
+    if (type == year) {
+        finalArray = self.yearArray;
+        xText = @"month";
+        barChartW = 50;
+    } else if (type == month) {
+        finalArray = self.monthArray;
+        xText = @"day";
+        barChartW = 40;
+    }
+    
     // SPBarChart
-    SPBarChart *barChart = [[SPBarChart alloc] initWithFrame:CGRectMake(0, 0, 1100, scrollView.frame.size.height)];
+    SPBarChart *barChart = [[SPBarChart alloc] initWithFrame:CGRectMake(0, 0, barChartW*finalArray.count, scrollView.frame.size.height)];
     
     NSMutableArray *barArray = [[NSMutableArray alloc] init];
     NSMutableArray *heightArray = [[NSMutableArray alloc] init];
     NSArray *colorArray = @[colorWithHexString(@"#0FCCC0") , colorWithHexString(@"#F9D063") , colorWithHexString(@"#FD7070") ];
     
-    for (NSDictionary *dict in self.monthArray) {
+    for (NSDictionary *dict in finalArray) {
         NSString *downStr = [NSString stringWithFormat:@"%@", dict[@"yes_number"]];
         NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"collection_number"]];
         NSString *undownStr = [NSString stringWithFormat:@"%@", dict[@"no_number"]];
@@ -230,7 +242,7 @@
         NSNumber *undownNum = [NSNumber numberWithInteger:[undownStr integerValue]];
         
         NSArray *dataArray = @[downNum, specialNum, undownNum];
-        [barArray addObject:[SPBarChartData dataWithValues:dataArray colors:colorArray description:[NSString stringWithFormat:@"%@", dict[@"day"]]]];
+        [barArray addObject:[SPBarChartData dataWithValues:dataArray colors:colorArray description:[NSString stringWithFormat:@"%@", dict[xText]]]];
         
         NSInteger sumNum = [downStr integerValue] + [specialStr integerValue] + [undownStr integerValue];
         NSString *sumStr = [NSString stringWithFormat:@"%ld", (long)sumNum];
@@ -304,6 +316,8 @@
 #pragma mark -
 #pragma mark - 父类点击事件
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
+    [self.footerView removeFromSuperview];
+    
     NSMutableArray *dateArray;
     switch (index)
     {
@@ -324,12 +338,28 @@
     [self.transTimeArray addObject:dateArray[1]];
     
     [self showLoadingMBP:@"数据加载中..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**饼状图**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[0]];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**柱状图**/
+        NSArray *dateArray = [self timeTypeOf_YearAndMonth:self.rootCenterButton.titleLabel.text];
+        if (index == 0) {
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request statistics_workload_yearWithYear:dateArray[0]];
+        } else if (index == 1) {
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request statistics_workload_dayWithYear:dateArray[0] month:dateArray[1]];
+        }
+    });
 }
 
 - (void)datePickerBtnClick:(UIButton *)button
 {
+    [self.footerView removeFromSuperview];
     if (button.tag == 10001)
     {
         [self.headerView.pieView removeFromSuperview];
@@ -348,18 +378,9 @@
         [self.transTimeArray addObject:todayStr];
         
         [self showLoadingMBP:@"数据加载中..."];
-        dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-        dispatch_async(concurrentQueue, ^{
-            /**饼状图**/
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request statistics_completeWithTime_start:todayStr time_end:todayStr];
-        });
-        dispatch_async(concurrentQueue, ^{
-            /**柱状图**/
-            NSArray *dateArray = [self timeTypeOf_YearAndMonth:todayStr];
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request statistics_workload_dayWithYear:dateArray[0] month:dateArray[1]];
-        });
+        /**饼状图**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request statistics_completeWithTime_start:todayStr time_end:todayStr];
     }
     [UIView animateWithDuration:0.5 animations:^{
         pickerbgView.alpha = 0.0;
