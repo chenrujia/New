@@ -20,7 +20,6 @@ typedef NS_ENUM(NSInteger, OrderType) {
     DistributeType = 1,
     CloseType = 2,
     AllType = 3,
-    PushType = 4
 };
 
 @interface BXTManagerOMView : UIView <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>

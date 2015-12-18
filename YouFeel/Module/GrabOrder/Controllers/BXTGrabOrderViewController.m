@@ -490,6 +490,12 @@
                 [self navigationLeftButton];
             }];
         }
+        else if ([[dic objectForKey:@"returncode"] isEqualToString:@"002"])
+        {
+            [self showMBP:@"工单已取消！" withBlock:^(BOOL hidden) {
+                [self navigationLeftButton];
+            }];
+        }
     }
 }
 

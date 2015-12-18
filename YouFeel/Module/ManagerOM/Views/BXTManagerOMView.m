@@ -23,9 +23,9 @@
 {
     self = [super initWithFrame:frame];
     if (self)
-    {        
+    {
         self.orderType = order_type;
-       
+        
         groupID = @"";
         startTime = @"";
         endTime = @"";
@@ -116,7 +116,8 @@
                 andCloseUser:@""
                 andOrderType:priorityType
                andSubgroupID:groupID
-                     andPage:1];
+                     andPage:1
+                 close_state:@"all"];
     }
     else if (_orderType == DistributeType)
     {
@@ -126,7 +127,8 @@
                 andCloseUser:@""
                 andOrderType:priorityType
                andSubgroupID:groupID
-                     andPage:1];
+                     andPage:1
+                 close_state:@"all"];
     }
     else if (_orderType == CloseType)
     {
@@ -136,7 +138,8 @@
                 andCloseUser:closeUser
                 andOrderType:priorityType
                andSubgroupID:groupID
-                     andPage:1];
+                     andPage:1
+                 close_state:@"all"];
     }
     else if (_orderType == AllType)
     {
@@ -147,41 +150,11 @@
             state = @"";
             collection = @"all";
         }
-        else
+        else if ([selectOT integerValue] == 1)
         {
             state = selectOT;
-            collection = @"";
-        }
-        NSString *timeName = @"";
-        if (startTime.length)
-        {
-            timeName = @"repair_time";
-        }
-        else
-        {
-            timeName = @"";
-        }
-        [request allRepairs:collection
-                andTimeName:timeName
-               andStartTime:startTime
-                 andEndTime:endTime
-               andOrderType:priorityType
-                 andGroupID:groupID
-               andSubgroups:groups
-                   andState:state
-                    andPage:1];
-    }
-    else if (_orderType == PushType)
-    {
-        NSString *collection = @"";
-        NSString *state = @"";
-        if ([selectOT integerValue] == 3)
-        {
-            state = @"";
-            collection = @"all";
-        }
-        else
-        {
+            collection = @"not_all";
+        } else {
             state = selectOT;
             collection = @"";
         }
@@ -221,7 +194,8 @@
                 andCloseUser:@""
                 andOrderType:priorityType
                andSubgroupID:groupID
-                     andPage:currentPage];
+                     andPage:currentPage
+                 close_state:@"all"];
     }
     else if (_orderType == DistributeType)
     {
@@ -231,7 +205,8 @@
                 andCloseUser:@""
                 andOrderType:priorityType
                andSubgroupID:groupID
-                     andPage:currentPage];
+                     andPage:currentPage
+                 close_state:@"all"];
     }
     else if (_orderType == CloseType)
     {
@@ -241,7 +216,8 @@
                 andCloseUser:closeUser
                 andOrderType:priorityType
                andSubgroupID:groupID
-                     andPage:currentPage];
+                     andPage:currentPage
+                 close_state:@"all"];
     }
     else if (_orderType == AllType)
     {
@@ -252,8 +228,11 @@
             state = @"";
             collection = @"all";
         }
-        else
+        else if ([selectOT integerValue] == 1)
         {
+            state = selectOT;
+            collection = @"not_all";
+        } else {
             state = selectOT;
             collection = @"";
         }

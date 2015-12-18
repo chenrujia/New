@@ -315,7 +315,7 @@
     conversationVC.userName = userInfo.name;
     conversationVC.title = userInfo.name;
     // 删除位置功能
-    [conversationVC.pluginBoardView removeItemAtIndex:2];
+    //[conversationVC.pluginBoardView removeItemAtIndex:2];
     [self.navigationController pushViewController:conversationVC animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }

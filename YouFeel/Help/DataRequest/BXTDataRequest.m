@@ -254,6 +254,7 @@ andRepairerIsReacive:(NSString *)reacive
        andOrderType:(NSString *)orderType
       andSubgroupID:(NSString *)groupID
             andPage:(NSInteger)page
+        close_state:(NSString *)close_state
 {
     NSString *closeState = @"";
     if (closeUser.length > 0)
@@ -268,6 +269,17 @@ andRepairerIsReacive:(NSString *)reacive
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"order_subgroup":groupID,
                           @"pagesize":@"5"};
+    if (close_state.length > 0) {
+        dic = @{@"long_time":longTime,
+                @"dispatching_user":disUser,
+                @"close_state":closeState,
+                @"close_user":closeUser,
+                @"order":orderType,
+                @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                @"order_subgroup":groupID,
+                @"pagesize":@"5",
+                @"close_state":close_state};
+    }
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -292,7 +304,8 @@ andRepairerIsReacive:(NSString *)reacive
                           @"check_subgroup":groups,
                           @"state":state,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                          @"pagesize":@"5"};
+                          @"pagesize":@"5",
+                          @"close_state":@"all"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -715,7 +728,7 @@ andRepairerIsReacive:(NSString *)reacive
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
+        NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
         // token验证失败
@@ -772,7 +785,7 @@ andRepairerIsReacive:(NSString *)reacive
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        NSLog(@"\n\n---------------------response---------------------\n\n%@\n\n---------------------response---------------------\n\n", response);
+        NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

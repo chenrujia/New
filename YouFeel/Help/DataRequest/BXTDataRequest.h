@@ -139,7 +139,8 @@ andRepairerIsReacive:(NSString *)reacive;
        andCloseUser:(NSString *)closeUser
        andOrderType:(NSString *)orderType
       andSubgroupID:(NSString *)groupID
-            andPage:(NSInteger)page;
+            andPage:(NSInteger)page
+        close_state:(NSString *)close_state;
 
 - (void)allRepairs:(NSString *)collection
        andTimeName:(NSString *)timeName
