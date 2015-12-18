@@ -10,4 +10,8 @@
 
 @interface BXTCompletionFooter : UIView
 
+@property (weak, nonatomic) IBOutlet UILabel *pointView;
+@property (weak, nonatomic) IBOutlet UILabel *pointView1;
+@property (weak, nonatomic) IBOutlet UILabel *pointView2;
+
 @end

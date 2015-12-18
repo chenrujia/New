@@ -7,8 +7,25 @@
 //
 
 #import "BXTCompletionFooter.h"
+#import "BXTGlobal.h"
 
 @implementation BXTCompletionFooter
+
+- (void)awakeFromNib {
+    // Initialization code
+    
+    self.pointView.layer.cornerRadius = 10.25;
+    self.pointView.layer.masksToBounds = YES;
+    self.pointView.backgroundColor = colorWithHexString(@"#FD7070");
+    
+    self.pointView1.layer.cornerRadius = 10.25;
+    self.pointView1.layer.masksToBounds = YES;
+    self.pointView1.backgroundColor = colorWithHexString(@"#F9D063");
+    
+    self.pointView2.layer.cornerRadius = 10.25;
+    self.pointView2.layer.masksToBounds = YES;
+    self.pointView2.backgroundColor = colorWithHexString(@"#0FCCC0");
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.
