@@ -46,7 +46,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    
 }
 
 - (void)navigationRightButton
