@@ -40,14 +40,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     UIViewController* myvc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = myvc;
     
-    
     //初始化融云SDK
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
     
-    
     //自动键盘
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
-    
     
     // token验证失败 - 退出登录
     @weakify(self);
@@ -55,7 +52,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         @strongify(self);
         [self loadingLoginVC];
     }];
-    
     
     BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
     if (isLoaded)
@@ -78,7 +74,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [self loadingGuideView];
     }
     
-    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
@@ -93,7 +88,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     // [3]:友盟配置
     [MobClick startWithAppkey:@"566e7c1867e58e7160002af5" reportPolicy:BATCH channelId:nil];
     
-    
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];
     NSDictionary *textAttributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor whiteColor]};
@@ -104,16 +98,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
     }];
     
-    
     //设置会话列表头像和会话界面头像
     [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
     //设置接收消息代理
     [RCIM sharedRCIM].receiveMessageDelegate=self;
     
-    
     //注册消息处理函数的处理方法,处理崩溃信息,写入本地
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-    
     
     CrashManager *crashManager = [CrashManager defaultManager];
     //Crash日志
@@ -252,7 +243,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     _deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     LogRed(@"deviceToken:%@",_deviceToken);
-    
     [GeTuiSdk registerDeviceToken:_deviceToken];
     [[RCIMClient sharedRCIMClient] setDeviceToken:_deviceToken];
 }
@@ -301,9 +291,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 /**
  *  SDK收到透传消息回调
  */
-- (void)GeTuiSdkDidReceivePayload:(NSString*)payloadId
-                        andTaskId:(NSString*)taskId
+- (void)GeTuiSdkDidReceivePayload:(NSString *)payloadId
+                        andTaskId:(NSString *)taskId
                      andMessageId:(NSString *)aMsgId
+                       andOffLine:(BOOL)offLine
                   fromApplication:(NSString *)appId
 {
     _payloadId = payloadId;
@@ -435,8 +426,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)GeTuiSdkDidSendMessage:(NSString *)messageId
                         result:(int)result
 {
-    //    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
-    //    NSLog(@"record  %@",record);
+        NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
+        LogRed(@"record  %@",record);
 }
 
 /**
@@ -477,9 +468,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
 }
 
-/**
- *  BXTDataResponseDelegate
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response
                 requeseType:(RequestType)type
 {

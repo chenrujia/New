@@ -747,18 +747,13 @@
         [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
         mobile.attributedText = attributedString;
         
-        CGSize group_size = MB_MULTILINE_TEXTSIZE(_repairDetail.subgroup_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
+        NSString *group_name = _repairDetail.subgroup_name.length > 0 ? _repairDetail.subgroup_name : @"其他";
+        CGSize group_size = MB_MULTILINE_TEXTSIZE(group_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
         group_size.width += 10.f;
         group_size.height = CGRectGetHeight(groupName.frame);
         groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(groupName.frame), group_size.width, group_size.height);
-        if (_repairDetail.subgroup_name.length > 0)
-        {
-            groupName.text = _repairDetail.subgroup_name;
-        }
-        else
-        {
-            groupName.hidden = YES;
-        }
+        groupName.text = group_name;
+        
         if (_repairDetail.order_type == 1)
         {
             orderType.text = @"";

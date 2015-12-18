@@ -234,11 +234,12 @@
     BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:indexPath.section];
     cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
     //自适应分组名
-    CGSize group_size = MB_MULTILINE_TEXTSIZE(repairInfo.subgroup_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
+    NSString *group_name = repairInfo.subgroup_name.length > 0 ? repairInfo.subgroup_name : @"其他";
+    CGSize group_size = MB_MULTILINE_TEXTSIZE(group_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
     group_size.width += 10.f;
     group_size.height = CGRectGetHeight(cell.groupName.frame);
     cell.groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(cell.groupName.frame), group_size.width, group_size.height);
-    cell.groupName.text = repairInfo.subgroup_name;
+    cell.groupName.text = group_name;
     
     cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
     cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
