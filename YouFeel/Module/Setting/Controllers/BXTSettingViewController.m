@@ -34,7 +34,6 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     NSMutableArray *selectPhotos;
     NSString       *verify_state;
     NSString       *checks_user;
-    NSString       *checks_phone;
     NSString       *checks_user_department;
     NSString       *department_id;
     BOOL           isHaveChecker;
@@ -42,6 +41,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
+@property (nonatomic, strong) NSString *checks_phone;
 
 @end
 
@@ -248,7 +248,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     conversationVC.userName = userInfo.name;
     conversationVC.title = userInfo.name;
     // 删除位置功能
-    [conversationVC.pluginBoardView removeItemAtIndex:2];
+    //[conversationVC.pluginBoardView removeItemAtIndex:2];
     [self.navigationController pushViewController:conversationVC animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }
@@ -446,7 +446,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             cell.positionLabel.text = checks_user_department;
             [cell.contactBtn addTarget:self action:@selector(contactTa) forControlEvents:UIControlEventTouchUpInside];
             
-            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:checks_phone];
+            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:self.checks_phone];
             NSRange strRange = {0, [str length]};
             [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
             [cell.phoneBtn setAttributedTitle:str forState:UIControlStateNormal];
@@ -454,7 +454,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             @weakify(self);
             [[cell.phoneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 @strongify(self);
-                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", checks_phone];
+                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", self.checks_phone];
                 UIWebView *callWeb = [[UIWebView alloc] init];
                 [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
                 [self.view addSubview:callWeb];
@@ -704,7 +704,9 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             verify_state = [dictionay objectForKey:@"verify_state"];
             checkUserDic = [dictionay objectForKey:@"stores_checks"];
             checks_user = [checkUserDic objectForKey:@"checks_user"];
-            checks_phone = [checkUserDic objectForKey:@"checks_user_mobile"];
+            self.checks_phone = [checkUserDic objectForKey:@"checks_user_mobile"];
+            NSString *is_verify = [NSString stringWithFormat:@"%@", [dictionay objectForKey:@"is_verify"]];
+            [BXTGlobal setUserProperty:is_verify withKey:U_IS_VERIFY];
             if (checks_user.length)
             {
                 isHaveChecker = YES;
@@ -718,7 +720,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     }
     
     if (type == LoginType) {
-            
+        
     }
     
     [currentTableView reloadData];
