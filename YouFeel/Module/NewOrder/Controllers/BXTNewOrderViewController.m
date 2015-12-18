@@ -112,6 +112,15 @@
     self.navigationController.navigationBar.hidden = YES;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (player)
+    {
+        player = nil;
+    }
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];

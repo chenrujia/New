@@ -342,7 +342,7 @@ typedef enum {
     dispatch_async(concurrentQueue, ^{
         /**饼状图**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[0]];
+        [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
     });
     dispatch_async(concurrentQueue, ^{
         /**柱状图**/

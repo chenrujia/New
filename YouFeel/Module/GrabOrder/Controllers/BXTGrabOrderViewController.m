@@ -63,6 +63,15 @@
     [self addNotifications];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (player)
+    {
+        player = nil;
+    }
+}
+
 - (void)addNotifications
 {
     @weakify(self);
