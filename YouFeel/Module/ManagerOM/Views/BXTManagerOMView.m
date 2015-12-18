@@ -395,7 +395,7 @@
         repairDetailVC.isRejectVC = YES;
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
-    else if (_orderType == AllType)
+    else if (_orderType == AllType || _orderType == CloseType)
     {
         BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         repairDetailVC.isAllOrderType = YES;

@@ -894,9 +894,10 @@
             }
         }
         
-        if (_repairDetail.repairstate == 2 && _repairDetail.isRepairing == 2)
+        if (_repairDetail.repairstate == 2 && _repairDetail.isRepairing == 2 && _repairDetail.order_type != 3)
         {
-            if (!self.isRejectVC && [BXTGlobal shareGlobal].isRepair) {
+            if (!self.isRejectVC && [BXTGlobal shareGlobal].isRepair)
+            {
                 UITabBar *tabbar = [[UITabBar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50.f, SCREEN_WIDTH, 50.f)];
                 tabbar.delegate = self;
                 UITabBarItem *leftItem = [[UITabBarItem alloc] initWithTitle:@"增加人员" image:[UIImage imageNamed:@"users"] selectedImage:[UIImage imageNamed:@"users_selected"]];

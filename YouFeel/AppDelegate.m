@@ -85,6 +85,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     // [2]:注册APNS
     [self registerRemoteNotification];
     
+    // 处理远程通知启动APP
+    [self receiveNotificationByLaunchingOptions:launchOptions];
+    
     // [3]:友盟配置
     [MobClick startWithAppkey:@"566e7c1867e58e7160002af5" reportPolicy:BATCH channelId:nil];
     
@@ -217,6 +220,21 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                                                                        UIRemoteNotificationTypeSound|
                                                                        UIRemoteNotificationTypeBadge);
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
+    }
+}
+
+/** 自定义：APP被“推送”启动时处理推送消息处理（APP 未启动--》启动）*/
+- (void)receiveNotificationByLaunchingOptions:(NSDictionary *)launchOptions
+{
+    if (!launchOptions) return;
+    /*
+     通过“远程推送”启动APP
+     UIApplicationLaunchOptionsRemoteNotificationKey 远程推送Key
+     */
+    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (userInfo)
+    {
+        LogRed(@"\n>>>[Launching RemoteNotification]:%@",userInfo);
     }
 }
 
@@ -368,7 +386,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 [[BXTGlobal shareGlobal].newsOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
                 if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
                 {
-                    //                    [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:nil];
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:@""];
                 }
             }

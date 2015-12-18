@@ -83,6 +83,19 @@
     [shop_label setText:companyInfo.name];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if ([BXTGlobal shareGlobal].newsOrderIDs.count > 0)
+    {
+        for (NSInteger i = 0; i < [BXTGlobal shareGlobal].newsOrderIDs.count; i++)
+        {
+            sleep(1);
+            [self comingNewRepairs];
+        }
+    }
+}
+
 - (void)addGrabAndAssignOrderNotifications
 {
     @weakify(self);
@@ -105,7 +118,8 @@
 #pragma mark 事件处理
 - (void)repairClick
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         return;
     }
     // 我的工单
@@ -117,7 +131,8 @@
 {
     // 工单数 > 实时抢单页面数 -> 跳转
     BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
-    if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] && [BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
+    if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&
+        [BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
     {
         BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
         [self.navigationController pushViewController:grabOrderVC animated:YES];

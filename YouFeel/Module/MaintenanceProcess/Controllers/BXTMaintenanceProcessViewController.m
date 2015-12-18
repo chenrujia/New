@@ -139,6 +139,11 @@
     {
         notes = @"";
     }
+    if ([state isEqual:@"1"] && specialOID.length == 0)
+    {
+        [self showMBP:@"特殊类型不能为空！" withBlock:nil];
+        return;
+    }
     
     NSTimeInterval currentTime = [NSDate date].timeIntervalSince1970;
     NSString *finishTime = [NSString stringWithFormat:@"%.0f",currentTime];
