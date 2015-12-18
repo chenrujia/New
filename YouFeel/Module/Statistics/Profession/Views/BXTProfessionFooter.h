@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *groupView;
 @property (weak, nonatomic) IBOutlet UILabel *pointView;
 @property (weak, nonatomic) IBOutlet UILabel *pointView1;
+@property (weak, nonatomic) IBOutlet UILabel *pointView2;
 
 @property (weak, nonatomic) IBOutlet UILabel *sumView;
 @property (weak, nonatomic) IBOutlet UILabel *downView;

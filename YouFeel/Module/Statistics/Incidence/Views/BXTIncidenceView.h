@@ -10,6 +10,7 @@
 
 @interface BXTIncidenceView : UIView
 
+@property (nonatomic, strong) UILabel *titleView;
 @property (nonatomic, strong) UILabel *rangkingView;
 @property (nonatomic, strong) UILabel *groupView;
 @property (nonatomic, strong) UILabel *typeView;

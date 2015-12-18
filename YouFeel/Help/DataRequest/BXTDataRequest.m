@@ -660,6 +660,14 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)statistics_workload_yearWithYear:(NSString *)year
+{
+    self.requestType = Statistics_Workload_year;
+    NSDictionary *dic = @{@"year":year};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_workload_year",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)statistics_workloadWithTime_start:(NSString *)startTime
                                  time_end:(NSString *)endTime
 {

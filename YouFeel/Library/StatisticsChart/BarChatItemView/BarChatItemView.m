@@ -94,7 +94,11 @@
     for (int i = 0 ; i< count; i++) {
         NSUInteger y = (i+1)*row_Inter+i*view_width;
         
-        CGFloat height= [[ItemArray objectAtIndex:i] intValue]*Max_Height/[[ItemArray objectAtIndex:maxIndex] intValue];
+        int maxEv = [[ItemArray objectAtIndex:maxIndex] intValue];
+        if ([[ItemArray objectAtIndex:maxIndex] intValue] == 0) {
+            maxEv = 1;
+        }
+        CGFloat height= [[ItemArray objectAtIndex:i] intValue]*Max_Height/maxEv;
         
         //底色
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(40, y, height, view_width)];

@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Statistics_Subgroup,
     Statistics_Faulttype,
     Statistics_Workload_day,
+    Statistics_Workload_year,
     Statistics_Workload,
     Statistics_Praise,
     SpecialOrderTypes,
@@ -347,6 +348,11 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)statistics_workload_dayWithYear:(NSString *)year
                                   month:(NSString *)month;
+
+/**
+ *  统计-按年获取每月详情
+ */
+- (void)statistics_workload_yearWithYear:(NSString *)year;
 
 /**
  *  统计-按分组统计维修量

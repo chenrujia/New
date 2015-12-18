@@ -16,11 +16,11 @@
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 10, frame.size.width-200, 30)];
-        label.text = @"年度排名";
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont systemFontOfSize:15];
-        [self addSubview:label];
+        self.titleView = [[UILabel alloc] initWithFrame:CGRectMake(100, 10, frame.size.width-200, 30)];
+        self.titleView.text = @"每日排名";
+        self.titleView.textAlignment = NSTextAlignmentCenter;
+        self.titleView.font = [UIFont systemFontOfSize:15];
+        [self addSubview:self.titleView];
         
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, 50, frame.size.width-30, 0.5)];
         line.backgroundColor = colorWithHexString(@"#d9d9d9");
