@@ -23,7 +23,6 @@ typedef NS_ENUM(NSInteger, ViewType) {
 
 @interface BXTResignBaseView : UIView <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,MBProgressHUDDelegate>
 {
-    UITableView *currentTableView;
     NSInteger indexRow;
     NSInteger currentRow;
     BXTSelectBoxView *boxView;
@@ -32,7 +31,8 @@ typedef NS_ENUM(NSInteger, ViewType) {
     NSMutableArray *groupArray;
 }
 
-@property (nonatomic ,assign) ViewType viewType;
+@property (nonatomic, strong) UITableView *currentTableView;
+@property (nonatomic, assign) ViewType viewType;
 
 - (instancetype)initWithFrame:(CGRect)frame andViewType:(ViewType)type;
 

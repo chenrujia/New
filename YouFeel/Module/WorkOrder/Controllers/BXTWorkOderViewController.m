@@ -23,21 +23,19 @@
 
 @interface BXTWorkOderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,SelectPhotoDelegate,BXTDataResponseDelegate,UITextFieldDelegate,MWPhotoBrowserDelegate,UIActionSheetDelegate>
 {
-    UITableView *currentTableView;
-    NSString *repairState;
-    NSMutableArray *selectPhotos;
-    NSMutableArray *photosArray;
-    NSMutableArray *fau_dataSource;
-    NSString *cause;
-    NSString *notes;
-    BXTFaultInfo *selectFaultInfo;
+    UITableView      *currentTableView;
+    NSString         *repairState;
+    NSMutableArray   *selectPhotos;
+    NSMutableArray   *photosArray;
+    NSMutableArray   *fau_dataSource;
+    NSString         *cause;
+    NSString         *notes;
+    BXTFaultInfo     *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
-    UIPickerView *pickView;
-    UIView *pickerbackView;
-    UIView *toolView;
-    BOOL isPublic;
-    
-    NSInteger faulttype_type;
+    UIPickerView     *pickView;
+    UIView           *pickerbackView;
+    UIView           *toolView;
+    NSInteger        faulttype_type;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
@@ -93,9 +91,6 @@
 
 - (void)allNotifications
 {
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeShopLocation" object:nil] subscribeNext:^(id x) {
-        [currentTableView reloadData];
-    }];
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"PublicRepair" object:nil] subscribeNext:^(id x) {
         [currentTableView reloadData];
     }];
@@ -115,9 +110,8 @@
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)selectFloorInfo:(BXTFloorInfo *)floor areaInfo:(BXTAreaInfo *)area
+- (void)refreshShopLocation
 {
-    isPublic = YES;
     [currentTableView reloadData];
 }
 
@@ -227,14 +221,22 @@
     BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
     BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
     
-    id shopInfo;
-    if (isPublic)
+    id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+    if (!shopInfo)
     {
-        shopInfo = @"";
-    }
-    else
-    {
-        shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
+                   faultType_type:[NSString stringWithFormat:@"%ld", (long)faulttype_type]
+                       faultCause:cause
+                       faultLevel:repairState
+                      depatmentID:departmentInfo.dep_id
+                      floorInfoID:floorInfo.area_id
+                       areaInfoId:areaInfo.place_id
+                       shopInfoID:@""
+                        equipment:@"0"
+                       faultNotes:notes
+                       imageArray:photosArray
+                  repairUserArray:array];
+        return;
     }
     if ([shopInfo isKindOfClass:[NSString class]])
     {
@@ -304,9 +306,8 @@
     }
 }
 
-/**
- *  选择相册图片
- */
+#pragma mark -
+#pragma mark 选择相册图片
 - (void)addImages
 {
     HySideScrollingImagePicker *hy = [[HySideScrollingImagePicker alloc] initWithCancelStr:@"取消" otherButtonTitles:@[@"拍摄",@"从相册选择"]];
@@ -433,22 +434,19 @@
 }
 
 #pragma mark -
-#pragma mark 代理
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 10.f;//section头部高度
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 4)
@@ -458,7 +456,7 @@
     
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 4)
@@ -543,13 +541,9 @@
             BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
             if (floorInfo)
             {
-                if (isPublic)
+                id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+                if (shopInfo)
                 {
-                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",floorInfo.area_name,areaInfo.place_name];
-                }
-                else
-                {
-                    id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
                     if ([shopInfo isKindOfClass:[NSString class]])
                     {
                         cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,shopInfo];
@@ -559,6 +553,10 @@
                         BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
                         cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,tempShop.stores_name];
                     }
+                }
+                else
+                {
+                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",floorInfo.area_name,areaInfo.place_name];
                 }
             }
             else
@@ -622,9 +620,10 @@
 {
     if (indexPath.section == 0)
     {
-        __weak BXTWorkOderViewController *weakSelf = self;
-        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithPublic:YES changeArea:^(BXTFloorInfo *floorInfo, BXTAreaInfo *areaInfo) {
-            [weakSelf selectFloorInfo:floorInfo areaInfo:areaInfo];
+        @weakify(self);
+        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithIsResign:NO andBlock:^{
+            @strongify(self);
+            [self refreshShopLocation];
         }];
         [self.navigationController pushViewController:shopLocationVC animated:YES];
     }
@@ -650,9 +649,8 @@
     }
 }
 
-/**
- *  UITextViewDelegate
- */
+#pragma mark -
+#pragma mark UITextViewDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     if (textField.tag == MOBILE)
@@ -683,9 +681,8 @@
     notes = textView.text;
 }
 
-/**
- *  SelectPhotoDelegate
- */
+#pragma mark -
+#pragma mark SelectPhotoDelegate
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
     selectPhotos = photos;
@@ -796,9 +793,8 @@
     }
 }
 
-/**
- *  BXTDataResponseDelegate
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
@@ -859,9 +855,8 @@
     
 }
 
-/**
- *  UIPickerViewDelegate
- */
+#pragma mark -
+#pragma mark UIPickerViewDelegate
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 2;
@@ -909,9 +904,8 @@
     }
 }
 
-/**
- *  UIImagePickerControllerDelegate
- */
+#pragma mark -
+#pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     __block UIImage *headImage = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -969,9 +963,8 @@
      }];
 }
 
-/**
- *  MWPhotoBrowserDelegate
- */
+#pragma mark -
+#pragma mark MWPhotoBrowserDelegate
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
 {
     return self.mwPhotosArray.count;

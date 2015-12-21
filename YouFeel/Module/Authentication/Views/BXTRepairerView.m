@@ -229,7 +229,8 @@
     else
     {
         BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-        if ([BXTGlobal isBlankString:departmentInfo.department]) {
+        if ([BXTGlobal isBlankString:departmentInfo.department])
+        {
             [self showAlertView:@"请选择你所在部门"];
             return;
         }
@@ -239,8 +240,10 @@
         {
             if (indexPath.section == 5)
             {
-                BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithPublic:NO changeArea:^(BXTFloorInfo *floorInfo, BXTAreaInfo *areaInfo) {
-                    
+                @weakify(self);
+                BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithIsResign:YES andBlock:^{
+                    @strongify(self);
+                    [self.currentTableView reloadData];
                 }];
                 UINavigationController *nav = (UINavigationController *)[AppDelegate appdelegete].window.rootViewController;
                 [nav pushViewController:shopLocationVC animated:YES];

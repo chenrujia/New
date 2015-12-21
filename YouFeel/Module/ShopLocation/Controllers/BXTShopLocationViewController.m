@@ -12,30 +12,29 @@
 #import "BXTShopInfo.h"
 #import "BXTSelectBoxView.h"
 #import "ANKeyValueTable.h"
-#import "UINavigationController+YRBackGesture.h"
 
 @interface BXTShopLocationViewController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 {
-    UITableView *currentTableView;
-    NSMutableArray *dataArray;
-    BXTFloorInfo *selectedFloorInfo;
-    BXTAreaInfo *selectedAreaInfo;
-    BXTShopInfo *selecedShopInfo;
+    UITableView      *currentTableView;
+    NSMutableArray   *dataArray;
+    BXTFloorInfo     *selectedFloorInfo;
+    BXTAreaInfo      *selectedAreaInfo;
+    BXTShopInfo      *selecedShopInfo;
     BXTSelectBoxView *boxView;
 }
 
-@property (nonatomic ,assign) BOOL isPublic;
+@property (nonatomic, assign) BOOL isResign;
 
 @end
 
 @implementation BXTShopLocationViewController
 
-- (instancetype)initWithPublic:(BOOL)is_public changeArea:(ChangeArea)selectArea
+- (instancetype)initWithIsResign:(BOOL)resign andBlock:(ChangeArea)selectArea
 {
     self = [super init];
     if (self)
     {
-        self.isPublic = is_public;
+        self.isResign = resign;
         self.selectAreaBlock = selectArea;
     }
     return self;
@@ -57,11 +56,6 @@
     {
         selecedShopInfo = [BXTGlobal getUserProperty:U_SHOP];
     }
-    if (selectedFloorInfo && selectedAreaInfo)
-    {
-        //block回传
-        _selectAreaBlock(selectedFloorInfo,selectedAreaInfo);
-    }
     
     [self showLoadingMBP:@"正在获取信息..."];
     /**请求分店位置**/
@@ -70,12 +64,6 @@
     
     [self navigationSetting:@"选择位置" andRightTitle:nil andRightImage:nil];
     [self createTableView];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeShopLocation" object:nil];
 }
 
 #pragma mark -
@@ -111,7 +99,10 @@
     else if (section == 2)
     {
         NSMutableArray *stores = [NSMutableArray arrayWithArray:selectedAreaInfo.stores];
-        [stores addObject:@"其他"];
+        if (_isResign)
+        {
+            [stores addObject:@"其他"];
+        }
         boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"店名" boxSelectedViewType:ShopInfoView listDataSource:stores markID:nil actionDelegate:self];
     }
     [self.view addSubview:boxView];
@@ -123,45 +114,26 @@
 
 - (void)navigationLeftButton
 {
-    if (_isPublic)
+    if (_isResign && (![BXTGlobal getUserProperty:U_FLOOOR] || ![BXTGlobal getUserProperty:U_AREA] || ![BXTGlobal getUserProperty:U_SHOP]))
     {
-        NSArray *floolrArrResult = [selectedFloorInfo.place filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.place_id = %@",selectedAreaInfo.place_id]];
-        if (!floolrArrResult.count)
-        {
-            [self showMBP:@"区域和地点信息不符" withBlock:nil];
-            return;
-        }
+        [self showMBP:@"请填写完整信息" withBlock:nil];
+        return;
     }
-    else
+    if (!_isResign && (![BXTGlobal getUserProperty:U_FLOOOR] || ![BXTGlobal getUserProperty:U_AREA]))
     {
-        if (![BXTGlobal getUserProperty:U_FLOOOR] || ![BXTGlobal getUserProperty:U_AREA] || ![BXTGlobal getUserProperty:U_SHOP])
+        [self showMBP:@"请选择楼层" withBlock:nil];
+        return;
+    }
+    else if (_isResign)
+    {
+        id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+        if ([shopInfo isKindOfClass:[BXTShopInfo class]])
         {
-            [self showMBP:@"请填写完整信息" withBlock:nil];
-            return;
-        }
-        else if (![BXTGlobal getUserProperty:U_FLOOOR] && ![BXTGlobal getUserProperty:U_AREA] && ![BXTGlobal getUserProperty:U_SHOP])
-        {
-            [self.navigationController popViewControllerAnimated:YES];
-            return;
-        }
-        else
-        {
-            NSArray *floolrArrResult = [selectedFloorInfo.place filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.place_id = %@",selectedAreaInfo.place_id]];
-            if (!floolrArrResult.count)
+            NSArray *areaArrResult = [selectedAreaInfo.stores filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.stores_id = %@",selecedShopInfo.stores_id]];
+            if (!areaArrResult.count)
             {
-                [self showMBP:@"区域和地点信息不符" withBlock:nil];
+                [self showMBP:@"地点和店名信息不符" withBlock:nil];
                 return;
-            }
-            
-            id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-            if ([shopInfo isKindOfClass:[BXTShopInfo class]])
-            {
-                NSArray *areaArrResult = [selectedAreaInfo.stores filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.stores_id = %@",selecedShopInfo.stores_id]];
-                if (!areaArrResult.count)
-                {
-                    [self showMBP:@"地点和店名信息不符" withBlock:nil];
-                    return;
-                }
             }
         }
     }
@@ -169,10 +141,7 @@
 }
 
 #pragma mark -
-#pragma mark 事件处理
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -213,7 +182,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (_isPublic)
+    if (!_isResign && selectedAreaInfo.stores.count == 0)
     {
         return 2;
     }
@@ -243,12 +212,12 @@
         }
         else
         {
-            cell.detailLable.text = @"请选择您商铺所在区域";
+            cell.detailLable.text = @"请选择区域";
         }
     }
     else if (indexPath.section == 1)
     {
-        cell.titleLabel.text = @"地   点";
+        cell.titleLabel.text = @"楼   层";
         if ([BXTGlobal getUserProperty:U_AREA])
         {
             BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
@@ -256,12 +225,12 @@
         }
         else
         {
-            cell.detailLable.text = @"请选择您商铺所在地点";
+            cell.detailLable.text = @"请选择楼层";
         }
     }
     else
     {
-        cell.titleLabel.text = @"店   名";
+        cell.titleLabel.text = @"地   点";
         if ([BXTGlobal getUserProperty:U_SHOP])
         {
             id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
@@ -277,7 +246,7 @@
         }
         else
         {
-            cell.detailLable.text = @"请选择您的商铺名称";
+            cell.detailLable.text = @"请选择地点";
         }
     }
     
@@ -291,9 +260,8 @@
     [self createBoxView:indexPath.section];
 }
 
-/**
- *  BXTDataResponseDelegate
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
@@ -359,18 +327,26 @@
     }
 }
 
-/**
- *  BXTBoxSelectedTitleDelegate
- */
+#pragma mark -
+#pragma mark BXTBoxSelectedTitleDelegate
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
 {
     if (type == FloorInfoView)
     {
         selectedFloorInfo = obj;
+        BXTUserInfo *userInfo = [BXTGlobal getUserInfo];
+        userInfo.areaInfo = nil;
+        userInfo.shopInfo = nil;
+        [BXTGlobal setUserInfo:userInfo];
+        [currentTableView reloadData];
     }
     else if (type == AreaInfoView)
     {
         selectedAreaInfo = obj;
+        BXTUserInfo *userInfo = [BXTGlobal getUserInfo];
+        userInfo.shopInfo = nil;
+        [BXTGlobal setUserInfo:userInfo];
+        [currentTableView reloadData];
     }
     else if (type == ShopInfoView)
     {
@@ -380,14 +356,14 @@
             {
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"店名" message:nil preferredStyle:UIAlertControllerStyleAlert];
                 [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-                    textField.placeholder = @"请输入您的店名";
+                    textField.placeholder = @"请输入您的地点";
                 }];
                 UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                     UITextField *shopTF = alertController.textFields.firstObject;
                     [BXTGlobal setUserProperty:shopTF.text withKey:U_SHOP];
                     [currentTableView reloadData];
                     
-                    [self showLoadingMBP:@"正在上次商铺信息..."];
+                    [self showLoadingMBP:@"正在上传地点信息..."];
                     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                     [request commitNewShop:shopTF.text];
                 }];
@@ -414,7 +390,7 @@
     //block回传
     if (selectedFloorInfo && selectedAreaInfo)
     {
-        _selectAreaBlock(selectedFloorInfo,selectedAreaInfo);
+        _selectAreaBlock();
     }
     
     [currentTableView reloadData];
@@ -429,9 +405,8 @@
     }];
 }
 
-/**
- *  UIAlertViewDelegate
- */
+#pragma mark -
+#pragma mark UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1)
@@ -440,7 +415,7 @@
         [BXTGlobal setUserProperty:shopTF.text withKey:U_SHOP];
         [currentTableView reloadData];
         
-        [self showLoadingMBP:@"正在上次商铺信息..."];
+        [self showLoadingMBP:@"正在上传地点信息..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request commitNewShop:shopTF.text];
     }

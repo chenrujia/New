@@ -34,10 +34,10 @@
     NSString          *repairBeginTime;
     NSString          *repairEndTime;
     
-    UIView *bgView;
-    UIDatePicker *datePicker;
-    NSDate *originDate;
-    NSTimeInterval timeInterval;
+    UIView            *bgView;
+    UIDatePicker      *datePicker;
+    NSDate            *originDate;
+    NSTimeInterval    timeInterval;
 }
 @end
 

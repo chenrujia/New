@@ -22,23 +22,23 @@
 
 @interface BXTRepairDetailViewController ()<BXTDataResponseDelegate,MWPhotoBrowserDelegate>
 {
-    UILabel *repairID;
-    UILabel *time;
-    UILabel *place;
-    UILabel *name;
-    UILabel *mobile;
-    UILabel *faultType;
-    UILabel *cause;
-    UILabel *level;
-    UILabel *notes;
-    UIButton *cancelRepair;
+    UILabel      *repairID;
+    UILabel      *time;
+    UILabel      *place;
+    UILabel      *name;
+    UILabel      *mobile;
+    UILabel      *faultType;
+    UILabel      *cause;
+    UILabel      *level;
+    UILabel      *notes;
+    UIButton     *cancelRepair;
+    UILabel      *arrangeTime;
+    UILabel      *mmProcess;
+    UILabel      *workTime;
+    UIView       *lineView;
+    UILabel      *maintenanceMan;
+    CGFloat      contentHeight;
     UIScrollView *scrollView;
-    UILabel *arrangeTime;
-    UILabel *mmProcess;
-    UILabel *workTime;
-    UIView *lineView;
-    UILabel *maintenanceMan;
-    CGFloat contentHeight;
 }
 
 @property (nonatomic ,strong) UIButton            *evaluationBtn;
@@ -461,7 +461,14 @@
         [dateFormatter setDateFormat:@"MM-dd HH:mm"];
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
-        place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
+        if (_repairDetail.stores_name.length)
+        {
+            place.text = [NSString stringWithFormat:@"位置:%@-%@-%@",_repairDetail.area_name,_repairDetail.place_name,_repairDetail.stores_name];
+        }
+        else
+        {
+            place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
+        }
         name.text = [NSString stringWithFormat:@"报修人:%@",_repairDetail.fault];
         mobile.text = [NSString stringWithFormat:@"手机号:%@",_repairDetail.visitmobile];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",_repairDetail.faulttype_name];

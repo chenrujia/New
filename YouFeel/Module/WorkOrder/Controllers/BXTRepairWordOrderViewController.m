@@ -27,30 +27,29 @@
 
 @interface BXTRepairWordOrderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,SelectPhotoDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITextFieldDelegate,MWPhotoBrowserDelegate,UIActionSheetDelegate>
 {
-    UITableView *currentTableView;
-    NSString *repairState;
-    NSMutableArray *selectPhotos;
-    NSMutableArray *photosArray;
     BXTSelectBoxView *boxView;
-    NSMutableArray *dep_dataSource;
-    NSMutableArray *fau_dataSource;
     BXTFaultTypeInfo *fault_type_info;
-    NSString *cause;
-    NSString *notes;
-    BXTFaultInfo *selectFaultInfo;
+    BXTFaultInfo     *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
-    UIPickerView *pickView;
-    UIView *pickerbackView;
-    UIView *toolView;
-    NSInteger indexSection;
-    NSMutableArray *manIDs;
-    
-    NSInteger faulttype_type;
+    UITableView      *currentTableView;
+    NSString         *repairState;
+    NSMutableArray   *selectPhotos;
+    NSMutableArray   *photosArray;
+    NSMutableArray   *dep_dataSource;
+    NSMutableArray   *fau_dataSource;
+    NSString         *cause;
+    NSString         *notes;
+    UIPickerView     *pickView;
+    UIView           *pickerbackView;
+    UIView           *toolView;
+    NSInteger        indexSection;
+    NSMutableArray   *manIDs;
+    NSInteger        faulttype_type;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
 @property (nonatomic ,strong) NSMutableArray *mans;
-@property (nonatomic, copy) NSString *faultType;
+@property (nonatomic, copy  ) NSString       *faultType;
 
 @end
 
@@ -63,10 +62,6 @@
     manIDs = [NSMutableArray array];
     self.mans = [NSMutableArray array];
     [BXTGlobal shareGlobal].maxPics = 3;
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeShopLocation" object:nil] subscribeNext:^(id x) {
-        [currentTableView reloadData];
-    }];
-    
     repairState = @"2";
     photosArray = [[NSMutableArray alloc] init];
     selectPhotos = [[NSMutableArray alloc] init];
@@ -101,7 +96,7 @@
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)selectFloorInfo:(BXTFloorInfo *)floor areaInfo:(BXTAreaInfo *)area
+- (void)refreshShopLocation
 {
     [currentTableView reloadData];
 }
@@ -148,8 +143,10 @@
     }
 }
 
-- (void)toolBarDoneClick {
-    if (pickView) {
+- (void)toolBarDoneClick
+{
+    if (pickView)
+    {
         [pickView removeFromSuperview];
         pickView = nil;
         [pickerbackView removeFromSuperview];
@@ -256,20 +253,55 @@
     
     BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
     BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
-    
     [self showLoadingMBP:@"新工单创建中..."];
-    [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
-               faultType_type:[NSString stringWithFormat:@"%ld", (long)faulttype_type]
-                   faultCause:cause
-                   faultLevel:repairState
-                  depatmentID:departmentInfo.dep_id
-                  floorInfoID:floorInfo.area_id
-                   areaInfoId:areaInfo.place_id
-                   shopInfoID:@""
-                    equipment:@"0"
-                   faultNotes:notes
-                   imageArray:photosArray
-              repairUserArray:array];
+    id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+    if (!shopInfo)
+    {
+        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
+                   faultType_type:[NSString stringWithFormat:@"%ld", (long)faulttype_type]
+                       faultCause:cause
+                       faultLevel:repairState
+                      depatmentID:departmentInfo.dep_id
+                      floorInfoID:floorInfo.area_id
+                       areaInfoId:areaInfo.place_id
+                       shopInfoID:@""
+                        equipment:@"0"
+                       faultNotes:notes
+                       imageArray:photosArray
+                  repairUserArray:array];
+        return;
+    }
+    if ([shopInfo isKindOfClass:[NSString class]])
+    {
+        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
+                   faultType_type:[NSString stringWithFormat:@"%ld", (long)faulttype_type]
+                       faultCause:cause
+                       faultLevel:repairState
+                      depatmentID:departmentInfo.dep_id
+                      floorInfoID:floorInfo.area_id
+                       areaInfoId:areaInfo.place_id
+                       shopInfoID:shopInfo
+                        equipment:@"0"
+                       faultNotes:notes
+                       imageArray:photosArray
+                  repairUserArray:array];
+    }
+    else
+    {
+        BXTShopInfo *tempShopInfo = (BXTShopInfo *)shopInfo;
+        [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
+                   faultType_type:[NSString stringWithFormat:@"%ld", (long)faulttype_type]
+                       faultCause:cause
+                       faultLevel:repairState
+                      depatmentID:departmentInfo.dep_id
+                      floorInfoID:floorInfo.area_id
+                       areaInfoId:areaInfo.place_id
+                       shopInfoID:tempShopInfo.stores_id
+                        equipment:@"0"
+                       faultNotes:notes
+                       imageArray:photosArray
+                  repairUserArray:array];
+    }
 }
 
 - (void)stateClick:(UIButton *)btn
@@ -562,7 +594,23 @@
             BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
             if (floorInfo)
             {
-                cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",floorInfo.area_name,areaInfo.place_name];
+                id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
+                if (shopInfo)
+                {
+                    if ([shopInfo isKindOfClass:[NSString class]])
+                    {
+                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,shopInfo];
+                    }
+                    else
+                    {
+                        BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
+                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,tempShop.stores_name];
+                    }
+                }
+                else
+                {
+                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",floorInfo.area_name,areaInfo.place_name];
+                }
             }
             else
             {
@@ -639,9 +687,10 @@
 {
     if (indexPath.section == 0)
     {
-        __weak BXTRepairWordOrderViewController *weakSelf = self;
-        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithPublic:YES changeArea:^(BXTFloorInfo *floorInfo, BXTAreaInfo *areaInfo) {
-            [weakSelf selectFloorInfo:floorInfo areaInfo:areaInfo];
+        @weakify(self);
+        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithIsResign:NO andBlock:^{
+            @strongify(self);
+            [self refreshShopLocation];
         }];
         [self.navigationController pushViewController:shopLocationVC animated:YES];
     }

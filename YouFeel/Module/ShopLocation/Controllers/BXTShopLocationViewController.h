@@ -7,15 +7,13 @@
 //
 
 #import "BXTBaseViewController.h"
-#import "BXTFloorInfo.h"
-#import "BXTAreaInfo.h"
 
-typedef void (^ChangeArea)(BXTFloorInfo *floorInfo,BXTAreaInfo *areaInfo);
+typedef void (^ChangeArea)();
 
 @interface BXTShopLocationViewController : BXTBaseViewController
 
 @property (nonatomic ,copy) ChangeArea selectAreaBlock;
 
-- (instancetype)initWithPublic:(BOOL)is_public changeArea:(ChangeArea)selectArea;
+- (instancetype)initWithIsResign:(BOOL)resign andBlock:(ChangeArea)selectArea;
 
 @end

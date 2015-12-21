@@ -771,7 +771,14 @@
             orderType.text = @"超时工单";
         }
         
-        place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
+        if (_repairDetail.stores_name.length)
+        {
+            place.text = [NSString stringWithFormat:@"位置:%@-%@-%@",_repairDetail.area_name,_repairDetail.place_name,_repairDetail.stores_name];
+        }
+        else
+        {
+            place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
+        }
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",_repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",_repairDetail.cause];
         

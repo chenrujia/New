@@ -12,6 +12,6 @@
 
 @property (nonatomic ,strong) NSString *place_id;
 @property (nonatomic ,strong) NSString *place_name;
-@property (nonatomic ,strong) NSArray *stores;
+@property (nonatomic ,strong) NSArray  *stores;
 
 @end

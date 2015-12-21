@@ -78,10 +78,11 @@
 #pragma mark 事件处理
 - (void)repairClick
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         return;
     }
-    // 我的工单
+    // 新建工单
     BXTWorkOderViewController *workOrderVC = [[BXTWorkOderViewController alloc] init];
     [self.navigationController pushViewController:workOrderVC animated:YES];
 }
@@ -91,8 +92,10 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
-    if (indexPath.row <= 6) {
-        if ([self is_verify]) {
+    if (indexPath.row <= 6)
+    {
+        if ([self is_verify])
+        {
             return;
         }
     }

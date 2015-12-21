@@ -18,25 +18,17 @@
         // 初始化
         BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
         departmentInfo.department = @"";
-        //departmentInfo.dep_id = @"";
         [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
         
         BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
         positionInfo.department = @"";
-        //positionInfo.role_id = @"";
         positionInfo.role = @"";
-        //positionInfo.is_repair = @"";
         [BXTGlobal setUserProperty:positionInfo withKey:U_POSITION];
         
         BXTGroupingInfo *groupingInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
         groupingInfo.subgroup = @"";
-        //groupingInfo.group_id = @"";
         [BXTGlobal setUserProperty:groupingInfo withKey:U_GROUPINGINFO];
-        
-        
-        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeShopLocation" object:nil] subscribeNext:^(id x) {
-            [currentTableView reloadData];
-        }];
+ 
         self.viewType = type;
         departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
         if (departmentInfo && [departmentInfo.dep_id integerValue] == 2)
@@ -51,12 +43,12 @@
         departmentArray = [NSMutableArray array];
         positionArray = [NSMutableArray array];
         groupArray = [NSMutableArray array];
-        currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStyleGrouped];
-        [currentTableView registerClass:[BXTSettingTableViewCell class] forCellReuseIdentifier:@"AuthenticationCell"];
-        currentTableView.delegate = self;
-        currentTableView.dataSource = self;
-        currentTableView.showsVerticalScrollIndicator = NO;
-        [self addSubview:currentTableView];
+        self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStyleGrouped];
+        [_currentTableView registerClass:[BXTSettingTableViewCell class] forCellReuseIdentifier:@"AuthenticationCell"];
+        _currentTableView.delegate = self;
+        _currentTableView.dataSource = self;
+        _currentTableView.showsVerticalScrollIndicator = NO;
+        [self addSubview:_currentTableView];
     }
     return self;
 }
@@ -191,16 +183,15 @@
 
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
-//section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
     {
-        return 16.f;//section头部高度
+        return 16.f;
     }
-    return 10.f;//section头部高度
+    return 10.f;
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -355,7 +346,7 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request positionsList:departmentInfo.dep_id];
     }
-    [currentTableView reloadData];
+    [_currentTableView reloadData];
     
     [UIView animateWithDuration:0.3f animations:^{
         [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
