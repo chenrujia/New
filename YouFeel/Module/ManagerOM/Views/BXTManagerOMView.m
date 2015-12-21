@@ -62,11 +62,17 @@
         menu.dataSource = self;
         [self addSubview:menu];
         
+        @weakify(self);
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ReloadListData" object:nil] subscribeNext:^(id x) {
+            @strongify(self);
+            [self loadNewData];
+        }];
+        
         currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(menu.frame), SCREEN_WIDTH, self.bounds.size.height - CGRectGetMaxY(menu.frame)) style:UITableViewStyleGrouped];
-        __weak __typeof(self) weakSelf = self;
         // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
         currentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-            [weakSelf loadNewData];
+            @strongify(self);
+            [self loadNewData];
         }];
         // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
         currentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];

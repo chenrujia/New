@@ -640,6 +640,7 @@
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadListData" object:nil];
             [self showMBP:@"接单成功！" withBlock:^(BOOL hidden) {
                 [self.navigationController popViewControllerAnimated:YES];
                 --[BXTGlobal shareGlobal].assignNumber;
@@ -678,9 +679,12 @@
         [self showLoadingMBP:@"请稍候..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        [request reaciveOrderForAssign:[NSString stringWithFormat:@"%ld",(long)_repairDetail.repairID]
-                           arrivalTime:timeStr
-                             andUserID:userID];
+        NSArray *users = @[userID];
+        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]
+                    arrivalTime:timeStr
+                      andUserID:userID
+                       andUsers:users
+                      andIsGrad:NO];
     }
 }
 

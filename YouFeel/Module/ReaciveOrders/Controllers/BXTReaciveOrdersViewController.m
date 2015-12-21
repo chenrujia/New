@@ -545,6 +545,10 @@
             [self showMBP:@"接单成功！" withBlock:nil];
             [self reloadTable];
         }
+        else
+        {
+            [self hideMBP];
+        }
     }
 }
 

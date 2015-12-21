@@ -1,4 +1,3 @@
-use_frameworks!
 pod 'UMengAnalytics-NO-IDFA'
 pod 'AFNetworking', '~> 3.0.1'
 pod 'ReactiveCocoa', '~> 2.5'

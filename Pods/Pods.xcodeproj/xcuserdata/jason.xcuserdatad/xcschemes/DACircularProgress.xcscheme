@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82DAF2B16B872304C42AFE46"
-               BuildableName = "DACircularProgress.framework"
+               BlueprintIdentifier = "D4DDD91D00750440F3DB6BF0"
+               BuildableName = "libDACircularProgress.a"
                BlueprintName = "DACircularProgress"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

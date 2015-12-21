@@ -1,6 +1,0 @@
-framework module DCKeyValueObjectMapping {
-  umbrella header "DCKeyValueObjectMapping-umbrella.h"
-
-  export *
-  module * { export * }
-}
