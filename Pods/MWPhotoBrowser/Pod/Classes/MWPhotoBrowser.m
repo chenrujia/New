@@ -547,7 +547,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     return YES;
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+- (NSUInteger)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAll;
 }
 
@@ -1071,51 +1071,9 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 
 #pragma mark - Navigation
 
-//- (void)updateNavigation {
-//    
-//	// Title
-//    NSUInteger numberOfPhotos = [self numberOfPhotos];
-//    if (_gridController) {
-//        if (_gridController.selectionMode) {
-//            self.title = NSLocalizedString(@"Select Photos", nil);
-//        } else {
-//            NSString *photosText;
-//            if (numberOfPhotos == 1) {
-//                photosText = NSLocalizedString(@"photo", @"Used in the context: '1 photo'");
-//            } else {
-//                photosText = NSLocalizedString(@"photos", @"Used in the context: '3 photos'");
-//            }
-//            self.title = [NSString stringWithFormat:@"%lu %@", (unsigned long)numberOfPhotos, photosText];
-//        }
-//    } else if (numberOfPhotos > 1) {
-//        if ([_delegate respondsToSelector:@selector(photoBrowser:titleForPhotoAtIndex:)]) {
-//            self.title = [_delegate photoBrowser:self titleForPhotoAtIndex:_currentPageIndex];
-//        } else {
-//            self.title = [NSString stringWithFormat:@"%lu %@ %lu", (unsigned long)(_currentPageIndex+1), NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), (unsigned long)numberOfPhotos];
-//        }
-//	} else {
-//		self.title = nil;
-//	}
-//	
-//	// Buttons
-//	_previousButton.enabled = (_currentPageIndex > 0);
-//	_nextButton.enabled = (_currentPageIndex < numberOfPhotos - 1);
-//    
-//    // Disable action button if there is no image or it's a video
-//    MWPhoto *photo = [self photoAtIndex:_currentPageIndex];
-//    if ([photo underlyingImage] == nil || ([photo respondsToSelector:@selector(isVideo)] && photo.isVideo)) {
-//        _actionButton.enabled = NO;
-//        _actionButton.tintColor = [UIColor clearColor]; // Tint to hide button
-//    } else {
-//        _actionButton.enabled = YES;
-//        _actionButton.tintColor = nil;
-//    }
-//	
-//}
-
 - (void)updateNavigation {
     
-    // Title
+	// Title
     NSUInteger numberOfPhotos = [self numberOfPhotos];
     if (_gridController) {
         if (_gridController.selectionMode) {
@@ -1161,10 +1119,10 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     } else {
         self.title = nil;
     }
-    
-    // Buttons
-    _previousButton.enabled = (_currentPageIndex > 0);
-    _nextButton.enabled = (_currentPageIndex < numberOfPhotos - 1);
+	
+	// Buttons
+	_previousButton.enabled = (_currentPageIndex > 0);
+	_nextButton.enabled = (_currentPageIndex < numberOfPhotos - 1);
     
     // Disable action button if there is no image or it's a video
     MWPhoto *photo = [self photoAtIndex:_currentPageIndex];
@@ -1175,7 +1133,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         _actionButton.enabled = YES;
         _actionButton.tintColor = nil;
     }
-    
+	
 }
 
 - (void)jumpToPageAtIndex:(NSUInteger)index animated:(BOOL)animated {

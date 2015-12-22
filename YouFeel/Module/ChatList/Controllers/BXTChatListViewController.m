@@ -48,7 +48,6 @@
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc] init];
     conversationVC.conversationType = model.conversationType;
     conversationVC.targetId = model.targetId;
-    conversationVC.userName = model.conversationTitle;
     conversationVC.title = model.conversationTitle;
     // 删除位置功能
     //[conversationVC.pluginBoardView removeItemAtIndex:2];

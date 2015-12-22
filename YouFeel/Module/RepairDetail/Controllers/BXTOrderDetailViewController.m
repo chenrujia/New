@@ -438,7 +438,6 @@
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
     conversationVC.conversationType =ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
-    conversationVC.userName = userInfo.name;
     conversationVC.title = userInfo.name;
     // 删除位置功能
     //[conversationVC.pluginBoardView removeItemAtIndex:2];

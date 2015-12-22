@@ -2692,6 +2692,7 @@
 				9652AAFD1BC902DF009A666D /* Resources */,
 				960001D61BD774620037FF57 /* ShellScript */,
 				4760686B218149CB09B94DBC /* Copy Pods Resources */,
+				86983A6714C58E60DB249130 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2849,6 +2850,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		86983A6714C58E60DB249130 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		960001D61BD774620037FF57 /* ShellScript */ = {
@@ -3169,7 +3185,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3209,7 +3225,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3244,7 +3260,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -3277,7 +3293,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
