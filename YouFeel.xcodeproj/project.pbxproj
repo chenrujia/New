@@ -210,6 +210,7 @@
 		96CEC8421BD0F1A400D03B1B /* CLLocation+YCLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC83F1BD0F1A400D03B1B /* CLLocation+YCLocation.m */; };
 		96CEC8431BD0F1A400D03B1B /* CCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8411BD0F1A400D03B1B /* CCLocationManager.m */; };
 		96CEFB7C1C292309005E3091 /* BXTLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEFB7B1C292309005E3091 /* BXTLoadingViewController.m */; };
+		96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEFB7E1C293EFA005E3091 /* BXTPhotoBaseViewController.m */; };
 		96CF3A871C0445E80055FC4B /* AppTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CF3A841C0445E80055FC4B /* AppTools.m */; };
 		96CF3A881C0445E80055FC4B /* CrashManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CF3A861C0445E80055FC4B /* CrashManager.m */; };
 		AE0F09ADE5FBE74A74BFEBC5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A888DE73728378A7408BFC /* libPods.a */; };
@@ -630,6 +631,8 @@
 		96CEC8411BD0F1A400D03B1B /* CCLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLocationManager.m; sourceTree = "<group>"; };
 		96CEFB7A1C292309005E3091 /* BXTLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTLoadingViewController.h; sourceTree = "<group>"; };
 		96CEFB7B1C292309005E3091 /* BXTLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTLoadingViewController.m; sourceTree = "<group>"; };
+		96CEFB7D1C293EFA005E3091 /* BXTPhotoBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPhotoBaseViewController.h; sourceTree = "<group>"; };
+		96CEFB7E1C293EFA005E3091 /* BXTPhotoBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPhotoBaseViewController.m; sourceTree = "<group>"; };
 		96CF3A831C0445E80055FC4B /* AppTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppTools.h; sourceTree = "<group>"; };
 		96CF3A841C0445E80055FC4B /* AppTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppTools.m; sourceTree = "<group>"; };
 		96CF3A851C0445E80055FC4B /* CrashManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashManager.h; sourceTree = "<group>"; };
@@ -2138,6 +2141,8 @@
 			children = (
 				9652AB381BC9070E009A666D /* BXTBaseViewController.h */,
 				9652AB391BC9070E009A666D /* BXTBaseViewController.m */,
+				96CEFB7D1C293EFA005E3091 /* BXTPhotoBaseViewController.h */,
+				96CEFB7E1C293EFA005E3091 /* BXTPhotoBaseViewController.m */,
 			);
 			path = BaseVC;
 			sourceTree = "<group>";
@@ -2984,6 +2989,7 @@
 				7818DBE51C0824D800DC22C6 /* PNPieChartDataItem.m in Sources */,
 				969A42491BCBD4620034FC84 /* RGCardViewLayout.m in Sources */,
 				9602229B1BC9216300010072 /* BXTHeadquartersTableViewCell.m in Sources */,
+				96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */,
 				78F872BC1C095BB3001C6E60 /* BXTProfessionHeader.m in Sources */,
 				96859C371C10369B00340C9B /* BXTRejectOrderViewController.m in Sources */,
 				9602214C1BC9201400010072 /* UIViewController+DismissKeyboard.m in Sources */,

@@ -89,7 +89,6 @@
             button.layer.masksToBounds = YES;
             button.layer.cornerRadius = 6.f;
             button.layer.borderWidth = 1.f;
-            button.tag = 1200;
             button.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
             [self addSubview:button];
             button;
@@ -106,7 +105,6 @@
             button.layer.masksToBounds = YES;
             button.layer.cornerRadius = 6.f;
             button.layer.borderWidth = 1.f;
-            button.tag = 1100;
             button.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
             [self addSubview:button];
             button;

@@ -22,9 +22,8 @@
     self.view.backgroundColor = colorWithHexString(@"eff3f6");
 }
 
-/**
- *  设置导航条
- */
+#pragma mark -
+#pragma mark 设置导航条
 - (UIImageView *)navigationSetting:(NSString *)title
                      andRightTitle:(NSString *)right_title
                      andRightImage:(UIImage *)image
