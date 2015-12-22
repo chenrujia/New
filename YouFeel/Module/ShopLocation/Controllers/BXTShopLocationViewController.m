@@ -204,7 +204,7 @@
     
     if (indexPath.section == 0)
     {
-        cell.titleLabel.text = @"区   域";
+        cell.titleLabel.text = @"项目/楼号:";
         if ([BXTGlobal getUserProperty:U_FLOOOR])
         {
             BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
@@ -212,12 +212,12 @@
         }
         else
         {
-            cell.detailLable.text = @"请选择区域";
+            cell.detailLable.text = @"请选择一级位置信息";
         }
     }
     else if (indexPath.section == 1)
     {
-        cell.titleLabel.text = @"楼   层";
+        cell.titleLabel.text = @"区域/楼层:";
         if ([BXTGlobal getUserProperty:U_AREA])
         {
             BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
@@ -225,12 +225,12 @@
         }
         else
         {
-            cell.detailLable.text = @"请选择楼层";
+            cell.detailLable.text = @"请选择二级位置信息";
         }
     }
     else
     {
-        cell.titleLabel.text = @"地   点";
+        cell.titleLabel.text = @"地点/单元:";
         if ([BXTGlobal getUserProperty:U_SHOP])
         {
             id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
@@ -246,7 +246,7 @@
         }
         else
         {
-            cell.detailLable.text = @"请选择地点";
+            cell.detailLable.text = @"请选择三级位置信息";
         }
     }
     
@@ -290,6 +290,10 @@
                 [areaConfig addArrayMapper:areaMapper];
                 DCKeyValueObjectMapping *areaParser = [DCKeyValueObjectMapping mapperForClass:[BXTAreaInfo class]  andConfiguration:areaConfig];
                 BXTAreaInfo *area = [areaParser parseDictionary:placeDic];
+                if ([area.place_id isEqual:selectedAreaInfo.place_id])
+                {
+                    selectedAreaInfo = area;
+                }
                 [areaArray addObject:area];
             }
             floor.place = areaArray;

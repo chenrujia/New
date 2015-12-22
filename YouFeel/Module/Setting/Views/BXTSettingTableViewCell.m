@@ -18,7 +18,7 @@
     {
         self.titleLabel = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 80.f, 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 90.f, 20)];
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont boldSystemFontOfSize:18.];
             [self addSubview:label];
@@ -89,7 +89,6 @@
             button.layer.masksToBounds = YES;
             button.layer.cornerRadius = 6.f;
             button.layer.borderWidth = 1.f;
-            button.tag = 1200;
             button.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
             [self addSubview:button];
             button;
@@ -106,7 +105,6 @@
             button.layer.masksToBounds = YES;
             button.layer.cornerRadius = 6.f;
             button.layer.borderWidth = 1.f;
-            button.tag = 1100;
             button.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
             [self addSubview:button];
             button;

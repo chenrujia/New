@@ -12,6 +12,7 @@
 #import "CrashManager.h"
 #import "MobClick.h"
 #import "BXTLoginViewController.h"
+#import "BXTLoadingViewController.h"
 #import "BXTHeadquartersViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 
@@ -37,7 +38,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     //新的SDK不允许在设置rootViewController之前做过于复杂的操作,So.....坑
-    UIViewController* myvc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+    BXTLoadingViewController* myvc = [[BXTLoadingViewController alloc] init];
     self.window.rootViewController = myvc;
     
     //初始化融云SDK
