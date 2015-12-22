@@ -88,6 +88,7 @@
         shop.stores_id = [areaDic objectForKey:@"stores_id"];
         shop.stores_name = [areaDic objectForKey:@"stores_name"];
         [BXTGlobal setUserProperty:shop withKey:U_SHOP];
+        area.stores = @[shop];
     }
     
     BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
@@ -103,7 +104,6 @@
     [BXTGlobal shareGlobal].longTime = [dic objectForKey:@"long_time"];
     [[NSUserDefaults standardUserDefaults] setObject:[dic objectForKey:@"long_time"] forKey:@"LongTime"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
     
     NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
     [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];

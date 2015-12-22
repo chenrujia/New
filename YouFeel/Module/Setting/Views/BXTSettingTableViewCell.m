@@ -18,7 +18,7 @@
     {
         self.titleLabel = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 80.f, 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 90.f, 20)];
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont boldSystemFontOfSize:18.];
             [self addSubview:label];

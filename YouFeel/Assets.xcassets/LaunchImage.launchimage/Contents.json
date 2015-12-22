@@ -4,7 +4,7 @@
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "736h",
-      "filename" : "1启动页-3.png",
+      "filename" : "Default_plus@3x.png",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
       "scale" : "3x"
@@ -21,7 +21,7 @@
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "667h",
-      "filename" : "1启动页-2.png",
+      "filename" : "Default_iphone6@2x.png",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
       "scale" : "2x"
@@ -29,7 +29,7 @@
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "1启动页.png",
+      "filename" : "Default_iphone4@2x.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
@@ -38,7 +38,7 @@
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "retina4",
-      "filename" : "1启动页-1.png",
+      "filename" : "Default_iphone5@2x.png",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
       "scale" : "2x"
@@ -80,14 +80,14 @@
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "1启动页-4.png",
+      "filename" : "Default_iphone4@2x-1.png",
       "extent" : "full-screen",
       "scale" : "2x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "1启动页-5.png",
+      "filename" : "Default_iphone5@2x-1.png",
       "extent" : "full-screen",
       "subtype" : "retina4",
       "scale" : "2x"
