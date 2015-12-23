@@ -11,7 +11,9 @@
 
 @interface BXTNoneEvaluationView : UIView<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
-    NSMutableArray *datasource;
-    UITableView *currentTable;
+    UITableView    *currentTable;
 }
+
+@property (nonatomic, strong) NSMutableArray *datasource;
+
 @end

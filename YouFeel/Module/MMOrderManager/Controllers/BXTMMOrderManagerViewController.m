@@ -16,15 +16,15 @@
 #import "BXTRepairDetailViewController.h"
 #import "MJRefresh.h"
 
-@interface BXTMMOrderManagerViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,BXTDataResponseDelegate>
+@interface BXTMMOrderManagerViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,BXTDataResponseDelegate>
 {
-    UITableView *currentTableView;
-    NSMutableArray *repairListArray;
-    NSInteger selectIndex;
-    NSInteger currentPage;
+    UITableView    *currentTableView;
+    NSInteger      currentPage;
 }
 
-@property (nonatomic ,assign) BOOL         isRequesting;
+@property (nonatomic, strong) NSMutableArray *repairListArray;
+@property (nonatomic, assign) NSInteger      selectIndex;
+@property (nonatomic ,assign) BOOL           isRequesting;
 
 @end
 
@@ -40,7 +40,7 @@
         @strongify(self);
         [self loadNewData];
     }];
-    repairListArray = [[NSMutableArray alloc] init];
+    self.repairListArray = [[NSMutableArray alloc] init];
     
     [self createTableView];
     [self loadNewData];
@@ -83,7 +83,12 @@
     newBtn.layer.masksToBounds = YES;
     newBtn.layer.cornerRadius = 4.f;
     newBtn.backgroundColor = colorWithHexString(@"ffffff");
-    [newBtn addTarget:self action:@selector(newRepairClick) forControlEvents:UIControlEventTouchUpInside];
+    @weakify(self);
+    [[newBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTRepairWordOrderViewController *workOderVC = [[BXTRepairWordOrderViewController alloc] init];
+        [self.navigationController pushViewController:workOderVC animated:YES];
+    }];
     [backView addSubview:newBtn];
     
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 21.f, 21.f)];
@@ -108,7 +113,7 @@
 {
     if (_isRequesting) return;
     
-    [repairListArray removeAllObjects];
+    [_repairListArray removeAllObjects];
     [currentTableView reloadData];
     
     refreshType = RefreshDown;
@@ -136,16 +141,10 @@
     _isRequesting = YES;
 }
 
-- (void)newRepairClick
-{
-    BXTRepairWordOrderViewController *workOderVC = [[BXTRepairWordOrderViewController alloc] init];
-    [self.navigationController pushViewController:workOderVC animated:YES];
-}
-
 - (void)cancelRepair:(UIButton *)btn
 {
-    selectIndex = btn.tag;
-    BXTRepairInfo *repairInfo = repairListArray[selectIndex];
+    self.selectIndex = btn.tag;
+    BXTRepairInfo *repairInfo = _repairListArray[_selectIndex];
     if (repairInfo.repairstate == 1)
     {
         if (IS_IOS_8)
@@ -153,7 +152,9 @@
             UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"您确定要取消此工单?" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
             [alertCtr addAction:cancelAction];
+            @weakify(self);
             UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+                @strongify(self);
                 /**删除工单**/
                 [self showLoadingMBP:@"请稍候..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -169,6 +170,18 @@
                                                            delegate:self
                                                   cancelButtonTitle:@"取消"
                                                   otherButtonTitles:@"确定",nil];
+            @weakify(self);
+            [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
+                @strongify(self);
+                if ([x integerValue] == 1)
+                {
+                    BXTRepairInfo *repairInfo = self.repairListArray[self.selectIndex];
+                    /**删除工单**/
+                    [self showLoadingMBP:@"请稍候..."];
+                    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                    [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+                }
+            }];
             [alert show];
         }
     }
@@ -179,10 +192,7 @@
 }
 
 #pragma mark -
-#pragma mark 代理
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -191,7 +201,7 @@
     }
     return 10.f;//section头部高度
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -203,12 +213,12 @@
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5.f)];
@@ -223,7 +233,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [repairListArray count];
+    return [_repairListArray count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -236,7 +246,7 @@
     BXTRepairTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepairCell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
+    BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
     cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
     cell.time.text = repairInfo.repair_time;
     cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
@@ -280,34 +290,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
+    BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
     BXTRepairDetailViewController *repairDetailVC = [[BXTRepairDetailViewController alloc] initWithRepair:repairInfo];
     [self.navigationController pushViewController:repairDetailVC animated:YES];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1)
-    {
-        BXTRepairInfo *repairInfo = repairListArray[selectIndex];
-        /**删除工单**/
-        [self showLoadingMBP:@"请稍候..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
-    }
-}
-
-/**
- *  DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
- */
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIImage imageNamed:@"new_ticke_ticon"];
 }
 
-/**
- *  请求返回代理
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
@@ -330,12 +326,12 @@
         
         if (refreshType == RefreshDown)
         {
-            [repairListArray removeAllObjects];
-            [repairListArray addObjectsFromArray:tempArray];
+            [_repairListArray removeAllObjects];
+            [_repairListArray addObjectsFromArray:tempArray];
         }
         else if (refreshType == RefreshUp)
         {
-            [repairListArray addObjectsFromArray:[[tempArray reverseObjectEnumerator] allObjects]];
+            [_repairListArray addObjectsFromArray:[[tempArray reverseObjectEnumerator] allObjects]];
         }
         currentPage++;
         [currentTableView reloadData];
@@ -347,7 +343,7 @@
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
-            [repairListArray removeObjectAtIndex:selectIndex];
+            [_repairListArray removeObjectAtIndex:_selectIndex];
             [currentTableView reloadData];
             [self showMBP:@"删除成功!" withBlock:nil];
         }

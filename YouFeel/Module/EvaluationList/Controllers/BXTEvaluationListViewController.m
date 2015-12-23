@@ -16,8 +16,8 @@
 
 @interface BXTEvaluationListViewController ()<SegmentViewDelegate,UIScrollViewDelegate>
 {
-    SegmentView *segment;
-    NSInteger currentPage;
+    SegmentView  *segment;
+    NSInteger    currentPage;
     UIScrollView *currentScrollView;
 }
 @end
@@ -58,6 +58,11 @@
     UIButton * navi_leftButton = [[UIButton alloc] initWithFrame:CGRectMake(6, 20, 44, 44)];
     navi_leftButton.backgroundColor = [UIColor clearColor];
     [navi_leftButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    @weakify(self);
+    [[navi_leftButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
     [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
     [naviView addSubview:navi_leftButton];
     
@@ -81,17 +86,7 @@
 }
 
 #pragma mark -
-#pragma mark 事件处理
-- (void)navigationLeftButton
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-#pragma mark -
-#pragma mark 代理
-/**
- *  SegmentViewDelegate
- */
+#pragma mark SegmentViewDelegate
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
 {
     currentPage = index;

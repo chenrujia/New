@@ -10,15 +10,15 @@
 
 @interface BXTNoneEVTableViewCell : UITableViewCell
 
-@property (nonatomic ,strong) UILabel *repairID;
+@property (nonatomic ,strong) UILabel  *repairID;
 @property (nonatomic ,strong) UIButton *evaButton;
-@property (nonatomic ,strong) UILabel *place;
-@property (nonatomic ,strong) UILabel *cause;
-@property (nonatomic ,strong) UIView *imgBackView;
-@property (nonatomic ,strong) UILabel *repairState;
-@property (nonatomic ,strong) UILabel *consumeTime;
-@property (nonatomic ,strong) UIView *line;
-@property (nonatomic ,strong) NSArray *picsArray;
+@property (nonatomic ,strong) UILabel  *place;
+@property (nonatomic ,strong) UILabel  *cause;
+@property (nonatomic ,strong) UIView   *imgBackView;
+@property (nonatomic ,strong) UILabel  *repairState;
+@property (nonatomic ,strong) UILabel  *consumeTime;
+@property (nonatomic ,strong) UIView   *line;
+@property (nonatomic ,strong) NSArray  *picsArray;
 
 - (void)reloadImageBackView;
 

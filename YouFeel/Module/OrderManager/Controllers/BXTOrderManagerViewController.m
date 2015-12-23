@@ -10,7 +10,6 @@
 #import "BXTHeaderFile.h"
 #import "SegmentView.h"
 #import "BXTOrderListView.h"
-#import "BXTRepairViewController.h"
 #import "UIImageView+WebCache.h"
 
 @interface BXTOrderManagerViewController ()<SegmentViewDelegate,UIScrollViewDelegate>
@@ -56,7 +55,11 @@
     UIButton * navi_leftButton = [[UIButton alloc] initWithFrame:CGRectMake(6, 20, 44, 44)];
     navi_leftButton.backgroundColor = [UIColor clearColor];
     [navi_leftButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
+    @weakify(self);
+    [[navi_leftButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
     [naviView addSubview:navi_leftButton];
     
     //logo
@@ -177,21 +180,6 @@
     [logoView addSubview:groupLabel];
 }
 
-#pragma mark -
-#pragma mark 事件处理
-- (void)navigationLeftButton
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)navigationrightButton
-{
-    BXTRepairViewController *workOderVC = [[BXTRepairViewController alloc] initWithVCType:MMVCType];
-    [self.navigationController pushViewController:workOderVC animated:YES];
-}
-
-#pragma mark -
-#pragma mark 代理
 #pragma mark -
 #pragma mark SegmentViewDelegate
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index

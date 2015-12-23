@@ -88,19 +88,15 @@
 }
 
 #pragma mark -
-#pragma mark 代理
-/**
- *  SegmentViewDelegate
- */
+#pragma mark SegmentViewDelegate
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
 {
     currentPage = index;
     [currentScrollView setContentOffset:CGPointMake(currentPage * SCREEN_WIDTH, 0) animated:YES];
 }
 
-/**
- *  UIScrollViewDelegate
- */
+#pragma mark -
+#pragma mark UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     // 得到每页宽度
@@ -114,7 +110,8 @@
     [segment segemtBtnChange:currentPage];
 }
 
-- (void)removeAllInformation {
+- (void)removeAllInformation
+{
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     departmentInfo.department = @"";
     //departmentInfo.dep_id = @"";

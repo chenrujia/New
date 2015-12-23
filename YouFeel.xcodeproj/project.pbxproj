@@ -123,7 +123,6 @@
 		960223011BC9216300010072 /* BXTAreaInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222601BC9216300010072 /* BXTAreaInfo.m */; };
 		960223021BC9216300010072 /* BXTFloorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222621BC9216300010072 /* BXTFloorInfo.m */; };
 		960223031BC9216300010072 /* BXTShopInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222641BC9216300010072 /* BXTShopInfo.m */; };
-		960223041BC9216300010072 /* BXTSetUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222691BC9216300010072 /* BXTSetUserInfoViewController.m */; };
 		960223051BC9216300010072 /* BXTUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602226D1BC9216300010072 /* BXTUserInfo.m */; };
 		960223061BC9216300010072 /* BXTRepairWordOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222721BC9216300010072 /* BXTRepairWordOrderViewController.m */; };
 		960223071BC9216300010072 /* BXTWorkOderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222741BC9216300010072 /* BXTWorkOderViewController.m */; };
@@ -206,7 +205,6 @@
 		96CEC8341BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8331BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m */; };
 		96CEC8371BD08C2300D03B1B /* BXTHaveEVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8361BD08C2300D03B1B /* BXTHaveEVTableViewCell.m */; };
 		96CEC83A1BD0945000D03B1B /* BXTNoneEVInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8391BD0945000D03B1B /* BXTNoneEVInfo.m */; };
-		96CEC83D1BD0946900D03B1B /* BXTHaveEVInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC83C1BD0946900D03B1B /* BXTHaveEVInfo.m */; };
 		96CEC8421BD0F1A400D03B1B /* CLLocation+YCLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC83F1BD0F1A400D03B1B /* CLLocation+YCLocation.m */; };
 		96CEC8431BD0F1A400D03B1B /* CCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8411BD0F1A400D03B1B /* CCLocationManager.m */; };
 		96CEFB7C1C292309005E3091 /* BXTLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEFB7B1C292309005E3091 /* BXTLoadingViewController.m */; };
@@ -465,8 +463,6 @@
 		960222621BC9216300010072 /* BXTFloorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFloorInfo.m; sourceTree = "<group>"; };
 		960222631BC9216300010072 /* BXTShopInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTShopInfo.h; sourceTree = "<group>"; };
 		960222641BC9216300010072 /* BXTShopInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTShopInfo.m; sourceTree = "<group>"; };
-		960222681BC9216300010072 /* BXTSetUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSetUserInfoViewController.h; sourceTree = "<group>"; };
-		960222691BC9216300010072 /* BXTSetUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSetUserInfoViewController.m; sourceTree = "<group>"; };
 		9602226C1BC9216300010072 /* BXTUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTUserInfo.h; sourceTree = "<group>"; };
 		9602226D1BC9216300010072 /* BXTUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTUserInfo.m; sourceTree = "<group>"; };
 		960222711BC9216300010072 /* BXTRepairWordOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairWordOrderViewController.h; sourceTree = "<group>"; };
@@ -623,8 +619,6 @@
 		96CEC8361BD08C2300D03B1B /* BXTHaveEVTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHaveEVTableViewCell.m; sourceTree = "<group>"; };
 		96CEC8381BD0945000D03B1B /* BXTNoneEVInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNoneEVInfo.h; sourceTree = "<group>"; };
 		96CEC8391BD0945000D03B1B /* BXTNoneEVInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNoneEVInfo.m; sourceTree = "<group>"; };
-		96CEC83B1BD0946800D03B1B /* BXTHaveEVInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHaveEVInfo.h; sourceTree = "<group>"; };
-		96CEC83C1BD0946900D03B1B /* BXTHaveEVInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHaveEVInfo.m; sourceTree = "<group>"; };
 		96CEC83E1BD0F1A400D03B1B /* CLLocation+YCLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+YCLocation.h"; sourceTree = "<group>"; };
 		96CEC83F1BD0F1A400D03B1B /* CLLocation+YCLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+YCLocation.m"; sourceTree = "<group>"; };
 		96CEC8401BD0F1A400D03B1B /* CCLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLocationManager.h; sourceTree = "<group>"; };
@@ -1939,8 +1933,6 @@
 		960222671BC9216300010072 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				960222681BC9216300010072 /* BXTSetUserInfoViewController.h */,
-				960222691BC9216300010072 /* BXTSetUserInfoViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2338,8 +2330,6 @@
 			children = (
 				96CEC8381BD0945000D03B1B /* BXTNoneEVInfo.h */,
 				96CEC8391BD0945000D03B1B /* BXTNoneEVInfo.m */,
-				96CEC83B1BD0946800D03B1B /* BXTHaveEVInfo.h */,
-				96CEC83C1BD0946900D03B1B /* BXTHaveEVInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3042,7 +3032,6 @@
 				965B3A3B1C0C62C00097CF7F /* BXTManagerOMView.m in Sources */,
 				7818DBE91C0824D800DC22C6 /* PNScatterChartData.m in Sources */,
 				96AABA481BE078CD0071B6FA /* BXTChatListViewController.m in Sources */,
-				960223041BC9216300010072 /* BXTSetUserInfoViewController.m in Sources */,
 				7818DBD91C0824D800DC22C6 /* PieElement.m in Sources */,
 				960221491BC9201400010072 /* UINavigationController+YRBackGesture.m in Sources */,
 				9654507C1BCE7C3300435AD1 /* BXTAchievementsInfo.m in Sources */,
@@ -3052,7 +3041,6 @@
 				960AE9DE1BF5C62C00EB4E59 /* MLImageCrop.m in Sources */,
 				9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */,
 				960222CE1BC9216300010072 /* BXTOrderManagerViewController.m in Sources */,
-				96CEC83D1BD0946900D03B1B /* BXTHaveEVInfo.m in Sources */,
 				9602214A1BC9201400010072 /* UIView+Nav.m in Sources */,
 				960222F61BC9216300010072 /* BXTResignViewController.m in Sources */,
 				9652ABF31BC90DCC009A666D /* ANPersistentData.m in Sources */,

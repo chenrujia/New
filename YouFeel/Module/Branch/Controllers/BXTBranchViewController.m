@@ -13,10 +13,10 @@
 
 @interface BXTBranchViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
-    NSMutableArray *markArray;
-    NSMutableArray *shopsArray;
+    NSMutableArray      *markArray;
+    NSMutableArray      *shopsArray;
     BXTHeadquartersInfo *headquarters;
-    UITableView *currentTableView;
+    UITableView         *currentTableView;
 }
 @end
 
@@ -75,10 +75,7 @@
 }
 
 #pragma mark -
-#pragma mark 代理
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 50.f;
@@ -121,9 +118,8 @@
     [tableView reloadData];
 }
 
-/**
- *  BXTDataResponseDelegate
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
@@ -161,7 +157,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    //    [self hideMBP];
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

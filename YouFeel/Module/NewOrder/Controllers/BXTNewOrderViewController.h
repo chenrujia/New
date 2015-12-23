@@ -6,10 +6,10 @@
 //  Copyright © 2015年 Jason. All rights reserved.
 //
 
-#import "BXTBaseViewController.h"
+#import "BXTPhotoBaseViewController.h"
 #import <RongIMKit/RongIMKit.h>
 
-@interface BXTNewOrderViewController : BXTBaseViewController
+@interface BXTNewOrderViewController : BXTPhotoBaseViewController
 
 - (instancetype)initWithIsAssign:(BOOL)assign
                   andWithOrderID:(NSString *)orderID;

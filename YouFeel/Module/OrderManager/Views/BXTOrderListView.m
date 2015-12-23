@@ -28,9 +28,9 @@
     {
         @weakify(self);
         [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ReloadData" object:nil] subscribeNext:^(id x) {
-            [repairListArray removeAllObjects];
-            [currentTableView reloadData];
             @strongify(self);
+            [self.repairListArray removeAllObjects];
+            [self.currentTableView reloadData];
             [self loadNewData];
         }];
         
@@ -38,36 +38,54 @@
         currentPage = 1;
         self.repairState = state;
         self.isReacive = reacive;
-        repairListArray = [NSMutableArray array];
+        self.repairListArray = [NSMutableArray array];
 
-        currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStyleGrouped];
-        __weak __typeof(self) weakSelf = self;
+        self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStyleGrouped];
         // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
-        currentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-            [weakSelf loadNewData];
+        _currentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            @strongify(self);
+            [self loadNewData];
         }];
         // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
-        currentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+        _currentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
         // 设置了底部inset
-        currentTableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+        _currentTableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
         // 忽略掉底部inset
-        currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
-        currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 40.f;
+        _currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+        _currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 40.f;
         if (![BXTGlobal shareGlobal].isRepair)
         {
-            [currentTableView registerClass:[BXTRepairTableViewCell class] forCellReuseIdentifier:@"OrderListCell"];
+            [_currentTableView registerClass:[BXTRepairTableViewCell class] forCellReuseIdentifier:@"OrderListCell"];
         }
         else
         {
-            [currentTableView registerClass:[BXTMaintenanceManTableViewCell class] forCellReuseIdentifier:@"OrderListCell"];
+            [_currentTableView registerClass:[BXTMaintenanceManTableViewCell class] forCellReuseIdentifier:@"OrderListCell"];
         }
-        currentTableView.delegate = self;
-        currentTableView.dataSource = self;
-        [self addSubview:currentTableView];
+        _currentTableView.delegate = self;
+        _currentTableView.dataSource = self;
+        [self addSubview:_currentTableView];
         //请求
         [self loadNewData];
     }
     return self;
+}
+
+- (void)showAlertView:(NSString *)title
+{
+    if (IS_IOS_8)
+    {
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+        }];
+        [alertCtr addAction:doneAction];
+        [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
 }
 
 - (void)loadNewData
@@ -98,16 +116,8 @@
     _isRequesting = YES;
 }
 
-- (void)evaluationClick:(UIButton *)btn
-{
-    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:btn.tag];
-    BXTEvaluationViewController *evaluateVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
-    [[self navigation] pushViewController:evaluateVC animated:YES];
-}
-
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
-//section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -116,7 +126,7 @@
     }
     return 10.f;//section头部高度
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -128,12 +138,12 @@
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5.f)];
@@ -152,7 +162,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return repairListArray.count;
+    return _repairListArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -167,7 +177,7 @@
         BXTRepairTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OrderListCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
+        BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
         cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
         cell.time.text = repairInfo.repair_time;
         cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
@@ -202,8 +212,13 @@
         else if (repairInfo.repairstate == 3)
         {
             cell.evaButton.hidden = NO;
-            cell.evaButton.tag = indexPath.section;
-            [cell.evaButton addTarget:self action:@selector(evaluationClick:) forControlEvents:UIControlEventTouchUpInside];
+            @weakify(self);
+            [[cell.evaButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                @strongify(self);
+                BXTRepairInfo *repairInfo = [self.repairListArray objectAtIndex:indexPath.section];
+                BXTEvaluationViewController *evaluateVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+                [[self navigation] pushViewController:evaluateVC animated:YES];
+            }];
         }
         else if (repairInfo.repairstate == 5)
         {
@@ -217,7 +232,7 @@
         BXTMaintenanceManTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OrderListCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
+        BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
         cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
         cell.time.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
         cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
@@ -275,15 +290,20 @@
             cell.maintenanceProcess.hidden = YES;
         }
         
-        cell.maintenanceProcess.tag = indexPath.section;
-        [cell.maintenanceProcess addTarget:self action:@selector(maintenanceProcessClick:) forControlEvents:UIControlEventTouchUpInside];
+        @weakify(self);
+        [[cell.maintenanceProcess rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            BXTRepairInfo *repairInfo = [self.repairListArray objectAtIndex:indexPath.section];
+            BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:repairInfo.fault_id andRepairID:repairInfo.repairID andReaciveTime:repairInfo.start_time];
+            [self.navigation pushViewController:maintenanceProcossVC animated:YES];
+        }];
         return cell;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
+    BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
     if (![BXTGlobal shareGlobal].isRepair)
     {
         BXTRepairDetailViewController *repairDetail = [[BXTRepairDetailViewController alloc] initWithRepair:repairInfo];
@@ -303,17 +323,10 @@
     }
 }
 
-- (void)maintenanceProcessClick:(UIButton *)btn
-{
-    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:btn.tag];
-    BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:repairInfo.fault_id andRepairID:repairInfo.repairID andReaciveTime:repairInfo.start_time];
-    [self.navigation pushViewController:maintenanceProcossVC animated:YES];
-}
-
 - (void)startRepairAction:(UIButton *)btn
 {
     selectTag = btn.tag;
-    BXTRepairInfo *repairInfo = repairListArray[selectTag];
+    BXTRepairInfo *repairInfo = _repairListArray[selectTag];
     [self showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request startRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
@@ -357,19 +370,19 @@
             }
             if (refreshType == Down)
             {
-                [repairListArray removeAllObjects];
-                [repairListArray addObjectsFromArray:tempArray];
+                [_repairListArray removeAllObjects];
+                [_repairListArray addObjectsFromArray:tempArray];
             }
             else if (refreshType == Up)
             {
-                [repairListArray addObjectsFromArray:[[tempArray reverseObjectEnumerator] allObjects]];
+                [_repairListArray addObjectsFromArray:[[tempArray reverseObjectEnumerator] allObjects]];
             }
             currentPage++;
-            [currentTableView reloadData];
+            [_currentTableView reloadData];
         }
         _isRequesting = NO;
-        [currentTableView.mj_header endRefreshing];
-        [currentTableView.mj_footer endRefreshing];
+        [_currentTableView.mj_header endRefreshing];
+        [_currentTableView.mj_footer endRefreshing];
     }
 }
 
@@ -377,26 +390,8 @@
 {
     [self hideMBP];
     _isRequesting = NO;
-    [currentTableView.mj_header endRefreshing];
-    [currentTableView.mj_footer endRefreshing];
-}
-
-- (void)showAlertView:(NSString *)title
-{
-    if (IS_IOS_8)
-    {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            
-        }];
-        [alertCtr addAction:doneAction];
-        [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
-    }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
-    }
+    [_currentTableView.mj_header endRefreshing];
+    [_currentTableView.mj_footer endRefreshing];
 }
 
 @end

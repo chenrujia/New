@@ -30,8 +30,8 @@
     return self;
 }
 
-
-//section底部间距
+#pragma mark -
+#pragma makr UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     NSInteger table_section;
@@ -52,7 +52,6 @@
     return 5.f;
 }
 
-//section底部视图
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 5 + indexRow)
@@ -152,7 +151,7 @@
         {
             if (indexPath.section == 5)
             {
-                cell.titleLabel.text = @"商   铺";
+                cell.titleLabel.text = @"地   点";
                 BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
                 BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
                 if (floorInfo)
@@ -298,7 +297,8 @@
     [request branchResign:1];
 }
 
-- (void)showAlertView:(NSString *)title {
+- (void)showAlertView:(NSString *)title
+{
     if (IS_IOS_8)
     {
         UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];

@@ -10,11 +10,9 @@
 #import "BXTHeaderForVC.h"
 
 @interface BXTRejectOrderViewController ()<UITextViewDelegate,BXTDataResponseDelegate>
-{
-    NSString    *notes;
-    BOOL        isAssign;
-}
 
+@property (nonatomic, assign) BOOL     isAssign;
+@property (nonatomic, strong) NSString *notes;
 @property (nonatomic ,strong) NSString *currentOrderID;
 
 @end
@@ -26,7 +24,7 @@
     self = [super init];
     if (self)
     {
-        isAssign = assign;
+        self.isAssign = assign;
         self.currentOrderID = orderID;
     }
     return self;
@@ -35,9 +33,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:isAssign ? @"审批说明" : @"拒接原因" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:_isAssign ? @"审批说明" : @"拒接原因" andRightTitle:nil andRightImage:nil];
     [self createSubviews];
-    notes = @"";
+    self.notes = @"";
 }
 
 - (void)createSubviews
@@ -45,7 +43,7 @@
     UITextView *cause = [[UITextView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 20.f, SCREEN_WIDTH, 170.f)];
     cause.font = [UIFont boldSystemFontOfSize:16.];
     cause.textColor = colorWithHexString(@"909497");
-    cause.text = isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）";
+    cause.text = _isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）";
     cause.delegate = self;
     [self.view addSubview:cause];
     
@@ -56,33 +54,32 @@
     [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     commitBtn.layer.masksToBounds = YES;
     commitBtn.layer.cornerRadius = 6.f;
-    [commitBtn addTarget:self action:@selector(commitEvaluation) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:commitBtn];
-}
-
-- (void)commitEvaluation
-{
-    if (notes.length)
-    {
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        if (isAssign)
+    [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        if (self.notes.length)
         {
-            [request closeOrder:_currentOrderID withNotes:notes];
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            if (self.isAssign)
+            {
+                [request closeOrder:self.currentOrderID withNotes:self.notes];
+            }
+            else
+            {
+                [request rejectOrder:self.currentOrderID withNotes:self.notes];
+            }
         }
         else
         {
-            [request rejectOrder:_currentOrderID withNotes:notes];
+            [self showMBP:self.isAssign ? @"关闭工单原因不能为空" : @"拒接原因不能为空" withBlock:nil];
         }
-    }
-    else
-    {
-        [self showMBP:isAssign ? @"关闭工单原因不能为空" : @"拒接原因不能为空" withBlock:nil];
-    }
+    }];
+    [self.view addSubview:commitBtn];
 }
 
+#pragma mark -
+#pragma mark UITextViewDelegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）"])
+    if ([textView.text isEqualToString:_isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）"])
     {
         textView.text = @"";
     }
@@ -93,17 +90,19 @@
 {
     if (textView.text.length < 1)
     {
-        textView.text = isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）";
+        textView.text = _isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）";
     }
-    notes = textView.text;
+    _notes = textView.text;
 }
 
+#pragma mark -
+#pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
-        if (isAssign)
+        if (_isAssign)
         {
             [self showMBP:@"已关闭" withBlock:^(BOOL hidden) {
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -121,7 +120,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

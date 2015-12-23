@@ -48,6 +48,8 @@
     [request evaluationListWithType:5];
 }
 
+#pragma mark -
+#pragma mark UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -122,6 +124,8 @@
     [[self navigation] pushViewController:repairDetailVC animated:YES];
 }
 
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];

@@ -15,7 +15,6 @@
 
 @interface BXTShopLocationViewController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 {
-    UITableView      *currentTableView;
     NSMutableArray   *dataArray;
     BXTFloorInfo     *selectedFloorInfo;
     BXTAreaInfo      *selectedAreaInfo;
@@ -23,7 +22,8 @@
     BXTSelectBoxView *boxView;
 }
 
-@property (nonatomic, assign) BOOL isResign;
+@property (nonatomic, strong) UITableView *currentTableView;
+@property (nonatomic, assign) BOOL        isResign;
 
 @end
 
@@ -70,12 +70,12 @@
 #pragma mark 初始化视图
 - (void)createTableView
 {
-    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
-    [currentTableView registerClass:[BXTSettingTableViewCell class] forCellReuseIdentifier:@"ShopLocationCell"];
-    currentTableView.delegate = self;
-    currentTableView.dataSource = self;
-    currentTableView.showsVerticalScrollIndicator = NO;
-    [self.view addSubview:currentTableView];
+    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
+    [_currentTableView registerClass:[BXTSettingTableViewCell class] forCellReuseIdentifier:@"ShopLocationCell"];
+    _currentTableView.delegate = self;
+    _currentTableView.dataSource = self;
+    _currentTableView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:_currentTableView];
 }
 
 #pragma mark -
@@ -342,7 +342,7 @@
         userInfo.areaInfo = nil;
         userInfo.shopInfo = nil;
         [BXTGlobal setUserInfo:userInfo];
-        [currentTableView reloadData];
+        [_currentTableView reloadData];
     }
     else if (type == AreaInfoView)
     {
@@ -350,7 +350,7 @@
         BXTUserInfo *userInfo = [BXTGlobal getUserInfo];
         userInfo.shopInfo = nil;
         [BXTGlobal setUserInfo:userInfo];
-        [currentTableView reloadData];
+        [_currentTableView reloadData];
     }
     else if (type == ShopInfoView)
     {
@@ -362,10 +362,13 @@
                 [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
                     textField.placeholder = @"请输入您的地点";
                 }];
+                
+                @weakify(self);
                 UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    @strongify(self);
                     UITextField *shopTF = alertController.textFields.firstObject;
                     [BXTGlobal setUserProperty:shopTF.text withKey:U_SHOP];
-                    [currentTableView reloadData];
+                    [self.currentTableView reloadData];
                     
                     [self showLoadingMBP:@"正在上传地点信息..."];
                     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -383,6 +386,20 @@
                 alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
                 UITextField *textField=[alertView textFieldAtIndex:0];
                 textField.placeholder = @"请输入您的店名";
+                @weakify(self);
+                [[alertView rac_buttonClickedSignal] subscribeNext:^(id x) {
+                    @strongify(self);
+                    if ([x integerValue] == 1)
+                    {
+                        UITextField *shopTF=[alertView textFieldAtIndex:0];
+                        [BXTGlobal setUserProperty:shopTF.text withKey:U_SHOP];
+                        [self.currentTableView reloadData];
+                        
+                        [self showLoadingMBP:@"正在上传地点信息..."];
+                        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                        [request commitNewShop:shopTF.text];
+                    }
+                }];
                 [alertView show];
             }
         }
@@ -397,7 +414,7 @@
         _selectAreaBlock();
     }
     
-    [currentTableView reloadData];
+    [_currentTableView reloadData];
     UIView *view = [self.view viewWithTag:101];
     [view removeFromSuperview];
     
@@ -407,22 +424,6 @@
         [boxView removeFromSuperview];
         boxView = nil;
     }];
-}
-
-#pragma mark -
-#pragma mark UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1)
-    {
-        UITextField *shopTF=[alertView textFieldAtIndex:0];
-        [BXTGlobal setUserProperty:shopTF.text withKey:U_SHOP];
-        [currentTableView reloadData];
-        
-        [self showLoadingMBP:@"正在上传地点信息..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request commitNewShop:shopTF.text];
-    }
 }
 
 - (void)didReceiveMemoryWarning

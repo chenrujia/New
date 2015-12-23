@@ -359,7 +359,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"您有来自%@的新消息，是否立即查看？",shop_name] message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"稍后查看" style:UIAlertActionStyleCancel handler:nil];
             [alertCtr addAction:cancelAction];
+            @weakify(self);
             UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"立即查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                @strongify(self);
                 BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
                 UINavigationController *navigation = (UINavigationController *)self.window.rootViewController;
                 [navigation pushViewController:headVC animated:YES];

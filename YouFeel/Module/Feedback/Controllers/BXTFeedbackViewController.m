@@ -11,9 +11,8 @@
 #import "BXTDataRequest.h"
 
 @interface BXTFeedbackViewController ()<UITextViewDelegate,BXTDataResponseDelegate>
-{
-    NSString *feedbackStr;
-}
+
+@property (nonatomic, strong) NSString *feedbackStr;
 
 @end
 
@@ -23,7 +22,7 @@
 {
     [super viewDidLoad];
     
-    feedbackStr = @"请输入您的反馈意见（500字以内）";
+    self.feedbackStr = @"请输入您的反馈意见（500字以内）";
     [self navigationSetting:@"意见反馈" andRightTitle:nil andRightImage:nil];
     [self loadingViews];
 }
@@ -53,24 +52,21 @@
     [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     commitBtn.layer.masksToBounds = YES;
     commitBtn.layer.cornerRadius = 6.f;
-    [commitBtn addTarget:self action:@selector(commitEvaluation) forControlEvents:UIControlEventTouchUpInside];
+    @weakify(self);
+    [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        if ([self.feedbackStr isEqualToString:@"请输入您的反馈意见（500字以内）"])
+        {
+            [self showMBP:@"请输入您宝贵的意见" withBlock:nil];
+        }
+        else
+        {
+            [self showLoadingMBP:@"提交中..."];
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request feedback:self.feedbackStr];
+        }
+    }];
     [self.view addSubview:commitBtn];
-}
-
-#pragma mark -
-#pragma mark 事件
-- (void)commitEvaluation
-{
-    if ([feedbackStr isEqualToString:@"请输入您的反馈意见（500字以内）"])
-    {
-        [self showMBP:@"请输入您宝贵的意见" withBlock:nil];
-    }
-    else
-    {
-        [self showLoadingMBP:@"提交中..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request feedback:feedbackStr];
-    }
 }
 
 #pragma mark -
@@ -90,7 +86,7 @@
     {
         textView.text = @"请输入您的反馈意见（500字以内）";
     }
-    feedbackStr = textView.text;
+    self.feedbackStr = textView.text;
 }
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type

@@ -61,7 +61,9 @@
                         if (IS_IOS_8)
                         {
                             UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"无法启动相机" message:@"请为报修通开放相机权限：手机设置->隐私->相机->报修通（打开）" preferredStyle:UIAlertControllerStyleAlert];
+                            @weakify(self);
                             UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+                            @strongify(self);
                             [alertCtr addAction:alertAction];
                             [self presentViewController:alertCtr animated:YES completion:nil];
                         }

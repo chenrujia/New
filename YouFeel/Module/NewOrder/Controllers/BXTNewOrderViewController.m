@@ -11,14 +11,13 @@
 #import "UIImageView+WebCache.h"
 #import "BXTRepairDetailInfo.h"
 #import "BXTSelectBoxView.h"
-#import "MWPhotoBrowser.h"
 #import "BXTAddOtherManViewController.h"
 #import "BXTRejectOrderViewController.h"
 
 #define ImageWidth 73.3f
 #define ImageHeight 73.3f
 
-@interface BXTNewOrderViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,MWPhotoBrowserDelegate>
+@interface BXTNewOrderViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 {
     UIImageView         *headImgView;
     UILabel             *repairerName;
@@ -42,7 +41,6 @@
 
 @property (nonatomic ,strong) BXTRepairDetailInfo *repairDetail;
 @property (nonatomic ,strong) NSString            *currentOrderID;
-@property (nonatomic ,strong) NSMutableArray      *mwPhotosArray;
 @property (nonatomic ,strong) NSMutableArray      *manIDArray;
 @property (nonatomic ,assign) NSTimeInterval      timeInterval2;
 @property (nonatomic ,strong) UIDatePicker        *datePicker;
@@ -321,7 +319,7 @@
 }
 
 #pragma mark -
-#pragma mark - UIDatePicker
+#pragma mark UIDatePicker
 - (void)createDatePicker
 {
     self.bgView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -624,7 +622,8 @@
                     @weakify(self);
                     [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
                         @strongify(self);
-                        [self loadMWPhotoBrowser:i];
+                        self.mwPhotosArray = [self containAllPhotosForMWPhotoBrowser];
+                        [self loadMWPhotoBrowserForDetail:i withFaultPicCount:self.repairDetail.fault_pic.count withFixedPicCount:self.repairDetail.fixed_pic.count withEvaluationPicCount:self.repairDetail.evaluation_pic.count];
                     }];
                     [imgView addGestureRecognizer:tapGR];
                     [imagesScrollView addSubview:imgView];
@@ -650,7 +649,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 #pragma mark -
@@ -687,60 +686,6 @@
     }
 }
 
-#pragma mark -
-#pragma mark MWPhotoBrowserDelegate
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
-{
-    return self.mwPhotosArray.count;
-}
-
-- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
-{
-    MWPhoto *photo = self.mwPhotosArray[index];
-    return photo;
-}
-
-#pragma mark -
-#pragma mark 其他
-- (NSMutableArray *)containAllArray
-{
-    NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in _repairDetail.fault_pic)
-    {
-        [photos addObject:dictionary];
-    }
-    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
-    {
-        [photos addObject:dictionary];
-    }
-    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
-    {
-        [photos addObject:dictionary];
-    }
-    return photos;
-}
-
-- (void)loadMWPhotoBrowser:(NSInteger)index
-{
-    self.mwPhotosArray = [self containAllPhotosForMWPhotoBrowser];
-    
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    browser.displayActionButton = NO;
-    browser.displayNavArrows = NO;
-    browser.displaySelectionButtons = NO;
-    browser.alwaysShowControls = NO;
-    browser.enableGrid = NO;
-    browser.startOnGrid = NO;
-    browser.zoomPhotosToFill = YES;
-    browser.enableSwipeToDismiss = YES;
-    [browser setCurrentPhotoIndex:index];
-    
-    browser.titlePreNumStr = [NSString stringWithFormat:@"%d%d%d", (int)_repairDetail.fault_pic.count, (int)_repairDetail.fixed_pic.count, (int)_repairDetail.evaluation_pic.count];
-    
-    [self.navigationController pushViewController:browser animated:YES];
-    self.navigationController.navigationBar.hidden = NO;
-}
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
@@ -761,6 +706,26 @@
         
         [view removeFromSuperview];
     }
+}
+
+#pragma mark -
+#pragma mark 其他
+- (NSMutableArray *)containAllArray
+{
+    NSMutableArray *photos = [[NSMutableArray alloc] init];
+    for (NSDictionary *dictionary in _repairDetail.fault_pic)
+    {
+        [photos addObject:dictionary];
+    }
+    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
+    {
+        [photos addObject:dictionary];
+    }
+    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
+    {
+        [photos addObject:dictionary];
+    }
+    return photos;
 }
 
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser

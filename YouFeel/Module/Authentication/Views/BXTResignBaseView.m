@@ -64,6 +64,8 @@
     [hud hide:YES afterDelay:2];
 }
 
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
@@ -318,13 +320,6 @@
 }
 
 #pragma mark -
-#pragma mark UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    
-}
-
-#pragma mark -
 #pragma mark BXTBoxSelectedTitleDelegate
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
 {
@@ -351,13 +346,6 @@
     [UIView animateWithDuration:0.3f animations:^{
         [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
     }];
-}
-
-#pragma mark -
-#pragma mark UITextFiledDelegate
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-//    [BXTGlobal setUserProperty:textField.text withKey:U_JOBNUMBER];
 }
 
 #pragma mark -

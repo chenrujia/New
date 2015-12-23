@@ -25,7 +25,6 @@
     NSInteger      repairID;
     ControllerType vcType;
     BOOL           isHave;
-    
     NSMutableArray *listArray;
     NSMutableArray *indexArray;
 }
@@ -84,7 +83,6 @@
 - (void)createTableView
 {
     departmentsArray = [NSMutableArray arrayWithObjects:@"分组", nil];
-    
     // 添加下拉菜单
     DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
     menu.delegate = self;
@@ -254,8 +252,6 @@
     return categoryArray;
 }
 
-#pragma mark -
-#pragma mark 代理
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -27,20 +27,19 @@
     UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     navi_leftButton.frame = CGRectMake(0, 20, 44, 44);
     [navi_leftButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
+    @weakify(self);
+    [[navi_leftButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
+        self.navigationController.navigationBar.hidden = YES;
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:navi_leftButton];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
                                        initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                        target:nil action:nil];
     negativeSpacer.width = -10;
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:negativeSpacer, leftItem, nil];
-}
-
-- (void)navigationLeftButton
-{
-    [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
-    self.navigationController.navigationBar.hidden = YES;
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType conversationModel:(RCConversationModel *)model atIndexPath:(NSIndexPath *)indexPath

@@ -20,32 +20,52 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        _headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 13.f, KImageWidth, KImageHeight)];
-        [self addSubview:_headImgView];
+        self.headImgView = ({
         
-        _userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_headImgView.frame) + 15.f, CGRectGetMinY(_headImgView.frame) + 13.f, 180.f, 20)];
-        _userName.textColor = colorWithHexString(@"000000");
-        _userName.numberOfLines = 0;
-        _userName.lineBreakMode = NSLineBreakByWordWrapping;
-        _userName.font = [UIFont boldSystemFontOfSize:17.f];
-        [self addSubview:_userName];
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 13.f, KImageWidth, KImageHeight)];
+            [self addSubview:imgView];
+            imgView;
         
-        _detailName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_headImgView.frame) + 15.f, CGRectGetMinY(_headImgView.frame) + 42.f, 180.f, 20)];
-        _detailName.textColor = colorWithHexString(@"909497");
-        _detailName.numberOfLines = 0;
-        _detailName.lineBreakMode = NSLineBreakByWordWrapping;
-        _detailName.font = [UIFont systemFontOfSize:14.f];
-        [self addSubview:_detailName];
+        });
         
-        _addBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _addBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-        _addBtn.layer.borderWidth = 1.f;
-        _addBtn.layer.cornerRadius = 4.f;
-        [_addBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 30.f, 83.f, 40.f)];
-        [_addBtn setTitle:@"添加" forState:UIControlStateNormal];
-        [_addBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-        [self addSubview:_addBtn];
+        self.userName = ({
         
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_headImgView.frame) + 15.f, CGRectGetMinY(_headImgView.frame) + 13.f, 180.f, 20)];
+            label.textColor = colorWithHexString(@"000000");
+            label.numberOfLines = 0;
+            label.lineBreakMode = NSLineBreakByWordWrapping;
+            label.font = [UIFont boldSystemFontOfSize:17.f];
+            [self addSubview:label];
+            label;
+        
+        });
+        
+        self.detailName = ({
+        
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_headImgView.frame) + 15.f, CGRectGetMinY(_headImgView.frame) + 42.f, 180.f, 20)];
+            label.textColor = colorWithHexString(@"909497");
+            label.numberOfLines = 0;
+            label.lineBreakMode = NSLineBreakByWordWrapping;
+            label.font = [UIFont systemFontOfSize:14.f];
+            [self addSubview:label];
+            label;
+        
+        });
+        
+        self.addBtn = ({
+        
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            button.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+            button.layer.borderWidth = 1.f;
+            button.layer.cornerRadius = 4.f;
+            [button setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 30.f, 83.f, 40.f)];
+            [button setTitle:@"添加" forState:UIControlStateNormal];
+            [button setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [self addSubview:button];
+            button;
+            
+        });
+                
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 99.5f, SCREEN_WIDTH, 0.5f)];
         lineView.backgroundColor = colorWithHexString(@"e2e6e8");
         [self addSubview:lineView];

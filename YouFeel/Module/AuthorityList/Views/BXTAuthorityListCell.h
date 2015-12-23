@@ -11,7 +11,7 @@
 @interface BXTAuthorityListCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
-@property (weak, nonatomic) IBOutlet UILabel *titleView;
-@property (weak, nonatomic) IBOutlet UILabel *addressView;
+@property (weak, nonatomic) IBOutlet UILabel     *titleView;
+@property (weak, nonatomic) IBOutlet UILabel     *addressView;
 
 @end

@@ -76,8 +76,6 @@
 }
 
 #pragma mark -
-#pragma mark 代理事件
-#pragma mark -
 #pragma mark SegmentViewDelegate
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
 {

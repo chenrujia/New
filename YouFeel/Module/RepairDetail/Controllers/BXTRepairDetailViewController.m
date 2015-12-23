@@ -215,38 +215,6 @@
 
 #pragma mark -
 #pragma mark 事件处理
-- (NSMutableArray *)containAllPhotosForMWPhotoBrowser
-{
-    NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in _repairDetail.fault_pic)
-    {
-        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
-        {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
-            [photos addObject:photo];
-        }
-    }
-    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
-    {
-        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
-        {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
-            [photos addObject:photo];
-        }
-    }
-    
-    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
-    {
-        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
-        {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
-            [photos addObject:photo];
-        }
-    }
-    
-    return photos;
-}
-
 - (void)contactRepairer:(UIButton *)btn
 {
     NSDictionary *userDic = self.repairDetail.repair_user_arr[btn.tag];
@@ -292,6 +260,38 @@
     //[conversationVC.pluginBoardView removeItemAtIndex:2];
     [self.navigationController pushViewController:conversationVC animated:YES];
     self.navigationController.navigationBar.hidden = NO;
+}
+
+- (NSMutableArray *)containAllPhotosForMWPhotoBrowser
+{
+    NSMutableArray *photos = [[NSMutableArray alloc] init];
+    for (NSDictionary *dictionary in _repairDetail.fault_pic)
+    {
+        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        {
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            [photos addObject:photo];
+        }
+    }
+    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
+    {
+        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        {
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            [photos addObject:photo];
+        }
+    }
+    
+    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
+    {
+        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        {
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            [photos addObject:photo];
+        }
+    }
+    
+    return photos;
 }
 
 - (NSMutableArray *)containAllArray

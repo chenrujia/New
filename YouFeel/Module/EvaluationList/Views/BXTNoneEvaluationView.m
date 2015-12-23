@@ -28,7 +28,7 @@
             [self requestData];
         }];
         
-        datasource = [NSMutableArray array];
+        self.datasource = [NSMutableArray array];
         currentTable = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
         currentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
         currentTable.backgroundColor = colorWithHexString(@"eff3f6");
@@ -43,24 +43,15 @@
     return self;
 }
 
-#pragma mark -
-#pragma mark 事件
 - (void)requestData
 {
-    [datasource removeAllObjects];
+    [_datasource removeAllObjects];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request evaluationListWithType:3];
 }
 
-- (void)evaluateClick:(UIButton *)btn
-{
-    BXTNoneEVInfo *evaInfo = datasource[btn.tag];
-    BXTEvaluationViewController *evaVC = [[BXTEvaluationViewController alloc] initWithRepairID:evaInfo.evaID];
-    [[self navigation] pushViewController:evaVC animated:YES];
-}
-
 #pragma mark -
-#pragma mark 代理
+#pragma mark UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -97,7 +88,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTNoneEVInfo *evaInfo = datasource[indexPath.section];
+    BXTNoneEVInfo *evaInfo = _datasource[indexPath.section];
     if (evaInfo.fixed_pic.count)
     {
         return 247.f;
@@ -110,7 +101,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return datasource.count;
+    return _datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -123,13 +114,18 @@
     BXTNoneEVTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    BXTNoneEVInfo *evaInfo = datasource[indexPath.section];
+    BXTNoneEVInfo *evaInfo = _datasource[indexPath.section];
     
     cell.repairID.text = [NSString stringWithFormat:@"工单号：%@",evaInfo.orderid];
     cell.place.text = evaInfo.area;
     cell.cause.text = evaInfo.cause;
-    cell.evaButton.tag = indexPath.section;
-    [cell.evaButton addTarget:self action:@selector(evaluateClick:) forControlEvents:UIControlEventTouchUpInside];
+    @weakify(self);
+    [[cell.evaButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTNoneEVInfo *evaInfo = self.datasource[indexPath.section];
+        BXTEvaluationViewController *evaVC = [[BXTEvaluationViewController alloc] initWithRepairID:evaInfo.evaID];
+        [[self navigation] pushViewController:evaVC animated:YES];
+    }];
     
     [cell reloadImageBackView];
     if (evaInfo.fixed_pic.count)
@@ -157,13 +153,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTNoneEVInfo *evaInfo = datasource[indexPath.section];
+    BXTNoneEVInfo *evaInfo = _datasource[indexPath.section];
     BXTRepairInfo *repairInfo = [[BXTRepairInfo alloc] init];
     repairInfo.repairID = [evaInfo.evaID integerValue];
     BXTRepairDetailViewController *repairDetailVC = [[BXTRepairDetailViewController alloc] initWithRepair:repairInfo];
     [[self navigation] pushViewController:repairDetailVC animated:YES];
 }
 
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
@@ -178,7 +176,7 @@
         DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTNoneEVInfo class] andConfiguration:config];
         BXTNoneEVInfo *noneEvaInfo = [parser parseDictionary:dictionary];
         
-        [datasource addObject:noneEvaInfo];
+        [_datasource addObject:noneEvaInfo];
     }
     [currentTable reloadData];
 }

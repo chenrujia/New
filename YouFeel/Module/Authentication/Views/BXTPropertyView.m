@@ -36,13 +36,14 @@
     return self;
 }
 
-
-//section底部间距
+#pragma mark -
+#pragma makr UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
     NSInteger index = 5;
-    if ([postionInfo.is_repair integerValue] == 2) {
+    if ([postionInfo.is_repair integerValue] == 2)
+    {
         index = 6;
     }
     if (section == index)
@@ -53,7 +54,6 @@
     return 5.f;
 }
 
-//section底部视图
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
@@ -291,7 +291,8 @@
     [request branchResign:2];
 }
 
-- (void)showAlertView:(NSString *)title {
+- (void)showAlertView:(NSString *)title
+{
     if (IS_IOS_8)
     {
         UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];

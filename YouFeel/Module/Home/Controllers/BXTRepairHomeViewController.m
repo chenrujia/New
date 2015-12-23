@@ -140,12 +140,14 @@
 }
 
 #pragma mark -
-#pragma mark 代理
+#pragma mark UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
-    if (indexPath.row <= 6) {
-        if ([self is_verify]) {
+    if (indexPath.row <= 6)
+    {
+        if ([self is_verify])
+        {
             return;
         }
     }
@@ -236,7 +238,8 @@
     //[self.navigationController pushViewController:serviceVC animated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

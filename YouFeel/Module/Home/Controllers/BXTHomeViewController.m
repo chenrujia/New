@@ -22,9 +22,11 @@
 @interface BXTHomeViewController ()<BXTDataResponseDelegate>
 {
     NSInteger      unreadNumber;
-    NSMutableArray *usersArray;
     BOOL           isConfigInfoSuccess;
 }
+
+@property (nonatomic, strong) NSMutableArray *usersArray;
+
 @end
 
 @implementation BXTHomeViewController
@@ -54,11 +56,11 @@
     NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (users)
     {
-        usersArray = [NSMutableArray arrayWithArray:users];
+        self.usersArray = [NSMutableArray arrayWithArray:users];
     }
     else
     {
-        usersArray = [NSMutableArray array];
+        self.usersArray = [NSMutableArray array];
     }
     
     if ([BXTGlobal shareGlobal].isRepair)
@@ -90,19 +92,20 @@
         }
         else if ([str isEqualToString:@"2"])
         {
-            [itemsCollectionView reloadData];
+            [self.itemsCollectionView reloadData];
         }
     }];
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"HaveConnact" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
         NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
         if (users)
         {
-            usersArray = [NSMutableArray arrayWithArray:users];
+            self.usersArray = [NSMutableArray arrayWithArray:users];
         }
         else
         {
-            usersArray = [NSMutableArray array];
+            self.usersArray = [NSMutableArray array];
         }
     }];
 }
@@ -140,7 +143,12 @@
     [settingBtn setTitle:@"设置" forState:UIControlStateNormal];
     settingBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [settingBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    [settingBtn addTarget:self action:@selector(settingClick) forControlEvents:UIControlEventTouchUpInside];
+    @weakify(self);
+    [[settingBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTSettingViewController *settingVC = [[BXTSettingViewController alloc] init];
+        [self.navigationController pushViewController:settingVC animated:YES];
+    }];
     [logoImgView addSubview:settingBtn];
     
     //logo
@@ -161,12 +169,12 @@
     UICollectionViewFlowLayout *flowLayout= [[UICollectionViewFlowLayout alloc]init];
     flowLayout.minimumLineSpacing = 0.f;
     flowLayout.minimumInteritemSpacing = 0.f;
-    itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetHeight(logoImgView.frame)) collectionViewLayout:flowLayout];
-    itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f5");
-    [itemsCollectionView registerClass:[BXTHomeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
-    itemsCollectionView.delegate = self;
-    itemsCollectionView.dataSource = self;
-    [self.view addSubview:itemsCollectionView];
+    self.itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetHeight(logoImgView.frame)) collectionViewLayout:flowLayout];
+    _itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f5");
+    [_itemsCollectionView registerClass:[BXTHomeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
+    _itemsCollectionView.delegate = self;
+    _itemsCollectionView.dataSource = self;
+    [self.view addSubview:_itemsCollectionView];
 }
 
 - (void)loginRongCloud
@@ -186,42 +194,13 @@
 
 #pragma mark -
 #pragma mark 事件处理
-- (void)settingClick
-{
-    BXTSettingViewController *settingVC = [[BXTSettingViewController alloc] init];
-    [self.navigationController pushViewController:settingVC animated:YES];
-}
-
-- (void)shopClick
-{
-    //    BXTHeadquartersViewController *company = [[BXTHeadquartersViewController alloc] initWithType:YES];
-    //    [self.navigationController pushViewController:company animated:YES];
-    
-    // 商铺列表
-    BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
-    [self.navigationController pushViewController:alVC animated:YES];
-    
-    //        NSArray *dataArray = [BXTGlobal getUserProperty:U_MYSHOP];
-    //        if (dataArray.count == 1) {
-    //            // 业务统计
-    //            [BXTGlobal showText:@"暂无权限" view:self.view completionBlock:nil];
-    //        } else {
-    //            // 商铺列表
-    //            BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
-    //            [self.navigationController pushViewController:alVC animated:YES];
-    //        }
-}
-
 - (void)repairClick
 {
     
 }
 
 #pragma mark -
-#pragma mark 代理
-/**
- *  UICollectionViewDataSource && UICollectionViewDelegate
- */
+#pragma mark UICollectionViewDataSource && UICollectionViewDelegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
@@ -292,7 +271,7 @@
     }
     else
     {
-        for (RCUserInfo *userInfo in usersArray)
+        for (RCUserInfo *userInfo in _usersArray)
         {
             if ([userInfo.userId isEqual:userId])
             {
@@ -307,6 +286,8 @@
     }
 }
 
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
@@ -319,20 +300,24 @@
         NSArray *dataArray = [dic objectForKey:@"data"];
         NSDictionary *dataDict = dataArray[0];
         NSMutableArray *arriveArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *dict1 in dataDict[@"arrive_arr"]) {
+        for (NSDictionary *dict1 in dataDict[@"arrive_arr"])
+        {
             NSString *time = dict1[@"arrive_time"];
             [arriveArray addObject:time];
         }
         NSMutableArray *hoursArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *dict2 in dataDict[@"hours_arr"]) {
+        for (NSDictionary *dict2 in dataDict[@"hours_arr"])
+        {
             NSString *time = dict2[@"hours_time"];
             [hoursArray addObject:time];
         }
         
-        if (arriveArray.count == 0) {
+        if (arriveArray.count == 0)
+        {
             [arriveArray addObjectsFromArray:@[@"10", @"20"]];
         }
-        if (hoursArray.count == 0) {
+        if (hoursArray.count == 0)
+        {
             [hoursArray addObjectsFromArray:@[@"1", @"2", @"3", @"4"]];
         }
         
@@ -347,8 +332,8 @@
         userInfo.userId = [dictionary objectForKey:@"user_id"];
         userInfo.name = [dictionary objectForKey:@"name"];
         userInfo.portraitUri = [dictionary objectForKey:@"pic"];
-        [usersArray addObject:userInfo];
-        [BXTGlobal setUserProperty:usersArray withKey:U_USERSARRAY];
+        [_usersArray addObject:userInfo];
+        [BXTGlobal setUserProperty:_usersArray withKey:U_USERSARRAY];
     }
     else
     {
@@ -357,13 +342,14 @@
         {
             [datasource addObjectsFromArray:array];
         }
-        [itemsCollectionView reloadData];
+        [_itemsCollectionView reloadData];
     }
 }
 
 - (void)requestError:(NSError *)error
 {
-    if (!isConfigInfoSuccess) {
+    if (!isConfigInfoSuccess)
+    {
         NSMutableArray *arriveArray = [[NSMutableArray alloc] initWithObjects:@"10", @"20", nil];
         NSMutableArray *hoursArray = [[NSMutableArray alloc] initWithObjects:@"1", @"2", @"3", @"4", nil];
         // 存数组
@@ -372,9 +358,11 @@
     }
 }
 
-- (BOOL)is_verify {
+- (BOOL)is_verify
+{
     NSString *is_verify = [BXTGlobal getUserProperty:U_IS_VERIFY];
-    if ([is_verify integerValue] != 1) {
+    if ([is_verify integerValue] != 1)
+    {
         [BXTGlobal showText:@"您尚未验证，现在去验证" view:self.view completionBlock:^{
             BXTSettingViewController *svc = [[BXTSettingViewController alloc] init];
             [self.navigationController pushViewController:svc animated:YES];

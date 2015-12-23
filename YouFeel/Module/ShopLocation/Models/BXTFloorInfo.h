@@ -12,6 +12,6 @@
 
 @property (nonatomic ,strong) NSString *area_id;
 @property (nonatomic ,strong) NSString *area_name;
-@property (nonatomic ,strong) NSArray *place;
+@property (nonatomic ,strong) NSArray  *place;
 
 @end

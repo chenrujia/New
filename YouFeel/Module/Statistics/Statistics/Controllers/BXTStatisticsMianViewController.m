@@ -15,18 +15,12 @@
 
 @implementation BXTStatisticsMianViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    //[self.navigationController setNavigationBarHidden:YES animated:NO];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    
     [self createNavigationBar];
-    
-    
     self.rootScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 110.f, SCREEN_WIDTH, SCREEN_HEIGHT-110.f)];
     self.rootScrollView.backgroundColor = colorWithHexString(@"eff3f6");
     self.rootScrollView.showsVerticalScrollIndicator = NO;
@@ -34,12 +28,16 @@
     [self.view addSubview:self.rootScrollView];
 }
 
-- (void)createNavigationBar {
+- (void)createNavigationBar
+{
     // backgroundView
     UIImageView *navBarView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 110.f)];
-    if ([BXTGlobal shareGlobal].isRepair) {
+    if ([BXTGlobal shareGlobal].isRepair)
+    {
         navBarView.image = [UIImage imageNamed:@"Nav_Bars"];
-    } else {
+    }
+    else
+    {
         navBarView.image = [UIImage imageNamed:@"Nav_Bar"];
     }
     navBarView.userInteractionEnabled = YES;
@@ -78,21 +76,25 @@
     [self createSegmentedCtr];
 }
 
-- (void)navigationLeftButton {
+- (void)navigationLeftButton
+{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)navigationRightButton {
+- (void)navigationRightButton
+{
     NSLog(@"更多");
 }
 
-- (void)navigationcenterButton {
+- (void)navigationcenterButton
+{
     [self createDatePicker];
 }
 
 #pragma mark -
 #pragma mark - createSegmentedCtr
-- (void)createSegmentedCtr {
+- (void)createSegmentedCtr
+{
     // 分页视图
     self.rootSegmentedCtr = [[SegmentView alloc] initWithFrame:CGRectMake(15, 110-30-10, SCREEN_WIDTH-30, 30) andTitles:@[@"年", @"月", @"日"] isWhiteBGColor:0];
     self.rootSegmentedCtr.selectedSegmentIndex = 2;
@@ -102,13 +104,15 @@
     [self.view addSubview:self.rootSegmentedCtr];
 }
 
-- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
+- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
+{
     NSLog(@"didSelectedSegmentAtIndex -- %ld", (long)index);
 }
 
 #pragma mark -
 #pragma mark - createDatePicker
-- (void)createDatePicker {
+- (void)createDatePicker
+{
     pickerbgView = [[UIView alloc] initWithFrame:self.view.bounds];
     pickerbgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
     pickerbgView.tag = 101;
@@ -118,7 +122,6 @@
     [UIView animateWithDuration:0.5 animations:^{
         pickerbgView.alpha = 1.0;
     }];
-    
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
     titleLabel.backgroundColor = colorWithHexString(@"ffffff");
@@ -138,7 +141,6 @@
     datePicker.datePickerMode = UIDatePickerModeDate;
     [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
     [pickerbgView addSubview:datePicker];
-    
     
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
     toolView.backgroundColor = colorWithHexString(@"ffffff");
@@ -163,11 +165,13 @@
     [toolView addSubview:cancelBtn];
 }
 
-- (void)dateChange:(UIDatePicker *)picker {
+- (void)dateChange:(UIDatePicker *)picker
+{
     selectedDate = picker.date;
 }
 
-- (void)datePickerBtnClick:(UIButton *)button {
+- (void)datePickerBtnClick:(UIButton *)button
+{
     [UIView animateWithDuration:0.5 animations:^{
         pickerbgView.alpha = 0.0;
     } completion:^(BOOL finished) {
@@ -176,7 +180,8 @@
     }];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
     UITouch *touch = [touches anyObject];
     UIView *view = touch.view;
     if (view.tag == 101)
@@ -197,14 +202,16 @@
 #pragma mark -
 #pragma mark - 封装方法
 // 时间戳转换成 2015-11-27 格式
-- (NSString *)transTimeWithDate:(NSDate *)date {
+- (NSString *)transTimeWithDate:(NSDate *)date
+{
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
     [formatter1 setDateFormat:@"YYYY-MM-dd"];
     return [formatter1 stringFromDate:date];
 }
 
 // 时间戳转换成 2015年11月27日 星期五 格式
-- (NSString*)weekdayStringFromDate:(NSDate*)inputDate {
+- (NSString*)weekdayStringFromDate:(NSDate*)inputDate
+{
     NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
@@ -237,7 +244,8 @@
 
 #pragma mark -
 #pragma mark - 日期处理
-- (NSArray *)timeTypeOf_YearStartAndEnd:(NSString *)dateStr {
+- (NSArray *)timeTypeOf_YearStartAndEnd:(NSString *)dateStr
+{
     NSString *yearStr = [dateStr substringToIndex:4];
     
     NSString *startTime = [NSString stringWithFormat:@"%@-1-1", yearStr];
@@ -246,14 +254,16 @@
     return [NSArray arrayWithObjects:startTime, endTime, nil];
 }
 
-- (NSArray *)timeTypeOf_YearAndMonth:(NSString *)dateStr {
+- (NSArray *)timeTypeOf_YearAndMonth:(NSString *)dateStr
+{
     NSString *yearStr = [dateStr substringToIndex:4];
     NSString *monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
     
     return [NSArray arrayWithObjects:yearStr, monthStr, nil];
 }
 
-- (NSArray *)timeTypeOf_MonthStartAndEnd:(NSString *)dateStr {
+- (NSArray *)timeTypeOf_MonthStartAndEnd:(NSString *)dateStr
+{
     NSString *yearStr = [dateStr substringToIndex:4];
     NSString *monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
     
@@ -264,7 +274,8 @@
     return [NSArray arrayWithObjects:startTime, endTime, nil];
 }
 
-- (NSArray *)timeTypeOf_DayStartAndEnd:(NSString *)dateStr {
+- (NSArray *)timeTypeOf_DayStartAndEnd:(NSString *)dateStr
+{
     NSString *yearStr = [dateStr substringToIndex:4];
     NSString *monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
     NSString *dayStr = [dateStr substringWithRange:NSMakeRange(8, 2)];
@@ -275,26 +286,33 @@
     return [NSArray arrayWithObjects:startTime, endTime, nil];
 }
 
-- (int)howManyDaysInThisMonth:(int)year month:(int)imonth {
-    if((imonth == 1)||(imonth == 3)||(imonth == 5)||(imonth == 7)||(imonth == 8)||(imonth == 10)||(imonth == 12)) {
+- (int)howManyDaysInThisMonth:(int)year month:(int)imonth
+{
+    if((imonth == 1)||(imonth == 3)||(imonth == 5)||(imonth == 7)||(imonth == 8)||(imonth == 10)||(imonth == 12))
+    {
         return 31;
     }
-    if((imonth == 4)||(imonth == 6)||(imonth == 9)||(imonth == 11)) {
+    if((imonth == 4)||(imonth == 6)||(imonth == 9)||(imonth == 11))
+    {
         return 30;
     }
-    if((year%4 == 1)||(year%4 == 2)||(year%4 == 3)) {
+    if((year%4 == 1)||(year%4 == 2)||(year%4 == 3))
+    {
         return 28;
     }
-    if(year%400 == 0) {
+    if(year%400 == 0)
+    {
         return 29;
     }
-    if(year%100 == 0) {
+    if(year%100 == 0)
+    {
         return 28;
     }
     return 29;
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
