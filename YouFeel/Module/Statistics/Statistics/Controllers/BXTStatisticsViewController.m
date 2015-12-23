@@ -70,7 +70,8 @@
 {
     static NSString *cellID = @"cell";
     BXTStatisticsCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTStatisticsCell" owner:nil options:nil] lastObject];
     }
     

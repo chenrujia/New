@@ -36,25 +36,9 @@
 }
 
 #pragma mark -
-#pragma mark - getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type {
-    [self hideMBP];
-    
-    NSDictionary *dic = (NSDictionary *)response;
-    NSArray *data = [dic objectForKey:@"data"];
-    if (type == Statistics_Praise && data.count > 0) {
-        self.dataDict = dic;
-        [self createUI];
-    }
-}
-
-- (void)requestError:(NSError *)error {
-    [self hideMBP];
-}
-
-#pragma mark -
 #pragma mark - createUI
-- (void)createUI {
+- (void)createUI
+{
     // EvaluationHeader
     BXTStEvaluationHeader *headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTStEvaluationHeader" owner:nil options:nil] lastObject];
     headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 210);
@@ -72,6 +56,10 @@
     //straightPieChart.isVertical = YES;
     [headerView.pieChartView addDataToRepresent:pariseNum WithColor:colorWithHexString(@"#F86494")];
     [headerView.pieChartView addDataToRepresent:downNum-pariseNum WithColor:colorWithHexString(@"#0C88CC")];
+    if (downNum == 0)
+    {
+        [headerView.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#d9d9d9")];
+    }
     
     
     // EvaluationFooter
@@ -82,7 +70,8 @@
     
     // 好评率分组
     static NSNumberFormatter *barChartFormatter;
-    if (!barChartFormatter){
+    if (!barChartFormatter)
+    {
         barChartFormatter = [[NSNumberFormatter alloc] init];
         barChartFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
         barChartFormatter.allowsFloats = NO;
@@ -112,8 +101,9 @@
     NSMutableArray *subgroupArray = [[NSMutableArray alloc] init];
     NSMutableArray *percentArray = [[NSMutableArray alloc] init];
     NSMutableArray *colorArray = [[NSMutableArray alloc] init];
-
-    for (NSDictionary *dict in self.dataDict[@"data"]) {
+    
+    for (NSDictionary *dict in self.dataDict[@"data"])
+    {
         [self.dataArray addObject:dict];
         [subgroupArray addObject:dict[@"subgroup"]];
         [percentArray addObject:dict[@"percent"]];
@@ -137,7 +127,10 @@
     self.footerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%@%@", dict[@"percent"], @"%"];
 }
 
-- (void)userClickedOnBarAtIndex:(NSInteger)barIndex {
+#pragma mark -
+#pragma mark - PNChartDelegate
+- (void)userClickedOnBarAtIndex:(NSInteger)barIndex
+{
     NSLog(@"Click on bar %@", @(barIndex));
     
     PNBar * bar = [self.barChart.bars objectAtIndex:barIndex];
@@ -161,7 +154,8 @@
 
 #pragma mark -
 #pragma mark - 父类点击事件
-- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
+- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
+{
     NSMutableArray *dateArray;
     switch (index) {
         case 0:
@@ -182,12 +176,15 @@
     [request statistics_praiseWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
 
-- (void)datePickerBtnClick:(UIButton *)button {
-    if (button.tag == 10001) {
+- (void)datePickerBtnClick:(UIButton *)button
+{
+    if (button.tag == 10001)
+    {
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
         [self showLoadingMBP:@"数据加载中..."];
         
-        if (!selectedDate) {
+        if (!selectedDate)
+        {
             selectedDate = [NSDate date];
         }
         [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
@@ -196,15 +193,31 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_praiseWithTime_start:todayStr time_end:todayStr];
     }
-    [UIView animateWithDuration:0.5 animations:^{
-        pickerbgView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        datePicker = nil;
-        [pickerbgView removeFromSuperview];
-    }];
+    [super datePickerBtnClick:button];
 }
 
-- (void)didReceiveMemoryWarning {
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == Statistics_Praise && data.count > 0)
+    {
+        self.dataDict = dic;
+        [self createUI];
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
+}
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

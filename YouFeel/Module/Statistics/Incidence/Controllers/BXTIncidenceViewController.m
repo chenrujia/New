@@ -21,7 +21,8 @@
 
 @implementation BXTIncidenceViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -36,27 +37,9 @@
 }
 
 #pragma mark -
-#pragma mark - getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type {
-    [self hideMBP];
-    if (self.bciv) {
-        [self.bciv removeFromSuperview];
-    }
-    
-    NSDictionary *dic = (NSDictionary *)response;
-    if (type == Statistics_Faulttype) {
-        self.dataArray = dic[@"data"];
-        [self createUI];
-    }
-}
-
-- (void)requestError:(NSError *)error {
-    [self hideMBP];
-}
-
-#pragma mark -
 #pragma mark - createUI
-- (void)createUI {
+- (void)createUI
+{
     // headerView
     UILabel *titlelabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 12, SCREEN_WIDTH-160, 26)];
     titlelabel.text = @"故障发生率";
@@ -73,14 +56,17 @@
     NSMutableArray *xArray = [[NSMutableArray alloc] init];
     NSMutableArray *yArray = [[NSMutableArray alloc] init];
     int count = 1;
-    for (NSDictionary *dict in self.dataArray) {
+    for (NSDictionary *dict in self.dataArray)
+    {
         [xArray addObject:[NSString stringWithFormat:@"%d", count++]];
         [yArray addObject:[NSString stringWithFormat:@"%@", dict[@"percent"]]];
     }
     
     // 无参数处理
-    if (self.dataArray.count == 0) {
-        for (int i=0; i<30; i++) {
+    if (self.dataArray.count == 0)
+    {
+        for (int i=0; i<30; i++)
+        {
             [xArray addObject:[NSString stringWithFormat:@"%d", count++]];
             [yArray addObject:[NSString stringWithFormat:@"%@", @"0"]];
         }
@@ -102,7 +88,8 @@
 
 #pragma mark -
 #pragma mark - barChart 点击事件
-- (void)barChartDidClicked:(NSInteger)index {
+- (void)barChartDidClicked:(NSInteger)index
+{
     self.backgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.backgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
     self.backgroundView.tag = 101;
@@ -142,20 +129,24 @@
 
 #pragma mark -
 #pragma mark - 父类点击事件
-- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
+- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
+{
     NSMutableArray *dateArray;
     switch (index) {
-        case 0: {
+        case 0:
+        {
             dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_YearStartAndEnd:self.rootCenterButton.titleLabel.text]];
             self.titleStr = @"年度排名";
         }
             break;
-        case 1: {
+        case 1:
+        {
             dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_MonthStartAndEnd:self.rootCenterButton.titleLabel.text]];
             self.titleStr = @"月度排名";
         }
             break;
-        case 2: {
+        case 2:
+        {
             dateArray = [[NSMutableArray alloc] initWithArray:[self timeTypeOf_DayStartAndEnd:self.rootCenterButton.titleLabel.text]];
             self.titleStr = @"每日排名";
         }
@@ -186,15 +177,34 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_faulttypeWithTime_start:todayStr time_end:todayStr];
     }
-    [UIView animateWithDuration:0.5 animations:^{
-        pickerbgView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        datePicker = nil;
-        [pickerbgView removeFromSuperview];
-    }];
+    [super datePickerBtnClick:button];
 }
 
-- (void)didReceiveMemoryWarning {
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    if (self.bciv)
+    {
+        [self.bciv removeFromSuperview];
+    }
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    if (type == Statistics_Faulttype)
+    {
+        self.dataArray = dic[@"data"];
+        [self createUI];
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
+}
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

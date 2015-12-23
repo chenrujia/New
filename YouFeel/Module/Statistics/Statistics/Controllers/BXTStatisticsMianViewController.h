@@ -46,6 +46,8 @@
 
 - (void)hideMBP;
 
+- (void)datePickerBtnClick:(UIButton *)button;
+
 /**
  *  日期处理
  */

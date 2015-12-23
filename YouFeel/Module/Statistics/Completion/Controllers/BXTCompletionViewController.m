@@ -47,7 +47,8 @@ typedef enum {
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:Not_First_Launch]) {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:Not_First_Launch])
+    {
         [self createIntroductionView];
     }
 }
@@ -91,33 +92,6 @@ typedef enum {
 }
 
 #pragma mark -
-#pragma mark - getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
-{
-    [self hideMBP];
-    NSDictionary *dic = (NSDictionary *)response;
-    NSArray *data = dic[@"data"];
-    if (type == Statistics_Complete && data.count > 0)
-    {
-        self.percentArrat = dic[@"data"];
-        [self createPieView];
-    }
-    else if (type == Statistics_Workload_day && data.count > 0)
-    {
-        self.monthArray = [[NSMutableArray alloc] initWithArray:data];
-        [self createBarChartViewWithType:month];
-    }
-    else if (type == Statistics_Workload_year && data.count > 0) {
-        self.yearArray = [[NSMutableArray alloc] initWithArray:data];
-        [self createBarChartViewWithType:year];
-    }
-}
-
-- (void)requestError:(NSError *)error {
-    [self hideMBP];
-}
-
-#pragma mark -
 #pragma mark - createUI
 - (void)createPieView
 {
@@ -136,14 +110,16 @@ typedef enum {
     
     // 2. fill data
     NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#0eccc0", @"#fbcf62", @"#ff6f6f", nil];
-    for(int i=0; i<pieArray.count; i++){
+    for(int i=0; i<pieArray.count; i++)
+    {
         MYPieElement *elem = [MYPieElement pieElementWithValue:[pieArray[i] floatValue] color:colorWithHexString(colorArray[i])];
         elem.title = [NSString stringWithFormat:@"%@", pieArray[i]];
         [self.headerView.pieView.layer addValues:@[elem] animated:NO];
     }
     
     // 无参数处理
-    if ([pieArray[0] intValue] == 0 && [pieArray[1] intValue] == 0 && [pieArray[2] intValue] == 0) {
+    if ([pieArray[0] intValue] == 0 && [pieArray[1] intValue] == 0 && [pieArray[2] intValue] == 0)
+    {
         MYPieElement *elem = [MYPieElement pieElementWithValue:1 color:colorWithHexString(colorArray[0])];
         elem.title = [NSString stringWithFormat:@"%@", @"暂无工单"];
         [self.headerView.pieView.layer addValues:@[elem] animated:NO];
@@ -198,7 +174,8 @@ typedef enum {
     };
 }
 
-- (void)createBarChartViewWithType:(DateStr)type {
+- (void)createBarChartViewWithType:(DateStr)type
+{
     //  ---------- 柱状图 ----------
     // CompletionFooter
     self.footerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTCompletionFooter" owner:nil options:nil] lastObject];
@@ -217,11 +194,14 @@ typedef enum {
     NSMutableArray *finalArray = [[NSMutableArray alloc] init];
     NSString *xText;
     CGFloat barChartW;
-    if (type == year) {
+    if (type == year)
+    {
         finalArray = self.yearArray;
         xText = @"month";
         barChartW = 50;
-    } else if (type == month) {
+    }
+    else if (type == month)
+    {
         finalArray = self.monthArray;
         xText = @"day";
         barChartW = 40;
@@ -235,7 +215,8 @@ typedef enum {
     NSMutableArray *heightArray = [[NSMutableArray alloc] init];
     NSArray *colorArray = @[colorWithHexString(@"#0FCCC0") , colorWithHexString(@"#F9D063") , colorWithHexString(@"#FD7070") ];
     
-    for (NSDictionary *dict in finalArray) {
+    for (NSDictionary *dict in finalArray)
+    {
         NSString *downStr = [NSString stringWithFormat:@"%@", dict[@"yes_number"]];
         NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"collection_number"]];
         NSString *undownStr = [NSString stringWithFormat:@"%@", dict[@"no_number"]];
@@ -317,7 +298,8 @@ typedef enum {
 
 #pragma mark -
 #pragma mark - 父类点击事件
-- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
+- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
+{
     [self.footerView removeFromSuperview];
     
     NSMutableArray *dateArray;
@@ -349,10 +331,13 @@ typedef enum {
     dispatch_async(concurrentQueue, ^{
         /**柱状图**/
         NSArray *dateArray = [self timeTypeOf_YearAndMonth:self.rootCenterButton.titleLabel.text];
-        if (index == 0) {
+        if (index == 0)
+        {
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request statistics_workload_yearWithYear:dateArray[0]];
-        } else if (index == 1) {
+        }
+        else if (index == 1)
+        {
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request statistics_workload_dayWithYear:dateArray[0] month:dateArray[1]];
         }
@@ -384,12 +369,35 @@ typedef enum {
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_completeWithTime_start:todayStr time_end:todayStr];
     }
-    [UIView animateWithDuration:0.5 animations:^{
-        pickerbgView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        datePicker = nil;
-        [pickerbgView removeFromSuperview];
-    }];
+    [super datePickerBtnClick:button];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = dic[@"data"];
+    if (type == Statistics_Complete && data.count > 0)
+    {
+        self.percentArrat = dic[@"data"];
+        [self createPieView];
+    }
+    else if (type == Statistics_Workload_day && data.count > 0)
+    {
+        self.monthArray = [[NSMutableArray alloc] initWithArray:data];
+        [self createBarChartViewWithType:month];
+    }
+    else if (type == Statistics_Workload_year && data.count > 0)
+    {
+        self.yearArray = [[NSMutableArray alloc] initWithArray:data];
+        [self createBarChartViewWithType:year];
+    }
+}
+
+- (void)requestError:(NSError *)error {
+    [self hideMBP];
 }
 
 #pragma mark -

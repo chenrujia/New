@@ -25,7 +25,8 @@
 
 @implementation BXTWorkloadViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -41,29 +42,9 @@
 }
 
 #pragma mark -
-#pragma mark - getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type {
-    [self hideMBP];
-    
-    NSDictionary *dic = (NSDictionary *)response;
-    NSArray *data = [dic objectForKey:@"data"];
-    if (type == Statistics_Workload && data.count > 0) {
-        self.dataArray = dic[@"data"];
-        for (int i=0; i<self.dataArray.count-1; i++) {
-            [self.isShowArray addObject:@"0"];
-        }
-        
-        [self createUI];
-    }
-}
-
-- (void)requestError:(NSError *)error {
-    [self hideMBP];
-}
-
-#pragma mark -
 #pragma mark - createUI
-- (void)createUI {
+- (void)createUI
+{
     [self.tableView removeFromSuperview];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-100) style:UITableViewStyleGrouped];
@@ -72,17 +53,20 @@
     [self.rootScrollView addSubview:self.tableView];
 }
 
-- (void)createWorkIoadViewOfIndex:(NSInteger)index WithTableViewCell:(BXTWorkloadCell *)newCell {
+- (void)createWorkIoadViewOfIndex:(NSInteger)index WithTableViewCell:(BXTWorkloadCell *)newCell
+{
     
     NSDictionary *dataDict = self.dataArray[index];
     NSArray *workloadArray = dataDict[@"workload"];
     NSMutableArray *sumArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *dict in workloadArray) {
+    for (NSDictionary *dict in workloadArray)
+    {
         [sumArray addObject:[NSString stringWithFormat:@"%@", dict[@"sum_number"]]];
     }
     NSNumber *maxNum = [sumArray valueForKeyPath:@"@max.floatValue"];
     double maxDouble = [maxNum doubleValue];
-    if (maxDouble == 0) {
+    if (maxDouble == 0)
+    {
         maxDouble = 1;
     }
     
@@ -102,7 +86,8 @@
     [newCell.contentView addSubview:lineX];
     
     
-    for (int i=0; i<workloadArray.count; i++) {
+    for (int i=0; i<workloadArray.count; i++)
+    {
         NSDictionary *dict = workloadArray[i];
         int count = [[NSString stringWithFormat:@"%@", dict[@"sum_number"]] doubleValue];
         
@@ -118,7 +103,8 @@
         [bgView addSubview:nameLabel];
         
         // chart
-        if (count == 0) {
+        if (count == 0)
+        {
             count = maxDouble;
         }
         AksStraightPieChart *straightPieChart = [[AksStraightPieChart alloc] initWithFrame:CGRectMake(70, 0, (bgView.frame.size.width-105)*(count/maxDouble), bgViewH)];
@@ -140,21 +126,25 @@
 
 #pragma mark -
 #pragma mark - tableView代理方法
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
+{
     return self.dataArray.count;
 }
 
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if ([self.isShowArray[section] isEqualToString:@"1"]) {
         return  1;
     }
     return  0;
 }
 
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *cellID = @"Cell";
     BXTWorkloadCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTWorkloadCell" owner:nil options:nil] lastObject];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -174,34 +164,41 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     NSDictionary *dataDict = self.dataArray[indexPath.section];
     NSArray *workloadArray = dataDict[@"workload"];
     CGFloat viViewH = (workloadArray.count-1) * (bgViewH+Margin) + 150;
     return viViewH;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     NSLog(@"%ld - %ld", (long)indexPath.section, (long)indexPath.row);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
     return 10;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
         return 95;
     }
     return 45;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
     return @"headerTitle";
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     NSDictionary *dict = self.dataArray[section];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -222,12 +219,14 @@
     
     arrow = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-40, 18.5, 15, 8)];
     arrow.image = [UIImage imageNamed:@"down_arrow_gray"];
-    if ([self.isShowArray[section] isEqualToString:@"1"]) {
+    if ([self.isShowArray[section] isEqualToString:@"1"])
+    {
         arrow.image = [UIImage imageNamed:@"up_arrow_gray"];
     }
     [btn addSubview:arrow];
     
-    if (section == 0) {
+    if (section == 0)
+    {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 95)];
         view.backgroundColor = [UIColor whiteColor];
         
@@ -249,12 +248,16 @@
 
 #pragma mark -
 #pragma mark - viewForHeader点击事件
-- (void)btnClick:(UIButton *)btn {
+- (void)btnClick:(UIButton *)btn
+{
     
     // 改变组的显示状态
-    if ([self.isShowArray[btn.tag] isEqualToString:@"1"]) {
+    if ([self.isShowArray[btn.tag] isEqualToString:@"1"])
+    {
         [self.isShowArray replaceObjectAtIndex:btn.tag withObject:@"0"];
-    } else {
+    }
+    else
+    {
         [self.isShowArray replaceObjectAtIndex:btn.tag withObject:@"1"];
     }
     
@@ -284,13 +287,16 @@
     [request statistics_workloadWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
 
-- (void)datePickerBtnClick:(UIButton *)button {
-    if (button.tag == 10001) {
+- (void)datePickerBtnClick:(UIButton *)button
+{
+    if (button.tag == 10001)
+    {
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
         [self showLoadingMBP:@"数据加载中..."];
         
         /**饼状图**/
-        if (!selectedDate) {
+        if (!selectedDate)
+        {
             selectedDate = [NSDate date];
         }
         [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
@@ -299,15 +305,35 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_workloadWithTime_start:todayStr time_end:todayStr];
     }
-    [UIView animateWithDuration:0.5 animations:^{
-        pickerbgView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        datePicker = nil;
-        [pickerbgView removeFromSuperview];
-    }];
+    [super datePickerBtnClick:button];
 }
 
-- (void)didReceiveMemoryWarning {
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == Statistics_Workload && data.count > 0) {
+        self.dataArray = dic[@"data"];
+        for (int i=0; i<self.dataArray.count-1; i++)
+        {
+            [self.isShowArray addObject:@"0"];
+        }
+        
+        [self createUI];
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
+}
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

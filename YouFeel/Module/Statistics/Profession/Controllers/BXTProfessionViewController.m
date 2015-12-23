@@ -38,26 +38,6 @@
 }
 
 #pragma mark -
-#pragma mark - getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type {
-    [self hideMBP];
-    
-    NSDictionary *dic = (NSDictionary *)response;
-    NSArray *data = dic[@"data"];
-    if (type == Statistics_Subgroup && data.count > 0)
-    {
-        self.dataArray = dic[@"data"];
-        [self createPieView];
-        [self createBarChartView];
-    }
-}
-
-- (void)requestError:(NSError *)error
-{
-    [self hideMBP];
-}
-
-#pragma mark -
 #pragma mark - createUI
 - (void)createPieView
 {
@@ -78,9 +58,11 @@
     NSMutableArray *oldDataArray = [[NSMutableArray alloc] init];
     NSMutableArray *pieArray = [[NSMutableArray alloc] init];
     NSInteger sumNum = 0;
-    for(int i=0; i<self.dataArray.count; i++){
+    for(int i=0; i<self.dataArray.count; i++)
+    {
         UIColor *elemColor = [BXTGlobal randomColor];
-        if (i<4) {
+        if (i<4)
+        {
             elemColor = colorWithHexString(colorArray[i]);
         }
         NSDictionary *elemDict = self.dataArray[i];
@@ -96,7 +78,8 @@
     }
     
     // 无参数处理
-    if ([pieArray[0] intValue] == 0 && [pieArray[1] intValue] == 0 && [pieArray[2] intValue] == 0) {
+    if ([pieArray[0] intValue] == 0 && [pieArray[1] intValue] == 0 && [pieArray[2] intValue] == 0)
+    {
         [self.pieView.layer deleteValues:oldDataArray animated:YES];
         MYPieElement *elem = [MYPieElement pieElementWithValue:1 color:colorWithHexString(colorArray[0])];
         elem.title = [NSString stringWithFormat:@"%@", @"暂无工单"];
@@ -136,7 +119,8 @@
     self.headerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selectedDict[@"sum_number"]];
 }
 
-- (void)createBarChartView {
+- (void)createBarChartView
+{
     // ProfessionFooter
     self.footerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTProfessionFooter" owner:nil options:nil] lastObject];
     self.footerView.frame = CGRectMake(0, 410, SCREEN_WIDTH, 420);
@@ -153,7 +137,8 @@
     NSArray *colorArray = @[colorWithHexString(@"#0FCCC0") , colorWithHexString(@"#F9D063") , colorWithHexString(@"#FD7070") ];
     
     
-    for (NSDictionary *dict in self.dataArray) {
+    for (NSDictionary *dict in self.dataArray)
+    {
         NSString *downStr = [NSString stringWithFormat:@"%@", dict[@"yes_number"] ];
         NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"collection_number"] ];
         NSString *undownStr = [NSString stringWithFormat:@"%@", dict[@"no_number"] ];
@@ -198,7 +183,8 @@
 
 #pragma mark -
 #pragma mark SPChartDelegate
-- (void)SPChart:(SPBarChart *)chart barSelected:(NSInteger)barIndex barFrame:(CGRect)barFrame touchPoint:(CGPoint)touchPoint {
+- (void)SPChart:(SPBarChart *)chart barSelected:(NSInteger)barIndex barFrame:(CGRect)barFrame touchPoint:(CGPoint)touchPoint
+{
     [self _dismissPopup];
     
     SPBarChartData * data = chart.datas[barIndex];
@@ -221,24 +207,27 @@
     [popup setPopupColor:colorWithHexString(@"#999999")];
     [popup sizeToFit];
     
-   //[popup showInView:chart withBottomAnchorPoint:CGPointMake(CGRectGetMidX(barFrame), CGRectGetMinY(barFrame))];
+    //[popup showInView:chart withBottomAnchorPoint:CGPointMake(CGRectGetMidX(barFrame), CGRectGetMinY(barFrame))];
     self.popup = popup;
 }
 
-- (void)SPChartEmptySelection:(id)chart {
+- (void)SPChartEmptySelection:(id)chart
+{
     NSLog(@"Touch outside chart bar/line/piece");
 }
 
 - (void)_dismissPopup
 {
-    if (self.popup) {
+    if (self.popup)
+    {
         [self.popup dismiss];
     }
 }
 
 #pragma mark -
 #pragma mark - 父类点击事件
-- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
+- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
+{
     NSMutableArray *dateArray;
     switch (index) {
         case 0:
@@ -259,13 +248,16 @@
     [request statistics_subgroupWithTime_start:dateArray[0] time_end:dateArray[1]];
 }
 
-- (void)datePickerBtnClick:(UIButton *)button {
-    if (button.tag == 10001) {
+- (void)datePickerBtnClick:(UIButton *)button
+{
+    if (button.tag == 10001)
+    {
         [self.pieView removeFromSuperview];
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
         
         /**饼状图**/
-        if (!selectedDate) {
+        if (!selectedDate)
+        {
             selectedDate = [NSDate date];
         }
         [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
@@ -275,12 +267,28 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statistics_subgroupWithTime_start:todayStr time_end:todayStr];
     }
-    [UIView animateWithDuration:0.5 animations:^{
-        pickerbgView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        datePicker = nil;
-        [pickerbgView removeFromSuperview];
-    }];
+    [super datePickerBtnClick:button];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = dic[@"data"];
+    if (type == Statistics_Subgroup && data.count > 0)
+    {
+        self.dataArray = dic[@"data"];
+        [self createPieView];
+        [self createBarChartView];
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {
