@@ -212,6 +212,7 @@ typedef enum {
     [self.footerView addSubview:scrollView];
     self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.footerView.frame));
     
+    
     // 初始化
     NSMutableArray *finalArray = [[NSMutableArray alloc] init];
     NSString *xText;
@@ -225,6 +226,7 @@ typedef enum {
         xText = @"day";
         barChartW = 40;
     }
+    
     
     // SPBarChart
     SPBarChart *barChart = [[SPBarChart alloc] initWithFrame:CGRectMake(0, 0, barChartW*finalArray.count, scrollView.frame.size.height)];
