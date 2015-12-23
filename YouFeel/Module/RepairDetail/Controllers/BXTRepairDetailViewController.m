@@ -11,16 +11,14 @@
 #import "BXTRepairDetailInfo.h"
 #import "BXTHeaderForVC.h"
 #import "UIImageView+WebCache.h"
-#import "MWPhotoBrowser.h"
-#import "MWPhoto.h"
 #import "BXTEvaluationViewController.h"
 
-#define ImageWidth 73.3f
-#define ImageHeight 73.3f
+#define ImageWidth      73.3f
+#define ImageHeight     73.3f
 #define StateViewHeight 90.f
-#define RepairHeight 95.f
+#define RepairHeight    95.f
 
-@interface BXTRepairDetailViewController ()<BXTDataResponseDelegate,MWPhotoBrowserDelegate>
+@interface BXTRepairDetailViewController ()<BXTDataResponseDelegate>
 {
     UILabel      *repairID;
     UILabel      *time;
@@ -43,7 +41,6 @@
 
 @property (nonatomic ,strong) UIButton            *evaluationBtn;
 @property (nonatomic ,strong) UIView              *evaBackView;
-@property (nonatomic ,strong) NSMutableArray      *mwPhotosArray;
 @property (nonatomic ,strong) BXTRepairInfo       *repairInfo;
 @property (nonatomic ,strong) BXTRepairDetailInfo *repairDetail;
 
@@ -248,28 +245,6 @@
     }
     
     return photos;
-}
-
-- (void)loadMWPhotoBrowser:(NSInteger)index
-{
-    self.mwPhotosArray = [self containAllPhotosForMWPhotoBrowser];
-    
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    browser.displayActionButton = NO;
-    browser.displayNavArrows = NO;
-    browser.displaySelectionButtons = NO;
-    browser.alwaysShowControls = NO;
-    browser.enableGrid = NO;
-    browser.startOnGrid = NO;
-    browser.zoomPhotosToFill = YES;
-    browser.enableSwipeToDismiss = YES;
-    [browser setCurrentPhotoIndex:index];
-    
-    browser.titlePreNumStr = [NSString stringWithFormat:@"%d%d%d", (int)_repairDetail.fault_pic.count, (int)_repairDetail.fixed_pic.count, (int)_repairDetail.evaluation_pic.count];
-    NSLog(@"titlePreNumStr == %@", browser.titlePreNumStr);
-    
-    [self.navigationController pushViewController:browser animated:YES];
-    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)contactRepairer:(UIButton *)btn
@@ -515,7 +490,8 @@
                     @weakify(self);
                     [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
                         @strongify(self);
-                        [self loadMWPhotoBrowser:i];
+                        self.mwPhotosArray = [self containAllPhotosForMWPhotoBrowser];
+                        [self loadMWPhotoBrowserForDetail:i withFaultPicCount:self.repairDetail.fault_pic.count withFixedPicCount:self.repairDetail.fixed_pic.count withEvaluationPicCount:self.repairDetail.evaluation_pic.count];
                     }];
                     [imagesScrollView addSubview:imgView];
                     i++;
@@ -627,19 +603,6 @@
 - (void)requestError:(NSError *)error
 {
     [self hideMBP];
-}
-
-#pragma mark -
-#pragma mark MWPhotoBrowserDelegate
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
-{
-    return self.mwPhotosArray.count;
-}
-
-- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
-{
-    MWPhoto *photo = self.mwPhotosArray[index];
-    return photo;
 }
 
 - (void)didReceiveMemoryWarning

@@ -6,17 +6,17 @@
 //  Copyright (c) 2015年 Jason. All rights reserved.
 //
 
-#import "BXTBaseViewController.h"
-#import "BXTRepairDetailInfo.h"
-@import AssetsLibrary;
-@import AVFoundation;
-@import MobileCoreServices;
-
-@interface BXTMaintenanceProcessViewController : BXTBaseViewController
+#import "BXTPhotoBaseViewController.h"
 
 typedef void(^blockT)(void);
+
+@interface BXTMaintenanceProcessViewController : BXTPhotoBaseViewController
+
 @property (nonatomic, copy) blockT BlockRefresh;
 
-- (instancetype)initWithCause:(NSString *)cause andCurrentFaultID:(NSInteger)faultID andRepairID:(NSInteger)repairID andReaciveTime:(NSString *)time;
+- (instancetype)initWithCause:(NSString *)cause
+            andCurrentFaultID:(NSInteger)faultID
+                  andRepairID:(NSInteger)repairID
+               andReaciveTime:(NSString *)time;
 
 @end

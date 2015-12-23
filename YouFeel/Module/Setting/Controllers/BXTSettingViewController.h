@@ -6,12 +6,9 @@
 //  Copyright (c) 2015年 Jason. All rights reserved.
 //
 
-#import "BXTBaseViewController.h"
+#import "BXTPhotoBaseViewController.h"
 #import <RongIMKit/RongIMKit.h>
-@import AssetsLibrary;
-@import AVFoundation;
-@import MobileCoreServices;
 
-@interface BXTSettingViewController : BXTBaseViewController
+@interface BXTSettingViewController : BXTPhotoBaseViewController
 
 @end

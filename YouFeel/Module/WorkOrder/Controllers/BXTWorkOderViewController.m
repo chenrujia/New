@@ -64,6 +64,7 @@
     [self allNotifications];
     
     self.repairState = @"2";
+    self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
     self.photosArray = [[NSMutableArray alloc] init];
     self.selectPhotos = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
