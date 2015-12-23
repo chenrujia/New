@@ -6,12 +6,12 @@
 //  Copyright (c) 2015年 Jason. All rights reserved.
 //
 
-#import "BXTBaseViewController.h"
+#import "BXTPhotoBaseViewController.h"
 #import "BXTRepairInfo.h"
 #import <RongIMKit/RongIMKit.h>
 
 //维修员版工单详情
-@interface BXTOrderDetailViewController : BXTBaseViewController
+@interface BXTOrderDetailViewController : BXTPhotoBaseViewController
 
 /**
  *  是否有关闭工单按钮

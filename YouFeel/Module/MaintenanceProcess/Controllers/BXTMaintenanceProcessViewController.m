@@ -9,12 +9,7 @@
 #import "BXTMaintenanceProcessViewController.h"
 #import "BXTHeaderForVC.h"
 #import "BXTSettingTableViewCell.h"
-#import "BXTRemarksTableViewCell.h"
-#import "HySideScrollingImagePicker.h"
-#import "MWPhotoBrowser.h"
-#import "MWPhoto.h"
 #import "BXTSelectBoxView.h"
-#import "LocalPhotoViewController.h"
 #import "BXTFaultInfo.h"
 #import "BXTFaultTypeInfo.h"
 #import "BXTMaintenanceProcessTableViewCell.h"
@@ -23,55 +18,58 @@
 #define kMMLOG 12
 #define kNOTE 11
 
-@interface BXTMaintenanceProcessViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,MWPhotoBrowserDelegate,SelectPhotoDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,BXTBoxSelectedTitleDelegate,UIPickerViewDataSource,UIPickerViewDelegate,BXTDataResponseDelegate>
+@interface BXTMaintenanceProcessViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,BXTBoxSelectedTitleDelegate,UIPickerViewDataSource,UIPickerViewDelegate,BXTDataResponseDelegate>
 {
-    UITableView      *currentTableView;
-    NSMutableArray   *photosArray;
-    NSMutableArray   *selectPhotos;
+    BXTSelectBoxView *boxView;
+    BXTFaultInfo     *selectFaultInfo;
+    BXTFaultTypeInfo *selectFaultTypeInfo;
     NSMutableArray   *specialArray;//特殊工单类型
     NSMutableArray   *groupArray;
     NSArray          *orderTypeArray;
-    NSString         *notes;
     NSString         *maintenanceState;
     NSString         *orderType;//工单类型
     NSString         *orderTypeInfo;//工单类型描述
-    BXTSelectBoxView *boxView;
     NSArray          *stateArray;
-    UIPickerView     *faultPickView;
     NSMutableArray   *fau_dataSource;
-    BXTFaultInfo     *selectFaultInfo;
-    BXTFaultTypeInfo *selectFaultTypeInfo;
-    NSString         *state;
-    NSString         *mmLog;
-    NSString         *specialOID;
-    NSString         *groupID;
     BOOL             isDone;//是否修好的状态
-    
-    UIView *pickerbackView;
-    UIView *toolView;
+    UIView           *toolView;
 }
 
-@property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
-@property (nonatomic ,strong) NSString       *cause;
-@property (nonatomic ,assign) NSInteger      currentFaultID;
-@property (nonatomic ,assign) NSInteger      repairID;
-@property (nonatomic ,strong) NSString       *reaciveTime;
+@property (nonatomic, strong) NSString     *mmLog;
+@property (nonatomic, strong) NSString     *groupID;
+@property (nonatomic, strong) NSString     *state;
+@property (nonatomic, strong) NSString     *notes;
+@property (nonatomic ,strong) NSString     *cause;
+@property (nonatomic ,assign) NSInteger    repairID;
+@property (nonatomic ,strong) NSString     *reaciveTime;
+@property (nonatomic, strong) NSString     *specialOID;
+@property (nonatomic ,assign) NSInteger    currentFaultID;
+@property (nonatomic, strong) UIView       *pickerbackView;
+@property (nonatomic, strong) UIPickerView *faultPickView;
 
 @end
 
 @implementation BXTMaintenanceProcessViewController
 
-- (instancetype)initWithCause:(NSString *)cause andCurrentFaultID:(NSInteger)faultID andRepairID:(NSInteger)repairID andReaciveTime:(NSString *)time
+- (void)dealloc
+{
+    LogBlue(@"维修过程被释放了");
+}
+
+- (instancetype)initWithCause:(NSString *)cause
+            andCurrentFaultID:(NSInteger)faultID
+                  andRepairID:(NSInteger)repairID
+               andReaciveTime:(NSString *)time
 {
     self = [super init];
     if (self)
     {
         orderType = @"";
         orderTypeInfo = @"";
-        state = @"2";
-        mmLog = @"";
-        specialOID = @"";
-        groupID = @"";
+        self.state = @"2";
+        self.mmLog = @"";
+        self.specialOID = @"";
+        self.groupID = @"";
         isDone = YES;
         [BXTGlobal shareGlobal].maxPics = 3;
         self.repairID = repairID;
@@ -94,8 +92,9 @@
     [self createTableView];
     
     orderTypeArray = @[@"特殊工单"];
-    photosArray = [[NSMutableArray alloc] init];
-    selectPhotos = [[NSMutableArray alloc] init];
+    self.indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+    self.photosArray = [[NSMutableArray alloc] init];
+    self.selectPhotos = [[NSMutableArray alloc] init];
     specialArray = [[NSMutableArray alloc] init];
     groupArray = [[NSMutableArray alloc] init];
     
@@ -122,121 +121,20 @@
 #pragma mark 初始化视图
 - (void)createTableView
 {
-    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
-    currentTableView.delegate = self;
-    currentTableView.dataSource = self;
-    [self.view addSubview:currentTableView];
-}
-
-#pragma mark -
-#pragma mark 事件处理
-- (void)doneClick
-{
-    /**提交维修中状态**/
-    BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    
-    if ([BXTGlobal isBlankString:notes])
-    {
-        notes = @"";
-    }
-    if ([state isEqual:@"1"] && specialOID.length == 0)
-    {
-        [self showMBP:@"特殊类型不能为空！" withBlock:nil];
-        return;
-    }
-    
-    NSTimeInterval currentTime = [NSDate date].timeIntervalSince1970;
-    NSString *finishTime = [NSString stringWithFormat:@"%.0f",currentTime];
-    NSString *manHours = [NSString stringWithFormat:@"%.1f",(float)([finishTime integerValue] - [_reaciveTime integerValue])/60/60];
-    
-    [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)_repairID]
-                   andReaciveTime:_reaciveTime
-                    andFinishTime:finishTime
-              andMaintenanceState:state
-                     andFaultType:[NSString stringWithFormat:@"%ld",(long)_currentFaultID]
-                      andManHours:manHours
-                andSpecialOrderID:specialOID
-                        andImages:photosArray
-                         andNotes:notes
-                         andMMLog:mmLog
-               andCollectionGroup:groupID];
-}
-
-- (void)tapGesture:(UITapGestureRecognizer *)tapGR
-{
-    UIView *tapView = [tapGR view];
-    [self loadMWPhotoBrowser:tapView.tag];
-}
-
-- (void)addImages
-{
-    HySideScrollingImagePicker *hy = [[HySideScrollingImagePicker alloc] initWithCancelStr:@"取消" otherButtonTitles:@[@"拍摄",@"从相册选择"]];
-    hy.isMultipleSelection = NO;
-    hy.SeletedImages = ^(NSArray *GetImages, NSInteger Buttonindex){
-        switch (Buttonindex) {
-            case 1:
-            {
-                if (GetImages.count != 0)
-                {
-                    [selectPhotos removeAllObjects];
-                    [photosArray removeAllObjects];
-                    //取原图
-                    [selectPhotos addObjectsFromArray:GetImages];
-                    [self selectImages];
-                }
-                else
-                {
-                    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-                    if (authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied)
-                    {
-                        if (IS_IOS_8)
-                        {
-                            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"无法启动相机" message:@"请为报修通开放相机权限：手机设置->隐私->相机->报修通（打开）" preferredStyle:UIAlertControllerStyleAlert];
-                            UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-                            [alertCtr addAction:alertAction];
-                            [self presentViewController:alertCtr animated:YES completion:nil];
-                        }
-                        else
-                        {
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法启动相机"
-                                                                            message:@"请为报修通开放相机权限：手机设置->隐私->相机->报修通（打开）"
-                                                                           delegate:nil
-                                                                  cancelButtonTitle:@"确定"
-                                                                  otherButtonTitles:nil];
-                            [alert show];
-                        }
-                    }
-                    else
-                    {
-                        [self selectCamenaType:UIImagePickerControllerSourceTypeCamera];
-                    }
-                }
-            }
-                break;
-            case 2:
-            {
-                LocalPhotoViewController *pick=[[LocalPhotoViewController alloc] init];
-                pick.selectPhotoDelegate = self;
-                pick.selectPhotos = selectPhotos;
-                [self.navigationController pushViewController:pick animated:YES];
-            }
-                break;
-            default:
-                break;
-        }
-    };
-    
-    [self.view addSubview:hy];
+    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
+    self.currentTableView.delegate = self;
+    self.currentTableView.dataSource = self;
+    [self.view addSubview:self.currentTableView];
 }
 
 #pragma mark -
 #pragma mark 创建BoxView
 - (void)createBoxView:(NSInteger)section
 {
-    pickerbackView = [[UIView alloc] initWithFrame:self.view.bounds];
-    pickerbackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
-    pickerbackView.tag = 101;
-    [self.view addSubview:pickerbackView];
+    self.pickerbackView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _pickerbackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    _pickerbackView.tag = 101;
+    [self.view addSubview:_pickerbackView];
     
     if (section == 0)
     {
@@ -260,33 +158,43 @@
     }
     else if (!isDone && section == 3)
     {
-        faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        faultPickView.showsSelectionIndicator = YES;
-        faultPickView.backgroundColor = colorWithHexString(@"cdced1");
-        faultPickView.dataSource = self;
-        faultPickView.delegate = self;
-        [self.view addSubview:faultPickView];
+        self.faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
+        _faultPickView.showsSelectionIndicator = YES;
+        _faultPickView.backgroundColor = colorWithHexString(@"cdced1");
+        _faultPickView.dataSource = self;
+        _faultPickView.delegate = self;
+        [self.view addSubview:_faultPickView];
     }
     else if (isDone && section == 1)
     {
-        faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        faultPickView.showsSelectionIndicator = YES;
-        faultPickView.backgroundColor = colorWithHexString(@"cdced1");
-        faultPickView.dataSource = self;
-        faultPickView.delegate = self;
-        [self.view addSubview:faultPickView];
+        self.faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
+        _faultPickView.showsSelectionIndicator = YES;
+        _faultPickView.backgroundColor = colorWithHexString(@"cdced1");
+        _faultPickView.dataSource = self;
+        _faultPickView.delegate = self;
+        [self.view addSubview:_faultPickView];
         
         // 工具条
         toolView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-44, SCREEN_WIDTH, 44)];
         toolView.backgroundColor = colorWithHexString(@"cccdd0");
-        [pickerbackView addSubview:toolView];
+        [_pickerbackView addSubview:toolView];
         
         // sure
         UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-80, 2, 80, 40)];
         [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
         [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         sureBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-        [sureBtn addTarget:self action:@selector(toolBarDoneClick) forControlEvents:UIControlEventTouchUpInside];
+        @weakify(self);
+        [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            if (self.faultPickView)
+            {
+                [self.faultPickView removeFromSuperview];
+                self.faultPickView = nil;
+                [self.pickerbackView removeFromSuperview];
+                [self.currentTableView reloadData];
+            }
+        }];
         [toolView addSubview:sureBtn];
     }
 }
@@ -301,31 +209,20 @@
     }];
 }
 
-- (void)toolBarDoneClick {
-    if (faultPickView) {
-        [faultPickView removeFromSuperview];
-        faultPickView = nil;
-        [pickerbackView removeFromSuperview];
-        [currentTableView reloadData];
-    }
-}
-
-#pragma mark -
-#pragma mark 代理
 #pragma mark -
 #pragma mark UITableViewDelegate && UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10.f;//section头部高度
+    return 10.f;
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if ((isDone && section == 2) || (!isDone && section == 4))
@@ -334,7 +231,7 @@
     }
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if ((isDone && section == 2) || (!isDone && section == 4))
@@ -348,7 +245,37 @@
         [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         doneBtn.layer.masksToBounds = YES;
         doneBtn.layer.cornerRadius = 6.f;
-        [doneBtn addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
+        @weakify(self);
+        [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            /**提交维修中状态**/
+            BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+            if ([BXTGlobal isBlankString:self.notes])
+            {
+                self.notes = @"";
+            }
+            if ([self.state isEqual:@"1"] && self.specialOID.length == 0)
+            {
+                [self showMBP:@"特殊类型不能为空！" withBlock:nil];
+                return;
+            }
+            
+            NSTimeInterval currentTime = [NSDate date].timeIntervalSince1970;
+            NSString *finishTime = [NSString stringWithFormat:@"%.0f",currentTime];
+            NSString *manHours = [NSString stringWithFormat:@"%.1f",(float)([finishTime integerValue] - [self.reaciveTime integerValue])/60/60];
+            
+            [fau_request maintenanceState:[NSString stringWithFormat:@"%ld",(long)self.repairID]
+                           andReaciveTime:self.reaciveTime
+                            andFinishTime:finishTime
+                      andMaintenanceState:self.state
+                             andFaultType:[NSString stringWithFormat:@"%ld",(long)self.currentFaultID]
+                              andManHours:manHours
+                        andSpecialOrderID:self.specialOID
+                                andImages:self.photosArray
+                                 andNotes:self.notes
+                                 andMMLog:self.mmLog
+                       andCollectionGroup:self.groupID];
+        }];
         [view addSubview:doneBtn];
         return view;
     }
@@ -397,12 +324,26 @@
         cell.remarkTV.tag = kNOTE;
         cell.titleLabel.text = @"备   注";
         
-        UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+        @weakify(self);
+        UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
+        [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            [self loadMWPhotoBrowser:cell.imgViewOne.tag];
+        }];
         [cell.imgViewOne addGestureRecognizer:tapGROne];
-        UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+        UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
+        [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            [self loadMWPhotoBrowser:cell.imgViewTwo.tag];
+        }];
         [cell.imgViewTwo addGestureRecognizer:tapGRTwo];
-        UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+        UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
+        [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            [self loadMWPhotoBrowser:cell.imgViewThree.tag];
+        }];
         [cell.imgViewThree addGestureRecognizer:tapGRThree];
+        
         [cell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
         
         return cell;
@@ -460,7 +401,6 @@
                 cell.titleLabel.text = @"工单类型";
                 cell.detailLable.text = @"特殊工单";
                 cell.accessoryType = UITableViewCellAccessoryNone;
-                //cell.detailLable.text = orderType.length > 0 ? orderType : @"请选择工单类型";
             }
             else if (indexPath.section == 2)
             {
@@ -499,11 +439,11 @@
     UIView *view = touch.view;
     if (view.tag == 101)
     {
-        if (faultPickView)
+        if (_faultPickView)
         {
-            [faultPickView removeFromSuperview];
-            faultPickView = nil;
-            [currentTableView reloadData];
+            [_faultPickView removeFromSuperview];
+            _faultPickView = nil;
+            [self.currentTableView reloadData];
         }
         else
         {
@@ -524,31 +464,31 @@
 {
     if (type == SpecialOrderView)
     {
-        groupID = @"";
+        _groupID = @"";
         NSDictionary *dic = obj;
         orderTypeInfo = [dic objectForKey:@"collection"];
-        specialOID = [dic objectForKey:@"id"];
+        _specialOID = [dic objectForKey:@"id"];
     }
     else if (type == GroupingView)
     {
-        specialOID = @"";
+        _specialOID = @"";
         BXTGroupingInfo *groupInfo = obj;
         orderTypeInfo = groupInfo.subgroup;
-        groupID = groupInfo.group_id;
+        _groupID = groupInfo.group_id;
     }
     else if (type == Other)
     {
         if ([obj isEqualToString:@"未修好"])
         {
             maintenanceState = obj;
-            state = @"1";
+            _state = @"1";
             isDone = NO;
         }
         else if ([obj isEqualToString:@"已修好"])
         {
             maintenanceState = obj;
             isDone = YES;
-            state = @"2";
+            _state = @"2";
         }
         else
         {
@@ -556,7 +496,7 @@
         }
     }
     
-    [currentTableView reloadData];
+    [self.currentTableView reloadData];
     
     UIView *view = [self.view viewWithTag:101];
     [view removeFromSuperview];
@@ -567,278 +507,6 @@
         [boxView removeFromSuperview];
         boxView = nil;
     }];
-}
-
-#pragma mark -
-#pragma mark UIImagePickerControllerDelegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    __block UIImage *headImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    
-    if (headImage != nil)
-    {
-        headImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-        __weak BXTMaintenanceProcessViewController *weakSelf = self;
-        [picker dismissViewControllerAnimated:YES completion:^{
-            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-            [selectPhotos addObject:headImage];
-            [weakSelf selectImages];
-        }];
-    }
-    else
-    {
-        NSURL *path = [info objectForKey:UIImagePickerControllerReferenceURL];
-        
-        [self loadImageFromAssertByUrl:path completion:^(UIImage * img)
-         {
-             __weak BXTMaintenanceProcessViewController *weakSelf = self;
-             [picker dismissViewControllerAnimated:YES completion:^{
-                 [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-                 [selectPhotos addObject:img];
-                 [weakSelf selectImages];
-             }];
-         }];
-    }
-    
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissViewControllerAnimated:YES completion:^{
-        picker.delegate = nil;
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    }];
-}
-
-//有的图片在Ipad的情况下
-- (void)loadImageFromAssertByUrl:(NSURL *)url completion:(void (^)(UIImage *))completion{
-    
-    __block UIImage* img;
-    
-    ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
-    
-    [assetLibrary assetForURL:url resultBlock:^(ALAsset *asset)
-     {
-         ALAssetRepresentation *rep = [asset defaultRepresentation];
-         Byte *buffer = (Byte*)malloc((unsigned long)rep.size);
-         NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:(unsigned int)rep.size error:nil];
-         NSData *data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-         img = [UIImage imageWithData:data];
-         completion(img);
-     } failureBlock:^(NSError *err) {
-         NSLog(@"Error: %@",[err localizedDescription]);
-     }];
-}
-
-- (void)selectCamenaType:(NSInteger)sourceType
-{
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    imagePickerController.delegate = self;
-    imagePickerController.sourceType = sourceType;
-    
-    if (sourceType == UIImagePickerControllerSourceTypeCamera)
-    {
-        imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
-        //设置相机支持的类型，拍照和录像
-        imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-    }
-    [self.view.window.rootViewController presentViewController:imagePickerController animated:YES completion:nil];
-}
-
-- (void)selectImages
-{
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
-    BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[currentTableView cellForRowAtIndexPath:indexPath];
-    if (selectPhotos.count == 1)
-    {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
-        
-        [UIView animateWithDuration:1.f animations:^{
-            
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            
-        } completion:nil];
-    }
-    else if (selectPhotos.count == 2)
-    {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
-        [self resetDatasource:cell arrayWithIndex:1];
-        
-        [UIView animateWithDuration:1.f animations:^{
-            
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
-            
-        } completion:nil];
-    }
-    else if (selectPhotos.count == 3)
-    {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
-        [self resetDatasource:cell arrayWithIndex:1];
-        [self resetDatasource:cell arrayWithIndex:2];
-        
-        [UIView animateWithDuration:1.f animations:^{
-            
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
-            [self resetFrame:cell arrayWithIndex:2 withValue:(IMAGEWIDTH + 10.f) * 3];
-            
-        } completion:nil];
-    }
-}
-
-#pragma mark -
-#pragma mark SelectPhotoDelegate
-- (void)getSelectedPhoto:(NSMutableArray *)photos
-{
-    selectPhotos = photos;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
-    BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[currentTableView cellForRowAtIndexPath:indexPath];
-    if (photos.count == 1)
-    {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
-        
-        [UIView animateWithDuration:1.f animations:^{
-            
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            
-        } completion:nil];
-    }
-    else if (photos.count == 2)
-    {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
-        [self resetDatasource:cell arrayWithIndex:1];
-        
-        [UIView animateWithDuration:1.f animations:^{
-            
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
-            
-        } completion:nil];
-    }
-    else if (photos.count == 3)
-    {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
-        [self resetDatasource:cell arrayWithIndex:1];
-        [self resetDatasource:cell arrayWithIndex:2];
-        
-        [UIView animateWithDuration:1.f animations:^{
-            
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
-            [self resetFrame:cell arrayWithIndex:2 withValue:(IMAGEWIDTH + 10.f) * 3];
-            
-        } completion:nil];
-    }
-}
-
-- (void)resetCell:(BXTRemarksTableViewCell *)cell
-{
-    [cell.imgViewOne setFrame:cell.addBtn.frame];
-    [cell.imgViewTwo setFrame:cell.addBtn.frame];
-    [cell.imgViewThree setFrame:cell.addBtn.frame];
-    
-    cell.imgViewOne.image = nil;
-    cell.imgViewTwo.image = nil;
-    cell.imgViewThree.image = nil;
-}
-
-- (void)resetDatasource:(BXTRemarksTableViewCell *)cell arrayWithIndex:(NSInteger)index
-{
-    id obj = [selectPhotos objectAtIndex:index];
-    UIImage *newImage = nil;
-    if ([obj isKindOfClass:[UIImage class]])
-    {
-        UIImage *tempImg = (UIImage *)obj;
-        newImage = tempImg;
-    }
-    else
-    {
-        ALAsset *asset = (ALAsset *)obj;
-        ALAssetRepresentation *representation = [asset defaultRepresentation];
-        CGImageRef posterImageRef = [representation fullScreenImage];
-        UIImage *posterImage = [UIImage imageWithCGImage:posterImageRef scale:[representation scale] orientation:UIImageOrientationUp];
-        newImage = posterImage;
-    }
-    [cell.photosArray addObject:newImage];
-    [photosArray addObject:newImage];
-    
-    if (index == 0)
-    {
-        cell.imgViewOne.image = newImage;
-    }
-    else if (index == 1)
-    {
-        cell.imgViewTwo.image = newImage;
-    }
-    else if (index == 2)
-    {
-        cell.imgViewThree.image = newImage;
-    }
-}
-
-- (void)resetFrame:(BXTRemarksTableViewCell *)cell arrayWithIndex:(NSInteger)index withValue:(CGFloat)space
-{
-    CGRect rect = cell.imgViewOne.frame;
-    rect.origin.x = CGRectGetMinX(cell.addBtn.frame) + space;
-    
-    if (index == 0)
-    {
-        cell.imgViewOne.frame = rect;
-    }
-    else if (index == 1)
-    {
-        cell.imgViewTwo.frame = rect;
-    }
-    else if (index == 2)
-    {
-        cell.imgViewThree.frame = rect;
-    }
-}
-
-- (void)loadMWPhotoBrowser:(NSInteger)index
-{
-    NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (UIImage *image in photosArray)
-    {
-        MWPhoto *photo = [MWPhoto photoWithImage:image];
-        [photos addObject:photo];
-    }
-    self.mwPhotosArray = photos;
-    
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    browser.displayActionButton = NO;
-    browser.displayNavArrows = NO;
-    browser.displaySelectionButtons = NO;
-    browser.alwaysShowControls = NO;
-    browser.enableGrid = NO;
-    browser.startOnGrid = NO;
-    browser.zoomPhotosToFill = YES;
-    browser.enableSwipeToDismiss = YES;
-    [browser setCurrentPhotoIndex:index];
-    
-    [self.navigationController pushViewController:browser animated:YES];
-    self.navigationController.navigationBar.hidden = NO;
-}
-
-#pragma mark -
-#pragma mark MWPhotoBrowserDelegate
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
-{
-    return self.mwPhotosArray.count;
-}
-
-- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
-{
-    MWPhoto *photo = self.mwPhotosArray[index];
-    return photo;
 }
 
 #pragma mark -
@@ -867,7 +535,7 @@
 {
     if (textView.tag == kNOTE)
     {
-        notes = textView.text;
+        _notes = textView.text;
         if (textView.text.length < 1)
         {
             textView.text = @"请输入报修内容";
@@ -875,7 +543,7 @@
     }
     else
     {
-        mmLog = textView.text;
+        _mmLog = textView.text;
         if (textView.text.length < 1)
         {
             textView.text = @"请输入维修日志";
@@ -944,7 +612,7 @@
     {
         _cause = selectFaultInfo.faulttype_type;
     }
-    [currentTableView reloadData];
+    [self.currentTableView reloadData];
 }
 
 #pragma mark -
@@ -1030,7 +698,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

@@ -10,8 +10,6 @@
 #import "BXTHeaderForVC.h"
 #import "BXTRepairDetailInfo.h"
 #import "UIImageView+WebCache.h"
-#import "MWPhotoBrowser.h"
-#import "MWPhoto.h"
 #import "BXTDrawView.h"
 #import "BXTSelectBoxView.h"
 #import "BXTMaintenanceProcessViewController.h"
@@ -23,7 +21,7 @@
 #define RepairHeight 95.f
 #define StateViewHeight 90.f
 
-@interface BXTOrderDetailViewController ()<BXTDataResponseDelegate,MWPhotoBrowserDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
+@interface BXTOrderDetailViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
 {
     UIImageView         *headImgView;
     UILabel             *repairerName;
@@ -53,7 +51,6 @@
 
 @property (nonatomic ,strong) BXTSelectBoxView    *boxView;
 @property (nonatomic ,strong) NSString            *repair_id;
-@property (nonatomic ,strong) NSMutableArray      *mwPhotosArray;
 @property (nonatomic ,strong) NSMutableArray      *manIDArray;
 @property (nonatomic ,strong) UIView              *manBgView;
 @property (nonatomic ,strong) NSArray             *comeTimeArray;
@@ -478,27 +475,6 @@
     return photos;
 }
 
-- (void)loadMWPhotoBrowser:(NSInteger)index
-{
-    self.mwPhotosArray = [self containAllPhotosForMWPhotoBrowser];
-    
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    browser.displayActionButton = NO;
-    browser.displayNavArrows = NO;
-    browser.displaySelectionButtons = NO;
-    browser.alwaysShowControls = NO;
-    browser.enableGrid = NO;
-    browser.startOnGrid = NO;
-    browser.zoomPhotosToFill = YES;
-    browser.enableSwipeToDismiss = YES;
-    [browser setCurrentPhotoIndex:index];
-    
-    browser.titlePreNumStr = [NSString stringWithFormat:@"%d%d%d", (int)_repairDetail.fault_pic.count, (int)_repairDetail.fixed_pic.count, (int)_repairDetail.evaluation_pic.count];
-    
-    [self.navigationController pushViewController:browser animated:YES];
-    self.navigationController.navigationBar.hidden = NO;
-}
-
 - (NSMutableArray *)containAllArray
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
@@ -823,7 +799,8 @@
                     @weakify(self);
                     [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
                         @strongify(self);
-                        [self loadMWPhotoBrowser:i];
+                        self.mwPhotosArray = [self containAllPhotosForMWPhotoBrowser];
+                        [self loadMWPhotoBrowserForDetail:i withFaultPicCount:self.repairDetail.fault_pic.count withFixedPicCount:self.repairDetail.fixed_pic.count withEvaluationPicCount:self.repairDetail.evaluation_pic.count];
                     }];
                     [imgView addGestureRecognizer:tapGR];
                     [imagesScrollView addSubview:imgView];
@@ -947,19 +924,6 @@
 - (void)requestError:(NSError *)error
 {
     [self hideMBP];
-}
-
-#pragma mark -
-#pragma mark MWPhotoBrowserDelegate
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
-{
-    return self.mwPhotosArray.count;
-}
-
-- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
-{
-    MWPhoto *photo = self.mwPhotosArray[index];
-    return photo;
 }
 
 #pragma mark -

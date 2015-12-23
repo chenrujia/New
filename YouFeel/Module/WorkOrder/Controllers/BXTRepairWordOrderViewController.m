@@ -74,6 +74,7 @@
     self.mans = [NSMutableArray array];
     [BXTGlobal shareGlobal].maxPics = 3;
     self.repairState = @"2";
+    self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
     self.photosArray = [[NSMutableArray alloc] init];
     self.selectPhotos = [[NSMutableArray alloc] init];
     dep_dataSource = [[NSMutableArray alloc] init];

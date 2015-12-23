@@ -9,8 +9,10 @@
 #import "BXTPhotoBaseViewController.h"
 #import "HySideScrollingImagePicker.h"
 #import "BXTPublicSetting.h"
+#import "BXTDataRequest.h"
+#import "BXTGlobal.h"
 
-@interface BXTPhotoBaseViewController ()
+@interface BXTPhotoBaseViewController ()<BXTDataResponseDelegate>
 
 @end
 
@@ -36,10 +38,20 @@
                 if (GetImages.count != 0)
                 {
                     [_selectPhotos removeAllObjects];
-                    [_photosArray removeAllObjects];
-                    //取原图
-                    [_selectPhotos addObjectsFromArray:GetImages];
-                    [self selectImages];
+                    if (_isSettingVC)
+                    {
+                        //取原图
+                        [_selectPhotos addObjectsFromArray:GetImages];
+                        UIImage *image = [self handleImage];
+                        [self showMLImageCropView:image];
+                    }
+                    else
+                    {
+                        [_photosArray removeAllObjects];
+                        //取原图
+                        [_selectPhotos addObjectsFromArray:GetImages];
+                        [self selectImages];
+                    }
                 }
                 else
                 {
@@ -87,10 +99,46 @@
     [self.view addSubview:hy];
 }
 
+- (void)showMLImageCropView:(UIImage *)image
+{
+    MLImageCrop *imageCrop = [[MLImageCrop alloc]init];
+    imageCrop.delegate = self;
+    imageCrop.ratioOfWidthAndHeight = 1.f;
+    imageCrop.image = image;
+    [imageCrop showWithAnimation:YES];
+}
+
+- (UIImage *)handleImage
+{
+    id obj = [_selectPhotos objectAtIndex:0];
+    UIImage *newImage = nil;
+    if ([obj isKindOfClass:[UIImage class]])
+    {
+        UIImage *tempImg = (UIImage *)obj;
+        newImage = tempImg;
+    }
+    else
+    {
+        ALAsset *asset = (ALAsset *)obj;
+        ALAssetRepresentation *representation = [asset defaultRepresentation];
+        CGImageRef posterImageRef = [representation fullScreenImage];
+        UIImage *posterImage = [UIImage imageWithCGImage:posterImageRef scale:[representation scale] orientation:UIImageOrientationUp];
+        newImage = posterImage;
+    }
+    return newImage;
+}
+
 - (void)selectImages
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
-    BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[_currentTableView cellForRowAtIndexPath:indexPath];
+    BXTRemarksTableViewCell *cell;
+    if (_remarkCell)
+    {
+        cell = _remarkCell;
+    }
+    else
+    {
+        cell = (BXTRemarksTableViewCell *)[_currentTableView cellForRowAtIndexPath:_indexPath];
+    }
     if (_selectPhotos.count == 1)
     {
         [self resetCell:cell];
@@ -157,6 +205,25 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
+- (void)loadMWPhotoBrowserForDetail:(NSInteger)index withFaultPicCount:(NSInteger)faultPicCount withFixedPicCount:(NSInteger)fixedPicCount withEvaluationPicCount:(NSInteger)evaluationPicCount
+{
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    browser.displayActionButton = NO;
+    browser.displayNavArrows = NO;
+    browser.displaySelectionButtons = NO;
+    browser.alwaysShowControls = NO;
+    browser.enableGrid = NO;
+    browser.startOnGrid = NO;
+    browser.zoomPhotosToFill = YES;
+    browser.enableSwipeToDismiss = YES;
+    [browser setCurrentPhotoIndex:index];
+    
+    browser.titlePreNumStr = [NSString stringWithFormat:@"%ld%ld%ld", (long)faultPicCount, (long)fixedPicCount, (long)evaluationPicCount];
+    
+    [self.navigationController pushViewController:browser animated:YES];
+    self.navigationController.navigationBar.hidden = NO;
+}
+
 - (void)selectCamenaType:(NSInteger)sourceType
 {
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
@@ -177,9 +244,23 @@
 #pragma mark SelectPhotoDelegate
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
+    if (_isSettingVC)
+    {
+        _selectPhotos = photos;
+        UIImage *image = [self handleImage];
+        [self showMLImageCropView:image];
+        return;
+    }
     _selectPhotos = photos;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
-    BXTRemarksTableViewCell *cell = (BXTRemarksTableViewCell *)[_currentTableView cellForRowAtIndexPath:indexPath];
+    BXTRemarksTableViewCell *cell;
+    if (_remarkCell)
+    {
+        cell = _remarkCell;
+    }
+    else
+    {
+        cell = (BXTRemarksTableViewCell *)[_currentTableView cellForRowAtIndexPath:_indexPath];
+    }
     if (photos.count == 1)
     {
         [self resetCell:cell];
@@ -357,6 +438,26 @@
 {
     MWPhoto *photo = self.mwPhotosArray[index];
     return photo;
+}
+
+#pragma mark -
+#pragma mark MLImageCropDelegate
+- (void)cropImage:(UIImage*)cropImage forOriginalImage:(UIImage*)originalImage
+{
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request uploadHeaderImage:cropImage];
+}
+
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    
+}
+
+- (void)requestError:(NSError *)error
+{
+    
 }
 
 - (void)didReceiveMemoryWarning

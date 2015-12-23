@@ -13,25 +13,19 @@
 #import "BXTLoginViewController.h"
 #import "AppDelegate.h"
 #import "BXTPostionInfo.h"
-#import "HySideScrollingImagePicker.h"
-#import "MWPhotoBrowser.h"
-#import "MWPhoto.h"
 #import "BXTDataRequest.h"
 #import "UIImageView+WebCache.h"
-#import "LocalPhotoViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 #import "BXTHeadquartersInfo.h"
 #import "ANKeyValueTable.h"
-#import "MLImageCrop.h"
 #import "BXTHeadquartersViewController.h"
 #import "BXTChangePassWordViewController.h"
 
 static NSString *settingCellIndentify = @"settingCellIndentify";
 
-@interface BXTSettingViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,MWPhotoBrowserDelegate,SelectPhotoDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,MLImageCropDelegate>
+@interface BXTSettingViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
     UITableView    *currentTableView;
-    NSMutableArray *selectPhotos;
     NSString       *verify_state;
     NSString       *checks_user;
     NSString       *checks_user_department;
@@ -40,7 +34,6 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     NSDictionary   *checkUserDic;
 }
 
-@property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
 @property (nonatomic, strong) NSString *checks_phone;
 
 @end
@@ -57,7 +50,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     [super viewDidLoad];
     
     [BXTGlobal shareGlobal].maxPics = 1;
-    selectPhotos = [NSMutableArray array];
+    self.isSettingVC = YES;
+    self.selectPhotos = [NSMutableArray array];
     [self navigationSetting:@"设置" andRightTitle:nil andRightImage:nil];
     [self initContentViews];
     //获取用户信息
@@ -82,128 +76,6 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     currentTableView.dataSource = self;
     currentTableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:currentTableView];
-}
-
-#pragma mark -
-#pragma mark 事件处理
-- (void)addImages
-{
-    HySideScrollingImagePicker *hy = [[HySideScrollingImagePicker alloc] initWithCancelStr:@"取消" otherButtonTitles:@[@"拍摄",@"从相册选择"]];
-    hy.isMultipleSelection = NO;
-    hy.isSinglePicture = YES;
-    hy.SeletedImages = ^(NSArray *GetImages, NSInteger Buttonindex){
-        switch (Buttonindex) {
-            case 1:
-            {
-                if (GetImages.count != 0)
-                {
-                    [selectPhotos removeAllObjects];
-                    //取原图
-                    [selectPhotos addObjectsFromArray:GetImages];
-                    [self handleImage];
-                    UIImage *image = [self handleImage];
-                    [self showMLImageCropView:image];
-                }
-                else
-                {
-                    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-                    if (authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied)
-                    {
-                        if (IS_IOS_8)
-                        {
-                            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"无法启动相机" message:@"请为报修通开放相机权限：手机设置->隐私->相机->报修通（打开）" preferredStyle:UIAlertControllerStyleAlert];
-                            UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-                            [alertCtr addAction:alertAction];
-                            [self presentViewController:alertCtr animated:YES completion:nil];
-                        }
-                        else
-                        {
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法启动相机"
-                                                                            message:@"请为报修通开放相机权限：手机设置->隐私->相机->报修通（打开）"
-                                                                           delegate:nil
-                                                                  cancelButtonTitle:@"确定"
-                                                                  otherButtonTitles:nil];
-                            [alert show];
-                        }
-                    }
-                    else
-                    {
-                        [self selectCamenaType:UIImagePickerControllerSourceTypeCamera];
-                    }
-                }
-            }
-                break;
-            case 2:
-            {
-                LocalPhotoViewController *pick=[[LocalPhotoViewController alloc] init];
-                pick.selectPhotoDelegate = self;
-                pick.selectPhotos = selectPhotos;
-                pick.isSinglePicture = YES;
-                [self.navigationController pushViewController:pick animated:YES];
-            }
-                break;
-            default:
-                break;
-        }
-    };
-    
-    [self.view addSubview:hy];
-}
-
-- (UIImage *)handleImage
-{
-    id obj = [selectPhotos objectAtIndex:0];
-    UIImage *newImage = nil;
-    if ([obj isKindOfClass:[UIImage class]])
-    {
-        UIImage *tempImg = (UIImage *)obj;
-        newImage = tempImg;
-    }
-    else
-    {
-        ALAsset *asset = (ALAsset *)obj;
-        ALAssetRepresentation *representation = [asset defaultRepresentation];
-        CGImageRef posterImageRef = [representation fullScreenImage];
-        UIImage *posterImage = [UIImage imageWithCGImage:posterImageRef scale:[representation scale] orientation:UIImageOrientationUp];
-        newImage = posterImage;
-    }
-    return newImage;
-}
-
-//有的图片在Ipad的情况下
-- (void)loadImageFromAssertByUrl:(NSURL *)url completion:(void (^)(UIImage *))completion{
-    
-    __block UIImage* img;
-    
-    ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
-    
-    [assetLibrary assetForURL:url resultBlock:^(ALAsset *asset)
-     {
-         ALAssetRepresentation *rep = [asset defaultRepresentation];
-         Byte *buffer = (Byte*)malloc((unsigned long)rep.size);
-         NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:(unsigned int)rep.size error:nil];
-         NSData *data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-         img = [UIImage imageWithData:data];
-         completion(img);
-     } failureBlock:^(NSError *err) {
-         NSLog(@"Error: %@",[err localizedDescription]);
-     }];
-}
-
-- (void)selectCamenaType:(NSInteger)sourceType
-{
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    imagePickerController.delegate = self;
-    imagePickerController.sourceType = sourceType;
-    
-    if (sourceType == UIImagePickerControllerSourceTypeCamera)
-    {
-        imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
-        //设置相机支持的类型，拍照和录像
-        imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-    }
-    [self.view.window.rootViewController presentViewController:imagePickerController animated:YES completion:nil];
 }
 
 - (void)contactTa
@@ -612,79 +484,6 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 }
 
 #pragma mark -
-#pragma mark UIImagePickerControllerDelegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    __block UIImage *headImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    
-    if (headImage != nil)
-    {
-        headImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-        __weak BXTSettingViewController *weakSelf = self;
-        [picker dismissViewControllerAnimated:YES completion:^{
-            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-            [selectPhotos addObject:headImage];
-            UIImage *image = [self handleImage];
-            [weakSelf showMLImageCropView:image];
-        }];
-    }
-    else
-    {
-        NSURL *path = [info objectForKey:UIImagePickerControllerReferenceURL];
-        
-        [self loadImageFromAssertByUrl:path completion:^(UIImage * img)
-         {
-             __weak BXTSettingViewController *weakSelf = self;
-             [picker dismissViewControllerAnimated:YES completion:^{
-                 [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-                 [selectPhotos addObject:img];
-                 UIImage *image = [self handleImage];
-                 [weakSelf showMLImageCropView:image];
-             }];
-         }];
-    }
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissViewControllerAnimated:YES completion:^{
-        picker.delegate = nil;
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    }];
-}
-
-#pragma mark -
-#pragma mark SelectPhotoDelegate
-- (void)getSelectedPhoto:(NSMutableArray *)photos
-{
-    selectPhotos = photos;
-    UIImage *image = [self handleImage];
-    [self showMLImageCropView:image];
-}
-
-- (void)showMLImageCropView:(UIImage *)image
-{
-    MLImageCrop *imageCrop = [[MLImageCrop alloc]init];
-    imageCrop.delegate = self;
-    imageCrop.ratioOfWidthAndHeight = 1.f;
-    imageCrop.image = image;
-    [imageCrop showWithAnimation:YES];
-}
-
-#pragma mark -
-#pragma mark MWPhotoBrowserDelegate
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
-{
-    return self.mwPhotosArray.count;
-}
-
-- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
-{
-    MWPhoto *photo = self.mwPhotosArray[index];
-    return photo;
-}
-
-#pragma mark -
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
@@ -718,24 +517,12 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         }
     }
     
-    if (type == LoginType) {
-        
-    }
-    
     [currentTableView reloadData];
 }
 
 - (void)requestError:(NSError *)error
 {
-    
-}
-
-#pragma mark -
-#pragma mark crop delegate
-- (void)cropImage:(UIImage*)cropImage forOriginalImage:(UIImage*)originalImage
-{
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request uploadHeaderImage:cropImage];
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning
