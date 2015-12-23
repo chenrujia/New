@@ -10,8 +10,8 @@
 
 @interface BXTStatisticsCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *titleView;
-@property (weak, nonatomic) IBOutlet UILabel *detailView;
+@property (weak, nonatomic) IBOutlet UILabel     *titleView;
+@property (weak, nonatomic) IBOutlet UILabel     *detailView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView1;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView2;
 

@@ -26,19 +26,20 @@
     UITableView       *currentTableView;
     BXTSelectBoxView  *boxView;
     NSArray           *comeTimeArray;
-    NSString          *orderID;
     NSInteger         selectTag;
     BXTAreaInfo       *selectArea;
     BXTFaultTypeInfo  *selectFaultType;
     BXTDepartmentInfo *selectDepartment;
     NSString          *repairBeginTime;
     NSString          *repairEndTime;
-    
-    UIView            *bgView;
-    UIDatePicker      *datePicker;
     NSDate            *originDate;
-    NSTimeInterval    timeInterval;
 }
+
+@property (nonatomic, strong) UIView         *bgView;
+@property (nonatomic, strong) NSString       *orderID;
+@property (nonatomic, strong) UIDatePicker   *datePicker;
+@property (nonatomic, assign) NSTimeInterval timeInterval;
+
 @end
 
 @implementation BXTReaciveOrdersViewController
@@ -87,6 +88,80 @@
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     [self.view addSubview:currentTableView];
+}
+
+- (void)createDatePicker
+{
+    self.bgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    _bgView.tag = 101;
+    [self.view addSubview:_bgView];
+    
+    originDate = [NSDate date];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
+    titleLabel.backgroundColor = colorWithHexString(@"ffffff");
+    titleLabel.text = @"请选择到达时间";
+    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [_bgView addSubview:titleLabel];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
+    line.backgroundColor = colorWithHexString(@"e2e6e8");
+    [_bgView addSubview:line];
+    
+    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
+    _datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    _datePicker.backgroundColor = colorWithHexString(@"ffffff");
+    _datePicker.minimumDate = [NSDate date];
+    _datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    @weakify(self);
+    [[_datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+        @strongify(self);
+        // 获取分钟数
+        self.timeInterval = [self.datePicker.date timeIntervalSince1970];
+    }];
+    [_bgView addSubview:_datePicker];
+    
+    
+    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
+    toolView.backgroundColor = colorWithHexString(@"ffffff");
+    [_bgView addSubview:toolView];
+    // sure
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 50)];
+    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self showLoadingMBP:@"请稍候..."];
+        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)self.timeInterval];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
+        NSArray *users = @[userID];
+        [request reaciveOrderID:self.orderID
+                    arrivalTime:timeStr
+                      andUserID:userID
+                       andUsers:users
+                      andIsGrad:NO];
+        self.datePicker = nil;
+        [self.bgView removeFromSuperview];
+    }];
+    sureBtn.tag = 10001;
+    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    sureBtn.layer.borderWidth = 0.5;
+    [toolView addSubview:sureBtn];
+    // cancel
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 50)];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        self.datePicker = nil;
+        [self.bgView removeFromSuperview];
+    }];
+    cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    cancelBtn.layer.borderWidth = 0.5;
+    cancelBtn.tag = 10002;
+    [toolView addSubview:cancelBtn];
 }
 
 #pragma mark -
@@ -142,7 +217,7 @@
 {
     selectTag = btn.tag;
     BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:btn.tag];
-    orderID = [NSString stringWithFormat:@"%ld",(long)repairInfo.repairID];
+    _orderID = [NSString stringWithFormat:@"%ld",(long)repairInfo.repairID];
     UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
     backView.backgroundColor = [UIColor blackColor];
     backView.alpha = 0.6f;
@@ -174,10 +249,7 @@
 }
 
 #pragma mark -
-#pragma mark 代理
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -186,7 +258,7 @@
     }
     return 10.f;//section头部高度
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -198,12 +270,12 @@
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5.f)];
@@ -273,9 +345,8 @@
     [self.navigationController pushViewController:repairDetailVC animated:YES];
 }
 
-/**
- *  DOPDropDownMenuDataSource & DOPDropDownMenuDelegate
- */
+#pragma mark -
+#pragma mark DOPDropDownMenuDataSource & DOPDropDownMenuDelegate
 - (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu
 {
     return 4;
@@ -455,9 +526,8 @@
              andFaultType:fault_type_id];
 }
 
-/**
- *  请求返回代理
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
@@ -557,16 +627,18 @@
     [self hideMBP];
 }
 
+#pragma mark -
+#pragma mark Touch
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
     UIView *view = touch.view;
     if (view.tag == 101)
     {
-        if (datePicker)
+        if (_datePicker)
         {
-            [datePicker removeFromSuperview];
-            datePicker = nil;
+            [_datePicker removeFromSuperview];
+            _datePicker = nil;
             [currentTableView reloadData];
         } else {
             [UIView animateWithDuration:0.3f animations:^{
@@ -578,6 +650,8 @@
     }
 }
 
+#pragma mark -
+#pragma mark BXTBoxSelectedTitleDelegate
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
 {
     UIView *view = [self.view viewWithTag:101];
@@ -601,90 +675,12 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
         NSArray *users = @[userID];
-        [request reaciveOrderID:orderID
+        [request reaciveOrderID:_orderID
                     arrivalTime:timeStr
                       andUserID:userID
                        andUsers:users
                       andIsGrad:NO];
     }
-}
-
-#pragma mark -
-#pragma mark - UIDatePicker
-- (void)createDatePicker
-{
-    bgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
-    bgView.tag = 101;
-    [self.view addSubview:bgView];
-    
-    originDate = [NSDate date];
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
-    titleLabel.backgroundColor = colorWithHexString(@"ffffff");
-    titleLabel.text = @"请选择到达时间";
-    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [bgView addSubview:titleLabel];
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
-    line.backgroundColor = colorWithHexString(@"e2e6e8");
-    [bgView addSubview:line];
-    
-    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
-    datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
-    datePicker.backgroundColor = colorWithHexString(@"ffffff");
-    datePicker.minimumDate = [NSDate date];
-    datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-    [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
-    [bgView addSubview:datePicker];
-    
-    
-    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
-    toolView.backgroundColor = colorWithHexString(@"ffffff");
-    [bgView addSubview:toolView];
-    // sure
-    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 50)];
-    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [sureBtn addTarget:self action:@selector(datePickerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    sureBtn.tag = 10001;
-    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    sureBtn.layer.borderWidth = 0.5;
-    [toolView addSubview:sureBtn];
-    // cancel
-    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 50)];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [cancelBtn addTarget:self action:@selector(datePickerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    cancelBtn.layer.borderWidth = 0.5;
-    cancelBtn.tag = 10002;
-    [toolView addSubview:cancelBtn];
-}
-
-- (void)dateChange:(UIDatePicker *)picker
-{
-    // 获取分钟数
-    timeInterval = [picker.date timeIntervalSince1970];
-}
-
-- (void)datePickerBtnClick:(UIButton *)button
-{
-    if (button.tag == 10001)
-    {
-        [self showLoadingMBP:@"请稍候..."];
-        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        NSArray *users = @[userID];
-        [request reaciveOrderID:orderID
-                    arrivalTime:timeStr
-                      andUserID:userID
-                       andUsers:users
-                      andIsGrad:NO];
-    }
-    datePicker = nil;
-    [bgView removeFromSuperview];
 }
 
 - (void)didReceiveMemoryWarning

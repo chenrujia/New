@@ -11,7 +11,6 @@
 
 @interface BXTHomeViewController : BXTBaseViewController <UICollectionViewDataSource,UICollectionViewDelegate,RCIMUserInfoDataSource>
 {
-    UICollectionView *itemsCollectionView;
     NSMutableArray   *imgNameArray;
     NSMutableArray   *titleNameArray;
     UILabel          *shop_label;
@@ -20,6 +19,8 @@
     NSMutableArray   *datasource;
     UIImageView      *logoImgView;
 }
+
+@property (nonatomic, strong) UICollectionView *itemsCollectionView;
 
 - (void)createLogoView;
 - (void)repairClick;

@@ -424,7 +424,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
                 }
                 else
                 {
-                    cell.titleLabel.text = @"商   铺";
+                    cell.titleLabel.text = @"地   点";
                     BXTShopInfo *shopInfo = [BXTGlobal getUserProperty:U_SHOP];
                     cell.detailLable.text = shopInfo.stores_name;
                 }

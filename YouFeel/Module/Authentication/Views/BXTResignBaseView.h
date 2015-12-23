@@ -21,18 +21,18 @@ typedef NS_ENUM(NSInteger, ViewType) {
     PropertyType
 };
 
-@interface BXTResignBaseView : UIView <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,MBProgressHUDDelegate>
+@interface BXTResignBaseView : UIView <UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,MBProgressHUDDelegate>
 {
-    NSInteger indexRow;
-    NSInteger currentRow;
+    NSInteger        indexRow;
+    NSInteger        currentRow;
     BXTSelectBoxView *boxView;
-    NSMutableArray *departmentArray;
-    NSMutableArray *positionArray;
-    NSMutableArray *groupArray;
+    NSMutableArray   *departmentArray;
+    NSMutableArray   *positionArray;
+    NSMutableArray   *groupArray;
 }
 
 @property (nonatomic, strong) UITableView *currentTableView;
-@property (nonatomic, assign) ViewType viewType;
+@property (nonatomic, assign) ViewType    viewType;
 
 - (instancetype)initWithFrame:(CGRect)frame andViewType:(ViewType)type;
 

@@ -43,14 +43,14 @@
     
     imageArray = @[@"MessageIcon",@"TicketIcon",@"NotificationIcon",@"WarningIcon"];
     newsType = @[@"系统消息",@"工单消息",@"通知",@"预警"];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     // 入栈传值，出栈更新
-    if (self.isPopVC) {
+    if (self.isPopVC)
+    {
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request messageList];
     }
@@ -71,7 +71,7 @@
 }
 
 #pragma mark -
-#pragma mark 代理
+#pragma mark UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -166,6 +166,8 @@
     }
 }
 
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;

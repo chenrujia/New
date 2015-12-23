@@ -265,8 +265,6 @@
 }
 
 #pragma mark -
-#pragma mark 代理事件
-#pragma mark -
 #pragma mark DOPDropDownMenuDataSource && DOPDropDownMenuDelegate
 - (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
 {
@@ -301,7 +299,6 @@
 
 #pragma mark -
 #pragma mark UITableViewDatasource && UITableViewDelegate
-//section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -310,7 +307,7 @@
     }
     return 10.f;//section头部高度
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -322,12 +319,12 @@
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5.f)];

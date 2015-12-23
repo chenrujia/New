@@ -12,6 +12,6 @@
 @interface BXTHaveEvaluationView : UIView<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
     NSMutableArray *datasource;
-    UITableView *currentTable;
+    UITableView    *currentTable;
 }
 @end

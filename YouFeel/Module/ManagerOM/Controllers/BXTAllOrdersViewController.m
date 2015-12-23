@@ -15,10 +15,8 @@
 {
     BXTManagerOMView *omView;
     UIView           *alertBackView;
-    UIButton         *startTime;
-    UIButton         *endTime;
-    NSString         *startStr;//开始时间戳
-    NSString         *endStr;//结束时间戳
+    
+    
     NSArray          *orderTypeName;
     NSMutableArray   *groupArray;
     NSMutableArray   *selectGroups;
@@ -26,11 +24,18 @@
     UILabel          *groupsLabel;
     UILabel          *orderTypeLabel;
     NSInteger        selectOrderIndex;
-    UIDatePicker     *datePicker;
-    BOOL             isStart;
     NSString         *selectOT;
     CGFloat          alertHeight;
 }
+
+@property (nonatomic, assign) BOOL             isStart;
+@property (nonatomic, strong) UIDatePicker     *datePicker;
+@property (nonatomic, strong) UIButton         *startTime;
+@property (nonatomic, strong) UIButton         *endTime;
+@property (nonatomic, strong) NSString         *startStr;//开始时间戳
+@property (nonatomic, strong) NSString         *endStr;//结束时间戳
+
+
 @end
 
 @implementation BXTAllOrdersViewController
@@ -50,8 +55,8 @@
     {
         alertHeight = 360.f;
     }
-    startStr = @"";
-    endStr = @"";
+    _startStr = @"";
+    _endStr = @"";
     selectOT = @"";
     orderTypeName = @[@"未完成",@"已完成",@"特殊工单"];
     groupArray = [NSMutableArray array];
@@ -153,33 +158,56 @@
         timeAange.text = @"时间范围";
         [timeRangeBack addSubview:timeAange];
         
-        startTime = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        startTime.tag = 1;
-        [startTime setFrame:CGRectMake(SCREEN_WIDTH - 105.f - 100.f - 15.f, (line_y - 44)/2.f, 105, 44)];
-        [startTime setBackgroundColor:colorWithHexString(@"ffffff")];
-        startTime.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-        [startTime setTitle:@"开始时间" forState:UIControlStateNormal];
-        [startTime setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-        [startTime addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [timeRangeBack addSubview:startTime];
+        self.startTime = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _startTime.tag = 1;
+        [_startTime setFrame:CGRectMake(SCREEN_WIDTH - 105.f - 100.f - 15.f, (line_y - 44)/2.f, 105, 44)];
+        [_startTime setBackgroundColor:colorWithHexString(@"ffffff")];
+        _startTime.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+        [_startTime setTitle:@"开始时间" forState:UIControlStateNormal];
+        [_startTime setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+        @weakify(self);
+        [[_startTime rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            self.isStart = YES;
+            self.datePicker.maximumDate = self.datePicker.date;
+            self.datePicker.minimumDate = nil;
+        }];
+        [timeRangeBack addSubview:_startTime];
         
-        endTime = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        endTime.tag = 0;
-        [endTime setFrame:CGRectMake(CGRectGetMaxX(startTime.frame), (line_y - 44)/2.f, 100, 44)];
-        [endTime setBackgroundColor:colorWithHexString(@"ffffff")];
-        endTime.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-        [endTime setTitle:@"结束时间" forState:UIControlStateNormal];
-        [endTime setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-        [endTime addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [timeRangeBack addSubview:endTime];
+        self.endTime = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _endTime.tag = 0;
+        [_endTime setFrame:CGRectMake(CGRectGetMaxX(_startTime.frame), (line_y - 44)/2.f, 100, 44)];
+        [_endTime setBackgroundColor:colorWithHexString(@"ffffff")];
+        _endTime.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+        [_endTime setTitle:@"结束时间" forState:UIControlStateNormal];
+        [_endTime setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+        [[_endTime rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            self.isStart = NO;
+            self.datePicker.maximumDate = nil;
+            self.datePicker.minimumDate = self.datePicker.date;
+        }];
+        [timeRangeBack addSubview:_endTime];
         
-        datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView.frame), SCREEN_WIDTH, 216)];
-        datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
-        datePicker.backgroundColor = colorWithHexString(@"ffffff");
-        datePicker.datePickerMode = UIDatePickerModeDate;
-        NSLog(@"%@",[[NSDate date] description]);
-        [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
-        [timeRangeBack addSubview:datePicker];
+        self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView.frame), SCREEN_WIDTH, 216)];
+        _datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+        _datePicker.backgroundColor = colorWithHexString(@"ffffff");
+        _datePicker.datePickerMode = UIDatePickerModeDate;
+        [[_datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+            @strongify(self);
+            NSString *dateStr = [BXTGlobal transTimeWithDate:self.datePicker.date withType:@"yyyy/MM/dd"];
+            if (self.isStart)
+            {
+                [self.startTime setTitle:[NSString stringWithFormat:@"%@ -",dateStr] forState:UIControlStateNormal];
+                self.startStr = [NSString stringWithFormat:@"%.0f",self.datePicker.date.timeIntervalSince1970];
+            }
+            else
+            {
+                [self.endTime setTitle:dateStr forState:UIControlStateNormal];
+                self.endStr = [NSString stringWithFormat:@"%.0f",self.datePicker.date.timeIntervalSince1970 + 86399];
+            }
+        }];
+        [timeRangeBack addSubview:_datePicker];
 
         //专业分组白色背景图
         NSInteger row = floor(groupArray.count/4.f);
@@ -289,37 +317,6 @@
     }];
 }
 
-- (void)buttonClick:(UIButton *)btn
-{
-    if (btn.tag)
-    {
-        isStart = YES;
-        datePicker.maximumDate = datePicker.date;
-        datePicker.minimumDate = nil;
-    }
-    else
-    {
-        isStart = NO;
-        datePicker.maximumDate = nil;
-        datePicker.minimumDate = datePicker.date;
-    }
-}
-
-- (void)dateChange:(UIDatePicker *)picker
-{
-    NSString *dateStr = [BXTGlobal transTimeWithDate:picker.date withType:@"yyyy/MM/dd"];
-    if (isStart)
-    {
-        [startTime setTitle:[NSString stringWithFormat:@"%@ -",dateStr] forState:UIControlStateNormal];
-        startStr = [NSString stringWithFormat:@"%.0f",picker.date.timeIntervalSince1970];
-    }
-    else
-    {
-        [endTime setTitle:dateStr forState:UIControlStateNormal];
-        endStr = [NSString stringWithFormat:@"%.0f",picker.date.timeIntervalSince1970 + 86399];
-    }
-}
-
 - (void)groupClick:(UIButton *)button
 {
     BXTGroupInfo *groupInfo = groupArray[button.tag];
@@ -386,8 +383,8 @@
     {
         [groupsArray addObject:groupInfo.group_id];
     }
-    [omView reloadAllType:startStr
-               andEndTime:endStr
+    [omView reloadAllType:_startStr
+               andEndTime:_endStr
                 andGourps:groupsArray
               andSelectOT:selectOT];
     
@@ -402,7 +399,7 @@
 }
 
 #pragma mark -
-#pragma mark 代理
+#pragma mark Touch
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
@@ -447,7 +444,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

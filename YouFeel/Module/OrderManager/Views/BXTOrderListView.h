@@ -16,17 +16,17 @@ typedef NS_ENUM(NSInteger, RefreshType) {
 
 @interface BXTOrderListView : UIView <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 {
-    NSMutableArray   *repairListArray;
-    UITableView      *currentTableView;
     NSInteger        currentPage;
     NSInteger        selectTag;
     RefreshType      refreshType;
 }
 
-@property (nonatomic ,strong) NSString *isReacive;
-@property (nonatomic ,strong) NSString *repairState;
-@property (nonatomic ,assign) CGFloat startPointY;
-@property (nonatomic ,assign) BOOL isRequesting;
+@property (nonatomic, strong) NSMutableArray *repairListArray;
+@property (nonatomic, strong) UITableView    *currentTableView;
+@property (nonatomic ,strong) NSString       *isReacive;
+@property (nonatomic ,strong) NSString       *repairState;
+@property (nonatomic ,assign) CGFloat        startPointY;
+@property (nonatomic ,assign) BOOL           isRequesting;
 
 - (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andRepairerIsReacive:(NSString *)reacive;
 

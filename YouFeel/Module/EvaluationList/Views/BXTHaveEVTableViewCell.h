@@ -14,7 +14,7 @@
 @property (nonatomic ,strong) UILabel *repairID;
 @property (nonatomic ,strong) UILabel *place;
 @property (nonatomic ,strong) UILabel *cause;
-@property (nonatomic ,strong) AMRatingControl *ratingControl;
 @property (nonatomic ,strong) UILabel *notes;
+@property (nonatomic ,strong) AMRatingControl *ratingControl;
 
 @end

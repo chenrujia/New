@@ -28,17 +28,16 @@
 
 @implementation BXTStatisticsViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    
     [self navigationSetting:@"业务统计" andRightTitle:nil andRightImage:[UIImage imageNamed:@"w_small_round"]];
     
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"维修完成率统计", @"专业分组统计", @"故障发生率统计", @"维修员工作量统计", @"维修评价统计",nil];
     self.imageArray1 = [[NSMutableArray alloc] init];
     self.imageArray2 = [[NSMutableArray alloc] init];
-    for (int i=1; i<=5; i++) {
+    for (int i=1; i<=5; i++)
+    {
         [self.imageArray1 addObject:[NSString stringWithFormat:@"Statistics_%d", i]];
         [self.imageArray2 addObject:[NSString stringWithFormat:@"Round_%d", i]];
     }
@@ -47,7 +46,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    
 }
 
 - (void)navigationRightButton
@@ -58,15 +56,18 @@
 
 #pragma mark -
 #pragma mark - tableView代理方法
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return self.dataArray.count;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *cellID = @"cell";
     BXTStatisticsCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
@@ -81,7 +82,8 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     BXTCompletionViewController *clvc = [[BXTCompletionViewController alloc] init];
     BXTProfessionViewController *pfvc = [[BXTProfessionViewController alloc] init];
     BXTIncidenceViewController *idvc = [[BXTIncidenceViewController alloc] init];
@@ -100,20 +102,23 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 110;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
     return 0.1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
     return 12.5;
 }
 
-
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

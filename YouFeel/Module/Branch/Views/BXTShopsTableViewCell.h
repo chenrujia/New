@@ -10,7 +10,7 @@
 
 @interface BXTShopsTableViewCell : UITableViewCell
 
-@property (nonatomic ,strong) UILabel *titleLabel;
+@property (nonatomic ,strong) UILabel     *titleLabel;
 @property (nonatomic ,strong) UIImageView *checkImgView;
 
 @end

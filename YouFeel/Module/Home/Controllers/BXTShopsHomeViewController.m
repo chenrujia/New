@@ -88,7 +88,7 @@
 }
 
 #pragma mark -
-#pragma mark 代理
+#pragma mark UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];

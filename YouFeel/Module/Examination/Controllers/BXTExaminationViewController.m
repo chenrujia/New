@@ -26,7 +26,6 @@
     [super viewDidLoad];
     
     [self navigationSetting:@"审批" andRightTitle:nil andRightImage:nil];
-//    [self createDOP];
     [self createImageView];
 }
 
@@ -68,27 +67,26 @@
     imageView.center = CGPointMake(SCREEN_WIDTH/2.f, imageView.center.y);
     [self.view addSubview:imageView];
     
-    UIButton *quitOut = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    quitOut.frame = CGRectMake(20,CGRectGetMaxY(imageView.frame) + 40, SCREEN_WIDTH - 40, 50.f);
-    [quitOut setTitle:@"立即开通" forState:UIControlStateNormal];
-    [quitOut setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    [quitOut setBackgroundColor:colorWithHexString(@"3cafff")];
-    quitOut.layer.masksToBounds = YES;
-    quitOut.layer.cornerRadius = 6.f;
-    [quitOut addTarget:self action:@selector(quitOutClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:quitOut];
-}
-
-- (void)quitOutClick
-{
-    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", @"4008937878"];
-    UIWebView *callWeb = [[UIWebView alloc] init];
-    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-    [self.view addSubview:callWeb];
+    UIButton *openBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    openBtn.frame = CGRectMake(20,CGRectGetMaxY(imageView.frame) + 40, SCREEN_WIDTH - 40, 50.f);
+    [openBtn setTitle:@"立即开通" forState:UIControlStateNormal];
+    [openBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    [openBtn setBackgroundColor:colorWithHexString(@"3cafff")];
+    openBtn.layer.masksToBounds = YES;
+    openBtn.layer.cornerRadius = 6.f;
+    @weakify(self);
+    [[openBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", @"4008937878"];
+        UIWebView *callWeb = [[UIWebView alloc] init];
+        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+        [self.view addSubview:callWeb];
+    }];
+    [self.view addSubview:openBtn];
 }
 
 #pragma mark -
-#pragma mark 代理
+#pragma mark DOPDropDownMenuDataSource
 - (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu
 {
     return 2;

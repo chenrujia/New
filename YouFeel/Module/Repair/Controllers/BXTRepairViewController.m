@@ -16,12 +16,12 @@
 #import "BXTRepairTableViewCell.h"
 #import "BXTRepairDetailViewController.h"
 
-@interface BXTRepairViewController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,BXTDataResponseDelegate>
+@interface BXTRepairViewController () <UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,BXTDataResponseDelegate>
 {
-    UITableView *currentTableView;
+    UITableView    *currentTableView;
     NSMutableArray *repairListArray;
-    NSInteger selectIndex;
-    NSInteger currentPage;
+    NSInteger      selectIndex;
+    NSInteger      currentPage;
 }
 
 @property (nonatomic ,assign) RepairVCType repairVCType;
@@ -102,7 +102,20 @@
     newBtn.layer.masksToBounds = YES;
     newBtn.layer.cornerRadius = 4.f;
     newBtn.backgroundColor = colorWithHexString(@"ffffff");
-    [newBtn addTarget:self action:@selector(newRepairClick) forControlEvents:UIControlEventTouchUpInside];
+    @weakify(self);
+    [[newBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        if (self.repairVCType == ShopsVCType)
+        {
+            BXTWorkOderViewController *workOderVC = [[BXTWorkOderViewController alloc] init];
+            [self.navigationController pushViewController:workOderVC animated:YES];
+        }
+        else
+        {
+            BXTRepairWordOrderViewController *workOderVC = [[BXTRepairWordOrderViewController alloc] init];
+            [self.navigationController pushViewController:workOderVC animated:YES];
+        }
+    }];
     [backView addSubview:newBtn];
     
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 21.f, 21.f)];
@@ -155,20 +168,6 @@
     _isRequesting = YES;
 }
 
-- (void)newRepairClick
-{
-    if (_repairVCType == ShopsVCType)
-    {
-        BXTWorkOderViewController *workOderVC = [[BXTWorkOderViewController alloc] init];
-        [self.navigationController pushViewController:workOderVC animated:YES];
-    }
-    else
-    {
-        BXTRepairWordOrderViewController *workOderVC = [[BXTRepairWordOrderViewController alloc] init];
-        [self.navigationController pushViewController:workOderVC animated:YES];
-    }
-}
-
 - (void)cancelRepair:(UIButton *)btn
 {
     selectIndex = btn.tag;
@@ -180,7 +179,9 @@
             UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"您确定要取消此工单?" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
             [alertCtr addAction:cancelAction];
+            @weakify(self);
             UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+                @strongify(self);
                 /**删除工单**/
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
@@ -192,9 +193,18 @@
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您确定要取消此工单?"
                                                             message:nil
-                                                           delegate:self
+                                                           delegate:nil
                                                   cancelButtonTitle:@"取消"
                                                   otherButtonTitles:@"确定",nil];
+            @weakify(self);
+            [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
+                @strongify(self);
+                if ([x integerValue] == 1)
+                {
+                    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                    [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+                }
+            }];
             [alert show];
         }
     }
@@ -205,10 +215,7 @@
 }
 
 #pragma mark -
-#pragma mark 代理
-/**
- *  UITableViewDelegate & UITableViewDatasource
- */
+#pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -217,7 +224,7 @@
     }
     return 10.f;//section头部高度
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -229,12 +236,12 @@
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5.f)];
@@ -322,17 +329,15 @@
     }
 }
 
-/**
- *  DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
- */
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIImage imageNamed:@"new_ticke_ticon"];
 }
 
-/**
- *  请求返回代理
- */
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];

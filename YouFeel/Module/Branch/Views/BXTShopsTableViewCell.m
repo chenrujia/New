@@ -18,14 +18,24 @@
     {
         self.backgroundColor = colorWithHexString(@"ffffff");
         
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 200.f, 30)];
-        _titleLabel.textColor = colorWithHexString(@"000000");
-        _titleLabel.font = [UIFont boldSystemFontOfSize:18.];
-        [self addSubview:_titleLabel];
+        self.titleLabel = ({
         
-        _checkImgView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 13.f - 20.f, 20, 13, 10)];
-        _checkImgView.image = [UIImage imageNamed:@"checktransparent"];
-        [self addSubview:_checkImgView];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 200.f, 30)];
+            label.textColor = colorWithHexString(@"000000");
+            label.font = [UIFont boldSystemFontOfSize:18.];
+            [self addSubview:label];
+            label;
+        
+        });
+        
+        self.checkImgView = ({
+        
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 13.f - 20.f, 20, 13, 10)];
+            imgView.image = [UIImage imageNamed:@"checktransparent"];
+            [self addSubview:imgView];
+            imgView;
+        
+        });
         
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, SCREEN_WIDTH, 0.5f)];
         lineView.backgroundColor = colorWithHexString(@"e2e6e8");
