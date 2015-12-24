@@ -66,6 +66,8 @@
 //  导航条高度
 #define KNAVIVIEWHEIGHT         ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? 64 : 44)
 
+#define KTABBARHEIGHT           44.f
+
 //  请求地址
 #define KURLREQUEST             @"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port"
 

@@ -64,16 +64,8 @@
     title_label.text = @"我的工单";
     
     [self addGrabAndAssignOrderNotifications];
-    imgNameArray = [NSMutableArray arrayWithObjects:@"grab_-one",
-                    @"repair",
-                    @"new",
-                    @"square_-bars",
-                    @"specialOrder",
-                    @"statistics",
-                    @"notices",
-                    @"list",
-                    @"round", nil];
-    titleNameArray = [NSMutableArray arrayWithObjects:@"抢单",@"报修",@"沟通记录",@"我的绩效",@"特殊工单",@"业务统计",@"消息",@"意见反馈",@"关于我们", nil];
+    self.imgNameArray = [NSMutableArray arrayWithObjects:@"My_Orders",@[@"Day_Order",@"Maintenance_Orders"],@"My_Achievements",@"Project_Phone",nil];
+    self.titleNameArray = [NSMutableArray arrayWithObjects:@"我的工单",@[@"日常工单",@"维保工单"],@"我的绩效",@"项目热线",nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -139,103 +131,35 @@
     }
 }
 
-#pragma mark -
-#pragma mark UICollectionViewDelegate
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
-    if (indexPath.row <= 6)
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0)
     {
-        if ([self is_verify])
+        // 我的工单
+        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
+        orderManagerVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:orderManagerVC animated:YES];
+    }
+    else if (indexPath.section == 1)
+    {
+        if (indexPath.row == 0)
         {
-            return;
+            
+        }
+        else
+        {
+            
         }
     }
-    switch (indexPath.row) {
-        case 0:
-        {
-            // 抢单
-            BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] init];
-            [self.navigationController pushViewController:reaciveVC animated:YES];
-        }
-            break;
-        case 1:
-        {
-            // 报修
-            BXTMMOrderManagerViewController *newOrderVC = [[BXTMMOrderManagerViewController alloc] init];
-            [self.navigationController pushViewController:newOrderVC animated:YES];
-        }
-            break;
-        case 2:
-        {
-            // 沟通记录
-            BXTChatListViewController *chatListViewController = [[BXTChatListViewController alloc]init];
-            [self.navigationController pushViewController:chatListViewController animated:YES];
-            self.navigationController.navigationBar.hidden = NO;
-        }
-            break;
-        case 3:
-        {
-            // 我的绩效
-            BXTAchievementsViewController *achievementVC = [[BXTAchievementsViewController alloc] init];
-            [self.navigationController pushViewController:achievementVC animated:YES];
-        }
-            break;
-        case 4:
-        {
-            if (![roleArray containsObject:@"116"])
-            {
-                [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
-                return;
-            }
-            // 特殊工单
-            BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
-            [self.navigationController pushViewController:serviceVC animated:YES];
-        }
-            break;
-        case 5:
-        {
-            if (![roleArray containsObject:@"114"])
-            {
-                [BXTGlobal showText:@"抱歉，您无查看权限" view:self.view completionBlock:nil];
-                return;
-            }
-            BXTStatisticsViewController *StatisticsVC = [[BXTStatisticsViewController alloc] init];
-            [self.navigationController pushViewController:StatisticsVC animated:YES];
-        }
-            break;
-        case 6:
-        {
-            // 消息
-            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
-            [self.navigationController pushViewController:messageVC animated:YES];
-        }
-            break;
-        case 7:
-        {
-            // 意见反馈
-            BXTFeedbackViewController *feedbackVC = [[BXTFeedbackViewController alloc] init];
-            [self.navigationController pushViewController:feedbackVC animated:YES];
-        }
-            break;
-        case 8:
-        {
-            // 关于我们
-            BXTAboutUsViewController *aboutVC = [[BXTAboutUsViewController alloc] init];
-            [self.navigationController pushViewController:aboutVC animated:YES];
-        }
-            break;
-        default:
-            break;
+    else if (indexPath.section == 2)
+    {
+        // 我的绩效
+        BXTAchievementsViewController *achievementVC = [[BXTAchievementsViewController alloc] init];
+        achievementVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:achievementVC animated:YES];
     }
-    
-    // 业务申请
-    //BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
-    //[self.navigationController pushViewController:examinationVC animated:YES];
-    
-    // 客服
-    //BXTCustomerServiceViewController *serviceVC = [[BXTCustomerServiceViewController alloc] init];
-    //[self.navigationController pushViewController:serviceVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

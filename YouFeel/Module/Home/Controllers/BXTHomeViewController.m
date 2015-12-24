@@ -11,8 +11,8 @@
 #import "BXTSettingViewController.h"
 #import "BXTHeaderFile.h"
 #import "BXTGroupInfo.h"
-#include <math.h>
 #import "BXTDataRequest.h"
+#import "BXTHomeTableViewCell.h"
 #import "BXTHeadquartersViewController.h"
 #import "BXTAuthorityListViewController.h"
 
@@ -92,7 +92,7 @@
         }
         else if ([str isEqualToString:@"2"])
         {
-            [self.itemsCollectionView reloadData];
+            [self.currentTableView reloadData];
         }
     }];
     
@@ -166,15 +166,12 @@
     title_label.font = [UIFont boldSystemFontOfSize:17.f];
     [logoImgView addSubview:title_label];
     
-    UICollectionViewFlowLayout *flowLayout= [[UICollectionViewFlowLayout alloc]init];
-    flowLayout.minimumLineSpacing = 0.f;
-    flowLayout.minimumInteritemSpacing = 0.f;
-    self.itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetHeight(logoImgView.frame)) collectionViewLayout:flowLayout];
-    _itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f5");
-    [_itemsCollectionView registerClass:[BXTHomeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
-    _itemsCollectionView.delegate = self;
-    _itemsCollectionView.dataSource = self;
-    [self.view addSubview:_itemsCollectionView];
+    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(logoImgView.frame) - KTABBARHEIGHT) style:UITableViewStyleGrouped];
+    [_currentTableView registerClass:[BXTHomeTableViewCell class] forCellReuseIdentifier:@"HomeCell"];
+    _currentTableView.delegate = self;
+    _currentTableView.dataSource = self;
+    _currentTableView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:_currentTableView];
 }
 
 - (void)loginRongCloud
@@ -200,63 +197,82 @@
 }
 
 #pragma mark -
-#pragma mark UICollectionViewDataSource && UICollectionViewDelegate
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+#pragma mark UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section == 0)
+    {
+        return 0.1f;//section头部高度
+    }
+    return 10.f;//section头部高度
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view;
+    if (section == 0)
+    {
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
+    }
+    view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 5.f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5.f)];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return RealValue(60.f);
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return [_titleNameArray count];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if ([BXTGlobal shareGlobal].isRepair && section == 1)
+    {
+        return 2;
+    }
     return 1;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 9;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    BXTHomeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
-    cell.backgroundColor = colorWithHexString(@"ffffff");
+    BXTHomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomeCell" forIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    UIImage *image = [UIImage imageNamed:imgNameArray[indexPath.row]];
-    cell.namelabel.text = titleNameArray[indexPath.row];
-    cell.iconImage = image;
-    if (indexPath.row == 6)
+    if ([BXTGlobal shareGlobal].isRepair && indexPath.section == 1)
     {
-        [cell newsRedNumber:unreadNumber];
-    }
-    else if (indexPath.row == 2)
-    {
-        [cell newsRedNumber:[[RCIMClient sharedRCIMClient] getTotalUnreadCount]];
+        NSArray *images = _imgNameArray[indexPath.section];
+        NSArray *titles = _titleNameArray[indexPath.section];
+        cell.logoImgView.image = [UIImage imageNamed:images[indexPath.row]];
+        cell.titleLabel.text = [titles objectAtIndex:indexPath.row];
     }
     else
     {
-        [cell newsRedNumber:0];
+        cell.logoImgView.image = [UIImage imageNamed:_imgNameArray[indexPath.section]];
+        cell.titleLabel.text = [_titleNameArray objectAtIndex:indexPath.section];
     }
     
     return cell;
 }
 
-//定义每个UICollectionView 的大小
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSInteger width = floor(SCREEN_WIDTH/3.f);
-    
-    if (IS_IPHONE6)
-    {
-        return CGSizeMake(width, collectionView.bounds.size.height/3.f);
-    }
-    else
-    {
-        if (indexPath.row%3 == 1)
-        {
-            return CGSizeMake(width + 2, 129);
-        }
-        return CGSizeMake(width, 129);
-    }
-}
-
-/**
- *此方法中要提供给融云用户的信息，建议缓存到本地，然后改方法每次从您的缓存返回
- */
+#pragma mark -
+#pragma mark RCIMUserInfoDataSource
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void(^)(RCUserInfo* userInfo))completion
 {
     //此处为了演示写了一个用户信息
@@ -342,7 +358,7 @@
         {
             [datasource addObjectsFromArray:array];
         }
-        [_itemsCollectionView reloadData];
+        [_currentTableView reloadData];
     }
 }
 

@@ -8,13 +8,9 @@
 
 #import "BXTBaseViewController.h"
 
-typedef NS_ENUM(NSInteger, BXTRefreshType) {
-    RefreshDown,
-    RefreshUp
-};
-
 @interface BXTMMOrderManagerViewController : BXTBaseViewController
 {
     BXTRefreshType      refreshType;
 }
+
 @end

@@ -17,7 +17,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self navigationSetting:@"通讯录" andRightTitle:nil andRightImage:nil];
 }
 
 - (void)didReceiveMemoryWarning

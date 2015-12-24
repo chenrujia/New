@@ -204,6 +204,9 @@
 		96C7F4131C2BC08500AD4C71 /* BXTUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F4121C2BC08500AD4C71 /* BXTUserInfo.m */; };
 		96C7F41F1C2BC1CD00AD4C71 /* BXTApplicationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F41E1C2BC1CD00AD4C71 /* BXTApplicationsViewController.m */; };
 		96C7F4221C2BC21200AD4C71 /* BXTMailListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F4211C2BC21200AD4C71 /* BXTMailListViewController.m */; };
+		96C7F4261C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F4251C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m */; };
+		96C7F4291C2BCBC500AD4C71 /* BXTRepairButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F4281C2BCBC500AD4C71 /* BXTRepairButton.m */; };
+		96C7F42C1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F42B1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.m */; };
 		96CEC8341BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8331BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m */; };
 		96CEC8371BD08C2300D03B1B /* BXTHaveEVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8361BD08C2300D03B1B /* BXTHaveEVTableViewCell.m */; };
 		96CEC83A1BD0945000D03B1B /* BXTNoneEVInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8391BD0945000D03B1B /* BXTNoneEVInfo.m */; };
@@ -619,6 +622,12 @@
 		96C7F41E1C2BC1CD00AD4C71 /* BXTApplicationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTApplicationsViewController.m; sourceTree = "<group>"; };
 		96C7F4201C2BC21200AD4C71 /* BXTMailListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailListViewController.h; sourceTree = "<group>"; };
 		96C7F4211C2BC21200AD4C71 /* BXTMailListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailListViewController.m; sourceTree = "<group>"; };
+		96C7F4241C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYLTabBarControllerConfig.h; sourceTree = "<group>"; };
+		96C7F4251C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYLTabBarControllerConfig.m; sourceTree = "<group>"; };
+		96C7F4271C2BCBC500AD4C71 /* BXTRepairButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairButton.h; sourceTree = "<group>"; };
+		96C7F4281C2BCBC500AD4C71 /* BXTRepairButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairButton.m; sourceTree = "<group>"; };
+		96C7F42A1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHomeTableViewCell.h; sourceTree = "<group>"; };
+		96C7F42B1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHomeTableViewCell.m; sourceTree = "<group>"; };
 		96CEC8321BD08C0F00D03B1B /* BXTNoneEVTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNoneEVTableViewCell.h; sourceTree = "<group>"; };
 		96CEC8331BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNoneEVTableViewCell.m; sourceTree = "<group>"; };
 		96CEC8351BD08C2300D03B1B /* BXTHaveEVTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHaveEVTableViewCell.h; sourceTree = "<group>"; };
@@ -1513,6 +1522,8 @@
 			children = (
 				960221D31BC9216300010072 /* BXTHomeCollectionViewCell.h */,
 				960221D41BC9216300010072 /* BXTHomeCollectionViewCell.m */,
+				96C7F42A1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.h */,
+				96C7F42B1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2635,6 +2646,7 @@
 		96C7F4141C2BC16900AD4C71 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
+				96C7F4231C2BC8BF00AD4C71 /* TabBarConfig */,
 				96C7F4151C2BC18C00AD4C71 /* Applications */,
 				960221A21BC9216300010072 /* Home */,
 				96C7F4191C2BC1A900AD4C71 /* MailList */,
@@ -2707,6 +2719,17 @@
 			children = (
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		96C7F4231C2BC8BF00AD4C71 /* TabBarConfig */ = {
+			isa = PBXGroup;
+			children = (
+				96C7F4271C2BCBC500AD4C71 /* BXTRepairButton.h */,
+				96C7F4281C2BCBC500AD4C71 /* BXTRepairButton.m */,
+				96C7F4241C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.h */,
+				96C7F4251C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m */,
+			);
+			path = TabBarConfig;
 			sourceTree = "<group>";
 		};
 		96CF3A821C0445E80055FC4B /* CrashManager */ = {
@@ -3011,6 +3034,7 @@
 				965B3A3E1C0C64290097CF7F /* BXTAllOrdersViewController.m in Sources */,
 				960222D71BC9216300010072 /* BXTMaintenanceManTableViewCell.m in Sources */,
 				7818DBEA1C0824D800DC22C6 /* PNScatterChartDataItem.m in Sources */,
+				96C7F4261C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m in Sources */,
 				969A424D1BCBD4DF0034FC84 /* RGCollectionViewCell.m in Sources */,
 				960222911BC9216300010072 /* BXTEvaluationViewController.m in Sources */,
 				780177161C1A5CCE0016D3F6 /* BXTAuthorityListViewController.m in Sources */,
@@ -3041,6 +3065,7 @@
 				9602228A1BC9216300010072 /* BXTGroupingInfo.m in Sources */,
 				7818DBD81C0824D800DC22C6 /* NSMutableArray+pieEx.m in Sources */,
 				960222891BC9216300010072 /* BXTDepartmentInfo.m in Sources */,
+				96C7F42C1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.m in Sources */,
 				9652AC351BC90EC9009A666D /* LocalPhotoViewController.m in Sources */,
 				9652AB461BC90791009A666D /* AssetHelper.m in Sources */,
 				966828B41BCFCDAD008D5818 /* BXTEvaluationListViewController.m in Sources */,
@@ -3058,6 +3083,7 @@
 				96AABA481BE078CD0071B6FA /* BXTChatListViewController.m in Sources */,
 				7818DBD91C0824D800DC22C6 /* PieElement.m in Sources */,
 				960221491BC9201400010072 /* UINavigationController+YRBackGesture.m in Sources */,
+				96C7F4291C2BCBC500AD4C71 /* BXTRepairButton.m in Sources */,
 				9654507C1BCE7C3300435AD1 /* BXTAchievementsInfo.m in Sources */,
 				964A1C151BD8899900FC1622 /* BXTMessageListViewController.m in Sources */,
 				9602230E1BC9216300010072 /* BXTFaultInfo.m in Sources */,

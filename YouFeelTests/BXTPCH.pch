@@ -12,6 +12,10 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <ReactiveCocoa/RACEXTScope.h>
 
-#define BXTRealValue(value) ((value)/414.0f*[UIScreen mainScreen].bounds.size.width)
+typedef NS_ENUM(NSInteger, BXTRefreshType) {
+    RefreshDown,
+    RefreshUp
+};
+#define RealValue(value) ((value)/414.0f*[UIScreen mainScreen].bounds.size.width)
 
 #endif /* BXTPCH_pch */
