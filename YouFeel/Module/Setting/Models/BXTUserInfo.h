@@ -37,15 +37,11 @@
 #define U_MYSHOP       @"my_shop"
 #define U_IMTOKEN      @"im_token"
 #define U_USERSARRAY   @"usersArray"
-#define U_TOKEN           @"token"
-#define U_IS_VERIFY     @"is_verify"
+#define U_TOKEN        @"token"
+#define U_IS_VERIFY    @"is_verify"
 
 @interface BXTUserInfo : NSObject
 
-@property (nonatomic ,strong) NSString            *userName;
-@property (nonatomic ,strong) NSString            *passWord;
-@property (nonatomic ,strong) NSString            *name;
-@property (nonatomic ,strong) NSString            *sex;
 @property (nonatomic ,strong) BXTHeadquartersInfo *company;
 @property (nonatomic ,strong) BXTDepartmentInfo   *department;
 @property (nonatomic ,strong) BXTPostionInfo      *position;
@@ -53,6 +49,10 @@
 @property (nonatomic ,strong) BXTAreaInfo         *areaInfo;
 @property (nonatomic ,strong) BXTGroupingInfo     *groupingInfo;
 @property (nonatomic ,strong) id <NSCopying>      shopInfo;
+@property (nonatomic ,strong) NSString            *userName;
+@property (nonatomic ,strong) NSString            *passWord;
+@property (nonatomic ,strong) NSString            *name;
+@property (nonatomic ,strong) NSString            *sex;
 @property (nonatomic ,strong) NSArray             *binding_ads;
 @property (nonatomic ,strong) NSString            *userID;
 @property (nonatomic ,strong) NSString            *branchUserID;
@@ -63,7 +63,7 @@
 @property (nonatomic ,strong) NSArray             *my_shop;
 @property (nonatomic ,strong) NSString            *im_token;
 @property (nonatomic ,strong) NSMutableArray      *usersArray;
-@property (nonatomic, strong) NSString             *token;
-@property (nonatomic, strong) NSString             *is_verify;
+@property (nonatomic, strong) NSString            *token;
+@property (nonatomic, strong) NSString            *is_verify;
 
 @end
