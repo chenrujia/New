@@ -99,7 +99,7 @@
     companyInfo.company_id = dict[@"id"];
     companyInfo.name = dict[@"shop_name"];
     [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", dict[@"id"], [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", dict[@"id"], [BXTGlobal getUserProperty:U_TOKEN]];
     [BXTGlobal shareGlobal].baseURL = url;
     
     [self showLoadingMBP:@"权限切换中"];
