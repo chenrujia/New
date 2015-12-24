@@ -38,8 +38,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     //新的SDK不允许在设置rootViewController之前做过于复杂的操作,So.....坑
-    BXTLoadingViewController* myvc = [[BXTLoadingViewController alloc] init];
-    self.window.rootViewController = myvc;
+    BXTLoadingViewController *myVC = [[BXTLoadingViewController alloc] init];
+    self.window.rootViewController = myVC;
     
     //初始化融云SDK
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];

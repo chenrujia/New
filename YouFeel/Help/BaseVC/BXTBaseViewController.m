@@ -47,11 +47,15 @@
     navi_titleLabel.text = title;
     [naviView addSubview:navi_titleLabel];
     
-    UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    navi_leftButton.frame = CGRectMake(6, 20, 44, 44);
-    [navi_leftButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
-    [naviView addSubview:navi_leftButton];
+    UINavigationController *navigation = self.navigationController;
+    if (navigation.viewControllers.count > 1 || _isRepairList)
+    {
+        UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        navi_leftButton.frame = CGRectMake(6, 20, 44, 44);
+        [navi_leftButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+        [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
+        [naviView addSubview:navi_leftButton];
+    }
     
     if (right_title == nil && image == nil) return nil;
     

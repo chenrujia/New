@@ -29,7 +29,7 @@
 @property (nonatomic ,strong) NSMutableArray *newsOrderIDs;
 @property (nonatomic ,strong) NSMutableArray *assignOrderIDs;
 @property (nonatomic ,strong) NSString       *newsShopID;
-@property (nonatomic ,assign) BOOL           isRepair;
+@property (nonatomic ,assign) BOOL           isRepair;//Yes是维修员，No是报修者
 @property (nonatomic ,assign) NSString       *longTime;
 
 @property (nonatomic, assign) NSInteger numOfPresented;

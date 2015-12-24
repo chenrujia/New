@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CYLTabBarController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>DACircularProgress.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -67,22 +72,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>22C2DB84645B6B6D24E6252471F27E3E</key>
+		<key>2F4318A25DACAE5E1848796F95C3C797</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>247DB4C3B3EE3A82935FBD06D21C12FB</key>
+		<key>372AB1C246384B15831590680CC3ADB5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>30827D4B87302F8EE98E695E1B86FF3A</key>
+		<key>422266F82E63B0446883592D97074169</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>36DE34041DA412C818265E08CDE6F837</key>
+		<key>50B2F9544D4329F73A26B16647D193FD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>51B28BD903C0EE41E6190EB313EC5017</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,12 +102,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>55DBDD8B7D446F1D618F303A9FB53209</key>
+		<key>6016E0ECCFCD2EF8A1FB425ED663C137</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5813251FEA21E4AEE97385709F1912DE</key>
+		<key>6820F9329C7E4CB5AAEAA07E83809CCC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -107,82 +117,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6E1F7A36DEFC94648EF86FE8E5C8EE98</key>
+		<key>92412E94E7CEC8B85C9ADA2C48274F6A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>711EE24F6F757CA0CDB7EF32F96AA017</key>
+		<key>9CAA4627C341B532BC2EE10AED9C1D21</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>736E57AD5AEFAAF68D47AE4E8FCB8F68</key>
+		<key>C1904306920993C84D0537DCC1AA470D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>84905B12770FEEECEC2452C9BB6E2F2E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8F74D9EA91F4C43190670066BAC37D44</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>928353533005A4198EBDA5B700D37B64</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9775596B3CA16905FC8F66DA8E2A3C67</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B3A6392A4D71C5E832E90081C6DBAF6C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B68C6A0A44B2A3DC9C59FCF2F7C92331</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B6DF3562C38A05CC25EE57336125F595</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>BA538E3AA0AEF7BED0C0D3116151F271</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D7D0D74450D1E9F2F5BF1EBDB33AF642</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DE3B07ED7FF04F506B0C5E00F4973589</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E2FE87384A67337831E53490EEA8BF11</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E7591A61B1026C735763924A8E564B3A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FE2F1D7B9D9FCEA148517E4657B243F4</key>
+		<key>DC06970121698DDD54DDF5BD51703A8B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

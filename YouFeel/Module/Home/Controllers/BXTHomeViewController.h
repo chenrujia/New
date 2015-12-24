@@ -9,10 +9,8 @@
 #import "BXTBaseViewController.h"
 #import <RongIMKit/RongIMKit.h>
 
-@interface BXTHomeViewController : BXTBaseViewController <UICollectionViewDataSource,UICollectionViewDelegate,RCIMUserInfoDataSource>
+@interface BXTHomeViewController : BXTBaseViewController <UITableViewDataSource,UITableViewDelegate,RCIMUserInfoDataSource>
 {
-    NSMutableArray   *imgNameArray;
-    NSMutableArray   *titleNameArray;
     UILabel          *shop_label;
     UIButton         *logo_Btn;
     UILabel          *title_label;
@@ -20,7 +18,9 @@
     UIImageView      *logoImgView;
 }
 
-@property (nonatomic, strong) UICollectionView *itemsCollectionView;
+@property (nonatomic, strong) NSMutableArray *imgNameArray;
+@property (nonatomic, strong) NSMutableArray *titleNameArray;
+@property (nonatomic, strong) UITableView    *currentTableView;
 
 - (void)createLogoView;
 - (void)repairClick;

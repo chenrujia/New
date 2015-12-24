@@ -123,7 +123,6 @@
 		960223011BC9216300010072 /* BXTAreaInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222601BC9216300010072 /* BXTAreaInfo.m */; };
 		960223021BC9216300010072 /* BXTFloorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222621BC9216300010072 /* BXTFloorInfo.m */; };
 		960223031BC9216300010072 /* BXTShopInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222641BC9216300010072 /* BXTShopInfo.m */; };
-		960223051BC9216300010072 /* BXTUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602226D1BC9216300010072 /* BXTUserInfo.m */; };
 		960223061BC9216300010072 /* BXTRepairWordOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222721BC9216300010072 /* BXTRepairWordOrderViewController.m */; };
 		960223071BC9216300010072 /* BXTWorkOderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222741BC9216300010072 /* BXTWorkOderViewController.m */; };
 		9602230E1BC9216300010072 /* BXTFaultInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602227E1BC9216300010072 /* BXTFaultInfo.m */; };
@@ -202,6 +201,12 @@
 		96C684951BE76B4B0038A342 /* HySideScrollingImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C6848D1BE76B4B0038A342 /* HySideScrollingImagePicker.m */; };
 		96C684971BE76B4B0038A342 /* SideScrollingCheckCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C684901BE76B4B0038A342 /* SideScrollingCheckCell.m */; };
 		96C684981BE76B4B0038A342 /* SideScrollingLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C684921BE76B4B0038A342 /* SideScrollingLayout.m */; };
+		96C7F4131C2BC08500AD4C71 /* BXTUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F4121C2BC08500AD4C71 /* BXTUserInfo.m */; };
+		96C7F41F1C2BC1CD00AD4C71 /* BXTApplicationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F41E1C2BC1CD00AD4C71 /* BXTApplicationsViewController.m */; };
+		96C7F4221C2BC21200AD4C71 /* BXTMailListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F4211C2BC21200AD4C71 /* BXTMailListViewController.m */; };
+		96C7F4261C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F4251C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m */; };
+		96C7F4291C2BCBC500AD4C71 /* BXTRepairButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F4281C2BCBC500AD4C71 /* BXTRepairButton.m */; };
+		96C7F42C1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F42B1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.m */; };
 		96CEC8341BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8331BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m */; };
 		96CEC8371BD08C2300D03B1B /* BXTHaveEVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8361BD08C2300D03B1B /* BXTHaveEVTableViewCell.m */; };
 		96CEC83A1BD0945000D03B1B /* BXTNoneEVInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8391BD0945000D03B1B /* BXTNoneEVInfo.m */; };
@@ -463,8 +468,6 @@
 		960222621BC9216300010072 /* BXTFloorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFloorInfo.m; sourceTree = "<group>"; };
 		960222631BC9216300010072 /* BXTShopInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTShopInfo.h; sourceTree = "<group>"; };
 		960222641BC9216300010072 /* BXTShopInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTShopInfo.m; sourceTree = "<group>"; };
-		9602226C1BC9216300010072 /* BXTUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTUserInfo.h; sourceTree = "<group>"; };
-		9602226D1BC9216300010072 /* BXTUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTUserInfo.m; sourceTree = "<group>"; };
 		960222711BC9216300010072 /* BXTRepairWordOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairWordOrderViewController.h; sourceTree = "<group>"; };
 		960222721BC9216300010072 /* BXTRepairWordOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairWordOrderViewController.m; sourceTree = "<group>"; };
 		960222731BC9216300010072 /* BXTWorkOderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTWorkOderViewController.h; sourceTree = "<group>"; };
@@ -613,6 +616,18 @@
 		96C684901BE76B4B0038A342 /* SideScrollingCheckCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideScrollingCheckCell.m; sourceTree = "<group>"; };
 		96C684911BE76B4B0038A342 /* SideScrollingLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideScrollingLayout.h; sourceTree = "<group>"; };
 		96C684921BE76B4B0038A342 /* SideScrollingLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideScrollingLayout.m; sourceTree = "<group>"; };
+		96C7F4111C2BC08500AD4C71 /* BXTUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTUserInfo.h; sourceTree = "<group>"; };
+		96C7F4121C2BC08500AD4C71 /* BXTUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTUserInfo.m; sourceTree = "<group>"; };
+		96C7F41D1C2BC1CD00AD4C71 /* BXTApplicationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTApplicationsViewController.h; sourceTree = "<group>"; };
+		96C7F41E1C2BC1CD00AD4C71 /* BXTApplicationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTApplicationsViewController.m; sourceTree = "<group>"; };
+		96C7F4201C2BC21200AD4C71 /* BXTMailListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailListViewController.h; sourceTree = "<group>"; };
+		96C7F4211C2BC21200AD4C71 /* BXTMailListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailListViewController.m; sourceTree = "<group>"; };
+		96C7F4241C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYLTabBarControllerConfig.h; sourceTree = "<group>"; };
+		96C7F4251C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYLTabBarControllerConfig.m; sourceTree = "<group>"; };
+		96C7F4271C2BCBC500AD4C71 /* BXTRepairButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairButton.h; sourceTree = "<group>"; };
+		96C7F4281C2BCBC500AD4C71 /* BXTRepairButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairButton.m; sourceTree = "<group>"; };
+		96C7F42A1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHomeTableViewCell.h; sourceTree = "<group>"; };
+		96C7F42B1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHomeTableViewCell.m; sourceTree = "<group>"; };
 		96CEC8321BD08C0F00D03B1B /* BXTNoneEVTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNoneEVTableViewCell.h; sourceTree = "<group>"; };
 		96CEC8331BD08C0F00D03B1B /* BXTNoneEVTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNoneEVTableViewCell.m; sourceTree = "<group>"; };
 		96CEC8351BD08C2300D03B1B /* BXTHaveEVTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHaveEVTableViewCell.h; sourceTree = "<group>"; };
@@ -1075,15 +1090,6 @@
 			path = Popup;
 			sourceTree = "<group>";
 		};
-		78346CF41C198DAE0086C234 /* Settting/Authority */ = {
-			isa = PBXGroup;
-			children = (
-				9602224E1BC9216300010072 /* Setting */,
-				780177101C1A5CCE0016D3F6 /* AuthorityList */,
-			);
-			name = Settting/Authority;
-			sourceTree = "<group>";
-		};
 		78B1830A1BF2EA2F007D5B24 /* Resign/Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -1484,8 +1490,7 @@
 				960221CF1BC9216300010072 /* Models */,
 				960221D21BC9216300010072 /* Views */,
 			);
-			name = Home;
-			path = ../Module/Home;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		960221A31BC9216300010072 /* Controllers */ = {
@@ -1517,6 +1522,8 @@
 			children = (
 				960221D31BC9216300010072 /* BXTHomeCollectionViewCell.h */,
 				960221D41BC9216300010072 /* BXTHomeCollectionViewCell.m */,
+				96C7F42A1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.h */,
+				96C7F42B1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1846,7 +1853,7 @@
 			isa = PBXGroup;
 			children = (
 				9602224F1BC9216300010072 /* Controllers */,
-				960222531BC9216300010072 /* Models */,
+				96C7F4101C2BC08500AD4C71 /* Models */,
 				960222541BC9216300010072 /* Views */,
 			);
 			path = Setting;
@@ -1859,13 +1866,6 @@
 				960222511BC9216300010072 /* BXTSettingViewController.m */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		960222531BC9216300010072 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		960222541BC9216300010072 /* Views */ = {
@@ -1914,39 +1914,6 @@
 			sourceTree = "<group>";
 		};
 		960222651BC9216300010072 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		960222661BC9216300010072 /* UserInfo */ = {
-			isa = PBXGroup;
-			children = (
-				960222671BC9216300010072 /* Controllers */,
-				9602226B1BC9216300010072 /* Models */,
-				9602226E1BC9216300010072 /* Views */,
-			);
-			path = UserInfo;
-			sourceTree = "<group>";
-		};
-		960222671BC9216300010072 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		9602226B1BC9216300010072 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				9602226C1BC9216300010072 /* BXTUserInfo.h */,
-				9602226D1BC9216300010072 /* BXTUserInfo.m */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		9602226E1BC9216300010072 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -2100,19 +2067,18 @@
 		9652AB341BC9069B009A666D /* Module */ = {
 			isa = PBXGroup;
 			children = (
+				780177101C1A5CCE0016D3F6 /* AuthorityList */,
 				96AABA411BE078950071B6FA /* ChatList */,
 				78B1830E1BF2EB8C007D5B24 /* Evaluation/Achievements */,
 				960221891BC9216300010072 /* Examination */,
 				78B1830F1BF2EBEA007D5B24 /* Headquarters */,
-				960221A21BC9216300010072 /* Home */,
 				967679EF1BD512BB00D41FE2 /* News */,
 				78B1830D1BF2EB32007D5B24 /* OrderManager */,
 				78B1830C1BF2EAF2007D5B24 /* Repair/ReaciveOrders */,
 				78B1830A1BF2EA2F007D5B24 /* Resign/Login */,
 				96805E261C06AF6000E6A103 /* Service */,
-				78346CF41C198DAE0086C234 /* Settting/Authority */,
 				7818DBEC1C08251400DC22C6 /* Statistics */,
-				960222661BC9216300010072 /* UserInfo */,
+				96C7F4141C2BC16900AD4C71 /* TabBar */,
 				78B1830B1BF2EAC8007D5B24 /* WorkOrder */,
 			);
 			path = Module;
@@ -2668,6 +2634,104 @@
 			path = ALAssetsLibrary;
 			sourceTree = "<group>";
 		};
+		96C7F4101C2BC08500AD4C71 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				96C7F4111C2BC08500AD4C71 /* BXTUserInfo.h */,
+				96C7F4121C2BC08500AD4C71 /* BXTUserInfo.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		96C7F4141C2BC16900AD4C71 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				96C7F4231C2BC8BF00AD4C71 /* TabBarConfig */,
+				96C7F4151C2BC18C00AD4C71 /* Applications */,
+				960221A21BC9216300010072 /* Home */,
+				96C7F4191C2BC1A900AD4C71 /* MailList */,
+				9602224E1BC9216300010072 /* Setting */,
+			);
+			name = TabBar;
+			sourceTree = "<group>";
+		};
+		96C7F4151C2BC18C00AD4C71 /* Applications */ = {
+			isa = PBXGroup;
+			children = (
+				96C7F4161C2BC18C00AD4C71 /* Controllers */,
+				96C7F4171C2BC18C00AD4C71 /* Models */,
+				96C7F4181C2BC18C00AD4C71 /* Views */,
+			);
+			path = Applications;
+			sourceTree = "<group>";
+		};
+		96C7F4161C2BC18C00AD4C71 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				96C7F41D1C2BC1CD00AD4C71 /* BXTApplicationsViewController.h */,
+				96C7F41E1C2BC1CD00AD4C71 /* BXTApplicationsViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		96C7F4171C2BC18C00AD4C71 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		96C7F4181C2BC18C00AD4C71 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		96C7F4191C2BC1A900AD4C71 /* MailList */ = {
+			isa = PBXGroup;
+			children = (
+				96C7F41A1C2BC1A900AD4C71 /* Controllers */,
+				96C7F41B1C2BC1A900AD4C71 /* Models */,
+				96C7F41C1C2BC1A900AD4C71 /* Views */,
+			);
+			path = MailList;
+			sourceTree = "<group>";
+		};
+		96C7F41A1C2BC1A900AD4C71 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				96C7F4201C2BC21200AD4C71 /* BXTMailListViewController.h */,
+				96C7F4211C2BC21200AD4C71 /* BXTMailListViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		96C7F41B1C2BC1A900AD4C71 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		96C7F41C1C2BC1A900AD4C71 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		96C7F4231C2BC8BF00AD4C71 /* TabBarConfig */ = {
+			isa = PBXGroup;
+			children = (
+				96C7F4271C2BCBC500AD4C71 /* BXTRepairButton.h */,
+				96C7F4281C2BCBC500AD4C71 /* BXTRepairButton.m */,
+				96C7F4241C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.h */,
+				96C7F4251C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m */,
+			);
+			path = TabBarConfig;
+			sourceTree = "<group>";
+		};
 		96CF3A821C0445E80055FC4B /* CrashManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -2692,7 +2756,6 @@
 				9652AAFD1BC902DF009A666D /* Resources */,
 				960001D61BD774620037FF57 /* ShellScript */,
 				4760686B218149CB09B94DBC /* Copy Pods Resources */,
-				86983A6714C58E60DB249130 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2852,21 +2915,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		86983A6714C58E60DB249130 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		960001D61BD774620037FF57 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2966,7 +3014,6 @@
 				9652AC331BC90EC9009A666D /* LocalPhotoCell.m in Sources */,
 				7818DC161C08251400DC22C6 /* BXStEvaluationViewController.m in Sources */,
 				960222E81BC9216300010072 /* BXTRepairDetailViewController.m in Sources */,
-				960223051BC9216300010072 /* BXTUserInfo.m in Sources */,
 				960222CD1BC9216300010072 /* BXTNickNameViewController.m in Sources */,
 				9689C3111BE36C60006D7589 /* BXTChangePassWordViewController.m in Sources */,
 				967679F61BD512E700D41FE2 /* BXTNewsViewController.m in Sources */,
@@ -2987,6 +3034,7 @@
 				965B3A3E1C0C64290097CF7F /* BXTAllOrdersViewController.m in Sources */,
 				960222D71BC9216300010072 /* BXTMaintenanceManTableViewCell.m in Sources */,
 				7818DBEA1C0824D800DC22C6 /* PNScatterChartDataItem.m in Sources */,
+				96C7F4261C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m in Sources */,
 				969A424D1BCBD4DF0034FC84 /* RGCollectionViewCell.m in Sources */,
 				960222911BC9216300010072 /* BXTEvaluationViewController.m in Sources */,
 				780177161C1A5CCE0016D3F6 /* BXTAuthorityListViewController.m in Sources */,
@@ -3017,6 +3065,7 @@
 				9602228A1BC9216300010072 /* BXTGroupingInfo.m in Sources */,
 				7818DBD81C0824D800DC22C6 /* NSMutableArray+pieEx.m in Sources */,
 				960222891BC9216300010072 /* BXTDepartmentInfo.m in Sources */,
+				96C7F42C1C2BD7EF00AD4C71 /* BXTHomeTableViewCell.m in Sources */,
 				9652AC351BC90EC9009A666D /* LocalPhotoViewController.m in Sources */,
 				9652AB461BC90791009A666D /* AssetHelper.m in Sources */,
 				966828B41BCFCDAD008D5818 /* BXTEvaluationListViewController.m in Sources */,
@@ -3034,6 +3083,7 @@
 				96AABA481BE078CD0071B6FA /* BXTChatListViewController.m in Sources */,
 				7818DBD91C0824D800DC22C6 /* PieElement.m in Sources */,
 				960221491BC9201400010072 /* UINavigationController+YRBackGesture.m in Sources */,
+				96C7F4291C2BCBC500AD4C71 /* BXTRepairButton.m in Sources */,
 				9654507C1BCE7C3300435AD1 /* BXTAchievementsInfo.m in Sources */,
 				964A1C151BD8899900FC1622 /* BXTMessageListViewController.m in Sources */,
 				9602230E1BC9216300010072 /* BXTFaultInfo.m in Sources */,
@@ -3049,6 +3099,7 @@
 				9602229D1BC9216300010072 /* BXTRepairHomeViewController.m in Sources */,
 				9652ABF41BC90DCC009A666D /* ANPersistentStrategy.m in Sources */,
 				7818DBDB1C0824D800DC22C6 /* PNBar.m in Sources */,
+				96C7F41F1C2BC1CD00AD4C71 /* BXTApplicationsViewController.m in Sources */,
 				9652ABF11BC90DCC009A666D /* ANKeyValueTable.m in Sources */,
 				960223021BC9216300010072 /* BXTFloorInfo.m in Sources */,
 				7818DBE81C0824D800DC22C6 /* PNScatterChart.m in Sources */,
@@ -3065,6 +3116,7 @@
 				9689C30E1BE3622E006D7589 /* BXTFindPassWordViewController.m in Sources */,
 				96CEC8421BD0F1A400D03B1B /* CLLocation+YCLocation.m in Sources */,
 				7818DBE61C0824D800DC22C6 /* PNRadarChart.m in Sources */,
+				96C7F4221C2BC21200AD4C71 /* BXTMailListViewController.m in Sources */,
 				782D6BC81C0D6DE500E1828F /* BXTCompletionFooter.m in Sources */,
 				969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */,
 				96CEC8431BD0F1A400D03B1B /* CCLocationManager.m in Sources */,
@@ -3080,6 +3132,7 @@
 				9652AB411BC9070E009A666D /* BXTSelectBoxView.m in Sources */,
 				960222D91BC9216300010072 /* SegmentView.m in Sources */,
 				960222971BC9216300010072 /* BXTExaminationViewController.m in Sources */,
+				96C7F4131C2BC08500AD4C71 /* BXTUserInfo.m in Sources */,
 				7818DBE21C0824D800DC22C6 /* PNLineChartData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3260,7 +3313,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
+				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -3293,7 +3346,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
+				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};

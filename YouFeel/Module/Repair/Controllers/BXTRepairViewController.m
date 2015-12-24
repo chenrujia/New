@@ -136,6 +136,11 @@
 
 #pragma mark -
 #pragma mark 事件处理
+- (void)navigationLeftButton
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)loadNewData
 {
     if (_isRequesting) return;
