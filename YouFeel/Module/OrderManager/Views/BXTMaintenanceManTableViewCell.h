@@ -17,6 +17,7 @@
 @property (nonatomic ,strong) UILabel  *level;
 @property (nonatomic ,strong) UILabel  *orderType;
 @property (nonatomic ,strong) UIButton *maintenanceProcess;
+@property (nonatomic, strong) UIView *lineViewTwo;
 @property (nonatomic ,strong) UIButton *reaciveBtn;
 
 @end

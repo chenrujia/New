@@ -17,6 +17,12 @@
 #import "BXTRejectOrderViewController.h"
 #import "BXTAllOrdersViewController.h"
 
+@interface BXTManagerOMView ()
+
+@property (nonatomic, assign) CGFloat cellHeight;
+
+@end
+
 @implementation BXTManagerOMView
 
 - (instancetype)initWithFrame:(CGRect)frame andOrderType:(OrderType )order_type WithArray:(NSArray *)transArray
@@ -344,12 +350,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
-    UIFont *font = [UIFont boldSystemFontOfSize:16.f];
-    NSString *cause = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
-    CGSize size = MB_MULTILINE_TEXTSIZE(cause, font, CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
-    
-    return 170.f + size.height;
+    return self.cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -379,6 +380,7 @@
     }
     
     cell.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
+    self.cellHeight = cell.cellHeight;
     
     return cell;
 }

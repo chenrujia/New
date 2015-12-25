@@ -19,6 +19,19 @@
 #import "AppDelegate.h"
 #import "BXTEvaluationViewController.h"
 
+@interface BXTOrderListView ()
+
+/**
+ *  cell 高度
+ */
+@property (nonatomic, assign) CGFloat cellHeight;
+/**
+ *  cell 高度没有 - 开始维修 - 按钮
+ */
+@property (nonatomic, assign) CGFloat cellHeight_nobtn;
+
+@end
+
 @implementation BXTOrderListView
 
 - (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andRepairerIsReacive:(NSString *)reacive
@@ -39,7 +52,7 @@
         self.repairState = state;
         self.isReacive = reacive;
         self.repairListArray = [NSMutableArray array];
-
+        
         self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStyleGrouped];
         // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
         _currentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -155,9 +168,9 @@
 {
     if (([BXTGlobal shareGlobal].isRepair && [_isReacive integerValue] != 1) || (![BXTGlobal shareGlobal].isRepair && [_repairState integerValue] == 1))
     {
-        return 175.f;
+        return self.cellHeight_nobtn;
     }
-    return 236.f;
+    return self.cellHeight;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -180,7 +193,28 @@
         BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
         cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
         cell.time.text = repairInfo.repair_time;
-        cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
+        
+        NSString *placeStr = [NSString stringWithFormat:@"位置:%@-%@-%@",repairInfo.area, repairInfo.place, repairInfo.stores_name];
+        if ([BXTGlobal isBlankString:repairInfo.stores_name]) {
+            placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
+        }
+        CGSize cause_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont boldSystemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+        cell.place.text = placeStr;
+        // 更新所有控件位置
+        cell.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, cause_size.height);
+        cell.faultType.frame = CGRectMake(15.f, CGRectGetMaxY(cell.place.frame) + 10.f, CGRectGetWidth(cell.place.frame), 20);
+        cell.cause.frame = CGRectMake(15.f, CGRectGetMaxY(cell.faultType.frame) + 10.f, CGRectGetWidth(cell.faultType.frame), 20);
+        cell.level.frame = CGRectMake(15.f, CGRectGetMaxY(cell.cause.frame) + 8.f, CGRectGetWidth(cell.cause.frame), 20);
+        cell.lineViewTwo.frame = CGRectMake(10, CGRectGetMaxY(cell.level.frame) + 8.f, SCREEN_WIDTH - 20, 1.f);
+        cell.state.frame = CGRectMake(15.f, CGRectGetMaxY(cell.lineViewTwo.frame) + 8.f, CGRectGetWidth(cell.cause.frame), 20);
+        cell.repairState.frame = CGRectMake(15.f, CGRectGetMaxY(cell.state.frame) + 8.f, CGRectGetWidth(cell.cause.frame), 20);
+        CGFloat width = IS_IPHONE6 ? 84.f : 56.f;
+        cell.evaButton.frame = CGRectMake(SCREEN_WIDTH - width - 15.f, CGRectGetMaxY(cell.lineViewTwo.frame) + 15.f, width, 30.f);
+        cell.cancelRepair.frame = CGRectMake(SCREEN_WIDTH - 114.f - 15.f, CGRectGetMaxY(cell.lineViewTwo.frame) + 10.f, 114.f, 40.f);
+        self.cellHeight = CGRectGetMaxY(cell.repairState.frame) + 12;
+        self.cellHeight_nobtn = CGRectGetMaxY(cell.repairState.frame) + 8 - 64;
+        
+        
         cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
         cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
         if (repairInfo.urgent == 2)
@@ -224,7 +258,7 @@
         {
             cell.evaButton.hidden = YES;
         }
-
+        
         return cell;
     }
     else
@@ -235,7 +269,26 @@
         BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
         cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
         cell.time.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
-        cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
+        
+        // 位置自适应
+        NSString *placeStr = [NSString stringWithFormat:@"位置:%@-%@-%@",repairInfo.area, repairInfo.place, repairInfo.stores_name];
+        if ([BXTGlobal isBlankString:repairInfo.stores_name]) {
+            placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
+        }
+        CGSize cause_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont boldSystemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+        cell.place.text = placeStr;
+        // 更新所有控件位置
+        cell.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, cause_size.height);
+        cell.cause.frame = CGRectMake(15.f, CGRectGetMaxY(cell.place.frame) + 10.f, CGRectGetWidth(cell.place.frame), 20);
+        cell.level.frame = CGRectMake(15.f, CGRectGetMaxY(cell.cause.frame) + 10.f, CGRectGetWidth(cell.cause.frame), 20);
+        cell.time.frame = CGRectMake(15.f, CGRectGetMaxY(cell.level.frame) + 8.f, CGRectGetWidth(cell.level.frame), 20);
+        cell.lineViewTwo.frame = CGRectMake(10, CGRectGetMaxY(cell.time.frame) + 8.f, SCREEN_WIDTH - 20, 1.f);
+        cell.reaciveBtn.frame = CGRectMake(0, CGRectGetMaxY(cell.lineViewTwo.frame) + 10.f, 230.f, 40.f);
+        cell.reaciveBtn.center = CGPointMake(SCREEN_WIDTH/2.f, cell.reaciveBtn.center.y);
+        self.cellHeight = CGRectGetMaxY(cell.reaciveBtn.frame) + 8;
+        self.cellHeight_nobtn = CGRectGetMaxY(cell.reaciveBtn.frame) + 8 - 58;
+        
+        
         cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
         if (repairInfo.order_type == 3)
         {

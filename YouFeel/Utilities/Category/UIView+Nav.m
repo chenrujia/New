@@ -9,12 +9,14 @@
 #import "UIView+Nav.h"
 #import "AppDelegate.h"
 #import "MBProgressHUD.h"
+#import "CYLTabBarController.h"
 
 @implementation UIView (Nav)
 
 - (UINavigationController *)navigation
 {
-    UINavigationController *nav = (UINavigationController *)[AppDelegate appdelegete].window.rootViewController;
+    CYLTabBarController *tabBar = (CYLTabBarController *)[AppDelegate appdelegete].window.rootViewController;
+    UINavigationController *nav = [tabBar.viewControllers objectAtIndex:tabBar.selectedIndex];
     return nav;
 }
 
