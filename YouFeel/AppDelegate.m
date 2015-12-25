@@ -107,8 +107,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //设置接收消息代理
     [RCIM sharedRCIM].receiveMessageDelegate=self;
     
+    
     //注册消息处理函数的处理方法,处理崩溃信息,写入本地
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
     
     CrashManager *crashManager = [CrashManager defaultManager];
     //Crash日志
