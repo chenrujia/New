@@ -19,6 +19,7 @@
 @property (nonatomic ,strong) UILabel *groupName;
 @property (nonatomic ,strong) UILabel *orderType;
 @property (nonatomic ,strong) UILabel *repairTime;
+@property (nonatomic, assign) CGFloat cellHeight;
 
 - (void)refreshSubViewsFrame:(BXTRepairInfo *)repairInfo;
 

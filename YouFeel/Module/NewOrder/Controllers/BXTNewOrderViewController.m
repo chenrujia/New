@@ -27,6 +27,7 @@
     UILabel             *orderType;
     UILabel             *time;
     UILabel             *mobile;
+    UIView              *lineThree;
     UILabel             *place;
     UILabel             *faultType;
     UILabel             *cause;
@@ -80,7 +81,7 @@
         player.numberOfLoops = -1;
         [self afterTime];
     }
-
+    
     [self createSubviews];
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
@@ -207,7 +208,7 @@
     orderType.font = [UIFont boldSystemFontOfSize:16.f];
     [self.view addSubview:orderType];
     
-    UIView *lineThree = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(time.frame) + 12.f, SCREEN_WIDTH - 30.f, 1.f)];
+    lineThree = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(time.frame) + 12.f, SCREEN_WIDTH - 30.f, 1.f)];
     lineThree.backgroundColor = colorWithHexString(@"e2e6e8");
     [self.view addSubview:lineThree];
     
@@ -215,6 +216,7 @@
     place.textColor = colorWithHexString(@"000000");
     place.font = [UIFont boldSystemFontOfSize:17.f];
     place.text = @"位置:";
+    place.numberOfLines = 0;
     [self.view addSubview:place];
     
     faultType = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(place.frame) + 10.f, CGRectGetWidth(place.frame), 20)];
@@ -314,7 +316,7 @@
         }];
         [backView addSubview:rejectBtn];
     }
-
+    
     [self.view addSubview:backView];
 }
 
@@ -577,7 +579,17 @@
             orderType.text = @"超时工单";
         }
         
+        
         place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
+        
+        CGSize cause_size = MB_MULTILINE_TEXTSIZE(place.text, [UIFont boldSystemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+        // 更新所有控件位置 1
+        place.frame = CGRectMake(15.f, CGRectGetMaxY(lineThree.frame) + 10.f, SCREEN_WIDTH - 30.f, cause_size.height);
+        faultType.frame = CGRectMake(15.f, CGRectGetMaxY(place.frame) + 10.f, CGRectGetWidth(place.frame), 20);
+        cause.frame = CGRectMake(15.f, CGRectGetMaxY(faultType.frame) + 10.f, CGRectGetWidth(faultType.frame), 20);
+        level.frame = CGRectMake(15.f, CGRectGetMaxY(cause.frame) + 10.f, CGRectGetWidth(cause.frame), 20);
+        
+        
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",_repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",_repairDetail.cause];
         
@@ -594,13 +606,10 @@
             level.attributedText = attributeStr;
         }
         
-        NSString *contents = [NSString stringWithFormat:@"报修内容:%@",_repairDetail.notes];
+        notes.text = [NSString stringWithFormat:@"报修内容:%@",_repairDetail.notes];
         UIFont *font = [UIFont boldSystemFontOfSize:17.f];
-        CGSize size = MB_MULTILINE_TEXTSIZE(contents, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000.f), NSLineBreakByWordWrapping);
-        CGRect rect = notes.frame;
-        rect.size = size;
-        notes.frame = rect;
-        notes.text = contents;
+        CGSize size = MB_MULTILINE_TEXTSIZE(notes.text, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000.f), NSLineBreakByWordWrapping);
+        notes.frame = CGRectMake(15.f, CGRectGetMaxY(level.frame) + 8.f, CGRectGetWidth(level.frame), size.height);
         
         NSArray *imgArray = [self containAllArray];
         if (imgArray.count > 0)
@@ -768,13 +777,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

@@ -45,6 +45,7 @@
         self.place = ({
         
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 30.f, 20)];
+            label.numberOfLines = 0;
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self addSubview:label];
@@ -82,13 +83,18 @@
         
         });
         
-        UIView *lineViewTwo = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(lineView.frame) + 124.f, SCREEN_WIDTH - 20, 1.f)];
-        lineViewTwo.backgroundColor = colorWithHexString(@"dee3e5");
-        [self addSubview:lineViewTwo];
+        self.lineViewTwo = ({
+            
+            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_level.frame) + 8.f, SCREEN_WIDTH - 20, 1.f)];
+            lineView.backgroundColor = colorWithHexString(@"dee3e5");
+            [self addSubview:lineView];
+            lineView;
+            
+        });
         
         self.state = ({
         
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineViewTwo.frame) + 8.f, CGRectGetWidth(_cause.frame), 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_lineViewTwo.frame) + 8.f, CGRectGetWidth(_cause.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont boldSystemFontOfSize:17.f];
             [self addSubview:label];
@@ -110,7 +116,7 @@
             
             CGFloat width = IS_IPHONE6 ? 84.f : 56.f;
             UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [button setFrame:CGRectMake(SCREEN_WIDTH - width - 15.f, CGRectGetMaxY(lineViewTwo.frame) + 15.f, width, 30.f)];
+            [button setFrame:CGRectMake(SCREEN_WIDTH - width - 15.f, CGRectGetMaxY(_lineViewTwo.frame) + 15.f, width, 30.f)];
             [button setTitle:@"评价" forState:UIControlStateNormal];
             [button setTitleColor:colorWithHexString(@"3aaeff") forState:UIControlStateNormal];
             button.layer.borderColor = colorWithHexString(@"3aaeff").CGColor;
@@ -128,7 +134,7 @@
             button.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
             button.layer.borderWidth = 1.f;
             button.layer.cornerRadius = 4.f;
-            [button setFrame:CGRectMake(SCREEN_WIDTH - 114.f - 15.f, CGRectGetMaxY(lineViewTwo.frame) + 10.f, 114.f, 40.f)];
+            [button setFrame:CGRectMake(SCREEN_WIDTH - 114.f - 15.f, CGRectGetMaxY(_lineViewTwo.frame) + 10.f, 114.f, 40.f)];
             [button setTitle:@"取消报修" forState:UIControlStateNormal];
             [button setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             [self addSubview:button];

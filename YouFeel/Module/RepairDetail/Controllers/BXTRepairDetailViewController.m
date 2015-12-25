@@ -116,6 +116,7 @@
     place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(time.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     place.textColor = colorWithHexString(@"000000");
     place.font = [UIFont boldSystemFontOfSize:17.f];
+    place.numberOfLines = 0;
     place.text = [NSString stringWithFormat:@"位置:%@",_repairInfo.area];
     [scrollView addSubview:place];
     
@@ -443,6 +444,17 @@
         {
             place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
         }
+        // 各类控件高度自适应
+        CGSize cause_size = MB_MULTILINE_TEXTSIZE(place.text, [UIFont boldSystemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+        place.frame = CGRectMake(15.f, CGRectGetMaxY(time.frame) + 10.f, SCREEN_WIDTH - 30.f, cause_size.height);
+        name.frame = CGRectMake(15.f, CGRectGetMaxY(place.frame) + 10.f, CGRectGetWidth(place.frame), 20);
+        mobile.frame = CGRectMake(15.f, CGRectGetMaxY(name.frame) + 10.f, CGRectGetWidth(name.frame), 20);
+        faultType.frame = CGRectMake(15.f, CGRectGetMaxY(mobile.frame) + 10.f, CGRectGetWidth(mobile.frame), 20);
+        cause.frame = CGRectMake(15.f, CGRectGetMaxY(faultType.frame) + 10.f, CGRectGetWidth(faultType.frame), 20);
+        level.frame = CGRectMake(15.f, CGRectGetMaxY(cause.frame) + 10.f, CGRectGetWidth(cause.frame), 20);
+        notes.frame = CGRectMake(15.f, CGRectGetMaxY(level.frame) + 8.f, CGRectGetWidth(level.frame), 20);
+        
+        
         name.text = [NSString stringWithFormat:@"报修人:%@",_repairDetail.fault];
         mobile.text = [NSString stringWithFormat:@"手机号:%@",_repairDetail.visitmobile];
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",_repairDetail.faulttype_name];
