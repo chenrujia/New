@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "BXTHeaderFile.h"
 #import "NSString+URL.h"
-#import "CrashManager.h"
 #import "MobClick.h"
 #import "BXTLoginViewController.h"
 #import "BXTLoadingViewController.h"
@@ -107,19 +106,19 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //设置接收消息代理
     [RCIM sharedRCIM].receiveMessageDelegate=self;
     
-    //注册消息处理函数的处理方法,处理崩溃信息,写入本地
-    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-    
-    CrashManager *crashManager = [CrashManager defaultManager];
-    //Crash日志
-    if ([crashManager isCrashLog])
-    {
-        NSString *crashString = [crashManager crashLogContent];//Crash日志内容
-        LogRed(@"crashString = %@",crashString);//
-    }
-    [crashManager clearCrashLog];//清除Crash日志
+    // 将下面C函数的函数地址当做参数
+    NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
     
     return YES;
+}
+
+// 设置一个C函数，用来接收崩溃信息
+void UncaughtExceptionHandler(NSException *exception){
+    // 可以通过exception对象获取一些崩溃信息，我们就是通过这些崩溃信息来进行解析的，例如下面的symbols数组就是我们的崩溃堆栈。
+    NSArray *symbols = [exception callStackSymbols];
+    NSString *reason = [exception reason];
+    NSString *name = [exception name];
+    LogRed(@"crash = %@\n%@\n%@",symbols,reason,name);//
 }
 
 - (void)loadingLoginVC
