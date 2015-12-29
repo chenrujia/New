@@ -20,8 +20,13 @@
 
 @interface BXTLoginViewController ()<BXTDataResponseDelegate>
 
+@property (weak, nonatomic) IBOutlet UITextField *nameTF;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTF;
 @property (nonatomic ,strong) NSString *userName;
 @property (nonatomic ,strong) NSString *passWord;
+- (IBAction)loginAction:(id)sender;
+- (IBAction)findAction:(id)sender;
+- (IBAction)resignAction:(id)sender;
 
 @end
 
@@ -36,9 +41,8 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"ffffff");
-    [self backGround];
-    [self initContentViews];
-    [self setupForDismissKeyboard];
+    [_nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
+    [_passwordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -47,137 +51,38 @@
     self.navigationController.navigationBar.hidden = YES;
 }
 
-#pragma mark -
-#pragma mark 初始化视图
-- (void)backGround
+- (IBAction)loginAction:(id)sender
 {
-    UIImageView *logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 80.f, 182.5, 63.3)];
-    logoImgView.center = CGPointMake(SCREEN_WIDTH/2.f, logoImgView.center.y);
-    logoImgView.image = [UIImage imageNamed:@"logo"];
+    [self resignFirstResponder];
     
-    [self.view addSubview:logoImgView];
+    if ([BXTGlobal validateMobile:self.userName])
+    {
+        [self showLoadingMBP:@"正在登录..."];
+        
+        [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
+        [BXTGlobal setUserProperty:self.passWord withKey:U_PASSWORD];
+        
+        NSDictionary *userInfoDic = @{@"username":self.userName,@"password":self.passWord,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+        
+        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dataRequest loginUser:userInfoDic];
+    }
+    else
+    {
+        [self showMBP:@"手机号格式不对" withBlock:nil];
+    }
 }
 
-- (void)initContentViews
+- (IBAction)findAction:(id)sender
 {
-    CGFloat y = IS_IPHONE4 ? 175.f : 207.f;
-    UIView *textfiledBackView = [[UIView alloc] initWithFrame:CGRectMake(0, y, SCREEN_WIDTH, 118.f)];
-    textfiledBackView.backgroundColor = colorWithHexString(@"d2e6ff");
-    [self.view addSubview:textfiledBackView];
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15.f, 0, SCREEN_WIDTH - 30.f, 1.f)];
-    lineView.center = CGPointMake(lineView.center.x, textfiledBackView.bounds.size.height/2.f);
-    lineView.backgroundColor = colorWithHexString(@"#ffffff");
-    [textfiledBackView addSubview:lineView];
-    
-    UILabel *login_label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 0, 60.f, 20.f)];
-    login_label.center = CGPointMake(login_label.center.x, textfiledBackView.bounds.size.height/4.f);
-    login_label.textColor = colorWithHexString(@"#3cafff");
-    login_label.font = [UIFont boldSystemFontOfSize:16.f];
-    login_label.text = @"登录名";
-    [textfiledBackView addSubview:login_label];
-    
-    //登录输入框
-    UITextField *userNameTF = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(login_label.frame) + 15.f, 0.f, SCREEN_WIDTH - 30.f - 60.f, 44.f)];
-    userNameTF.center = CGPointMake(userNameTF.center.x, textfiledBackView.bounds.size.height/4.f);
-    userNameTF.keyboardType = UIKeyboardTypeNumberPad;
-    userNameTF.placeholder = @"输入手机号";
-    userNameTF.text = [BXTGlobal getUserProperty:U_USERNAME];
-    [userNameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
-    @weakify(self);
-    [[userNameTF.rac_textSignal filter:^BOOL(NSString *text) {
-        return text.length == 11;
-    }] subscribeNext:^(id x) {
-        @strongify(self);
-        self.userName = x;
-    }];
-    userNameTF.tag = UserNameTag;
-    [textfiledBackView addSubview:userNameTF];
-    
-    UILabel *passWord_label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 0, 60.f, 20.f)];
-    passWord_label.center = CGPointMake(login_label.center.x, (textfiledBackView.bounds.size.height/4.f)*3.f);
-    passWord_label.textColor = colorWithHexString(@"#3cafff");
-    passWord_label.font = [UIFont boldSystemFontOfSize:16.f];
-    passWord_label.text = @"密码";
-    [textfiledBackView addSubview:passWord_label];
+    BXTFindPassWordViewController *findVC = [[BXTFindPassWordViewController alloc] init];
+    [self.navigationController pushViewController:findVC animated:YES];
+}
 
-    //密码输入框
-    UITextField *passWordTF = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(passWord_label.frame) + 15.f, CGRectGetMaxY(userNameTF.frame) + 15.f, SCREEN_WIDTH - 30.f - 60.f, 44.f)];
-    passWordTF.center = CGPointMake(passWordTF.center.x, (textfiledBackView.bounds.size.height/4.f)*3.f);
-    passWordTF.keyboardType = UIKeyboardTypeASCIICapable;
-    passWordTF.secureTextEntry = YES;
-    passWordTF.placeholder = @"输入密码";
-    passWordTF.text = [BXTGlobal getUserProperty:U_PASSWORD];
-    [passWordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
-    [passWordTF.rac_textSignal subscribeNext:^(id x) {
-        @strongify(self);
-        self.passWord = x;
-    }];
-    passWordTF.tag = PassWordTag;
-    [textfiledBackView addSubview:passWordTF];
-
-    //登录按钮
-    UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    loginBtn.frame = CGRectMake(CGRectGetMinX(textfiledBackView.frame) + 20.f, CGRectGetMaxY(textfiledBackView.frame) + 36.f, CGRectGetWidth(textfiledBackView.frame) - 40.f, 44.f);
-    [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
-    [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    loginBtn.titleLabel.font = [UIFont systemFontOfSize:17];
-    [loginBtn setBackgroundColor:colorWithHexString(@"3cafff")];
-    loginBtn.layer.masksToBounds = YES;
-    loginBtn.layer.cornerRadius = 6.f;
-    [[loginBtn rac_signalForControlEvents:UIControlEventTouchDown] subscribeNext:^(id x) {
-        [loginBtn setBackgroundColor:colorWithHexString(@"4d81e5")];
-    }];
-    [[loginBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self resignFirstResponder];
-        [loginBtn setBackgroundColor:colorWithHexString(@"3cafff")];
-        
-        if ([BXTGlobal validateMobile:self.userName])
-        {
-            [self showLoadingMBP:@"正在登录..."];
-            
-            [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
-            [BXTGlobal setUserProperty:self.passWord withKey:U_PASSWORD];
-            
-            NSDictionary *userInfoDic = @{@"username":self.userName,@"password":self.passWord,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
-            
-            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-            [dataRequest loginUser:userInfoDic];
-        }
-        else
-        {
-            [self showMBP:@"手机号格式不对" withBlock:nil];
-        }
-    }];
-    [[loginBtn rac_signalForControlEvents:UIControlEventTouchUpOutside] subscribeNext:^(id x) {
-        [loginBtn setBackgroundColor:colorWithHexString(@"3cafff")];
-    }];
-    [self.view addSubview:loginBtn];
-
-    //忘记密码
-    UIButton *findPassWordBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [findPassWordBtn setFrame:CGRectMake(CGRectGetMaxX(loginBtn.frame) - 90, CGRectGetMaxY(loginBtn.frame), 90, 40.f)];
-    [findPassWordBtn setTitle:@"忘记密码？" forState:UIControlStateNormal];
-    [findPassWordBtn setTitleColor:colorWithHexString(@"4e74a5") forState:UIControlStateNormal];
-    [[findPassWordBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        BXTFindPassWordViewController *findVC = [[BXTFindPassWordViewController alloc] init];
-        [self.navigationController pushViewController:findVC animated:YES];
-    }];
-    [self.view addSubview:findPassWordBtn];
-    
-    //注册
-    UIButton *resignBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [resignBtn setFrame:CGRectMake(0, SCREEN_HEIGHT - (IS_IPHONE6P ? 50.2f : 33.5f) - (IS_IPHONE6P ? 30 : 20), (IS_IPHONE6P ? 175.f : 116.5f), (IS_IPHONE6P ? 50.2f : 33.5f))];
-    [resignBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f, resignBtn.center.y)];
-    [resignBtn setImage:[UIImage imageNamed:@"Registered"] forState:UIControlStateNormal];
-    [[resignBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        BXTResignViewController *resignVC = [[BXTResignViewController alloc] init];
-        [self.navigationController pushViewController:resignVC animated:YES];
-    }];
-    [self.view addSubview:resignBtn];
+- (IBAction)resignAction:(id)sender
+{
+    BXTResignViewController *resignVC = [[BXTResignViewController alloc] init];
+    [self.navigationController pushViewController:resignVC animated:YES];
 }
 
 #pragma mark -
@@ -277,5 +182,7 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
 
 @end

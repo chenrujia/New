@@ -150,6 +150,7 @@
 		964A1C181BD889C800FC1622 /* BXTMessageListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 964A1C171BD889C800FC1622 /* BXTMessageListTableViewCell.m */; };
 		964C4AC21C157C0800E6C8C4 /* ImageResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 964C4AC11C157C0800E6C8C4 /* ImageResources.bundle */; };
 		964C4AC41C157C7B00E6C8C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 964C4AC31C157C7B00E6C8C4 /* Assets.xcassets */; };
+		964E6F0A1C3276300081DEBB /* LoginAndResign.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 964E6F091C3276300081DEBB /* LoginAndResign.storyboard */; };
 		9652AB041BC902DF009A666D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB031BC902DF009A666D /* main.m */; };
 		9652AB071BC902DF009A666D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AB061BC902DF009A666D /* AppDelegate.m */; };
 		9652AB0C1BC902DF009A666D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9652AB0A1BC902DF009A666D /* LaunchScreen.storyboard */; };
@@ -230,7 +231,7 @@
 		96CEC8431BD0F1A400D03B1B /* CCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8411BD0F1A400D03B1B /* CCLocationManager.m */; };
 		96CEFB7C1C292309005E3091 /* BXTLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEFB7B1C292309005E3091 /* BXTLoadingViewController.m */; };
 		96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEFB7E1C293EFA005E3091 /* BXTPhotoBaseViewController.m */; };
-		AE0F09ADE5FBE74A74BFEBC5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A888DE73728378A7408BFC /* libPods.a */; };
+		AE0F09ADE5FBE74A74BFEBC5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A888DE73728378A7408BFC /* libPods.a */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -531,6 +532,7 @@
 		964A1C171BD889C800FC1622 /* BXTMessageListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageListTableViewCell.m; sourceTree = "<group>"; };
 		964C4AC11C157C0800E6C8C4 /* ImageResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ImageResources.bundle; sourceTree = "<group>"; };
 		964C4AC31C157C7B00E6C8C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		964E6F091C3276300081DEBB /* LoginAndResign.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginAndResign.storyboard; sourceTree = "<group>"; };
 		9652AAFF1BC902DF009A666D /* YouFeel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouFeel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9652AB031BC902DF009A666D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9652AB051BC902DF009A666D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -2091,6 +2093,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		964E6F081C3275BC0081DEBB /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				964E6F091C3276300081DEBB /* LoginAndResign.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
 		9652AAF61BC902DE009A666D = {
 			isa = PBXGroup;
 			children = (
@@ -2118,6 +2128,7 @@
 			children = (
 				9652AB051BC902DF009A666D /* AppDelegate.h */,
 				9652AB061BC902DF009A666D /* AppDelegate.m */,
+				964E6F081C3275BC0081DEBB /* Storyboards */,
 				9652AB2F1BC9069B009A666D /* Help */,
 				9652AB331BC9069B009A666D /* Library */,
 				9652AB341BC9069B009A666D /* Module */,

@@ -123,7 +123,8 @@ void UncaughtExceptionHandler(NSException *exception){
 
 - (void)loadingLoginVC
 {
-    BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
+    UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTLoginViewController"];
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:loginVC];
     navigation.navigationBar.hidden = YES;
     navigation.enableBackGesture = YES;
@@ -588,7 +589,8 @@ void UncaughtExceptionHandler(NSException *exception){
                                               cancelButtonTitle:@"知道了"
                                               otherButtonTitles:nil, nil];
         [alert show];
-        BXTLoginViewController *loginVC = [[BXTLoginViewController alloc] init];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
+        UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTLoginViewController"];
         UINavigationController *_navi = [[UINavigationController alloc] initWithRootViewController:loginVC];
         self.window.rootViewController = _navi;
     }
