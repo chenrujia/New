@@ -27,6 +27,7 @@
 #import "BXTMMOrderManagerViewController.h"
 #import "BXTAuthorityListViewController.h"
 #import "BXTSettingViewController.h"
+#import "BXTEquipmentViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -146,11 +147,15 @@
     {
         if (indexPath.row == 0)
         {
-            
+            BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
+            epvc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:epvc animated:YES];
         }
         else
         {
-            
+            BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] init];
+            epvc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:epvc animated:YES];
         }
     }
     else if (indexPath.section == 2)

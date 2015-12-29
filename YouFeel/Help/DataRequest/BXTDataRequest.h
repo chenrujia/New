@@ -45,7 +45,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Statistics_Workload,
     Statistics_Praise,
     SpecialOrderTypes,
-    Exit_Login
+    Exit_Login,
+    Device_Con
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -387,5 +388,10 @@ andRepairerIsReacive:(NSString *)reacive;
  *  退出登录
  */
 - (void)exit_loginWithClientID:(NSString *)clientid;
+
+/**
+ *  设备详情
+ */
+- (void)equipmentWithDeviceID:(NSString *)deviceID;
 
 @end

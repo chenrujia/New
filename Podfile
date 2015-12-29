@@ -12,3 +12,5 @@ pod 'MBProgressHUD', '~> 0.9.1'
 pod 'DZNEmptyDataSet', '~> 1.7.2'
 pod 'MWPhotoBrowser', '~> 2.1.1'
 pod 'CYLTabBarController', '~> 1.0.5'
+platform :ios, ‘7.0’
+pod 'LBXScan',:git=>'https://github.com/MxABC/LBXScan.git'

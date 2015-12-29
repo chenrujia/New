@@ -17,5 +17,6 @@
 #import "DCKeyValueObjectMapping.h"
 #import "DCArrayMapping.h"
 #import "BXTDataRequest.h"
+#import "MYAlertAction.h"
 
 #endif

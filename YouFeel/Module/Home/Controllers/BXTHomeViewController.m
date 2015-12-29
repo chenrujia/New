@@ -15,6 +15,7 @@
 #import "BXTHomeTableViewCell.h"
 #import "BXTHeadquartersViewController.h"
 #import "BXTAuthorityListViewController.h"
+#import "BXTQRCodeViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -150,6 +151,29 @@
         [self.navigationController pushViewController:settingVC animated:YES];
     }];
     [logoImgView addSubview:settingBtn];
+    
+    // 扫描
+    UIButton *scanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [scanBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 5.f - 50, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
+    [scanBtn setBackgroundImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
+    [[scanBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        //创建参数对象
+        LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
+        style.centerUpOffset = 44;
+        style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
+        style.photoframeLineW = 6;
+        style.photoframeAngleW = 24;
+        style.photoframeAngleH = 24;
+        style.anmiationStyle = LBXScanViewAnimationStyle_LineMove;
+        style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_light_green"];
+        BXTQRCodeViewController *qrcVC = [[BXTQRCodeViewController alloc] init];
+        qrcVC.style = style;
+        qrcVC.isQQSimulator = YES;
+        qrcVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:qrcVC animated:YES];
+    }];
+    [logoImgView addSubview:scanBtn];
     
     //logo
     logo_Btn = [UIButton buttonWithType:UIButtonTypeCustom];
