@@ -32,11 +32,6 @@
 
 @implementation BXTLoginViewController
 
-- (void)dealloc
-{
-    LogBlue(@"登录界面释放了。。。。。。。。。");
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
