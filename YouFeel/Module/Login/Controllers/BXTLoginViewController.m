@@ -41,8 +41,22 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"ffffff");
+    
     [_nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
+    @weakify(self);
+    [[_nameTF.rac_textSignal filter:^BOOL(id value) {
+        NSString *str = value;
+        return str.length == 11;
+    }] subscribeNext:^(id x) {
+        @strongify(self);
+        self.userName = x;
+    }];
+    
     [_passwordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
+    [_passwordTF.rac_textSignal subscribeNext:^(id x) {
+        @strongify(self);
+        self.passWord = x;
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
