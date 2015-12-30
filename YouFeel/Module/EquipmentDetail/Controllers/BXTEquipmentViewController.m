@@ -66,6 +66,7 @@
     currentScrollView.delegate = self;
     currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
     currentScrollView.pagingEnabled = YES;
+    currentScrollView.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:currentScrollView];
     
     
