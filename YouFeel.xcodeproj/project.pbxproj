@@ -3003,6 +3003,7 @@
 				78F872C11C095BCB001C6E60 /* BXTProfessionHeader.xib in Resources */,
 				78F872B11C094B14001C6E60 /* BXTStEvaluationFooter.xib in Resources */,
 				96AABA551BE0BB220071B6FA /* RongCloudKit.strings in Resources */,
+				964E6F0A1C3276300081DEBB /* LoginAndResign.storyboard in Resources */,
 				7823D2431C327FEC00E3641C /* BXTEquipmentInformCell.xib in Resources */,
 				78F872C31C095BD5001C6E60 /* BXTProfessionFooter.xib in Resources */,
 				9652AC311BC90EC9009A666D /* LocalAlbumCell.xib in Resources */,
