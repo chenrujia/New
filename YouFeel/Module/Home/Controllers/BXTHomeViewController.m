@@ -122,7 +122,9 @@
 #pragma mark 初始化视图
 - (void)createLogoView
 {
-    logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, valueForDevice(235.f, 213.f, 181.5f, 153.5f))];
+    CGFloat deviceRatio = SCREEN_WIDTH/375;
+    
+    logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 76 + 180*deviceRatio)];
     logoImgView.userInteractionEnabled = YES;
     [self.view addSubview:logoImgView];
     
@@ -189,17 +191,11 @@
                                   @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
                                   @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
                                   ];
-    NSArray *titles = @[@"新建交流QQ群：185534916 ",
-                        @"感谢您的支持，如果下载的",
-                        @"如果代码在使用过程中出现问题",
-                        @"您可以发邮件到gsdios@126.com"
-                        ];
-    
-    SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 280, SCREEN_WIDTH, 180) imageURLStringsGroup:imagesURLStrings];
-    
-    cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
-    cycleScrollView.titlesGroup = titles;
+    SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 74, SCREEN_WIDTH, 180*deviceRatio) imageURLStringsGroup:imagesURLStrings];
+    //cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+    //cycleScrollView.titlesGroup = titles;
     cycleScrollView.dotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
+    cycleScrollView.delegate = self;
     [logoImgView addSubview:cycleScrollView];
     
     
@@ -234,11 +230,9 @@
 }
 
 #pragma mark - SDCycleScrollViewDelegate
-
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
     NSLog(@"---点击了第%ld张图片", (long)index);
-    [self.navigationController pushViewController:[NSClassFromString(@"DemoVCWithXib") new] animated:YES];
 }
 
 #pragma mark -
