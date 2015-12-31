@@ -723,11 +723,19 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)equipmentWithDeviceID:(NSString *)deviceid
+- (void)equipmentWithDeviceID:(NSString *)deviceID
 {
     self.requestType = Device_Con;
-    NSDictionary *dic = @{@"id": deviceid};
+    NSDictionary *dic = @{@"id": deviceID};
     NSString *url = [NSString stringWithFormat:@"%@&module=Device&opt=device_con",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)device_repair_listWithDeviceID:(NSString *)deviceID
+{
+    self.requestType = Device_Repair_List;
+    NSDictionary *dic = @{@"id": deviceID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Device_repair&opt=device_repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

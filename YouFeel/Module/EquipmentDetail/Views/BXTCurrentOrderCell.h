@@ -8,14 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "BXTHeaderFile.h"
+#import "DataModels.h"
 
 @interface BXTCurrentOrderCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *locationView;
 @property (weak, nonatomic) IBOutlet UILabel *typeView;
 @property (weak, nonatomic) IBOutlet UILabel *describeView;
-@property (nonatomic, assign) CGFloat cellHeight;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+@property (nonatomic, strong) BXTCurrentOrderData *orderList;
 
 @end

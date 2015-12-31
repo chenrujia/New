@@ -330,7 +330,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 + (NSArray *)dayStartAndEnd
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-dd"];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *dateStr = [formatter stringFromDate:[NSDate date]];
     return [NSArray arrayWithObjects:dateStr, dateStr, nil];
 }

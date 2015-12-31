@@ -28,6 +28,7 @@
 #import "BXTAuthorityListViewController.h"
 #import "BXTSettingViewController.h"
 #import "BXTEquipmentViewController.h"
+#import "BXTPersonFromViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -139,9 +140,13 @@
     if (indexPath.section == 0)
     {
         // 我的工单
-        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-        orderManagerVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:orderManagerVC animated:YES];
+//        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
+//        orderManagerVC.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:orderManagerVC animated:YES];
+        
+        
+        BXTPersonFromViewController *pivc = [[BXTPersonFromViewController alloc] init];
+        [self.navigationController pushViewController:pivc animated:YES];
     }
     else if (indexPath.section == 1)
     {

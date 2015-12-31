@@ -41,16 +41,19 @@
     }
     [self.isShowArray replaceObjectAtIndex:1 withObject:@"1"];
     
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request equipmentWithDeviceID:@"1"];
+    });
+    
+    
     self.tableView = [[UITableView alloc] initWithFrame:self.frame style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self addSubview:self.tableView];
-    
-    
-    [self showLoadingMBP:@"数据加载中..."];
-    
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request equipmentWithDeviceID:@"1"];
 }
 
 #pragma mark -
@@ -119,7 +122,9 @@
     btn.tag = section;
     btn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
     btn.layer.borderWidth = 0.5;
+    @weakify(self);
     [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         // 改变组的显示状态
         if ([self.isShowArray[btn.tag] isEqualToString:@"1"]) {
             [self.isShowArray replaceObjectAtIndex:btn.tag withObject:@"0"];
