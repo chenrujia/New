@@ -13,10 +13,13 @@
 
 @interface BXTEquipmentBaseView : UIView
 
+/** ---- 初始化 ---- */
 - (void)initial;
 
+/** ---- 显示 ---- */
 - (void)showLoadingMBP:(NSString *)text;
 
+/** ---- 隐藏 ---- */
 - (void)hideMBP;
 
 @end

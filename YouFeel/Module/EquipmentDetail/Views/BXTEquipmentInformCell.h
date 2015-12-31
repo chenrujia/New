@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *detailView;
 
++ (instancetype)cellWithTableView:(UITableView *)tableView;
+
 @end

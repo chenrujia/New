@@ -8,9 +8,7 @@
 
 #import "BXTEquipmentBaseView.h"
 
-@interface BXTEquipmentBaseView () <MBProgressHUDDelegate, DOPDropDownMenuDataSource, DOPDropDownMenuDelegate>
-
-@property (nonatomic, strong) NSArray *titleArray;
+@interface BXTEquipmentBaseView () <MBProgressHUDDelegate>
 
 @end
 
@@ -39,35 +37,7 @@
 
 - (void)initial
 {
-    // 添加下拉菜单
-    DOPDropDownMenu *DDMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 164) andHeight:44];
-    DDMenu.delegate = self;
-    DDMenu.dataSource = self;
-    [self addSubview:DDMenu];
     
-    self.titleArray = @[@"基本信息", @"厂家信息", @"设备参数", @"设备负责人"];
-}
-
-#pragma mark -
-#pragma mark DOPDropDownMenuDataSource & DOPDropDownMenuDelegate
-- (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu
-{
-    return 1;
-}
-
-- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
-{
-    return self.titleArray.count;
-}
-
-- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath
-{
-    return self.titleArray[indexPath.row];
-}
-
-- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
-{
-    NSLog(@"第三方士大夫士大夫");
 }
 
 #pragma mark -
