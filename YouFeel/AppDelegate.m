@@ -10,7 +10,6 @@
 #import "BXTHeaderFile.h"
 #import "NSString+URL.h"
 #import "MobClick.h"
-#import "BXTLoginViewController.h"
 #import "BXTLoadingViewController.h"
 #import "BXTHeadquartersViewController.h"
 #import "UINavigationController+YRBackGesture.h"

@@ -10,7 +10,6 @@
 #import "BXTHeaderFile.h"
 #import "BXTSettingTableViewCell.h"
 #import "BXTAuditerTableViewCell.h"
-#import "BXTLoginViewController.h"
 #import "AppDelegate.h"
 #import "BXTPostionInfo.h"
 #import "BXTDataRequest.h"

@@ -11,31 +11,44 @@
 #import "BXTHeadquartersViewController.h"
 #import "UIViewController+DismissKeyboard.h"
 #import "BXTDataRequest.h"
-#import "BXTResignViewController.h"
 #import "BXTHeadquartersInfo.h"
-#import "BXTFindPassWordViewController.h"
 
 #define UserNameTag 11
 #define PassWordTag 12
 
 @interface BXTLoginViewController ()<BXTDataResponseDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField *nameTF;
-@property (weak, nonatomic) IBOutlet UITextField *passwordTF;
+@property (weak, nonatomic) IBOutlet UITextField        *nameTF;
+@property (weak, nonatomic) IBOutlet UITextField        *passwordTF;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *resign_bottom;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *logo_top;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *back_top;
 @property (nonatomic ,strong) NSString *userName;
 @property (nonatomic ,strong) NSString *passWord;
+
 - (IBAction)loginAction:(id)sender;
-- (IBAction)findAction:(id)sender;
-- (IBAction)resignAction:(id)sender;
 
 @end
 
 @implementation BXTLoginViewController
 
+- (void)dealloc
+{
+    LogBlue(@"登录界面释放了！！！！！！");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"ffffff");
+    
+    //!!!: 适配，适配，还得适配，醉了。。。
+    if (IS_IPHONE4)
+    {
+        _logo_top.constant = 60.f;
+        _back_top.constant = 175.f;
+        _resign_bottom.constant = 20;
+    }
     
     [_nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
     @weakify(self);
@@ -80,18 +93,6 @@
     {
         [self showMBP:@"手机号格式不对" withBlock:nil];
     }
-}
-
-- (IBAction)findAction:(id)sender
-{
-    BXTFindPassWordViewController *findVC = [[BXTFindPassWordViewController alloc] init];
-    [self.navigationController pushViewController:findVC animated:YES];
-}
-
-- (IBAction)resignAction:(id)sender
-{
-    BXTResignViewController *resignVC = [[BXTResignViewController alloc] init];
-    [self.navigationController pushViewController:resignVC animated:YES];
 }
 
 #pragma mark -
