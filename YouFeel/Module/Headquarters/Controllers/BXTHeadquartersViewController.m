@@ -21,9 +21,9 @@
     NSMutableArray    *locationShopsArray;
     UISearchBar       *headSearchBar;
     UITableView       *currentTableView;
+    CLLocationManager *locationManager;
     BOOL              isPush;
     BOOL              is_binding;
-    CLLocationManager *locationManager;
 }
 @end
 

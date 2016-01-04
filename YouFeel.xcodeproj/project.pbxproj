@@ -241,6 +241,7 @@
 		96CEC8431BD0F1A400D03B1B /* CCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEC8411BD0F1A400D03B1B /* CCLocationManager.m */; };
 		96CEFB7C1C292309005E3091 /* BXTLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEFB7B1C292309005E3091 /* BXTLoadingViewController.m */; };
 		96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEFB7E1C293EFA005E3091 /* BXTPhotoBaseViewController.m */; };
+		96FD741A1C351DD300F63D8F /* BXTResignTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96FD74191C351DD300F63D8F /* BXTResignTableViewCell.xib */; };
 		AE0F09ADE5FBE74A74BFEBC5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A888DE73728378A7408BFC /* libPods.a */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
@@ -717,6 +718,7 @@
 		96CEFB7B1C292309005E3091 /* BXTLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTLoadingViewController.m; sourceTree = "<group>"; };
 		96CEFB7D1C293EFA005E3091 /* BXTPhotoBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPhotoBaseViewController.h; sourceTree = "<group>"; };
 		96CEFB7E1C293EFA005E3091 /* BXTPhotoBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPhotoBaseViewController.m; sourceTree = "<group>"; };
+		96FD74191C351DD300F63D8F /* BXTResignTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTResignTableViewCell.xib; sourceTree = "<group>"; };
 		D6A888DE73728378A7408BFC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FABDF5345A121873F11CC6E9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2027,6 +2029,7 @@
 			children = (
 				9602224C1BC9216300010072 /* BXTResignTableViewCell.h */,
 				9602224D1BC9216300010072 /* BXTResignTableViewCell.m */,
+				96FD74191C351DD300F63D8F /* BXTResignTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3046,6 +3049,7 @@
 				7823D2031C32313600E3641C /* CodeScan.bundle in Resources */,
 				782D6BCC1C0D711900E1828F /* BXTCompletionHeader.xib in Resources */,
 				9652AB0C1BC902DF009A666D /* LaunchScreen.storyboard in Resources */,
+				96FD741A1C351DD300F63D8F /* BXTResignTableViewCell.xib in Resources */,
 				78CB8BDE1C0C489400973298 /* BXTStatisticsCell.xib in Resources */,
 				9652AC361BC90EC9009A666D /* LocalPhotoViewController.xib in Resources */,
 				7824DF931C12D85500384BCB /* sound.wav in Resources */,
