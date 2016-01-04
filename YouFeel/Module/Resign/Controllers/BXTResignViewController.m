@@ -14,10 +14,9 @@
 #import "BXTDataRequest.h"
 #import "ANKeyValueTable.h"
 
-static NSString *cellIndentify = @"cellIndentify";
-
 @interface BXTResignViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *currentTable;
 @property (nonatomic ,strong) NSString *userName;
 @property (nonatomic ,strong) NSString *passWord;
 @property (nonatomic ,strong) NSString *codeNumber;
@@ -28,34 +27,17 @@ static NSString *cellIndentify = @"cellIndentify";
 
 @implementation BXTResignViewController
 
-- (void)dealloc
-{
-    LogBlue(@"注册界面释放了！！！！！！");
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     //注册前删除任何缓存数据
     [[ANKeyValueTable userDefaultTable] clear];
     [self navigationSetting:@"注册" andRightTitle:nil andRightImage:nil];
-    [self initContentViews];
     [self setupForDismissKeyboard];
+    
+    [_currentTable registerNib:[UINib nibWithNibName:@"BXTResignTableViewCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
 }
 
-#pragma mark -
-#pragma mark 初始化视图
-- (void)initContentViews
-{
-    UITableView *currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
-    [currentTableView registerClass:[BXTResignTableViewCell class] forCellReuseIdentifier:cellIndentify];
-    currentTableView.delegate = self;
-    currentTableView.dataSource = self;
-    [self.view addSubview:currentTableView];
-}
-
-#pragma mark -
-#pragma mark 代理
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -157,7 +139,7 @@ static NSString *cellIndentify = @"cellIndentify";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTResignTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentify];
+    BXTResignTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (indexPath.section == 0)

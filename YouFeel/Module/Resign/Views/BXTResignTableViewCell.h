@@ -10,10 +10,10 @@
 
 @interface BXTResignTableViewCell : UITableViewCell
 
-@property (nonatomic ,strong) UILabel *nameLabel;
-@property (nonatomic ,strong) UITextField *textField;
-@property (nonatomic ,strong) UIButton *codeButton;
-@property (nonatomic ,strong) UIButton *boyBtn;
-@property (nonatomic ,strong) UIButton *girlBtn;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (weak, nonatomic) IBOutlet UIButton *codeButton;
+@property (weak, nonatomic) IBOutlet UIButton *boyBtn;
+@property (weak, nonatomic) IBOutlet UIButton *girlBtn;
 
 @end
