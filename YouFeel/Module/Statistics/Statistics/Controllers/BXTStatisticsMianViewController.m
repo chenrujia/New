@@ -205,7 +205,7 @@
 - (NSString *)transTimeWithDate:(NSDate *)date
 {
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
-    [formatter1 setDateFormat:@"YYYY-MM-dd"];
+    [formatter1 setDateFormat:@"yyyy-MM-dd"];
     return [formatter1 stringFromDate:date];
 }
 
@@ -213,7 +213,7 @@
 - (NSString*)weekdayStringFromDate:(NSDate*)inputDate
 {
     NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
     NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
     [calendar setTimeZone: timeZone];
     NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
@@ -221,7 +221,7 @@
     NSString *weekStr = [weekdays objectAtIndex:theComponents.weekday];
     
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
-    [formatter1 setDateFormat:@"YYYY年MM月dd日"];
+    [formatter1 setDateFormat:@"yyyy-MM-dd"];
     NSString *dateStr = [formatter1 stringFromDate:inputDate];
     
     return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];

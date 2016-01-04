@@ -11,7 +11,10 @@
 #import "LBXScanView.h"
 #import "LBXScanWrapper.h"
 
-@interface LBXScanViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+
+
+
+@interface LBXScanViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 
 /**

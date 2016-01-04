@@ -414,7 +414,7 @@ typedef enum {
 - (NSString *)transDateToTimeStamp:(NSString *)time
 {
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
-    [formatter1 setDateFormat:@"YYYY-MM-dd"];
+    [formatter1 setDateFormat:@"yyyy-MM-dd"];
     NSDate *date = [formatter1 dateFromString:time];
     NSString *confromTimespStr = [NSString stringWithFormat:@"%0.f", [date timeIntervalSince1970]];
     return confromTimespStr;

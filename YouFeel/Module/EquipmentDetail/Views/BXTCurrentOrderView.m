@@ -8,13 +8,16 @@
 
 #import "BXTCurrentOrderView.h"
 #import "BXTCurrentOrderCell.h"
+#import "BXTHeaderForVC.h"
+#import "BXTEquipmentInformCell.h"
+#import "DataModels.h"
 
-@interface BXTCurrentOrderView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface BXTCurrentOrderView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) DOPDropDownMenu *DDMenu;
 
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, assign) CGFloat cellHeight;
@@ -28,7 +31,14 @@
 - (void)initial
 {
     self.titleArray = @[@"基本信息", @"厂家信息", @"设备参数", @"设备负责人"];
-    self.dataArray = @[@"1", @"2", @"3"];
+    self.dataArray = [[NSMutableArray alloc] init];
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request device_repair_listWithDeviceID:@"1"];
+    });
     
     // 添加下拉菜单
     self.DDMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
@@ -44,6 +54,18 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self addSubview:self.tableView];
+    
+    // 新建工单
+    UIView *downBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-60, SCREEN_WIDTH, 60)];
+    downBgView.backgroundColor = colorWithHexString(@"#DFE0E1");
+//    [self addSubview:downBgView];
+    
+    UIButton *newOrderBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 10, SCREEN_WIDTH-80, 40)];
+    [newOrderBtn setTitle:@"新建工单" forState:UIControlStateNormal];
+    [[newOrderBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        NSLog(@"范德萨发案说法士大夫");
+    }];
+    [downBgView addSubview:newOrderBtn];
 }
 
 #pragma mark -
@@ -84,8 +106,11 @@
 {
     BXTCurrentOrderCell *cell = [BXTCurrentOrderCell cellWithTableView:tableView];
     
-    self.cellHeight = cell.cellHeight;
+    cell.orderList = self.dataArray[indexPath.section];
     
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
     
     return cell;
 }
@@ -109,6 +134,30 @@
 {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == Device_Repair_List && data.count > 0)
+    {
+        for (NSDictionary *dataDict in data)
+        {
+            BXTCurrentOrderData *odModel = [BXTCurrentOrderData modelObjectWithDictionary:dataDict];
+            [self.dataArray addObject:odModel];
+        }
+        [self.tableView reloadData];
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
 }
 
 
