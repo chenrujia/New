@@ -42,7 +42,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 - (void)initContentViews
 {
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
-    [currentTableView registerClass:[BXTResignTableViewCell class] forCellReuseIdentifier:cellIndentify];
+    [currentTableView registerNib:[UINib nibWithNibName:@"BXTResignTableViewCell" bundle:nil] forCellReuseIdentifier:cellIndentify];
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     [self.view addSubview:currentTableView];
@@ -148,7 +148,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTResignTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentify];
+    BXTResignTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentify forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (indexPath.section == 0)

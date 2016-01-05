@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4ua-ut-UTc">
-                        <rect key="frame" x="85" y="3" width="135" height="44"/>
+                        <rect key="frame" x="85" y="3" width="220" height="44"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="44" id="xqo-qA-N5R"/>
                         </constraints>
@@ -68,14 +68,14 @@
                 <constraints>
                     <constraint firstItem="rPH-aH-fhH" firstAttribute="top" secondItem="Tww-zf-CkV" secondAttribute="top" constant="5" id="7fQ-sl-BeK"/>
                     <constraint firstAttribute="trailing" secondItem="ue8-iY-57N" secondAttribute="trailing" constant="15" id="ItM-aJ-xjo"/>
-                    <constraint firstAttribute="trailing" secondItem="4ua-ut-UTc" secondAttribute="trailing" constant="100" id="OGS-iU-3Md"/>
+                    <constraint firstAttribute="trailing" secondItem="4ua-ut-UTc" secondAttribute="trailing" constant="15" id="OGS-iU-3Md"/>
                     <constraint firstItem="ue8-iY-57N" firstAttribute="top" secondItem="Tww-zf-CkV" secondAttribute="top" constant="8" id="fHa-fo-FVp"/>
                     <constraint firstItem="4ua-ut-UTc" firstAttribute="top" secondItem="Tww-zf-CkV" secondAttribute="top" constant="3" id="k2X-LW-eZa"/>
                     <constraint firstItem="dL0-qi-Zuk" firstAttribute="leading" secondItem="Tww-zf-CkV" secondAttribute="leading" constant="15" id="kNE-hJ-aSK"/>
                     <constraint firstItem="rPH-aH-fhH" firstAttribute="leading" secondItem="dL0-qi-Zuk" secondAttribute="trailing" constant="20" id="lS9-v8-zum"/>
+                    <constraint firstItem="4ua-ut-UTc" firstAttribute="leading" secondItem="Tww-zf-CkV" secondAttribute="leading" constant="85" id="mM5-pK-OjD"/>
                     <constraint firstItem="dL0-qi-Zuk" firstAttribute="top" secondItem="Tww-zf-CkV" secondAttribute="top" constant="13" id="mrA-TM-p9I"/>
                     <constraint firstItem="Ose-q9-uyn" firstAttribute="leading" secondItem="rPH-aH-fhH" secondAttribute="trailing" constant="27" id="pub-rU-qzB"/>
-                    <constraint firstItem="4ua-ut-UTc" firstAttribute="leading" secondItem="dL0-qi-Zuk" secondAttribute="trailing" constant="10" id="uaP-Sr-ObE"/>
                     <constraint firstItem="Ose-q9-uyn" firstAttribute="top" secondItem="Tww-zf-CkV" secondAttribute="top" constant="5" id="ubh-9H-7AY"/>
                 </constraints>
             </tableViewCellContentView>
@@ -85,6 +85,7 @@
                 <outlet property="girlBtn" destination="Ose-q9-uyn" id="0Er-UJ-0Ub"/>
                 <outlet property="nameLabel" destination="dL0-qi-Zuk" id="b8E-UA-lOE"/>
                 <outlet property="textField" destination="4ua-ut-UTc" id="lfh-FP-QLk"/>
+                <outlet property="tf_left" destination="mM5-pK-OjD" id="tPB-Rw-px3"/>
             </connections>
             <point key="canvasLocation" x="741" y="593.5"/>
         </tableViewCell>

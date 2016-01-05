@@ -13,6 +13,7 @@
 
 @interface BXTChangePassWordViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *currentTable;
 @property (nonatomic ,strong) NSString *pwStr;
 @property (nonatomic ,strong) NSString *pwAgainStr;
 @property (nonatomic ,strong) NSString *pw_ID;
@@ -22,38 +23,17 @@
 
 @implementation BXTChangePassWordViewController
 
-- (void)dealloc
+- (void)dataWithUserID:(NSString *)userID withKey:(NSString *)key
 {
-    LogBlue(@"重置密码界面释放了！！！！！！");
-}
-
-- (instancetype)initWithID:(NSString *)fp_ID andWithKey:(NSString *)key
-{
-    self = [super init];
-    if (self)
-    {
-        self.pw_ID = fp_ID;
-        self.pw_Key = key;
-    }
-    return self;
+    self.pw_ID = userID;
+    self.pw_Key = key;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self navigationSetting:@"重置密码" andRightTitle:nil andRightImage:nil];
-    [self initContentViews];
-}
-
-#pragma mark -
-#pragma mark 初始化视图
-- (void)initContentViews
-{
-    UITableView *currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
-    [currentTableView registerClass:[BXTResignTableViewCell class] forCellReuseIdentifier:@"Cell"];
-    currentTableView.delegate = self;
-    currentTableView.dataSource = self;
-    [self.view addSubview:currentTableView];
+    [_currentTable registerNib:[UINib nibWithNibName:@"BXTResignTableViewCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
 }
 
 #pragma mark -
@@ -62,9 +42,9 @@
 {
     if (section == 0)
     {
-        return 16.f;//section头部高度
+        return 16.f;
     }
-    return 10.f;//section头部高度
+    return 10.f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -106,6 +86,7 @@
             @strongify(self);
             if ([self.pwStr isEqual:self.pwAgainStr])
             {
+                [self showLoadingMBP:@"正在更改，请稍候..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request changePassWord:self.pwStr andWithID:self.pw_ID andWithKey:self.pw_Key];
             }
@@ -142,12 +123,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTResignTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    BXTResignTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    cell.nameLabel.hidden = YES;
-    cell.codeButton.hidden = YES;
-    cell.textField.frame = CGRectMake(15.f, 3, SCREEN_WIDTH - 30.f, 44.f);
+    cell.tf_left.constant = 15.f;
     cell.textField.secureTextEntry = YES;
     @weakify(self);
     if (indexPath.section == 0)
@@ -169,6 +148,8 @@
         }];
     }
     
+    cell.nameLabel.hidden = YES;
+    cell.codeButton.hidden = YES;
     cell.boyBtn.hidden = YES;
     cell.girlBtn.hidden = YES;
     cell.textField.delegate = self;
@@ -180,6 +161,7 @@
 #pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
@@ -256,7 +238,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

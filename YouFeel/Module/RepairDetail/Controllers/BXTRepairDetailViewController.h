@@ -6,13 +6,13 @@
 //  Copyright (c) 2015年 Jason. All rights reserved.
 //
 
-#import "BXTPhotoBaseViewController.h"
+#import "BXTDetailBaseViewController.h"
 #import "BXTRepairInfo.h"
 #import <RongIMKit/RongIMKit.h>
 
 //商铺版工单详情
-@interface BXTRepairDetailViewController : BXTPhotoBaseViewController
+@interface BXTRepairDetailViewController : BXTDetailBaseViewController
 
-- (instancetype)initWithRepair:(BXTRepairInfo *)repair;
+- (void)dataWithRepair:(BXTRepairInfo *)repair;
 
 @end

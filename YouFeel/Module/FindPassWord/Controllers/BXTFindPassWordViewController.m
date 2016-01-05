@@ -13,6 +13,7 @@
 
 @interface BXTFindPassWordViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,BXTDataResponseDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *currentTable;
 @property (nonatomic ,strong) NSString *userName;
 @property (nonatomic ,strong) NSString *codeNumber;
 @property (nonatomic ,strong) UIButton *codeBtn;
@@ -30,18 +31,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"找回密码" andRightTitle:nil andRightImage:nil];
-    [self initContentViews];
-}
-
-#pragma mark -
-#pragma mark 初始化视图
-- (void)initContentViews
-{
-    UITableView *currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
-    [currentTableView registerClass:[BXTResignTableViewCell class] forCellReuseIdentifier:@"Cell"];
-    currentTableView.delegate = self;
-    currentTableView.dataSource = self;
-    [self.view addSubview:currentTableView];
+    [_currentTable registerNib:[UINib nibWithNibName:@"BXTResignTableViewCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
 }
 
 #pragma mark -
@@ -130,7 +120,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTResignTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    BXTResignTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (indexPath.section == 0)
@@ -194,8 +184,10 @@
             NSArray *data = [dic objectForKey:@"data"];
             NSDictionary *dictionary = data[0];
             [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
-            BXTChangePassWordViewController *changeVC = [[BXTChangePassWordViewController alloc] initWithID:[dictionary objectForKey:@"id"] andWithKey:[dictionary objectForKey:@"key"]];
-            [self.navigationController pushViewController:changeVC animated:YES];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
+            BXTChangePassWordViewController *changePassWordVC = (BXTChangePassWordViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTChangePassWordViewController"];
+            [changePassWordVC dataWithUserID:[dictionary objectForKey:@"id"] withKey:[dictionary objectForKey:@"key"]];
+            [self.navigationController pushViewController:changePassWordVC animated:YES];
         }
         else
         {

@@ -120,8 +120,10 @@
     BXTNoneEVInfo *evaInfo = datasource[indexPath.section];
     BXTRepairInfo *repairInfo = [[BXTRepairInfo alloc] init];
     repairInfo.repairID = [evaInfo.evaID integerValue];
-    BXTRepairDetailViewController *repairDetailVC = [[BXTRepairDetailViewController alloc] initWithRepair:repairInfo];
-    [[self navigation] pushViewController:repairDetailVC animated:YES];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTRepairDetailViewController *repairDetail = (BXTRepairDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTRepairDetailViewController"];
+    [repairDetail dataWithRepair:repairInfo];
+    [[self navigation] pushViewController:repairDetail animated:YES];
 }
 
 #pragma mark -

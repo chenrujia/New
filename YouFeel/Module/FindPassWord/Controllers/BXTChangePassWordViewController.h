@@ -10,6 +10,6 @@
 
 @interface BXTChangePassWordViewController : BXTBaseViewController
 
-- (instancetype)initWithID:(NSString *)fp_ID andWithKey:(NSString *)key;
+- (void)dataWithUserID:(NSString *)userID withKey:(NSString *)key;
 
 @end
