@@ -47,7 +47,7 @@
                             <constraint firstAttribute="height" constant="34" id="Pbq-NO-M2L"/>
                             <constraint firstAttribute="width" constant="34" id="fRP-Gv-qhh"/>
                         </constraints>
-                        <state key="normal" image="check_transparent"/>
+                        <state key="normal" image="phone"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SYo-r1-Gcv">
                         <rect key="frame" x="272" y="13" width="34" height="34"/>
@@ -55,7 +55,7 @@
                             <constraint firstAttribute="height" constant="34" id="Fn1-gb-CsB"/>
                             <constraint firstAttribute="width" constant="34" id="sgC-yw-Vdv"/>
                         </constraints>
-                        <state key="normal" image="check_transparent"/>
+                        <state key="normal" image="speech_bubble"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -83,6 +83,7 @@
     </objects>
     <resources>
         <image name="CustomerService" width="388" height="434"/>
-        <image name="check_transparent" width="34" height="34"/>
+        <image name="phone" width="23" height="23"/>
+        <image name="speech_bubble" width="23" height="21"/>
     </resources>
 </document>

@@ -47,7 +47,9 @@ typedef NS_ENUM(NSInteger, RequestType) {
     SpecialOrderTypes,
     Exit_Login,
     Device_Con,
-    Device_Repair_List
+    Device_Repair_List,
+    Mail_Get_All,
+    Mail_User_list
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -399,5 +401,20 @@ andRepairerIsReacive:(NSString *)reacive;
  *  当前工单
  */
 - (void)device_repair_listWithDeviceID:(NSString *)deviceID;
+
+/**
+ *  通讯录列表
+ */
+- (void)mailListOfAllPerson;
+
+/**
+ *  通讯录搜索列表
+ */
+- (void)mailListOfUserList;
+
+/**
+ *  个人信息
+ */
+- (void)mailListOfOnePersonWithID:(NSString *)userID;
 
 @end
