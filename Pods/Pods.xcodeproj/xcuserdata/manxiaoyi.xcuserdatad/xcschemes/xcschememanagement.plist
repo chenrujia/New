@@ -79,6 +79,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SKSTableView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>ZXingObjC.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -87,11 +92,6 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>142E5F186952A33A5DBB88953FEF5E86</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>16ACF35FDB8EAF2E5A8191EA1BCBEA01</key>
 		<dict>
 			<key>primary</key>
@@ -102,7 +102,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>55DBDD8B7D446F1D618F303A9FB53209</key>
+		<key>3F9317F855B94A54B7C2E18FD5A2751D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4B14C7E6651C07FEE486779CE1E75008</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5403B15B39ED1B79C10DA7DFB0CF38B6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -113,11 +123,6 @@
 			<true/>
 		</dict>
 		<key>5B0BD2DECAB32BFCFD79325EA6EAC852</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>641704D97FF1C8126C86717B404F7EE9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -147,12 +152,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A315972F502A9FA17AA3B4BA896F82AF</key>
+		<key>B087766B2386EB9882DD843550CDAC99</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>DE3B07ED7FF04F506B0C5E00F4973589</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E2F757F0CBAE0D4C0BD24B5D23335A7C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -2,12 +2,14 @@
 //  BXTPersonInfromViewController.h
 //  YouFeel
 //
-//  Created by 满孝意 on 15/12/31.
-//  Copyright © 2015年 Jason. All rights reserved.
+//  Created by 满孝意 on 16/1/4.
+//  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BXTBaseViewController.h"
 
-@interface BXTPersonInfromViewController : UIViewController
+@interface BXTPersonInfromViewController : BXTBaseViewController
+
+@property (nonatomic, copy) NSString *userID;
 
 @end

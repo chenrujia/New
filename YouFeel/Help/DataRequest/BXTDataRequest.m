@@ -739,6 +739,28 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)mailListOfAllPerson
+{
+    self.requestType = Mail_Get_All;
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdirectory&opt=get_all",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
+}
+
+- (void)mailListOfUserList
+{
+    self.requestType = Mail_User_list;
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdirectory&opt=user_list",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
+}
+
+- (void)mailListOfOnePersonWithID:(NSString *)userID
+{
+    self.requestType = UserInfo;
+    NSDictionary *dic = @{@"id": userID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_con",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {

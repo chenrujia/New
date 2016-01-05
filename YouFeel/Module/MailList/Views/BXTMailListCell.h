@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTMailListModel.h"
 
 @interface BXTMailListCell : UITableViewCell
 
@@ -18,5 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *messageBtn;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+@property (nonatomic, strong) BXTMailListModel *mailListModel;
 
 @end

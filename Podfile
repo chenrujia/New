@@ -15,3 +15,4 @@ pod 'CYLTabBarController', '~> 1.0.5'
 platform :ios, ‘7.0’
 pod 'LBXScan',:git=>'https://github.com/MxABC/LBXScan.git'
 pod 'SDCycleScrollView', '~> 1.3'
+pod 'SKSTableView', '~> 0.0.2'
