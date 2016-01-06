@@ -158,7 +158,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTCurrentOrderData *odModel = self.dataArray[indexPath.section];
-    BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%@", odModel.dataIdentifier]];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
+    repairDetailVC.isRejectVC = YES;
+    [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%@", odModel.dataIdentifier]];
     [[self navigation] pushViewController:repairDetailVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

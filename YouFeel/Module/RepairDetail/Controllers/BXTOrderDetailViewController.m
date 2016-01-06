@@ -333,27 +333,22 @@
         //各种赋值
         NSDictionary *repaier_fault_dic = self.repairDetail.repair_fault_arr[0];
         NSString *headURL = [repaier_fault_dic objectForKey:@"head_pic"];
-        [headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-        repairerName.text = [repaier_fault_dic objectForKey:@"name"];
-        repairerDetail.text = [repaier_fault_dic objectForKey:@"role"];
-        
-        repairID.text = [NSString stringWithFormat:@"工单号:%@",_repairDetail.orderid];
-        
-        NSTimeInterval timeInterval = [_repairDetail.repair_time doubleValue];
-        NSDate *detaildate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-        //实例化一个NSDateFormatter对象
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        //设定时间格式,这里可以设置成自己需要的格式
-        [dateFormatter setDateFormat:@"MM-dd HH:mm"];
-        NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
-        time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
-        if (_repairDetail.visitmobile.length == 11) {
-            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_repairDetail.visitmobile];
+        [_headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+        _repairerName.text = [repaier_fault_dic objectForKey:@"name"];
+        _repairerDetail.text = [repaier_fault_dic objectForKey:@"role"];
+        _repairID.text = [NSString stringWithFormat:@"工单号:%@",self.repairDetail.orderid];
+        NSString *currentDateStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.repair_time];
+        _time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
+        if (self.repairDetail.visitmobile.length == 0)
+        {
+            _mobile.text = @"暂无";
+        }
+        else
+        {
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.repairDetail.visitmobile];
             [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
             [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
-            mobile.attributedText = attributedString;
-        } else {
-            mobile.text = @"暂无";
+            _mobile.attributedText = attributedString;
         }
         
         
