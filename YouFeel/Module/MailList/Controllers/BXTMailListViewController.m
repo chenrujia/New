@@ -76,6 +76,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 #pragma mark - 创建UI
 - (void)createUI
 {
+    
     // UISearchBar
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 55)];
     self.searchBar.delegate = self;
@@ -97,6 +98,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [self.view addSubview:self.bgView];
     
     
+    // 头
     UIButton *rootBtn = [[UIButton alloc] initWithFrame:CGRectMake(-15, 0, 120, 50)];
     [rootBtn setTitle:@"组织机构" forState:UIControlStateNormal];
     rootBtn.titleLabel.font = [UIFont systemFontOfSize:16];
