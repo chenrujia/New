@@ -15,5 +15,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *codeButton;
 @property (weak, nonatomic) IBOutlet UIButton *boyBtn;
 @property (weak, nonatomic) IBOutlet UIButton *girlBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tf_left;
 
 @end

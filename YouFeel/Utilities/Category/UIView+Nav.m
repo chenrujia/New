@@ -15,8 +15,18 @@
 
 - (UINavigationController *)navigation
 {
-    CYLTabBarController *tabBar = (CYLTabBarController *)[AppDelegate appdelegete].window.rootViewController;
-    UINavigationController *nav = [tabBar.viewControllers objectAtIndex:tabBar.selectedIndex];
+    id rootVC = [AppDelegate appdelegete].window.rootViewController;
+    UINavigationController *nav = nil;
+    if ([rootVC isKindOfClass:[CYLTabBarController class]])
+    {
+        CYLTabBarController *tempVC = rootVC;
+        nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
+    }
+    else if ([rootVC isKindOfClass:[UINavigationController class]])
+    {
+        nav = rootVC;
+    }
+    
     return nav;
 }
 

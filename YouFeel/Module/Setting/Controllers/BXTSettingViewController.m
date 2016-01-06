@@ -70,7 +70,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 #pragma mark 初始化视图
 - (void)initContentViews
 {
-    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
+    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - KTABBARHEIGHT) style:UITableViewStyleGrouped];
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     currentTableView.showsVerticalScrollIndicator = NO;
@@ -474,8 +474,10 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         NSString *userID = [BXTGlobal getUserProperty:U_USERID];
         NSString *username = [BXTGlobal getUserProperty:U_USERNAME];
         NSString *key = [BXTGlobal md5:[NSString stringWithFormat:@"%@%@", userID, username]];
-        BXTChangePassWordViewController *changePW = [[BXTChangePassWordViewController alloc] initWithID:userID andWithKey:key];
-        [self.navigationController pushViewController:changePW animated:YES];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
+        BXTChangePassWordViewController *changePassWordVC = (BXTChangePassWordViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTChangePassWordViewController"];
+        [changePassWordVC dataWithUserID:userID withKey:key];
+        [self.navigationController pushViewController:changePassWordVC animated:YES];
     }
     else if (indexPath.section == 4)
     {

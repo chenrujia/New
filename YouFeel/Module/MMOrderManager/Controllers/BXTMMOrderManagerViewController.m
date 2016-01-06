@@ -296,8 +296,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
-    BXTRepairDetailViewController *repairDetailVC = [[BXTRepairDetailViewController alloc] initWithRepair:repairInfo];
-    [self.navigationController pushViewController:repairDetailVC animated:YES];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTRepairDetailViewController *repairDetail = (BXTRepairDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTRepairDetailViewController"];
+    [repairDetail dataWithRepair:repairInfo];
+    [self.navigationController pushViewController:repairDetail animated:YES];
 }
 
 #pragma mark -

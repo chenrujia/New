@@ -359,7 +359,9 @@
     BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
     if (![BXTGlobal shareGlobal].isRepair)
     {
-        BXTRepairDetailViewController *repairDetail = [[BXTRepairDetailViewController alloc] initWithRepair:repairInfo];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTRepairDetailViewController *repairDetail = (BXTRepairDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTRepairDetailViewController"];
+        [repairDetail dataWithRepair:repairInfo];
         [[self navigation] pushViewController:repairDetail animated:YES];
     }
     else

@@ -29,7 +29,7 @@
     UIColor *grayColor = colorWithHexString(@"e2e6e8");
     [grayColor setStroke];
     [grayColor setFill];
-    [self drawLineFrom:CGPointMake(15.f, 0) to:CGPointMake(rect.size.width - 15.f, 0) withLineWidth:1.f];
+//    [self drawLineFrom:CGPointMake(15.f, 0) to:CGPointMake(rect.size.width - 15.f, 0) withLineWidth:1.f];
     
     [self drawTextInRect:CGRectMake(15.f, 10, 40.f, 20.f) Contents:@"状态" contentFont:[UIFont systemFontOfSize:16.f] contentColor:colorWithHexString(@"000000")];
     

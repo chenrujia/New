@@ -65,7 +65,7 @@
 {
     if (section == 2)
     {
-        return 100.f;
+        return 80.f;
     }
     return 5.f;
 }
@@ -74,10 +74,10 @@
 {
     if (section == 2)
     {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100.f)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
         UIButton *nextTapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        nextTapBtn.frame = CGRectMake(20, 50, SCREEN_WIDTH - 40, 50.f);
+        nextTapBtn.frame = CGRectMake(20, 30, SCREEN_WIDTH - 40, 50.f);
         [nextTapBtn setTitle:@"下一步" forState:UIControlStateNormal];
         [nextTapBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         [nextTapBtn setBackgroundColor:colorWithHexString(@"3cafff")];
@@ -221,7 +221,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)updateTime

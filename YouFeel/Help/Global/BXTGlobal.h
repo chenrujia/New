@@ -102,7 +102,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
 /**
  *  随机颜色
  */
-+ (UIColor *) randomColor;
++ (UIColor *)randomColor;
 
 /**
  *  获取当月第一天最后一天的数组

@@ -110,7 +110,7 @@
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZxQ-b8-mBw">
                                         <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.84705882352941175" green="0.92941176470588238" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -395,10 +395,10 @@
                                 <exclude reference="Mna-qk-7A8"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="hfu-Ne-2iT"/>
                                 <exclude reference="Dud-7P-zmy"/>
                                 <exclude reference="Oqv-DR-p0z"/>
                                 <exclude reference="WHs-S7-Cuk"/>
-                                <exclude reference="hfu-Ne-2iT"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -406,10 +406,10 @@
                                 <include reference="Mna-qk-7A8"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="hfu-Ne-2iT"/>
                                 <include reference="Dud-7P-zmy"/>
                                 <include reference="Oqv-DR-p0z"/>
                                 <include reference="WHs-S7-Cuk"/>
-                                <include reference="hfu-Ne-2iT"/>
                             </mask>
                         </variation>
                     </view>
@@ -437,6 +437,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="INU-6c-TKb">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Izg-ZX-bjP" id="a4h-GK-Ri2"/>
+                                    <outlet property="delegate" destination="Izg-ZX-bjP" id="sD7-QB-I8h"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -455,10 +459,10 @@
                                 <exclude reference="INU-6c-TKb"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="SZG-gF-Lfp"/>
                                 <exclude reference="52p-Xy-MQY"/>
                                 <exclude reference="Ney-IN-Muy"/>
                                 <exclude reference="tJY-eK-Sdo"/>
-                                <exclude reference="SZG-gF-Lfp"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -466,18 +470,81 @@
                                 <include reference="INU-6c-TKb"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="SZG-gF-Lfp"/>
                                 <include reference="52p-Xy-MQY"/>
                                 <include reference="Ney-IN-Muy"/>
                                 <include reference="tJY-eK-Sdo"/>
-                                <include reference="SZG-gF-Lfp"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="SDm-ZY-qb5"/>
+                    <connections>
+                        <outlet property="currentTable" destination="INU-6c-TKb" id="IFu-0L-kTL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yS5-jq-bKD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1032" y="-318"/>
+        </scene>
+        <!--Change Pass Word View Controller-->
+        <scene sceneID="rdl-Iu-FC5">
+            <objects>
+                <viewController storyboardIdentifier="BXTChangePassWordViewController" id="D3y-tb-PIf" customClass="BXTChangePassWordViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zz7-LW-Zlf"/>
+                        <viewControllerLayoutGuide type="bottom" id="XLA-WD-Ph8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PGx-ra-c0s">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="P9j-hE-YiC">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="D3y-tb-PIf" id="LKJ-aF-zA9"/>
+                                    <outlet property="delegate" destination="D3y-tb-PIf" id="2u2-8O-pVZ"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="XLA-WD-Ph8" firstAttribute="top" secondItem="P9j-hE-YiC" secondAttribute="bottom" id="5Zj-Hf-yfi"/>
+                            <constraint firstItem="P9j-hE-YiC" firstAttribute="leading" secondItem="PGx-ra-c0s" secondAttribute="leading" id="UA4-uF-5Gm"/>
+                            <constraint firstAttribute="trailing" secondItem="P9j-hE-YiC" secondAttribute="trailing" id="c7n-Q2-NWm"/>
+                            <constraint firstItem="P9j-hE-YiC" firstAttribute="top" secondItem="zz7-LW-Zlf" secondAttribute="bottom" constant="44" id="phr-rb-SEH"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="P9j-hE-YiC"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="5Zj-Hf-yfi"/>
+                                <exclude reference="UA4-uF-5Gm"/>
+                                <exclude reference="c7n-Q2-NWm"/>
+                                <exclude reference="phr-rb-SEH"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="P9j-hE-YiC"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="5Zj-Hf-yfi"/>
+                                <include reference="UA4-uF-5Gm"/>
+                                <include reference="c7n-Q2-NWm"/>
+                                <include reference="phr-rb-SEH"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="currentTable" destination="P9j-hE-YiC" id="dh1-ER-2L0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kmc-oN-RjV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1840.5" y="-318"/>
         </scene>
     </scenes>
     <resources>
