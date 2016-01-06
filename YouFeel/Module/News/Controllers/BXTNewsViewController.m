@@ -167,8 +167,10 @@
     else if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"1"]] ||
              [dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"5"]])
     {
-        BXTOrderDetailViewController *orderDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:dic[@"about_id"]];
-        [self.navigationController pushViewController:orderDetailVC animated:YES];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
+        [repairDetailVC dataWithRepairID:dic[@"about_id"]];
+        [self.navigationController pushViewController:repairDetailVC animated:YES];
     }
     else if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"6"]] ||
              [dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"7"]])

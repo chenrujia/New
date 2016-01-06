@@ -8,14 +8,9 @@
 
 #import "BXTDetailBaseViewController.h"
 #import "UIImageView+WebCache.h"
-#import "BXTGlobal.h"
-#import "BXTPublicSetting.h"
+#import "BXTHeaderForVC.h"
 
-#define ImageWidth      73.3f
-#define ImageHeight     73.3f
-#define RepairHeight    95.f
-
-@interface BXTDetailBaseViewController ()
+@interface BXTDetailBaseViewController ()<BXTDataResponseDelegate>
 
 @end
 
@@ -27,17 +22,16 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)contactRepairer:(UIButton *)btn
+- (void)handleUserInfo:(NSDictionary *)dictionary
 {
-    NSDictionary *userDic = self.repairDetail.repair_user_arr[btn.tag];
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
-    userInfo.userId = [userDic objectForKey:@"out_userid"];
+    userInfo.userId = [dictionary objectForKey:@"out_userid"];
     
     NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
     if ([userInfo.userId isEqualToString:my_userID]) return;
     
-    userInfo.name = [userDic objectForKey:@"name"];
-    userInfo.portraitUri = [userDic objectForKey:@"head_pic"];
+    userInfo.name = [dictionary objectForKey:@"name"];
+    userInfo.portraitUri = [dictionary objectForKey:@"head_pic"];
     
     NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (usersArray)
@@ -69,6 +63,7 @@
     conversationVC.targetId = userInfo.userId;
     conversationVC.title = userInfo.name;
     // 删除位置功能
+    //[conversationVC.pluginBoardView removeItemAtIndex:2];
     [self.navigationController pushViewController:conversationVC animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }
@@ -140,7 +135,7 @@
     return imgView;
 }
 
-- (UIView *)viewForUser:(NSInteger)i andMaintenanceMaxY:(CGFloat)mainMaxY andLevelMaxY:(CGFloat)levelWidth
+- (UIView *)viewForUser:(NSInteger)i andMaintenanceMaxY:(CGFloat)mainMaxY andLevelWidth:(CGFloat)levelWidth
 {
     NSInteger count = self.repairDetail.repair_user_arr.count;
     NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
@@ -188,16 +183,42 @@
     }];
     [userBack addSubview:phone];
     
-    UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
-    contact.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
-    contact.layer.borderWidth = 1.f;
-    contact.layer.cornerRadius = 6.f;
-    contact.tag = i;
-    [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
-    [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
-    [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-    [contact addTarget:self action:@selector(contactRepairer:) forControlEvents:UIControlEventTouchUpInside];
-    [userBack addSubview:contact];
+    if ([[userDic objectForKey:@"id"] isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]] &&
+        _repairDetail.repairstate == 2 &&
+        _repairDetail.isRepairing == 1)
+    {
+        UIButton *repairNow = [UIButton buttonWithType:UIButtonTypeCustom];
+        repairNow.layer.cornerRadius = 4.f;
+        repairNow.backgroundColor = colorWithHexString(@"3cafff");
+        [repairNow setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
+        [repairNow setTitle:@"开始维修" forState:UIControlStateNormal];
+        [repairNow setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+        repairNow.titleLabel.font = [UIFont systemFontOfSize:15];
+        [[repairNow rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self showLoadingMBP:@"请稍候..."];
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request startRepair:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]];
+        }];
+        [userBack addSubview:repairNow];
+    }
+    else
+    {
+        UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
+        contact.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+        contact.layer.borderWidth = 1.f;
+        contact.layer.cornerRadius = 6.f;
+        [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
+        [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
+        [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+        @weakify(self);
+        [[contact rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
+            [self handleUserInfo:userDic];
+        }];
+        [userBack addSubview:contact];
+    }
     
     if (i != count - 1)
     {
@@ -207,6 +228,24 @@
     }
     
     return userBack;
+}
+
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    NSDictionary *dic = (NSDictionary *)response;
+    if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+        __weak typeof(self) weakSelf = self;
+        [self showMBP:@"已经开始！" withBlock:^(BOOL hidden) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }];
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

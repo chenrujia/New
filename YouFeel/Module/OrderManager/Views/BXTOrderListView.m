@@ -368,7 +368,9 @@
     {
         if (repairInfo.order_type != 3)
         {
-            BXTOrderDetailViewController *repairDetailVC = [[BXTOrderDetailViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+            BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
+            [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
             [[self navigation] pushViewController:repairDetailVC animated:YES];
         }
         else
