@@ -566,7 +566,59 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D60-4u-bLn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="568" y="555"/>
+            <point key="canvasLocation" x="1.5" y="532.5"/>
+        </scene>
+        <!--Order Detail View Controller-->
+        <scene sceneID="afl-tT-gzW">
+            <objects>
+                <viewController storyboardIdentifier="BXTOrderDetailViewController" id="8Zc-AZ-UJ1" customClass="BXTOrderDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5vN-mY-RCV"/>
+                        <viewControllerLayoutGuide type="bottom" id="okd-l7-4Kd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Jpy-Uu-nvH">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4wK-KR-9Iu">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" red="0.30588235289999999" green="0.4549019608" blue="0.64705882349999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="4wK-KR-9Iu" secondAttribute="trailing" id="29J-zq-TUE"/>
+                            <constraint firstItem="okd-l7-4Kd" firstAttribute="top" secondItem="4wK-KR-9Iu" secondAttribute="bottom" id="iYv-Ui-h84"/>
+                            <constraint firstItem="4wK-KR-9Iu" firstAttribute="top" secondItem="5vN-mY-RCV" secondAttribute="bottom" constant="44" id="neJ-fw-gGG"/>
+                            <constraint firstItem="4wK-KR-9Iu" firstAttribute="leading" secondItem="Jpy-Uu-nvH" secondAttribute="leading" id="xQM-OL-zUp"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="4wK-KR-9Iu"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="29J-zq-TUE"/>
+                                <exclude reference="neJ-fw-gGG"/>
+                                <exclude reference="xQM-OL-zUp"/>
+                                <exclude reference="iYv-Ui-h84"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="4wK-KR-9Iu"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="29J-zq-TUE"/>
+                                <include reference="neJ-fw-gGG"/>
+                                <include reference="xQM-OL-zUp"/>
+                                <include reference="iYv-Ui-h84"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Heh-Lp-TuL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="762" y="532.5"/>
         </scene>
     </scenes>
 </document>

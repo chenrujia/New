@@ -13,11 +13,6 @@
 #import "UIImageView+WebCache.h"
 #import "BXTEvaluationViewController.h"
 
-#define ImageWidth      73.3f
-#define ImageHeight     73.3f
-#define StateViewHeight 90.f
-#define RepairHeight    95.f
-
 @interface BXTRepairDetailViewController ()<BXTDataResponseDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView             *contentView;

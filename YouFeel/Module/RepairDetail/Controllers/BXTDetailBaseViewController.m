@@ -11,10 +11,6 @@
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
 
-#define ImageWidth      73.3f
-#define ImageHeight     73.3f
-#define RepairHeight    95.f
-
 @interface BXTDetailBaseViewController ()
 
 @end

@@ -63,20 +63,10 @@
 
 @implementation BXTOrderDetailViewController
 
-- (void)dealloc
+- (void)dataWithRepairID:(NSString *)repair_ID
 {
-    LogBlue(@"工单详情被释放了。。。");
-}
-
-- (instancetype)initWithRepairID:(NSString *)reID
-{
-    self = [super init];
-    if (self)
-    {
-        [BXTGlobal shareGlobal].maxPics = 3;
-        self.repair_id = reID;
-    }
-    return self;
+    [BXTGlobal shareGlobal].maxPics = 3;
+    self.repair_id = repair_ID;
 }
 
 - (void)viewDidLoad

@@ -10,6 +10,11 @@
 #import "BXTRepairDetailInfo.h"
 #import <RongIMKit/RongIMKit.h>
 
+#define ImageWidth      73.3f
+#define ImageHeight     73.3f
+#define StateViewHeight 90.f
+#define RepairHeight    95.f
+
 @interface BXTDetailBaseViewController : BXTPhotoBaseViewController
 
 @property (nonatomic ,strong) BXTRepairDetailInfo *repairDetail;

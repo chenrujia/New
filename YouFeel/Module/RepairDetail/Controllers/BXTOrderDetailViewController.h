@@ -22,6 +22,6 @@
  */
 @property (nonatomic, assign) BOOL isAllOrderType;
 
-- (instancetype)initWithRepairID:(NSString *)reID;
+- (void)dataWithRepairID:(NSString *)repair_ID;
 
 @end
