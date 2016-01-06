@@ -98,7 +98,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [self.view addSubview:self.bgView];
     
     
-    // 头
+    // 顶部视图
     UIButton *rootBtn = [[UIButton alloc] initWithFrame:CGRectMake(-15, 0, 120, 50)];
     [rootBtn setTitle:@"组织机构" forState:UIControlStateNormal];
     rootBtn.titleLabel.font = [UIFont systemFontOfSize:16];
