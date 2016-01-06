@@ -46,6 +46,9 @@
 		7818DC1F1C08586900DC22C6 /* BXTStEvaluationHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DC1E1C08586900DC22C6 /* BXTStEvaluationHeader.m */; };
 		7818DC221C08588700DC22C6 /* BXTStEvaluationFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DC211C08588700DC22C6 /* BXTStEvaluationFooter.m */; };
 		7818DC261C08597800DC22C6 /* BXTStEvaluationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7818DC251C08597800DC22C6 /* BXTStEvaluationHeader.xib */; };
+		781EF1831C3CB3B30027FE72 /* BXTMailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781EF1821C3CB3B30027FE72 /* BXTMailViewController.m */; };
+		781EF1871C3D028E0027FE72 /* BXTEquipmentFilesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 781EF1851C3D028E0027FE72 /* BXTEquipmentFilesCell.m */; };
+		781EF1881C3D028E0027FE72 /* BXTEquipmentFilesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 781EF1861C3D028E0027FE72 /* BXTEquipmentFilesCell.xib */; };
 		7823D2031C32313600E3641C /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7823D2021C32313600E3641C /* CodeScan.bundle */; };
 		7823D20A1C3231A000E3641C /* MYAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2051C3231A000E3641C /* MYAlertAction.m */; };
 		7823D20B1C3231A000E3641C /* UIActionSheet+BlockT.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2071C3231A000E3641C /* UIActionSheet+BlockT.m */; };
@@ -350,6 +353,11 @@
 		7818DC201C08588700DC22C6 /* BXTStEvaluationFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStEvaluationFooter.h; sourceTree = "<group>"; };
 		7818DC211C08588700DC22C6 /* BXTStEvaluationFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTStEvaluationFooter.m; sourceTree = "<group>"; };
 		7818DC251C08597800DC22C6 /* BXTStEvaluationHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTStEvaluationHeader.xib; sourceTree = "<group>"; };
+		781EF1811C3CB3B30027FE72 /* BXTMailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailViewController.h; sourceTree = "<group>"; };
+		781EF1821C3CB3B30027FE72 /* BXTMailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailViewController.m; sourceTree = "<group>"; };
+		781EF1841C3D028E0027FE72 /* BXTEquipmentFilesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEquipmentFilesCell.h; sourceTree = "<group>"; };
+		781EF1851C3D028E0027FE72 /* BXTEquipmentFilesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEquipmentFilesCell.m; sourceTree = "<group>"; };
+		781EF1861C3D028E0027FE72 /* BXTEquipmentFilesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEquipmentFilesCell.xib; sourceTree = "<group>"; };
 		7823D2021C32313600E3641C /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
 		7823D2041C3231A000E3641C /* MYAlertAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYAlertAction.h; sourceTree = "<group>"; };
 		7823D2051C3231A000E3641C /* MYAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYAlertAction.m; sourceTree = "<group>"; };
@@ -1230,6 +1238,9 @@
 				78289BDE1C337AD700D76C19 /* BXTCurrentOrderCell.xib */,
 				7823D2371C3260B300E3641C /* BXTEquipmentFilesView.h */,
 				7823D2381C3260B300E3641C /* BXTEquipmentFilesView.m */,
+				781EF1841C3D028E0027FE72 /* BXTEquipmentFilesCell.h */,
+				781EF1851C3D028E0027FE72 /* BXTEquipmentFilesCell.m */,
+				781EF1861C3D028E0027FE72 /* BXTEquipmentFilesCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2965,6 +2976,8 @@
 		96C7F41A1C2BC1A900AD4C71 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				781EF1811C3CB3B30027FE72 /* BXTMailViewController.h */,
+				781EF1821C3CB3B30027FE72 /* BXTMailViewController.m */,
 				96C7F4201C2BC21200AD4C71 /* BXTMailListViewController.h */,
 				96C7F4211C2BC21200AD4C71 /* BXTMailListViewController.m */,
 				786B571B1C3A06C400F48402 /* BXTPersonInfromViewController.h */,
@@ -3114,6 +3127,7 @@
 				78F872C11C095BCB001C6E60 /* BXTProfessionHeader.xib in Resources */,
 				78F872B11C094B14001C6E60 /* BXTStEvaluationFooter.xib in Resources */,
 				96AABA551BE0BB220071B6FA /* RongCloudKit.strings in Resources */,
+				781EF1881C3D028E0027FE72 /* BXTEquipmentFilesCell.xib in Resources */,
 				964E6F0A1C3276300081DEBB /* LoginAndResign.storyboard in Resources */,
 				7823D2431C327FEC00E3641C /* BXTEquipmentInformCell.xib in Resources */,
 				9662659A1C3A6E8A001113FF /* AboutOrder.storyboard in Resources */,
@@ -3245,6 +3259,7 @@
 				9652ABF61BC90DCC009A666D /* NSString+ANKeyValue.m in Sources */,
 				960222E71BC9216300010072 /* BXTOrderDetailViewController.m in Sources */,
 				7839782E1C35246F00BE9620 /* BXTEquipmentData.m in Sources */,
+				781EF1871C3D028E0027FE72 /* BXTEquipmentFilesCell.m in Sources */,
 				9652ABF71BC90DCC009A666D /* UIImage+ANKeyValue.m in Sources */,
 				9602229C1BC9216300010072 /* BXTHomeViewController.m in Sources */,
 				964A1C181BD889C800FC1622 /* BXTMessageListTableViewCell.m in Sources */,
@@ -3337,6 +3352,7 @@
 				960222901BC9216300010072 /* BXTShopsTableViewCell.m in Sources */,
 				960222F51BC9216300010072 /* BXTDrawView.m in Sources */,
 				7818DBDD1C0824D800DC22C6 /* PNChartLabel.m in Sources */,
+				781EF1831C3CB3B30027FE72 /* BXTMailViewController.m in Sources */,
 				960222DF1BC9216300010072 /* BXTRepairViewController.m in Sources */,
 				782D6BC51C0D6CFC00E1828F /* SPChartView.m in Sources */,
 				9652ABEB1BC90DCC009A666D /* NSData+Base64.m in Sources */,
@@ -3605,7 +3621,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -3638,7 +3654,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};

@@ -10,7 +10,7 @@
 #import "CYLTabBarControllerConfig.h"
 #import "BXTRepairHomeViewController.h"
 #import "BXTShopsHomeViewController.h"
-#import "BXTMailListViewController.h"
+#import "BXTMailViewController.h"
 #import "BXTApplicationsViewController.h"
 #import "BXTSettingViewController.h"
 #import "UINavigationController+YRBackGesture.h"
@@ -40,10 +40,10 @@
         [homeNav setEnableBackGesture:YES];
         homeNav.navigationBarHidden = YES;
         
-        BXTMailListViewController *mailListVC = [[BXTMailListViewController alloc] init];
-        UINavigationController *mailListNav = [[UINavigationController alloc] initWithRootViewController:mailListVC];
-        [mailListNav setEnableBackGesture:YES];
-        mailListNav.navigationBarHidden = YES;
+        BXTMailViewController *mailVC = [[BXTMailViewController alloc] init];
+        UINavigationController *mailNav = [[UINavigationController alloc] initWithRootViewController:mailVC];
+        [mailNav setEnableBackGesture:YES];
+        mailNav.navigationBarHidden = YES;
         
         BXTApplicationsViewController *applicationsVC = [[BXTApplicationsViewController alloc] init];
         UINavigationController *applicationsNav = [[UINavigationController alloc] initWithRootViewController:applicationsVC];
@@ -57,7 +57,7 @@
         
         CYLTabBarController *tabBarController = [[CYLTabBarController alloc] init];
         [self setUpTabBarItemsAttributesForController:tabBarController];
-        [tabBarController setViewControllers:@[homeNav,mailListNav,applicationsNav,settingNav]];
+        [tabBarController setViewControllers:@[homeNav,mailNav,applicationsNav,settingNav]];
         [[self class] customizeTabBarAppearance];
         
         _tabBarController = tabBarController;
