@@ -19,10 +19,9 @@
 
 @property (nonatomic ,strong) BXTRepairDetailInfo *repairDetail;
 
-- (void)contactRepairer:(UIButton *)btn;
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser;
 - (NSMutableArray *)containAllArray;
 - (UIImageView *)imageViewWith:(NSInteger)i andDictionary:(NSDictionary *)dictionary;
-- (UIView *)viewForUser:(NSInteger)i andMaintenanceMaxY:(CGFloat)mainMaxY andLevelMaxY:(CGFloat)levelWidth;
+- (UIView *)viewForUser:(NSInteger)i andMaintenanceMaxY:(CGFloat)mainMaxY andLevelWidth:(CGFloat)levelWidth;
 
 @end

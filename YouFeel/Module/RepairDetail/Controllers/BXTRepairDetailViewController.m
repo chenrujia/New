@@ -15,30 +15,6 @@
 
 @interface BXTRepairDetailViewController ()<BXTDataResponseDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView             *contentView;
-@property (weak, nonatomic) IBOutlet UILabel            *repairID;
-@property (weak, nonatomic) IBOutlet UILabel            *time;
-@property (weak, nonatomic) IBOutlet UILabel            *place;
-@property (weak, nonatomic) IBOutlet UILabel            *name;
-@property (weak, nonatomic) IBOutlet UILabel            *mobile;
-@property (weak, nonatomic) IBOutlet UILabel            *faultType;
-@property (weak, nonatomic) IBOutlet UILabel            *cause;
-@property (weak, nonatomic) IBOutlet UILabel            *level;
-@property (weak, nonatomic) IBOutlet UILabel            *notes;
-@property (weak, nonatomic) IBOutlet UIView             *lineOne;
-@property (weak, nonatomic) IBOutlet UIView             *lineTwo;
-@property (weak, nonatomic) IBOutlet UILabel            *arrangeTime;
-@property (weak, nonatomic) IBOutlet UILabel            *mmProcess;
-@property (weak, nonatomic) IBOutlet UILabel            *workTime;
-@property (weak, nonatomic) IBOutlet UILabel            *completeTime;
-@property (weak, nonatomic) IBOutlet UILabel            *maintenanceMan;
-@property (weak, nonatomic) IBOutlet UIButton           *cancelRepair;
-@property (weak, nonatomic) IBOutlet UIScrollView       *images_scrollview;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *line_one_top;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *line_two_top;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sco_content_height;
-
 @property (nonatomic ,strong) UIButton            *evaluationBtn;
 @property (nonatomic ,strong) UIView              *evaBackView;
 @property (nonatomic ,strong) BXTRepairInfo       *repairInfo;
@@ -118,7 +94,7 @@
     [_contentView layoutIfNeeded];
     for (NSInteger i = 0; i < count; i++)
     {
-        UIView *userBack = [self viewForUser:i andMaintenanceMaxY:CGRectGetMaxY(_maintenanceMan.frame) andLevelMaxY:CGRectGetWidth(_level.frame)];
+        UIView *userBack = [self viewForUser:i andMaintenanceMaxY:CGRectGetMaxY(_maintenanceMan.frame) andLevelWidth:CGRectGetWidth(_level.frame)];
         [_contentView addSubview:userBack];
     }
     //如果此时sco_content_height不如屏幕大
@@ -144,7 +120,7 @@
         [config addObjectMapping:map];
         DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairDetailInfo class] andConfiguration:config];
         self.repairDetail = [parser parseDictionary:dictionary];
-        //给各个控件赋值
+        //各种赋值
         _repairID.text = [NSString stringWithFormat:@"工单号:%@",self.repairDetail.orderid];
         NSString *currentDateStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.repair_time];
         _time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];

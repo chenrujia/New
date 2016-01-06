@@ -139,9 +139,9 @@
     if (indexPath.section == 0)
     {
         // 我的工单
-//        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-//        orderManagerVC.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:orderManagerVC animated:YES];
+        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
+        orderManagerVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:orderManagerVC animated:YES];
         
     }
     else if (indexPath.section == 1)
