@@ -417,4 +417,9 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)mailListOfOnePersonWithID:(NSString *)userID;
 
+/**
+ *  解析二维码内容
+ */
+- (void)scanResultWithContent:(NSString *)content;
+
 @end

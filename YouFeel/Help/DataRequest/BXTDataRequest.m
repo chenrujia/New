@@ -761,6 +761,13 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)scanResultWithContent:(NSString *)content
+{
+    NSDictionary *dic = @{@"content": content};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Qrcode&opt=resolu_qr",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {

@@ -161,7 +161,6 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
-    repairDetailVC.isRejectVC = YES;
     [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%@", odModel.dataIdentifier]];
     [[self navigation] pushViewController:repairDetailVC animated:YES];
     

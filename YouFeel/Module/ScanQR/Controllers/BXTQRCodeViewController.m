@@ -7,9 +7,12 @@
 //
 
 #import "BXTQRCodeViewController.h"
-#import "BXTScanResultViewController.h"
-#import "BXTMyQRCodeViewController.h"
 #import "MYAlertAction.h"
+#import "BXTDataRequest.h"
+
+@interface BXTQRBaseViewController () <BXTDataResponseDelegate>
+
+@end
 
 @implementation BXTQRCodeViewController
 
@@ -51,13 +54,6 @@
         self.topTitle = [[UILabel alloc]init];
         _topTitle.bounds = CGRectMake(0, 0, 145, 60);
         _topTitle.center = CGPointMake(CGRectGetWidth(self.view.frame)/2, 120);
-        
-        //3.5inch iphone
-        if ([UIScreen mainScreen].bounds.size.height <= 568 )
-        {
-            _topTitle.center = CGPointMake(CGRectGetWidth(self.view.frame)/2, 38);
-            _topTitle.font = [UIFont systemFontOfSize:14];
-        }
         
         _topTitle.textAlignment = NSTextAlignmentCenter;
         _topTitle.numberOfLines = 0;
@@ -109,20 +105,8 @@
         }
     }];
     
-    self.btnMyQR = [[UIButton alloc]init];
-    _btnMyQR.bounds = _btnFlash.bounds;
-    _btnMyQR.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame) * 3/4, CGRectGetHeight(_bottomItemsView.frame)/2);
-    [_btnMyQR setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_myqrcode_nor"] forState:UIControlStateNormal];
-    [_btnMyQR setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_myqrcode_down"] forState:UIControlStateHighlighted];
-    [[_btnMyQR rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        // 我的二维码
-        BXTMyQRCodeViewController *vc = [BXTMyQRCodeViewController new];
-        [self.navigationController pushViewController:vc animated:YES];
-    }];
-    
     [_bottomItemsView addSubview:_btnFlash];
-    [_bottomItemsView addSubview:_btnPhoto];
-    [_bottomItemsView addSubview:_btnMyQR];
+    //[_bottomItemsView addSubview:_btnPhoto];
 }
 
 #pragma mark -
@@ -182,11 +166,32 @@
 
 - (void)showNextVCWithScanResult:(LBXScanResult*)strResult
 {
-    BXTScanResultViewController *vc = [BXTScanResultViewController new];
-    vc.imgScan = strResult.imgScanned;
-    vc.strScan = strResult.strScanned;
-    vc.strCodeType = strResult.strBarCodeType;
-    [self.navigationController pushViewController:vc animated:YES];
+    NSLog(@"\n------------------>%@\n ------------------>%@\n ------------------>%@", strResult.imgScanned, strResult.strScanned, strResult.strBarCodeType);
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request scanResultWithContent:strResult.strScanned];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (data.count > 0)
+    {
+        NSDictionary *dict = data[0];
+        NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
+    }
+    
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
 }
 
 @end

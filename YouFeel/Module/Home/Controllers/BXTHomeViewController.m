@@ -163,7 +163,7 @@
     
     // 扫描
     UIButton *scanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [scanBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 5.f - 50, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
+    [scanBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 50, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
     [scanBtn setBackgroundImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
     [[scanBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
