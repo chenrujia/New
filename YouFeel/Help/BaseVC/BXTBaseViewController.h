@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTHeaderForVC.h"
 
 typedef void (^HaveHidden)(BOOL hidden);
 

@@ -8,18 +8,25 @@
 
 #import "BXTEquipmentFilesView.h"
 #import "BXTEquipmentFilesCell.h"
+#import "BXTDataRequest.h"
+#import "DataModels.h"
+#import "BXTTimeFilterViewController.h"
+#import "BXTStandardViewController.h"
+#import <MJRefresh.h>
 #import "BXTMaintenanceDetailViewController.h"
-#import "UIView+Nav.h"
 
-@interface BXTEquipmentFilesView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface BXTEquipmentFilesView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
+@property(nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, strong) NSArray *titleArray;
+
 @property (nonatomic, strong) DOPDropDownMenu *DDMenu;
 
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, assign) CGFloat cellHeight;
+@property (nonatomic, assign) NSInteger count;
 
 @end
 
@@ -30,7 +37,14 @@
 - (void)initial
 {
     self.titleArray = @[@"基本信息", @"厂家信息", @"设备参数", @"设备负责人"];
-    self.dataArray = @[@"基本信息", @"厂家信息", @"设备参数", @"设备负责人"];
+    self.dataArray = [[NSMutableArray alloc] init];
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request inspection_record_listWithPagesize:@"5" page:@"1"];
+    });
     
     [self createUI];
 }
@@ -40,8 +54,11 @@
     // 设备操作规范
     UIButton *topBtnView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
     topBtnView.backgroundColor = [UIColor whiteColor];
+    @weakify(self);
     [[topBtnView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        NSLog(@"设备操作规范");
+        @strongify(self);
+        BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] init];
+        [[self getNavigation] pushViewController:sdvc animated:YES];
     }];
     [self addSubview:topBtnView];
     UILabel *titleView = [[UILabel alloc] initWithFrame:CGRectMake(15, 7, 150, 30)];
@@ -68,6 +85,17 @@
     self.tableView.dataSource = self;
     [self addSubview:self.tableView];
     
+    self.currentPage = 1;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        self.currentPage = 1;
+        [self getResource];
+    }];
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        self.currentPage++;
+        [self getResource];
+    }];
+    
+    
     // 新建工单
     UIView *downBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-66, SCREEN_WIDTH, 66)];
     downBgView.backgroundColor = colorWithHexString(@"#DFE0E1");
@@ -82,6 +110,13 @@
         NSLog(@"维保作业");
     }];
     [downBgView addSubview:MaintenanceBtn];
+}
+
+- (void)getResource
+{
+    [self showLoadingMBP:@"数据加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request inspection_record_listWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
 
 #pragma mark -
@@ -103,7 +138,21 @@
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {
-    NSLog(@"第三方士大夫士大夫");
+    self.currentPage = 1;
+    
+    if (self.count != 0) {
+        if (indexPath.row == 0) {
+            NSLog(@"全部");
+        } else {
+            BXTTimeFilterViewController *tfvc = [[BXTTimeFilterViewController alloc] init];
+            tfvc.delegateSignal = [RACSubject subject];
+            [tfvc.delegateSignal subscribeNext:^(NSArray *timeArray) {
+                NSLog(@"%@", timeArray);
+            }];
+            [[self getNavigation] pushViewController:tfvc animated:YES];
+        }
+    }
+    self.count++;
 }
 
 #pragma mark -
@@ -120,12 +169,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellID = @"cell";
-    BXTEquipmentFilesCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil)
-    {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEquipmentFilesCell" owner:nil options:nil] lastObject];
-    }
+    BXTEquipmentFilesCell *cell = [BXTEquipmentFilesCell cellWithTableView:tableView];
+    cell.inspectionList = self.dataArray[indexPath.section];
     
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
@@ -159,7 +204,38 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *maintenanceVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
     [maintenanceVC dataWithRepairID:@"149"];
-    [[self navigation] pushViewController:maintenanceVC animated:YES];
+    [[self getNavigation] pushViewController:maintenanceVC animated:YES];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
+    if (self.currentPage == 1) {
+        [self.dataArray removeAllObjects];
+    }
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == Inspection_Record_List && data.count > 0)
+    {
+        for (NSDictionary *dataDict in data)
+        {
+            BXTInspectionData *model = [BXTInspectionData modelObjectWithDictionary:dataDict];
+            [self.dataArray addObject:model];
+        }
+        [self.tableView reloadData];
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
 }
 
 @end

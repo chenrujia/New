@@ -21,6 +21,20 @@
     return cell;
 }
 
+- (void)setInspectionList:(BXTInspectionData *)inspectionList
+{
+    _inspectionList = inspectionList;
+    
+    self.orderIDView.text = [NSString stringWithFormat:@"编号：%@", inspectionList.inspectionCode];
+    self.typeView.text = [NSString stringWithFormat:@"%@", inspectionList.faulttypeTypeName];
+    
+    self.projectView.text = [NSString stringWithFormat:@"维保项目：%@", inspectionList.inspectionItemName];
+    self.planView.text = [NSString stringWithFormat:@"维保计划：%@", inspectionList.inspectionTime];
+    self.repairManView.text = [NSString stringWithFormat:@"维修人：%@", inspectionList.repairUser];
+    
+    self.endTimeView.text = [NSString stringWithFormat:@"完成时间：%@", inspectionList.createTime];
+}
+
 - (void)awakeFromNib {
     // Initialization code
 }

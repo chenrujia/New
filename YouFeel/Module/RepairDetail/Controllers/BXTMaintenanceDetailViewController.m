@@ -29,6 +29,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
+    _sco_content_width.constant = SCREEN_WIDTH;
     _connectTa.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
     _connectTa.layer.borderWidth = 1.f;
     _connectTa.layer.cornerRadius = 6.f;

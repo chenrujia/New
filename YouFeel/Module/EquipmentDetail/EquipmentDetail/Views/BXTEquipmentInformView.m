@@ -10,6 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "DataModels.h"
 #import "BXTEquipmentInformCell.h"
+#import "BXTEquipmentInform_PersonCell.h"
 
 @interface BXTEquipmentInformView () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 {
@@ -78,6 +79,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 4) {
+        BXTEquipmentInform_PersonCell *cell = [BXTEquipmentInform_PersonCell cellWithTableView:tableView];
+        
+        cell.userList = self.detailArray[indexPath.section][indexPath.row];
+        
+        return cell;
+    }
+    
     BXTEquipmentInformCell *cell = [BXTEquipmentInformCell cellWithTableView:tableView];
     
     cell.titleView.text = [NSString stringWithFormat:@"%@:", self.titleArray[indexPath.section][indexPath.row]];
@@ -90,6 +99,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 4) {
+        return 80;
+    }
     return 50;
 }
 
@@ -205,8 +217,18 @@
         for (NSDictionary *authorDict in authorArray0) {
             BXTEquipmentControlUserArr *controlUserModel = [BXTEquipmentControlUserArr modelObjectWithDictionary:authorDict];
             [authorTitleArray addObject:@"负责人"];
-            [authorArray addObject:controlUserModel.name];
+            [authorArray addObject:controlUserModel];
         }
+        
+        
+        // 存储 设备操作规范
+        NSArray *conditionArray = dataDict[@"operating_condition"];
+        NSDictionary *conditionDict = conditionArray[0];
+        SaveValueTUD(@"conditionDict", conditionDict);
+        
+        // 存储 设备 ID
+        SaveValueTUD(@"Device_ID", dataDict[@"id"]);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"YOUCANREQUEST" object:nil];
         
         // 更新数组
         [self.titleArray replaceObjectAtIndex:3 withObject:paramsTitleArray];
