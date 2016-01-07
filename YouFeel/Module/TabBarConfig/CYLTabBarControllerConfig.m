@@ -38,7 +38,7 @@
         }
         UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeVC];
         [homeNav setEnableBackGesture:YES];
-        homeNav.navigationBarHidden = YES;
+//        homeNav.navigationBarHidden = YES;
         
         BXTMailViewController *mailVC = [[BXTMailViewController alloc] init];
         UINavigationController *mailNav = [[UINavigationController alloc] initWithRootViewController:mailVC];
@@ -53,7 +53,22 @@
         BXTSettingViewController *settingVC = [[BXTSettingViewController alloc] init];
         UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingVC];
         [settingNav setEnableBackGesture:YES];
-        settingNav.navigationBarHidden = YES;
+//        settingNav.navigationBarHidden = YES;
+        
+        if ([BXTGlobal shareGlobal].isRepair)
+        {
+            [homeNav.navigationBar setBarTintColor:colorWithHexString(@"09439c")];
+            [mailNav.navigationBar setBarTintColor:colorWithHexString(@"09439c")];
+            [applicationsNav.navigationBar setBarTintColor:colorWithHexString(@"09439c")];
+            [settingNav.navigationBar setBarTintColor:colorWithHexString(@"09439c")];
+        }
+        else
+        {
+            [homeNav.navigationBar setBarTintColor:colorWithHexString(@"3cafff")];
+            [mailNav.navigationBar setBarTintColor:colorWithHexString(@"3cafff")];
+            [applicationsNav.navigationBar setBarTintColor:colorWithHexString(@"3cafff")];
+            [settingNav.navigationBar setBarTintColor:colorWithHexString(@"3cafff")];
+        }
         
         CYLTabBarController *tabBarController = [[CYLTabBarController alloc] init];
         [self setUpTabBarItemsAttributesForController:tabBarController];

@@ -41,24 +41,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    if ([BXTGlobal shareGlobal].isRepair)
-    {
-        [self.navigationController.navigationBar setBarTintColor:colorWithHexString(@"09439c")];
-    }
-    else
-    {
-        [self.navigationController.navigationBar setBarTintColor:colorWithHexString(@"3cafff")];
-    }
-    
     [self addNotifications];
-    
-    
     [self createLogoView];
-    
-    
     [self loginRongCloud];
-    
     
     datasource = [NSMutableArray array];
     NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
@@ -81,7 +66,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    self.navigationController.navigationBar.hidden = YES;
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request messageList];
 }

@@ -19,9 +19,11 @@
 
 @property (nonatomic ,strong) BXTRepairDetailInfo *repairDetail;
 
+- (void)handleUserInfo:(NSDictionary *)dictionary;
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser;
 - (NSMutableArray *)containAllArray;
 - (UIImageView *)imageViewWith:(NSInteger)i andDictionary:(NSDictionary *)dictionary;
 - (UIView *)viewForUser:(NSInteger)i andMaintenanceMaxY:(CGFloat)mainMaxY andLevelWidth:(CGFloat)levelWidth;
+- (UIView *)deviceLists:(NSInteger)i;
 
 @end

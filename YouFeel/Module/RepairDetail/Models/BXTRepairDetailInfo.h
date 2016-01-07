@@ -60,4 +60,7 @@
 @property (nonatomic ,strong) NSString     *start_time;
 @property (nonatomic ,assign) NSInteger    order_type;
 
+//维保相关
+@property (nonatomic, strong) NSArray      *device_list;
+
 @end

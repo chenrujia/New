@@ -14,6 +14,7 @@
 #import "BXTSelectBoxView.h"
 #import "BXTMaintenanceProcessViewController.h"
 #import "BXTAddOtherManViewController.h"
+#import "BXTRejectOrderViewController.h"
 
 @interface BXTOrderDetailViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
 
@@ -49,6 +50,12 @@
     _connectTa.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
     _connectTa.layer.borderWidth = 1.f;
     _connectTa.layer.cornerRadius = 6.f;
+    @weakify(self);
+    [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        NSDictionary *repaier_fault_dic = self.repairDetail.repair_fault_arr[0];
+        [self handleUserInfo:repaier_fault_dic];
+    }];
     _groupName.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _groupName.layer.borderWidth = 1.f;
     _groupName.layer.cornerRadius = 4.f;
@@ -56,7 +63,6 @@
     _reaciveOrder.layer.cornerRadius = 6.f;
     
     self.manIDArray = [[NSMutableArray alloc] init];
-    @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestDetail" object:nil] subscribeNext:^(id x) {
         @strongify(self);
         [self requestDetail];
@@ -173,6 +179,12 @@
     [UIView animateWithDuration:0.3f animations:^{
         [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
     }];
+}
+
+- (void)navigationRightButton
+{
+    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%@",self.repair_id] andIsAssign:YES];
+    [self.navigationController pushViewController:rejectVC animated:YES];
 }
 
 - (void)requestDetail
@@ -319,7 +331,6 @@
 {
     [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
-    LogRed(@"dic.....%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count > 0)
     {
@@ -350,7 +361,6 @@
             [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
             _mobile.attributedText = attributedString;
         }
-        
         
         //动态计算groupName宽度
         NSString *group_name = self.repairDetail.subgroup_name.length > 0 ? self.repairDetail.subgroup_name : @"其他";

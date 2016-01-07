@@ -21,7 +21,7 @@
 
 @property (nonatomic, strong) DOPDropDownMenu *DDMenu;
 
-@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, assign) CGFloat cellHeight;
@@ -186,7 +186,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return 0.1;
     }
     return 10;
@@ -199,8 +200,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTMaintenanceDetailViewController *maintenanceVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+    [maintenanceVC dataWithRepairID:@"149"];
+    [[self navigation] pushViewController:maintenanceVC animated:YES];
 }
 
 #pragma mark -
