@@ -209,6 +209,7 @@
 {
     [self hideMBP];
     
+    
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
     if (self.currentPage == 1) {
