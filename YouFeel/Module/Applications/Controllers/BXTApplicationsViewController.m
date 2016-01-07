@@ -7,6 +7,7 @@
 //
 
 #import "BXTApplicationsViewController.h"
+#import "BXTHeaderForVC.h"
 
 @interface BXTApplicationsViewController ()
 

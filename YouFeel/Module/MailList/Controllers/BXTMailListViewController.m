@@ -45,8 +45,6 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 {
     [super viewDidLoad];
     [self navigationSetting:@"通讯录" andRightTitle:nil andRightImage:nil];
-    
-    
     self.dataArray = [[NSMutableArray alloc] init];
     self.titleArray = [[NSMutableArray alloc] init];
     self.subDataArray = [[NSMutableArray alloc] init];

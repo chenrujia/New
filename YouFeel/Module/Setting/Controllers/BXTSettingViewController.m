@@ -47,7 +47,6 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [BXTGlobal shareGlobal].maxPics = 1;
     self.isSettingVC = YES;
     self.selectPhotos = [NSMutableArray array];
@@ -79,6 +78,8 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 
 - (void)contactTa
 {
+    self.navigationController.navigationBar.hidden = NO;
+
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = [checkUserDic objectForKey:@"checks_user_out_userid"];
     
@@ -117,10 +118,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
     conversationVC.conversationType =ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
     conversationVC.title = userInfo.name;
-    // 删除位置功能
-    //[conversationVC.pluginBoardView removeItemAtIndex:2];
     [self.navigationController pushViewController:conversationVC animated:YES];
-    self.navigationController.navigationBar.hidden = NO;
 }
 
 #pragma mark -
@@ -478,6 +476,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         BXTChangePassWordViewController *changePassWordVC = (BXTChangePassWordViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTChangePassWordViewController"];
         [changePassWordVC dataWithUserID:userID withKey:key];
         [self.navigationController pushViewController:changePassWordVC animated:YES];
+        self.navigationController.navigationBar.hidden = NO;
     }
     else if (indexPath.section == 4)
     {

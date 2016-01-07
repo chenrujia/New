@@ -19,7 +19,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 - (void)handleUserInfo:(NSDictionary *)dictionary
@@ -240,6 +239,10 @@
         [self showMBP:@"已经开始！" withBlock:^(BOOL hidden) {
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }];
+    }
+    else
+    {
+        [self hideMBP];
     }
 }
 
