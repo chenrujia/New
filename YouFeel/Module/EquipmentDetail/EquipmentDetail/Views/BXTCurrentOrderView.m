@@ -11,6 +11,10 @@
 #import "BXTHeaderForVC.h"
 #import "BXTEquipmentInformCell.h"
 #import "DataModels.h"
+#import "BXTRepairWordOrderViewController.h"
+#import "CYLTabBarController.h"
+#import "AppDelegate.h"
+#import "BXTOrderDetailViewController.h"
 
 @interface BXTCurrentOrderView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -50,22 +54,39 @@
     [self.DDMenu selectDefalutIndexPath];
     
     // tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 45, SCREEN_WIDTH, self.frame.size.height-44) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 45, SCREEN_WIDTH, self.frame.size.height-44-60) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self addSubview:self.tableView];
     
-    // 新建工单
-    UIView *downBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-60, SCREEN_WIDTH, 60)];
-    downBgView.backgroundColor = colorWithHexString(@"#DFE0E1");
-//    [self addSubview:downBgView];
     
-    UIButton *newOrderBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 10, SCREEN_WIDTH-80, 40)];
-    [newOrderBtn setTitle:@"新建工单" forState:UIControlStateNormal];
+    // 新建工单
+    UIView *downBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-66, SCREEN_WIDTH, 66)];
+    downBgView.backgroundColor = colorWithHexString(@"#DFE0E1");
+    [self addSubview:downBgView];
+    
+    UIButton *newOrderBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 13, SCREEN_WIDTH-80, 40)];
+    
+    newOrderBtn.backgroundColor = [UIColor whiteColor];
+    newOrderBtn.layer.cornerRadius = 5;
     [[newOrderBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        NSLog(@"范德萨发案说法士大夫");
+        BXTRepairWordOrderViewController *workOderVC = [[BXTRepairWordOrderViewController alloc] init];
+        [[self navigation] pushViewController:workOderVC animated:YES];
     }];
     [downBgView addSubview:newOrderBtn];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 21.f, 21.f)];
+    imgView.image = [UIImage imageNamed:@"Small_buttons"];
+    [imgView setCenter:CGPointMake(newOrderBtn.bounds.size.width/2.f - 24.f, newOrderBtn.bounds.size.height/2.f)];
+    [newOrderBtn addSubview:imgView];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80.f, 40.f)];
+    titleLabel.text = @"新建工单";
+    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.textColor = colorWithHexString(@"3cafff");
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.center = CGPointMake(newOrderBtn.bounds.size.width/2.f + 22.f, 20.f);
+    [newOrderBtn addSubview:titleLabel];
 }
 
 #pragma mark -
@@ -108,6 +129,10 @@
     
     cell.orderList = self.dataArray[indexPath.section];
     
+    [[cell.receiveOrderView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        NSLog(@"%@", cell.orderList.orderid);
+    }];
+    
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
     self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
@@ -132,6 +157,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BXTCurrentOrderData *odModel = self.dataArray[indexPath.section];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
+    [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%@", odModel.dataIdentifier]];
+    [[self navigation] pushViewController:repairDetailVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -160,5 +191,23 @@
     [self hideMBP];
 }
 
+#pragma mark -
+#pragma mark - 方法
+- (UINavigationController *)navigation
+{
+    id rootVC = [AppDelegate appdelegete].window.rootViewController;
+    UINavigationController *nav = nil;
+    if ([rootVC isKindOfClass:[CYLTabBarController class]])
+    {
+        CYLTabBarController *tempVC = rootVC;
+        nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
+    }
+    else if ([rootVC isKindOfClass:[UINavigationController class]])
+    {
+        nav = rootVC;
+    }
+    
+    return nav;
+}
 
 @end

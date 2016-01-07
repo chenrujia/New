@@ -85,7 +85,15 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.tableView_Search.dataSource = self;
     self.tableView_Search.delegate = self;
     [self.view addSubview:self.tableView_Search];
-    
+    // UITableView - tableView_Search - tableHeaderView
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
+    self.tableView_Search.tableHeaderView = headerView;
+    UILabel *alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 150, 30)];
+    alertLabel.text = @"您可能要找的是：";
+    alertLabel.textColor = colorWithHexString(@"#666666");
+    alertLabel.font = [UIFont systemFontOfSize:15];
+    alertLabel.textAlignment = NSTextAlignmentLeft;
+    [headerView addSubview:alertLabel];
     
     // headerView - bgView
     self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_HEIGHT, 50)];
@@ -95,11 +103,13 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [self.view addSubview:self.bgView];
     
     
-    UIButton *rootBtn = [[UIButton alloc] initWithFrame:CGRectMake(-15, 0, 120, 50)];
+    // 顶部视图
+    UIButton *rootBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 105, 50)];
     [rootBtn setTitle:@"组织机构" forState:UIControlStateNormal];
     rootBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    rootBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    rootBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
     [rootBtn setTitleColor:colorWithHexString(@"#ffffff") forState:UIControlStateNormal];
-    [rootBtn setBackgroundImage:[UIImage imageNamed:@"mail_rectangle_root"] forState:UIControlStateNormal];
     [[rootBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         for (UIView *view in self.subScrollView.subviews) {
             [view removeFromSuperview];
@@ -163,7 +173,22 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    self.searchArray = [BXTGlobal readFileWithfileName:@"MailUserList"];
+    NSArray *allPersonArray = [BXTGlobal readFileWithfileName:@"MailUserList"];
+    
+    // TODO: -----------------  目前只判断第一字母 待优化  -----------------
+    NSMutableArray *searchArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *dict in allPersonArray) {
+        BXTSearchData *model = [BXTSearchData modelObjectWithDictionary:dict];
+        NSLog(@"------- %@", model.nameShort);
+        if ([[model.nameShort substringToIndex:1] isEqualToString:[self getNamePinYin:searchBar.text].lowercaseString]) {
+            [searchArray addObject:dict];
+        }
+    }
+    
+    self.searchArray = searchArray;
+    
+    NSLog(@"------- %@", self.searchArray);
+    
     [self.tableView_Search reloadData];
     
     [self.view endEditing:YES];
@@ -268,7 +293,6 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     if (tableView == self.tableView_Search) {
         BXTPersonInfromViewController *pivc = [[BXTPersonInfromViewController alloc] init];
         pivc.userID = @"1";
-        pivc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:pivc animated:YES];
         
         [self showTableViewAndHideSearchTableView:YES];
@@ -348,12 +372,11 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
-    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Mail_Get_All && data.count > 0)
     {
+        [self hideMBP];
         self.dataArray = data;
         [self ergodicArray:data];
     }
@@ -416,6 +439,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     return groupBtn;
 }
 
+// 列表和搜索列表显示类
 - (void)showTableViewAndHideSearchTableView:(BOOL)isRight
 {
     if (isRight) {
@@ -427,6 +451,24 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         self.tableView.hidden = YES;
         self.bgView.hidden = YES;
     }
+}
+
+// 获取真实名字的第一个字的首字母
+- (NSString *)getNamePinYin:(NSString *)searchName
+{
+    NSString *S = [self phonetic:searchName];
+    return [self phonetic:[S uppercaseString]];
+}
+
+- (NSString *)phonetic:(NSString *)sourceString
+{
+    if (sourceString.length <= 0) return @"";
+    NSMutableString *source = [sourceString mutableCopy];
+    CFStringTransform((__bridge CFMutableStringRef)source, NULL, kCFStringTransformMandarinLatin, NO);
+    CFStringTransform((__bridge CFMutableStringRef)source, NULL, kCFStringTransformStripDiacritics, NO);
+    
+    NSString  *current = [source substringToIndex:1];
+    return current;
 }
 
 - (void)didReceiveMemoryWarning
