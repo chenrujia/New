@@ -229,6 +229,52 @@
     return userBack;
 }
 
+- (UIView *)deviceLists:(NSInteger)i
+{
+    NSDictionary *deviceDic = _repairDetail.device_list[i];
+    CGFloat height = 63.f;
+    //以设备列表下面那条线为基准
+    CGFloat y = 46.f;
+    UIView *deviceBackView = [[UIView alloc] initWithFrame:CGRectMake(0, y + i * height, SCREEN_WIDTH, height)];
+    
+    UILabel *deviceName = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 8.f, SCREEN_WIDTH - 108.f, 20)];
+    deviceName.textColor = colorWithHexString(@"000000");
+    deviceName.numberOfLines = 0;
+    deviceName.lineBreakMode = NSLineBreakByWordWrapping;
+    deviceName.font = [UIFont systemFontOfSize:16.f];
+    deviceName.text = [NSString stringWithFormat:@"设备名称:%@",[deviceDic objectForKey:@"name"]];
+    [deviceBackView addSubview:deviceName];
+    
+    UILabel *deviceNumber = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(deviceName.frame) + 8.f, SCREEN_WIDTH - 108.f, 20)];
+    deviceNumber.textColor = colorWithHexString(@"000000");
+    deviceNumber.numberOfLines = 0;
+    deviceNumber.lineBreakMode = NSLineBreakByWordWrapping;
+    deviceNumber.font = [UIFont systemFontOfSize:16.f];
+    deviceNumber.text = [NSString stringWithFormat:@"设备编号:%@",[deviceDic objectForKey:@"code_number"]];
+    [deviceBackView addSubview:deviceNumber];
+    
+    UIButton *maintenaceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    maintenaceBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+    maintenaceBtn.layer.borderWidth = 1.f;
+    maintenaceBtn.layer.cornerRadius = 6.f;
+    [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 11.f, 83.f, 40.f)];
+    [maintenaceBtn setTitle:@"开始保养" forState:UIControlStateNormal];
+    [maintenaceBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+//    @weakify(self);
+//    [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+//        @strongify(self);
+//        NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
+//        [self handleUserInfo:userDic];
+//    }];
+    [deviceBackView addSubview:maintenaceBtn];
+    
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(deviceNumber.frame) + 10.f - 1, SCREEN_WIDTH - 30.f, 1.f)];
+    line.backgroundColor = colorWithHexString(@"e2e6e8");
+    [deviceBackView addSubview:line];
+    
+    return deviceBackView;
+}
+
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = (NSDictionary *)response;

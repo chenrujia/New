@@ -21,6 +21,7 @@
  *  从全部工单过来的只有查看的权利
  */
 @property (nonatomic, assign) BOOL isAllOrderType;
+
 @property (weak, nonatomic) IBOutlet UIView       *contentView;
 @property (weak, nonatomic) IBOutlet UIImageView  *headImgView;
 @property (weak, nonatomic) IBOutlet UILabel      *repairerName;

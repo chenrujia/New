@@ -1,0 +1,2 @@
+/Users/jason/Library/Developer/Xcode/DerivedData/YouFeel-gxomrjmfhkupuzaypgckbwbyhqcd/Build/Products/Debug-iphoneos/YouFeel.app
+iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)

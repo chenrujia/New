@@ -24,5 +24,6 @@
 - (NSMutableArray *)containAllArray;
 - (UIImageView *)imageViewWith:(NSInteger)i andDictionary:(NSDictionary *)dictionary;
 - (UIView *)viewForUser:(NSInteger)i andMaintenanceMaxY:(CGFloat)mainMaxY andLevelWidth:(CGFloat)levelWidth;
+- (UIView *)deviceLists:(NSInteger)i;
 
 @end

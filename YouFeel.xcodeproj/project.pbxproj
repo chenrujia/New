@@ -230,6 +230,7 @@
 		96AB062F1C1FB48E0038E2AF /* icon_chose_arrow_sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96AB062A1C1FB48E0038E2AF /* icon_chose_arrow_sel@2x.png */; };
 		96AB06301C1FB48E0038E2AF /* DOPDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AB062D1C1FB48E0038E2AF /* DOPDropDownMenu.m */; };
 		96AD52611BF4341C00F02BE7 /* BXTNewOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD52601BF4341C00F02BE7 /* BXTNewOrderViewController.m */; };
+		96B875831C3E3C330025ACC5 /* BXTMaintenanceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B875821C3E3C330025ACC5 /* BXTMaintenanceDetailViewController.m */; };
 		96C0FEE81BDB357100580355 /* BXTFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FEE71BDB357100580355 /* BXTFeedbackViewController.m */; };
 		96C0FEF01BDB445E00580355 /* BXTCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FEEF1BDB445E00580355 /* BXTCustomerServiceViewController.m */; };
 		96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C684891BE76B4B0038A342 /* AssetsLibraryD.m */; };
@@ -702,6 +703,8 @@
 		96AB062D1C1FB48E0038E2AF /* DOPDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOPDropDownMenu.m; sourceTree = "<group>"; };
 		96AD525F1BF4341C00F02BE7 /* BXTNewOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNewOrderViewController.h; sourceTree = "<group>"; };
 		96AD52601BF4341C00F02BE7 /* BXTNewOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewOrderViewController.m; sourceTree = "<group>"; };
+		96B875811C3E3C330025ACC5 /* BXTMaintenanceDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenanceDetailViewController.h; sourceTree = "<group>"; };
+		96B875821C3E3C330025ACC5 /* BXTMaintenanceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenanceDetailViewController.m; sourceTree = "<group>"; };
 		96BA7C411C1ABFAE00F02EF0 /* BXTPCH.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BXTPCH.pch; sourceTree = "<group>"; };
 		96C0FEE61BDB357100580355 /* BXTFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFeedbackViewController.h; sourceTree = "<group>"; };
 		96C0FEE71BDB357100580355 /* BXTFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFeedbackViewController.m; sourceTree = "<group>"; };
@@ -1784,14 +1787,14 @@
 		960221A31BC9216300010072 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				96CEFB7A1C292309005E3091 /* BXTLoadingViewController.h */,
+				96CEFB7B1C292309005E3091 /* BXTLoadingViewController.m */,
 				960221A41BC9216300010072 /* BXTHomeViewController.h */,
 				960221A51BC9216300010072 /* BXTHomeViewController.m */,
 				960221A61BC9216300010072 /* BXTRepairHomeViewController.h */,
 				960221A71BC9216300010072 /* BXTRepairHomeViewController.m */,
 				960221A81BC9216300010072 /* BXTShopsHomeViewController.h */,
 				960221A91BC9216300010072 /* BXTShopsHomeViewController.m */,
-				96CEFB7A1C292309005E3091 /* BXTLoadingViewController.h */,
-				96CEFB7B1C292309005E3091 /* BXTLoadingViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2082,6 +2085,8 @@
 				9602222D1BC9216300010072 /* BXTRepairDetailViewController.m */,
 				9602222A1BC9216300010072 /* BXTOrderDetailViewController.h */,
 				9602222B1BC9216300010072 /* BXTOrderDetailViewController.m */,
+				96B875811C3E3C330025ACC5 /* BXTMaintenanceDetailViewController.h */,
+				96B875821C3E3C330025ACC5 /* BXTMaintenanceDetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3433,6 +3438,7 @@
 				9652ABF11BC90DCC009A666D /* ANKeyValueTable.m in Sources */,
 				960223021BC9216300010072 /* BXTFloorInfo.m in Sources */,
 				781EF2091C3D382C0027FE72 /* BXTEquipmentBaseView.m in Sources */,
+				96B875831C3E3C330025ACC5 /* BXTMaintenanceDetailViewController.m in Sources */,
 				7818DBE81C0824D800DC22C6 /* PNScatterChart.m in Sources */,
 				9602228D1BC9216300010072 /* BXTRepairerView.m in Sources */,
 				7818DBD41C0824D800DC22C6 /* BarChatItemView.m in Sources */,
@@ -3645,7 +3651,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
+				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -3678,7 +3684,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
+				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
