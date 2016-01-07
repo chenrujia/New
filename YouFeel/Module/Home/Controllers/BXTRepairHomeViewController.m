@@ -166,6 +166,7 @@
         achievementVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:achievementVC animated:YES];
     }
+    
 }
 
 - (void)didReceiveMemoryWarning

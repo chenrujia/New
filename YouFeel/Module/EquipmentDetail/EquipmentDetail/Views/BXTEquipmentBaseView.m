@@ -57,6 +57,22 @@
     [MBProgressHUD hideHUDForView:self animated:YES];
 }
 
+- (UINavigationController *)getNavigation
+{
+    id rootVC = [AppDelegate appdelegete].window.rootViewController;
+    UINavigationController *nav = nil;
+    if ([rootVC isKindOfClass:[CYLTabBarController class]])
+    {
+        CYLTabBarController *tempVC = rootVC;
+        nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
+    }
+    else if ([rootVC isKindOfClass:[UINavigationController class]])
+    {
+        nav = rootVC;
+    }
+    
+    return nav;
+}
 /*
  // Only override drawRect: if you perform custom drawing.
  // An empty implementation adversely affects performance during animation.

@@ -48,6 +48,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Exit_Login,
     Device_Con,
     Device_Repair_List,
+    Inspection_Record_List,
     Mail_Get_All,
     Mail_User_list
 };
@@ -339,7 +340,7 @@ andRepairerIsReacive:(NSString *)reacive;
  *  统计-分组统计
  */
 - (void)statistics_subgroupWithTime_start:(NSString *)startTime
-                                  time_end:(NSString *)endTime;
+                                 time_end:(NSString *)endTime;
 
 /**
  *  统计-故障类型统计
@@ -362,7 +363,7 @@ andRepairerIsReacive:(NSString *)reacive;
  *  统计-按分组统计维修量
  */
 - (void)statistics_workloadWithTime_start:(NSString *)startTime
-                               time_end:(NSString *)endTime;
+                                 time_end:(NSString *)endTime;
 
 /**
  *  统计-按分组好评
@@ -400,7 +401,16 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  当前工单
  */
-- (void)device_repair_listWithDeviceID:(NSString *)deviceID;
+- (void)device_repair_listWithOrder:(NSString *)order
+                          timestart:(NSString *)startTime
+                           timeover:(NSString *)endTime
+                           pagesize:(NSString *)pagesize
+                               page:(NSString *)page;
+
+/**
+ *  维保档案
+ */
+- (void)inspection_record_listWithPagesize:(NSString *)pagesize page:(NSString *)page;
 
 /**
  *  通讯录列表

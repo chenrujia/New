@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTInspectionData.h"
 
 @interface BXTEquipmentFilesCell : UITableViewCell
 
@@ -20,5 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *endTimeView;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+@property (nonatomic, strong) BXTInspectionData *inspectionList;
 
 @end

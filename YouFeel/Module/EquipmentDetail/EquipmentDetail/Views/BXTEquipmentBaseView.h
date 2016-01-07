@@ -10,6 +10,8 @@
 #import "MBProgressHUD.h"
 #import "BXTHeaderFile.h"
 #import "DOPDropDownMenu.h"
+#import "CYLTabBarController.h"
+#import "AppDelegate.h"
 
 @interface BXTEquipmentBaseView : UIView
 
@@ -21,5 +23,8 @@
 
 /** ---- 隐藏 ---- */
 - (void)hideMBP;
+
+/** ---- 获取UINavigationController ---- */
+- (UINavigationController *)getNavigation;
 
 @end

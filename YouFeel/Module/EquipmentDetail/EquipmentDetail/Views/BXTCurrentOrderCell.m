@@ -36,6 +36,10 @@
     self.endTimeView.text = [NSString stringWithFormat:@"截止时间：%@", orderList.repairTime];
     self.timeView.text =  [NSString stringWithFormat:@"报修时间：%@", orderList.repairTime];
     
+    if ([orderList.isReceive integerValue] == 2) {
+        [self.receiveOrderView setTitle:@"已接单" forState:UIControlStateNormal];
+        self.receiveOrderView.userInteractionEnabled = NO;
+    }
 }
 
 - (void)awakeFromNib {

@@ -88,7 +88,7 @@
         area_id = areaInfo.place_id;
         id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
         
-
+        
         if ([shopInfo isKindOfClass:[NSString class]])
         {
             store_id = shopInfo;
@@ -731,11 +731,28 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)device_repair_listWithDeviceID:(NSString *)deviceID
+- (void)device_repair_listWithOrder:(NSString *)order
+                          timestart:(NSString *)startTime
+                           timeover:(NSString *)endTime
+                           pagesize:(NSString *)pagesize
+                               page:(NSString *)page
 {
     self.requestType = Device_Repair_List;
-    NSDictionary *dic = @{@"id": deviceID};
+    NSDictionary *dic = @{@"order": order,
+                          @"timestart": startTime,
+                          @"timeover": endTime,
+                          @"pagesize": pagesize,
+                          @"page": page,
+                          @"device_id": ValueFUD(@"Device_ID")};
     NSString *url = [NSString stringWithFormat:@"%@&module=Device_repair&opt=device_repair_list",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)inspection_record_listWithPagesize:(NSString *)pagesize page:(NSString *)page
+{
+    self.requestType = Inspection_Record_List;
+    NSDictionary *dic = @{@"pagesize": pagesize, @"page": page};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=inspection_record_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
