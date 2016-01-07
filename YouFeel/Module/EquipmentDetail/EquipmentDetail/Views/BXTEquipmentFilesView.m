@@ -13,6 +13,7 @@
 #import "BXTTimeFilterViewController.h"
 #import "BXTStandardViewController.h"
 #import <MJRefresh.h>
+#import "BXTMaintenanceDetailViewController.h"
 
 @interface BXTEquipmentFilesView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -21,7 +22,7 @@
 
 @property (nonatomic, strong) DOPDropDownMenu *DDMenu;
 
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, assign) CGFloat cellHeight;
@@ -35,9 +36,8 @@
 #pragma mark - 初始化
 - (void)initial
 {
-    self.titleArray = @[@"全部", @"时间范围"];
+    self.titleArray = @[@"基本信息", @"厂家信息", @"设备参数", @"设备负责人"];
     self.dataArray = [[NSMutableArray alloc] init];
-    self.count = 0;
     
     [self showLoadingMBP:@"数据加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
@@ -204,7 +204,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *maintenanceVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
     [maintenanceVC dataWithRepairID:@"149"];
-    [[self navigation] pushViewController:maintenanceVC animated:YES];
+    [[self getNavigation] pushViewController:maintenanceVC animated:YES];
 }
 
 #pragma mark -
