@@ -38,12 +38,12 @@
         }
         UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeVC];
         [homeNav setEnableBackGesture:YES];
-//        homeNav.navigationBarHidden = YES;
+        //        homeNav.navigationBarHidden = YES;
         
         BXTMailViewController *mailVC = [[BXTMailViewController alloc] init];
         UINavigationController *mailNav = [[UINavigationController alloc] initWithRootViewController:mailVC];
         [mailNav setEnableBackGesture:YES];
-        mailNav.navigationBarHidden = YES;
+        mailNav.navigationBarHidden = NO;
         
         BXTApplicationsViewController *applicationsVC = [[BXTApplicationsViewController alloc] init];
         UINavigationController *applicationsNav = [[UINavigationController alloc] initWithRootViewController:applicationsVC];
@@ -53,7 +53,7 @@
         BXTSettingViewController *settingVC = [[BXTSettingViewController alloc] init];
         UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingVC];
         [settingNav setEnableBackGesture:YES];
-//        settingNav.navigationBarHidden = YES;
+        //        settingNav.navigationBarHidden = YES;
         
         if ([BXTGlobal shareGlobal].isRepair)
         {

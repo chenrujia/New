@@ -41,10 +41,18 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 @implementation BXTMailListViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self navigationSetting:@"通讯录" andRightTitle:nil andRightImage:nil];
+    
     self.dataArray = [[NSMutableArray alloc] init];
     self.titleArray = [[NSMutableArray alloc] init];
     self.subDataArray = [[NSMutableArray alloc] init];

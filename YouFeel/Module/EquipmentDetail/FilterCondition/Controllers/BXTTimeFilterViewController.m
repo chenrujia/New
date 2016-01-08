@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, timeType) {
     
     
     UIButton *sureBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    sureBtn.frame = CGRectMake(20, 340-64+266+40, SCREEN_WIDTH-40, 50);
+    sureBtn.frame = CGRectMake(20, 340-64+266+20, SCREEN_WIDTH-40, 50);
     sureBtn.layer.cornerRadius = 5;
     [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
     [sureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -54,7 +54,9 @@ typedef NS_ENUM(NSInteger, timeType) {
             [MYAlertAction showAlertWithTitle:@"请选择结束时间" msg:nil chooseBlock:nil buttonsStatement:@"确定", nil];
         } else {
             if (self.delegateSignal) {
-                NSArray *array = [[NSArray alloc] initWithObjects:self.startTime, self.endTime, nil];
+                NSString *timeStart = [BXTGlobal transTimeStampWithTime:self.startTime withType:@"yyyy/MM/dd"];
+                NSString *timeEnd = [BXTGlobal transTimeStampWithTime:self.endTime withType:@"yyyy/MM/dd"];
+                NSArray *array = [[NSArray alloc] initWithObjects:timeStart, timeEnd, nil];
                 [self.delegateSignal sendNext:array];
             }
             [self.navigationController popViewControllerAnimated:YES];

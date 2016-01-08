@@ -79,7 +79,12 @@ UIColor* colorWithHexString(NSString *stringToConvert);
 + (NSString *)transformationTime:(NSString *)timeType withTime:(NSString *)time;
 
 /**
- *  NSDate转NSString
+ *  时间转时间戳
+ */
++ (NSString *)transTimeStampWithTime:(NSString *)time withType:(NSString *)timeType;
+
+/**
+ *  时间戳转时间
  */
 + (NSString *)transTimeWithDate:(NSDate *)date withType:(NSString *)timeType;
 

@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     BXTSelectBoxView *boxView;
     NSArray *comeTimeArray;
     NSDate *originDate;
+    NSArray *ChooseTimeArray;
 }
 
 @property(nonatomic, assign) NSInteger currentPage;
@@ -58,6 +59,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
 #pragma mark - 初始化
 - (void)initial
 {
+    
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
         [timeArray addObject:[NSString stringWithFormat:@"%@分钟内", timeStr]];
@@ -76,12 +78,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     self.DDMenu.layer.borderWidth = 0.5;
     self.DDMenu.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
     [self addSubview:self.DDMenu];
-    @weakify(self);
-    // 获得device_id后 可以请求
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"YOUCANREQUEST" object:nil] subscribeNext:^(id x) {
-        @strongify(self);
-        [self.DDMenu selectDefalutIndexPath];
-    }];
+    [self.DDMenu selectDefalutIndexPath];
     
     // tableView
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 45, SCREEN_WIDTH, self.frame.size.height-44-66) style:UITableViewStyleGrouped];
@@ -134,7 +131,13 @@ typedef NS_ENUM(NSInteger, OrderType) {
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request device_repair_listWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    
+    if ([self.typeStr isEqualToString:@""]) {
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request device_repair_listWithOrder:@"" timestart:ChooseTimeArray[0] timeover:ChooseTimeArray[1] pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    } else {
+        [request device_repair_listWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    }
 }
 
 #pragma mark -
@@ -326,22 +329,38 @@ typedef NS_ENUM(NSInteger, OrderType) {
         default: break;
     }
     self.typeStr = [NSString stringWithFormat:@"%ld", type];
+    if (indexPath.row == 3) {
+        self.typeStr = @"";
+    }
     
     self.currentPage = 1;
     
     if (indexPath.row != 3) {
         [self showLoadingMBP:@"数据加载中..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request device_repair_listWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
+        dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+        dispatch_async(concurrentQueue, ^{
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request device_repair_listWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
+        });
     } else {
         BXTTimeFilterViewController *tfvc = [[BXTTimeFilterViewController alloc] init];
         tfvc.delegateSignal = [RACSubject subject];
+        @weakify(self);
         [tfvc.delegateSignal subscribeNext:^(NSArray *timeArray) {
-            NSLog(@"%@", timeArray);
+            @strongify(self);
+            
+            ChooseTimeArray = [[NSArray alloc] initWithArray:timeArray];
+            
+            [self showLoadingMBP:@"数据加载中..."];
+            dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+            dispatch_async(concurrentQueue, ^{
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request device_repair_listWithOrder:@"" timestart:timeArray[0] timeover:timeArray[1] pagesize:@"5" page:@"1"];
+            });
         }];
         [[self getNavigation] pushViewController:tfvc animated:YES];
     }
-}
+} 
 
 #pragma mark -
 #pragma mark - tableView代理方法

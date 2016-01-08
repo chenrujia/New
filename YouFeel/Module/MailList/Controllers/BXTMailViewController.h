@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTBaseViewController.h"
+#import <RongIMKit/RongIMKit.h>
 
-@interface BXTMailViewController : BXTBaseViewController
+@interface BXTMailViewController : RCConversationListViewController
 
 @end

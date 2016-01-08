@@ -47,7 +47,7 @@
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request equipmentWithDeviceID:@"1"];
+        [request equipmentInformation];
     });
     
     
@@ -226,9 +226,6 @@
         NSDictionary *conditionDict = conditionArray[0];
         SaveValueTUD(@"conditionDict", conditionDict);
         
-        // 存储 设备 ID
-        SaveValueTUD(@"Device_ID", dataDict[@"id"]);
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"YOUCANREQUEST" object:nil];
         
         // 更新数组
         [self.titleArray replaceObjectAtIndex:3 withObject:paramsTitleArray];

@@ -9,6 +9,7 @@
 #import "BXTQRCodeViewController.h"
 #import "MYAlertAction.h"
 #import "BXTDataRequest.h"
+#import "BXTEquipmentViewController.h"
 
 @interface BXTQRBaseViewController () <BXTDataResponseDelegate>
 
@@ -185,6 +186,11 @@
     {
         NSDictionary *dict = data[0];
         NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
+        
+        BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] init];
+        // 存储 设备 ID
+        SaveValueTUD(@"Device_ID", dict[@"qr_content"]);
+        [self.navigationController pushViewController:epvc animated:YES];
     }
     
 }

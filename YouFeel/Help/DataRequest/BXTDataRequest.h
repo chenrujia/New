@@ -396,7 +396,7 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  设备详情
  */
-- (void)equipmentWithDeviceID:(NSString *)deviceID;
+- (void)equipmentInformation;
 
 /**
  *  当前工单
@@ -410,7 +410,10 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  维保档案
  */
-- (void)inspection_record_listWithPagesize:(NSString *)pagesize page:(NSString *)page;
+- (void)inspection_record_listWithPagesize:(NSString *)pagesize
+                                      page:(NSString *)page
+                                 timestart:(NSString *)startTime
+                                  timeover:(NSString *)endTime;
 
 /**
  *  通讯录列表

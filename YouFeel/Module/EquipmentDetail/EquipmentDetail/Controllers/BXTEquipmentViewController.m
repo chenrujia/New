@@ -39,6 +39,12 @@
 {
     [self navigationSetting:@"设备详情" andRightTitle:nil andRightImage:nil];
     
+    
+    // TODO: -----------------  调试完成 可移除  -----------------
+    // 存储 设备 ID
+    SaveValueTUD(@"Device_ID", @"1");
+    
+    
     CGFloat navBarHeight = 64.f;
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, navBarHeight, SCREEN_WIDTH, 40.f)];
     [backView setBackgroundColor:colorWithHexString(@"ffffff")];
@@ -79,6 +85,11 @@
     BXTEquipmentFilesView *epfView = [[BXTEquipmentFilesView alloc] initWithFrame:CGRectMake(2*SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds))];
     [currentScrollView addSubview:epfView];
     
+}
+
+- (void)navigationLeftButton
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark -
