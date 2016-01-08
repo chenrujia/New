@@ -131,7 +131,16 @@ typedef NS_ENUM(NSInteger, OrderType) {
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request deviceRepairListWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    
+    if ([self.typeStr isEqualToString:@""])
+    {
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request deviceRepairListWithOrder:@"" timestart:ChooseTimeArray[0] timeover:ChooseTimeArray[1] pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    }
+    else
+    {
+        [request deviceRepairListWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    }
 }
 
 #pragma mark -
@@ -331,8 +340,11 @@ typedef NS_ENUM(NSInteger, OrderType) {
     
     if (indexPath.row != 3) {
         [self showLoadingMBP:@"数据加载中..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request deviceRepairListWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
+        dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+        dispatch_async(concurrentQueue, ^{
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request deviceRepairListWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
+        });
     } else {
         BXTTimeFilterViewController *tfvc = [[BXTTimeFilterViewController alloc] init];
         tfvc.delegateSignal = [RACSubject subject];
@@ -346,13 +358,12 @@ typedef NS_ENUM(NSInteger, OrderType) {
             dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
             dispatch_async(concurrentQueue, ^{
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request device_repair_listWithOrder:@"" timestart:timeArray[0] timeover:timeArray[1] pagesize:@"5" page:@"1"];
+                [request deviceRepairListWithOrder:@"" timestart:timeArray[0] timeover:timeArray[1] pagesize:@"5" page:@"1"];
             });
         }];
         [[self getNavigation] pushViewController:tfvc animated:YES];
     }
-} 
-
+}
 #pragma mark -
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

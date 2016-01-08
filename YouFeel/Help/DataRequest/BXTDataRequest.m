@@ -748,7 +748,10 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)inspectionRecordListWithPagesize:(NSString *)pagesize page:(NSString *)page
+- (void)inspectionRecordListWithPagesize:(NSString *)pagesize
+                                    page:(NSString *)page
+                               timestart:(NSString *)startTime
+                                timeover:(NSString *)endTime
 {
     self.requestType = Inspection_Record_List;
     NSDictionary *dic = @{@"pagesize": pagesize,

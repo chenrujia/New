@@ -411,7 +411,10 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  维保档案
  */
-- (void)inspectionRecordListWithPagesize:(NSString *)pagesize page:(NSString *)page;
+- (void)inspectionRecordListWithPagesize:(NSString *)pagesize
+                                    page:(NSString *)page
+                               timestart:(NSString *)startTime
+                                timeover:(NSString *)endTime;
 
 /**
  *  通讯录列表

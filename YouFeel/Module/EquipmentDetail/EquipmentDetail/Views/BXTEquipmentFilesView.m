@@ -47,7 +47,7 @@
     dispatch_async(concurrentQueue, ^{
         /**请求维保档案**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request inspectionRecordListWithPagesize:@"5" page:@"1"];
+        [request inspectionRecordListWithPagesize:@"5" page:@"1" timestart:@"" timeover:@""];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求维保列表**/
@@ -125,7 +125,13 @@
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    
+    if (self.ChoosTimeArray.count == 0) {
+        [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] timestart:@"" timeover:@""];
+    } else {
+        [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] timestart:self.ChoosTimeArray[0] timeover:self.ChoosTimeArray[1]];
+    }
+    
 }
 
 #pragma mark -
@@ -155,7 +161,7 @@
             
             [self showLoadingMBP:@"数据加载中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request inspection_record_listWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] timestart:@"" timeover:@""];
+            [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] timestart:@"" timeover:@""];
         } else {
             BXTTimeFilterViewController *tfvc = [[BXTTimeFilterViewController alloc] init];
             tfvc.delegateSignal = [RACSubject subject];
@@ -167,7 +173,7 @@
                 
                 [self showLoadingMBP:@"数据加载中..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request inspection_record_listWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] timestart:timeArray[0] timeover:timeArray[1]];
+                [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] timestart:timeArray[0] timeover:timeArray[1]];
             }];
             [[self getNavigation] pushViewController:tfvc animated:YES];
         }
