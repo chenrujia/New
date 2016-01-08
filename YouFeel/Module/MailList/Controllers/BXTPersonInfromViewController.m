@@ -34,7 +34,7 @@
     
     self.dataArray = [[NSMutableArray alloc] init];
     self.headerTitleArray = @[@"企业信息", @"项目信息", @"个人信息"];
-
+    
     
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];

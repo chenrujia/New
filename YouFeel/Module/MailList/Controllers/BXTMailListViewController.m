@@ -13,6 +13,7 @@
 #import "BXTMailListCell.h"
 #import "BXTSearchData.h"
 #import "BXTPersonInfromViewController.h"
+#import "PinYinForObjc.h"
 
 typedef NS_ENUM(NSInteger, ImageViewType) {
     ImageViewType_Root,
@@ -24,6 +25,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 {
     UIImageView *arrow;
     CGFloat groupBtnX;
+    NSMutableArray *searchResults;
 }
 
 @property(nonatomic, strong) UISearchBar *searchBar;
@@ -59,7 +61,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.searchArray = [[NSMutableArray alloc] init];
     groupBtnX = 0;
     
-    [self showLoadingMBP:@"数据加载中..."];
+    
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /** 通讯录列表 **/
@@ -76,6 +78,47 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     });
     
     [self createUI];
+}
+
+#pragma mark -
+#pragma mark 设置导航条
+- (UIImageView *)navigationSetting:(NSString *)title
+                     andRightTitle:(NSString *)right_title
+                     andRightImage:(UIImage *)image
+{
+    self.view.backgroundColor = colorWithHexString(@"eff3f6");
+    
+    UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
+    if ([BXTGlobal shareGlobal].isRepair)
+    {
+        naviView.image = [[UIImage imageNamed:@"Nav_Bars"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    }
+    else
+    {
+        naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    }
+    naviView.userInteractionEnabled = YES;
+    [self.view addSubview:naviView];
+    
+    UILabel *navi_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64, 20, SCREEN_WIDTH-128, 44)];
+    navi_titleLabel.font = [UIFont systemFontOfSize:16];
+    navi_titleLabel.textColor = [UIColor whiteColor];
+    navi_titleLabel.textAlignment = NSTextAlignmentCenter;
+    navi_titleLabel.text = title;
+    [naviView addSubview:navi_titleLabel];
+    
+    
+    UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    navi_leftButton.frame = CGRectMake(6, 20, 44, 44);
+    [navi_leftButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    @weakify(self);
+    [[navi_leftButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    [naviView addSubview:navi_leftButton];
+    
+    return naviView;
 }
 
 #pragma mark -
@@ -149,13 +192,10 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 #pragma mark - UISearchBarDelegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    //[self.searchArray removeAllObjects];
-    //    [self.tableView_search reloadData];
     NSLog(@"should begin");
     
     searchBar.showsCancelButton = YES;
     [self showTableViewAndHideSearchTableView:NO];
-    
     [self.tableView_Search reloadData];
     
     return YES;
@@ -179,32 +219,48 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [self showTableViewAndHideSearchTableView:YES];
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     NSArray *allPersonArray = [BXTGlobal readFileWithfileName:@"MailUserList"];
     
-    // TODO: -----------------  目前只判断第一字母 待优化  -----------------
-    NSMutableArray *searchArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *dict in allPersonArray) {
-        BXTSearchData *model = [BXTSearchData modelObjectWithDictionary:dict];
-        NSLog(@"------- %@", model.nameShort);
-        if ([[model.nameShort substringToIndex:1] isEqualToString:[self getNamePinYin:searchBar.text].lowercaseString]) {
-            [searchArray addObject:dict];
+    searchResults = [[NSMutableArray alloc]init];
+    if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
+        
+        for (int i=0; i<allPersonArray.count; i++) {
+            BXTSearchData *model = [BXTSearchData modelObjectWithDictionary:allPersonArray[i]];
+            
+            if ([ChineseInclude isIncludeChineseInString:model.name]) {
+                NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.name];
+                NSRange titleResult=[tempPinYinStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                
+                if (titleResult.length > 0) {
+                    [searchResults addObject:allPersonArray[i]];
+                } else {
+                    NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:model.name]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                    if (titleHeadResult.length > 0) {
+                        [searchResults addObject:allPersonArray[i]];
+                    }
+                }
+            } else {
+                NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                if (titleResult.length > 0) {
+                    [searchResults addObject:allPersonArray[i]];
+                }
+            }
+        }
+    } else if (self.searchBar.text.length > 0 && [ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
+        for (NSDictionary *dict in allPersonArray) {
+            BXTSearchData *model = [BXTSearchData modelObjectWithDictionary:dict];
+            NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+            if (titleResult.length > 0) {
+                [searchResults addObject:dict];
+            }
         }
     }
     
-    self.searchArray = searchArray;
-    
-    NSLog(@"------- %@", self.searchArray);
+    self.searchArray = searchResults;
     
     [self.tableView_Search reloadData];
-    
-    [self.view endEditing:YES];
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    
 }
 
 #pragma mark -
@@ -384,7 +440,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Mail_Get_All && data.count > 0)
     {
-        [self hideMBP];
+        //        [self hideMBP];
         self.dataArray = data;
         [self ergodicArray:data];
     }
@@ -396,7 +452,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (void)requestError:(NSError *)error
 {
-    [self hideMBP];
+    //    [self hideMBP];
 }
 
 - (void)ergodicArray:(NSArray *)subArray
@@ -459,24 +515,6 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         self.tableView.hidden = YES;
         self.bgView.hidden = YES;
     }
-}
-
-// 获取真实名字的第一个字的首字母
-- (NSString *)getNamePinYin:(NSString *)searchName
-{
-    NSString *S = [self phonetic:searchName];
-    return [self phonetic:[S uppercaseString]];
-}
-
-- (NSString *)phonetic:(NSString *)sourceString
-{
-    if (sourceString.length <= 0) return @"";
-    NSMutableString *source = [sourceString mutableCopy];
-    CFStringTransform((__bridge CFMutableStringRef)source, NULL, kCFStringTransformMandarinLatin, NO);
-    CFStringTransform((__bridge CFMutableStringRef)source, NULL, kCFStringTransformStripDiacritics, NO);
-    
-    NSString  *current = [source substringToIndex:1];
-    return current;
 }
 
 - (void)didReceiveMemoryWarning
