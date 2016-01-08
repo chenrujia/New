@@ -45,7 +45,7 @@ typedef enum {
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     self.transTimeArray = [[NSMutableArray alloc] initWithArray:dateArray];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
+    [request statisticsCompleteWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:Not_First_Launch])
     {
@@ -326,7 +326,7 @@ typedef enum {
     dispatch_async(concurrentQueue, ^{
         /**饼状图**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statistics_completeWithTime_start:dateArray[0] time_end:dateArray[1]];
+        [request statisticsCompleteWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
     });
     dispatch_async(concurrentQueue, ^{
         /**柱状图**/
@@ -334,12 +334,12 @@ typedef enum {
         if (index == 0)
         {
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request statistics_workload_yearWithYear:dateArray[0]];
+            [request statisticsWorkloadYearWithYear:dateArray[0]];
         }
         else if (index == 1)
         {
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request statistics_workload_dayWithYear:dateArray[0] month:dateArray[1]];
+            [request statisticsWorkloadDayWithYear:dateArray[0] month:dateArray[1]];
         }
     });
 }
@@ -367,7 +367,7 @@ typedef enum {
         [self showLoadingMBP:@"数据加载中..."];
         /**饼状图**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statistics_completeWithTime_start:todayStr time_end:todayStr];
+        [request statisticsCompleteWithTimeStart:todayStr timeEnd:todayStr];
     }
     [super datePickerBtnClick:button];
 }

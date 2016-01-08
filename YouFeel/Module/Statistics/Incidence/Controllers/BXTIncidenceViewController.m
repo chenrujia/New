@@ -32,7 +32,7 @@
     
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statistics_faulttypeWithTime_start:dateArray[0] time_end:dateArray[1]];
+    [request statisticsFaulttypeWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
     
 }
 
@@ -123,8 +123,6 @@
     view.typeView.text = [NSString stringWithFormat:@"故障类型：%@", dict[@"faulttype"]];
     view.repairView.text = [NSString stringWithFormat:@"报修：%@单", dict[@"number"]];
     view.ratioView.text = [NSString stringWithFormat:@"比例：%@%@", dict[@"percent"], @"%"];
-    
-    //view.rangkingView.text = @"链接发简历";
 }
 
 #pragma mark -
@@ -157,7 +155,7 @@
     
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statistics_faulttypeWithTime_start:dateArray[0] time_end:dateArray[1]];
+    [request statisticsFaulttypeWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button
@@ -175,7 +173,7 @@
         
         NSString *todayStr = [self transTimeWithDate:selectedDate];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statistics_faulttypeWithTime_start:todayStr time_end:todayStr];
+        [request statisticsFaulttypeWithTimeStart:todayStr timeEnd:todayStr];
     }
     [super datePickerBtnClick:button];
 }

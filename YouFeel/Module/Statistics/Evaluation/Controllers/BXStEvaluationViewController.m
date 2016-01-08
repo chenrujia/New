@@ -31,7 +31,7 @@
     
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statistics_praiseWithTime_start:dateArray[0] time_end:dateArray[1]];
+    [request statisticsPraiseWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
     
 }
 
@@ -173,7 +173,7 @@
     
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statistics_praiseWithTime_start:dateArray[0] time_end:dateArray[1]];
+    [request statisticsPraiseWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button
@@ -191,7 +191,7 @@
         
         NSString *todayStr = [self transTimeWithDate:selectedDate];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statistics_praiseWithTime_start:todayStr time_end:todayStr];
+        [request statisticsPraiseWithTimeStart:todayStr timeEnd:todayStr];
     }
     [super datePickerBtnClick:button];
 }

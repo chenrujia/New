@@ -620,8 +620,8 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)statistics_completeWithTime_start:(NSString *)startTime
-                                 time_end:(NSString *)endTime
+- (void)statisticsCompleteWithTimeStart:(NSString *)startTime
+                                timeEnd:(NSString *)endTime
 {
     self.requestType = Statistics_Complete;
     NSDictionary *dic = @{@"time_start":startTime,
@@ -630,8 +630,8 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)statistics_subgroupWithTime_start:(NSString *)startTime
-                                 time_end:(NSString *)endTime
+- (void)statisticsSubgroupWithTimeStart:(NSString *)startTime
+                                timeEnd:(NSString *)endTime
 {
     self.requestType = Statistics_Subgroup;
     NSDictionary *dic = @{@"time_start":startTime,
@@ -640,8 +640,8 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)statistics_faulttypeWithTime_start:(NSString *)startTime
-                                  time_end:(NSString *)endTime
+- (void)statisticsFaulttypeWithTimeStart:(NSString *)startTime
+                                 timeEnd:(NSString *)endTime
 {
     self.requestType = Statistics_Faulttype;
     NSDictionary *dic = @{@"time_start":startTime,
@@ -650,8 +650,8 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)statistics_workload_dayWithYear:(NSString *)year
-                                  month:(NSString *)month
+- (void)statisticsWorkloadDayWithYear:(NSString *)year
+                                month:(NSString *)month
 {
     self.requestType = Statistics_Workload_day;
     NSDictionary *dic = @{@"year":year,
@@ -660,7 +660,7 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)statistics_workload_yearWithYear:(NSString *)year
+- (void)statisticsWorkloadYearWithYear:(NSString *)year
 {
     self.requestType = Statistics_Workload_year;
     NSDictionary *dic = @{@"year":year};
@@ -668,8 +668,8 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)statistics_workloadWithTime_start:(NSString *)startTime
-                                 time_end:(NSString *)endTime
+- (void)statisticsWorkloadWithTimeStart:(NSString *)startTime
+                                timeEnd:(NSString *)endTime
 {
     self.requestType = Statistics_Workload;
     NSDictionary *dic = @{@"time_start":startTime,
@@ -678,8 +678,8 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)statistics_praiseWithTime_start:(NSString *)startTime
-                               time_end:(NSString *)endTime
+- (void)statisticsPraiseWithTimeStart:(NSString *)startTime
+                              timeEnd:(NSString *)endTime
 {
     self.requestType = Statistics_Praise;
     NSDictionary *dic = @{@"time_start":startTime,
@@ -715,7 +715,7 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)exit_loginWithClientID:(NSString *)clientid
+- (void)exitLoginWithClientID:(NSString *)clientid
 {
     self.requestType = Exit_Login;
     NSDictionary *dic = @{@"clientid": clientid};
@@ -731,11 +731,11 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)device_repair_listWithOrder:(NSString *)order
-                          timestart:(NSString *)startTime
-                           timeover:(NSString *)endTime
-                           pagesize:(NSString *)pagesize
-                               page:(NSString *)page
+- (void)deviceRepairListWithOrder:(NSString *)order
+                        timestart:(NSString *)startTime
+                         timeover:(NSString *)endTime
+                         pagesize:(NSString *)pagesize
+                             page:(NSString *)page
 {
     self.requestType = Device_Repair_List;
     NSDictionary *dic = @{@"order": order,
@@ -748,10 +748,10 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)inspection_record_listWithPagesize:(NSString *)pagesize
-                                      page:(NSString *)page
-                                 timestart:(NSString *)startTime
-                                  timeover:(NSString *)endTime
+- (void)inspectionRecordListWithPagesize:(NSString *)pagesize
+                                    page:(NSString *)page
+                               timestart:(NSString *)startTime
+                                timeover:(NSString *)endTime
 {
     self.requestType = Inspection_Record_List;
     NSDictionary *dic = @{@"pagesize": pagesize,
@@ -789,6 +789,15 @@ andRepairerIsReacive:(NSString *)reacive
 {
     NSDictionary *dic = @{@"content": content};
     NSString *url = [NSString stringWithFormat:@"%@&module=Qrcode&opt=resolu_qr",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)maintenanceEquipmentList:(NSString *)deviceID
+{
+    self.requestType = MaintenanceEquipmentList;
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"device_id": ValueFUD(@"Device_ID")};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=structure_inspection",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
