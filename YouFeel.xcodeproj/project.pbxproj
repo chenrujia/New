@@ -230,7 +230,6 @@
 		969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */; };
 		969A42491BCBD4620034FC84 /* RGCardViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A42461BCBD4620034FC84 /* RGCardViewLayout.m */; };
 		969A424D1BCBD4DF0034FC84 /* RGCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A424C1BCBD4DF0034FC84 /* RGCollectionViewCell.m */; };
-		96AABA481BE078CD0071B6FA /* BXTChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AABA471BE078CD0071B6FA /* BXTChatListViewController.m */; };
 		96AABA541BE0BB220071B6FA /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96AABA4F1BE0BB220071B6FA /* RongCloudKit.strings */; };
 		96AABA551BE0BB220071B6FA /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96AABA521BE0BB220071B6FA /* RongCloudKit.strings */; };
 		96AB062E1C1FB48E0038E2AF /* icon_chose_arrow_nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96AB06291C1FB48E0038E2AF /* icon_chose_arrow_nor@2x.png */; };
@@ -713,8 +712,6 @@
 		969A424B1BCBD4DF0034FC84 /* RGCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGCollectionViewCell.h; sourceTree = "<group>"; };
 		969A424C1BCBD4DF0034FC84 /* RGCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGCollectionViewCell.m; sourceTree = "<group>"; };
 		96AABA331BE0765A0071B6FA /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		96AABA461BE078CD0071B6FA /* BXTChatListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTChatListViewController.h; sourceTree = "<group>"; };
-		96AABA471BE078CD0071B6FA /* BXTChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChatListViewController.m; sourceTree = "<group>"; };
 		96AABA501BE0BB220071B6FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = RongCloudKit.strings; sourceTree = "<group>"; };
 		96AABA531BE0BB220071B6FA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = RongCloudKit.strings; sourceTree = "<group>"; };
 		96AB06291C1FB48E0038E2AF /* icon_chose_arrow_nor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_chose_arrow_nor@2x.png"; sourceTree = "<group>"; };
@@ -2835,39 +2832,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		96AABA411BE078950071B6FA /* ChatList */ = {
-			isa = PBXGroup;
-			children = (
-				96AABA421BE078950071B6FA /* Controllers */,
-				96AABA441BE078950071B6FA /* Models */,
-				96AABA451BE078950071B6FA /* Views */,
-			);
-			path = ChatList;
-			sourceTree = "<group>";
-		};
-		96AABA421BE078950071B6FA /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				96AABA461BE078CD0071B6FA /* BXTChatListViewController.h */,
-				96AABA471BE078CD0071B6FA /* BXTChatListViewController.m */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		96AABA441BE078950071B6FA /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		96AABA451BE078950071B6FA /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		96AABA4E1BE0BB220071B6FA /* en.lproj */ = {
 			isa = PBXGroup;
 			children = (
@@ -3497,7 +3461,6 @@
 				960223011BC9216300010072 /* BXTAreaInfo.m in Sources */,
 				965B3A3B1C0C62C00097CF7F /* BXTManagerOMView.m in Sources */,
 				7818DBE91C0824D800DC22C6 /* PNScatterChartData.m in Sources */,
-				96AABA481BE078CD0071B6FA /* BXTChatListViewController.m in Sources */,
 				78213FBD1C3E0502003290A8 /* BXTTimeFilterViewController.m in Sources */,
 				7818DBD91C0824D800DC22C6 /* PieElement.m in Sources */,
 				960221491BC9201400010072 /* UINavigationController+YRBackGesture.m in Sources */,

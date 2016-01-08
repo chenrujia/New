@@ -226,6 +226,15 @@ UIColor* colorWithHexString(NSString *stringToConvert)
     return strDate;
 }
 
++ (NSString *)transTimeStampWithTime:(NSString *)time withType:(NSString *)timeType
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:timeType];
+    NSDate *date = [formatter dateFromString:time];
+    NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[date timeIntervalSince1970]];
+    return timeSp;
+}
+
 CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 {
     CGFloat value;

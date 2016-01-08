@@ -397,7 +397,7 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  设备详情
  */
-- (void)equipmentWithDeviceID:(NSString *)deviceID;
+- (void)equipmentInformation;
 
 /**
  *  当前工单

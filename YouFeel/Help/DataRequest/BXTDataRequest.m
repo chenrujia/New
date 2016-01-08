@@ -723,10 +723,10 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)equipmentWithDeviceID:(NSString *)deviceID
+- (void)equipmentInformation
 {
     self.requestType = Device_Con;
-    NSDictionary *dic = @{@"id": deviceID};
+    NSDictionary *dic = @{@"id": ValueFUD(@"Device_ID")};
     NSString *url = [NSString stringWithFormat:@"%@&module=Device&opt=device_con",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -751,7 +751,11 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)inspectionRecordListWithPagesize:(NSString *)pagesize page:(NSString *)page
 {
     self.requestType = Inspection_Record_List;
-    NSDictionary *dic = @{@"pagesize": pagesize, @"page": page};
+    NSDictionary *dic = @{@"pagesize": pagesize,
+                          @"page": page,
+                          @"timestart": startTime,
+                          @"timeover": endTime,
+                          @"device_id": ValueFUD(@"Device_ID")};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=inspection_record_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -808,7 +812,7 @@ andRepairerIsReacive:(NSString *)reacive
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [response JSONValue];
-//        NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
+        //        NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
         [_delegate requestResponseData:dictionary requeseType:_requestType];
         // token验证失败
         if ([[NSString stringWithFormat:@"%@", dictionary[@"returncode"]] isEqualToString:@"037"]) {
@@ -864,7 +868,7 @@ andRepairerIsReacive:(NSString *)reacive
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-//        NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
+        //        NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

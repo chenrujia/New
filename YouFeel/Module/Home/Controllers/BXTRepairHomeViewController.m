@@ -18,7 +18,6 @@
 #import "BXTFeedbackViewController.h"
 #import "BXTCustomerServiceViewController.h"
 #import "BXTAboutUsViewController.h"
-#import "BXTChatListViewController.h"
 #import "BXTRepairWordOrderViewController.h"
 #import "BXTExaminationViewController.h"
 #import "BXTManagerOMViewController.h"

@@ -20,7 +20,6 @@
 #import "BXTCustomerServiceViewController.h"
 #import "BXTAboutUsViewController.h"
 #import "BXTAchievementsViewController.h"
-#import "BXTChatListViewController.h"
 #import "BXTManagerOMViewController.h"
 #import "BXTStatisticsViewController.h"
 #import "BXTGrabOrderViewController.h"

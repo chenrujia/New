@@ -28,6 +28,8 @@
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, assign) NSInteger count;
 
+@property (nonatomic, strong) NSMutableArray *ChoosTimeArray;
+
 @end
 
 @implementation BXTEquipmentFilesView
@@ -36,7 +38,7 @@
 #pragma mark - 初始化
 - (void)initial
 {
-    self.titleArray = @[@"基本信息", @"厂家信息", @"设备参数", @"设备负责人"];
+    self.titleArray = @[@"全部", @"时间范围"];
     self.dataArray = [[NSMutableArray alloc] init];
     
     [self showLoadingMBP:@"数据加载中..."];
@@ -149,12 +151,23 @@
     
     if (self.count != 0) {
         if (indexPath.row == 0) {
-            NSLog(@"全部");
+            [self.ChoosTimeArray removeAllObjects];
+            
+            [self showLoadingMBP:@"数据加载中..."];
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request inspection_record_listWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] timestart:@"" timeover:@""];
         } else {
             BXTTimeFilterViewController *tfvc = [[BXTTimeFilterViewController alloc] init];
             tfvc.delegateSignal = [RACSubject subject];
+            @weakify(self);
             [tfvc.delegateSignal subscribeNext:^(NSArray *timeArray) {
-                NSLog(@"%@", timeArray);
+                @strongify(self);
+                
+                self.ChoosTimeArray = [[NSMutableArray alloc] initWithArray:timeArray];
+                
+                [self showLoadingMBP:@"数据加载中..."];
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request inspection_record_listWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] timestart:timeArray[0] timeover:timeArray[1]];
             }];
             [[self getNavigation] pushViewController:tfvc animated:YES];
         }
@@ -207,11 +220,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    BXTInspectionData *inspectionList = self.dataArray[indexPath.section];
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *maintenanceVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-    [maintenanceVC dataWithRepairID:@"149"];
+    [maintenanceVC dataWithRepairID:inspectionList.workorderId];
     [[self getNavigation] pushViewController:maintenanceVC animated:YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -

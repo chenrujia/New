@@ -38,6 +38,7 @@
     
     if ([orderList.isReceive integerValue] == 2) {
         [self.receiveOrderView setTitle:@"已接单" forState:UIControlStateNormal];
+        self.receiveOrderView.backgroundColor = colorWithHexString(@"#d9d9d9");
         self.receiveOrderView.userInteractionEnabled = NO;
     }
 }
