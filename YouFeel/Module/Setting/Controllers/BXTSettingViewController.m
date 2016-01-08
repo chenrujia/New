@@ -188,7 +188,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
             [[quitOut rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 @strongify(self);
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request exit_loginWithClientID:[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]];
+                [request exitLoginWithClientID:[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]];
                 [[RCIM sharedRCIM] disconnect];
                 [[ANKeyValueTable userDefaultTable] clear];
                 [BXTGlobal shareGlobal].isRepair = NO;
@@ -233,7 +233,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
         [[quitOut rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request exit_loginWithClientID:[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]];
+            [request exitLoginWithClientID:[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]];
             [[RCIM sharedRCIM] disconnect];
             [[ANKeyValueTable userDefaultTable] clear];
             [BXTGlobal shareGlobal].isRepair = NO;

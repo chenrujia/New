@@ -2453,9 +2453,9 @@
 		9652AB341BC9069B009A666D /* Module */ = {
 			isa = PBXGroup;
 			children = (
-				781EF1C81C3D382C0027FE72 /* EquipmentDetail */,
 				780177101C1A5CCE0016D3F6 /* AuthorityList */,
 				96AABA411BE078950071B6FA /* ChatList */,
+				781EF1C81C3D382C0027FE72 /* EquipmentDetail */,
 				78B1830E1BF2EB8C007D5B24 /* Evaluation/Achievements */,
 				960221891BC9216300010072 /* Examination */,
 				78B1830F1BF2EBEA007D5B24 /* Headquarters */,
@@ -3739,7 +3739,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
+				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -3772,7 +3772,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
+				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};

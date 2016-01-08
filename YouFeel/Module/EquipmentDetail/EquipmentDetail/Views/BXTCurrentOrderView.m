@@ -134,7 +134,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request device_repair_listWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    [request deviceRepairListWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
 
 #pragma mark -
@@ -332,7 +332,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     if (indexPath.row != 3) {
         [self showLoadingMBP:@"数据加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request device_repair_listWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
+        [request deviceRepairListWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
     } else {
         BXTTimeFilterViewController *tfvc = [[BXTTimeFilterViewController alloc] init];
         tfvc.delegateSignal = [RACSubject subject];
@@ -431,7 +431,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     {
         [self showLoadingMBP:@"数据加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request device_repair_listWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
+        [request deviceRepairListWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
     }
 }
 

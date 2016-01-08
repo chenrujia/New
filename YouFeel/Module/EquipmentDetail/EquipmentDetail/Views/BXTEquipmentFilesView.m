@@ -40,10 +40,17 @@
     self.dataArray = [[NSMutableArray alloc] init];
     
     [self showLoadingMBP:@"数据加载中..."];
+    
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
+        /**请求维保档案**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request inspection_record_listWithPagesize:@"5" page:@"1"];
+        [request inspectionRecordListWithPagesize:@"5" page:@"1"];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**请求维保列表**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request maintenanceEquipmentList:@"144"];
     });
     
     [self createUI];
@@ -116,7 +123,7 @@
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request inspection_record_listWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
 
 #pragma mark -
@@ -212,15 +219,15 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
-    
-    
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
-    if (self.currentPage == 1) {
+    if (self.currentPage == 1)
+    {
         [self.dataArray removeAllObjects];
     }
     
     NSDictionary *dic = (NSDictionary *)response;
+    LogRed(@"dic.....%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Inspection_Record_List && data.count > 0)
     {
@@ -230,6 +237,10 @@
             [self.dataArray addObject:model];
         }
         [self.tableView reloadData];
+    }
+    else if (type == MaintenanceEquipmentList && data.count > 0)
+    {
+        
     }
 }
 

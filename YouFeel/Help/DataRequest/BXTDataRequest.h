@@ -50,7 +50,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Device_Repair_List,
     Inspection_Record_List,
     Mail_Get_All,
-    Mail_User_list
+    Mail_User_list,
+    MaintenanceEquipmentList
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -333,43 +334,43 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  统计-完成率统计
  */
-- (void)statistics_completeWithTime_start:(NSString *)startTime
-                                 time_end:(NSString *)endTime;
+- (void)statisticsCompleteWithTimeStart:(NSString *)startTime
+                                timeEnd:(NSString *)endTime;
 
 /**
  *  统计-分组统计
  */
-- (void)statistics_subgroupWithTime_start:(NSString *)startTime
-                                 time_end:(NSString *)endTime;
+- (void)statisticsSubgroupWithTimeStart:(NSString *)startTime
+                                timeEnd:(NSString *)endTime;
 
 /**
  *  统计-故障类型统计
  */
-- (void)statistics_faulttypeWithTime_start:(NSString *)startTime
-                                  time_end:(NSString *)endTime;
+- (void)statisticsFaulttypeWithTimeStart:(NSString *)startTime
+                                 timeEnd:(NSString *)endTime;
 
 /**
  *  统计-按月获取每日详情
  */
-- (void)statistics_workload_dayWithYear:(NSString *)year
-                                  month:(NSString *)month;
+- (void)statisticsWorkloadDayWithYear:(NSString *)year
+                                month:(NSString *)month;
 
 /**
  *  统计-按年获取每月详情
  */
-- (void)statistics_workload_yearWithYear:(NSString *)year;
+- (void)statisticsWorkloadYearWithYear:(NSString *)year;
 
 /**
  *  统计-按分组统计维修量
  */
-- (void)statistics_workloadWithTime_start:(NSString *)startTime
-                                 time_end:(NSString *)endTime;
+- (void)statisticsWorkloadWithTimeStart:(NSString *)startTime
+                                timeEnd:(NSString *)endTime;
 
 /**
  *  统计-按分组好评
  */
-- (void)statistics_praiseWithTime_start:(NSString *)startTime
-                               time_end:(NSString *)endTime;
+- (void)statisticsPraiseWithTimeStart:(NSString *)startTime
+                              timeEnd:(NSString *)endTime;
 
 /**
  *  特殊工单类型
@@ -391,7 +392,7 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  退出登录
  */
-- (void)exit_loginWithClientID:(NSString *)clientid;
+- (void)exitLoginWithClientID:(NSString *)clientid;
 
 /**
  *  设备详情
@@ -401,16 +402,16 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  当前工单
  */
-- (void)device_repair_listWithOrder:(NSString *)order
-                          timestart:(NSString *)startTime
-                           timeover:(NSString *)endTime
-                           pagesize:(NSString *)pagesize
-                               page:(NSString *)page;
+- (void)deviceRepairListWithOrder:(NSString *)order
+                        timestart:(NSString *)startTime
+                         timeover:(NSString *)endTime
+                         pagesize:(NSString *)pagesize
+                             page:(NSString *)page;
 
 /**
  *  维保档案
  */
-- (void)inspection_record_listWithPagesize:(NSString *)pagesize page:(NSString *)page;
+- (void)inspectionRecordListWithPagesize:(NSString *)pagesize page:(NSString *)page;
 
 /**
  *  通讯录列表
@@ -431,5 +432,10 @@ andRepairerIsReacive:(NSString *)reacive;
  *  解析二维码内容
  */
 - (void)scanResultWithContent:(NSString *)content;
+
+/**
+ *  维保设备列表
+ */
+- (void)maintenanceEquipmentList:(NSString *)deviceID;
 
 @end
