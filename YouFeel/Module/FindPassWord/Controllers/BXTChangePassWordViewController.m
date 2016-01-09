@@ -33,7 +33,7 @@
 {
     [super viewDidLoad];
     self.title = @"1111";
-//    [self navigationSetting:@"重置密码" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"修改密码" andRightTitle:nil andRightImage:nil];
     [_currentTable registerNib:[UINib nibWithNibName:@"BXTResignTableViewCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
 }
 

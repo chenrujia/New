@@ -1,5 +1,5 @@
 //
-//  
+//
 //
 //  Created by kimziv on 13-9-14.
 //
@@ -11,7 +11,7 @@
 @interface PinyinFormatter ()
 +(NSInteger)getNumericValue:(unichar)c;
 +(NSInteger)indexOfChar:(int*) table ch:(unichar)c;
-@end    
+@end
 
 @implementation PinyinFormatter
 
@@ -53,88 +53,88 @@ static unichar numericValues[] = {
 
 + (NSString *)formatHanyuPinyinWithNSString:(NSString *)pinyinStr
                 withHanyuPinyinOutputFormat:(HanyuPinyinOutputFormat *)outputFormat {
-  if ((ToneTypeWithToneMark == [outputFormat toneType]) && ((VCharTypeWithV == [outputFormat vCharType]) || (VCharTypeWithUAndColon == [outputFormat vCharType]))) {
-      @throw [NSException exceptionWithName:@"Throwing a BadHanyuPinyinOutputFormatCombination exception" reason:@"tone marks cannot be added to v or u:." userInfo:nil];
-  }
-  if (ToneTypeWithoutTone == [outputFormat toneType]) {
-      pinyinStr =[pinyinStr stringByReplacingOccurrencesOfString:@"[1-5]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, pinyinStr.length)];
-  }
-  else if (ToneTypeWithToneMark == [outputFormat toneType]) {
-      pinyinStr =[pinyinStr stringByReplacingOccurrencesOfString:@"u:" withString:@"v"];
-     pinyinStr = [PinyinFormatter convertToneNumber2ToneMarkWithNSString:pinyinStr];
-  }
-  if (VCharTypeWithV == [outputFormat vCharType]) {
-      pinyinStr =[pinyinStr stringByReplacingOccurrencesOfString:@"u:" withString:@"v"];
-  }
-  else if (VCharTypeWithUUnicode == [outputFormat vCharType]) {
-      pinyinStr =[pinyinStr stringByReplacingOccurrencesOfString:@"u:" withString:@"ü"];
-  }
-  if (CaseTypeUppercase == [outputFormat caseType]) {
-    pinyinStr = [pinyinStr uppercaseString];
-  }
-  return pinyinStr;
+    if ((ToneTypeWithToneMark == [outputFormat toneType]) && ((VCharTypeWithV == [outputFormat vCharType]) || (VCharTypeWithUAndColon == [outputFormat vCharType]))) {
+        @throw [NSException exceptionWithName:@"Throwing a BadHanyuPinyinOutputFormatCombination exception" reason:@"tone marks cannot be added to v or u:." userInfo:nil];
+    }
+    if (ToneTypeWithoutTone == [outputFormat toneType]) {
+        pinyinStr =[pinyinStr stringByReplacingOccurrencesOfString:@"[1-5]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, pinyinStr.length)];
+    }
+    else if (ToneTypeWithToneMark == [outputFormat toneType]) {
+        pinyinStr =[pinyinStr stringByReplacingOccurrencesOfString:@"u:" withString:@"v"];
+        pinyinStr = [PinyinFormatter convertToneNumber2ToneMarkWithNSString:pinyinStr];
+    }
+    if (VCharTypeWithV == [outputFormat vCharType]) {
+        pinyinStr =[pinyinStr stringByReplacingOccurrencesOfString:@"u:" withString:@"v"];
+    }
+    else if (VCharTypeWithUUnicode == [outputFormat vCharType]) {
+        pinyinStr =[pinyinStr stringByReplacingOccurrencesOfString:@"u:" withString:@"ü"];
+    }
+    if (CaseTypeUppercase == [outputFormat caseType]) {
+        pinyinStr = [pinyinStr uppercaseString];
+    }
+    return pinyinStr;
 }
 
 + (NSString *)convertToneNumber2ToneMarkWithNSString:(NSString *)pinyinStr {
-  NSString *lowerCasePinyinStr = [pinyinStr lowercaseString];
-  if ([lowerCasePinyinStr matchesPatternRegexPattern:@"[a-z]*[1-5]?"]) {
-    unichar defautlCharValue = '$';
-    int defautlIndexValue = -1;
-    unichar unmarkedVowel = defautlCharValue;
-    int indexOfUnmarkedVowel = defautlIndexValue;
-    unichar charA = 'a';
-    unichar charE = 'e';
-    NSString *ouStr = @"ou";
-    NSString *allUnmarkedVowelStr = @"aeiouv";
-    NSString *allMarkedVowelStr = @"āáăàaēéĕèeīíĭìiōóŏòoūúŭùuǖǘǚǜü";
-    if ([lowerCasePinyinStr matchesPatternRegexPattern:@"[a-z]*[1-5]"]) {
-        int tuneNumber = [PinyinFormatter getNumericValue:[lowerCasePinyinStr characterAtIndex:lowerCasePinyinStr.length -1]];
-      int indexOfA = [lowerCasePinyinStr indexOf:charA];
-      int indexOfE = [lowerCasePinyinStr indexOf:charE];
-      int ouIndex = [lowerCasePinyinStr indexOfString:ouStr];
-      if (-1 != indexOfA) {
-        indexOfUnmarkedVowel = indexOfA;
-        unmarkedVowel = charA;
-      }
-      else if (-1 != indexOfE) {
-        indexOfUnmarkedVowel = indexOfE;
-        unmarkedVowel = charE;
-      }
-      else if (-1 != ouIndex) {
-        indexOfUnmarkedVowel = ouIndex;
-        unmarkedVowel = [ouStr characterAtIndex:0];
-      }
-      else {
-        for (int i = [lowerCasePinyinStr length] - 1; i >= 0; i--) {
-          if ([[NSString valueOfChar:[lowerCasePinyinStr characterAtIndex:i]] matchesPatternRegexPattern:@"[aeiouv]"]) {
-            indexOfUnmarkedVowel = i;
-            unmarkedVowel = [lowerCasePinyinStr characterAtIndex:i];
-            break;
-          }
+    NSString *lowerCasePinyinStr = [pinyinStr lowercaseString];
+    if ([lowerCasePinyinStr matchesPatternRegexPattern:@"[a-z]*[1-5]?"]) {
+        unichar defautlCharValue = '$';
+        int defautlIndexValue = -1;
+        unichar unmarkedVowel = defautlCharValue;
+        NSInteger indexOfUnmarkedVowel = defautlIndexValue;
+        unichar charA = 'a';
+        unichar charE = 'e';
+        NSString *ouStr = @"ou";
+        NSString *allUnmarkedVowelStr = @"aeiouv";
+        NSString *allMarkedVowelStr = @"āáăàaēéĕèeīíĭìiōóŏòoūúŭùuǖǘǚǜü";
+        if ([lowerCasePinyinStr matchesPatternRegexPattern:@"[a-z]*[1-5]"]) {
+            NSInteger tuneNumber = [PinyinFormatter getNumericValue:[lowerCasePinyinStr characterAtIndex:lowerCasePinyinStr.length -1]];
+            NSInteger indexOfA = [lowerCasePinyinStr indexOf:charA];
+            NSInteger indexOfE = [lowerCasePinyinStr indexOf:charE];
+            NSInteger ouIndex = [lowerCasePinyinStr indexOfString:ouStr];
+            if (-1 != indexOfA) {
+                indexOfUnmarkedVowel = indexOfA;
+                unmarkedVowel = charA;
+            }
+            else if (-1 != indexOfE) {
+                indexOfUnmarkedVowel = indexOfE;
+                unmarkedVowel = charE;
+            }
+            else if (-1 != ouIndex) {
+                indexOfUnmarkedVowel = ouIndex;
+                unmarkedVowel = [ouStr characterAtIndex:0];
+            }
+            else {
+                for (NSInteger i = [lowerCasePinyinStr length] - 1; i >= 0; i--) {
+                    if ([[NSString valueOfChar:[lowerCasePinyinStr characterAtIndex:i]] matchesPatternRegexPattern:@"[aeiouv]"]) {
+                        indexOfUnmarkedVowel = i;
+                        unmarkedVowel = [lowerCasePinyinStr characterAtIndex:i];
+                        break;
+                    }
+                }
+            }
+            if ((defautlCharValue != unmarkedVowel) && (defautlIndexValue != indexOfUnmarkedVowel)) {
+                NSInteger rowIndex = [allUnmarkedVowelStr indexOf:unmarkedVowel];
+                NSInteger columnIndex = tuneNumber - 1;
+                NSInteger vowelLocation = rowIndex * 5 + columnIndex;
+                unichar markedVowel = [allMarkedVowelStr characterAtIndex:vowelLocation];
+                NSMutableString *resultBuffer = [[NSMutableString alloc] init];
+                [resultBuffer appendString:[[lowerCasePinyinStr substringToIndex:indexOfUnmarkedVowel+1] stringByReplacingOccurrencesOfString:@"v" withString:@"ü"]];
+                [resultBuffer appendFormat:@"%C",markedVowel];
+                [resultBuffer appendString:[[lowerCasePinyinStr substringWithRange:NSMakeRange(indexOfUnmarkedVowel + 1, lowerCasePinyinStr.length-indexOfUnmarkedVowel)] stringByReplacingOccurrencesOfString:@"v" withString:@"ü"]];
+                return [resultBuffer description];
+            }
+            else {
+                return lowerCasePinyinStr;
+            }
         }
-      }
-      if ((defautlCharValue != unmarkedVowel) && (defautlIndexValue != indexOfUnmarkedVowel)) {
-        int rowIndex = [allUnmarkedVowelStr indexOf:unmarkedVowel];
-        int columnIndex = tuneNumber - 1;
-        int vowelLocation = rowIndex * 5 + columnIndex;
-        unichar markedVowel = [allMarkedVowelStr characterAtIndex:vowelLocation];
-        NSMutableString *resultBuffer = [[NSMutableString alloc] init];
-          [resultBuffer appendString:[[lowerCasePinyinStr substringToIndex:indexOfUnmarkedVowel+1] stringByReplacingOccurrencesOfString:@"v" withString:@"ü"]];
-        [resultBuffer appendFormat:@"%C",markedVowel];
-          [resultBuffer appendString:[[lowerCasePinyinStr substringWithRange:NSMakeRange(indexOfUnmarkedVowel + 1, lowerCasePinyinStr.length-indexOfUnmarkedVowel)] stringByReplacingOccurrencesOfString:@"v" withString:@"ü"]];
-        return [resultBuffer description];
-      }
-      else {
-        return lowerCasePinyinStr;
-      }
+        else {
+            return [lowerCasePinyinStr stringByReplacingOccurrencesOfString:@"v" withString:@"ü"];
+        }
     }
     else {
-      return [lowerCasePinyinStr stringByReplacingOccurrencesOfString:@"v" withString:@"ü"];
+        return lowerCasePinyinStr;
     }
-  }
-  else {
-    return lowerCasePinyinStr;
-  }
 }
 
 +(NSInteger)getNumericValue:(unichar)c
@@ -165,7 +165,7 @@ static unichar numericValues[] = {
         return c - difference;
     }
     return -1;
-
+    
 }
 
 +(NSInteger)indexOfChar:(int*) table ch:(unichar)c{
@@ -180,7 +180,7 @@ static unichar numericValues[] = {
 
 
 - (id)init {
-  return [super init];
+    return [super init];
 }
 
 

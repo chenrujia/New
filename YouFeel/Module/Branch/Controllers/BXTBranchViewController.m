@@ -27,7 +27,9 @@
     self = [super init];
     if (self)
     {
+        self.isRepairList = YES;
         [self navigationSetting:company.name andRightTitle:@"确定" andRightImage:nil];
+        
         shopsArray = [NSMutableArray array];
         markArray = [NSMutableArray array];
         [self createTableView];
@@ -90,7 +92,7 @@
 {
     BXTShopsTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"shopsCell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    
     BXTHeadquartersInfo *company = shopsArray[indexPath.row];
     if ([markArray[indexPath.row] integerValue])
     {
@@ -167,13 +169,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

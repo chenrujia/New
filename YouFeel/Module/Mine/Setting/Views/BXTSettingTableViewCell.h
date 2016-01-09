@@ -18,6 +18,9 @@
 @property (nonatomic ,strong) UIButton    *emergencyBtn;//紧急
 @property (nonatomic ,strong) UIButton    *normelBtn;//一般
 @property (nonatomic ,strong) UISwitch    *switchbtn;
+
 @property (nonatomic ,strong) UIImageView *headImageView;
+@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *phoneLabel;
 
 @end

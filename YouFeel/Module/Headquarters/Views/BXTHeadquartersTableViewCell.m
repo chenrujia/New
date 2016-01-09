@@ -16,15 +16,15 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 0., 160.f, 44)];
+        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 160.f, 30)];
         _nameLabel.font = [UIFont systemFontOfSize:16.];
         [self.contentView addSubview:_nameLabel];
         
-        _rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 20.f - 15.f, 12.f, 20.f, 20.f)];
+        _rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 20.f - 15.f, 15.f, 20.f, 20.f)];
         _rightImageView.image = [UIImage imageNamed:@"Locate"];
         [self.contentView addSubview:_rightImageView];
         
-        _switchbtn = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 60.f - 10.f, 7, 60.f, 30.f)];
+        _switchbtn = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 60.f - 10.f, 10, 60.f, 30.f)];
         _switchbtn.on = YES;
         [self.contentView addSubview:_switchbtn];
     }
@@ -38,7 +38,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

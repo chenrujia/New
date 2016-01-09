@@ -17,7 +17,9 @@
 
 @interface BXTHeadquartersViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,BXTDataResponseDelegate,CLLocationManagerDelegate>
 {
+    /** ---- 热门项目 ---- */
     NSMutableArray    *shopsArray;
+    /** ---- 附近项目 ---- */
     NSMutableArray    *locationShopsArray;
     UISearchBar       *headSearchBar;
     UITableView       *currentTableView;
@@ -25,6 +27,12 @@
     BOOL              isPush;
     BOOL              is_binding;
 }
+
+@property (nonatomic, assign) BOOL isOpenLocationProject;
+
+@property(nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UITableView *tableView_Search;
+
 @end
 
 @implementation BXTHeadquartersViewController
@@ -49,15 +57,21 @@
     [super viewDidLoad];
     //定位
     [self locationPoint];
+    
+    self.isOpenLocationProject = YES;
     shopsArray = [NSMutableArray array];
     locationShopsArray = [NSMutableArray array];
+    
     NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
     if (my_shops.count)
     {
         is_binding = YES;
     }
+    
     [self navigationSetting:@"添加新项目" andRightTitle:nil andRightImage:nil];
+    
     [self createTableView];
+    
     [self showLoadingMBP:@"努力加载中..."];
     /**请求分店位置**/
     BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -73,11 +87,24 @@
 #pragma mark 初始化视图
 - (void)createTableView
 {
-    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
+    // UISearchBar
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, 55)];
+    self.searchBar.delegate = self;
+    self.searchBar.placeholder = @"搜索";
+    [self.view addSubview:self.searchBar];
+    
+    // UITableView
+    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 55, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
     [currentTableView registerClass:[BXTHeadquartersTableViewCell class] forCellReuseIdentifier:@"HeadquartersTableViewCell"];
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     [self.view addSubview:currentTableView];
+    
+    // UITableView - tableView_Search
+    self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
+    self.tableView_Search.dataSource = self;
+    self.tableView_Search.delegate = self;
+    //[self.view addSubview:self.tableView_Search];
 }
 
 - (void)locationPoint
@@ -119,209 +146,104 @@
     }
 }
 
+- (void)switchAction:(UISwitch *)switchBtn
+{
+    self.isOpenLocationProject = switchBtn.on;
+    [currentTableView reloadData];
+    NSLog(@"-------------%d", self.isOpenLocationProject);
+}
+
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 2)
-    {
-        return 30.f;
+    if (section == 0) {
+        return 0.1;
     }
-    else if (section == 1)
-    {
-        return 6.f;
-    }
-    else
-    {
-        if (is_binding)
-        {
-            NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
-            NSInteger count = ceil(my_shops.count/3.f);
-            return 40.f + 35.f + 40.f * count;
-        }
-        else
-        {
-            return 0;
-        }
-    }
+    return 10;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (is_binding && section == 0)
-    {
-        NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
-        double number = my_shops.count/3.f;
-        NSInteger count = ceil(number);
-        CGFloat height = 40.f + 35.f + 40.f * count;
-        
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0., 0., SCREEN_WIDTH, height)];
-        view.backgroundColor = [UIColor clearColor];
-        
-        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 20.f, SCREEN_WIDTH, height - 40.f)];
-        backView.backgroundColor = colorWithHexString(@"ffffff");
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 5, 100.f, 15.f)];
-        titleLabel.text = @"已绑定店铺";
-        titleLabel.font = [UIFont systemFontOfSize:12.f];
-        [backView addSubview:titleLabel];
-        
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 25.f, SCREEN_WIDTH, 0.7f)];
-        lineView.backgroundColor = colorWithHexString(@"e4e4e4");
-        [backView addSubview:lineView];
-        
-        CGFloat width = (SCREEN_WIDTH - 60.f)/3.f;
-        
-        for (NSInteger index = 0; index < my_shops.count; index++)
-        {
-            //行号
-            NSInteger row = index/3; //行号为框框的序号对列数取商
-            //列号
-            NSInteger col = index%3; //列号为框框的序号对列数取余
-            
-            CGFloat appX = 15.f + col * (width + 15.f); // 每个框框靠左边的宽度为 (平均间隔＋框框自己的宽度）
-            CGFloat appY =  5.f + 30 + row * (30.f + 10.f); // 每个框框靠上面的高度为 平均间隔＋框框自己的高度
-            
-            NSDictionary *infoDic = my_shops[index];
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [btn setFrame:CGRectMake(appX, appY, width, 30.f)];
-            [btn setTitle:[infoDic objectForKey:@"shop_name"] forState:UIControlStateNormal];
-            [btn setTitleColor:colorWithHexString(@"929697") forState:UIControlStateNormal];
-            btn.layer.cornerRadius = 4.f;
-            btn.layer.borderColor = colorWithHexString(@"e6e5e6").CGColor;
-            btn.layer.borderWidth = 1.f;
-            @weakify(self);
-            [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                @strongify(self);
-                NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
-                NSDictionary *companyDic = my_shops[index];
-                BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
-                companyInfo.company_id = [companyDic objectForKey:@"id"];
-                companyInfo.name = [companyDic objectForKey:@"shop_name"];
-                [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-                NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", companyDic[@"id"], [BXTGlobal getUserProperty:U_TOKEN]];
-                [BXTGlobal shareGlobal].baseURL = url;
-                /**请求分店位置**/
-                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request branchLogin];
-            }];
-            [backView addSubview:btn];
-        }
-        [view addSubview:backView];
-        
-        return view;
-    }
-    else
-    {
-        return nil;
-    }
+    return 0.1;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (section == 1)
-    {
-        UIView * allLoadView = [[UIView alloc] initWithFrame:CGRectMake(0., 0., SCREEN_WIDTH, 25.)];
-        UILabel * allLoadLabel = [[UILabel alloc] initWithFrame:CGRectMake(0., 5., SCREEN_WIDTH, 20.)];
-        allLoadLabel.font = [UIFont systemFontOfSize:12.];
-        allLoadLabel.text = @"    关闭自动定位后，每次打开应用会默认使用上一次地址";
-        [allLoadView addSubview:allLoadLabel];
-        return allLoadView;
-    }
-    else
-    {
-        return nil;
-    }
+    return 50;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (locationShopsArray.count > 0)
-    {
-        return 3;
-    }
     return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (locationShopsArray.count > 0)
-    {
-        if (section == 2)
-        {
-            return shopsArray.count;
+    if (section == 0) {
+        if (self.isOpenLocationProject) {
+            return 1 + locationShopsArray.count;
         }
-        else if (section == 1)
-        {
-            return 1;
-        }
-        else
-        {
-            return locationShopsArray.count;
-        }
-    }
-    if (section == 1)
-    {
-        return shopsArray.count;
-    }
-    else
-    {
         return 1;
+    }
+    else {
+        return 1 + shopsArray.count;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTHeadquartersTableViewCell * cell = (BXTHeadquartersTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"HeadquartersTableViewCell"];
+    static NSString *cellID = @"cell";
+    BXTHeadquartersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cell == nil) {
+        cell = [[BXTHeadquartersTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+    }
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.switchbtn.hidden = YES;
+    cell.rightImageView.hidden = YES;
     
-    if (locationShopsArray.count > 0)
+    if (indexPath.section == 0)
     {
-        if (indexPath.section == 0)
-        {
-            BXTHeadquartersInfo *company = locationShopsArray[indexPath.row];
+        if (indexPath.row == 0) {
+            cell.nameLabel.text = @"自动定位";
+            cell.switchbtn.hidden = NO;
+            [cell.switchbtn addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+        } else {
+            BXTHeadquartersInfo *company = locationShopsArray[indexPath.row-1];
             cell.nameLabel.text = company.name;
             cell.rightImageView.hidden = NO;
-            cell.switchbtn.hidden = YES;
-        }
-        else if (indexPath.section == 1)
-        {
-            cell.nameLabel.text = @"自动定位";
-            cell.rightImageView.hidden = YES;
-            cell.switchbtn.hidden = NO;
-        }
-        else
-        {
-            BXTHeadquartersInfo *company = shopsArray[indexPath.row];
-            cell.nameLabel.text = company.name;
-            cell.rightImageView.hidden = YES;
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.switchbtn.hidden = YES;
         }
     }
-
+    else
+    {
+        if (indexPath.row == 0) {
+            cell.nameLabel.text = @"热门项目";
+        } else {
+            BXTHeadquartersInfo *company = shopsArray[indexPath.row-1];
+            cell.nameLabel.text = company.name;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0 && indexPath.row != 0) {
+        BXTHeadquartersInfo *company = locationShopsArray[indexPath.row-1];
+        BXTBranchViewController *branchVC = [[BXTBranchViewController alloc] initWithHeadquarters:company];
+        branchVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:branchVC animated:YES];
+    }
+    else if (indexPath.section == 1 && indexPath.row != 0) {
+        BXTHeadquartersInfo *company = shopsArray[indexPath.row-1];
+        BXTBranchViewController *branchVC = [[BXTBranchViewController alloc] initWithHeadquarters:company];
+        branchVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:branchVC animated:YES];
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (locationShopsArray.count > 0)
-    {
-        if (indexPath.section == 0 || indexPath.section == 2)
-        {
-            BXTHeadquartersInfo *company = shopsArray[indexPath.row];
-            BXTBranchViewController *branchVC = [[BXTBranchViewController alloc] initWithHeadquarters:company];
-            [self.navigationController pushViewController:branchVC animated:YES];
-        }
-    }
-    else
-    {
-        if (indexPath.section == 2)
-        {
-            BXTHeadquartersInfo *company = shopsArray[indexPath.row];
-            BXTBranchViewController *branchVC = [[BXTBranchViewController alloc] initWithHeadquarters:company];
-            [self.navigationController pushViewController:branchVC animated:YES];
-        }
-    }
 }
 
 #pragma mark -
@@ -409,13 +331,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
