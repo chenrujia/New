@@ -79,7 +79,7 @@ static NSString *settingCellIndentify = @"settingCellIndentify";
 - (void)contactTa
 {
     self.navigationController.navigationBar.hidden = NO;
-
+    
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = [checkUserDic objectForKey:@"checks_user_out_userid"];
     
