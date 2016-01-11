@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     ImageViewType_Selected
 };
 
-@interface BXTMailListViewController () <UISearchBarDelegate, BXTDataResponseDelegate, SKSTableViewDelegate>
+@interface BXTMailListViewController () <UISearchBarDelegate, BXTDataResponseDelegate, SKSTableViewDelegate, MBProgressHUDDelegate>
 {
     UIImageView *arrow;
     CGFloat groupBtnX;
@@ -36,8 +36,19 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 @property(nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, strong) NSMutableArray *searchArray;
+/** ---- 分组成员数组 ---- */
 @property (nonatomic, strong) NSMutableArray *subDataArray;
+/** ---- 分组标题 ---- */
 @property(nonatomic, strong) NSMutableArray *titleArray;
+/** ---- 分组人数标题 ---- */
+@property(nonatomic, strong) NSMutableArray *titleNumArray;
+/** ---- 分组是否可以展开 ---- */
+@property(nonatomic, strong) NSMutableArray *groupOpenArray;
+
+/** ---- 递归数据 ---- */
+@property(nonatomic, strong) NSMutableArray *OLDArray;
+/** ---- 操作顺序列表 ---- */
+@property(nonatomic, strong) NSMutableArray *listArray;
 
 @end
 
@@ -57,11 +68,16 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     
     self.dataArray = [[NSMutableArray alloc] init];
     self.titleArray = [[NSMutableArray alloc] init];
+    self.titleNumArray = [[NSMutableArray alloc] init];
+    self.groupOpenArray = [[NSMutableArray alloc] init];
+    self.OLDArray = [[NSMutableArray alloc] init];
+    self.listArray = [[NSMutableArray alloc] init];
     self.subDataArray = [[NSMutableArray alloc] init];
     self.searchArray = [[NSMutableArray alloc] init];
     groupBtnX = 0;
     
     
+    [self showLoadingMBP:@"数据加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /** 通讯录列表 **/
@@ -163,12 +179,16 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [rootBtn setTitleColor:colorWithHexString(@"#ffffff") forState:UIControlStateNormal];
     [[rootBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         for (UIView *view in self.subScrollView.subviews) {
-            [view removeFromSuperview];
+            [self showRootView:NO];
+            if ([view isKindOfClass:[UIButton class]]) {
+                [view removeFromSuperview];
+            }
             self.subScrollView.contentSize = CGSizeMake(0, 50);
             groupBtnX = 0;
+            self.OLDArray = (NSMutableArray *)self.dataArray;
             [self ergodicArray:self.dataArray];
+            [self.listArray removeAllObjects];
         }
-        [self reloadTableView];
     }];
     [self.bgView addSubview:rootBtn];
     
@@ -185,6 +205,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.tableView.SKSTableViewDelegate = self;
     [self.view addSubview:self.tableView];
     
+    
+    [self showRootView:NO];
     [self showTableViewAndHideSearchTableView:YES];
 }
 
@@ -310,7 +332,9 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         cell = [[SKSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = self.titleArray[indexPath.row];
+    //    cell.expandable = NO;
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", self.titleArray[indexPath.row], self.titleNumArray[indexPath.row]];
     
     return cell;
 }
@@ -363,35 +387,38 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
-    NSArray *array = self.subDataArray[indexPath.row];
     
-    if (array.count == 1) {
-        [self.titleArray removeAllObjects];
-        [self.subDataArray removeAllObjects];
-        [self.titleArray addObject:@"2级分组"];
-        [self.titleArray addObject:@"iOS分组"];
-        [self.titleArray addObject:@"Android分组"];
-        [self.subDataArray addObject:@[@"", @"测试1",@"测试2"]];
-        [self.subDataArray addObject:@[@"", @"满意"]];
-        [self.subDataArray addObject:@[@"", @"圣骑", @"大海"]];
+    if ([self.groupOpenArray[indexPath.row] intValue] == 0) {
+        [self showRootView:YES];
         
-        [self reloadTableView];
-        UIButton *button = [self createShowButtonTitle:@"子部门已"];
+        NSDictionary *dict = self.OLDArray[indexPath.row];
+        self.OLDArray = dict[@"list"];
+        [self ergodicArray:self.OLDArray];
+        [self.listArray addObject:self.OLDArray];
+        
+        
+        UIButton *button = [self createShowButtonTitle:dict[@"name"]];
         [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *subBtn) {
+            // 数据设置
+            NSInteger selectedIndex = subBtn.frame.origin.x/90;
+            [self ergodicArray:self.listArray[selectedIndex]];
+            
+            
+            // 显示设置
             for (UIView *subView in self.subScrollView.subviews) {
                 if ([subView isKindOfClass:[UIButton class]]) {
                     if (subBtn.frame.origin.x < subView.frame.origin.x) {
                         [subView removeFromSuperview];
                         [subBtn setBackgroundImage:[UIImage imageNamed:@"mail_rectangle_selected"] forState:UIControlStateNormal];
                         self.subScrollView.contentSize = CGSizeMake(subBtn.frame.origin.x + subBtn.frame.size.width, 50);
-                        groupBtnX = subBtn.frame.origin.x;
+                        groupBtnX = subBtn.frame.origin.x + 90;
                     }
                 }
             }
         }];
     }
     
-    NSLog(@"Section: %ld, Row:%ld, Subrow:%ld", (long)indexPath.section, (long)indexPath.row, (long)indexPath.subRow);
+    NSLog(@"didSelectRow - Section: %ld, Row:%ld, Subrow:%ld", (long)indexPath.section, (long)indexPath.row, (long)indexPath.subRow);
 }
 
 - (void)tableView:(SKSTableView *)tableView didSelectSubRowAtIndexPath:(NSIndexPath *)indexPath
@@ -402,7 +429,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     pivc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:pivc animated:YES];
     
-    NSLog(@"Section: %ld, Row:%ld, Subrow:%ld", (long)indexPath.section, (long)indexPath.row, (long)indexPath.subRow);
+    NSLog(@"didSelectSubRow - Section: %ld, Row:%ld, Subrow:%ld", (long)indexPath.section, (long)indexPath.row, (long)indexPath.subRow);
 }
 
 #pragma mark - Actions
@@ -440,8 +467,9 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Mail_Get_All && data.count > 0)
     {
-        //        [self hideMBP];
+        [self hideMBP];
         self.dataArray = data;
+        self.OLDArray = (NSMutableArray *)self.dataArray;
         [self ergodicArray:data];
     }
     else if (type == Mail_User_list)
@@ -452,30 +480,41 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (void)requestError:(NSError *)error
 {
-    //    [self hideMBP];
+    [self hideMBP];
 }
 
 - (void)ergodicArray:(NSArray *)subArray
 {
     [self.titleArray removeAllObjects];
     [self.subDataArray removeAllObjects];
+    [self.titleNumArray removeAllObjects];
+    [self.groupOpenArray removeAllObjects];
+    
     for (NSDictionary *dict in subArray)
     {
+        // 组名
         [self.titleArray addObject:dict[@"name"]];
         
         NSArray *user_listArray = dict[@"user_list"];
+        // 组人数
+        [self.titleNumArray addObject:[NSString stringWithFormat:@"%ld", user_listArray.count]];
+        
+        // 组可展开
+        NSArray *listArray = dict[@"list"];
+        [self.groupOpenArray addObject:(listArray.count == 0 ? @"1" : @"0")];
+        
+        // 组人员
         NSMutableArray *subPersonArray = [[NSMutableArray alloc] initWithObjects:@"", nil];
         for (NSDictionary *subDict in user_listArray) {
             [subPersonArray addObject:subDict[@"name"]];
         }
+        
         [self.subDataArray addObject:subPersonArray];
     }
     
     [self reloadTableView];
     
-    
-    NSLog(@"%@", self.titleArray);
-    NSLog(@"%@", self.subDataArray);
+    return;
 }
 
 #pragma mark -
@@ -515,6 +554,38 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         self.tableView.hidden = YES;
         self.bgView.hidden = YES;
     }
+}
+
+- (void)showRootView:(BOOL)isRight
+{
+    if (!isRight) {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.bgView.frame = CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_HEIGHT, 0);
+            self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.bgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.bgView.frame) - 50);
+        } completion:^(BOOL finished) { }];
+        
+    } else {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.bgView.frame = CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_HEIGHT, 50);
+            self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.bgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.bgView.frame) - 50);
+        } completion:^(BOOL finished) { }];
+    }
+}
+
+- (void)showLoadingMBP:(NSString *)text
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = text;
+    hud.margin = 10.f;
+    hud.delegate = self;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud show:YES];
+}
+
+- (void)hideMBP
+{
+    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

@@ -20,6 +20,8 @@
 #define SaveValueTUD(key, value) [[NSUserDefaults standardUserDefaults] setObject:value forKey:key]; [[NSUserDefaults standardUserDefaults] synchronize]
 /** ---- 取值 ---- */
 #define ValueFUD(key) [[NSUserDefaults standardUserDefaults] objectForKey:key]
+/** ---- 背景色 ---- */
+#define NavColorStr [BXTGlobal shareGlobal].isRepair ? @"#0042A2" : @"#00B1FF"
 
 @interface BXTGlobal : NSObject
 

@@ -767,7 +767,8 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = Mail_Get_All;
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdirectory&opt=get_all",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:nil];
+    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)mailListOfUserList
