@@ -795,7 +795,7 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)maintenanceEquipmentList:(NSString *)deviceID
 {
     self.requestType = MaintenanceEquipmentList;
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+    NSDictionary *dic = @{@"user_id":@"15",
                           @"device_id": ValueFUD(@"Device_ID")};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=structure_inspection",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];

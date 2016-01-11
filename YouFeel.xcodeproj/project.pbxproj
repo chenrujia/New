@@ -227,6 +227,10 @@
 		968941F51C0EEBC1003C1072 /* BXTMMLogTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968941F41C0EEBC1003C1072 /* BXTMMLogTableViewCell.m */; };
 		9689C30E1BE3622E006D7589 /* BXTFindPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9689C30A1BE3622E006D7589 /* BXTFindPassWordViewController.m */; };
 		9689C3111BE36C60006D7589 /* BXTChangePassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9689C3101BE36C60006D7589 /* BXTChangePassWordViewController.m */; };
+		968F5CC11C3FAA92005A23F3 /* BXTMaintenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F5CC01C3FAA92005A23F3 /* BXTMaintenceInfo.m */; };
+		968F5CC71C3FABFD005A23F3 /* BXTInspectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F5CC61C3FABFD005A23F3 /* BXTInspectionInfo.m */; };
+		968F5CCA1C3FAC3B005A23F3 /* BXTCheckProjectInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F5CC91C3FAC3B005A23F3 /* BXTCheckProjectInfo.m */; };
+		968F5CCC1C3FBEF4005A23F3 /* BXTMaintenanceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968F5CCB1C3FBEF4005A23F3 /* BXTMaintenanceViewController.xib */; };
 		969A41A61BCB4C3C0034FC84 /* MDRadialProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */; };
 		969A42491BCBD4620034FC84 /* RGCardViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A42461BCBD4620034FC84 /* RGCardViewLayout.m */; };
 		969A424D1BCBD4DF0034FC84 /* RGCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A424C1BCBD4DF0034FC84 /* RGCollectionViewCell.m */; };
@@ -705,6 +709,13 @@
 		9689C30A1BE3622E006D7589 /* BXTFindPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFindPassWordViewController.m; sourceTree = "<group>"; };
 		9689C30F1BE36C60006D7589 /* BXTChangePassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTChangePassWordViewController.h; sourceTree = "<group>"; };
 		9689C3101BE36C60006D7589 /* BXTChangePassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChangePassWordViewController.m; sourceTree = "<group>"; };
+		968F5CBF1C3FAA92005A23F3 /* BXTMaintenceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenceInfo.h; sourceTree = "<group>"; };
+		968F5CC01C3FAA92005A23F3 /* BXTMaintenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenceInfo.m; sourceTree = "<group>"; };
+		968F5CC51C3FABFD005A23F3 /* BXTInspectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTInspectionInfo.h; sourceTree = "<group>"; };
+		968F5CC61C3FABFD005A23F3 /* BXTInspectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTInspectionInfo.m; sourceTree = "<group>"; };
+		968F5CC81C3FAC3B005A23F3 /* BXTCheckProjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCheckProjectInfo.h; sourceTree = "<group>"; };
+		968F5CC91C3FAC3B005A23F3 /* BXTCheckProjectInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCheckProjectInfo.m; sourceTree = "<group>"; };
+		968F5CCB1C3FBEF4005A23F3 /* BXTMaintenanceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMaintenanceViewController.xib; sourceTree = "<group>"; };
 		969A41A41BCB4C3C0034FC84 /* MDRadialProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDRadialProgressView.h; sourceTree = "<group>"; };
 		969A41A51BCB4C3C0034FC84 /* MDRadialProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDRadialProgressView.m; sourceTree = "<group>"; };
 		969A42451BCBD4620034FC84 /* RGCardViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGCardViewLayout.h; sourceTree = "<group>"; };
@@ -1195,6 +1206,7 @@
 		781EF1CD1C3D382C0027FE72 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				968F5CBE1C3FAA46005A23F3 /* BXTMaintenceList */,
 				78213FB01C3DFE49003290A8 /* BXTInspectionBase */,
 				781EF1CE1C3D382C0027FE72 /* BXTCurrentOrder */,
 				781EF1D31C3D382C0027FE72 /* BXTEquipment */,
@@ -1268,6 +1280,7 @@
 			children = (
 				78213FCE1C3E48BE003290A8 /* BXTMaintenanceViewController.h */,
 				78213FCF1C3E48BE003290A8 /* BXTMaintenanceViewController.m */,
+				968F5CCB1C3FBEF4005A23F3 /* BXTMaintenanceViewController.xib */,
 				78213FCB1C3E469A003290A8 /* BXTStandardViewController.h */,
 				78213FCC1C3E469A003290A8 /* BXTStandardViewController.m */,
 			);
@@ -2451,7 +2464,6 @@
 			isa = PBXGroup;
 			children = (
 				780177101C1A5CCE0016D3F6 /* AuthorityList */,
-				96AABA411BE078950071B6FA /* ChatList */,
 				781EF1C81C3D382C0027FE72 /* EquipmentDetail */,
 				78B1830E1BF2EB8C007D5B24 /* Evaluation/Achievements */,
 				960221891BC9216300010072 /* Examination */,
@@ -2832,6 +2844,19 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		968F5CBE1C3FAA46005A23F3 /* BXTMaintenceList */ = {
+			isa = PBXGroup;
+			children = (
+				968F5CBF1C3FAA92005A23F3 /* BXTMaintenceInfo.h */,
+				968F5CC01C3FAA92005A23F3 /* BXTMaintenceInfo.m */,
+				968F5CC51C3FABFD005A23F3 /* BXTInspectionInfo.h */,
+				968F5CC61C3FABFD005A23F3 /* BXTInspectionInfo.m */,
+				968F5CC81C3FAC3B005A23F3 /* BXTCheckProjectInfo.h */,
+				968F5CC91C3FAC3B005A23F3 /* BXTCheckProjectInfo.m */,
+			);
+			path = BXTMaintenceList;
+			sourceTree = "<group>";
+		};
 		96AABA4E1BE0BB220071B6FA /* en.lproj */ = {
 			isa = PBXGroup;
 			children = (
@@ -3196,6 +3221,7 @@
 				7823D2031C32313600E3641C /* CodeScan.bundle in Resources */,
 				781EF20B1C3D382C0027FE72 /* BXTEquipmentFilesCell.xib in Resources */,
 				782D6BCC1C0D711900E1828F /* BXTCompletionHeader.xib in Resources */,
+				968F5CCC1C3FBEF4005A23F3 /* BXTMaintenanceViewController.xib in Resources */,
 				78213FC21C3E3977003290A8 /* BXTEquipmentInform_PersonCell.xib in Resources */,
 				9652AB0C1BC902DF009A666D /* LaunchScreen.storyboard in Resources */,
 				96FD741A1C351DD300F63D8F /* BXTResignTableViewCell.xib in Resources */,
@@ -3314,6 +3340,7 @@
 				96AB06301C1FB48E0038E2AF /* DOPDropDownMenu.m in Sources */,
 				960222961BC9216300010072 /* AMRatingControl.m in Sources */,
 				782D6BC41C0D6CFC00E1828F /* SPChartUtil.m in Sources */,
+				968F5CC71C3FABFD005A23F3 /* BXTInspectionInfo.m in Sources */,
 				96C0FEF01BDB445E00580355 /* BXTCustomerServiceViewController.m in Sources */,
 				960221471BC9201400010072 /* NSString+URL.m in Sources */,
 				9602230F1BC9216300010072 /* BXTFaultTypeInfo.m in Sources */,
@@ -3379,6 +3406,7 @@
 				960222E81BC9216300010072 /* BXTRepairDetailViewController.m in Sources */,
 				960222CD1BC9216300010072 /* BXTNickNameViewController.m in Sources */,
 				9689C3111BE36C60006D7589 /* BXTChangePassWordViewController.m in Sources */,
+				968F5CC11C3FAA92005A23F3 /* BXTMaintenceInfo.m in Sources */,
 				967679F61BD512E700D41FE2 /* BXTNewsViewController.m in Sources */,
 				7823D20B1C3231A000E3641C /* UIActionSheet+BlockT.m in Sources */,
 				782D6BD31C0D88B300E1828F /* SPChartPopup.m in Sources */,
@@ -3427,6 +3455,7 @@
 				960222901BC9216300010072 /* BXTShopsTableViewCell.m in Sources */,
 				960222F51BC9216300010072 /* BXTDrawView.m in Sources */,
 				7818DBDD1C0824D800DC22C6 /* PNChartLabel.m in Sources */,
+				968F5CCA1C3FAC3B005A23F3 /* BXTCheckProjectInfo.m in Sources */,
 				781EF1831C3CB3B30027FE72 /* BXTMailViewController.m in Sources */,
 				960222DF1BC9216300010072 /* BXTRepairViewController.m in Sources */,
 				78213FC11C3E3977003290A8 /* BXTEquipmentInform_PersonCell.m in Sources */,
