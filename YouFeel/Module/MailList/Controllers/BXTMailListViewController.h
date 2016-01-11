@@ -8,6 +8,7 @@
 
 #import "BXTBaseViewController.h"
 
-@interface BXTMailListViewController : BXTBaseViewController
+@interface BXTMailListViewController : UIViewController
+
 
 @end

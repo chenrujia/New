@@ -11,8 +11,8 @@
 #import "BXTRepairHomeViewController.h"
 #import "BXTShopsHomeViewController.h"
 #import "BXTMailViewController.h"
-#import "BXTApplicationsViewController.h"
-#import "BXTSettingViewController.h"
+#import "BXTHeadquartersViewController.h"
+#import "BXTMineViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 
 @interface CYLTabBarControllerConfig ()
@@ -45,15 +45,15 @@
         [mailNav setEnableBackGesture:YES];
         mailNav.navigationBarHidden = NO;
         
-        BXTApplicationsViewController *applicationsVC = [[BXTApplicationsViewController alloc] init];
+        BXTHeadquartersViewController *applicationsVC = [[BXTHeadquartersViewController alloc] init];
         UINavigationController *applicationsNav = [[UINavigationController alloc] initWithRootViewController:applicationsVC];
         [applicationsNav setEnableBackGesture:YES];
         applicationsNav.navigationBarHidden = YES;
         
-        BXTSettingViewController *settingVC = [[BXTSettingViewController alloc] init];
+        BXTMineViewController *settingVC = [[BXTMineViewController alloc] init];
         UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingVC];
         [settingNav setEnableBackGesture:YES];
-        //        settingNav.navigationBarHidden = YES;
+        settingNav.navigationBarHidden = YES;
         
         if ([BXTGlobal shareGlobal].isRepair)
         {

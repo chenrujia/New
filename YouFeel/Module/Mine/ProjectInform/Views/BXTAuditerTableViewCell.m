@@ -19,7 +19,7 @@
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 80.f, 20)];
         _titleLabel.textColor = colorWithHexString(@"000000");
         _titleLabel.text = @"审核人";
-        _titleLabel.font = [UIFont boldSystemFontOfSize:18.];
+        _titleLabel.font = [UIFont systemFontOfSize:17.];
         [self addSubview:_titleLabel];
         
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, SCREEN_WIDTH, 0.5f)];
@@ -28,17 +28,17 @@
         
         _auditNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 12.f, 70.f, 20)];
         _auditNameLabel.textColor = colorWithHexString(@"000000");
-        _auditNameLabel.font = [UIFont boldSystemFontOfSize:18.];
+        _auditNameLabel.font = [UIFont systemFontOfSize:17.];
         [self addSubview:_auditNameLabel];
         
         _phoneBtn = [[UIButton alloc] initWithFrame:CGRectMake(80, CGRectGetMaxY(lineView.frame)+ 8.f, 100, 30)];
         _phoneBtn.titleLabel.textColor = colorWithHexString(@"#00B1FF");
-        _phoneBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        _phoneBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         [self addSubview:_phoneBtn];
         
         _positionLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_auditNameLabel.frame) + 12.f, 80.f, 20)];
         _positionLabel.textColor = colorWithHexString(@"909497");
-        _positionLabel.font = [UIFont boldSystemFontOfSize:18.];
+        _positionLabel.font = [UIFont systemFontOfSize:17.];
         [self addSubview:_positionLabel];
         
         _contactBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -55,7 +55,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

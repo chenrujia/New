@@ -119,21 +119,21 @@
     [BXTGlobal setUserProperty:[dic objectForKey:@"mobile"] withKey:U_MOBILE];
     [BXTGlobal setUserProperty:[dic objectForKey:@"is_verify"] withKey:U_IS_VERIFY];
     
-//    UINavigationController *nav;
+    //    UINavigationController *nav;
     if ([[dic objectForKey:@"is_repair"] integerValue] == 1)
     {
         [BXTGlobal shareGlobal].isRepair = NO;
-//        BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] init];
-//        nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+        //        BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] init];
+        //        nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
     }
     else if ([[dic objectForKey:@"is_repair"] integerValue] == 2)
     {
         [BXTGlobal shareGlobal].isRepair = YES;
-//        BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] init];
-//        nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+        //        BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] init];
+        //        nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
     }
-//    nav.navigationBar.hidden = YES;
-//    [AppDelegate appdelegete].window.rootViewController = nav;
+    //    nav.navigationBar.hidden = YES;
+    //    [AppDelegate appdelegete].window.rootViewController = nav;
     
     CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
     [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];
@@ -373,7 +373,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     const char *cStr = [inPutText UTF8String];
     unsigned char result[CC_MD5_DIGEST_LENGTH];
     CC_MD5(cStr, strlen(cStr), result);
-          
+    
     return [[NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
              result[0], result[1], result[2], result[3],
              result[4], result[5], result[6], result[7],

@@ -75,7 +75,7 @@
     targetRect.origin.y*=self.scale;
     targetRect.size.width*=self.scale;
     targetRect.size.height*=self.scale;
-
+    
     if (targetRect.origin.x<0) {
         targetRect.origin.x = 0;
     }
@@ -148,7 +148,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor blackColor];
     
     //设置frame,这里需要设置下，这样其会在最下层
@@ -254,16 +254,16 @@
     CGPoint endPoint = [self.overlayView convertPoint:CGPointMake(CGRectGetMaxX(self.overlayView.bounds), CGRectGetMaxY(self.overlayView.bounds)) toView:self.imageView];
     
     //这里找到的点其实是imageView在zoomScale为1的时候的实际点，而zoomScale为1的时候imageView.frame.size并不一定是实际的图片size，所以需要修正
-//    _pr(CGRectMake(startPoint.x, startPoint.y, (endPoint.x-startPoint.x), (endPoint.y-startPoint.y)));
+    //    _pr(CGRectMake(startPoint.x, startPoint.y, (endPoint.x-startPoint.x), (endPoint.y-startPoint.y)));
     //zoomScale为1的时候的imageFrame
-//    _pr(CGRectMake(self.imageView.frame.origin.x/self.scrollView.zoomScale, self.imageView.frame.origin.y/self.scrollView.zoomScale, self.imageView.frame.size.width/self.scrollView.zoomScale, self.imageView.frame.size.height/self.scrollView.zoomScale));
+    //    _pr(CGRectMake(self.imageView.frame.origin.x/self.scrollView.zoomScale, self.imageView.frame.origin.y/self.scrollView.zoomScale, self.imageView.frame.size.width/self.scrollView.zoomScale, self.imageView.frame.size.height/self.scrollView.zoomScale));
     
     //这里获取的是实际宽度和zoomScale为1的frame宽度的比例
     CGFloat wRatio = self.imageView.image.size.width/(self.imageView.frame.size.width/self.scrollView.zoomScale);
     CGFloat hRatio = self.imageView.image.size.height/(self.imageView.frame.size.height/self.scrollView.zoomScale);
     CGRect cropRect = CGRectMake(startPoint.x*wRatio, startPoint.y*hRatio, (endPoint.x-startPoint.x)*wRatio, (endPoint.y-startPoint.y)*hRatio);
     
-//    _pr(cropRect);
+    //    _pr(cropRect);
     
     [self disappear];
     
@@ -276,11 +276,11 @@
 #pragma mark - tap
 - (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
     CGPoint touchPoint = [tap locationInView:self.scrollView];
-	if (self.scrollView.zoomScale == self.scrollView.minimumZoomScale) { //除去最小的时候双击最大，其他时候都还原成最小
+    if (self.scrollView.zoomScale == self.scrollView.minimumZoomScale) { //除去最小的时候双击最大，其他时候都还原成最小
         [self.scrollView zoomToRect:CGRectMake(touchPoint.x, touchPoint.y, 1, 1) animated:YES];
-	} else {
-		[self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES]; //还原
-	}
+    } else {
+        [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES]; //还原
+    }
 }
 
 #pragma mark - getter or setter
@@ -396,10 +396,10 @@
 - (UIImageView*)imageView
 {
     if (!_imageView) {
-		_imageView = [[UIImageView alloc] init];
-		_imageView.contentMode = UIViewContentModeScaleAspectFit;
+        _imageView = [[UIImageView alloc] init];
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
         //                _imageView.backgroundColor = [UIColor yellowColor];
-		[self.scrollView addSubview:_imageView];
+        [self.scrollView addSubview:_imageView];
     }
     return _imageView;
 }
@@ -532,7 +532,7 @@
 #pragma mark - UIScrollViewDelegate
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-	return self.imageView;
+    return self.imageView;
 }
 
 #pragma mark - rotate
