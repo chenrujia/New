@@ -52,14 +52,20 @@
     [request userInfo];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
-    self.navigationController.navigationBar.hidden = YES;
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
+
 #pragma mark -
 #pragma mark 初始化视图
 - (void)initContentViews

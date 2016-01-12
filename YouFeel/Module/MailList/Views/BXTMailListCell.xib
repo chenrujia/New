@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CustomerService" translatesAutoresizingMaskIntoConstraints="NO" id="xS9-wG-ziP">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="New_Ticket_icon" translatesAutoresizingMaskIntoConstraints="NO" id="xS9-wG-ziP">
                         <rect key="frame" x="15" y="10" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="J0C-8Y-1Sr"/>
@@ -82,7 +82,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="CustomerService" width="388" height="434"/>
+        <image name="New_Ticket_icon" width="90" height="90"/>
         <image name="phone" width="23" height="23"/>
         <image name="speech_bubble" width="23" height="21"/>
     </resources>

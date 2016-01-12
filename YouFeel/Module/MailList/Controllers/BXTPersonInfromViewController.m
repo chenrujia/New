@@ -9,6 +9,8 @@
 #import "BXTPersonInfromViewController.h"
 #import "BXTHeaderForVC.h"
 #import "UIImageView+WebCache.h"
+#import "BXTPersonInform.h"
+#import <RongIMKit/RongIMKit.h>
 
 @interface BXTPersonInfromViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 {
@@ -27,6 +29,18 @@
 @end
 
 @implementation BXTPersonInfromViewController
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -194,21 +208,25 @@
     if (data.count > 0)
     {
         NSDictionary *infoDict = data[0];
+        BXTPersonInform *informModel = [BXTPersonInform modelObjectWithDictionary:infoDict];
+        
+        
         NSDictionary *stores_checks = infoDict[@"stores_checks"];
         
         // 完善信息
-        NSString *head_pic = infoDict[@"head_pic"];
-        NSString *iconPic = [head_pic stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-        [iconView sd_setImageWithURL:[NSURL URLWithString:iconPic] placeholderImage:[UIImage imageNamed:@"login_normal"]];
-        nameLabel.text = stores_checks[@"checks_user"];
-        positionLabel.text = stores_checks[@"checks_user_department"];
+        [iconView sd_setImageWithURL:[NSURL URLWithString:informModel.head_pic] placeholderImage:[UIImage imageNamed:@"login_normal"]];
+        nameLabel.text = informModel.name;
+        positionLabel.text = informModel.department;
+        
         @weakify(self);
         [[messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            NSLog(@"message");
+            @strongify(self);
+            [self connectTaWithOutID:informModel];
         }];
+        
         [[phoneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", stores_checks[@"checks_user_mobile"]];
+            NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", informModel.mobile];
             UIWebView *callWeb = [[UIWebView alloc] init];
             [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
             [self.view addSubview:callWeb];
@@ -226,6 +244,51 @@
 - (void)requestError:(NSError *)error
 {
     [self hideMBP];
+}
+
+- (void)connectTaWithOutID:(BXTPersonInform *)model
+{
+    RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+    userInfo.userId = model.out_userid;
+    
+    //    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
+    //    if ([userInfo.userId isEqualToString:my_userID]) return;
+    
+    userInfo.name = model.name;
+    userInfo.portraitUri = model.head;
+    
+    NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (usersArray)
+    {
+        NSArray *arrResult = [usersArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.userId = %@",userInfo.userId]];
+        if (arrResult.count)
+        {
+            RCUserInfo *temp_userInfo = arrResult[0];
+            NSInteger index = [usersArray indexOfObject:temp_userInfo];
+            [usersArray replaceObjectAtIndex:index withObject:temp_userInfo];
+        }
+        else
+        {
+            [usersArray addObject:userInfo];
+        }
+    }
+    else
+    {
+        NSMutableArray *array = [NSMutableArray array];
+        [array addObject:userInfo];
+        [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
+    
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.targetId = userInfo.userId;
+    conversationVC.title = userInfo.name;
+    // 删除位置功能
+    //[conversationVC.pluginBoardView removeItemAtIndex:2];
+    [self.navigationController pushViewController:conversationVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

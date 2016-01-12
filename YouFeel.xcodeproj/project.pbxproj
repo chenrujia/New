@@ -103,6 +103,8 @@
 		782D6BCC1C0D711900E1828F /* BXTCompletionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782D6BCB1C0D711900E1828F /* BXTCompletionHeader.xib */; };
 		782D6BCF1C0D712700E1828F /* BXTCompletionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BCE1C0D712700E1828F /* BXTCompletionHeader.m */; };
 		782D6BD31C0D88B300E1828F /* SPChartPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BD21C0D88B300E1828F /* SPChartPopup.m */; };
+		783710181C4503CA00A8D5EE /* BXTPersonInform.m in Sources */ = {isa = PBXBuildFile; fileRef = 783710171C4503CA00A8D5EE /* BXTPersonInform.m */; };
+		7837101B1C4503E900A8D5EE /* BXTPersonChecks.m in Sources */ = {isa = PBXBuildFile; fileRef = 7837101A1C4503E900A8D5EE /* BXTPersonChecks.m */; };
 		7839780C1C34D9EB00BE9620 /* BXTMailListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7839780A1C34D9EB00BE9620 /* BXTMailListCell.m */; };
 		7839780D1C34D9EB00BE9620 /* BXTMailListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7839780B1C34D9EB00BE9620 /* BXTMailListCell.xib */; };
 		783DDA4A1C3FB4A50035B927 /* ChineseToPinyinResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 783DDA3E1C3FB4A50035B927 /* ChineseToPinyinResource.m */; };
@@ -487,6 +489,10 @@
 		782D6BCE1C0D712700E1828F /* BXTCompletionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCompletionHeader.m; sourceTree = "<group>"; };
 		782D6BD11C0D88B300E1828F /* SPChartPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPChartPopup.h; sourceTree = "<group>"; };
 		782D6BD21C0D88B300E1828F /* SPChartPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPChartPopup.m; sourceTree = "<group>"; };
+		783710161C4503CA00A8D5EE /* BXTPersonInform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPersonInform.h; sourceTree = "<group>"; };
+		783710171C4503CA00A8D5EE /* BXTPersonInform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPersonInform.m; sourceTree = "<group>"; };
+		783710191C4503E900A8D5EE /* BXTPersonChecks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPersonChecks.h; sourceTree = "<group>"; };
+		7837101A1C4503E900A8D5EE /* BXTPersonChecks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPersonChecks.m; sourceTree = "<group>"; };
 		783978091C34D9EB00BE9620 /* BXTMailListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailListCell.h; sourceTree = "<group>"; };
 		7839780A1C34D9EB00BE9620 /* BXTMailListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailListCell.m; sourceTree = "<group>"; };
 		7839780B1C34D9EB00BE9620 /* BXTMailListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMailListCell.xib; sourceTree = "<group>"; };
@@ -1716,6 +1722,10 @@
 				7841654A1C3BC37800F49B35 /* BXTSearchData.m */,
 				786B57221C3A464300F48402 /* BXTMailListModel.h */,
 				786B57231C3A464300F48402 /* BXTMailListModel.m */,
+				783710161C4503CA00A8D5EE /* BXTPersonInform.h */,
+				783710171C4503CA00A8D5EE /* BXTPersonInform.m */,
+				783710191C4503E900A8D5EE /* BXTPersonChecks.h */,
+				7837101A1C4503E900A8D5EE /* BXTPersonChecks.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3518,6 +3528,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				783710181C4503CA00A8D5EE /* BXTPersonInform.m in Sources */,
 				782D6BC31C0D6CFC00E1828F /* SPBarChartData.m in Sources */,
 				9652ABEE1BC90DCC009A666D /* ANKeyValueCache.m in Sources */,
 				780177651C1ACF710016D3F6 /* BXTAuthorityListCell.m in Sources */,
@@ -3675,6 +3686,7 @@
 				7818DC1C1C08251400DC22C6 /* BXTWorkloadViewController.m in Sources */,
 				968941F51C0EEBC1003C1072 /* BXTMMLogTableViewCell.m in Sources */,
 				7818DBDC1C0824D800DC22C6 /* PNBarChart.m in Sources */,
+				7837101B1C4503E900A8D5EE /* BXTPersonChecks.m in Sources */,
 				960223011BC9216300010072 /* BXTAreaInfo.m in Sources */,
 				783DDA4D1C3FB4A50035B927 /* PinyinFormatter.m in Sources */,
 				965B3A3B1C0C62C00097CF7F /* BXTManagerOMView.m in Sources */,
@@ -3931,7 +3943,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -3964,7 +3976,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
