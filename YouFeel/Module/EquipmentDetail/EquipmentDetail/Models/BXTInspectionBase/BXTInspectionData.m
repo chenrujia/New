@@ -135,7 +135,6 @@ NSString *const kBXTInspectionDataWorkorderId = @"workorder_id";
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-
     [aCoder encodeObject:_dataIdentifier forKey:kBXTInspectionDataId];
     [aCoder encodeObject:_inspectionCode forKey:kBXTInspectionDataInspectionCode];
     [aCoder encodeObject:_state forKey:kBXTInspectionDataState];

@@ -7,8 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-
-
 @interface BXTInspectionData : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSString *dataIdentifier;

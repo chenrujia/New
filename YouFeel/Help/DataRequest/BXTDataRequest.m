@@ -796,10 +796,56 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)maintenanceEquipmentList:(NSString *)deviceID
 {
     self.requestType = MaintenanceEquipmentList;
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+    NSDictionary *dic = @{@"user_id":@"15",
                           @"device_id": ValueFUD(@"Device_ID")};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=structure_inspection",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
+}
+
+- (void)addInspectionRecord:(NSString *)workorderID
+            andInspectionID:(NSString *)inspectionID
+          andInspectionData:(NSArray *)inspectionData
+                   andNotes:(NSString *)notes
+                  andImages:(NSArray *)images
+{
+    NSDictionary *dic = @{@"workorder_id":workorderID,
+                          @"user_id":@"15",
+                          @"device_id":ValueFUD(@"Device_ID"),
+                          @"inspection_data":inspectionData,
+                          @"notes":notes};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=add_inspection_record",[BXTGlobal shareGlobal].baseURL];
+    if (images && images.count > 0)
+    {
+        [self uploadImageRequest:url withParameters:dic withImages:images];
+    }
+    else
+    {
+        [self postRequest:url withParameters:dic];
+    }
+}
+
+- (void)updateInspectionRecordID:(NSString *)recordID
+                  andWorkorderID:(NSString *)workorderID
+                 andInspectionID:(NSString *)inspectionID
+               andInspectionData:(NSArray *)inspectionData
+                        andNotes:(NSString *)notes
+                       andImages:(NSArray *)images
+{
+    NSDictionary *dic = @{@"id":recordID,
+                          @"workorder_id":workorderID,
+                          @"user_id":@"15",
+                          @"device_id":ValueFUD(@"Device_ID"),
+                          @"inspection_data":inspectionData,
+                          @"notes":notes};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=add_inspection_record",[BXTGlobal shareGlobal].baseURL];
+    if (images && images.count > 0)
+    {
+        [self uploadImageRequest:url withParameters:dic withImages:images];
+    }
+    else
+    {
+        [self postRequest:url withParameters:dic];
+    }
 }
 
 - (void)postRequest:(NSString *)url
