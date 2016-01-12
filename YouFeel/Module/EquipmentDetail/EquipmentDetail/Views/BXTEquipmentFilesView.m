@@ -118,7 +118,8 @@
     MaintenanceBtn.layer.cornerRadius = 5;
     [[MaintenanceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] init];
+#warning 这个0是临时的。。。。。
+        BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintencesArray[0]];
         [[self getNavigation] pushViewController:mainVC animated:YES];
     }];
     [downBgView addSubview:MaintenanceBtn];
@@ -277,7 +278,6 @@
 
             [_maintencesArray addObject:maintence];
         }
-        LogBlue(@"%@",_maintencesArray);
     }
     else if (type == Inspection_Record_List)
     {

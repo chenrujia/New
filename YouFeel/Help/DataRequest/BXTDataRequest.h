@@ -441,4 +441,23 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)maintenanceEquipmentList:(NSString *)deviceID;
 
+/**
+ *  添加设备维护记录
+ */
+- (void)addInspectionRecord:(NSString *)workorderID
+            andInspectionID:(NSString *)inspectionID
+          andInspectionData:(NSArray *)inspectionData
+                   andNotes:(NSString *)notes
+                  andImages:(NSArray *)images;
+
+/**
+ *  修改设备维护记录
+ */
+- (void)updateInspectionRecordID:(NSString *)recordID
+                  andWorkorderID:(NSString *)workorderID
+                 andInspectionID:(NSString *)inspectionID
+               andInspectionData:(NSArray *)inspectionData
+                        andNotes:(NSString *)notes
+                       andImages:(NSArray *)images;
+
 @end

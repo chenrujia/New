@@ -14,8 +14,6 @@
 #import "BXTEquipmentFilesView.h"
 #import "UIImageView+WebCache.h"
 
-
-
 @interface BXTEquipmentViewController () <SegmentViewDelegate,UIScrollViewDelegate>
 {
     UIScrollView *currentScrollView;

@@ -11,6 +11,7 @@
 @interface BXTCheckProjectInfo : NSObject
 
 @property (nonatomic, strong) NSString *check_con;
+@property (nonatomic, strong) NSString *check_key;
 @property (nonatomic, strong) NSString *default_description;
 
 @end

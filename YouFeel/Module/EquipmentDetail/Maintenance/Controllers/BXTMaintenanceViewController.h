@@ -2,12 +2,20 @@
 //  BXTMaintenanceViewController.h
 //  YouFeel
 //
-//  Created by 满孝意 on 16/1/7.
+//  Created by Jason on 16/1/11.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTBaseViewController.h"
+#import "BXTPhotoBaseViewController.h"
+#import "BXTMaintenceInfo.h"
 
-@interface BXTMaintenanceViewController : BXTBaseViewController
+@interface BXTMaintenanceViewController : BXTPhotoBaseViewController <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *currentTable;
+@property (weak, nonatomic) IBOutlet UIButton *commitBtn;
+@property (nonatomic, strong) BXTMaintenceInfo *maintenceInfo;
+@property (nonatomic, strong) NSString         *notes;
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil maintence:(BXTMaintenceInfo *)mainInfo;
 
 @end
