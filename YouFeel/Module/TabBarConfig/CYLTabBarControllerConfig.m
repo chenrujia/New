@@ -11,7 +11,7 @@
 #import "BXTRepairHomeViewController.h"
 #import "BXTShopsHomeViewController.h"
 #import "BXTMailViewController.h"
-#import "BXTHeadquartersViewController.h"
+#import "BXTApplicationsViewController.h"
 #import "BXTMineViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 
@@ -45,7 +45,7 @@
         [mailNav setEnableBackGesture:YES];
         mailNav.navigationBarHidden = NO;
         
-        BXTHeadquartersViewController *applicationsVC = [[BXTHeadquartersViewController alloc] init];
+        BXTApplicationsViewController *applicationsVC = [[BXTApplicationsViewController alloc] init];
         UINavigationController *applicationsNav = [[UINavigationController alloc] initWithRootViewController:applicationsVC];
         [applicationsNav setEnableBackGesture:YES];
         applicationsNav.navigationBarHidden = YES;

@@ -7,6 +7,7 @@
 //
 
 #import "BXTEquipmentFilesCell.h"
+#import "BXTGlobal.h"
 
 @implementation BXTEquipmentFilesCell
 
@@ -26,7 +27,7 @@
     _inspectionList = inspectionList;
     
     self.orderIDView.text = [NSString stringWithFormat:@"编号：%@", inspectionList.inspectionCode];
-    self.typeView.text = [NSString stringWithFormat:@"%@", inspectionList.faulttypeTypeName];
+    self.typeView.text = [NSString stringWithFormat:@"  %@  ", inspectionList.faulttypeTypeName];
     
     self.projectView.text = [NSString stringWithFormat:@"维保项目：%@", inspectionList.inspectionItemName];
     self.planView.text = [NSString stringWithFormat:@"维保计划：%@", inspectionList.inspectionTime];
@@ -37,11 +38,15 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    self.typeView.layer.borderWidth = 0.5;
+    self.typeView.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    self.typeView.layer.cornerRadius = 5;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
