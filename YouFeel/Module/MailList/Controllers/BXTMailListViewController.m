@@ -409,17 +409,20 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [imageView sd_setImageWithURL:[NSURL URLWithString:listModel.head] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
     [showCell.contentView addSubview:imageView];
     
+    
     UILabel *nameView = [[UILabel alloc] initWithFrame:CGRectMake(65, 10, 100, 21)];
     nameView.text = listModel.name;
     nameView.textColor = colorWithHexString(@"#333333");
     nameView.font = [UIFont systemFontOfSize:16];
     [showCell.contentView addSubview:nameView];
     
+    
     UILabel *positionView = [[UILabel alloc] initWithFrame:CGRectMake(65, 31, 100, 21)];
     positionView.text = listModel.role_name;
     positionView.textColor = colorWithHexString(@"#999999");
     positionView.font = [UIFont systemFontOfSize:14];
     [showCell.contentView addSubview:positionView];
+    
     
     UIButton *phoneView = [UIButton buttonWithType:UIButtonTypeCustom];
     phoneView.frame = CGRectMake(SCREEN_WIDTH - 15 - 34, 13, 34, 34);
@@ -433,6 +436,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         [self.view addSubview:callWeb];
     }];
     [showCell.contentView addSubview:phoneView];
+    
     
     UIButton *messageView = [UIButton buttonWithType:UIButtonTypeCustom];
     messageView.frame = CGRectMake(SCREEN_WIDTH - 15 - 34 -20 - 34, 13, 34, 34);
