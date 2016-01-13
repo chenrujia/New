@@ -31,4 +31,6 @@ typedef void (^HaveHidden)(BOOL hidden);
 
 - (void)hideMBP;
 
+- (NSString*)dataTOjsonString:(id)object;
+
 @end

@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (nonatomic, strong) BXTMaintenceInfo *maintenceInfo;
 @property (nonatomic, strong) NSString         *notes;
+@property (nonatomic, assign) BOOL             isUpdate;//更新还是添加接口
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil maintence:(BXTMaintenceInfo *)mainInfo;
 

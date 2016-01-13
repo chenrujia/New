@@ -6,7 +6,7 @@
 //
 
 #import "BXTInspectionBase.h"
-#import "BXTInspectionData.h"
+#import "BXTMaintenceInfo.h"
 
 
 NSString *const kBXTInspectionBaseNumber = @"number";
@@ -48,25 +48,25 @@ NSString *const kBXTInspectionBaseTotalPages = @"total_pages";
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
             self.number = [[self objectOrNilForKey:kBXTInspectionBaseNumber fromDictionary:dict] doubleValue];
-    NSObject *receivedBXTInspectionData = [dict objectForKey:kBXTInspectionBaseData];
-    NSMutableArray *parsedBXTInspectionData = [NSMutableArray array];
-    if ([receivedBXTInspectionData isKindOfClass:[NSArray class]]) {
-        for (NSDictionary *item in (NSArray *)receivedBXTInspectionData) {
-            if ([item isKindOfClass:[NSDictionary class]]) {
-                [parsedBXTInspectionData addObject:[BXTInspectionData modelObjectWithDictionary:item]];
-            }
-       }
-    } else if ([receivedBXTInspectionData isKindOfClass:[NSDictionary class]]) {
-       [parsedBXTInspectionData addObject:[BXTInspectionData modelObjectWithDictionary:(NSDictionary *)receivedBXTInspectionData]];
-    }
+//    NSObject *receivedBXTInspectionData = [dict objectForKey:kBXTInspectionBaseData];
+//    NSMutableArray *parsedBXTInspectionData = [NSMutableArray array];
+//    if ([receivedBXTInspectionData isKindOfClass:[NSArray class]]) {
+//        for (NSDictionary *item in (NSArray *)receivedBXTInspectionData) {
+//            if ([item isKindOfClass:[NSDictionary class]]) {
+//                [parsedBXTInspectionData addObject:[BXTInspectionData modelObjectWithDictionary:item]];
+//            }
+//       }
+//    } else if ([receivedBXTInspectionData isKindOfClass:[NSDictionary class]]) {
+//       [parsedBXTInspectionData addObject:[BXTInspectionData modelObjectWithDictionary:(NSDictionary *)receivedBXTInspectionData]];
+//    }
 
-    self.data = [NSArray arrayWithArray:parsedBXTInspectionData];
-            self.count = [[self objectOrNilForKey:kBXTInspectionBaseCount fromDictionary:dict] doubleValue];
-            self.currentPage = [self objectOrNilForKey:kBXTInspectionBaseCurrentPage fromDictionary:dict];
-            self.returncode = [self objectOrNilForKey:kBXTInspectionBaseReturncode fromDictionary:dict];
-            self.totalNumber = [[self objectOrNilForKey:kBXTInspectionBaseTotalNumber fromDictionary:dict] doubleValue];
-            self.totalPages = [[self objectOrNilForKey:kBXTInspectionBaseTotalPages fromDictionary:dict] doubleValue];
-
+//    self.data = [NSArray arrayWithArray:parsedBXTInspectionData];
+//            self.count = [[self objectOrNilForKey:kBXTInspectionBaseCount fromDictionary:dict] doubleValue];
+//            self.currentPage = [self objectOrNilForKey:kBXTInspectionBaseCurrentPage fromDictionary:dict];
+//            self.returncode = [self objectOrNilForKey:kBXTInspectionBaseReturncode fromDictionary:dict];
+//            self.totalNumber = [[self objectOrNilForKey:kBXTInspectionBaseTotalNumber fromDictionary:dict] doubleValue];
+//            self.totalPages = [[self objectOrNilForKey:kBXTInspectionBaseTotalPages fromDictionary:dict] doubleValue];
+//
     }
     
     return self;
