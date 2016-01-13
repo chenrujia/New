@@ -22,18 +22,16 @@
     return cell;
 }
 
-- (void)setInspectionList:(BXTInspectionData *)inspectionList
+- (void)setInspectionList:(BXTMaintenceInfo *)inspectionList
 {
     _inspectionList = inspectionList;
     
-    self.orderIDView.text = [NSString stringWithFormat:@"编号：%@", inspectionList.inspectionCode];
-    self.typeView.text = [NSString stringWithFormat:@"  %@  ", inspectionList.faulttypeTypeName];
-    
-    self.projectView.text = [NSString stringWithFormat:@"维保项目：%@", inspectionList.inspectionItemName];
-    self.planView.text = [NSString stringWithFormat:@"维保计划：%@", inspectionList.inspectionTime];
-    self.repairManView.text = [NSString stringWithFormat:@"维修人：%@", inspectionList.repairUser];
-    
-    self.endTimeView.text = [NSString stringWithFormat:@"完成时间：%@", inspectionList.createTime];
+    self.orderIDView.text = [NSString stringWithFormat:@"编号：%@", inspectionList.inspection_code];
+    self.typeView.text = [NSString stringWithFormat:@"  %@  ", inspectionList.faulttype_type_name];
+    self.projectView.text = [NSString stringWithFormat:@"维保项目：%@", inspectionList.inspection_item_name];
+    self.planView.text = [NSString stringWithFormat:@"维保计划：%@", inspectionList.inspection_time];
+    self.repairManView.text = [NSString stringWithFormat:@"维修人：%@", inspectionList.repair_user];
+    self.endTimeView.text = [NSString stringWithFormat:@"完成时间：%@", inspectionList.create_time];
 }
 
 - (void)awakeFromNib {

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BXTInspectionData.h"
+#import "BXTMaintenceInfo.h"
 
 @interface BXTEquipmentFilesCell : UITableViewCell
 
@@ -22,6 +22,6 @@
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
-@property (nonatomic, strong) BXTInspectionData *inspectionList;
+@property (nonatomic, strong) BXTMaintenceInfo *inspectionList;
 
 @end

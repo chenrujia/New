@@ -14,7 +14,7 @@
 #import "BXTStandardViewController.h"
 #import <MJRefresh.h>
 #import "BXTMaintenanceViewController.h"
-#import "BXTMaintenanceDetailViewController.h"
+#import "BXTMaintenanceBookViewController.h"
 #import "BXTMaintenceInfo.h"
 #import "BXTInspectionInfo.h"
 #import "BXTCheckProjectInfo.h"
@@ -91,6 +91,11 @@
     
     // tableView
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.DDMenu.frame), SCREEN_WIDTH, self.frame.size.height-CGRectGetMaxY(self.DDMenu.frame)-66) style:UITableViewStyleGrouped];
+    // 设置了底部inset
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+    // 忽略掉底部inset
+    self.tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+    self.tableView.mj_footer.ignoredScrollViewContentInsetBottom = 40.f;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self addSubview:self.tableView];
@@ -104,7 +109,6 @@
         self.currentPage++;
         [self getResource];
     }];
-    
     
     // 新建工单
     UIView *downBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-66, SCREEN_WIDTH, 66)];
@@ -120,6 +124,7 @@
         @strongify(self);
 #warning 这个0是临时的。。。。。
         BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintencesArray[0]];
+        mainVC.isUpdate = NO;
         [[self getNavigation] pushViewController:mainVC animated:YES];
     }];
     [downBgView addSubview:MaintenanceBtn];
@@ -161,14 +166,18 @@
 {
     self.currentPage = 1;
     
-    if (self.count != 0) {
-        if (indexPath.row == 0) {
+    if (self.count != 0)
+    {
+        if (indexPath.row == 0)
+        {
             [self.ChoosTimeArray removeAllObjects];
             
             [self showLoadingMBP:@"数据加载中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] timestart:@"" timeover:@""];
-        } else {
+        }
+        else
+        {
             BXTTimeFilterViewController *tfvc = [[BXTTimeFilterViewController alloc] init];
             tfvc.delegateSignal = [RACSubject subject];
             @weakify(self);
@@ -232,12 +241,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTInspectionData *inspectionList = self.dataArray[indexPath.section];
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-    BXTMaintenanceDetailViewController *maintenanceVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-    [maintenanceVC dataWithRepairID:inspectionList.workorderId];
-    [[self getNavigation] pushViewController:maintenanceVC animated:YES];
+    BXTMaintenceInfo *mainInfo = _dataArray[indexPath.section];
+    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:mainInfo.maintenceID];
+    [[self getNavigation] pushViewController:bookVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -250,36 +256,7 @@
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     LogRed(@"dic.....%@",dic);
-
-    if (type == MaintenanceEquipmentList)
-    {
-        for (NSDictionary *dictionary in data)
-        {
-            DCArrayMapping *maintenceMapper = [DCArrayMapping mapperForClassElements:[BXTInspectionInfo class] forAttribute:@"inspection_info" onClass:[BXTMaintenceInfo class]];
-            DCObjectMapping *maintenceID = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"maintenceID" onClass:[BXTMaintenceInfo class]];
-            DCParserConfiguration *maintenceConfig = [DCParserConfiguration configuration];
-            [maintenceConfig addObjectMapping:maintenceID];
-            [maintenceConfig addArrayMapper:maintenceMapper];
-            DCKeyValueObjectMapping *maintenceParser = [DCKeyValueObjectMapping mapperForClass:[BXTMaintenceInfo class]  andConfiguration:maintenceConfig];
-            BXTMaintenceInfo *maintence = [maintenceParser parseDictionary:dictionary];
-            
-            NSMutableArray *inspectionArray = [NSMutableArray array];
-            NSArray *inspections = [dictionary objectForKey:@"inspection_info"];
-            for (NSDictionary *placeDic in inspections)
-            {
-                DCArrayMapping *inspectionMapper = [DCArrayMapping mapperForClassElements:[BXTCheckProjectInfo class] forAttribute:@"check_arr" onClass:[BXTInspectionInfo class]];
-                DCParserConfiguration *inspectionConfig = [DCParserConfiguration configuration];
-                [inspectionConfig addArrayMapper:inspectionMapper];
-                DCKeyValueObjectMapping *inspectionParser = [DCKeyValueObjectMapping mapperForClass:[BXTInspectionInfo class]  andConfiguration:inspectionConfig];
-                BXTInspectionInfo *inspection = [inspectionParser parseDictionary:placeDic];
-                [inspectionArray addObject:inspection];
-            }
-            maintence.inspection_info = inspectionArray;
-
-            [_maintencesArray addObject:maintence];
-        }
-    }
-    else if (type == Inspection_Record_List)
+    if (type == Inspection_Record_List)
     {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
@@ -287,14 +264,39 @@
         {
             [self.dataArray removeAllObjects];
         }
-        
-        for (NSDictionary *dataDict in data)
-        {
-            BXTInspectionData *model = [BXTInspectionData modelObjectWithDictionary:dataDict];
-            [self.dataArray addObject:model];
-        }
-        [self.tableView reloadData];
     }
+
+    for (NSDictionary *dictionary in data)
+    {
+        DCObjectMapping *maintenceID = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"maintenceID" onClass:[BXTMaintenceInfo class]];
+        DCParserConfiguration *maintenceConfig = [DCParserConfiguration configuration];
+        [maintenceConfig addObjectMapping:maintenceID];
+        DCKeyValueObjectMapping *maintenceParser = [DCKeyValueObjectMapping mapperForClass:[BXTMaintenceInfo class]  andConfiguration:maintenceConfig];
+        BXTMaintenceInfo *maintence = [maintenceParser parseDictionary:dictionary];
+        
+        NSMutableArray *inspectionArray = [NSMutableArray array];
+        NSArray *inspections = [dictionary objectForKey:@"inspection_info"];
+        for (NSDictionary *placeDic in inspections)
+        {
+            DCArrayMapping *inspectionMapper = [DCArrayMapping mapperForClassElements:[BXTCheckProjectInfo class] forAttribute:@"check_arr" onClass:[BXTInspectionInfo class]];
+            DCParserConfiguration *inspectionConfig = [DCParserConfiguration configuration];
+            [inspectionConfig addArrayMapper:inspectionMapper];
+            DCKeyValueObjectMapping *inspectionParser = [DCKeyValueObjectMapping mapperForClass:[BXTInspectionInfo class]  andConfiguration:inspectionConfig];
+            BXTInspectionInfo *inspection = [inspectionParser parseDictionary:placeDic];
+            [inspectionArray addObject:inspection];
+        }
+        maintence.inspection_info = inspectionArray;
+        
+        if (type == MaintenanceEquipmentList)
+        {
+            [_maintencesArray addObject:maintence];
+        }
+        else if (type == Inspection_Record_List)
+        {
+            [_dataArray addObject:maintence];
+        }
+    }
+    [self.tableView reloadData];
 }
 
 - (void)requestError:(NSError *)error

@@ -41,20 +41,27 @@
     [[_commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        NSMutableArray *dataArray = [NSMutableArray array];
+        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         for (BXTInspectionInfo *inspectionInfo in self.maintenceInfo.inspection_info)
         {
             for (BXTCheckProjectInfo *checkProjectInfo in inspectionInfo.check_arr)
             {
                 NSString *key = checkProjectInfo.check_key;
                 NSString *value = checkProjectInfo.default_description;
-                NSDictionary *dic = @{key:value};
-                [dataArray addObject:dic];
+                [dictionary setObject:value forKey:key];
             }
         }
+        NSString *jsonStr = [self dataTOjsonString:dictionary];
         [self showLoadingMBP:@"正在上传..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request addInspectionRecord:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:dataArray andNotes:self.notes andImages:self.photosArray];
+        if (self.isUpdate)
+        {
+            [request updateInspectionRecordID:self.maintenceInfo.maintenceID andWorkorderID:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
+        }
+        else
+        {
+            [request addInspectionRecord:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
+        }
     }];
 }
 
@@ -234,11 +241,27 @@
     }
 }
 
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
     NSDictionary *dic = response;
-    LogBlue(@"dic.....%@",dic);
+    if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+    {
+        if (type == Add_Inspection)
+        {
+            [self showMBP:@"新建维保作业成功！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+        }
+        else if (type == Update_Inspection)
+        {
+            [self showMBP:@"更新维保作业成功！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+        }
+    }
 }
 
 - (void)requestError:(NSError *)error

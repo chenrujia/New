@@ -51,7 +51,9 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Inspection_Record_List,
     Mail_Get_All,
     Mail_User_list,
-    MaintenanceEquipmentList
+    MaintenanceEquipmentList,
+    Add_Inspection,
+    Update_Inspection
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -446,7 +448,7 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)addInspectionRecord:(NSString *)workorderID
             andInspectionID:(NSString *)inspectionID
-          andInspectionData:(NSArray *)inspectionData
+          andInspectionData:(NSString *)inspectionData
                    andNotes:(NSString *)notes
                   andImages:(NSArray *)images;
 
@@ -456,8 +458,13 @@ andRepairerIsReacive:(NSString *)reacive;
 - (void)updateInspectionRecordID:(NSString *)recordID
                   andWorkorderID:(NSString *)workorderID
                  andInspectionID:(NSString *)inspectionID
-               andInspectionData:(NSArray *)inspectionData
+               andInspectionData:(NSString *)inspectionData
                         andNotes:(NSString *)notes
                        andImages:(NSArray *)images;
+
+/**
+ *  设备维护记录详情
+ */
+- (void)inspectionRecordInfo:(NSString *)deviceID;
 
 @end

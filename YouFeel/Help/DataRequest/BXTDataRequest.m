@@ -797,17 +797,18 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = MaintenanceEquipmentList;
     NSDictionary *dic = @{@"user_id":@"15",
-                          @"device_id": ValueFUD(@"Device_ID")};
+                          @"device_id":ValueFUD(@"Device_ID")};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=structure_inspection",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
 - (void)addInspectionRecord:(NSString *)workorderID
             andInspectionID:(NSString *)inspectionID
-          andInspectionData:(NSArray *)inspectionData
+          andInspectionData:(NSString *)inspectionData
                    andNotes:(NSString *)notes
                   andImages:(NSArray *)images
 {
+    self.requestType = Add_Inspection;
     NSDictionary *dic = @{@"workorder_id":workorderID,
                           @"user_id":@"15",
                           @"device_id":ValueFUD(@"Device_ID"),
@@ -827,15 +828,16 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)updateInspectionRecordID:(NSString *)recordID
                   andWorkorderID:(NSString *)workorderID
                  andInspectionID:(NSString *)inspectionID
-               andInspectionData:(NSArray *)inspectionData
+               andInspectionData:(NSString *)inspectionData
                         andNotes:(NSString *)notes
                        andImages:(NSArray *)images
 {
+    self.requestType = Update_Inspection;
     NSDictionary *dic = @{@"id":recordID,
                           @"workorder_id":workorderID,
                           @"user_id":@"15",
                           @"device_id":ValueFUD(@"Device_ID"),
-                          @"inspection_data":inspectionData,
+                          @"inspection_info":inspectionData,
                           @"notes":notes};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=add_inspection_record",[BXTGlobal shareGlobal].baseURL];
     if (images && images.count > 0)
@@ -846,6 +848,13 @@ andRepairerIsReacive:(NSString *)reacive
     {
         [self postRequest:url withParameters:dic];
     }
+}
+
+- (void)inspectionRecordInfo:(NSString *)deviceID
+{
+    NSDictionary *dic = @{@"id":deviceID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=inspection_record_con",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)postRequest:(NSString *)url
