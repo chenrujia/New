@@ -39,11 +39,14 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     BXTLoadingViewController *myVC = [[BXTLoadingViewController alloc] init];
     self.window.rootViewController = myVC;
     
+    
     //初始化融云SDK
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
     
+    
     //自动键盘
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
+    
     
     // token验证失败 - 退出登录
     @weakify(self);

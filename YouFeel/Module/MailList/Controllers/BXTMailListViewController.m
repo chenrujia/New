@@ -14,6 +14,10 @@
 #import "BXTSearchData.h"
 #import "BXTPersonInfromViewController.h"
 #import "PinYinForObjc.h"
+#import "UIImageView+WebCache.h"
+#import <RongIMKit/RongIMKit.h>
+
+#define ORIGINAL 10000
 
 typedef NS_ENUM(NSInteger, ImageViewType) {
     ImageViewType_Root,
@@ -24,8 +28,11 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 @interface BXTMailListViewController () <UISearchBarDelegate, BXTDataResponseDelegate, SKSTableViewDelegate, MBProgressHUDDelegate>
 {
     UIImageView *arrow;
+    /** ---- 分组按钮X轴坐标 ---- */
     CGFloat groupBtnX;
-    NSMutableArray *searchResults;
+    
+    /** ---- 是否不为首页面 ---- */
+    BOOL isNotRootView;
 }
 
 @property(nonatomic, strong) UISearchBar *searchBar;
@@ -36,8 +43,11 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 @property(nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, strong) NSMutableArray *searchArray;
+
 /** ---- 分组成员数组 ---- */
 @property (nonatomic, strong) NSMutableArray *subDataArray;
+/** ---- 独立成员数组 ---- */
+@property (nonatomic, strong) NSMutableArray *subOtherArray;
 /** ---- 分组标题 ---- */
 @property(nonatomic, strong) NSMutableArray *titleArray;
 /** ---- 分组人数标题 ---- */
@@ -45,10 +55,15 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 /** ---- 分组是否可以展开 ---- */
 @property(nonatomic, strong) NSMutableArray *groupOpenArray;
 
+
 /** ---- 递归数据 ---- */
 @property(nonatomic, strong) NSMutableArray *OLDArray;
+/** ---- 递归数据 - 独立 ---- */
+@property(nonatomic, strong) NSMutableArray *OtherArray;
 /** ---- 操作顺序列表 ---- */
 @property(nonatomic, strong) NSMutableArray *listArray;
+/** ---- 操作顺序列表 - 独立 ---- */
+@property(nonatomic, strong) NSMutableArray *listOtherArray;
 
 @end
 
@@ -58,6 +73,12 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [super viewWillAppear:animated];
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)viewDidLoad
@@ -72,7 +93,10 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.groupOpenArray = [[NSMutableArray alloc] init];
     self.OLDArray = [[NSMutableArray alloc] init];
     self.listArray = [[NSMutableArray alloc] init];
+    self.listOtherArray = [[NSMutableArray alloc] init];
     self.subDataArray = [[NSMutableArray alloc] init];
+    self.subOtherArray = [[NSMutableArray alloc] init];
+    self.OtherArray = [[NSMutableArray alloc] init];
     self.searchArray = [[NSMutableArray alloc] init];
     groupBtnX = 0;
     
@@ -186,8 +210,10 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
             self.subScrollView.contentSize = CGSizeMake(0, 50);
             groupBtnX = 0;
             self.OLDArray = (NSMutableArray *)self.dataArray;
-            [self ergodicArray:self.dataArray];
+            [self ergodicArray:self.dataArray OtherListArray:nil];
+            
             [self.listArray removeAllObjects];
+            [self.listOtherArray removeAllObjects];
         }
     }];
     [self.bgView addSubview:rootBtn];
@@ -243,9 +269,10 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    // 获取存值
     NSArray *allPersonArray = [BXTGlobal readFileWithfileName:@"MailUserList"];
     
-    searchResults = [[NSMutableArray alloc]init];
+    NSMutableArray *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
         
         for (int i=0; i<allPersonArray.count; i++) {
@@ -289,11 +316,20 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (isNotRootView) {
+        return 2;
+    }
+    
     return 1;
 }
 
+// SKSTableView - row
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (isNotRootView && section == 1) {
+        return self.subOtherArray.count;
+    }
+    
     if (tableView == self.tableView_Search) {
         return self.searchArray.count;
     }
@@ -302,9 +338,14 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (NSInteger)tableView:(SKSTableView *)tableView numberOfSubRowsAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (isNotRootView && indexPath.section == 1) {
+        return 0;
+    }
+    
     return [self.subDataArray[indexPath.row] count] - 1;
 }
 
+// SubRowsOfCell 是否展开
 - (BOOL)tableView:(SKSTableView *)tableView shouldExpandSubRowsOfCellAtIndexPath:(NSIndexPath *)indexPath
 {
     return NO;
@@ -326,17 +367,85 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         return cell;
     }
     
+    
     static NSString *CellIdentifier = @"SKSTableViewCell";
     SKSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[SKSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
     }
     
-    //    cell.expandable = NO;
+    cell.expandable = YES;
+    cell.textLabel.hidden = YES;
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", self.titleArray[indexPath.row], self.titleNumArray[indexPath.row]];
+    if (indexPath.section == 1)
+    {
+        cell.expandable = NO;
+        [self createCellViewWith:cell inforModel:self.subOtherArray[indexPath.row]];
+    }
+    else if (indexPath.section == 0)
+    {
+        for (UIView *view in [cell.contentView subviews])
+        {
+            [view removeFromSuperview];
+        }
+        
+        UILabel *textView = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 150, 30)];
+        textView.text = [NSString stringWithFormat:@"%@ (%@)", self.titleArray[indexPath.row], self.titleNumArray[indexPath.row]];
+        [cell.contentView addSubview:textView];
+    }
     
     return cell;
+}
+
+- (void)createCellViewWith:(SKSTableViewCell *)showCell inforModel:(BXTMailListModel *)listModel
+{
+    for (UIView *view in [showCell.contentView subviews])
+    {
+        [view removeFromSuperview];
+    }
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 40, 40)];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:listModel.head] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
+    [showCell.contentView addSubview:imageView];
+    
+    
+    UILabel *nameView = [[UILabel alloc] initWithFrame:CGRectMake(65, 10, 100, 21)];
+    nameView.text = listModel.name;
+    nameView.textColor = colorWithHexString(@"#333333");
+    nameView.font = [UIFont systemFontOfSize:16];
+    [showCell.contentView addSubview:nameView];
+    
+    
+    UILabel *positionView = [[UILabel alloc] initWithFrame:CGRectMake(65, 31, 100, 21)];
+    positionView.text = listModel.role_name;
+    positionView.textColor = colorWithHexString(@"#999999");
+    positionView.font = [UIFont systemFontOfSize:14];
+    [showCell.contentView addSubview:positionView];
+    
+    
+    UIButton *phoneView = [UIButton buttonWithType:UIButtonTypeCustom];
+    phoneView.frame = CGRectMake(SCREEN_WIDTH - 15 - 34, 13, 34, 34);
+    [phoneView setImage:[UIImage imageNamed:@"phone"] forState:UIControlStateNormal];
+    @weakify(self);
+    [[phoneView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", listModel.mobile];
+        UIWebView *callWeb = [[UIWebView alloc] init];
+        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+        [self.view addSubview:callWeb];
+    }];
+    [showCell.contentView addSubview:phoneView];
+    
+    
+    UIButton *messageView = [UIButton buttonWithType:UIButtonTypeCustom];
+    messageView.frame = CGRectMake(SCREEN_WIDTH - 15 - 34 -20 - 34, 13, 34, 34);
+    [messageView setImage:[UIImage imageNamed:@"speech_bubble"] forState:UIControlStateNormal];
+    [[messageView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self connectTaWithOutID:listModel];
+    }];
+    [showCell.contentView addSubview:messageView];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForSubRowAtIndexPath:(NSIndexPath *)indexPath
@@ -348,13 +457,23 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.nameView.text = self.subDataArray[indexPath.row][indexPath.subRow];
+    cell.mailListModel = self.subDataArray[indexPath.row][indexPath.subRow];
+    
+    @weakify(self);
+    [[cell.messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self connectTaWithOutID:cell.mailListModel];
+    }];
     
     return cell;
 }
 
 - (CGFloat)tableView:(SKSTableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 1) {
+        return 60.f;
+    }
+    
     if (tableView == self.tableView_Search) {
         return 60.f;
     }
@@ -373,35 +492,61 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.1;
+    return 20.1;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.tableView_Search) {
-        BXTPersonInfromViewController *pivc = [[BXTPersonInfromViewController alloc] init];
-        pivc.userID = @"1";
-        [self.navigationController pushViewController:pivc animated:YES];
+        BXTSearchData *model = self.searchArray[indexPath.row];
+        [self pushPersonInfromViewControllerWithUserID:model.dataIdentifier];
         
         [self showTableViewAndHideSearchTableView:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
     
+    
+    if (indexPath.section == 1) {
+        BXTMailListModel *listModel = self.subOtherArray[indexPath.row];
+        [self pushPersonInfromViewControllerWithUserID:listModel.user_id];
+        return;
+    }
+    
+    
+    // cell不可展开 - 点击跳转
     if ([self.groupOpenArray[indexPath.row] intValue] == 0) {
         [self showRootView:YES];
         
+        
+        // 递归函数
         NSDictionary *dict = self.OLDArray[indexPath.row];
         self.OLDArray = dict[@"list"];
-        [self ergodicArray:self.OLDArray];
+        self.OtherArray = dict[@"user_list"];
+        [self ergodicArray:self.OLDArray OtherListArray:self.OtherArray];
         [self.listArray addObject:self.OLDArray];
+        [self.listOtherArray addObject:self.OtherArray];
         
         
         UIButton *button = [self createShowButtonTitle:dict[@"name"]];
         [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *subBtn) {
             // 数据设置
             NSInteger selectedIndex = subBtn.frame.origin.x/90;
-            [self ergodicArray:self.listArray[selectedIndex]];
+            [self ergodicArray:self.listArray[selectedIndex] OtherListArray:self.listOtherArray[selectedIndex]];
+            
+            // 点击头部按钮 - 数据更新
+            for (int i=0; i<self.listArray.count; i++) {
+                if (i > selectedIndex) {
+                    [self.listArray removeObjectAtIndex:i];
+                }
+            }
+            self.OLDArray = self.listArray[selectedIndex];
+            for (int i=0; i<self.listOtherArray.count; i++) {
+                if (i > selectedIndex) {
+                    [self.listOtherArray removeObjectAtIndex:i];
+                }
+            }
+            self.OtherArray = self.listOtherArray[selectedIndex];
             
             
             // 显示设置
@@ -423,13 +568,18 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (void)tableView:(SKSTableView *)tableView didSelectSubRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    BXTPersonInfromViewController *pivc = [[BXTPersonInfromViewController alloc] init];
-    pivc.userID = @"1";
-    pivc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:pivc animated:YES];
+    BXTMailListModel *listModel = self.subDataArray[indexPath.row][indexPath.subRow];
+    [self pushPersonInfromViewControllerWithUserID:listModel.user_id];
     
     NSLog(@"didSelectSubRow - Section: %ld, Row:%ld, Subrow:%ld", (long)indexPath.section, (long)indexPath.row, (long)indexPath.subRow);
+}
+
+- (void)pushPersonInfromViewControllerWithUserID:(NSString *)userID
+{
+    BXTPersonInfromViewController *pivc = [[BXTPersonInfromViewController alloc] init];
+    pivc.userID = userID;
+    pivc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:pivc animated:YES];
 }
 
 #pragma mark - Actions
@@ -470,7 +620,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         [self hideMBP];
         self.dataArray = data;
         self.OLDArray = (NSMutableArray *)self.dataArray;
-        [self ergodicArray:data];
+        [self ergodicArray:data OtherListArray:nil];
     }
     else if (type == Mail_User_list)
     {
@@ -483,10 +633,11 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [self hideMBP];
 }
 
-- (void)ergodicArray:(NSArray *)subArray
+- (void)ergodicArray:(NSArray *)subArray OtherListArray:(NSArray *)otherArray
 {
     [self.titleArray removeAllObjects];
     [self.subDataArray removeAllObjects];
+    [self.subOtherArray removeAllObjects];
     [self.titleNumArray removeAllObjects];
     [self.groupOpenArray removeAllObjects];
     
@@ -506,15 +657,25 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         // 组人员
         NSMutableArray *subPersonArray = [[NSMutableArray alloc] initWithObjects:@"", nil];
         for (NSDictionary *subDict in user_listArray) {
-            [subPersonArray addObject:subDict[@"name"]];
+            BXTMailListModel *model = [BXTMailListModel modelWithDict:subDict];
+            [subPersonArray addObject:model];
         }
         
         [self.subDataArray addObject:subPersonArray];
     }
     
-    [self reloadTableView];
     
-    return;
+    isNotRootView =  otherArray ? YES : NO;
+    
+    // 独立人员列表
+    if (isNotRootView) {
+        for (NSDictionary *otherDict in otherArray) {
+            BXTMailListModel *model = [BXTMailListModel modelWithDict:otherDict];
+            [self.subOtherArray addObject:model];
+        }
+    }
+    
+    [self reloadTableView];
 }
 
 #pragma mark -
@@ -561,13 +722,13 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     if (!isRight) {
         [UIView animateWithDuration:0.5 animations:^{
             self.bgView.frame = CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_HEIGHT, 0);
-            self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.bgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.bgView.frame) - 50);
+            self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.bgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.bgView.frame));
         } completion:^(BOOL finished) { }];
         
     } else {
         [UIView animateWithDuration:0.5 animations:^{
             self.bgView.frame = CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_HEIGHT, 50);
-            self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.bgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.bgView.frame) - 50);
+            self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.bgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.bgView.frame));
         } completion:^(BOOL finished) { }];
     }
 }
@@ -586,6 +747,51 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 - (void)hideMBP
 {
     [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+}
+
+- (void)connectTaWithOutID:(BXTMailListModel *)model
+{
+    RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+    userInfo.userId = model.out_userid;
+    
+    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
+    if ([userInfo.userId isEqualToString:my_userID]) return;
+    
+    userInfo.name = model.name;
+    userInfo.portraitUri = model.head;
+    
+    NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (usersArray)
+    {
+        NSArray *arrResult = [usersArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.userId = %@",userInfo.userId]];
+        if (arrResult.count)
+        {
+            RCUserInfo *temp_userInfo = arrResult[0];
+            NSInteger index = [usersArray indexOfObject:temp_userInfo];
+            [usersArray replaceObjectAtIndex:index withObject:temp_userInfo];
+        }
+        else
+        {
+            [usersArray addObject:userInfo];
+        }
+    }
+    else
+    {
+        NSMutableArray *array = [NSMutableArray array];
+        [array addObject:userInfo];
+        [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
+    
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.targetId = userInfo.userId;
+    conversationVC.title = userInfo.name;
+    // 删除位置功能
+    //[conversationVC.pluginBoardView removeItemAtIndex:2];
+    [self.navigationController pushViewController:conversationVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

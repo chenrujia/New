@@ -120,7 +120,7 @@
         
         NSArray *my_shop = [userInfoDic objectForKey:@"my_shop"];
         [BXTGlobal setUserProperty:my_shop withKey:U_MYSHOP];
-   
+        
         if (my_shop && my_shop.count > 0)
         {
             NSDictionary *shopsDic = my_shop[0];
@@ -157,7 +157,7 @@
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
     {
-        [self hideMBP];   
+        [self hideMBP];
         BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
         [self.navigationController pushViewController:headVC animated:YES];
     }
@@ -184,14 +184,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 
 

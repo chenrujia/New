@@ -14,7 +14,8 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *role_name;
 @property (nonatomic, copy) NSString *mobile;
-@property (nonatomic, copy) NSString *Out_userid;
+@property (nonatomic, copy) NSString *user_id;
+@property (nonatomic, copy) NSString *out_userid;
 
 + (instancetype)modelWithDict:(NSDictionary *)dict;
 - (instancetype)initWithDict:(NSDictionary *)dict;
