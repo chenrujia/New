@@ -32,7 +32,7 @@
     _sco_content_width.constant = SCREEN_WIDTH;
     _connectTa.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
     _connectTa.layer.borderWidth = 1.f;
-    _connectTa.layer.cornerRadius = 6.f;
+    _connectTa.layer.cornerRadius = 4.f;
     _maintenance.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _maintenance.layer.borderWidth = 1.f;
     _maintenance.layer.cornerRadius = 4.f;

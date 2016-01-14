@@ -190,7 +190,10 @@
         MWPhoto *photo = [MWPhoto photoWithImage:image];
         [photos addObject:photo];
     }
-    self.mwPhotosArray = photos;
+    if (photos.count)
+    {
+        self.mwPhotosArray = photos;
+    }
     
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
     browser.displayActionButton = NO;
@@ -202,7 +205,6 @@
     browser.zoomPhotosToFill = YES;
     browser.enableSwipeToDismiss = YES;
     [browser setCurrentPhotoIndex:index];
-    
     [self.navigationController pushViewController:browser animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }

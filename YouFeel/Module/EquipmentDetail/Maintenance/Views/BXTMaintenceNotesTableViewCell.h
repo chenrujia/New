@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTDeviceConfigInfo.h"
 
 @interface BXTMaintenceNotesTableViewCell : UITableViewCell
 
@@ -15,9 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageTwo;
 @property (weak, nonatomic) IBOutlet UIImageView *imageThree;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *image_one_x;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *image_two_x;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *image_three_x;
-
+- (void)handleImages:(BXTDeviceConfigInfo *)deviceInfo;
 
 @end

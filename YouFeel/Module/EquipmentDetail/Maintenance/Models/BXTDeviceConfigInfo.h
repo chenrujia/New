@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSString *server_area;
 @property (nonatomic, strong) NSString *start_time;
 @property (nonatomic, strong) NSString *state;
+@property (nonatomic, strong) NSArray  *pic;
 @property (nonatomic, strong) NSString *stores_id;
 @property (nonatomic, strong) NSString *take_over_time;
 

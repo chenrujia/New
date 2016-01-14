@@ -6,9 +6,9 @@
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTPhotoBaseViewController.h"
+#import "BXTDetailBaseViewController.h"
 
-@interface BXTMaintenanceBookViewController : BXTPhotoBaseViewController<UITableViewDelegate,UITableViewDataSource>
+@interface BXTMaintenanceBookViewController : BXTDetailBaseViewController<UITableViewDelegate,UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
 @property (nonatomic, strong) NSString *deviceID;

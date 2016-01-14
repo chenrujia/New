@@ -14,8 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *userName;
 @property (weak, nonatomic) IBOutlet UILabel *userJob;
 @property (weak, nonatomic) IBOutlet UILabel *userMoblie;
-
-- (IBAction)connactTa:(id)sender;
-
+@property (weak, nonatomic) IBOutlet UIButton *connactTa;
 
 @end

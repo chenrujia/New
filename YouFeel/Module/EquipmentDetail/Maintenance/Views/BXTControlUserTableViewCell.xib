@@ -27,10 +27,9 @@
                             <constraint firstAttribute="width" constant="80" id="Y8b-kz-OKX"/>
                             <constraint firstAttribute="height" constant="40" id="i6U-HK-GJ6"/>
                         </constraints>
-                        <state key="normal" title="联系他"/>
-                        <connections>
-                            <action selector="connactTa:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Lkl-V3-UXz"/>
-                        </connections>
+                        <state key="normal" title="联系他">
+                            <color key="titleColor" red="0.23529411764705882" green="0.68627450980392157" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7DI-QU-xq8">
                         <rect key="frame" x="98" y="39" width="117" height="20"/>
@@ -77,6 +76,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="connactTa" destination="gPW-o6-HGp" id="4fY-sY-kLl"/>
                 <outlet property="headImage" destination="Vyb-xl-zAd" id="pRc-GD-uhB"/>
                 <outlet property="userJob" destination="7DI-QU-xq8" id="HrL-5i-Lhz"/>
                 <outlet property="userMoblie" destination="rus-PJ-CB2" id="nvd-hk-yAz"/>

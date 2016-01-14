@@ -16,12 +16,12 @@
 #import "BXTInspectionInfo.h"
 #import "BXTCheckProjectInfo.h"
 #import "BXTDeviceConfigInfo.h"
-#import "BXTControlUserInfo.h"
+#import "UIImageView+WebCache.h"
 
 @interface BXTMaintenanceBookViewController ()<BXTDataResponseDelegate>
 {
     NSMutableArray *checkProjectArray;
-    CGFloat checkProjectRH;
+    NSMutableArray *cpHeightArray;
 }
 @property (nonatomic, strong) BXTMaintenceInfo *maintenceInfo;
 
@@ -36,6 +36,7 @@
     {
         self.deviceID = devID;
         checkProjectArray = [NSMutableArray array];
+        cpHeightArray = [NSMutableArray array];
     }
     return self;
 }
@@ -50,6 +51,31 @@
     [request inspectionRecordInfo:_deviceID];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
+
+#pragma mark -
+#pragma mark 事件处理
+- (void)connactBtnClick:(UIButton *)btn
+{
+    BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
+    BXTControlUserInfo *userInfo;
+    if (btn.tag == 4)
+    {
+        userInfo = deviceInfo.control_user_arr[0];
+    }
+    else if (btn.tag == 5)
+    {
+        userInfo = deviceInfo.control_user_arr[1];
+    }
+    [self handleUserInfoWithUser:userInfo];
+}
+
+#pragma mark -
+#pragma mark 代理
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 30.f;
@@ -114,11 +140,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 1;
-    }
-    else if (section == 1)
+    if (section == 1)
     {
         return checkProjectArray.count;
     }
@@ -133,9 +155,28 @@
     }
     else if (indexPath.section == 1)
     {
-        return checkProjectRH;
+        if (cpHeightArray.count >= indexPath.row + 1)
+        {
+            return [[cpHeightArray objectAtIndex:indexPath.row] floatValue];
+        }
+        return 100.f;
     }
-    return 160.f;
+    else if (indexPath.section == 2)
+    {
+        return 50.f;
+    }
+    else if (indexPath.section == 3)
+    {
+        BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
+        UIFont *font = [UIFont systemFontOfSize:17.f];
+        CGSize size = MB_MULTILINE_TEXTSIZE(deviceInfo.notes, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000), NSLineBreakByWordWrapping);
+        if (deviceInfo.pic.count > 0)
+        {
+            return 12.f + size.height + 12.f + 73.f + 20.f;
+        }
+        return 12.f + size.height + 12.f;
+    }
+    return 97.f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -184,8 +225,16 @@
         
         [cell setNeedsUpdateConstraints];
         [cell updateConstraintsIfNeeded];
-        checkProjectRH = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
-        LogRed(@"checkProjectRH.....%f",checkProjectRH);
+        CGFloat checkProjectRH = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+        if (indexPath.row + 1 <= cpHeightArray.count)
+        {
+            [cpHeightArray replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithFloat:checkProjectRH]];
+        }
+        else
+        {
+            [cpHeightArray addObject:[NSNumber numberWithFloat:checkProjectRH]];
+        }
+        
         return cell;
     }
     else if (indexPath.section == 2)
@@ -195,6 +244,7 @@
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TimeCell"];
         }
+        cell.textLabel.text = _maintenceInfo.create_time;
         
         return cell;
     }
@@ -207,10 +257,35 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"MaintenceNotesCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
+        BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
+        cell.notes.text = deviceInfo.notes;
+        [cell handleImages:deviceInfo];
+        @weakify(self);
+        UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
+        [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            self.mwPhotosArray = [self containAllPhotos:deviceInfo.pic];
+            [self loadMWPhotoBrowser:cell.imageOne.tag];
+        }];
+        [cell.imageOne addGestureRecognizer:tapGROne];
+        UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
+        [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            self.mwPhotosArray = [self containAllPhotos:deviceInfo.pic];
+            [self loadMWPhotoBrowser:cell.imageTwo.tag];
+        }];
+        [cell.imageTwo addGestureRecognizer:tapGRTwo];
+        UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
+        [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            self.mwPhotosArray = [self containAllPhotos:deviceInfo.pic];
+            [self loadMWPhotoBrowser:cell.imageThree.tag];
+        }];
+        [cell.imageThree addGestureRecognizer:tapGRThree];
         
         return cell;
     }
-    else if (indexPath.section == 4)
+    else
     {
         BXTControlUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ManagerUserCell"];
         if (!cell)
@@ -219,18 +294,32 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"ManagerUserCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        
-        return cell;
-    }
-    else
-    {
-        BXTControlUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepairUserCell"];
-        if (!cell)
+        BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
+        BXTControlUserInfo *userInfo;
+        if (indexPath.section == 4)
         {
-            [tableView registerNib:[UINib nibWithNibName:@"BXTControlUserTableViewCell" bundle:nil] forCellReuseIdentifier:@"RepairUserCell"];
-            cell = [tableView dequeueReusableCellWithIdentifier:@"RepairUserCell"];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            userInfo = deviceInfo.control_user_arr[0];
         }
+        else if (indexPath.section == 5)
+        {
+            userInfo = deviceInfo.control_user_arr[1];
+        }
+        [cell.headImage sd_setImageWithURL:[NSURL URLWithString:userInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+        cell.userName.text = userInfo.name;
+        cell.userJob.text = userInfo.role;
+        if (userInfo.mobile.length == 0)
+        {
+            cell.userMoblie.text = @"暂无";
+        }
+        else
+        {
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:userInfo.mobile];
+            [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
+            [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
+            cell.userMoblie.attributedText = attributedString;
+        }
+        cell.connactTa.tag = indexPath.section;
+        [cell.connactTa addTarget:self action:@selector(connactBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
         return cell;
     }

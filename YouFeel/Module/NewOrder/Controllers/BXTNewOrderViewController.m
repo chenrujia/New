@@ -169,7 +169,7 @@
     [connetBtn setTitleColor:colorWithHexString(@"3bafff") forState:UIControlStateNormal];
     connetBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
     connetBtn.layer.borderWidth = 1.f;
-    connetBtn.layer.cornerRadius = 6.f;
+    connetBtn.layer.cornerRadius = 4.f;
     [connetBtn addTarget:self action:@selector(connectTa) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:connetBtn];
     

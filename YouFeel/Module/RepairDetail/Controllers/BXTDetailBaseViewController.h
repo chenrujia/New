@@ -8,6 +8,7 @@
 
 #import "BXTPhotoBaseViewController.h"
 #import "BXTRepairDetailInfo.h"
+#import "BXTControlUserInfo.h"
 #import <RongIMKit/RongIMKit.h>
 
 #define ImageWidth      73.3f
@@ -19,7 +20,9 @@
 
 @property (nonatomic ,strong) BXTRepairDetailInfo *repairDetail;
 
+- (void)handleUserInfoWithUser:(BXTControlUserInfo *)user;
 - (void)handleUserInfo:(NSDictionary *)dictionary;
+- (NSMutableArray *)containAllPhotos:(NSArray *)picArray;
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser;
 - (NSMutableArray *)containAllArray;
 - (UIImageView *)imageViewWith:(NSInteger)i andDictionary:(NSDictionary *)dictionary;
