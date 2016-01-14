@@ -8,8 +8,6 @@
 
 #import "BXTEquipmentFilesView.h"
 #import "BXTEquipmentFilesCell.h"
-#import "BXTDataRequest.h"
-#import "DataModels.h"
 #import "BXTTimeFilterViewController.h"
 #import "BXTStandardViewController.h"
 #import <MJRefresh.h>
@@ -265,7 +263,7 @@
             [self.dataArray removeAllObjects];
         }
     }
-
+    
     for (NSDictionary *dictionary in data)
     {
         DCObjectMapping *maintenceID = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"maintenceID" onClass:[BXTMaintenceInfo class]];

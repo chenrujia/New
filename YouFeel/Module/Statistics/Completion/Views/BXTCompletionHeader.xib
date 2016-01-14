@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,14 +13,12 @@
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="维修完成率统计" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oBT-6i-sXQ">
                     <rect key="frame" x="80" y="12" width="215" height="21"/>
-                    <animations/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wjp-I6-ZHx" userLabel="View1">
                     <rect key="frame" x="0.0" y="45" width="375" height="1"/>
-                    <animations/>
                     <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="0.5" id="L0I-fe-gXb"/>
@@ -31,7 +29,6 @@
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="报修总数:87单" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="png-XV-zUd">
                             <rect key="frame" x="125.5" y="125" width="124" height="21"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="124" id="1Mz-q6-QVr"/>
                             </constraints>
@@ -40,7 +37,6 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="png-XV-zUd" firstAttribute="centerX" secondItem="Igw-Ez-GHJ" secondAttribute="centerX" id="0KE-Ro-WgW"/>
@@ -50,7 +46,6 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CZz-gt-9cx" userLabel="View2">
                     <rect key="frame" x="15" y="319" width="345" height="1"/>
-                    <animations/>
                     <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="0.5" id="j55-ZA-zpP"/>
@@ -58,7 +53,6 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RaO-VD-xBb" userLabel="roundView1">
                     <rect key="frame" x="15" y="338" width="10" height="10"/>
-                    <animations/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="10" id="1AX-8F-xpL"/>
@@ -67,7 +61,6 @@
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="报修总数:100单" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B44-Rm-5iw">
                     <rect key="frame" x="30" y="332" width="120" height="22"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="J1S-Qd-Ilg"/>
                         <constraint firstAttribute="width" constant="120" id="XgO-3J-dsE"/>
@@ -78,7 +71,6 @@
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v74-Xb-5Rh" userLabel="roundView2">
                     <rect key="frame" x="267" y="338" width="10" height="10"/>
-                    <animations/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="10" id="lSI-pd-028"/>
@@ -87,7 +79,6 @@
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已完成:60单" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3FK-fS-ZFe">
                     <rect key="frame" x="282" y="332" width="77.5" height="22"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="DP3-dJ-TUJ"/>
                     </constraints>
@@ -97,7 +88,6 @@
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wdz-rJ-RFh" userLabel="roundView3">
                     <rect key="frame" x="15" y="372" width="10" height="10"/>
-                    <animations/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="10" id="9pd-Th-6uJ"/>
@@ -106,7 +96,6 @@
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="报修总数:100单" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gE5-Gf-ph8">
                     <rect key="frame" x="30" y="366" width="120" height="22"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="3Fr-Cf-Qpn"/>
                         <constraint firstAttribute="height" constant="22" id="B6d-Cp-Wos"/>
@@ -117,7 +106,6 @@
                 </label>
                 <button opaque="NO" tag="3333" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dxo-BT-p54">
                     <rect key="frame" x="10" y="362" width="140" height="30"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="140" id="51B-O4-nZH"/>
                         <constraint firstAttribute="height" constant="30" id="pqt-PZ-rAc"/>
@@ -128,7 +116,6 @@
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VrR-di-11c" userLabel="roundView4">
                     <rect key="frame" x="256" y="372" width="10" height="10"/>
-                    <animations/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="10" id="e1M-iq-nna"/>
@@ -137,7 +124,6 @@
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="特殊工单:15单" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="grq-eG-zrY">
                     <rect key="frame" x="271" y="366" width="89" height="22"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="Cyc-gu-QDg"/>
                     </constraints>
@@ -147,7 +133,6 @@
                 </label>
                 <button opaque="NO" tag="1111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38y-eW-iUH">
                     <rect key="frame" x="10" y="328" width="140" height="30"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="4fs-Qe-RhC"/>
                         <constraint firstAttribute="width" constant="140" id="FNK-CU-P3D"/>
@@ -158,7 +143,6 @@
                 </button>
                 <button opaque="NO" tag="2222" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ybd-pK-1fw">
                     <rect key="frame" x="225" y="328" width="140" height="30"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="140" id="8rk-ZQ-k8k"/>
                         <constraint firstAttribute="height" constant="30" id="vQ9-W7-Seb"/>
@@ -169,7 +153,6 @@
                 </button>
                 <button opaque="NO" tag="4444" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcM-5d-J4P">
                     <rect key="frame" x="225" y="362" width="140" height="30"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="140" id="aUO-Am-zxO"/>
                         <constraint firstAttribute="height" constant="30" id="enr-Pn-fGQ"/>
@@ -179,7 +162,6 @@
                     </connections>
                 </button>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="oBT-6i-sXQ" secondAttribute="trailing" constant="80" id="3VZ-oz-WxY"/>

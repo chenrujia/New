@@ -188,17 +188,17 @@
         
         BXTEquipmentData *equipmentModel = [BXTEquipmentData modelObjectWithDictionary:dataDict];
         // section == 0
-        NSMutableArray *equipArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.name, equipmentModel.modelNumber, nil];
+        NSMutableArray *equipArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.name, equipmentModel.model_number, nil];
         
         // section == 1
         NSArray *adsNameArray = dataDict[@"ads_name"];
         BXTEquipmentAdsName *adsNameModel = [BXTEquipmentAdsName modelObjectWithDictionary:adsNameArray[0]];
-        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.codeNumber, equipmentModel.typeName, equipmentModel.brand, adsNameModel.placeName, equipmentModel.serverArea, equipmentModel.installTime, equipmentModel.startTime, nil];
+        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.code_number, equipmentModel.type_name, equipmentModel.brand, adsNameModel.place_name, equipmentModel.server_area, equipmentModel.install_time, equipmentModel.start_time, nil];
         
         // section == 2
         NSArray *factoryArray = dataDict[@"factory_info"];
         BXTEquipmentFactoryInfo *factoryInfoModel = [BXTEquipmentFactoryInfo modelObjectWithDictionary:factoryArray[0]];
-        NSMutableArray *companyArray = [[NSMutableArray alloc] initWithObjects:factoryInfoModel.bread, factoryInfoModel.factoryName, factoryInfoModel.address, factoryInfoModel.linkman, factoryInfoModel.mobile, nil];
+        NSMutableArray *companyArray = [[NSMutableArray alloc] initWithObjects:factoryInfoModel.bread, factoryInfoModel.factory_name, factoryInfoModel.address, factoryInfoModel.linkman, factoryInfoModel.mobile, nil];
         
         // section == 3
         NSArray *paramsArray0 = dataDict[@"params"];
@@ -206,8 +206,8 @@
         NSMutableArray *paramsTitleArray = [[NSMutableArray alloc] init];
         for (NSDictionary *paramsDict in paramsArray0) {
             BXTEquipmentParams *paramsModel = [BXTEquipmentParams modelObjectWithDictionary:paramsDict];
-            [paramsTitleArray addObject:paramsModel.paramKey];
-            [paramsArray addObject:paramsModel.paramValue];
+            [paramsTitleArray addObject:paramsModel.param_key];
+            [paramsArray addObject:paramsModel.param_value];
         }
         
         // section == 4

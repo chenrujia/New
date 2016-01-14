@@ -43,22 +43,7 @@
 {
     [super viewDidLoad];
     
-    if (IS_IPHONE6P)
-    {
-        logoImgView.image = [UIImage imageNamed:@"ReBackgroundsIphone6P"];
-    }
-    else if (IS_IPHONE6)
-    {
-        logoImgView.image = [UIImage imageNamed:@"ReBackgroundsIphone6"];
-    }
-    else if (IS_IPHONE5)
-    {
-        logoImgView.image = [UIImage imageNamed:@"ReBackgroundsIphone5s"];
-    }
-    else
-    {
-        logoImgView.image = [UIImage imageNamed:@"ReBackgroundsIphone4s"];
-    }
+    logoImgView.image = [UIImage imageNamed:@"Nav_Bars"];
     
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
     title_label.text = @"我的工单";

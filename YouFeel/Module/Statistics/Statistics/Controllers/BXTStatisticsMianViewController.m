@@ -141,6 +141,7 @@
     datePicker.datePickerMode = UIDatePickerModeDate;
     [datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
     [pickerbgView addSubview:datePicker];
+    selectedDate = [NSDate date];
     
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
     toolView.backgroundColor = colorWithHexString(@"ffffff");
@@ -167,7 +168,14 @@
 
 - (void)dateChange:(UIDatePicker *)picker
 {
-    selectedDate = picker.date;
+    NSDate *date = [picker date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    formatter.dateFormat=@"yy-MM-dd HH:mm:ss";
+    
+    NSTimeZone *timeZone = [NSTimeZone systemTimeZone];
+    NSInteger seconds = [timeZone secondsFromGMTForDate:date];
+    
+    selectedDate = [date dateByAddingTimeInterval:seconds];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button

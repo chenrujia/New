@@ -8,7 +8,7 @@
 
 #import "BXTHomeViewController.h"
 #import "BXTHomeCollectionViewCell.h"
-#import "BXTSettingViewController.h"
+#import "BXTMessageListViewController.h"
 #import "BXTHeaderFile.h"
 #import "BXTGroupInfo.h"
 #import "BXTDataRequest.h"
@@ -17,6 +17,7 @@
 #import "BXTAuthorityListViewController.h"
 #import "BXTQRCodeViewController.h"
 #import "SDCycleScrollView.h"
+#import "BXTSettingViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -25,6 +26,8 @@
 {
     NSInteger      unreadNumber;
     BOOL           isConfigInfoSuccess;
+    
+    UIButton *messageBtn;
 }
 
 @property (nonatomic, strong) NSMutableArray *usersArray;
@@ -56,11 +59,21 @@
         self.usersArray = [NSMutableArray array];
     }
     
-    if ([BXTGlobal shareGlobal].isRepair)
-    {
-        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-        [dataRequest configInfo];
-    }
+    [self showLoadingMBP:@"数据加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /** 获取配置参数 **/
+        if ([BXTGlobal shareGlobal].isRepair) {
+            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+            [dataRequest configInfo];
+        }
+    });
+    dispatch_async(concurrentQueue, ^{
+        /** 通讯录搜索列表 **/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request advertisementPages];
+    });
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -115,11 +128,12 @@
     
     //项目列表
     UIButton *branchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    branchBtn.frame = CGRectMake(0, valueForDevice(25.f, 25.f, 20.f, 15.f), 44, 44);
+    branchBtn.frame = CGRectMake(5, valueForDevice(25.f, 25.f, 20.f, 15.f), 44, 44);
     [branchBtn setBackgroundImage:[UIImage imageNamed:@"list_button"] forState:UIControlStateNormal];
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         // 商铺列表
         BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
+        alVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:alVC animated:YES];
     }];
     [logoImgView addSubview:branchBtn];
@@ -132,19 +146,18 @@
     [shop_label setTextColor:colorWithHexString(@"ffffff")];
     [logoImgView addSubview:shop_label];
     
-    //设置
-    UIButton *settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [settingBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 5.f, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
-    [settingBtn setTitle:@"设置" forState:UIControlStateNormal];
-    settingBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-    [settingBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    // 消息
+    messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [messageBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 5.f, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
+    [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
     @weakify(self);
-    [[settingBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [[messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTSettingViewController *settingVC = [[BXTSettingViewController alloc] init];
-        [self.navigationController pushViewController:settingVC animated:YES];
+        BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
+        messageVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:messageVC animated:YES];
     }];
-    [logoImgView addSubview:settingBtn];
+    [logoImgView addSubview:messageBtn];
     
     // 扫描
     UIButton *scanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -172,11 +185,11 @@
     
     // 广告页
     NSArray *imagesURLStrings = @[
-                                  @"https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a4b3d7085dee3d6d2293d48b252b5910/0e2442a7d933c89524cd5cd4d51373f0830200ea.jpg",
-                                  @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
+                                  @"http://admin.51bxt.com/img_ad/1451053982.jpg",
+                                  @"http://admin.51bxt.com/img_ad/1451034162.png",
                                   @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
                                   ];
-    SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 74, SCREEN_WIDTH, 180*deviceRatio) imageURLStringsGroup:imagesURLStrings];
+    SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 180*deviceRatio + 6) imageURLStringsGroup:imagesURLStrings];
     //cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     //cycleScrollView.titlesGroup = titles;
     cycleScrollView.dotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
@@ -330,6 +343,8 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
+    
     NSDictionary *dic = response;
     [datasource removeAllObjects];
     NSArray *array = [dic objectForKey:@"data"];
@@ -365,6 +380,10 @@
         [BXTGlobal writeFileWithfileName:@"arriveArray" Array:arriveArray];
         [BXTGlobal writeFileWithfileName:@"hoursArray" Array:hoursArray];
     }
+    else if (type == Ads_Pics)
+    {
+        NSLog(@"fgfsgdsfgsd");
+    }
     else if (type == UserInfoForChatList)
     {
         NSDictionary *dictionary = array[0];
@@ -378,6 +397,12 @@
     else
     {
         unreadNumber = [[dic objectForKey:@"unread_number"] integerValue];
+        if (unreadNumber > 0) {
+            [messageBtn setBackgroundImage:[UIImage imageNamed:@"news_unread"] forState:UIControlStateNormal];
+        } else {
+            [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
+        }
+        
         if (array.count)
         {
             [datasource addObjectsFromArray:array];
@@ -388,6 +413,7 @@
 
 - (void)requestError:(NSError *)error
 {
+    [self hideMBP];
     if (!isConfigInfoSuccess)
     {
         NSMutableArray *arriveArray = [[NSMutableArray alloc] initWithObjects:@"10", @"20", nil];

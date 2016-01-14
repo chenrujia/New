@@ -11,7 +11,6 @@
 #import "SKSTableView.h"
 #import "SKSTableViewCell.h"
 #import "BXTMailListCell.h"
-#import "BXTSearchData.h"
 #import "BXTPersonInfromViewController.h"
 #import "PinYinForObjc.h"
 #import "UIImageView+WebCache.h"
@@ -25,7 +24,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     ImageViewType_Selected
 };
 
-@interface BXTMailListViewController () <UISearchBarDelegate, BXTDataResponseDelegate, SKSTableViewDelegate, MBProgressHUDDelegate>
+@interface BXTMailListViewController () <UISearchBarDelegate, BXTDataResponseDelegate, SKSTableViewDelegate, MBProgressHUDDelegate, UIScrollViewDelegate>
 {
     UIImageView *arrow;
     /** ---- 分组按钮X轴坐标 ---- */
@@ -172,7 +171,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [self.view addSubview:self.searchBar];
     
     // UITableView - tableView_Search
-    self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.searchBar.frame)-50) style:UITableViewStyleGrouped];
+    self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.searchBar.frame)) style:UITableViewStyleGrouped];
     self.tableView_Search.dataSource = self;
     self.tableView_Search.delegate = self;
     [self.view addSubview:self.tableView_Search];
@@ -276,7 +275,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
         
         for (int i=0; i<allPersonArray.count; i++) {
-            BXTSearchData *model = [BXTSearchData modelObjectWithDictionary:allPersonArray[i]];
+            BXTMailListModel *model = [BXTMailListModel modelWithDict:allPersonArray[i]];
             
             if ([ChineseInclude isIncludeChineseInString:model.name]) {
                 NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.name];
@@ -299,7 +298,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         }
     } else if (self.searchBar.text.length > 0 && [ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
         for (NSDictionary *dict in allPersonArray) {
-            BXTSearchData *model = [BXTSearchData modelObjectWithDictionary:dict];
+            BXTMailListModel *model = [BXTMailListModel modelWithDict:dict];
             NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
             if (titleResult.length > 0) {
                 [searchResults addObject:dict];
@@ -314,8 +313,17 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 #pragma mark -
 #pragma mark - UITableViewDataSource
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    [self.view endEditing:YES];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (tableView == self.tableView_Search) {
+        return 1;
+    }
+    
     if (isNotRootView) {
         return 2;
     }
@@ -361,7 +369,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         }
         
         NSDictionary *dict = self.searchArray[indexPath.row];
-        BXTSearchData *model = [BXTSearchData modelObjectWithDictionary:dict];
+        BXTMailListModel *model = [BXTMailListModel modelWithDict:dict];
         cell.nameView.text = model.name;
         
         return cell;
@@ -494,8 +502,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.tableView_Search) {
-        BXTSearchData *model = self.searchArray[indexPath.row];
-        [self pushPersonInfromViewControllerWithUserID:model.dataIdentifier];
+        BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
+        [self pushPersonInfromViewControllerWithUserID:[NSString stringWithFormat:@"%@", model.user_id]];
         
         [self showTableViewAndHideSearchTableView:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];

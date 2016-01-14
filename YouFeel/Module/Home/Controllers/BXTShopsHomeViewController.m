@@ -34,22 +34,7 @@
 {
     [super viewDidLoad];
     
-    if (IS_IPHONE6P)
-    {
-        logoImgView.image = [UIImage imageNamed:@"backgroundIphone6P"];
-    }
-    else if (IS_IPHONE6)
-    {
-        logoImgView.image = [UIImage imageNamed:@"backgroundIphone6"];
-    }
-    else if (IS_IPHONE5)
-    {
-        logoImgView.image = [UIImage imageNamed:@"backgroundIphone5s"];
-    }
-    else
-    {
-        logoImgView.image = [UIImage imageNamed:@"backgroundIphone4s"];
-    }
+    logoImgView.image = [UIImage imageNamed:@"Nav_Bar"];
     
     [logo_Btn setImage:[UIImage imageNamed:@"WarrantyIcon"] forState:UIControlStateNormal];
     title_label.text = @"我要报修";
