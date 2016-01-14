@@ -7,16 +7,13 @@
 
 #import <Foundation/Foundation.h>
 
-
-
-@interface BXTEquipmentParams : NSObject <NSCoding, NSCopying>
+@interface BXTEquipmentParams : NSObject
 
 @property (nonatomic, strong) NSString *paramsIdentifier;
-@property (nonatomic, strong) NSString *paramValue;
-@property (nonatomic, strong) NSString *paramKey;
+@property (nonatomic, strong) NSString *param_value;
+@property (nonatomic, strong) NSString *param_key;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
 
 @end

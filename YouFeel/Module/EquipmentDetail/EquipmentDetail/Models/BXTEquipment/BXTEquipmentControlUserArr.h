@@ -7,20 +7,17 @@
 
 #import <Foundation/Foundation.h>
 
-
-
-@interface BXTEquipmentControlUserArr : NSObject <NSCoding, NSCopying>
+@interface BXTEquipmentControlUserArr : NSObject
 
 @property (nonatomic, strong) NSString *mobile;
 @property (nonatomic, strong) NSString *controlUserArrIdentifier;
 @property (nonatomic, strong) NSString *role;
-@property (nonatomic, strong) NSString *headPic;
-@property (nonatomic, strong) NSString *outUserid;
+@property (nonatomic, strong) NSString *head_pic;
+@property (nonatomic, strong) NSString *out_userid;
 @property (nonatomic, strong) NSString *department;
 @property (nonatomic, strong) NSString *name;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
 
 @end

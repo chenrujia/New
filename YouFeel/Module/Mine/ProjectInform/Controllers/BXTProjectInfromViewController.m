@@ -55,7 +55,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -63,7 +63,7 @@
     [super viewDidAppear:animated];
     
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 #pragma mark -

@@ -7,38 +7,28 @@
 
 #import <Foundation/Foundation.h>
 
+@interface BXTEquipmentData : NSObject
 
-
-@interface BXTEquipmentData : NSObject <NSCoding, NSCopying>
-
-@property (nonatomic, strong) NSString *factoryId;
-@property (nonatomic, strong) NSArray *params;
-@property (nonatomic, strong) NSString *codeNumber;
-@property (nonatomic, strong) NSString *serverArea;
-@property (nonatomic, strong) NSArray *operatingCondition;
+@property (nonatomic, strong) NSString *factory_id;
+@property (nonatomic, strong) NSString *code_number;
+@property (nonatomic, strong) NSString *server_area;
 @property (nonatomic, strong) NSString *brand;
-@property (nonatomic, strong) NSString *storesId;
-@property (nonatomic, strong) NSString *modelNumber;
-@property (nonatomic, strong) NSString *typeId;
+@property (nonatomic, strong) NSString *stores_id;
+@property (nonatomic, strong) NSString *model_number;
+@property (nonatomic, strong) NSString *type_id;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *installTime;
-@property (nonatomic, strong) NSString *takeOverTime;
+@property (nonatomic, strong) NSString *install_time;
+@property (nonatomic, strong) NSString *take_over_time;
 @property (nonatomic, strong) NSString *state;
-@property (nonatomic, strong) NSArray *adsName;
 @property (nonatomic, strong) NSString *dataIdentifier;
-@property (nonatomic, strong) NSArray *factoryInfo;
-@property (nonatomic, strong) NSArray *pic;
-@property (nonatomic, strong) NSString *placeId;
-@property (nonatomic, strong) NSString *typeName;
-@property (nonatomic, strong) NSString *startTime;
+@property (nonatomic, strong) NSString *place_id;
+@property (nonatomic, strong) NSString *type_name;
+@property (nonatomic, strong) NSString *start_time;
 @property (nonatomic, strong) NSString *notes;
-@property (nonatomic, strong) NSArray *controlUserArr;
-@property (nonatomic, strong) NSString *areaId;
-@property (nonatomic, strong) NSString *operatingConditionId;
-@property (nonatomic, strong) NSString *controlUsers;
+@property (nonatomic, strong) NSString *area_id;
+@property (nonatomic, strong) NSString *operating_condition_id;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
 
 @end

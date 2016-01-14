@@ -7,19 +7,16 @@
 
 #import <Foundation/Foundation.h>
 
-
-
-@interface BXTEquipmentFactoryInfo : NSObject <NSCoding, NSCopying>
+@interface BXTEquipmentFactoryInfo : NSObject
 
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *factoryInfoIdentifier;
 @property (nonatomic, strong) NSString *bread;
 @property (nonatomic, strong) NSString *mobile;
 @property (nonatomic, strong) NSString *linkman;
-@property (nonatomic, strong) NSString *factoryName;
+@property (nonatomic, strong) NSString *factory_name;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
 
 @end

@@ -7,20 +7,17 @@
 
 #import <Foundation/Foundation.h>
 
+@interface BXTEquipmentAdsName : NSObject
 
-
-@interface BXTEquipmentAdsName : NSObject <NSCoding, NSCopying>
-
-@property (nonatomic, strong) NSString *areaId;
+@property (nonatomic, strong) NSString *area_id;
 @property (nonatomic, strong) NSString *adsNameIdentifier;
-@property (nonatomic, strong) NSString *storesId;
-@property (nonatomic, strong) NSString *storesName;
-@property (nonatomic, strong) NSString *areaName;
-@property (nonatomic, strong) NSString *placeName;
-@property (nonatomic, strong) NSString *placeId;
+@property (nonatomic, strong) NSString *stores_id;
+@property (nonatomic, strong) NSString *stores_name;
+@property (nonatomic, strong) NSString *area_name;
+@property (nonatomic, strong) NSString *place_name;
+@property (nonatomic, strong) NSString *place_id;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
 
 @end
