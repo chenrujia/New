@@ -49,7 +49,7 @@
     }
     _connectTa.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
     _connectTa.layer.borderWidth = 1.f;
-    _connectTa.layer.cornerRadius = 6.f;
+    _connectTa.layer.cornerRadius = 4.f;
     @weakify(self);
     [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -356,6 +356,7 @@
         }
         else
         {
+#warning oh，忘记给手机号加点击事件了。。。。。。。。
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.repairDetail.visitmobile];
             [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
             [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];

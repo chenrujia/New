@@ -22,6 +22,48 @@
     [super viewDidLoad];
 }
 
+- (void)handleUserInfoWithUser:(BXTControlUserInfo *)user
+{
+    RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+    userInfo.userId = user.userID;
+    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
+    if ([userInfo.userId isEqualToString:my_userID]) return;
+    userInfo.name = user.name;
+    userInfo.portraitUri = user.head_pic;
+    
+    NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (usersArray)
+    {
+        NSArray *arrResult = [usersArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.userId = %@",userInfo.userId]];
+        if (arrResult.count)
+        {
+            RCUserInfo *temp_userInfo = arrResult[0];
+            NSInteger index = [usersArray indexOfObject:temp_userInfo];
+            [usersArray replaceObjectAtIndex:index withObject:temp_userInfo];
+        }
+        else
+        {
+            [usersArray addObject:userInfo];
+        }
+    }
+    else
+    {
+        NSMutableArray *array = [NSMutableArray array];
+        [array addObject:userInfo];
+        [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
+    
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.targetId = userInfo.userId;
+    conversationVC.title = userInfo.name;
+    [self.navigationController pushViewController:conversationVC animated:YES];
+    self.navigationController.navigationBar.hidden = NO;
+}
+
 - (void)handleUserInfo:(NSDictionary *)dictionary
 {
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
@@ -62,8 +104,6 @@
     conversationVC.conversationType =ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
     conversationVC.title = userInfo.name;
-    // 删除位置功能
-    //[conversationVC.pluginBoardView removeItemAtIndex:2];
     [self.navigationController pushViewController:conversationVC animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }
@@ -88,6 +128,20 @@
         }
     }
     for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
+    {
+        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        {
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            [photos addObject:photo];
+        }
+    }
+    return photos;
+}
+
+- (NSMutableArray *)containAllPhotos:(NSArray *)picArray
+{
+    NSMutableArray *photos = [[NSMutableArray alloc] init];
+    for (NSDictionary *dictionary in picArray)
     {
         if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
         {
@@ -207,7 +261,7 @@
         UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
         contact.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
         contact.layer.borderWidth = 1.f;
-        contact.layer.cornerRadius = 6.f;
+        contact.layer.cornerRadius = 4.f;
         [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
         [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
         [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
@@ -257,7 +311,7 @@
     UIButton *maintenaceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     maintenaceBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     maintenaceBtn.layer.borderWidth = 1.f;
-    maintenaceBtn.layer.cornerRadius = 6.f;
+    maintenaceBtn.layer.cornerRadius = 4.f;
     [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 11.f, 83.f, 40.f)];
     [maintenaceBtn setTitle:@"开始保养" forState:UIControlStateNormal];
     [maintenaceBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];

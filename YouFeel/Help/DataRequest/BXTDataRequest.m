@@ -797,6 +797,7 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)maintenanceEquipmentList:(NSString *)deviceID
 {
+#warning device_id拿错了
     self.requestType = MaintenanceEquipmentList;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"device_id":deviceID};
