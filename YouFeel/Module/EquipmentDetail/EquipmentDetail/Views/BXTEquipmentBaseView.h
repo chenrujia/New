@@ -15,6 +15,8 @@
 
 @interface BXTEquipmentBaseView : UIView
 
+@property (nonatomic, strong) NSString *deviceID;
+
 /** ---- 初始化 ---- */
 - (void)initial;
 
@@ -26,5 +28,7 @@
 
 /** ---- 获取UINavigationController ---- */
 - (UINavigationController *)getNavigation;
+
+- (instancetype)initWithFrame:(CGRect)frame deviceID:(NSString *)device_id;
 
 @end

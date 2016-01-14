@@ -10,7 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTNewsTableViewCell.h"
 #import "MJRefresh.h"
-#import "BXTOrderDetailViewController.h"
+#import "BXTMaintenanceDetailViewController.h"
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTRepairDetailViewController.h"
 #import "BXTManagerOMViewController.h"
@@ -168,7 +168,7 @@
              [dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"5"]])
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
+        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
         [repairDetailVC dataWithRepairID:dic[@"about_id"]];
         [self.navigationController pushViewController:repairDetailVC animated:YES];
     }

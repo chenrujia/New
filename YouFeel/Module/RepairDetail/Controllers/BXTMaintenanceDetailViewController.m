@@ -60,6 +60,7 @@
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     LogRed(@"%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
@@ -111,6 +112,7 @@
         }
         _faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
         _cause.text = [NSString stringWithFormat:@"故障描述:%@",self.repairDetail.cause];
+        
         if (self.repairDetail.urgent == 2)
         {
             _level.text = @"等级:一般";
@@ -125,6 +127,7 @@
         }
         _notes.text = [NSString stringWithFormat:@"报修内容:%@",self.repairDetail.notes];
         [_notes layoutIfNeeded];
+        [_firstBV layoutIfNeeded];
         
         //有无故障图
         NSArray *imgArray = [self containAllArray];
@@ -142,12 +145,12 @@
                 }
             }
             _first_bv_height.constant = CGRectGetMaxY(_images_scrollview.frame) + 20.f;
-            [_contentView layoutIfNeeded];
+            [_firstBV layoutIfNeeded];
         }
         else
         {
             _first_bv_height.constant = CGRectGetMaxY(_notes.frame) + 20.f;
-            [_contentView layoutIfNeeded];
+            [_firstBV layoutIfNeeded];
         }
         
         //设备列表相关
@@ -189,13 +192,12 @@
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-
 }
 
 @end

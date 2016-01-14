@@ -189,7 +189,6 @@
         
         BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] init];
         // 存储 设备 ID
-        SaveValueTUD(@"Device_ID", dict[@"qr_content"]);
         [self.navigationController pushViewController:epvc animated:YES];
     }
     

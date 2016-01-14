@@ -10,4 +10,6 @@
 
 @interface BXTEquipmentViewController : BXTBaseViewController
 
+- (instancetype)initWithDeviceID:(NSString *)device_id;
+
 @end

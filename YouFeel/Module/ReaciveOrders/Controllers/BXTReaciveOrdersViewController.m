@@ -14,7 +14,7 @@
 #import "BXTFaultTypeInfo.h"
 #import "BXTSelectBoxView.h"
 #import "BXTReaciveOrderTableViewCell.h"
-#import "BXTOrderDetailViewController.h"
+#import "BXTMaintenanceDetailViewController.h"
 
 @interface BXTReaciveOrdersViewController ()<DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,BXTBoxSelectedTitleDelegate,UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate>
 {
@@ -342,7 +342,7 @@
 {
     BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:indexPath.section];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-    BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
+    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
     [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
     [self.navigationController pushViewController:repairDetailVC animated:YES];
 }

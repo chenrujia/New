@@ -11,7 +11,7 @@
 #import "BXTManagerOMTableViewCell.h"
 #import "MJRefresh.h"
 #import "BXTRepairInfo.h"
-#import "BXTOrderDetailViewController.h"
+#import "BXTMaintenanceDetailViewController.h"
 #import "UIView+Nav.h"
 #import "BXTNewOrderViewController.h"
 #import "BXTRejectOrderViewController.h"
@@ -397,23 +397,24 @@
     else if (_orderType == OutTimeType && repairInfo.order_type == 3)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
-        repairDetailVC.isRejectVC = YES;
+        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+#warning 问题啊。。。。。。。。！！！！！
+//        repairDetailVC.isRejectVC = YES;
         [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
     else if (_orderType == AllType || _orderType == CloseType)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
-        repairDetailVC.isAllOrderType = YES;
+        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+//        repairDetailVC.isAllOrderType = YES;
         [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
     else
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
+        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
         [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
