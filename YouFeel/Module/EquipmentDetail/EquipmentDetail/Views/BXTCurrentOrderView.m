@@ -11,7 +11,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTEquipmentInformCell.h"
 #import "BXTRepairWordOrderViewController.h"
-#import "BXTOrderDetailViewController.h"
+#import "BXTMaintenanceDetailViewController.h"
 #import "BXTTimeFilterViewController.h"
 #import "BXTSelectBoxView.h"
 #import <MJRefresh.h>
@@ -32,23 +32,19 @@ typedef NS_ENUM(NSInteger, OrderType) {
     NSArray *ChooseTimeArray;
 }
 
-@property(nonatomic, assign) NSInteger currentPage;
-
-@property (nonatomic, strong) UIButton *bgView;
-@property (nonatomic, strong) UIButton *bgView_fit;
-@property (nonatomic, strong) UIView *pickerBgView;
-@property (nonatomic, strong) UIDatePicker   *datePicker;
-@property (nonatomic, assign) NSTimeInterval timeInterval;
-@property (nonatomic, strong) NSString       *orderID;
-
-@property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, assign) NSInteger       currentPage;
+@property (nonatomic, strong) UIButton        *bgView;
+@property (nonatomic, strong) UIButton        *bgView_fit;
+@property (nonatomic, strong) UIView          *pickerBgView;
+@property (nonatomic, strong) UIDatePicker    *datePicker;
+@property (nonatomic, assign) NSTimeInterval  timeInterval;
+@property (nonatomic, strong) NSString        *orderID;
+@property (nonatomic, strong) NSArray         *titleArray;
 @property (nonatomic, strong) DOPDropDownMenu *DDMenu;
-
-@property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) UITableView *tableView;
-
-@property (nonatomic, assign) CGFloat cellHeight;
-@property (nonatomic, copy) NSString *typeStr;
+@property (nonatomic, strong) NSMutableArray  *dataArray;
+@property (nonatomic, strong) UITableView     *tableView;
+@property (nonatomic, assign) CGFloat         cellHeight;
+@property (nonatomic, copy  ) NSString        *typeStr;
 
 @end
 
@@ -134,11 +130,11 @@ typedef NS_ENUM(NSInteger, OrderType) {
     if ([self.typeStr isEqualToString:@""])
     {
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request deviceRepairListWithOrder:@"" timestart:ChooseTimeArray[0] timeover:ChooseTimeArray[1] pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+        [request deviceRepairListWithOrder:@"" deviceID:self.deviceID timestart:ChooseTimeArray[0] timeover:ChooseTimeArray[1] pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
     }
     else
     {
-        [request deviceRepairListWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+        [request deviceRepairListWithOrder:self.typeStr deviceID:self.deviceID timestart:@"" timeover:@"" pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
     }
 }
 
@@ -342,7 +338,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
         dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
         dispatch_async(concurrentQueue, ^{
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request deviceRepairListWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
+            [request deviceRepairListWithOrder:self.typeStr deviceID:self.deviceID timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
         });
     } else {
         BXTTimeFilterViewController *tfvc = [[BXTTimeFilterViewController alloc] init];
@@ -357,7 +353,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
             dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
             dispatch_async(concurrentQueue, ^{
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request deviceRepairListWithOrder:@"" timestart:timeArray[0] timeover:timeArray[1] pagesize:@"5" page:@"1"];
+                [request deviceRepairListWithOrder:@"" deviceID:self.deviceID timestart:timeArray[0] timeover:timeArray[1] pagesize:@"5" page:@"1"];
             });
         }];
         [[self getNavigation] pushViewController:tfvc animated:YES];
@@ -417,7 +413,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     BXTCurrentOrderData *odModel = self.dataArray[indexPath.section];
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-    BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
+    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
     [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%@", odModel.dataIdentifier]];
     [[self getNavigation] pushViewController:repairDetailVC animated:YES];
     
@@ -451,7 +447,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     {
         [self showLoadingMBP:@"数据加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request deviceRepairListWithOrder:self.typeStr timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
+        [request deviceRepairListWithOrder:self.typeStr deviceID:self.deviceID timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
     }
 }
 

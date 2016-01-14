@@ -8,6 +8,9 @@
 
 #import "BXTMaintenanceBookViewController.h"
 #import "BXTDeviceInfoTableViewCell.h"
+#import "BXTMaintenceProjectTableViewCell.h"
+#import "BXTMaintenceNotesTableViewCell.h"
+#import "BXTControlUserTableViewCell.h"
 #import "BXTHeaderForVC.h"
 #import "BXTMaintenceInfo.h"
 #import "BXTInspectionInfo.h"
@@ -16,6 +19,11 @@
 #import "BXTControlUserInfo.h"
 
 @interface BXTMaintenanceBookViewController ()<BXTDataResponseDelegate>
+{
+    NSMutableArray *checkProjectArray;
+    CGFloat checkProjectRH;
+}
+@property (nonatomic, strong) BXTMaintenceInfo *maintenceInfo;
 
 @end
 
@@ -27,6 +35,7 @@
     if (self)
     {
         self.deviceID = devID;
+        checkProjectArray = [NSMutableArray array];
     }
     return self;
 }
@@ -43,40 +52,57 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 30.f;
-    }
-    return 0.1f;
+    return 30.f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30.f)];
+    view.backgroundColor = [UIColor clearColor];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 0, 100.f, 30)];
+    titleLabel.textColor = colorWithHexString(@"888c8f");
+    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    [view addSubview:titleLabel];
     if (section == 0)
     {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30.f)];
-        view.backgroundColor = [UIColor clearColor];
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 0, 100.f, 30)];
-        titleLabel.textColor = colorWithHexString(@"888c8f");
-        titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
         titleLabel.text = @"设备信息";
-        [view addSubview:titleLabel];
-        
         return view;
     }
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
-    view.backgroundColor = [UIColor clearColor];
-    return view;
+    else if (section == 1)
+    {
+        titleLabel.text = @"维保作业内容";
+        return view;
+    }
+    else if (section == 2)
+    {
+        titleLabel.text = @"完成时间";
+        return view;
+    }
+    else if (section == 3)
+    {
+        titleLabel.text = @"备注";
+        return view;
+    }
+    else if (section == 4)
+    {
+        titleLabel.text = @"负责人";
+        return view;
+    }
+    else
+    {
+        titleLabel.text = @"维修人";
+        return view;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 12.f;
+    return 0.1;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 12.f)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
@@ -88,35 +114,126 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == 0)
+    {
+        return 1;
+    }
+    else if (section == 1)
+    {
+        return checkProjectArray.count;
+    }
     return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.section == _maintenceInfo.inspection_info.count + 1)
-//    {
-//        return 170;
-//    }
-    return 158.f;
+    if (indexPath.section == 0)
+    {
+        return 160.f;
+    }
+    else if (indexPath.section == 1)
+    {
+        return checkProjectRH;
+    }
+    return 160.f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTDeviceInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DeviceInfoCell"];
-    if (!cell)
+    if (indexPath.section == 0)
     {
-        [tableView registerNib:[UINib nibWithNibName:@"BXTDeviceInfoTableViewCell" bundle:nil] forCellReuseIdentifier:@"DeviceInfoCell"];
-        cell = [tableView dequeueReusableCellWithIdentifier:@"DeviceInfoCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        BXTDeviceInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DeviceInfoCell"];
+        if (!cell)
+        {
+            [tableView registerNib:[UINib nibWithNibName:@"BXTDeviceInfoTableViewCell" bundle:nil] forCellReuseIdentifier:@"DeviceInfoCell"];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"DeviceInfoCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
+        cell.deviceName.text = [NSString stringWithFormat:@"设备名称：%@",deviceInfo.name];
+        cell.deviceNumber.text = [NSString stringWithFormat:@"设备编号：%@",deviceInfo.model_number];
+        cell.deviceSystem.text = [NSString stringWithFormat:@"系统：%@",_maintenceInfo.faulttype_type_name];
+        cell.maintenanceProject.text = [NSString stringWithFormat:@"维保项目：%@",_maintenceInfo.inspection_item_name];
+        cell.maintenancePlane.text = [NSString stringWithFormat:@"维保计划：%@",_maintenceInfo.inspection_time];
+        if ([_maintenceInfo.state integerValue] == 1)
+        {
+            cell.orderState.text = @"维修中";
+        }
+        else
+        {
+            cell.orderState.text = @"已完成";
+        }
+        
+        return cell;
     }
-    
-    cell.deviceName.text = @"1";
-    cell.deviceNumber.text = @"2";
-    cell.deviceSystem.text = @"3";
-    cell.maintenanceProject.text = @"4";
-    cell.maintenancePlane.text = @"5";
-    
-    return cell;
+    else if (indexPath.section == 1)
+    {
+        BXTMaintenceProjectTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MaintenceProjectCell"];
+        if (!cell)
+        {
+            [tableView registerNib:[UINib nibWithNibName:@"BXTMaintenceProjectTableViewCell" bundle:nil] forCellReuseIdentifier:@"MaintenceProjectCell"];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"MaintenceProjectCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        BXTCheckProjectInfo *checkInfo = checkProjectArray[indexPath.row];
+        cell.maintenceProject.text = checkInfo.project_name;
+        cell.projectName.text = checkInfo.check_con;
+        cell.projectState.text = checkInfo.default_description;
+        
+        [cell setNeedsUpdateConstraints];
+        [cell updateConstraintsIfNeeded];
+        checkProjectRH = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+        LogRed(@"checkProjectRH.....%f",checkProjectRH);
+        return cell;
+    }
+    else if (indexPath.section == 2)
+    {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TimeCell"];
+        if (!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TimeCell"];
+        }
+        
+        return cell;
+    }
+    else if (indexPath.section == 3)
+    {
+        BXTMaintenceNotesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MaintenceNotesCell"];
+        if (!cell)
+        {
+            [tableView registerNib:[UINib nibWithNibName:@"BXTMaintenceNotesTableViewCell" bundle:nil] forCellReuseIdentifier:@"MaintenceNotesCell"];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"MaintenceNotesCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        return cell;
+    }
+    else if (indexPath.section == 4)
+    {
+        BXTControlUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ManagerUserCell"];
+        if (!cell)
+        {
+            [tableView registerNib:[UINib nibWithNibName:@"BXTControlUserTableViewCell" bundle:nil] forCellReuseIdentifier:@"ManagerUserCell"];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"ManagerUserCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        return cell;
+    }
+    else
+    {
+        BXTControlUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepairUserCell"];
+        if (!cell)
+        {
+            [tableView registerNib:[UINib nibWithNibName:@"BXTControlUserTableViewCell" bundle:nil] forCellReuseIdentifier:@"RepairUserCell"];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"RepairUserCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        return cell;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -151,7 +268,15 @@
         [inspectionArray addObject:inspection];
     }
     maintence.inspection_info = inspectionArray;
-    
+    //单独过滤出检查项目
+    for (BXTInspectionInfo *inspection_info in maintence.inspection_info)
+    {
+        for (BXTCheckProjectInfo *check_info in inspection_info.check_arr)
+        {
+            check_info.project_name = inspection_info.check_item;
+            [checkProjectArray addObject:check_info];
+        }
+    }
     //管理员和维修员
     NSMutableArray *devicesArray = [NSMutableArray array];
     NSArray *device_con_array = [dictionary objectForKey:@"device_con"];
@@ -165,8 +290,8 @@
         [devicesArray addObject:device];
     }
     maintence.device_con = devicesArray;
-    
-    NSLog(@".....");
+    self.maintenceInfo = maintence;
+    [_currentTable reloadData];
 }
 
 - (void)requestError:(NSError *)error

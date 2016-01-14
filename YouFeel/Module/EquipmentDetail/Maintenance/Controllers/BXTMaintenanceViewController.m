@@ -56,11 +56,11 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         if (self.isUpdate)
         {
-            [request updateInspectionRecordID:self.maintenceInfo.maintenceID andWorkorderID:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
+            [request updateInspectionRecordID:self.maintenceInfo.maintenceID deviceID:self.maintenceInfo.maintenceID andWorkorderID:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
         }
         else
         {
-            [request addInspectionRecord:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
+            [request addInspectionRecord:self.maintenceInfo.maintenceID deviceID:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
         }
     }];
 }

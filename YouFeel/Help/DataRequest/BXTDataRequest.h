@@ -400,12 +400,13 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  设备详情
  */
-- (void)equipmentInformation;
+- (void)equipmentInformation:(NSString *)deviceID;
 
 /**
  *  当前工单
  */
 - (void)deviceRepairListWithOrder:(NSString *)order
+                         deviceID:(NSString *)device_id
                         timestart:(NSString *)startTime
                          timeover:(NSString *)endTime
                          pagesize:(NSString *)pagesize
@@ -416,6 +417,7 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)inspectionRecordListWithPagesize:(NSString *)pagesize
                                     page:(NSString *)page
+                                deviceID:(NSString *)device_id
                                timestart:(NSString *)startTime
                                 timeover:(NSString *)endTime;
 
@@ -448,6 +450,7 @@ andRepairerIsReacive:(NSString *)reacive;
  *  添加设备维护记录
  */
 - (void)addInspectionRecord:(NSString *)workorderID
+                   deviceID:(NSString *)device_id
             andInspectionID:(NSString *)inspectionID
           andInspectionData:(NSString *)inspectionData
                    andNotes:(NSString *)notes
@@ -457,6 +460,7 @@ andRepairerIsReacive:(NSString *)reacive;
  *  修改设备维护记录
  */
 - (void)updateInspectionRecordID:(NSString *)recordID
+                        deviceID:(NSString *)device_id
                   andWorkorderID:(NSString *)workorderID
                  andInspectionID:(NSString *)inspectionID
                andInspectionData:(NSString *)inspectionData

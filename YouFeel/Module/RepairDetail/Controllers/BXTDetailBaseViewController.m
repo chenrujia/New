@@ -9,6 +9,7 @@
 #import "BXTDetailBaseViewController.h"
 #import "UIImageView+WebCache.h"
 #import "BXTHeaderForVC.h"
+#import "BXTEquipmentViewController.h"
 
 @interface BXTDetailBaseViewController ()<BXTDataResponseDelegate>
 
@@ -260,12 +261,14 @@
     [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 11.f, 83.f, 40.f)];
     [maintenaceBtn setTitle:@"开始保养" forState:UIControlStateNormal];
     [maintenaceBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-//    @weakify(self);
-//    [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-//        @strongify(self);
-//        NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
-//        [self handleUserInfo:userDic];
-//    }];
+    @weakify(self);
+    [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        NSDictionary *deviceDic = self.repairDetail.device_list[i];
+        BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:[deviceDic objectForKey:@"id"]];
+        epvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:epvc animated:YES];
+    }];
     [deviceBackView addSubview:maintenaceBtn];
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(deviceNumber.frame) + 10.f - 1, SCREEN_WIDTH - 30.f, 1.f)];

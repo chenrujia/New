@@ -14,7 +14,7 @@
 #import "BXTRepairDetailViewController.h"
 #import "UIView+Nav.h"
 #import "BXTMaintenanceManTableViewCell.h"
-#import "BXTOrderDetailViewController.h"
+#import "BXTMaintenanceDetailViewController.h"
 #import "BXTMaintenanceProcessViewController.h"
 #import "AppDelegate.h"
 #import "BXTEvaluationViewController.h"
@@ -369,7 +369,7 @@
         if (repairInfo.order_type != 3)
         {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-            BXTOrderDetailViewController *repairDetailVC = (BXTOrderDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTOrderDetailViewController"];
+            BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
             [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
             [[self navigation] pushViewController:repairDetailVC animated:YES];
         }

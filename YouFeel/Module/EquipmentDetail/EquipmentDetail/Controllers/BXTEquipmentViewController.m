@@ -21,9 +21,21 @@
     NSInteger currentPage;
 }
 
+@property (nonatomic, strong) NSString *deviceID;
+
 @end
 
 @implementation BXTEquipmentViewController
+
+- (instancetype)initWithDeviceID:(NSString *)device_id
+{
+    self = [super init];
+    if (self)
+    {
+        self.deviceID = device_id;
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -36,13 +48,6 @@
 - (void)navigationSetting
 {
     [self navigationSetting:@"设备详情" andRightTitle:nil andRightImage:nil];
-    
-    
-    // TODO: -----------------  调试完成 可移除  -----------------
-    // 存储 设备 ID
-    SaveValueTUD(@"Device_ID", @"1");
-    
-    
     CGFloat navBarHeight = 64.f;
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, navBarHeight, SCREEN_WIDTH, 40.f)];
     [backView setBackgroundColor:colorWithHexString(@"ffffff")];
@@ -73,16 +78,14 @@
     currentScrollView.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:currentScrollView];
     
-    
-    BXTEquipmentInformView *epiView = [[BXTEquipmentInformView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds))];
+    BXTEquipmentInformView *epiView = [[BXTEquipmentInformView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
     [currentScrollView addSubview:epiView];
     
-    BXTCurrentOrderView *codView = [[BXTCurrentOrderView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds))];
+    BXTCurrentOrderView *codView = [[BXTCurrentOrderView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
     [currentScrollView addSubview:codView];
     
-    BXTEquipmentFilesView *epfView = [[BXTEquipmentFilesView alloc] initWithFrame:CGRectMake(2*SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds))];
+    BXTEquipmentFilesView *epfView = [[BXTEquipmentFilesView alloc] initWithFrame:CGRectMake(2*SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
     [currentScrollView addSubview:epfView];
-    
 }
 
 - (void)navigationLeftButton
@@ -116,17 +119,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

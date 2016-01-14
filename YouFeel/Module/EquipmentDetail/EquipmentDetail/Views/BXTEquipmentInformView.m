@@ -17,9 +17,9 @@
     UIImageView *arrow;
 }
 
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *dataArray;
-@property (nonatomic, strong) NSArray *headerTitleArray;
+@property (nonatomic, strong) UITableView    *tableView;
+@property (nonatomic, strong) NSArray        *dataArray;
+@property (nonatomic, strong) NSArray        *headerTitleArray;
 @property (nonatomic, strong) NSMutableArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *detailArray;
 @property (nonatomic, strong) NSMutableArray *isShowArray;
@@ -44,12 +44,8 @@
     
     
     [self showLoadingMBP:@"数据加载中..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request equipmentInformation];
-    });
-    
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request equipmentInformation:self.deviceID];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.frame style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
@@ -220,12 +216,9 @@
             [authorArray addObject:controlUserModel];
         }
         
-        
         // 存储 设备操作规范
         NSArray *conditionArray = dataDict[@"operating_condition"];
         NSDictionary *conditionDict = conditionArray[0];
-        SaveValueTUD(@"conditionDict", conditionDict);
-        
         
         // 更新数组
         [self.titleArray replaceObjectAtIndex:3 withObject:paramsTitleArray];
