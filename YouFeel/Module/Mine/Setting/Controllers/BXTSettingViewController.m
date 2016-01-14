@@ -108,18 +108,20 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     cell.textLabel.text = self.dataArray[indexPath.section][indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:RealValue(17.f)];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    return RealValue(60.f);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return 0.1;
     }
     return 10;
@@ -132,17 +134,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         [self showAlertWithTitle:@"验证原密码"message:@"为保障您的数据安全，请填写原密码"];
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 1)
+    {
         [MYAlertAction showActionSheetWithTitle:@"您确定清楚聊天记录" message:nil chooseBlock:^(NSInteger buttonIdx) {
-            if (buttonIdx == 1) {
+            if (buttonIdx == 1)
+            {
                 [BXTGlobal showText:@"清除成功" view:self.view completionBlock:nil];
             }
         } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"确定", nil];
     }
-    else {
+    else
+    {
         BXTAboutUsViewController *auvc = [[BXTAboutUsViewController alloc] init];
         [self.navigationController pushViewController:auvc animated:YES];
     }
@@ -153,7 +159,8 @@
 #pragma mark - showAlert
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message
 {
-    if (IS_IOS_8) {
+    if (IS_IOS_8)
+    {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
             
@@ -169,7 +176,9 @@
         [alertController addAction:sureAction];
         
         [self presentViewController:alertController animated:YES completion:nil];
-    } else {
+    }
+    else
+    {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
         [alertView show];
@@ -179,7 +188,8 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     UITextField *textField = [alertView textFieldAtIndex:0];
-    if (buttonIndex == 1) {
+    if (buttonIndex == 1)
+    {
         [self vertifyPassword:textField.text];
     }
 }
@@ -203,7 +213,8 @@
     [self hideMBP];
     
     NSDictionary *dic = response;
-    if (type == LoginType && [dic[@"returncode"] intValue] == 0) {
+    if (type == LoginType && [dic[@"returncode"] intValue] == 0)
+    {
         [BXTGlobal showText:@"验证成功" view:self.view completionBlock:^{
             // 重置密码
             NSString *userID = [BXTGlobal getUserProperty:U_USERID];
@@ -215,7 +226,9 @@
             [self.navigationController pushViewController:changePassWordVC animated:YES];
             self.navigationController.navigationBar.hidden = NO;
         }];
-    } else {
+    }
+    else
+    {
         [BXTGlobal showText:@"密码错误，请重试" view:self.view completionBlock:nil];
     }
 }

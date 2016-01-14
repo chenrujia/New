@@ -14,7 +14,8 @@
 {
     static NSString *cellID = @"cell";
     BXTUserInformCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTUserInformCell" owner:nil options:nil] lastObject];
     }
     
@@ -24,6 +25,9 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    self.titleView.font = [UIFont systemFontOfSize:RealValue(17)];
+    self.detailView.font = [UIFont systemFontOfSize:RealValue(17)];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -91,7 +91,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.f;
+    return RealValue(60.f);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -111,6 +111,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     cell.textLabel.text = @"给我评分";
+    cell.textLabel.font = [UIFont systemFontOfSize:RealValue(17.f)];
     
     return cell;
 }

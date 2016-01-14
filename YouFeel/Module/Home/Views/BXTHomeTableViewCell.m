@@ -31,7 +31,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_logoImgView.frame) + RealValue(26.f), 0, 100.f, 20)];
             label.center = CGPointMake(label.center.x, _logoImgView.center.y);
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:RealValue(17.f)];
+            label.font = [UIFont systemFontOfSize:RealValue(17.f)];
             [self addSubview:label];
             label;
             

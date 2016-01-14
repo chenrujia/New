@@ -68,7 +68,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 @implementation BXTMailListViewController
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -201,9 +202,11 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     rootBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
     [rootBtn setTitleColor:colorWithHexString(@"#ffffff") forState:UIControlStateNormal];
     [[rootBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        for (UIView *view in self.subScrollView.subviews) {
+        for (UIView *view in self.subScrollView.subviews)
+        {
             [self showRootView:NO];
-            if ([view isKindOfClass:[UIButton class]]) {
+            if ([view isKindOfClass:[UIButton class]])
+            {
                 [view removeFromSuperview];
             }
             self.subScrollView.contentSize = CGSizeMake(0, 50);
@@ -272,35 +275,48 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     NSArray *allPersonArray = [BXTGlobal readFileWithfileName:@"MailUserList"];
     
     NSMutableArray *searchResults = [[NSMutableArray alloc]init];
-    if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
+    if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text])
+    {
         
-        for (int i=0; i<allPersonArray.count; i++) {
+        for (int i=0; i<allPersonArray.count; i++)
+        {
             BXTMailListModel *model = [BXTMailListModel modelWithDict:allPersonArray[i]];
             
-            if ([ChineseInclude isIncludeChineseInString:model.name]) {
+            if ([ChineseInclude isIncludeChineseInString:model.name])
+            {
                 NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.name];
                 NSRange titleResult=[tempPinYinStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                 
-                if (titleResult.length > 0) {
+                if (titleResult.length > 0)
+                {
                     [searchResults addObject:allPersonArray[i]];
-                } else {
+                }
+                else
+                {
                     NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:model.name]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                     if (titleHeadResult.length > 0) {
                         [searchResults addObject:allPersonArray[i]];
                     }
                 }
-            } else {
+            }
+            else
+            {
                 NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-                if (titleResult.length > 0) {
+                if (titleResult.length > 0)
+                {
                     [searchResults addObject:allPersonArray[i]];
                 }
             }
         }
-    } else if (self.searchBar.text.length > 0 && [ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
-        for (NSDictionary *dict in allPersonArray) {
+    }
+    else if (self.searchBar.text.length > 0 && [ChineseInclude isIncludeChineseInString:self.searchBar.text])
+    {
+        for (NSDictionary *dict in allPersonArray)
+        {
             BXTMailListModel *model = [BXTMailListModel modelWithDict:dict];
             NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-            if (titleResult.length > 0) {
+            if (titleResult.length > 0)
+            {
                 [searchResults addObject:dict];
             }
         }
@@ -320,11 +336,13 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (tableView == self.tableView_Search) {
+    if (tableView == self.tableView_Search)
+    {
         return 1;
     }
     
-    if (isNotRootView) {
+    if (isNotRootView)
+    {
         return 2;
     }
     
@@ -334,11 +352,13 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 // SKSTableView - row
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (isNotRootView && section == 1) {
+    if (isNotRootView && section == 1)
+    {
         return self.subOtherArray.count;
     }
     
-    if (tableView == self.tableView_Search) {
+    if (tableView == self.tableView_Search)
+    {
         return self.searchArray.count;
     }
     return self.titleArray.count;
@@ -346,7 +366,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (NSInteger)tableView:(SKSTableView *)tableView numberOfSubRowsAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (isNotRootView && indexPath.section == 1) {
+    if (isNotRootView && indexPath.section == 1)
+    {
         return 0;
     }
     
@@ -361,7 +382,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.tableView_Search) {
+    if (tableView == self.tableView_Search)
+    {
         static NSString *cellID = @"cellSearch";
         BXTMailListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
@@ -474,11 +496,13 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (CGFloat)tableView:(SKSTableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1)
+    {
         return 60.f;
     }
     
-    if (tableView == self.tableView_Search) {
+    if (tableView == self.tableView_Search)
+    {
         return 60.f;
     }
     return 50.0f;
@@ -501,7 +525,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.tableView_Search) {
+    if (tableView == self.tableView_Search)
+    {
         BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
         [self pushPersonInfromViewControllerWithUserID:[NSString stringWithFormat:@"%@", model.user_id]];
         
@@ -511,7 +536,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     }
     
     
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1)
+    {
         BXTMailListModel *listModel = self.subOtherArray[indexPath.row];
         [self pushPersonInfromViewControllerWithUserID:listModel.user_id];
         return;
@@ -519,7 +545,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     
     
     // cell不可展开 - 点击跳转
-    if ([self.groupOpenArray[indexPath.row] intValue] == 0) {
+    if ([self.groupOpenArray[indexPath.row] intValue] == 0)
+    {
         [self showRootView:YES];
         
         
@@ -539,14 +566,18 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
             [self ergodicArray:self.listArray[selectedIndex] OtherListArray:self.listOtherArray[selectedIndex]];
             
             // 点击头部按钮 - 数据更新
-            for (int i=0; i<self.listArray.count; i++) {
-                if (i > selectedIndex) {
+            for (int i=0; i<self.listArray.count; i++)
+            {
+                if (i > selectedIndex)
+                {
                     [self.listArray removeObjectAtIndex:i];
                 }
             }
             self.OLDArray = self.listArray[selectedIndex];
-            for (int i=0; i<self.listOtherArray.count; i++) {
-                if (i > selectedIndex) {
+            for (int i=0; i<self.listOtherArray.count; i++)
+            {
+                if (i > selectedIndex)
+                {
                     [self.listOtherArray removeObjectAtIndex:i];
                 }
             }
@@ -554,9 +585,12 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
             
             
             // 显示设置
-            for (UIView *subView in self.subScrollView.subviews) {
-                if ([subView isKindOfClass:[UIButton class]]) {
-                    if (subBtn.frame.origin.x < subView.frame.origin.x) {
+            for (UIView *subView in self.subScrollView.subviews)
+            {
+                if ([subView isKindOfClass:[UIButton class]])
+                {
+                    if (subBtn.frame.origin.x < subView.frame.origin.x)
+                    {
                         [subView removeFromSuperview];
                         [subBtn setBackgroundImage:[UIImage imageNamed:@"mail_rectangle_selected"] forState:UIControlStateNormal];
                         self.subScrollView.contentSize = CGSizeMake(subBtn.frame.origin.x + subBtn.frame.size.width, 50);
@@ -672,8 +706,10 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     isNotRootView =  otherArray ? YES : NO;
     
     // 独立人员列表
-    if (isNotRootView) {
-        for (NSDictionary *otherDict in otherArray) {
+    if (isNotRootView)
+    {
+        for (NSDictionary *otherDict in otherArray)
+        {
             BXTMailListModel *model = [BXTMailListModel modelWithDict:otherDict];
             [self.subOtherArray addObject:model];
         }
@@ -693,8 +729,10 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [groupBtn setBackgroundImage:[UIImage imageNamed:@"mail_rectangle_selected"] forState:UIControlStateNormal];
     [self.subScrollView addSubview:groupBtn];
     
-    for (UIView *subView in self.subScrollView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) {
+    for (UIView *subView in self.subScrollView.subviews)
+    {
+        if ([subView isKindOfClass:[UIButton class]])
+        {
             [(UIButton *)subView setBackgroundImage:[UIImage imageNamed:@"mail_rectangle_normal"] forState:UIControlStateNormal];
         }
     }
@@ -710,11 +748,14 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 // 列表和搜索列表显示类
 - (void)showTableViewAndHideSearchTableView:(BOOL)isRight
 {
-    if (isRight) {
+    if (isRight)
+    {
         self.tableView_Search.hidden = YES;
         self.tableView.hidden = NO;
         self.bgView.hidden = NO;
-    } else {
+    }
+    else
+    {
         self.tableView_Search.hidden = NO;
         self.tableView.hidden = YES;
         self.bgView.hidden = YES;
@@ -723,13 +764,16 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (void)showRootView:(BOOL)isRight
 {
-    if (!isRight) {
+    if (!isRight)
+    {
         [UIView animateWithDuration:0.5 animations:^{
             self.bgView.frame = CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_HEIGHT, 0);
             self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.bgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.bgView.frame));
         } completion:^(BOOL finished) { }];
         
-    } else {
+    }
+    else
+    {
         [UIView animateWithDuration:0.5 animations:^{
             self.bgView.frame = CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_HEIGHT, 50);
             self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.bgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.bgView.frame));

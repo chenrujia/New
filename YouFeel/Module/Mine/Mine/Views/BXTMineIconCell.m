@@ -14,7 +14,8 @@
 {
     static NSString *cellID = @"cellICon";
     BXTMineIconCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMineIconCell" owner:nil options:nil] lastObject];
     }
     
