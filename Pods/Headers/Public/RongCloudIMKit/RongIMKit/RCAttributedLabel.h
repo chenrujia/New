@@ -1,1 +1,1 @@
-../../../../RongCloudIMKit/Rong_Cloud_iOS_SDK_v2_4_2_stable/RongIMKit.framework/Headers/RCAttributedLabel.h
+../../../../RongCloudIMKit/Rong_Cloud_iOS_SDK_v2.4.4_stable/RongIMKit.framework/Headers/RCAttributedLabel.h

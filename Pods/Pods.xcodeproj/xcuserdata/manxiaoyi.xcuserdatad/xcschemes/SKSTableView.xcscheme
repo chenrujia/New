@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'DC40379412ECA6AF9CC5A2AB'
+               BlueprintIdentifier = 'ACCF5C8DC3EE17AA06E98207'
                BlueprintName = 'SKSTableView'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libSKSTableView.a'>

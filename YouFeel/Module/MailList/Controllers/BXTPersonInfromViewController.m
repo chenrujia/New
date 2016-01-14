@@ -67,7 +67,8 @@
     logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, valueForDevice(235.f, 213.f, 181.5f, 153.5f) + 30)];
     logoImgView.userInteractionEnabled = YES;
     logoImgView.image = [UIImage imageNamed:@"Nav_Bar"];
-    if ([BXTGlobal shareGlobal].isRepair) {
+    if ([BXTGlobal shareGlobal].isRepair)
+    {
         logoImgView.image = [UIImage imageNamed:@"Nav_Bars"];
     }
     [self.view addSubview:logoImgView];
@@ -209,7 +210,6 @@
     {
         NSDictionary *infoDict = data[0];
         BXTPersonInform *informModel = [BXTPersonInform modelObjectWithDictionary:infoDict];
-        
         
         NSDictionary *stores_checks = infoDict[@"stores_checks"];
         

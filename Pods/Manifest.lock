@@ -18,7 +18,7 @@ PODS:
   - DACircularProgress (2.3.1)
   - DCKeyValueObjectMapping (1.5)
   - DZNEmptyDataSet (1.7.3)
-  - GetuiSDK (1.3.1)
+  - GetuiSDK (1.3.2)
   - IQKeyboardManager (3.3.5)
   - LBXScan (1.1.1):
     - ZXingObjC (~> 3.0)
@@ -35,11 +35,12 @@ PODS:
   - ReactiveCocoa/no-arc (2.5)
   - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
-  - RongCloudIMKit (2.4.2)
-  - SDCycleScrollView (1.3)
-  - SDWebImage (3.7.3):
-    - SDWebImage/Core (= 3.7.3)
-  - SDWebImage/Core (3.7.3)
+  - RongCloudIMKit (2.4.4)
+  - SDCycleScrollView (1.6):
+    - SDWebImage (~> 3.7)
+  - SDWebImage (3.7.4):
+    - SDWebImage/Core (= 3.7.4)
+  - SDWebImage/Core (3.7.4)
   - SKSTableView (0.0.2)
   - UMengAnalytics-NO-IDFA (3.6.7)
   - ZXingObjC (3.1.0):
@@ -71,7 +72,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   LBXScan:
-    :commit: 5b1973220ab477565052f3c977b14f9ba9a34f4d
+    :commit: 73aadf7873ffe381d0b93107c3438c0edc82f538
     :git: https://github.com/MxABC/LBXScan.git
 
 SPEC CHECKSUMS:
@@ -80,16 +81,16 @@ SPEC CHECKSUMS:
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   DCKeyValueObjectMapping: c2eb5a6529da100b2e49ef6a599663578051f077
   DZNEmptyDataSet: dd7cca17c1d07dfa78956859b1e70a52505678ef
-  GetuiSDK: 3c2de9a7e50043f9238a8d14274684c14b1f49d9
+  GetuiSDK: 301260e94ebfa06ee8ef797e2c7fd738c086ec56
   IQKeyboardManager: 128bcb96b3ec03ff87942cdd7fa7f44491aa3d08
   LBXScan: dfb4d8ae8e4cff2aa0c9e1771e43954dce1469a9
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: fafde8f18f4afd66b434331a9beb67a6c0264056
   MWPhotoBrowser: ba0d0c09ffda3a7ea10093518738c502c1c7141c
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
-  RongCloudIMKit: 076f9f4b0365eeb18fc64e4d014ca174345b2320
-  SDCycleScrollView: 90e43636fcc8e6a7f74e8b64d87418a8e96549b4
-  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  RongCloudIMKit: ea9fdf6ac74585c8fcf991b6ff2acc0be0f67ac2
+  SDCycleScrollView: 436ccec76258f9f280365af5c07b289a71382601
+  SDWebImage: 247edd7dd80dd6124197b0d6a17846fe9d1df968
   SKSTableView: f552b4847d0f11425891420473c3e041a7743a06
   UMengAnalytics-NO-IDFA: 6d02561a00579b2e37718f204eb81347df5d7b8b
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a

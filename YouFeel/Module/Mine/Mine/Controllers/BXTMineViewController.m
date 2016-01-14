@@ -67,7 +67,8 @@
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return 0.1;
     }
     return 10.f;
@@ -84,7 +85,7 @@
     {
         return 100.f;
     }
-    return 60.f;
+    return RealValue(60.f);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -99,7 +100,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         BXTMineIconCell *cell = [BXTMineIconCell cellWithTableView:tableView];
         
         [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
@@ -130,7 +132,8 @@
     fbvc.hidesBottomBarWhenPushed = YES;
     stvc.hidesBottomBarWhenPushed = YES;
     
-    switch (indexPath.section) {
+    switch (indexPath.section)
+    {
         case 0: [self.navigationController pushViewController:uivc animated:YES]; break;
         case 1: [self.navigationController pushViewController:pivc animated:YES]; break;
         case 2: [self.navigationController pushViewController:fbvc animated:YES]; break;

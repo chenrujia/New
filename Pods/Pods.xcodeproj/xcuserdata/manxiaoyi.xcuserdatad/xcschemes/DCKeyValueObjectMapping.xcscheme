@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '0424397F277DE95DB319B35D'
+               BlueprintIdentifier = '8F03EFF353370D04A4A6B89B'
                BlueprintName = 'DCKeyValueObjectMapping'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libDCKeyValueObjectMapping.a'>

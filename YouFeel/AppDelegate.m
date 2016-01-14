@@ -448,8 +448,8 @@ void UncaughtExceptionHandler(NSException *exception){
 - (void)GeTuiSdkDidSendMessage:(NSString *)messageId
                         result:(int)result
 {
-        NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
-        LogRed(@"record  %@",record);
+    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
+    LogRed(@"record  %@",record);
 }
 
 /**

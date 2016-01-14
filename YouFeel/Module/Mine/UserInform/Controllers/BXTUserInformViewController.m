@@ -69,7 +69,8 @@
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return 0.1;
     }
     return 10.f;
@@ -86,7 +87,7 @@
     {
         return 100.f;
     }
-    return 50.f;
+    return RealValue(60.f);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -147,7 +148,8 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dict = response;
-    if ([dict[@"returncode"] intValue] == 0 && type == UploadHeadImage) {
+    if ([dict[@"returncode"] intValue] == 0 && type == UploadHeadImage)
+    {
         [BXTGlobal setUserProperty:dict[@"pic"] withKey:U_HEADERIMAGE];
     }
     

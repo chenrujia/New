@@ -127,7 +127,8 @@
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return 0.1;
     }
     return 10.f;
@@ -160,7 +161,8 @@
 {
     if (section == 0)
     {
-        if ([BXTGlobal shareGlobal].isRepair) {
+        if ([BXTGlobal shareGlobal].isRepair)
+        {
             return 3;
         }
         return 2;
@@ -256,7 +258,8 @@
     }
     else if (indexPath.section == 1)
     {
-        if (indexPath.row == 0) {
+        if (indexPath.row == 0)
+        {
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.detailLable.hidden = NO;
             cell.titleLabel.frame = CGRectMake(15.f, 15.f, 60.f, 20);

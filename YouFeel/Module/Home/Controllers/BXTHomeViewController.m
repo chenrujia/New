@@ -18,6 +18,7 @@
 #import "BXTQRCodeViewController.h"
 #import "SDCycleScrollView.h"
 #import "BXTSettingViewController.h"
+#import "BXTAdsInform.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -28,9 +29,12 @@
     BOOL           isConfigInfoSuccess;
     
     UIButton *messageBtn;
+    
+    SDCycleScrollView *cycleScrollView;
 }
 
 @property (nonatomic, strong) NSMutableArray *usersArray;
+@property (nonatomic, strong) NSMutableArray *adsArray;
 
 @end
 
@@ -49,6 +53,8 @@
     [self loginRongCloud];
     
     datasource = [NSMutableArray array];
+    self.adsArray = [[NSMutableArray alloc] init];
+    
     NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (users)
     {
@@ -184,20 +190,11 @@
     
     
     // 广告页
-    NSArray *imagesURLStrings = @[
-                                  @"http://admin.51bxt.com/img_ad/1451053982.jpg",
-                                  @"http://admin.51bxt.com/img_ad/1451034162.png",
-                                  @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
-                                  ];
-    SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 180*deviceRatio + 6) imageURLStringsGroup:imagesURLStrings];
-    //cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
-    //cycleScrollView.titlesGroup = titles;
-    cycleScrollView.dotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
-    cycleScrollView.delegate = self;
+    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 180*deviceRatio + 6) delegate:self placeholderImage:[UIImage imageNamed:@"ReBackgroundsIphone6"]];
     [logoImgView addSubview:cycleScrollView];
     
     
-    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(logoImgView.frame) - KTABBARHEIGHT) style:UITableViewStyleGrouped];
+    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(logoImgView.frame) - KTABBARHEIGHT-5) style:UITableViewStyleGrouped];
     [_currentTableView registerClass:[BXTHomeTableViewCell class] forCellReuseIdentifier:@"HomeCell"];
     _currentTableView.delegate = self;
     _currentTableView.dataSource = self;
@@ -230,7 +227,8 @@
 #pragma mark - SDCycleScrollViewDelegate
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
-    NSLog(@"---点击了第%ld张图片", (long)index);
+    BXTAdsInform *model = self.adsArray[index];
+    NSLog(@"---点击了  %@ ", model.title);
 }
 
 #pragma mark -
@@ -244,28 +242,9 @@
     return 10.f;//section头部高度
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *view;
-    if (section == 0)
-    {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
-    }
-    view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
-    view.backgroundColor = [UIColor clearColor];
-    return view;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 5.f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5.f)];
-    view.backgroundColor = [UIColor clearColor];
-    return view;
+    return 0.1f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -382,7 +361,15 @@
     }
     else if (type == Ads_Pics)
     {
-        NSLog(@"fgfsgdsfgsd");
+        NSMutableArray *imageArray = [[NSMutableArray alloc] init];
+        NSMutableArray *modelArray = [[NSMutableArray alloc] init];
+        for (NSDictionary *dict in array) {
+            BXTAdsInform *model = [BXTAdsInform modeWithDict:dict];
+            [modelArray addObject:model];
+            [imageArray addObject:model.pic];
+        }
+        cycleScrollView.imageURLStringsGroup = imageArray;
+        self.adsArray = modelArray;
     }
     else if (type == UserInfoForChatList)
     {
