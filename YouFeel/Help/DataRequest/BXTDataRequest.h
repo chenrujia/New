@@ -54,7 +54,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     MaintenanceEquipmentList,
     Add_Inspection,
     Update_Inspection,
-    Ads_Pics
+    Ads_Pics,
+    Remind_Number
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -476,5 +477,17 @@ andRepairerIsReacive:(NSString *)reacive;
  *  广告页
  */
 - (void)advertisementPages;
+
+/**
+ *  公告列表
+ */
+- (void)announcementListWithReadState:(NSString *)readState
+                        pagesize:(NSString *)pagesize
+                            page:(NSString *)page;
+
+/**
+ *  提醒数字接口
+ */
+- (void)remindNumberWithTimeStart:(NSString *)timeStart;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "BXTBaseViewController.h"
 #import <RongIMKit/RongIMKit.h>
+#import "BXTRemindNum.h"
 
 @interface BXTHomeViewController : BXTBaseViewController <UITableViewDataSource,UITableViewDelegate,RCIMUserInfoDataSource>
 {

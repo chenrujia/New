@@ -14,6 +14,7 @@
 #import "UINavigationController+YRBackGesture.h"
 #import "BXTChangePassWordViewController.h"
 #import "BXTAboutUsViewController.h"
+#import "UIImageView+WebCache.h"
 
 @interface BXTSettingViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, UIAlertViewDelegate>
 
@@ -140,12 +141,29 @@
     }
     else if (indexPath.section == 1)
     {
-        [MYAlertAction showActionSheetWithTitle:@"您确定清楚聊天记录" message:nil chooseBlock:^(NSInteger buttonIdx) {
-            if (buttonIdx == 1)
-            {
-                [BXTGlobal showText:@"清除成功" view:self.view completionBlock:nil];
-            }
-        } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"确定", nil];
+        if (indexPath.row == 0)
+        {
+            [MYAlertAction showActionSheetWithTitle:@"您确定清除缓存" message:nil chooseBlock:^(NSInteger buttonIdx) {
+                if (buttonIdx == 1)
+                {
+                    [[SDImageCache sharedImageCache] clearDisk];
+                    
+                    [BXTGlobal showText:@"清除成功" view:self.view completionBlock:nil];
+                }
+            } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"确定", nil];
+        }
+        else if (indexPath.row == 1)
+        {
+            [MYAlertAction showActionSheetWithTitle:@"您确定清除聊天记录" message:nil chooseBlock:^(NSInteger buttonIdx) {
+                if (buttonIdx == 1)
+                {
+                    [[SDImageCache sharedImageCache] clearDisk];
+                    
+                    [BXTGlobal showText:@"清除成功" view:self.view completionBlock:nil];
+                }
+            } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"确定", nil];
+        }
+        
     }
     else
     {

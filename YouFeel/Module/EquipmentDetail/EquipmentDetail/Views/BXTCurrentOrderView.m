@@ -83,13 +83,14 @@ typedef NS_ENUM(NSInteger, OrderType) {
     
     
     self.currentPage = 1;
+    __block __typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        self.currentPage = 1;
-        [self getResource];
+        weakSelf.currentPage = 1;
+        [weakSelf getResource];
     }];
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        self.currentPage++;
-        [self getResource];
+        weakSelf.currentPage++;
+        [weakSelf getResource];
     }];
     
     
