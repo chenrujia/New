@@ -61,13 +61,13 @@
     
     UIButton * nav_rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     nav_rightButton.frame = CGRectMake(SCREEN_WIDTH - 75, 20, 70, 44);
-    nav_rightButton.titleLabel.font = [UIFont systemFontOfSize:14];
     if (image)
     {
         [nav_rightButton setImage:image forState:UIControlStateNormal];
     }
     else
     {
+        [nav_rightButton.titleLabel setFont:[UIFont systemFontOfSize:16.f]];
         [nav_rightButton setTitle:right_title forState:UIControlStateNormal];
     }
     [nav_rightButton setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];

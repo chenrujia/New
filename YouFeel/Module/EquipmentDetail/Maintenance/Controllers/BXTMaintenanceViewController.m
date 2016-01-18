@@ -13,6 +13,7 @@
 #import <objc/runtime.h>
 #import "BXTCheckProjectInfo.h"
 #import "BXTHeaderForVC.h"
+#import "BXTStandardViewController.h"
 #import "BXTChangeStateViewController.h"
 
 @interface BXTMaintenanceViewController ()<BXTDataResponseDelegate>
@@ -21,13 +22,14 @@
 
 @implementation BXTMaintenanceViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil maintence:(BXTMaintenceInfo *)mainInfo
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil maintence:(BXTMaintenceInfo *)mainInfo deviceID:(NSString *)devID
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
         self.notes = @"";
         self.maintenceInfo = mainInfo;
+        self.deviceID = devID;
     }
     return self;
 }
@@ -36,6 +38,9 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"维保作业" andRightTitle:nil andRightImage:nil];
+    self.currentTableView = self.currentTable;
+    self.photosArray = [[NSMutableArray alloc] init];
+    self.selectPhotos = [[NSMutableArray alloc] init];
     _commitBtn.layer.cornerRadius = 6.f;
     @weakify(self);
     [[_commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -56,13 +61,19 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         if (self.isUpdate)
         {
-            [request updateInspectionRecordID:self.maintenceInfo.maintenceID deviceID:self.maintenceInfo.maintenceID andWorkorderID:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
+            [request updateInspectionRecordID:self.maintenceInfo.maintenceID deviceID:self.deviceID andWorkorderID:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
         }
         else
         {
-            [request addInspectionRecord:self.maintenceInfo.maintenceID deviceID:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
+            [request addInspectionRecord:self.maintenceInfo.maintenceID deviceID:self.deviceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
         }
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -143,7 +154,8 @@
         }
         cell.remarkTV.delegate = self;
         cell.titleLabel.text = @"备   注";
-        
+        self.indexPath = indexPath;
+
         @weakify(self);
         UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
         [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
@@ -184,7 +196,7 @@
         }
         else
         {
-            cell.selectionStyle = UITableViewCellAccessoryDisclosureIndicator;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             BXTInspectionInfo *inspection = _maintenceInfo.inspection_info[indexPath.section - 1];
             BXTCheckProjectInfo *checkProject = inspection.check_arr[indexPath.row];
             cell.titleLabel.frame = CGRectMake(15.f, 15.f, 120.f, 20);
@@ -219,6 +231,11 @@
         }];
         [self.navigationController pushViewController:changeStateVC animated:YES];
     }
+    else if (indexPath.section == 0)
+    {
+        BXTStandardViewController *standardVC = [[BXTStandardViewController alloc] init];
+        [self.navigationController pushViewController:standardVC animated:YES];
+    }
 }
 
 #pragma mark -
@@ -251,16 +268,22 @@
     {
         if (type == Add_Inspection)
         {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshTable" object:nil];
             [self showMBP:@"新建维保作业成功！" withBlock:^(BOOL hidden) {
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         }
         else if (type == Update_Inspection)
         {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshTable" object:nil];
             [self showMBP:@"更新维保作业成功！" withBlock:^(BOOL hidden) {
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         }
+    }
+    else if ([[dic objectForKey:@"returncode"] isEqual:@"006"])
+    {
+        [self showMBP:@"此次作业已经提交，不得重复提交！" withBlock:nil];
     }
 }
 
