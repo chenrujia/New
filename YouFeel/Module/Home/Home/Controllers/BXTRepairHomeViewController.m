@@ -22,7 +22,6 @@
 #import "BXTExaminationViewController.h"
 #import "BXTManagerOMViewController.h"
 #import "BXTNewOrderViewController.h"
-#import "BXTStatisticsViewController.h"
 #import "BXTMMOrderManagerViewController.h"
 #import "BXTAuthorityListViewController.h"
 #import "BXTSettingViewController.h"
@@ -151,7 +150,12 @@
         achievementVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:achievementVC animated:YES];
     }
-    
+    else if (indexPath.section == 3)
+    {
+        BXTCustomerServiceViewController *csvc = [[BXTCustomerServiceViewController alloc] init];
+        csvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:csvc animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning

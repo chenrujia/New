@@ -7,6 +7,7 @@
 //
 
 #import "BXTMainReadNoticeView.h"
+#import "BXTNoticeInformViewController.h"
 
 @interface BXTMainReadNoticeView ()
 
@@ -116,7 +117,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTReadNotice *model = self.dataArray[indexPath.section];
-    NSLog(@"noticeID -- %@", model.noticeID);
+    
+    BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
+    nivc.urlStr = model.view_url;
+    [[self getNavigation] pushViewController:nivc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

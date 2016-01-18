@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSString *summary;
 @property (nonatomic, copy) NSString *update_time;
 @property (nonatomic, copy) NSString *noticeID;
+@property (nonatomic, copy) NSString *view_url;
 
 + (instancetype)modelWithDict:(NSDictionary *)dict;
 - (instancetype)initWithDict:(NSDictionary *)dict;
