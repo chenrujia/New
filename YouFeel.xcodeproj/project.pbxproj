@@ -1861,10 +1861,10 @@
 		7867DCB41C4CBCAB000749F1 /* Resign/Login */ = {
 			isa = PBXGroup;
 			children = (
-				7867DCB51C4CBCAB000749F1 /* FindPassWord */,
-				7867DCBB1C4CBCAB000749F1 /* Login */,
-				7867DCBF1C4CBCAB000749F1 /* NickName */,
 				7867DCC31C4CBCAB000749F1 /* Resign */,
+				7867DCBF1C4CBCAB000749F1 /* NickName */,
+				7867DCBB1C4CBCAB000749F1 /* Login */,
+				7867DCB51C4CBCAB000749F1 /* FindPassWord */,
 			);
 			name = Resign/Login;
 			path = "Resign:Login";
