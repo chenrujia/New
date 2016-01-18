@@ -43,11 +43,16 @@
     [self requestDetail];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
-    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)requestDetail

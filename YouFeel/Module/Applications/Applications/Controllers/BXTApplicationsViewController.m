@@ -13,6 +13,7 @@
 #import "UIButton+WebCache.h"
 #import "BXTNoticeInformViewController.h"
 #import "BXTStatisticsViewController.h"
+#import "BXTRemindNum.h"
 
 @interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -79,6 +80,10 @@
     cell.namelabel.text = self.titleArray[indexPath.row];
     cell.iconImage = [UIImage imageNamed:self.imageArray[indexPath.row]];
     
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        [cell newsRedNumber:[[BXTRemindNum sharedManager].announcementNum integerValue]];
+    }
+    
     return cell;
 }
 
@@ -110,7 +115,9 @@
     if (indexPath.section == 0)
     {
         switch (indexPath.row) {
-            case 0: [self.navigationController pushViewController:nlvc animated:YES]; break;
+            case 0: {
+                [self.navigationController pushViewController:nlvc animated:YES];
+            } break;
             case 1: [self.navigationController pushViewController:epvc animated:YES]; break;
             default: break;
         }

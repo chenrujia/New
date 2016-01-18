@@ -219,8 +219,9 @@
         }
         
         // 存储 设备操作规范
-        //NSArray *conditionArray = dataDict[@"operating_condition"];
-        //NSDictionary *conditionDict = conditionArray[0];
+        NSArray *conditionArray = dataDict[@"operating_condition"];
+        NSDictionary *conditionDict = conditionArray[0];
+        SaveValueTUD(@"conditionDict", conditionDict);
         
         // 更新数组
         [self.titleArray replaceObjectAtIndex:3 withObject:paramsTitleArray];

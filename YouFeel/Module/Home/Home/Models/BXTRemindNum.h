@@ -21,7 +21,9 @@
 /** ---- 项目通告 ---- */
 @property (nonatomic, copy) NSString *announcementNum;
 
-/** ---- 点击阅读时间 ---- */
-@property (nonatomic, copy) NSString *timeStart;
+/** ---- 点击阅读时间-日常 ---- */
+@property (nonatomic, copy) NSString *timeStart_Daily;
+/** ---- 点击阅读时间-维保 ---- */
+@property (nonatomic, copy) NSString *timeStart_Inspectio;
 
 @end

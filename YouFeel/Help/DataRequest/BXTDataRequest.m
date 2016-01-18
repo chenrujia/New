@@ -903,11 +903,13 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)remindNumberWithTimeStart:(NSString *)timeStart
+- (void)remindNumberWithDailyTimeStart:(NSString *)dailyStart
+                    InspectioTimeStart:(NSString *)inspectioStart
 {
     self.requestType = Remind_Number;
     NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_USERID],
-                          @"timestart": timeStart};
+                          @"daily_timestart": dailyStart,
+                          @"inspectio_timestart": inspectioStart};
     NSString *url = [NSString stringWithFormat:@"%@&module=Remind&opt=remind_number",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

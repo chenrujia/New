@@ -494,6 +494,7 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  提醒数字接口
  */
-- (void)remindNumberWithTimeStart:(NSString *)timeStart;
+- (void)remindNumberWithDailyTimeStart:(NSString *)dailyStart
+                    InspectioTimeStart:(NSString *)inspectioStart;
 
 @end

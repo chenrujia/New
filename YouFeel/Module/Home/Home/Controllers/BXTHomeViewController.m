@@ -98,7 +98,7 @@
         dispatch_async(concurrentQueue, ^{
             /** 提醒数字 **/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request remindNumberWithTimeStart:[BXTRemindNum sharedManager].timeStart];
+            [request remindNumberWithDailyTimeStart:[BXTRemindNum sharedManager].timeStart_Daily InspectioTimeStart:[BXTRemindNum sharedManager].timeStart_Inspectio];
         });
     });
     
@@ -292,7 +292,7 @@
         NSArray *titles = _titleNameArray[indexPath.section];
         cell.logoImgView.image = [UIImage imageNamed:images[indexPath.row]];
         cell.titleLabel.text = [titles objectAtIndex:indexPath.row];
-    
+        
         if (indexPath.row == 0 && [[BXTRemindNum sharedManager].dailyNum integerValue] != 0) {
             cell.numberLabel.hidden = NO;
             cell.numberLabel.text = [BXTRemindNum sharedManager].dailyNum;
