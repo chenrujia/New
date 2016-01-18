@@ -18,6 +18,11 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"设备维保操作规范" andRightTitle:nil andRightImage:nil];
+    
+    NSDictionary *dict = ValueFUD(@"conditionDict");
+    NSLog(@"title -- %@", dict[@"title"]);
+    NSLog(@"content -- %@", dict[@"content"]);
+    
     [self createUI];
 }
 

@@ -44,16 +44,11 @@
     self.navigationController.navigationBar.translucent = NO;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self navigationSetting];
+    
 }
 
 #pragma mark -

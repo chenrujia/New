@@ -65,7 +65,7 @@
     NSString *numberStr = [NSString stringWithFormat:@"%ld",(long)number];
     NSInteger length = numberStr.length;
     [_redLabel setFrame:CGRectMake(0, 0, 10 + 10 * length, 20.f)];
-    [_redLabel setCenter:CGPointMake(CGRectGetMaxX(_iconImgView.frame), CGRectGetMinY(_iconImgView.frame))];
+    [_redLabel setCenter:CGPointMake(CGRectGetMaxX(_iconImgView.frame)+10, CGRectGetMinY(_iconImgView.frame))];
     _redLabel.layer.cornerRadius = 10.f;
     _redLabel.layer.masksToBounds = YES;
     _redLabel.text = numberStr;

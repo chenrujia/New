@@ -24,7 +24,8 @@
 - (instancetype)init
 {
     if (self == [super init]) {
-        self.timeStart = @"0";
+        self.timeStart_Daily = @"0";
+        self.timeStart_Inspectio = @"0";
     }
     return self;
 }
