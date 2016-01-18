@@ -93,7 +93,6 @@ typedef NS_ENUM(NSInteger, OrderType) {
         [weakSelf getResource];
     }];
     
-    
     // 新建工单
     UIView *downBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-66, SCREEN_WIDTH, 66)];
     downBgView.backgroundColor = colorWithHexString(@"#DFE0E1");

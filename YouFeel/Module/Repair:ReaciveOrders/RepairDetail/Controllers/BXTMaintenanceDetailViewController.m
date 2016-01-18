@@ -47,7 +47,6 @@
 {
     [super viewDidAppear:animated];
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
-    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)requestDetail

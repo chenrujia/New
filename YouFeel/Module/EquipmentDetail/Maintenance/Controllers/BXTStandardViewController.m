@@ -21,6 +21,12 @@
     [self createUI];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    LogRed(@"nav.navigationBar.hidden:%d",self.navigationController.navigationBar.hidden);
+}
+
 #pragma mark -
 #pragma mark - createUI
 - (void)createUI

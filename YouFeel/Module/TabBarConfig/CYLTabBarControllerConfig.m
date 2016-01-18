@@ -38,7 +38,7 @@
         }
         UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeVC];
         [homeNav setEnableBackGesture:YES];
-        //        homeNav.navigationBarHidden = YES;
+        homeNav.navigationBarHidden = YES;
         
         BXTMailViewController *mailVC = [[BXTMailViewController alloc] init];
         UINavigationController *mailNav = [[UINavigationController alloc] initWithRootViewController:mailVC];
