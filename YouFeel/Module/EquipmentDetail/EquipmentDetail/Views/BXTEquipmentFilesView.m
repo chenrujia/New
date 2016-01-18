@@ -51,8 +51,16 @@
     dispatch_async(concurrentQueue, ^{
         /**请求维保列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request maintenanceEquipmentList:@"144"];
+        [request maintenanceEquipmentList:self.deviceID];
     });
+    
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshTable" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        self.currentPage = 1;
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request inspectionRecordListWithPagesize:@"5" page:@"1" deviceID:self.deviceID timestart:@"" timeover:@""];
+    }];
     
     [self createUI];
 }
@@ -121,7 +129,7 @@
     [[MaintenanceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
 #warning 这个0是临时的。。。。。
-        BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintencesArray[0]];
+        BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintencesArray[0] deviceID:self.deviceID];
         mainVC.isUpdate = NO;
         [[self getNavigation] pushViewController:mainVC animated:YES];
     }];

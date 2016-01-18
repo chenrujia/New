@@ -10,6 +10,7 @@
 #import "BXTDeviceInfoTableViewCell.h"
 #import "BXTMaintenceProjectTableViewCell.h"
 #import "BXTMaintenceNotesTableViewCell.h"
+#import "BXTMaintenanceViewController.h"
 #import "BXTControlUserTableViewCell.h"
 #import "BXTHeaderForVC.h"
 #import "BXTMaintenceInfo.h"
@@ -46,9 +47,16 @@
     [super viewDidLoad];
     [self navigationSetting:@"维保作业书" andRightTitle:@"修改" andRightImage:nil];
     [_currentTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    [self showLoadingMBP:@"努力加载中..."];
     //请求详情
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request inspectionRecordInfo:_deviceID];
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshTable" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request inspectionRecordInfo:self.deviceID];
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -59,6 +67,13 @@
 
 #pragma mark -
 #pragma mark 事件处理
+- (void)navigationRightButton
+{
+    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:self.maintenceInfo deviceID:self.deviceID];
+    mainVC.isUpdate = YES;
+    [self.navigationController pushViewController:mainVC animated:YES];
+}
+
 - (void)connactBtnClick:(UIButton *)btn
 {
     BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
@@ -109,11 +124,6 @@
         titleLabel.text = @"备注";
         return view;
     }
-    else if (section == 4)
-    {
-        titleLabel.text = @"负责人";
-        return view;
-    }
     else
     {
         titleLabel.text = @"维修人";
@@ -135,7 +145,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 6;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -295,15 +305,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
-        BXTControlUserInfo *userInfo;
-        if (indexPath.section == 4)
-        {
-            userInfo = deviceInfo.control_user_arr[0];
-        }
-        else if (indexPath.section == 5)
-        {
-            userInfo = deviceInfo.control_user_arr[1];
-        }
+        BXTControlUserInfo *userInfo = deviceInfo.control_user_arr[1];
         [cell.headImage sd_setImageWithURL:[NSURL URLWithString:userInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         cell.userName.text = userInfo.name;
         cell.userJob.text = userInfo.role;

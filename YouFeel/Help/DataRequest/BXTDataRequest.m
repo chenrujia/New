@@ -797,7 +797,6 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)maintenanceEquipmentList:(NSString *)deviceID
 {
-#warning device_id拿错了
     self.requestType = MaintenanceEquipmentList;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"device_id":deviceID};
@@ -816,7 +815,7 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"workorder_id":workorderID,
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"device_id":device_id,
-                          @"inspection_data":inspectionData,
+                          @"inspection_info":inspectionData,
                           @"notes":notes};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=add_inspection_record",[BXTGlobal shareGlobal].baseURL];
     if (images && images.count > 0)
@@ -844,7 +843,7 @@ andRepairerIsReacive:(NSString *)reacive
                           @"device_id":device_id,
                           @"inspection_info":inspectionData,
                           @"notes":notes};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=add_inspection_record",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=update_inspection_record",[BXTGlobal shareGlobal].baseURL];
     if (images && images.count > 0)
     {
         [self uploadImageRequest:url withParameters:dic withImages:images];
@@ -886,7 +885,8 @@ andRepairerIsReacive:(NSString *)reacive
         NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
         [_delegate requestResponseData:dictionary requeseType:_requestType];
         // token验证失败
-        if ([[NSString stringWithFormat:@"%@", dictionary[@"returncode"]] isEqualToString:@"037"]) {
+        if ([[NSString stringWithFormat:@"%@", dictionary[@"returncode"]] isEqualToString:@"037"])
+        {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"VERIFY_TOKEN_FAIL" object:nil];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
