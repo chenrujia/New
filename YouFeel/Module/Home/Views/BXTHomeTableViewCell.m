@@ -37,6 +37,21 @@
             
         });
         
+        self.numberLabel = ({
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, 20.f, 20)];
+            label.center = CGPointMake(label.center.x, _logoImgView.center.y);
+            label.textColor = colorWithHexString(@"ffffff");
+            label.textAlignment = NSTextAlignmentCenter;
+            label.backgroundColor = [UIColor redColor];
+            label.font = [UIFont systemFontOfSize:11];
+            label.layer.cornerRadius = 10;
+            label.layer.masksToBounds = YES;
+            [self addSubview:label];
+            label;
+            
+        });
+        
     }
     return self;
 }

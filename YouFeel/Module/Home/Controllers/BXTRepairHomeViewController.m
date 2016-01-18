@@ -129,6 +129,7 @@
     }
     else if (indexPath.section == 1)
     {
+        [BXTRemindNum sharedManager].timeStart = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
         if (indexPath.row == 0)
         {
             BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];

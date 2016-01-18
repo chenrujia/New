@@ -12,5 +12,6 @@
 
 @property (nonatomic, strong) UIImageView *logoImgView;
 @property (nonatomic, strong) UILabel     *titleLabel;
+@property (nonatomic, strong) UILabel     *numberLabel;
 
 @end

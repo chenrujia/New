@@ -27,7 +27,6 @@
 @end
 
 @implementation BXTEquipmentInformView
-
 #pragma mark -
 #pragma mark - 初始化
 - (void)initial
@@ -79,6 +78,9 @@
         BXTEquipmentInform_PersonCell *cell = [BXTEquipmentInform_PersonCell cellWithTableView:tableView];
         
         cell.userList = self.detailArray[indexPath.section][indexPath.row];
+        [[cell.connectView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [self connectTaWithOutID:cell.userList];
+        }];
         
         return cell;
     }
@@ -217,8 +219,8 @@
         }
         
         // 存储 设备操作规范
-        NSArray *conditionArray = dataDict[@"operating_condition"];
-        NSDictionary *conditionDict = conditionArray[0];
+        //NSArray *conditionArray = dataDict[@"operating_condition"];
+        //NSDictionary *conditionDict = conditionArray[0];
         
         // 更新数组
         [self.titleArray replaceObjectAtIndex:3 withObject:paramsTitleArray];
@@ -234,4 +236,50 @@
     [self hideMBP];
 }
 
+#pragma mark -
+#pragma mark - connectTa
+- (void)connectTaWithOutID:(BXTEquipmentControlUserArr *)model
+{
+    RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+    userInfo.userId = model.out_userid;
+    
+    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
+    if ([userInfo.userId isEqualToString:my_userID]) return;
+    
+    userInfo.name = model.name;
+    userInfo.portraitUri = model.head_pic;
+    
+    NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (usersArray)
+    {
+        NSArray *arrResult = [usersArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.userId = %@",userInfo.userId]];
+        if (arrResult.count)
+        {
+            RCUserInfo *temp_userInfo = arrResult[0];
+            NSInteger index = [usersArray indexOfObject:temp_userInfo];
+            [usersArray replaceObjectAtIndex:index withObject:temp_userInfo];
+        }
+        else
+        {
+            [usersArray addObject:userInfo];
+        }
+    }
+    else
+    {
+        NSMutableArray *array = [NSMutableArray array];
+        [array addObject:userInfo];
+        [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
+    
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.targetId = userInfo.userId;
+    conversationVC.title = userInfo.name;
+    // 删除位置功能
+    //[conversationVC.pluginBoardView removeItemAtIndex:2];
+    [[self getNavigation] pushViewController:conversationVC animated:YES];
+}
 @end

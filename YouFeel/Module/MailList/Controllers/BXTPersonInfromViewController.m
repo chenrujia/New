@@ -17,13 +17,13 @@
     UIImageView *logoImgView;
     UIImageView *iconView;
     UILabel *nameLabel;
+    UIImageView *sexView;
     UILabel *positionLabel;
     UIButton *messageBtn;
     UIButton *phoneBtn;
 }
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) NSArray *headerTitleArray;
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
@@ -45,10 +45,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.dataArray = [[NSMutableArray alloc] init];
-    self.headerTitleArray = @[@"企业信息", @"项目信息", @"个人信息"];
-    
     
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -103,16 +99,20 @@
     // 姓名
     nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(iconView.frame) + (IS_IPHONE6 ? 12 : 8), 130.f, 20.f)];
     nameLabel.center = CGPointMake(SCREEN_WIDTH/2.f, nameLabel.center.y);
-    nameLabel.text = @"王晓晓";
     nameLabel.textAlignment = NSTextAlignmentCenter;
     nameLabel.textColor = colorWithHexString(@"ffffff");
     nameLabel.font = [UIFont boldSystemFontOfSize:17.f];
     [logoImgView addSubview:nameLabel];
     
+    // 性别
+    sexView = [[UIImageView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(nameLabel.frame), 15, 15)];
+    sexView.center = CGPointMake(SCREEN_WIDTH/2.f + 60, nameLabel.center.y);
+    sexView.contentMode = UIViewContentModeScaleAspectFit;
+    [logoImgView addSubview:sexView];
+    
     // 职位
     positionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(nameLabel.frame) + (IS_IPHONE6 ? 12 : 8), 180.f, 20.f)];
     positionLabel.center = CGPointMake(SCREEN_WIDTH/2.f, positionLabel.center.y);
-    positionLabel.text = @"XXXXXX部门经理";
     positionLabel.textAlignment = NSTextAlignmentCenter;
     positionLabel.textColor = colorWithHexString(@"ffffff");
     positionLabel.font = [UIFont systemFontOfSize:16.f];
@@ -150,13 +150,12 @@
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.dataArray.count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSArray *sectionArray = self.dataArray[section];
-    return sectionArray.count;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -167,29 +166,24 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
     
-    cell.textLabel.text = self.dataArray[indexPath.section][indexPath.row];
+    cell.textLabel.text = self.dataArray[indexPath.row];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 45;
+    return 50;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30;
+    return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.1;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return self.headerTitleArray[section];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -211,12 +205,20 @@
         NSDictionary *infoDict = data[0];
         BXTPersonInform *informModel = [BXTPersonInform modelObjectWithDictionary:infoDict];
         
-        NSDictionary *stores_checks = infoDict[@"stores_checks"];
         
         // 完善信息
         [iconView sd_setImageWithURL:[NSURL URLWithString:informModel.head_pic] placeholderImage:[UIImage imageNamed:@"login_normal"]];
         nameLabel.text = informModel.name;
-        positionLabel.text = informModel.department;
+        
+        CGSize size = MB_MULTILINE_TEXTSIZE(nameLabel.text, [UIFont systemFontOfSize:17], CGSizeMake(SCREEN_WIDTH - 30.f, 21), NSLineBreakByWordWrapping);
+        sexView.center = CGPointMake(SCREEN_WIDTH/2.f + size.width/2 + 20, nameLabel.center.y);
+        
+        if ([informModel.sex_name isEqualToString:@"男"]) {
+            sexView.image = [UIImage imageNamed:@"boy"];
+        } else {
+            sexView.image = [UIImage imageNamed:@"grill"];
+        }
+        positionLabel.text = [NSString stringWithFormat:@"%@ %@", informModel.department, informModel.role];
         
         @weakify(self);
         [[messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -232,10 +234,11 @@
             [self.view addSubview:callWeb];
         }];
         
-        NSArray *section0 = @[@"发生了房间啊速度来发掘噢啦打发"];
-        NSArray *section1 = @[@"ddd", @"gggg"];
-        NSArray *section2 = @[stores_checks[@"checks_user"], stores_checks[@"checks_user_mobile"], stores_checks[@"checks_user_department"], stores_checks[@"checks_user_department"], stores_checks[@"checks_user_department"]];
-        [self.dataArray addObjectsFromArray:@[section0, section1, section2]];
+        NSString *nameStr = [NSString stringWithFormat:@"姓名：%@", informModel.name];
+        NSString *phoneStr = [NSString stringWithFormat:@"手机号：%@", informModel.mobile];
+        NSString *departmentStr = [NSString stringWithFormat:@"部门：%@", informModel.department];
+        NSString *roleStr = [NSString stringWithFormat:@"职位：%@", informModel.role];
+        self.dataArray = [[NSMutableArray alloc] initWithObjects:nameStr, phoneStr, departmentStr, roleStr, nil];
         
         [self.tableView reloadData];
     }

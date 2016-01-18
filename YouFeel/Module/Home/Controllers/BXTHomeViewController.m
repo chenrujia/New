@@ -75,7 +75,7 @@
         }
     });
     dispatch_async(concurrentQueue, ^{
-        /** 通讯录搜索列表 **/
+        /** 广告页 **/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request advertisementPages];
     });
@@ -86,8 +86,22 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request messageList];
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /** 消息列表 **/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request messageList];
+    });
+    dispatch_async(concurrentQueue, ^{
+        dispatch_async(concurrentQueue, ^{
+            /** 提醒数字 **/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request remindNumberWithTimeStart:[BXTRemindNum sharedManager].timeStart];
+        });
+    });
+    
 }
 
 - (void)addNotifications
@@ -270,6 +284,7 @@
 {
     BXTHomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomeCell" forIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.numberLabel.hidden = YES;
     
     if ([BXTGlobal shareGlobal].isRepair && indexPath.section == 1)
     {
@@ -277,6 +292,15 @@
         NSArray *titles = _titleNameArray[indexPath.section];
         cell.logoImgView.image = [UIImage imageNamed:images[indexPath.row]];
         cell.titleLabel.text = [titles objectAtIndex:indexPath.row];
+    
+        if (indexPath.row == 0 && [[BXTRemindNum sharedManager].dailyNum integerValue] != 0) {
+            cell.numberLabel.hidden = NO;
+            cell.numberLabel.text = [BXTRemindNum sharedManager].dailyNum;
+        }
+        if (indexPath.row == 1 && [[BXTRemindNum sharedManager].inspectioNum integerValue] != 0) {
+            cell.numberLabel.hidden = NO;
+            cell.numberLabel.text = [BXTRemindNum sharedManager].inspectioNum;
+        }
     }
     else
     {
@@ -380,6 +404,16 @@
         userInfo.portraitUri = [dictionary objectForKey:@"pic"];
         [_usersArray addObject:userInfo];
         [BXTGlobal setUserProperty:_usersArray withKey:U_USERSARRAY];
+    }
+    else if (type == Remind_Number)
+    {
+        NSDictionary *numDict = array[0];
+        [BXTRemindNum sharedManager].dailyNum = [NSString stringWithFormat:@"%@", numDict[@"daily_number"]];
+        [BXTRemindNum sharedManager].inspectioNum = [NSString stringWithFormat:@"%@", numDict[@"inspectio_number"]];
+        [BXTRemindNum sharedManager].appNum = [NSString stringWithFormat:@"%@", numDict[@"app_sum_number"]];
+        [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%@", numDict[@"announcement_number"]];
+        
+        [_currentTableView reloadData];
     }
     else
     {

@@ -868,6 +868,35 @@ andRepairerIsReacive:(NSString *)reacive
     [self getRequest:url];
 }
 
+- (void)announcementListWithReadState:(NSString *)readState
+                          pagesize:(NSString *)pagesize
+                              page:(NSString *)page
+{
+// TODO: -----------------  调试 - 后期需修改 -----------------
+//    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_USERID],
+//                          @"type": @"1",
+//                          @"read_state": readState,
+//                          @"pagesize": pagesize,
+//                          @"page": page};
+
+    NSDictionary *dic = @{@"user_id": @"0",
+                          @"type": @"1",
+                          @"read_state": @"0",
+                          @"pagesize": pagesize,
+                          @"page": page};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Announcement&opt=announcement_list",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)remindNumberWithTimeStart:(NSString *)timeStart
+{
+    self.requestType = Remind_Number;
+    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_USERID],
+                          @"timestart": timeStart};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Remind&opt=remind_number",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {
@@ -939,7 +968,7 @@ andRepairerIsReacive:(NSString *)reacive
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-                NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
+        NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

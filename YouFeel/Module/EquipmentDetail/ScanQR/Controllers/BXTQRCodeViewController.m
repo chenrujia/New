@@ -187,7 +187,7 @@
         NSDictionary *dict = data[0];
         NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
         
-        BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] init];
+        BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_type"]];
         // 存储 设备 ID
         [self.navigationController pushViewController:epvc animated:YES];
     }
