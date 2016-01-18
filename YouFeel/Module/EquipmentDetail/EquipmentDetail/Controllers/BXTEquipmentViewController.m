@@ -48,6 +48,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting];
+    
 }
 
 #pragma mark -
