@@ -18,7 +18,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"客服" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"项目热线" andRightTitle:nil andRightImage:nil];
     [self loadingViews];
 }
 

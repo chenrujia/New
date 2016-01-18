@@ -10,11 +10,16 @@
 #import "BXTHeaderForVC.h"
 #import "BXTHomeCollectionViewCell.h"
 #import "BXTNoticeListViewController.h"
+#import "UIButton+WebCache.h"
+#import "BXTNoticeInformViewController.h"
+#import "BXTStatisticsViewController.h"
 
-@interface BXTApplicationsViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSArray *imageArray;
+
+@property (nonatomic, strong) UIButton *headImageView;
 
 @end
 
@@ -26,7 +31,10 @@
     [self navigationSetting:@"应用" andRightTitle:nil andRightImage:nil];
     
     self.titleArray = @[@"项目通告", @"业务统计", @"敬请期待", @""];
-    self.imageArray = @[@"mine_pen", @"mine_cog", @"mine_tools", @""];
+    self.imageArray = @[@"app_book", @"app_statistics", @"app_symbol", @""];
+    
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request appVCAdvertisement];
     
     [self createUI];
 }
@@ -35,15 +43,14 @@
 {
     // UIImageView
     CGFloat Ratio = SCREEN_WIDTH / 375  ;
-    UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 180 * Ratio)];
-    headImageView.image = [UIImage imageNamed:@"backgroundIphone4s"];
-    [self.view addSubview:headImageView];
+    self.headImageView = [[UIButton alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 180 * Ratio)];
+    [self.view addSubview:self.headImageView];
     
     // UICollectionView
     UICollectionViewFlowLayout *flowLayout= [[UICollectionViewFlowLayout alloc]init];
     flowLayout.minimumLineSpacing = 0.f;
     flowLayout.minimumInteritemSpacing = 0.f;
-    UICollectionView *itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64 + 180 * Ratio, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(headImageView.frame) - 50) collectionViewLayout:flowLayout];
+    UICollectionView *itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64 + 180 * Ratio, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.headImageView.frame) - 50) collectionViewLayout:flowLayout];
     itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f5");
     [itemsCollectionView registerClass:[BXTHomeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
     itemsCollectionView.showsVerticalScrollIndicator = NO;
@@ -97,13 +104,48 @@
 {
     BXTNoticeListViewController *nlvc = [[BXTNoticeListViewController alloc] init];
     nlvc.hidesBottomBarWhenPushed = YES;
-    if (indexPath.section == 0 && indexPath.row == 0)
+    BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
+    epvc.hidesBottomBarWhenPushed = YES;
+    
+    if (indexPath.section == 0)
     {
-        [self.navigationController pushViewController:nlvc animated:YES];
+        switch (indexPath.row) {
+            case 0: [self.navigationController pushViewController:nlvc animated:YES]; break;
+            case 1: [self.navigationController pushViewController:epvc animated:YES]; break;
+            default: break;
+        }
     }
+    
     
     NSLog(@"%ld -- %ld", (long)indexPath.section, (long)indexPath.row);
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (data.count > 0)
+    {
+        NSDictionary *dict = data[0];
+        
+        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:dict[@"pic"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"backgroundIphone4s"]];
+        @weakify(self);
+        [[self.headImageView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
+            nivc.urlStr = dict[@"url"];
+            nivc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:nivc animated:YES];
+        }];
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [BXTGlobal showText:@"请求失败，请重试" view:self.view completionBlock:nil];
 }
 
 - (void)didReceiveMemoryWarning

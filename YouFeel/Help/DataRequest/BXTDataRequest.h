@@ -474,9 +474,14 @@ andRepairerIsReacive:(NSString *)reacive;
 - (void)inspectionRecordInfo:(NSString *)deviceID;
 
 /**
- *  广告页
+ *  首页广告页
  */
 - (void)advertisementPages;
+
+/**
+ *  广告位图片展示
+ */
+- (void)appVCAdvertisement;
 
 /**
  *  公告列表

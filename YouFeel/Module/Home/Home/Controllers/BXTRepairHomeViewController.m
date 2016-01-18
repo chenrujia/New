@@ -22,7 +22,6 @@
 #import "BXTExaminationViewController.h"
 #import "BXTManagerOMViewController.h"
 #import "BXTNewOrderViewController.h"
-#import "BXTStatisticsViewController.h"
 #import "BXTMMOrderManagerViewController.h"
 #import "BXTAuthorityListViewController.h"
 #import "BXTSettingViewController.h"
@@ -132,9 +131,7 @@
         [BXTRemindNum sharedManager].timeStart = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
         if (indexPath.row == 0)
         {
-            BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
-            epvc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:epvc animated:YES];
+            
         }
         else
         {
@@ -148,7 +145,12 @@
         achievementVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:achievementVC animated:YES];
     }
-    
+    else if (indexPath.section == 3)
+    {
+        BXTCustomerServiceViewController *csvc = [[BXTCustomerServiceViewController alloc] init];
+        csvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:csvc animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning

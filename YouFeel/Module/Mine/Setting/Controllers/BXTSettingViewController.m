@@ -146,6 +146,7 @@
             [MYAlertAction showActionSheetWithTitle:@"您确定清除缓存" message:nil chooseBlock:^(NSInteger buttonIdx) {
                 if (buttonIdx == 1)
                 {
+                    // 清除缓存
                     [[SDImageCache sharedImageCache] clearDisk];
                     
                     [BXTGlobal showText:@"清除成功" view:self.view completionBlock:nil];
@@ -157,7 +158,9 @@
             [MYAlertAction showActionSheetWithTitle:@"您确定清除聊天记录" message:nil chooseBlock:^(NSInteger buttonIdx) {
                 if (buttonIdx == 1)
                 {
-                    [[SDImageCache sharedImageCache] clearDisk];
+                    // 清除聊天记录
+                    NSArray *conversationArray = @[[NSNumber numberWithInteger:ConversationType_PRIVATE]];
+                    [[RCIMClient sharedRCIMClient] clearConversations:conversationArray];
                     
                     [BXTGlobal showText:@"清除成功" view:self.view completionBlock:nil];
                 }

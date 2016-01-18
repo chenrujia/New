@@ -861,24 +861,36 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)appVCAdvertisement
+{
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    NSString *shopID = companyInfo.company_id;
+    
+    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
+    [self getRequest:url];
+}
+
 - (void)advertisementPages
 {
     self.requestType = Ads_Pics;
-    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/4"];
+    
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    NSString *shopID = companyInfo.company_id;
+    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", shopID];
     [self getRequest:url];
 }
 
 - (void)announcementListWithReadState:(NSString *)readState
-                          pagesize:(NSString *)pagesize
-                              page:(NSString *)page
+                             pagesize:(NSString *)pagesize
+                                 page:(NSString *)page
 {
-// TODO: -----------------  调试 - 后期需修改 -----------------
-//    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_USERID],
-//                          @"type": @"1",
-//                          @"read_state": readState,
-//                          @"pagesize": pagesize,
-//                          @"page": page};
-
+    // TODO: -----------------  调试 - 后期需修改 -----------------
+    //    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_USERID],
+    //                          @"type": @"1",
+    //                          @"read_state": readState,
+    //                          @"pagesize": pagesize,
+    //                          @"page": page};
+    
     NSDictionary *dic = @{@"user_id": @"0",
                           @"type": @"1",
                           @"read_state": @"0",
