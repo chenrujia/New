@@ -10,4 +10,6 @@
 
 @interface BXTReaciveOrdersViewController : BXTBaseViewController
 
+- (instancetype)initWithTaskType:(NSInteger)task_type;
+
 @end

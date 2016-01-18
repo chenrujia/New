@@ -25,6 +25,7 @@
 #import "BXTMMOrderManagerViewController.h"
 #import "BXTAuthorityListViewController.h"
 #import "BXTSettingViewController.h"
+#import "BXTReaciveOrdersViewController.h"
 
 @interface BXTRepairHomeViewController ()
 
@@ -131,11 +132,15 @@
         [BXTRemindNum sharedManager].timeStart = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
         if (indexPath.row == 0)
         {
-            
+            BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:1];
+            reaciveVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:reaciveVC animated:YES];
         }
         else
         {
-            
+            BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
+            reaciveVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:reaciveVC animated:YES];
         }
     }
     else if (indexPath.section == 2)

@@ -143,7 +143,8 @@ andRepairerIsReacive:(NSString *)reacive;
        andDepartment:(NSString *)department
         andBeginTime:(NSString *)beginTime
           andEndTime:(NSString *)endTime
-        andFaultType:(NSString *)faultType;
+        andFaultType:(NSString *)faultType
+         andTaskType:(NSString *)taskType;
 
 - (void)repairsList:(NSString *)longTime
          andDisUser:(NSString *)disUser

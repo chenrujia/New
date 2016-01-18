@@ -214,6 +214,7 @@ andRepairerIsReacive:(NSString *)reacive
         andBeginTime:(NSString *)beginTime
           andEndTime:(NSString *)endTime
         andFaultType:(NSString *)faultType
+         andTaskType:(NSString *)taskType
 {
     self.requestType = RepairList;
     BOOL stateIsComplete = NO;
@@ -231,7 +232,8 @@ andRepairerIsReacive:(NSString *)reacive
                 @"department":department,
                 @"timestart":beginTime,
                 @"timeover":endTime,
-                @"faulttype":faultType};
+                @"faulttype":faultType,
+                @"task_type":taskType};
     }
     else
     {
@@ -242,7 +244,8 @@ andRepairerIsReacive:(NSString *)reacive
                 @"department":department,
                 @"timestart":beginTime,
                 @"timeover":endTime,
-                @"faulttype":faultType};
+                @"faulttype":faultType,
+                @"task_type":taskType};
     }
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];

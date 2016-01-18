@@ -37,12 +37,23 @@
 
 @property (nonatomic, strong) UIView         *bgView;
 @property (nonatomic, strong) NSString       *orderID;
+@property (nonatomic, strong) NSString       *taskType;
 @property (nonatomic, strong) UIDatePicker   *datePicker;
 @property (nonatomic, assign) NSTimeInterval timeInterval;
 
 @end
 
 @implementation BXTReaciveOrdersViewController
+
+- (instancetype)initWithTaskType:(NSInteger)task_type
+{
+    self = [super init];
+    if (self)
+    {
+        self.taskType = [NSString stringWithFormat:@"%ld",(long)task_type];
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -188,7 +199,8 @@
                 andDepartment:@"0"
                  andBeginTime:@"0"
                    andEndTime:@"0"
-                 andFaultType:@"0"];
+                 andFaultType:@"0"
+                  andTaskType:self.taskType];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求位置**/
@@ -470,7 +482,8 @@
                     andDepartment:@"0"
                      andBeginTime:@"0"
                        andEndTime:@"0"
-                     andFaultType:@"0"];
+                     andFaultType:@"0"
+                      andTaskType:self.taskType];
             return;
         }
         else if (indexPath.column == 1)
@@ -525,7 +538,8 @@
             andDepartment:department_id
              andBeginTime:repairBeginTime
                andEndTime:repairEndTime
-             andFaultType:fault_type_id];
+             andFaultType:fault_type_id
+              andTaskType:self.taskType];
 }
 
 #pragma mark -
