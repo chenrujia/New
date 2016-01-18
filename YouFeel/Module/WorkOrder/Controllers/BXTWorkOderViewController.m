@@ -59,7 +59,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [BXTGlobal shareGlobal].maxPics = 3;
     [self allNotifications];
     
@@ -75,12 +74,6 @@
     
     [self navigationSetting:@"新建工单" andRightTitle:nil andRightImage:nil];
     [self createTableView];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)allNotifications

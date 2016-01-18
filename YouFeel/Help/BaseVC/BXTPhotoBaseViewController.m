@@ -23,6 +23,12 @@
     [super viewDidLoad];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
+
 #pragma mark -
 #pragma mark 选择相册图片
 - (void)addImages
