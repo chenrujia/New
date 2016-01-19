@@ -10,6 +10,8 @@
 
 @interface BXTStandardViewController ()
 
+@property (nonatomic, strong) UIScrollView *scrollView;
+
 @end
 
 @implementation BXTStandardViewController
@@ -50,6 +52,20 @@
     [self.view addSubview:readBtn];
     
     // 内容显示
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64-80)];
+    [self.view addSubview:self.scrollView];
+    
+    // 取值
+    NSDictionary *dict = ValueFUD(@"conditionDict");
+    
+    UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, SCREEN_WIDTH-30, self.scrollView.frame.size.height)];
+    contentLabel.text = dict[@"content"];
+    contentLabel.font = [UIFont systemFontOfSize:16];
+    contentLabel.numberOfLines = 0;
+    [self.scrollView addSubview:contentLabel];
+    
+    CGSize size = MB_MULTILINE_TEXTSIZE(contentLabel.text, [UIFont systemFontOfSize:16], CGSizeMake(SCREEN_WIDTH-30, CGFLOAT_MAX), NSLineBreakByWordWrapping);
+    self.scrollView.contentSize = size;
 }
 
 - (void)didReceiveMemoryWarning

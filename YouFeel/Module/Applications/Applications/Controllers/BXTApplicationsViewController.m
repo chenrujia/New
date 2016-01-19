@@ -31,6 +31,10 @@
     [super viewDidLoad];
     [self navigationSetting:@"应用" andRightTitle:nil andRightImage:nil];
     
+    // 消灭红点
+    [BXTRemindNum sharedManager].announcementNum = @"0";
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"APPREMIND" object:nil];
+    
     self.titleArray = @[@"项目通告", @"业务统计", @"敬请期待", @""];
     self.imageArray = @[@"app_book", @"app_statistics", @"app_symbol", @""];
     
@@ -122,7 +126,6 @@
             default: break;
         }
     }
-    
     
     NSLog(@"%ld -- %ld", (long)indexPath.section, (long)indexPath.row);
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];

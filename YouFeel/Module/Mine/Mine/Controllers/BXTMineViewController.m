@@ -30,6 +30,12 @@
 
 @implementation BXTMineViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
 - (void)dealloc
 {
     LogBlue(@"设置界面释放了！！！！！！");

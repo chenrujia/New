@@ -16,4 +16,6 @@ typedef void (^ChangeArea)();
 
 - (instancetype)initWithIsResign:(BOOL)resign andBlock:(ChangeArea)selectArea;
 
+@property (nonatomic, strong) RACSubject *delegateSignal;
+
 @end

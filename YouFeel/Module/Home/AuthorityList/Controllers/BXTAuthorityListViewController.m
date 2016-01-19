@@ -125,7 +125,7 @@
     }
     else
     {
-        [self showMBP:@"登录失败，请仔细检查！" withBlock:nil];
+        [BXTGlobal showText:@"登录失败，请仔细检查！" view:self.view completionBlock:nil];
     }
 }
 

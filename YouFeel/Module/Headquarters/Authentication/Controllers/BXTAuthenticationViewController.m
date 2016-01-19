@@ -30,8 +30,13 @@
 {
     [super viewDidLoad];
     
-    [self navigationSetting];
-    [self scrollerViewSetting];
+    [self navigationSetting:@"身份验证" andRightTitle:nil andRightImage:nil];
+    
+    propertyView = [[BXTPropertyView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT- 64) andViewType:PropertyType];
+    [self.view addSubview:propertyView];
+    
+    //    [self navigationSetting];
+    //    [self scrollerViewSetting];
 }
 
 #pragma mark -
