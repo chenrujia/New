@@ -45,7 +45,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"维保作业书" andRightTitle:@"修改" andRightImage:nil];
+    [self navigationSetting:@"维保作业书" andRightTitle:nil andRightImage:nil];
     [_currentTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     [self showLoadingMBP:@"努力加载中..."];
     //请求详情
@@ -69,7 +69,7 @@
 #pragma mark 事件处理
 - (void)navigationRightButton
 {
-    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:self.maintenceInfo deviceID:self.deviceID];
+    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintenceInfo deviceID:self.deviceID];
     mainVC.isUpdate = YES;
     [self.navigationController pushViewController:mainVC animated:YES];
 }
@@ -267,28 +267,27 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"MaintenceNotesCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
-        cell.notes.text = deviceInfo.notes;
-        [cell handleImages:deviceInfo];
+        cell.notes.text = _maintenceInfo.notes;
+        [cell handleImages:_maintenceInfo];
         @weakify(self);
         UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
         [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
-            self.mwPhotosArray = [self containAllPhotos:deviceInfo.pic];
+            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imageOne.tag];
         }];
         [cell.imageOne addGestureRecognizer:tapGROne];
         UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
         [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
-            self.mwPhotosArray = [self containAllPhotos:deviceInfo.pic];
+            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imageTwo.tag];
         }];
         [cell.imageTwo addGestureRecognizer:tapGRTwo];
         UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
         [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
-            self.mwPhotosArray = [self containAllPhotos:deviceInfo.pic];
+            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imageThree.tag];
         }];
         [cell.imageThree addGestureRecognizer:tapGRThree];
@@ -359,6 +358,12 @@
         [inspectionArray addObject:inspection];
     }
     maintence.inspection_info = inspectionArray;
+    if ([maintence.is_update integerValue] == 2)
+    {
+        UIView *navView = [self.view viewWithTag:KNavViewTag];
+        [navView removeFromSuperview];
+        [self navigationSetting:@"维保作业书" andRightTitle:@"修改" andRightImage:nil];
+    }
     //单独过滤出检查项目
     for (BXTInspectionInfo *inspection_info in maintence.inspection_info)
     {

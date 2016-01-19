@@ -34,9 +34,8 @@
     self.endTimeView.text = [NSString stringWithFormat:@"完成时间：%@", inspectionList.create_time];
 }
 
-- (void)awakeFromNib {
-    // Initialization code
-    
+- (void)awakeFromNib
+{
     self.typeView.layer.borderWidth = 0.5;
     self.typeView.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
     self.typeView.layer.cornerRadius = 5;

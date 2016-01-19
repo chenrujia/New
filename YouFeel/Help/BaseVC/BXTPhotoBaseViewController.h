@@ -22,12 +22,13 @@
 @property (nonatomic ,strong) BXTRemarksTableViewCell *remarkCell;
 @property (nonatomic ,strong) NSMutableArray          *mwPhotosArray;
 @property (nonatomic ,strong) NSMutableArray          *selectPhotos;
-@property (nonatomic ,strong) NSMutableArray          *photosArray;
+@property (nonatomic ,strong) NSMutableArray          *resultPhotos;
 @property (nonatomic ,strong) NSIndexPath             *indexPath;
 @property (nonatomic ,strong) UITableView             *currentTableView;
 @property (nonatomic, assign) BOOL                    isSettingVC;
 
 - (void)addImages;
+- (void)selectImages;
 - (void)loadMWPhotoBrowser:(NSInteger)index;
 - (void)loadMWPhotoBrowserForDetail:(NSInteger)index withFaultPicCount:(NSInteger)faultPicCount withFixedPicCount:(NSInteger)fixedPicCount withEvaluationPicCount:(NSInteger)evaluationPicCount;
 

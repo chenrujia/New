@@ -29,6 +29,7 @@
                      andRightImage:(UIImage *)image
 {
     UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
+    naviView.tag = KNavViewTag;
     if ([BXTGlobal shareGlobal].isRepair)
     {
         naviView.image = [[UIImage imageNamed:@"Nav_Bars"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];

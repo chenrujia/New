@@ -21,6 +21,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.selectPhotos = [[NSMutableArray alloc] init];
+    self.resultPhotos = [[NSMutableArray alloc] init];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -53,7 +56,7 @@
                     }
                     else
                     {
-                        [_photosArray removeAllObjects];
+                        [_resultPhotos removeAllObjects];
                         //取原图
                         [_selectPhotos addObjectsFromArray:GetImages];
                         [self selectImages];
@@ -139,6 +142,7 @@
 - (void)selectImages
 {
     BXTRemarksTableViewCell *cell;
+    LogBlue(@"indexPath.....%ld,%ld",(long)_indexPath.section,(long)_indexPath.row);
     if (_remarkCell)
     {
         cell = _remarkCell;
@@ -191,7 +195,7 @@
 - (void)loadMWPhotoBrowser:(NSInteger)index
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (UIImage *image in self.photosArray)
+    for (UIImage *image in self.resultPhotos)
     {
         MWPhoto *photo = [MWPhoto photoWithImage:image];
         [photos addObject:photo];
@@ -341,7 +345,7 @@
         newImage = posterImage;
     }
     [cell.photosArray addObject:newImage];
-    [_photosArray addObject:newImage];
+    [_resultPhotos addObject:newImage];
     
     if (index == 0)
     {

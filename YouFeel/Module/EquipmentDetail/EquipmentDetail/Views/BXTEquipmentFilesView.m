@@ -16,18 +16,21 @@
 #import "BXTMaintenceInfo.h"
 #import "BXTInspectionInfo.h"
 #import "BXTCheckProjectInfo.h"
+#import "BXTSelectBoxView.h"
 
-@interface BXTEquipmentFilesView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
+@interface BXTEquipmentFilesView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 
-@property (nonatomic, strong) DOPDropDownMenu *DDMenu;
-@property (nonatomic, assign) CGFloat         cellHeight;
-@property (nonatomic, assign) NSInteger       count;
-@property (nonatomic, assign) NSInteger       currentPage;
-@property (nonatomic, strong) NSArray         *titleArray;
-@property (nonatomic, strong) UITableView     *tableView;
-@property (nonatomic, strong) NSMutableArray  *dataArray;
-@property (nonatomic, strong) NSMutableArray  *ChoosTimeArray;
-@property (nonatomic, strong) NSMutableArray  *maintencesArray;
+@property (nonatomic, strong) DOPDropDownMenu  *DDMenu;
+@property (nonatomic, strong) BXTSelectBoxView *boxView;;
+@property (nonatomic, assign) CGFloat          cellHeight;
+@property (nonatomic, assign) NSInteger        count;
+@property (nonatomic, assign) NSInteger        currentPage;
+@property (nonatomic, strong) NSArray          *titleArray;
+@property (nonatomic, strong) UITableView      *tableView;
+@property (nonatomic, strong) UIView           *bgView;
+@property (nonatomic, strong) NSMutableArray   *dataArray;
+@property (nonatomic, strong) NSMutableArray   *ChoosTimeArray;
+@property (nonatomic, strong) NSMutableArray   *maintencesArray;
 
 @end
 
@@ -129,10 +132,17 @@
     MaintenanceBtn.layer.cornerRadius = 5;
     [[MaintenanceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-#warning 这个0是临时的。。。。。
-        BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintencesArray[0] deviceID:self.deviceID];
-        mainVC.isUpdate = NO;
-        [[self getNavigation] pushViewController:mainVC animated:YES];
+        BOOL haveInspection = [[NSUserDefaults standardUserDefaults] boolForKey:@"FirstInspection"];
+        if (haveInspection)
+        {
+            [self showList];
+        }
+        else
+        {
+            BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] init];
+            [[self getNavigation] pushViewController:sdvc animated:YES];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
+        }
     }];
     [downBgView addSubview:MaintenanceBtn];
 }
@@ -150,6 +160,44 @@
     {
         [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] deviceID:self.deviceID timestart:self.ChoosTimeArray[0] timeover:self.ChoosTimeArray[1]];
     }
+}
+
+#pragma mark -
+#pragma mark 事件处理
+- (void)showList
+{
+    self.bgView = [[UIView alloc] initWithFrame:ApplicationWindow.bounds];
+    _bgView.backgroundColor = [UIColor blackColor];
+    _bgView.alpha = 0.6f;
+    _bgView.tag = 101;
+    [ApplicationWindow addSubview:_bgView];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
+    @weakify(self);
+    [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.bgView removeFromSuperview];
+        [self.boxView removeFromSuperview];
+    }];
+    [self.bgView addGestureRecognizer:tapGesture];
+    
+    self.boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"请选择维保项目" boxSelectedViewType:CheckProjectsView listDataSource:_maintencesArray markID:nil actionDelegate:self];
+    [ApplicationWindow addSubview:_boxView];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        [_boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
+    }];
+}
+
+#pragma mark -
+#pragma mark getDataResource
+- (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
+{
+    [self.bgView removeFromSuperview];
+    [self.boxView removeFromSuperview];
+    BXTMaintenceInfo *maintenceInfo = obj;
+    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID];
+    mainVC.isUpdate = NO;
+    [[self getNavigation] pushViewController:mainVC animated:YES];
 }
 
 #pragma mark -
@@ -204,7 +252,7 @@
 }
 
 #pragma mark -
-#pragma mark - tableView代理方法
+#pragma mark tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.dataArray.count;
@@ -256,7 +304,7 @@
 }
 
 #pragma mark -
-#pragma mark - getDataResource
+#pragma mark getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
@@ -265,11 +313,11 @@
     LogRed(@"dic.....%@",dic);
     if (type == Inspection_Record_List)
     {
-        [self.tableView.mj_header endRefreshing];
-        [self.tableView.mj_footer endRefreshing];
-        if (self.currentPage == 1)
+        [_tableView.mj_header endRefreshing];
+        [_tableView.mj_footer endRefreshing];
+        if (_currentPage == 1)
         {
-            [self.dataArray removeAllObjects];
+            [_dataArray removeAllObjects];
         }
     }
     
@@ -303,7 +351,7 @@
             [_dataArray addObject:maintence];
         }
     }
-    [self.tableView reloadData];
+    [_tableView reloadData];
 }
 
 - (void)requestError:(NSError *)error

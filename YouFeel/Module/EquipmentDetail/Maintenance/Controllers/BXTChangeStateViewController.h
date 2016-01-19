@@ -21,7 +21,12 @@ typedef void (^ChangeText)(NSString * text);
 @property (nonatomic, strong) NSString   *notes;
 @property (nonatomic, copy  ) ChangeText changeText;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil withTitle:(NSString *)title withDetail:(NSString *)detail;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil
+                      withNotes:(NSString *)notes
+                      withTitle:(NSString *)title
+                     withDetail:(NSString *)detail;
+
 - (void)valueChanged:(ChangeText)block;
 
 @end

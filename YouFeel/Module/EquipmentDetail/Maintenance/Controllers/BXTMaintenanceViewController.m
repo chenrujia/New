@@ -15,6 +15,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTStandardViewController.h"
 #import "BXTChangeStateViewController.h"
+#import "SDWebImageManager.h"
 
 @interface BXTMaintenanceViewController ()<BXTDataResponseDelegate>
 
@@ -22,13 +23,16 @@
 
 @implementation BXTMaintenanceViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil maintence:(BXTMaintenceInfo *)mainInfo deviceID:(NSString *)devID
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil
+                      maintence:(BXTMaintenceInfo *)maintence
+                       deviceID:(NSString *)devID
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
         self.notes = @"";
-        self.maintenceInfo = mainInfo;
+        self.maintenceInfo = maintence;
         self.deviceID = devID;
     }
     return self;
@@ -39,8 +43,19 @@
     [super viewDidLoad];
     [self navigationSetting:@"维保作业" andRightTitle:nil andRightImage:nil];
     self.currentTableView = self.currentTable;
-    self.photosArray = [[NSMutableArray alloc] init];
-    self.selectPhotos = [[NSMutableArray alloc] init];
+    for (NSDictionary *imgDic in _maintenceInfo.pic)
+    {
+        NSString *img_url_str = [imgDic objectForKey:@"photo_thumb_file"];
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:img_url_str] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            if (image)
+            {
+                [self.selectPhotos addObject:image];
+                [self.currentTableView reloadData];
+            }
+        }];
+    }
     _commitBtn.layer.cornerRadius = 6.f;
     @weakify(self);
     [[_commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -61,11 +76,21 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         if (self.isUpdate)
         {
-            [request updateInspectionRecordID:self.maintenceInfo.maintenceID deviceID:self.deviceID andWorkorderID:self.maintenceInfo.maintenceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
+            [request updateInspectionRecordID:self.maintenceInfo.maintenceID
+                                     deviceID:self.deviceID
+                              andInspectionID:self.maintenceInfo.inspection_item_id
+                            andInspectionData:jsonStr
+                                     andNotes:self.notes
+                                    andImages:self.resultPhotos];
         }
         else
         {
-            [request addInspectionRecord:self.maintenceInfo.maintenceID deviceID:self.deviceID andInspectionID:self.maintenceInfo.inspection_item_id andInspectionData:jsonStr andNotes:self.notes andImages:self.photosArray];
+            [request addInspectionRecord:self.maintenceInfo.maintenceID
+                                deviceID:self.deviceID
+                         andInspectionID:self.maintenceInfo.inspection_item_id
+                       andInspectionData:jsonStr
+                                andNotes:self.notes
+                               andImages:self.resultPhotos];
         }
     }];
 }
@@ -148,8 +173,9 @@
         }
         cell.remarkTV.delegate = self;
         cell.titleLabel.text = @"备   注";
+        cell.remarkTV.text = _maintenceInfo.notes;
         self.indexPath = indexPath;
-
+        
         @weakify(self);
         UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
         [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
@@ -170,6 +196,7 @@
         }];
         [cell.imgViewThree addGestureRecognizer:tapGRThree];
         
+        [self selectImages];
         [cell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }
@@ -208,7 +235,7 @@
     {
         BXTInspectionInfo *inspectionInfo = _maintenceInfo.inspection_info[indexPath.section - 1];
         BXTCheckProjectInfo *checkProject = inspectionInfo.check_arr[indexPath.row];
-        BXTChangeStateViewController *changeStateVC = [[BXTChangeStateViewController alloc] initWithNibName:@"BXTChangeStateViewController" bundle:nil withTitle:inspectionInfo.check_item withDetail:checkProject.check_con];
+        BXTChangeStateViewController *changeStateVC = [[BXTChangeStateViewController alloc] initWithNibName:@"BXTChangeStateViewController" bundle:nil withNotes:checkProject.default_description withTitle:inspectionInfo.check_item withDetail:checkProject.check_con];
         @weakify(self);
         [changeStateVC valueChanged:^(NSString *text) {
             @strongify(self);

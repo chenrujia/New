@@ -16,6 +16,8 @@ typedef NS_ENUM(NSInteger, BXTRefreshType) {
     RefreshDown,
     RefreshUp
 };
+
 #define RealValue(value) ((value)/414.0f*[UIScreen mainScreen].bounds.size.width)
+#define ApplicationWindow [UIApplication sharedApplication].keyWindow
 
 #endif /* BXTPCH_pch */

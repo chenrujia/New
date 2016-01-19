@@ -30,7 +30,10 @@
 @property (nonatomic, strong) NSString *user_id;
 @property (nonatomic, strong) NSString *workorder_id;
 //+设备维护记录详情相关
+@property (nonatomic, strong) NSNumber *is_update;
 @property (nonatomic, strong) NSArray  *device_con;
 @property (nonatomic, strong) NSString *device_id;
+@property (nonatomic, strong) NSArray  *pic;
+@property (nonatomic, strong) NSString *notes;
 
 @end

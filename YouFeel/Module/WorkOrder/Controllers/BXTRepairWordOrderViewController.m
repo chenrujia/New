@@ -75,8 +75,6 @@
     [BXTGlobal shareGlobal].maxPics = 3;
     self.repairState = @"2";
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
-    self.photosArray = [[NSMutableArray alloc] init];
-    self.selectPhotos = [[NSMutableArray alloc] init];
     dep_dataSource = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
     
@@ -269,7 +267,7 @@
                    shopInfoID:shopID
                     equipment:@"0"
                    faultNotes:notes
-                   imageArray:self.photosArray
+                   imageArray:self.resultPhotos
               repairUserArray:array];
 }
 
