@@ -14,11 +14,16 @@
 
 @implementation BXTChangeStateViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil withTitle:(NSString *)title withDetail:(NSString *)detail
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil
+                      withNotes:(NSString *)notes
+                      withTitle:(NSString *)title
+                     withDetail:(NSString *)detail
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        self.notes = notes;
         self.titleText = title;
         self.detailText = detail;
     }
@@ -35,6 +40,7 @@
     [super viewDidLoad];
     [self navigationSetting:@"现状" andRightTitle:nil andRightImage:nil];
     _commitBtn.layer.cornerRadius = 6.f;
+    self.textview.text = self.notes;
     self.titleLabel.text = _titleText;
     self.detailLabel.text = _detailText;
     [self.detailLabel layoutIfNeeded];

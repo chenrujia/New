@@ -43,7 +43,8 @@
     LogBlue(@"设置界面释放了！！！！！！");
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     

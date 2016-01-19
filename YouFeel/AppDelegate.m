@@ -39,7 +39,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     BXTLoadingViewController *myVC = [[BXTLoadingViewController alloc] init];
     self.window.rootViewController = myVC;
     
-    
     //初始化融云SDK
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
     
@@ -79,9 +78,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    
     
     // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
     [self startSdkWith:kAppId appKey:kAppKey appSecret:kAppSecret];

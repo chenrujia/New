@@ -18,6 +18,9 @@
 @property (nonatomic, assign) BOOL             isUpdate;//更新还是添加接口
 @property (nonatomic, strong) NSString         *deviceID;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil maintence:(BXTMaintenceInfo *)mainInfo deviceID:(NSString *)devID;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil
+                      maintence:(BXTMaintenceInfo *)maintence
+                       deviceID:(NSString *)devID;
 
 @end

@@ -41,9 +41,6 @@
     [super viewDidLoad];
     self.notes = @"";
     self.rateArray = [NSMutableArray arrayWithObjects:@"5",@"5",@"5", nil];
-    self.photosArray = [[NSMutableArray alloc] init];
-    self.selectPhotos = [[NSMutableArray alloc] init];
-    
     [self createSubviews];
     [self navigationSetting:@"评价" andRightTitle:nil andRightImage:nil];
 }
@@ -151,7 +148,7 @@
         [request evaluateRepair:self.rateArray
                 evaluationNotes:self.notes
                        repairID:self.repairID
-                     imageArray:self.photosArray];
+                     imageArray:self.resultPhotos];
     }];
     [backView addSubview:commitBtn];
     

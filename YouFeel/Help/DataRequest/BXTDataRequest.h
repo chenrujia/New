@@ -468,7 +468,6 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)updateInspectionRecordID:(NSString *)recordID
                         deviceID:(NSString *)device_id
-                  andWorkorderID:(NSString *)workorderID
                  andInspectionID:(NSString *)inspectionID
                andInspectionData:(NSString *)inspectionData
                         andNotes:(NSString *)notes

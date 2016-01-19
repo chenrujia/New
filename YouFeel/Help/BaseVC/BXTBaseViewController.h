@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BXTHeaderForVC.h"
 
+#define KNavViewTag 23
+
 typedef void (^HaveHidden)(BOOL hidden);
 
 @interface BXTBaseViewController : UIViewController

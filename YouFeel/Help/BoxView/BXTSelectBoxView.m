@@ -15,6 +15,7 @@
 #import "BXTShopInfo.h"
 #import "BXTFaultTypeInfo.h"
 #import "BXTGroupingInfo.h"
+#import "BXTMaintenceInfo.h"
 
 @implementation BXTSelectBoxView
 
@@ -148,6 +149,11 @@
         NSDictionary *dic = _dataArray[indexPath.row];
         cell.titleLabel.text = [dic objectForKey:@"collection"];
     }
+    else if (_boxType == CheckProjectsView)
+    {
+        BXTMaintenceInfo *maintence = _dataArray[indexPath.row];
+        cell.titleLabel.text = maintence.time_name;
+    }
     else if (_boxType == Other)
     {
         cell.titleLabel.text = _dataArray[indexPath.row];
@@ -219,6 +225,11 @@
     {
         NSDictionary *dic = _dataArray[indexPath.row];
         [_delegate boxSelectedObj:dic selectedType:_boxType];
+    }
+    else if (_boxType == CheckProjectsView)
+    {
+        BXTMaintenceInfo *maintence = _dataArray[indexPath.row];
+        [_delegate boxSelectedObj:maintence selectedType:_boxType];
     }
     else if (_boxType == Other)
     {

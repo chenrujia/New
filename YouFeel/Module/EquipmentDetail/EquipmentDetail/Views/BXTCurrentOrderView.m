@@ -22,8 +22,6 @@ typedef NS_ENUM(NSInteger, OrderType) {
     OrderType_Undown = 7
 };
 
-#define Window [UIApplication sharedApplication].keyWindow
-
 @interface BXTCurrentOrderView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, BXTBoxSelectedTitleDelegate>
 {
     BXTSelectBoxView *boxView;
@@ -93,7 +91,6 @@ typedef NS_ENUM(NSInteger, OrderType) {
         [weakSelf getResource];
     }];
     
-    
     // 新建工单
     UIView *downBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-66, SCREEN_WIDTH, 66)];
     downBgView.backgroundColor = colorWithHexString(@"#DFE0E1");
@@ -143,7 +140,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
 #pragma mark - createBXTSelectBoxView
 - (void)createBXTSelectBoxView
 {
-    self.bgView = [[UIButton alloc] initWithFrame:Window.bounds];
+    self.bgView = [[UIButton alloc] initWithFrame:ApplicationWindow.bounds];
     self.bgView.backgroundColor = [UIColor blackColor];
     self.bgView.alpha = 0.6f;
     self.bgView.tag = 101;
@@ -155,17 +152,17 @@ typedef NS_ENUM(NSInteger, OrderType) {
             [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
         }];
     }];
-    [Window addSubview:self.bgView];
+    [ApplicationWindow addSubview:self.bgView];
     
     if (boxView)
     {
         [boxView boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray];
-        [Window bringSubviewToFront:boxView];
+        [ApplicationWindow bringSubviewToFront:boxView];
     }
     else
     {
         boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray markID:nil actionDelegate:self];
-        [Window addSubview:boxView];
+        [ApplicationWindow addSubview:boxView];
     }
     
     [UIView animateWithDuration:0.3f animations:^{
@@ -175,7 +172,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
 
 - (void)createDatePicker
 {
-    self.bgView_fit = [[UIButton alloc] initWithFrame:Window.bounds];
+    self.bgView_fit = [[UIButton alloc] initWithFrame:ApplicationWindow.bounds];
     self.bgView_fit.backgroundColor = [UIColor blackColor];
     self.bgView_fit.alpha = 0.6f;
     self.bgView_fit.tag = 101;
@@ -187,18 +184,18 @@ typedef NS_ENUM(NSInteger, OrderType) {
             [self.pickerBgView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
         }];
     }];
-    [Window addSubview:self.bgView_fit];
+    [ApplicationWindow addSubview:self.bgView_fit];
     
     originDate = [NSDate date];
     
     
     if (self.pickerBgView) {
         [self.pickerBgView setFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 216+50+40)];
-        [Window bringSubviewToFront:self.pickerBgView];
+        [ApplicationWindow bringSubviewToFront:self.pickerBgView];
     } else {
         self.pickerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 216+50+40)];
         self.pickerBgView.backgroundColor = [UIColor whiteColor];
-        [Window addSubview:self.pickerBgView];
+        [ApplicationWindow addSubview:self.pickerBgView];
     }
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];

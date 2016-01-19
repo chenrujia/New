@@ -58,17 +58,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     repairBeginTime = @"";
     repairEndTime = @"";
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
-    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
+    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
+    {
         [timeArray addObject:[NSString stringWithFormat:@"%@分钟内", timeStr]];
     }
     [timeArray addObject:@"自定义"];
     comeTimeArray = timeArray;
     [self resignNotifacation];
-    [self navigationSetting:@"我要接单" andRightTitle:nil andRightImage:nil];
+    if ([_taskType integerValue] == 1)
+    {
+        [self navigationSetting:@"日常工单" andRightTitle:nil andRightImage:nil];
+    }
+    else
+    {
+        [self navigationSetting:@"维保工单" andRightTitle:nil andRightImage:nil];
+    }
     [self createDOP];
     [self createTableView];
     [self requestData];

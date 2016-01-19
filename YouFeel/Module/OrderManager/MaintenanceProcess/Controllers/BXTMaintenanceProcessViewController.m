@@ -93,8 +93,6 @@
     
     orderTypeArray = @[@"特殊工单"];
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
-    self.photosArray = [[NSMutableArray alloc] init];
-    self.selectPhotos = [[NSMutableArray alloc] init];
     specialArray = [[NSMutableArray alloc] init];
     groupArray = [[NSMutableArray alloc] init];
     
@@ -271,7 +269,7 @@
                              andFaultType:[NSString stringWithFormat:@"%ld",(long)self.currentFaultID]
                               andManHours:manHours
                         andSpecialOrderID:self.specialOID
-                                andImages:self.photosArray
+                                andImages:self.resultPhotos
                                  andNotes:self.notes
                                  andMMLog:self.mmLog
                        andCollectionGroup:self.groupID];

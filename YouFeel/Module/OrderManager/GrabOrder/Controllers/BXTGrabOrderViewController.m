@@ -224,7 +224,6 @@
     gradBackView.tag = 101;
     [self.view addSubview:gradBackView];
     
-    
     if (boxView)
     {
         [boxView boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray];
