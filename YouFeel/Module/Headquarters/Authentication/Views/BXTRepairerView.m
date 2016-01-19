@@ -34,17 +34,7 @@
 #pragma makr UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    NSInteger table_section;
-    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-    if (departmentInfo && [departmentInfo.dep_id integerValue] == 2)
-    {
-        table_section = 6;
-    }
-    else
-    {
-        table_section = 5;
-    }
-    if (section == table_section)
+    if (section == 5)
     {
         return 80.f;
     }
@@ -54,7 +44,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 5 + indexRow)
+    if (section == 5)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -84,7 +74,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 6 + indexRow;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -146,73 +136,21 @@
     }
     else
     {
-        BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-        if (departmentInfo && [departmentInfo.dep_id integerValue] == 2)
+        cell.titleLabel.text = @"职   位";
+        cell.detailTF.hidden = YES;
+        cell.detailLable.hidden = NO;
+        BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
+        if (![BXTGlobal isBlankString:postionInfo.role])
         {
-            if (indexPath.section == 5)
-            {
-                cell.titleLabel.text = @"地   点";
-                BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
-                BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
-                if (floorInfo)
-                {
-                    id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-                    if ([shopInfo isKindOfClass:[NSString class]])
-                    {
-                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,shopInfo];
-                    }
-                    else
-                    {
-                        BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
-                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,tempShop.stores_name];
-                    }
-                }
-                else
-                {
-                    cell.detailLable.text = @"请选择您商铺所在具体位置";
-                }
-                
-                cell.checkImgView.hidden = NO;
-                cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
-                cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
-            }
-            else
-            {
-                cell.titleLabel.text = @"职   位";
-                cell.detailTF.hidden = YES;
-                cell.detailLable.hidden = NO;
-                BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-                if (![BXTGlobal isBlankString:postionInfo.role])
-                {
-                    cell.detailLable.text = postionInfo.role;
-                }
-                else
-                {
-                    cell.detailLable.text = @"请选择您的职位";
-                }
-                cell.checkImgView.hidden = NO;
-                cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
-                cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
-            }
+            cell.detailLable.text = postionInfo.role;
         }
         else
         {
-            cell.titleLabel.text = @"职   位";
-            cell.detailTF.hidden = YES;
-            cell.detailLable.hidden = NO;
-            BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-            if (![BXTGlobal isBlankString:postionInfo.role])
-            {
-                cell.detailLable.text = postionInfo.role;
-            }
-            else
-            {
-                cell.detailLable.text = @"请选择您的职位";
-            }
-            cell.checkImgView.hidden = NO;
-            cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
-            cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
+            cell.detailLable.text = @"请选择您的职位";
         }
+        cell.checkImgView.hidden = NO;
+        cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
+        cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
     }
     
     return cell;
@@ -225,7 +163,7 @@
     {
         [self createBoxView:indexPath.section];
     }
-    else
+    else if (indexPath.section == 5)
     {
         BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
         if ([BXTGlobal isBlankString:departmentInfo.department])
@@ -233,35 +171,13 @@
             [self showAlertView:@"请选择你所在部门"];
             return;
         }
-    
+        
         departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-        if (departmentInfo && [departmentInfo.dep_id integerValue] == 2)
+        
+        //先选部门，后选职位
+        if ([BXTGlobal getUserProperty:U_DEPARTMENT])
         {
-            if (indexPath.section == 5)
-            {
-                @weakify(self);
-                BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithIsResign:YES andBlock:^{
-                    @strongify(self);
-                    [self.currentTableView reloadData];
-                }];
-                UINavigationController *nav = (UINavigationController *)[AppDelegate appdelegete].window.rootViewController;
-                [nav pushViewController:shopLocationVC animated:YES];
-            }
-            else if (indexPath.section == 6)
-            {
-                [self createBoxView:indexPath.section];
-            }
-        }
-        else
-        {
-            if (indexPath.section == 5)
-            {
-                //先选部门，后选职位
-                if ([BXTGlobal getUserProperty:U_DEPARTMENT])
-                {
-                    [self createBoxView:indexPath.section];
-                }
-            }
+            [self createBoxView:indexPath.section];
         }
     }
 }

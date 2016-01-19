@@ -41,7 +41,7 @@
 {
     self.requestType = DepartmentType;
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_department",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:@{@"is_repair":is_repair}];
+    [self postRequest:url withParameters:nil];
 }
 
 - (void)positionsList:(NSString *)departmentID
@@ -76,35 +76,10 @@
 - (void)branchResign:(NSInteger)is_repair
 {
     self.requestType = BranchResign;
-    NSString *store_id = @"";
-    NSString *area_id = @"";
+    
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
     BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
-    /**只有作为店铺的时候才需要传这两个参数**/
-    if ([departmentInfo.dep_id integerValue] == 2)
-    {
-        BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
-        area_id = areaInfo.place_id;
-        id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-        
-        
-        if ([shopInfo isKindOfClass:[NSString class]])
-        {
-            store_id = shopInfo;
-        }
-        else
-        {
-            BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
-            store_id = tempShop.stores_id;
-        }
-    }
-    else
-    {
-        // 非店铺 stores_id 传空
-        [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"FINISH_ID"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
     
     NSString *subGroup = @"";
     BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
@@ -118,9 +93,7 @@
                           @"mobile":[BXTGlobal getUserProperty:U_USERNAME],
                           @"role_id":postionInfo.role_id,
                           @"department_id":departmentInfo.dep_id,
-                          @"stores_id":[[NSUserDefaults standardUserDefaults] valueForKey:@"FINISH_ID"],
                           @"clientid":@"123",
-                          @"place_id":area_id,
                           @"gender":[BXTGlobal getUserProperty:U_SEX],
                           @"out_userid":[BXTGlobal getUserProperty:U_USERID],
                           @"shops_id":company.company_id,
@@ -606,6 +579,15 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)updateShopAddress:(NSString *)storeID
+{
+    self.requestType = UpdateShopAddress;
+    NSDictionary *dic = @{@"stores_id": storeID,
+                          @"id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=update_user",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)configInfo
 {
     self.requestType = ConfigInfo;
@@ -917,7 +899,7 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {
-    LogRed(@"url......%@",url);
+    LogRed(@"url......\n%@", url);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -991,6 +973,15 @@ andRepairerIsReacive:(NSString *)reacive
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [_delegate requestError:error];
     }];
+}
+
+#pragma mark -
+#pragma mark - 字典转成JSon
+- (NSString *)dictionaryToJson:(NSDictionary *)dic
+{
+    NSError *parseError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
 - (void)showHUD

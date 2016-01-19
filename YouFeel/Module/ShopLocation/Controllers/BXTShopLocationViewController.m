@@ -29,6 +29,12 @@
 
 @implementation BXTShopLocationViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
 - (instancetype)initWithIsResign:(BOOL)resign andBlock:(ChangeArea)selectArea
 {
     self = [super init];
@@ -76,6 +82,25 @@
     _currentTableView.dataSource = self;
     _currentTableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:_currentTableView];
+    
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
+    view.backgroundColor = [UIColor clearColor];
+    self.currentTableView.tableFooterView = view;
+    
+    UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    doneBtn.frame = CGRectMake(20, 20, SCREEN_WIDTH - 40, 50.f);
+    [doneBtn setTitle:@"提交审核" forState:UIControlStateNormal];
+    [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
+    doneBtn.layer.masksToBounds = YES;
+    doneBtn.layer.cornerRadius = 6.f;
+    @weakify(self);
+    [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self navigationLeftButton];
+    }];
+    [view addSubview:doneBtn];
 }
 
 #pragma mark -
@@ -101,7 +126,7 @@
         NSMutableArray *stores = [NSMutableArray arrayWithArray:selectedAreaInfo.stores];
         if (_isResign)
         {
-            [stores addObject:@"其他"];
+            //[stores addObject:@"其他"];
         }
         boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"店名" boxSelectedViewType:ShopInfoView listDataSource:stores markID:nil actionDelegate:self];
     }
@@ -116,12 +141,12 @@
 {
     if (_isResign && (![BXTGlobal getUserProperty:U_FLOOOR] || ![BXTGlobal getUserProperty:U_AREA] || ![BXTGlobal getUserProperty:U_SHOP]))
     {
-        [self showMBP:@"请填写完整信息" withBlock:nil];
+        [BXTGlobal showText:@"请填写完整信息" view:self.view completionBlock:nil];
         return;
     }
     if (!_isResign && (![BXTGlobal getUserProperty:U_FLOOOR] || ![BXTGlobal getUserProperty:U_AREA]))
     {
-        [self showMBP:@"请选择楼层" withBlock:nil];
+        [BXTGlobal showText:@"请选择楼层" view:self.view completionBlock:nil];
         return;
     }
     else if (_isResign)
@@ -132,12 +157,17 @@
             NSArray *areaArrResult = [selectedAreaInfo.stores filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.stores_id = %@",selecedShopInfo.stores_id]];
             if (!areaArrResult.count)
             {
-                [self showMBP:@"地点和店名信息不符" withBlock:nil];
+                [BXTGlobal showText:@"地点和店名信息不符" view:self.view completionBlock:nil];
                 return;
             }
         }
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    [self showLoadingMBP:@"正在更新信息..."];
+    /**请求分店位置**/
+    BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [dep_request updateShopAddress:selecedShopInfo.stores_id];
+    
 }
 
 #pragma mark -
@@ -267,9 +297,6 @@
     [self hideMBP];
     NSDictionary *dic = response;
     NSArray *array = [dic objectForKey:@"data"];
-    NSString *finish_id = [NSString stringWithFormat:@"%@", dic[@"finish_id"]];
-    [[NSUserDefaults standardUserDefaults] setValue:finish_id forKey:@"FINISH_ID"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
     
     if (type == ShopType)
     {
@@ -307,6 +334,15 @@
     else if (type == CommitShop)
     {
         //[BXTGlobal setUserProperty:[NSString stringWithFormat:@"%@", dic[@"finish_id"]] withKey:U_Finish_ID];
+    }
+    else if (type == UpdateShopAddress)
+    {
+        [BXTGlobal showText:@"更新成功" view:self.view completionBlock:^{
+            if (self.delegateSignal) {
+                [self.delegateSignal sendNext:nil];
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
     }
 }
 
@@ -433,13 +469,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

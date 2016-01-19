@@ -100,6 +100,8 @@
 - (void)requestResponseData:(id)response
                 requeseType:(RequestType)type
 {
+    [self hideMBP];
+    
     NSDictionary *dic = response;
     if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
@@ -157,7 +159,6 @@
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
     {
-        [self hideMBP];
         BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
         [self.navigationController pushViewController:headVC animated:YES];
     }
@@ -167,8 +168,7 @@
     }
     else
     {
-        [self hideMBP];
-        [self showMBP:@"登录失败，请仔细检查！" withBlock:nil];
+        [BXTGlobal showText:@"登录失败，请仔细检查！" view:self.view completionBlock:nil];
     }
 }
 

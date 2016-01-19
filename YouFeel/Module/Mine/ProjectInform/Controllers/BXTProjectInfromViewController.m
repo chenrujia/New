@@ -15,6 +15,7 @@
 #import "ANKeyValueTable.h"
 #import "UINavigationController+YRBackGesture.h"
 #import "UIImageView+WebCache.h"
+#import "BXTShopLocationViewController.h"
 #import "BXTHeadquartersViewController.h"
 
 @interface BXTProjectInfromViewController () <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
@@ -26,6 +27,9 @@
     NSString       *department_id;
     BOOL           isHaveChecker;
     NSDictionary   *checkUserDic;
+    
+    BOOL           isStores;
+    NSString        *storesName;
 }
 
 @property (nonatomic, strong) NSString *checks_phone;
@@ -167,6 +171,11 @@
         }
         return 2;
     }
+    
+    if (section == 1 && isStores) {
+        return 2;
+    }
+    
     return 1;
 }
 
@@ -270,6 +279,16 @@
             cell.titleLabel.text = @"职   位";
             cell.detailLable.text = positionInfo.role;
         }
+        else if (indexPath.row == 1)
+        {
+            cell.textLabel.hidden = YES;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.detailLable.hidden = NO;
+            cell.titleLabel.frame = CGRectMake(15.f, 15.f, 60.f, 20);
+            cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
+            cell.titleLabel.text = @"商   铺";
+            cell.detailLable.text = storesName;
+        }
     }
     
     if ((isHaveChecker && indexPath.section == 3) || (!isHaveChecker && indexPath.section == 2))
@@ -288,6 +307,19 @@
         BXTHeadquartersViewController *company = [[BXTHeadquartersViewController alloc] initWithType:YES];
         [self.navigationController pushViewController:company animated:YES];
     }
+    
+    if (indexPath.section == 1 && indexPath.row == 1) {
+        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithIsResign:YES andBlock:^{
+        }];
+        shopLocationVC.delegateSignal = [RACSubject subject];
+        [shopLocationVC.delegateSignal subscribeNext:^(id x) {
+            //获取用户信息
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request userInfo];
+        }];
+        [self.navigationController pushViewController:shopLocationVC animated:YES];
+    }
+    
 }
 
 #pragma mark -
@@ -321,6 +353,9 @@
                 isHaveChecker = NO;
             }
             checks_user_department = [checkUserDic objectForKey:@"checks_user_department"];
+            
+            isStores = ([dictionay[@"is_stores"] intValue] == 2) ? YES : NO;
+            storesName = [BXTGlobal isBlankString:dictionay[@"stores"]] ? @"未完善" : dictionay[@"stores"];
         }
     }
     

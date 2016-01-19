@@ -133,6 +133,7 @@
         if (indexPath.row == 0)
         {
             [BXTRemindNum sharedManager].timeStart_Daily = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+            SaveValueTUD(@"timeStart_Daily", [BXTRemindNum sharedManager].timeStart_Daily);
             BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:1];
             reaciveVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:reaciveVC animated:YES];
@@ -141,6 +142,7 @@
         {
             [BXTRemindNum sharedManager].timeStart_Inspectio = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
             BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
+            SaveValueTUD(@"timeStart_Inspectio", [BXTRemindNum sharedManager].timeStart_Inspectio);
             reaciveVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:reaciveVC animated:YES];
         }

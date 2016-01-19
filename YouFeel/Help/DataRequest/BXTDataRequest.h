@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     FindPassword,
     ChangePassWord,
     UpdateHeadPic,
+    UpdateShopAddress,
     ConfigInfo,
     StartRepair,
     Statistics_Complete,
@@ -325,6 +326,10 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)updateHeadPic:(NSString *)pic;
 
+/**
+ *  更新店铺地址
+ */
+- (void)updateShopAddress:(NSString *)storeID;
 
 /**
  *  获取配置参数
