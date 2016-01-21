@@ -12,12 +12,13 @@
 
 @implementation BXTDrawView
 
-- (instancetype)initWithFrame:(CGRect)frame withRepairState:(NSInteger)state withIsRespairing:(NSInteger)repairing
+- (instancetype)initWithFrame:(CGRect)frame withRepairState:(NSInteger)state withIsRespairing:(NSInteger)repairing isShowState:(BOOL)show
 {
     self = [super initWithFrame:frame];
     if (self)
     {
         self.backgroundColor = colorWithHexString(@"ffffff");
+        self.isShow = show;
         self.repairState = state;
         self.isRepairing = repairing;
     }
@@ -29,9 +30,12 @@
     UIColor *grayColor = colorWithHexString(@"e2e6e8");
     [grayColor setStroke];
     [grayColor setFill];
-//    [self drawLineFrom:CGPointMake(15.f, 0) to:CGPointMake(rect.size.width - 15.f, 0) withLineWidth:1.f];
+//    [self drawLineFrom:CGPointMake(0, 0) to:CGPointMake(rect.size.width, 0) withLineWidth:1.f];
     
-    [self drawTextInRect:CGRectMake(15.f, 10, 40.f, 20.f) Contents:@"状态" contentFont:[UIFont systemFontOfSize:16.f] contentColor:colorWithHexString(@"000000")];
+    if (_isShow)
+    {
+        [self drawTextInRect:CGRectMake(15.f, 10, 40.f, 20.f) Contents:@"状态" contentFont:[UIFont systemFontOfSize:16.f] contentColor:colorWithHexString(@"000000")];
+    }
     
     [grayColor setStroke];
     [grayColor setFill];

@@ -10,6 +10,11 @@
 
 @interface BXTMaintenanceDetailViewController : BXTDetailBaseViewController
 
+/**
+ *  是否有关闭工单按钮
+ */
+@property (nonatomic, assign) BOOL isRejectVC;
+
 @property (weak, nonatomic) IBOutlet UIView       *contentView;
 @property (weak, nonatomic) IBOutlet UIScrollView *images_scrollview;
 @property (weak, nonatomic) IBOutlet UIImageView  *headImgView;
@@ -37,8 +42,7 @@
 @property (weak, nonatomic) IBOutlet UILabel      *completeTime;
 @property (weak, nonatomic) IBOutlet UILabel      *maintenanceMan;
 @property (weak, nonatomic) IBOutlet UIButton     *reaciveOrder;
-@property (weak, nonatomic) IBOutlet UITabBarItem *leftItem;
-@property (weak, nonatomic) IBOutlet UITabBarItem *rightItem;
+@property (weak, nonatomic) IBOutlet UITabBar     *bottomTabBar;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sco_content_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sco_content_width;

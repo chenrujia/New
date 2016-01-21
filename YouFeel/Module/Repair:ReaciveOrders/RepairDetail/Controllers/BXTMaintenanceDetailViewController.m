@@ -11,8 +11,11 @@
 #import "BXTHeaderForVC.h"
 #import "BXTDrawView.h"
 #import "BXTSelectBoxView.h"
+#import "BXTMaintenanceProcessViewController.h"
+#import "BXTAddOtherManViewController.h"
+#import "BXTRejectOrderViewController.h"
 
-@interface BXTMaintenanceDetailViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
+@interface BXTMaintenanceDetailViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
 
 @property (nonatomic, strong) BXTSelectBoxView *boxView;
 @property (nonatomic ,strong) NSString         *repair_id;
@@ -20,6 +23,7 @@
 @property (nonatomic ,strong) UIDatePicker     *datePicker;
 @property (nonatomic ,strong) UIView           *bgView;
 @property (nonatomic ,assign) NSTimeInterval   timeInterval;
+@property (nonatomic, strong) NSMutableArray   *manIDArray;
 
 @end
 
@@ -47,8 +51,7 @@
     _groupName.layer.cornerRadius = 4.f;
     _reaciveOrder.layer.masksToBounds = YES;
     _reaciveOrder.layer.cornerRadius = 4.f;
-    _leftItem.image = nil;
-    _leftItem.title = @"增加人员";
+    self.manIDArray = [[NSMutableArray alloc] init];
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
@@ -217,6 +220,28 @@
     }
 }
 
+#pragma mark -
+#pragma mark UITabBarDelegate
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    if (item.tag == 1)
+    {
+        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[_repair_id integerValue] andWithVCType:DetailType];
+        addOtherVC.manIDArray = self.manIDArray;
+        [self.navigationController pushViewController:addOtherVC animated:YES];
+    }
+    else if (item.tag == 2)
+    {
+        BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:self.repairDetail.faulttype_name andCurrentFaultID:self.repairDetail.faulttype andRepairID:self.repairDetail.repairID andReaciveTime:self.repairDetail.start_time];
+        @weakify(self);
+        maintenanceProcossVC.BlockRefresh = ^() {
+            @strongify(self);
+            [self requestDetail];
+        };
+        [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
+    }
+}
+
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
@@ -323,7 +348,7 @@
         }
         
         //状态相关
-        BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, StateViewHeight) withRepairState:self.repairDetail.repairstate withIsRespairing:self.repairDetail.isRepairing];
+        BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, StateViewHeight) withRepairState:self.repairDetail.repairstate withIsRespairing:self.repairDetail.isRepairing isShowState:NO];
         [_thirdBV addSubview:drawView];
         NSString *repairDateStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.dispatching_time];
         _arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
@@ -341,15 +366,27 @@
         [_fouthBV layoutIfNeeded];
         CGFloat height = 0.f;
         _reaciveOrder.hidden = YES;
+        _bottomTabBar.hidden = YES;
         if (self.repairDetail.repairstate == 1)
         {
             height = 90.f;
             _reaciveOrder.hidden = NO;
         }
+        else if (self.repairDetail.repairstate == 2 && self.repairDetail.isRepairing == 2)
+        {
+            if (!self.isRejectVC && [BXTGlobal shareGlobal].isRepair)
+            {
+                height = 70.f;
+                _bottomTabBar.hidden = NO;
+            }
+        }
         _sco_content_height.constant = CGRectGetMaxY(_fouthBV.frame) + height;
         [_contentView layoutIfNeeded];
         for (NSInteger i = 0; i < usersCount; i++)
         {
+            NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
+            [self.manIDArray addObject:userDic[@"id"]];
+            
             UIView *userBack = [self viewForUser:i andMaintenanceMaxY:CGRectGetMaxY(_maintenanceMan.frame) + 20 andLevelWidth:CGRectGetWidth(_level.frame)];
             [_fouthBV addSubview:userBack];
         }
