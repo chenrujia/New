@@ -36,14 +36,7 @@
 - (void)createSubviews
 {
     segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f,KNAVIVIEWHEIGHT + 7.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"待处理",@"已指派",@"已关闭"] isWhiteBGColor:1];
-    if (![BXTGlobal shareGlobal].isRepair)
-    {
-        segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    }
-    else
-    {
-        segment.layer.borderColor = colorWithHexString(@"0a4197").CGColor;
-    }
+    segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
     segment.layer.borderWidth = 1.f;
@@ -99,17 +92,17 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-
+    
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

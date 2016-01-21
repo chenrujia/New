@@ -129,14 +129,9 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.view.backgroundColor = colorWithHexString(@"eff3f6");
     
     UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
-    if ([BXTGlobal shareGlobal].isRepair)
-    {
-        naviView.image = [[UIImage imageNamed:@"Nav_Bars"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    }
-    else
-    {
-        naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    }
+    
+    naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    
     naviView.userInteractionEnabled = YES;
     [self.view addSubview:naviView];
     
@@ -176,6 +171,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.tableView_Search.dataSource = self;
     self.tableView_Search.delegate = self;
     [self.view addSubview:self.tableView_Search];
+    
     // UITableView - tableView_Search - tableHeaderView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
     self.tableView_Search.tableHeaderView = headerView;
@@ -437,6 +433,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 40, 40)];
     [imageView sd_setImageWithURL:[NSURL URLWithString:listModel.head] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
+
+    imageView.layer.masksToBounds = YES;
     [showCell.contentView addSubview:imageView];
     
     UILabel *nameView = [[UILabel alloc] initWithFrame:CGRectMake(65, 10, 100, 21)];

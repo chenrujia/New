@@ -42,7 +42,7 @@
 {
     [super viewDidLoad];
     
-    logoImgView.image = [UIImage imageNamed:@"Nav_Bars"];
+    logoImgView.image = [UIImage imageNamed:@"Nav_Bar"];
     
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
     title_label.text = @"我的工单";
@@ -156,9 +156,10 @@
     }
     else if (indexPath.section == 3)
     {
-        BXTCustomerServiceViewController *csvc = [[BXTCustomerServiceViewController alloc] init];
-        csvc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:csvc animated:YES];
+        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
+        UIWebView *callWeb = [[UIWebView alloc] init];
+        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+        [self.view addSubview:callWeb];
     }
 }
 

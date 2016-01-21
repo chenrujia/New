@@ -16,6 +16,12 @@
 
 @implementation BXTBaseViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -30,14 +36,9 @@
 {
     UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
     naviView.tag = KNavViewTag;
-    if ([BXTGlobal shareGlobal].isRepair)
-    {
-        naviView.image = [[UIImage imageNamed:@"Nav_Bars"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    }
-    else
-    {
-        naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    }
+    
+    naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    
     naviView.userInteractionEnabled = YES;
     [self.view addSubview:naviView];
     

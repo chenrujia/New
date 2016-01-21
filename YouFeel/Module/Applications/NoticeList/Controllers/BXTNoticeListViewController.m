@@ -42,7 +42,7 @@
     
     // SegmentView
     self.segmentView = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 10.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"未读", @"已读"] isWhiteBGColor:1];
-    self.segmentView.layer.borderColor = colorWithHexString(@"0a4197").CGColor;
+    self.segmentView.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     self.segmentView.layer.masksToBounds = YES;
     self.segmentView.layer.cornerRadius = 4.f;
     self.segmentView.layer.borderWidth = 1.f;

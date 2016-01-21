@@ -37,13 +37,6 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    self.navigationController.navigationBar.translucent = NO;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -64,14 +57,13 @@
     if (![BXTGlobal shareGlobal].isRepair)
     {
         segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"当期工单",@"设备档案"] isWhiteBGColor:1];
-        segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     }
     else
     {
         segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"当期工单",@"设备档案"] isWhiteBGColor:1];
-        segment.layer.borderColor = colorWithHexString(@"0a4197").CGColor;
     }
     
+    segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
     segment.layer.borderWidth = 1.f;
@@ -98,7 +90,7 @@
 
 - (void)navigationLeftButton
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark -

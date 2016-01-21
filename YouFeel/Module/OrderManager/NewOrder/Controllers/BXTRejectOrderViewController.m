@@ -54,7 +54,11 @@
     [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     commitBtn.layer.masksToBounds = YES;
     commitBtn.layer.cornerRadius = 6.f;
+    @weakify(self);
     [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.view endEditing:YES];
+        
         if (self.notes.length)
         {
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];

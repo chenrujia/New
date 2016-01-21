@@ -30,12 +30,6 @@
 
 @implementation BXTPersonInfromViewController
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -63,10 +57,7 @@
     logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, valueForDevice(235.f, 213.f, 181.5f, 153.5f) + 30)];
     logoImgView.userInteractionEnabled = YES;
     logoImgView.image = [UIImage imageNamed:@"Nav_Bar"];
-    if ([BXTGlobal shareGlobal].isRepair)
-    {
-        logoImgView.image = [UIImage imageNamed:@"Nav_Bars"];
-    }
+
     [self.view addSubview:logoImgView];
     
     // 返回
