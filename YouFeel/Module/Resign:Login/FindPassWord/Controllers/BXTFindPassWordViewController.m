@@ -78,7 +78,7 @@
         [nextTapBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         [nextTapBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         nextTapBtn.layer.masksToBounds = YES;
-        nextTapBtn.layer.cornerRadius = 6.f;
+        nextTapBtn.layer.cornerRadius = 4.f;
         @weakify(self);
         [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);

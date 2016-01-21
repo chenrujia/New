@@ -56,7 +56,7 @@
             }
         }];
     }
-    _commitBtn.layer.cornerRadius = 6.f;
+    _commitBtn.layer.cornerRadius = 4.f;
     @weakify(self);
     [[_commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -176,27 +176,32 @@
         cell.remarkTV.text = _maintenceInfo.notes;
         self.indexPath = indexPath;
         
+        [cell handleImagesFrame:_maintenceInfo.pic];
+        
         @weakify(self);
         UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
         [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
+            //展示大图
+            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imgViewOne.tag];
         }];
         [cell.imgViewOne addGestureRecognizer:tapGROne];
         UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
         [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
+            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imgViewTwo.tag];
         }];
         [cell.imgViewTwo addGestureRecognizer:tapGRTwo];
         UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
         [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
+            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imgViewThree.tag];
         }];
         [cell.imgViewThree addGestureRecognizer:tapGRThree];
         
-        [self selectImages];
         [cell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }

@@ -36,6 +36,9 @@
 @property (weak, nonatomic) IBOutlet UILabel      *workTime;
 @property (weak, nonatomic) IBOutlet UILabel      *completeTime;
 @property (weak, nonatomic) IBOutlet UILabel      *maintenanceMan;
+@property (weak, nonatomic) IBOutlet UIButton     *reaciveOrder;
+@property (weak, nonatomic) IBOutlet UITabBarItem *leftItem;
+@property (weak, nonatomic) IBOutlet UITabBarItem *rightItem;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sco_content_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sco_content_width;
@@ -45,6 +48,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fouth_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *group_name_width;
 
+- (IBAction)reaciveAction:(id)sender;
 - (void)dataWithRepairID:(NSString *)repair_ID;
 
 @end

@@ -32,7 +32,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
-    _cancelRepair.layer.cornerRadius = 6.f;
+    _cancelRepair.layer.cornerRadius = 4.f;
     
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"HiddenEvaluationBtn" object:nil] subscribeNext:^(id x) {

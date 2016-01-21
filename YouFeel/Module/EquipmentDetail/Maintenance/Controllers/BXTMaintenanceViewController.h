@@ -6,10 +6,10 @@
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTPhotoBaseViewController.h"
+#import "BXTDetailBaseViewController.h"
 #import "BXTMaintenceInfo.h"
 
-@interface BXTMaintenanceViewController : BXTPhotoBaseViewController <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
+@interface BXTMaintenanceViewController : BXTDetailBaseViewController  <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;

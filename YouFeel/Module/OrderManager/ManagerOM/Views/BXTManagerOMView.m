@@ -424,7 +424,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [self hideTheMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (data.count > 0)

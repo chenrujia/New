@@ -1,6 +1,6 @@
 //
 //  BXTPhotoBaseViewController.h
-//  YouFeel
+//  YYouFeel GroupouFeel
 //
 //  Created by Jason on 15/12/22.
 //  Copyright © 2015年 Jason. All rights reserved.
@@ -28,7 +28,6 @@
 @property (nonatomic, assign) BOOL                    isSettingVC;
 
 - (void)addImages;
-- (void)selectImages;
 - (void)loadMWPhotoBrowser:(NSInteger)index;
 - (void)loadMWPhotoBrowserForDetail:(NSInteger)index withFaultPicCount:(NSInteger)faultPicCount withFixedPicCount:(NSInteger)fixedPicCount withEvaluationPicCount:(NSInteger)evaluationPicCount;
 

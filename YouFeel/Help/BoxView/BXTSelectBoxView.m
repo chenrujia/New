@@ -152,7 +152,7 @@
     else if (_boxType == CheckProjectsView)
     {
         BXTMaintenceInfo *maintence = _dataArray[indexPath.row];
-        cell.titleLabel.text = maintence.time_name;
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@ %@",maintence.time_name,maintence.inspection_title];
     }
     else if (_boxType == Other)
     {

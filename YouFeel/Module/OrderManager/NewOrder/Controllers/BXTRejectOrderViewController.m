@@ -53,7 +53,7 @@
     [commitBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     commitBtn.layer.masksToBounds = YES;
-    commitBtn.layer.cornerRadius = 6.f;
+    commitBtn.layer.cornerRadius = 4.f;
     [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         if (self.notes.length)
         {

@@ -73,7 +73,7 @@
     [openBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [openBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     openBtn.layer.masksToBounds = YES;
-    openBtn.layer.cornerRadius = 6.f;
+    openBtn.layer.cornerRadius = 4.f;
     @weakify(self);
     [[openBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);

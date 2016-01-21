@@ -2471,12 +2471,12 @@
 			children = (
 				7867DD9A1C4CBEE9000749F1 /* BXTDetailBaseViewController.h */,
 				7867DD9B1C4CBEE9000749F1 /* BXTDetailBaseViewController.m */,
-				7867DD9C1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.h */,
-				7867DD9D1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.m */,
 				7867DD9E1C4CBEE9000749F1 /* BXTOrderDetailViewController.h */,
 				7867DD9F1C4CBEE9000749F1 /* BXTOrderDetailViewController.m */,
 				7867DDA01C4CBEE9000749F1 /* BXTRepairDetailViewController.h */,
 				7867DDA11C4CBEE9000749F1 /* BXTRepairDetailViewController.m */,
+				7867DD9C1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.h */,
+				7867DD9D1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
