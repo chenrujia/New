@@ -51,6 +51,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *third_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fouth_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *group_name_width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *third_bv_top;
 
 - (IBAction)reaciveAction:(id)sender;
 - (void)dataWithRepairID:(NSString *)repair_ID;

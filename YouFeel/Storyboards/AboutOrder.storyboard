@@ -1447,7 +1447,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iCL-dx-MJc" userLabel="BackViewOne">
                                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O9D-op-IaO">
+                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O9D-op-IaO">
                                                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="73.299999999999997" id="1rh-Xt-CJT"/>
@@ -2389,6 +2389,7 @@
                                             <constraint firstAttribute="trailing" secondItem="PrZ-XJ-3I6" secondAttribute="trailing" id="scM-qI-vP0"/>
                                             <constraint firstItem="eJG-vQ-Oj4" firstAttribute="top" secondItem="iCL-dx-MJc" secondAttribute="bottom" constant="12" id="yep-uL-buk"/>
                                             <constraint firstAttribute="height" constant="1000" id="ytI-Wu-qhd"/>
+                                            <constraint firstItem="PrZ-XJ-3I6" firstAttribute="top" secondItem="iCL-dx-MJc" secondAttribute="bottom" constant="85" id="ywm-Cf-BNZ"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="subviews">
@@ -2411,6 +2412,7 @@
                                                 <exclude reference="Uma-Q4-cHI"/>
                                                 <exclude reference="s7h-Ou-FgV"/>
                                                 <exclude reference="scM-qI-vP0"/>
+                                                <exclude reference="ywm-Cf-BNZ"/>
                                                 <exclude reference="VOn-h8-e0Q"/>
                                                 <exclude reference="W8s-L9-Z5k"/>
                                                 <exclude reference="Wnm-q7-LAY"/>
@@ -2441,8 +2443,9 @@
                                                 <include reference="ee7-gN-b3e"/>
                                                 <include reference="yep-uL-buk"/>
                                                 <include reference="Uma-Q4-cHI"/>
-                                                <include reference="s7h-Ou-FgV"/>
+                                                <exclude reference="s7h-Ou-FgV"/>
                                                 <include reference="scM-qI-vP0"/>
+                                                <include reference="ywm-Cf-BNZ"/>
                                                 <include reference="VOn-h8-e0Q"/>
                                                 <include reference="W8s-L9-Z5k"/>
                                                 <include reference="Wnm-q7-LAY"/>
@@ -2558,6 +2561,7 @@
                         <outlet property="second_bv_height" destination="bqx-Ki-4il" id="hJ2-IF-y25"/>
                         <outlet property="thirdBV" destination="PrZ-XJ-3I6" id="aBc-x2-bv0"/>
                         <outlet property="third_bv_height" destination="6S7-FS-JkB" id="dlb-K9-ktf"/>
+                        <outlet property="third_bv_top" destination="ywm-Cf-BNZ" id="ds4-3c-HuQ"/>
                         <outlet property="workTime" destination="2lL-jI-4YM" id="y3I-ej-Q8I"/>
                     </connections>
                 </viewController>

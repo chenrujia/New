@@ -368,14 +368,17 @@
     
     if (index == 0)
     {
+        cell.imgViewOne.isGetBack = NO;
         cell.imgViewOne.frame = rect;
     }
     else if (index == 1)
     {
+        cell.imgViewTwo.isGetBack = NO;
         cell.imgViewTwo.frame = rect;
     }
     else if (index == 2)
     {
+        cell.imgViewThree.isGetBack = NO;
         cell.imgViewThree.frame = rect;
     }
 }
