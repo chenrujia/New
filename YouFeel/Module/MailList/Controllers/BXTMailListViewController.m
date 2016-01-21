@@ -172,6 +172,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.tableView_Search.delegate = self;
     [self.view addSubview:self.tableView_Search];
     
+    
     // UITableView - tableView_Search - tableHeaderView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
     self.tableView_Search.tableHeaderView = headerView;
