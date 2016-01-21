@@ -32,14 +32,9 @@
 {
     // backgroundView
     UIImageView *navBarView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 110.f)];
-    if ([BXTGlobal shareGlobal].isRepair)
-    {
-        navBarView.image = [UIImage imageNamed:@"Nav_Bars"];
-    }
-    else
-    {
-        navBarView.image = [UIImage imageNamed:@"Nav_Bar"];
-    }
+    
+    navBarView.image = [UIImage imageNamed:@"Nav_Bar"];
+    
     navBarView.userInteractionEnabled = YES;
     [self.view addSubview:navBarView];
     

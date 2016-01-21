@@ -63,12 +63,11 @@
     self.navigationController.navigationBarHidden = NO;
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     self.navigationController.navigationBarHidden = YES;
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
 }
 
 #pragma mark -
@@ -225,7 +224,7 @@
     {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.detailLable.hidden = NO;
-        cell.titleLabel.frame = CGRectMake(15.f, 15.f, 60.f, 20);
+        cell.titleLabel.frame = CGRectMake(15.f, 15.f, 80.f, 20);
         cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
         [cell.auditStatusLabel setFrame:CGRectMake(CGRectGetMaxX(cell.detailLable.frame) + 20.f, 15.f, 80.f, 20.f)];
         cell.auditStatusLabel.text = verify_state;
@@ -233,19 +232,19 @@
         {
             if (indexPath.row == 0)
             {
-                cell.titleLabel.text = @"项   目";
+                cell.titleLabel.text = @" 项     目 ";
                 BXTHeadquartersInfo *department = [BXTGlobal getUserProperty:U_COMPANY];
                 cell.detailLable.text = department.name;
             }
             else if (indexPath.row == 1)
             {
-                cell.titleLabel.text = @"部   门";
+                cell.titleLabel.text = @" 部     门 ";
                 BXTDepartmentInfo *department = [BXTGlobal getUserProperty:U_DEPARTMENT];
                 cell.detailLable.text = department.department;
             }
             else
             {
-                cell.titleLabel.text = @"分   组";
+                cell.titleLabel.text = @" 分     组 ";
                 BXTGroupingInfo *group = [BXTGlobal getUserProperty:U_GROUPINGINFO];
                 cell.detailLable.text = group.subgroup;
             }
@@ -254,13 +253,13 @@
         {
             if (indexPath.row == 0)
             {
-                cell.titleLabel.text = @"项   目";
+                cell.titleLabel.text = @" 项     目 ";
                 BXTHeadquartersInfo *department = [BXTGlobal getUserProperty:U_COMPANY];
                 cell.detailLable.text = department.name;
             }
             else if (indexPath.row == 1)
             {
-                cell.titleLabel.text = @"部   门";
+                cell.titleLabel.text = @" 部     门 ";
                 BXTDepartmentInfo *department = [BXTGlobal getUserProperty:U_DEPARTMENT];
                 cell.detailLable.text = department.department;
             }
@@ -272,12 +271,12 @@
         {
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.detailLable.hidden = NO;
-            cell.titleLabel.frame = CGRectMake(15.f, 15.f, 60.f, 20);
+            cell.titleLabel.frame = CGRectMake(15.f, 15.f, 80.f, 20);
             cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
             [cell.auditStatusLabel setFrame:CGRectMake(CGRectGetMaxX(cell.detailLable.frame) + 20.f, 15.f, 80.f, 20.f)];
             cell.auditStatusLabel.text = verify_state;
             BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
-            cell.titleLabel.text = @"职   位";
+            cell.titleLabel.text = @" 职      位 ";
             cell.detailLable.text = positionInfo.role;
         }
         else if (indexPath.row == 1)
@@ -285,9 +284,9 @@
             cell.textLabel.hidden = YES;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.detailLable.hidden = NO;
-            cell.titleLabel.frame = CGRectMake(15.f, 15.f, 60.f, 20);
+            cell.titleLabel.frame = CGRectMake(15.f, 15.f, 80.f, 20);
             cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
-            cell.titleLabel.text = @"商   铺";
+            cell.titleLabel.text = @"绑定位置";
             cell.detailLable.text = storesName;
         }
     }

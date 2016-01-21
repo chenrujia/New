@@ -85,7 +85,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
     
     [self showLoadingMBP:@"数据加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
@@ -382,6 +381,8 @@
         // 存数组
         [BXTGlobal writeFileWithfileName:@"arriveArray" Array:arriveArray];
         [BXTGlobal writeFileWithfileName:@"hoursArray" Array:hoursArray];
+        
+        SaveValueTUD(@"shop_tel", dataDict[@"shop_tel"]);
     }
     else if (type == Ads_Pics)
     {

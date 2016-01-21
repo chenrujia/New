@@ -59,10 +59,11 @@
     }];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBarHidden = NO;
 }
 
 #pragma mark -

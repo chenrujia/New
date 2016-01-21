@@ -21,8 +21,8 @@
 {
     [super viewWillAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)viewDidLoad

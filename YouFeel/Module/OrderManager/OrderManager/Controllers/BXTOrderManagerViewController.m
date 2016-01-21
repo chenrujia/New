@@ -34,14 +34,10 @@
 {
     CGFloat navBarHeight = valueForDevice(235.f, 213.f, 181.5f, 153.5f);
     UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, navBarHeight)];
-    if ([BXTGlobal shareGlobal].isRepair)
-    {
-        naviView.image = [[UIImage imageNamed:@"Nav_Bars"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    }
-    else
-    {
-        naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    }    naviView.userInteractionEnabled = YES;
+    
+    naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    
+    naviView.userInteractionEnabled = YES;
     [self.view addSubview:naviView];
     
     UILabel *navi_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64, 20, SCREEN_WIDTH-128, 44)];
@@ -72,14 +68,13 @@
     if (![BXTGlobal shareGlobal].isRepair)
     {
         segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"等待中",@"维修中",@"已完成"] isWhiteBGColor:1];
-        segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     }
     else
     {
         segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"待维修",@"维修中",@"维修完成"] isWhiteBGColor:1];
-        segment.layer.borderColor = colorWithHexString(@"0a4197").CGColor;
     }
     
+    segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
     segment.layer.borderWidth = 1.f;
@@ -169,7 +164,7 @@
     BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
     if ([BXTGlobal shareGlobal].isRepair)
     {
-        logoView.backgroundColor = colorWithHexString(@"09439c");
+        logoView.backgroundColor = colorWithHexString(@"3cafff");
         groupLabel.text = [NSString stringWithFormat:@"%@-%@",groupInfo.subgroup,postionInfo.role];
     }
     else
@@ -210,13 +205,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

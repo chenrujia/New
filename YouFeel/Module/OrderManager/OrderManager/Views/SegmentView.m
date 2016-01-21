@@ -94,33 +94,15 @@
         NSString *normal;
         if (self.isBgColorWhite) {
             normal = @"Rectangle_1";
-            if ([BXTGlobal shareGlobal].isRepair)
-            {
-                selected = @"Rectangle_3";
-                [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateSelected];
-                [btn setTitleColor:colorWithHexString(@"0a439c") forState:UIControlStateNormal];
-            }
-            else
-            {
-                selected = @"Rectangle_2";
-                [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateSelected];
-                [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-            }
+            selected = @"Rectangle_2";
+            [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateSelected];
+            [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
         }
         else {
             selected = @"Rectangle_1";
-            if ([BXTGlobal shareGlobal].isRepair)
-            {
-                normal = @"Rectangle_3";
-                [btn setTitleColor:colorWithHexString(@"0a439c") forState:UIControlStateSelected];
-                [btn setTitleColor:colorWithHexString(@"7cc9ff") forState:UIControlStateNormal];
-            }
-            else
-            {
-                normal = @"Rectangle_2";
-                [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateSelected];
-                [btn setTitleColor:colorWithHexString(@"7cc9ff") forState:UIControlStateNormal];
-            }
+            normal = @"Rectangle_2";
+            [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateSelected];
+            [btn setTitleColor:colorWithHexString(@"7cc9ff") forState:UIControlStateNormal];
         }
         
         [btn setBackgroundImage:[UIImage resizeImage:normal] forState:UIControlStateNormal];

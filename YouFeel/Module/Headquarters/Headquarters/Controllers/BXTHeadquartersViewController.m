@@ -87,12 +87,6 @@
     [dep_request shopLists:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-}
-
 #pragma mark -
 #pragma mark 初始化视图
 - (void)createTableView
