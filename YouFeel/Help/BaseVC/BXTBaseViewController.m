@@ -105,7 +105,7 @@
 
 - (void)showLoadingMBP:(NSString *)text
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = text;
     hud.margin = 10.f;
@@ -115,7 +115,7 @@
 
 - (void)hideMBP
 {
-    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     if (_havedHidden)
     {
         _havedHidden(YES);

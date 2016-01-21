@@ -166,7 +166,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [self hideTheMBP];
     NSDictionary *dic = response;    
     NSArray *array = [dic objectForKey:@"data"];
     for (NSDictionary *dictionary in array)
@@ -185,7 +185,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    [self hideMBP];
+    [self hideTheMBP];
 }
 
 @end

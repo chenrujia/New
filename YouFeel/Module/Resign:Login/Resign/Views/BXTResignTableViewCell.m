@@ -14,17 +14,17 @@
 - (void)awakeFromNib
 {
     _codeButton.layer.masksToBounds = YES;
-    _codeButton.layer.cornerRadius = 6.f;
+    _codeButton.layer.cornerRadius = 4.f;
     _codeButton.layer.borderWidth = 1.f;
     _codeButton.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
     
     _boyBtn.layer.masksToBounds = YES;
-    _boyBtn.layer.cornerRadius = 6.f;
+    _boyBtn.layer.cornerRadius = 4.f;
     _boyBtn.layer.borderWidth = 1.f;
     _boyBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     
     _girlBtn.layer.masksToBounds = YES;
-    _girlBtn.layer.cornerRadius = 6.f;
+    _girlBtn.layer.cornerRadius = 4.f;
     _girlBtn.layer.borderWidth = 1.f;
     _girlBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
 }

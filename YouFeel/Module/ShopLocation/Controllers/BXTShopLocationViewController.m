@@ -88,7 +88,7 @@
     [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     doneBtn.layer.masksToBounds = YES;
-    doneBtn.layer.cornerRadius = 6.f;
+    doneBtn.layer.cornerRadius = 4.f;
     @weakify(self);
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);

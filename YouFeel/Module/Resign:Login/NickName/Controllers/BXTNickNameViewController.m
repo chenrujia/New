@@ -93,7 +93,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
         [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         doneBtn.layer.masksToBounds = YES;
-        doneBtn.layer.cornerRadius = 6.f;
+        doneBtn.layer.cornerRadius = 4.f;
         [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             [self resignFirstResponder];
             if (![BXTGlobal validateUserName:nickName])

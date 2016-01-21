@@ -393,7 +393,7 @@
 #pragma mark 请求返回代理
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [self hideTheMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == StartRepair)
@@ -445,7 +445,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    [self hideMBP];
+    [self hideTheMBP];
     _isRequesting = NO;
     [_currentTableView.mj_header endRefreshing];
     [_currentTableView.mj_footer endRefreshing];

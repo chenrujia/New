@@ -8,6 +8,7 @@
 
 #import "BXTRemarksTableViewCell.h"
 #import "BXTHeaderFile.h"
+#import "UIImageView+WebCache.h"
 
 @implementation BXTRemarksTableViewCell
 
@@ -78,6 +79,39 @@
     }
     
     [super setFrame:frame];
+}
+
+- (void)handleImagesFrame:(NSArray *)array
+{
+    CGFloat x = 10 + IMAGEWIDTH;
+    CGFloat y = 170.f - IMAGEWIDTH - 10.f;
+    if (array.count == 1)
+    {
+        NSDictionary *picDic = array[0];
+        [_imgViewOne sd_setImageWithURL:[NSURL URLWithString:[picDic objectForKey:@"photo_thumb_file"]]];
+        [_imgViewOne setFrame:CGRectMake(x + 10.f, y, IMAGEWIDTH, IMAGEWIDTH)];
+    }
+    else if (array.count == 2)
+    {
+        [_imgViewOne setFrame:CGRectMake(x + 10.f, y, IMAGEWIDTH, IMAGEWIDTH)];
+        NSDictionary *picDic = array[0];
+        [_imgViewOne sd_setImageWithURL:[NSURL URLWithString:[picDic objectForKey:@"photo_thumb_file"]]];
+        [_imgViewTwo setFrame:CGRectMake(CGRectGetMaxX(_imgViewOne.frame) + 10.f, y, IMAGEWIDTH, IMAGEWIDTH)];
+        NSDictionary *picDicTwo = array[1];
+        [_imgViewTwo sd_setImageWithURL:[NSURL URLWithString:[picDicTwo objectForKey:@"photo_thumb_file"]]];
+    }
+    else if (array.count == 3)
+    {
+        [_imgViewOne setFrame:CGRectMake(x + 10.f, y, IMAGEWIDTH, IMAGEWIDTH)];
+        NSDictionary *picDic = array[0];
+        [_imgViewOne sd_setImageWithURL:[NSURL URLWithString:[picDic objectForKey:@"photo_thumb_file"]]];
+        [_imgViewTwo setFrame:CGRectMake(CGRectGetMaxX(_imgViewOne.frame) + 10.f, y, IMAGEWIDTH, IMAGEWIDTH)];
+        NSDictionary *picDicTwo = array[1];
+        [_imgViewTwo sd_setImageWithURL:[NSURL URLWithString:[picDicTwo objectForKey:@"photo_thumb_file"]]];
+        [_imgViewThree setFrame:CGRectMake(CGRectGetMaxX(_imgViewTwo.frame) + 10.f, y, IMAGEWIDTH, IMAGEWIDTH)];
+        NSDictionary *picDicThree = array[2];
+        [_imgViewThree sd_setImageWithURL:[NSURL URLWithString:[picDicThree objectForKey:@"photo_thumb_file"]]];
+    }
 }
 
 - (void)awakeFromNib

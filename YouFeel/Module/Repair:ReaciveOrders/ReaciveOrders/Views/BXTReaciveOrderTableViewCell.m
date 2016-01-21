@@ -113,7 +113,7 @@
         self.reaciveBtn = ({
         
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.layer.cornerRadius = 6.f;
+            button.layer.cornerRadius = 4.f;
             button.backgroundColor = colorWithHexString(@"3cafff");
             [button setFrame:CGRectMake(0, CGRectGetMaxY(_repairTime.frame) + 10.f, 230.f, 40.f)];
             [button setCenter:CGPointMake(SCREEN_WIDTH/2.f, button.center.y)];

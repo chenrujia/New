@@ -71,7 +71,7 @@
         [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         doneBtn.layer.masksToBounds = YES;
-        doneBtn.layer.cornerRadius = 6.f;
+        doneBtn.layer.cornerRadius = 4.f;
         [doneBtn addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:doneBtn];
         return view;

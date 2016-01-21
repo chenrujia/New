@@ -16,6 +16,6 @@ typedef void (^HaveHidden)(BOOL hidden);
 
 - (void)showLoadingMBP:(NSString *)text;
 
-- (void)hideMBP;
+- (void)hideTheMBP;
 
 @end

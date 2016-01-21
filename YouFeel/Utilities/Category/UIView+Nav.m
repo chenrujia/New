@@ -39,7 +39,7 @@
     hud.removeFromSuperViewOnHide = YES;
 }
 
-- (void)hideMBP
+- (void)hideTheMBP
 {
     [MBProgressHUD hideHUDForView:self animated:YES];
 }

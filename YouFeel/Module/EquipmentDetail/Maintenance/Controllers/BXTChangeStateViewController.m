@@ -39,7 +39,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"现状" andRightTitle:nil andRightImage:nil];
-    _commitBtn.layer.cornerRadius = 6.f;
+    _commitBtn.layer.cornerRadius = 4.f;
     self.textview.text = self.notes;
     self.titleLabel.text = _titleText;
     self.detailLabel.text = _detailText;

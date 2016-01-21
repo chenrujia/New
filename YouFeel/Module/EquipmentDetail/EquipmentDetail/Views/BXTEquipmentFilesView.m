@@ -310,15 +310,19 @@
     [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    LogRed(@"dic.....%@",dic);
     if (type == Inspection_Record_List)
     {
+        LogRed(@"Inspection_Record_List.....%@",dic);
         [_tableView.mj_header endRefreshing];
         [_tableView.mj_footer endRefreshing];
         if (_currentPage == 1)
         {
             [_dataArray removeAllObjects];
         }
+    }
+    else if (type == MaintenanceEquipmentList)
+    {
+        LogBlue(@"MaintenanceEquipmentList.....%@",dic);
     }
     
     for (NSDictionary *dictionary in data)

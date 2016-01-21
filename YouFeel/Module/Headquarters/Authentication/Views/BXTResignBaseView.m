@@ -68,7 +68,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [self hideTheMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == DepartmentType)
@@ -180,7 +180,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    [self hideMBP];
+    [self hideTheMBP];
 }
 
 #pragma mark -

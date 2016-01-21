@@ -313,7 +313,18 @@
     maintenaceBtn.layer.borderWidth = 1.f;
     maintenaceBtn.layer.cornerRadius = 4.f;
     [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 11.f, 83.f, 40.f)];
-    [maintenaceBtn setTitle:@"开始保养" forState:UIControlStateNormal];
+    if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 0)
+    {
+        [maintenaceBtn setTitle:@"开始保养" forState:UIControlStateNormal];
+    }
+    else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 1)
+    {
+        [maintenaceBtn setTitle:@"维保中" forState:UIControlStateNormal];
+    }
+    else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 2)
+    {
+        [maintenaceBtn setTitle:@"已完成" forState:UIControlStateNormal];
+    }
     [maintenaceBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
     @weakify(self);
     [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -334,24 +345,12 @@
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    NSDictionary *dic = (NSDictionary *)response;
-    if ([[dic objectForKey:@"returncode"] integerValue] == 0)
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-        __weak typeof(self) weakSelf = self;
-        [self showMBP:@"已经开始！" withBlock:^(BOOL hidden) {
-            [weakSelf.navigationController popViewControllerAnimated:YES];
-        }];
-    }
-    else
-    {
-        [self hideMBP];
-    }
+
 }
 
 - (void)requestError:(NSError *)error
 {
-    [self hideMBP];
+
 }
 
 - (void)didReceiveMemoryWarning

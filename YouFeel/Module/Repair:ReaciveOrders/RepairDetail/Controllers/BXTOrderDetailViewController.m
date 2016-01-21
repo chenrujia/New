@@ -60,7 +60,7 @@
     _groupName.layer.borderWidth = 1.f;
     _groupName.layer.cornerRadius = 4.f;
     _reaciveOrder.layer.masksToBounds = YES;
-    _reaciveOrder.layer.cornerRadius = 6.f;
+    _reaciveOrder.layer.cornerRadius = 4.f;
     
     self.manIDArray = [[NSMutableArray alloc] init];
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestDetail" object:nil] subscribeNext:^(id x) {

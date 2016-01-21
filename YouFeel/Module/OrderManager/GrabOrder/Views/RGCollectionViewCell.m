@@ -190,7 +190,7 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (data.count > 0)
     {
-        [self hideMBP];
+        [self hideTheMBP];
         NSDictionary *dictionary = data[0];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"SUBGROUP_NOTIFICATION" object:dictionary[@"faulttype_type_name"]];
         

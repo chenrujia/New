@@ -20,4 +20,6 @@
 @property (nonatomic ,strong) UIImageView    *imgViewThree;
 @property (nonatomic ,strong) NSMutableArray *photosArray;
 
+- (void)handleImagesFrame:(NSArray *)array;
+
 @end

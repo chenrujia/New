@@ -51,7 +51,7 @@
     [commitBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     commitBtn.layer.masksToBounds = YES;
-    commitBtn.layer.cornerRadius = 6.f;
+    commitBtn.layer.cornerRadius = 4.f;
     @weakify(self);
     [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
