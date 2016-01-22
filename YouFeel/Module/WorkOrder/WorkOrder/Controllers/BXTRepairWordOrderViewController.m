@@ -16,6 +16,7 @@
 #import "BXTShopLocationViewController.h"
 #import "BXTAddOtherManViewController.h"
 #import "BXTAddOtherManInfo.h"
+#import "BXTChooseFaultViewController.h"
 
 #define MOBILE 11
 #define CAUSE 12
@@ -34,6 +35,7 @@
     NSInteger        indexSection;
     NSMutableArray   *manIDs;
     NSInteger        faulttype_type;
+    
 }
 
 @property (nonatomic ,strong) NSMutableArray *mans;
@@ -41,6 +43,10 @@
 @property (nonatomic ,strong) NSString       *faultType;
 @property (nonatomic, strong) NSString       *repairState;
 @property (nonatomic, strong) UIView         *pickerbackView;
+
+@property (nonatomic, copy) NSString *faulttypeID;
+@property (nonatomic, copy) NSString *faulttype_typeID;
+@property (nonatomic, copy) NSString *faultStr;
 
 @end
 
@@ -257,8 +263,8 @@
     
     /**请求新建工单**/
     BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [rep_request createRepair:[NSString stringWithFormat:@"%ld",(long)selectFaultTypeInfo.fau_id]
-               faultType_type:[NSString stringWithFormat:@"%ld", (long)faulttype_type]
+    [rep_request createRepair:self.faulttypeID
+               faultType_type:self.faulttype_typeID
                    faultCause:cause
                    faultLevel:_repairState
                   depatmentID:departmentInfo.dep_id
@@ -461,14 +467,14 @@
         else if (indexPath.section == 1)
         {
             cell.titleLabel.text = @"故   障";
-            if (!selectFaultInfo)
+            if (!self.faultStr)
             {
                 cell.detailLable.text = @"请选择故障类型";
             }
             else
             {
-                cell.detailLable.frame = CGRectMake(CGRectGetMaxX(cell.titleLabel.frame) + 20.f, 10., 150.f, 30);
-                cell.detailLable.text = [NSString stringWithFormat:@"%@-%@",selectFaultInfo.faulttype_type,selectFaultTypeInfo.faulttype];
+                cell.detailLable.frame = CGRectMake(CGRectGetMaxX(cell.titleLabel.frame) + 20.f, 10., SCREEN_WIDTH - CGRectGetMaxX(cell.titleLabel.frame) - 50, 30);
+                cell.detailLable.text = self.faultStr;
             }
             self.faultType = cell.detailLable.text;
             cell.checkImgView.hidden = NO;
@@ -544,7 +550,23 @@
     }
     if (indexPath.section == 1)
     {
-        [self createBoxView:1];
+        BXTChooseFaultViewController *cfvc = [[BXTChooseFaultViewController alloc] init];
+        cfvc.delegateSignal = [RACSubject subject];
+        [cfvc.delegateSignal subscribeNext:^(NSArray *transArray) {
+            NSString *transID = transArray[0];
+            NSLog(@"---------- %@", transID);
+            self.faultStr = transArray[1];
+            if ([transID isEqualToString:@"other"]) {
+                self.faulttypeID = @"";
+                self.faulttype_typeID = @"1";
+            }
+            else {
+                self.faulttypeID = transID;
+                self.faulttype_typeID = @"";
+            }
+            [self.currentTableView reloadData];
+        }];
+        [self.navigationController pushViewController:cfvc animated:YES];
     }
 }
 
