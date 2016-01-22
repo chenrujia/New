@@ -10,7 +10,7 @@
 
 @interface BXTCustomImageView : UIImageView
 
-@property (nonatomic, assign) BOOL     isGetBack;
-@property (nonatomic, strong) UIButton *deleteBtn;
+@property (nonatomic, assign) BOOL       isGetBack;
+@property (nonatomic, strong) UIButton   *deleteBtn;
 
 @end

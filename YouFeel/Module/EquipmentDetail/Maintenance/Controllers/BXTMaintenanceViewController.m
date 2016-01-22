@@ -23,6 +23,11 @@
 
 @implementation BXTMaintenanceViewController
 
+- (void)dealloc
+{
+    LogBlue(@"被释放了。。。。。");
+}
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil
                          bundle:(NSBundle *)nibBundleOrNil
                       maintence:(BXTMaintenceInfo *)maintence
@@ -42,17 +47,24 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"维保作业" andRightTitle:nil andRightImage:nil];
+    
+    //侦听删除事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
+    
     self.currentTableView = self.currentTable;
     for (NSDictionary *imgDic in _maintenceInfo.pic)
     {
-        NSString *img_url_str = [imgDic objectForKey:@"photo_thumb_file"];
+        NSString *img_url_str = [imgDic objectForKey:@"photo_file"];
+        @weakify(self);
         [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:img_url_str] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             if (image)
             {
+                @strongify(self);
                 [self.selectPhotos addObject:image];
-                [self.currentTableView reloadData];
+                [self.resultPhotos addObject:image];
+                [self.currentTable reloadData];
             }
         }];
     }
@@ -60,7 +72,6 @@
     @weakify(self);
     [[_commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         for (BXTInspectionInfo *inspectionInfo in self.maintenceInfo.inspection_info)
         {
@@ -93,6 +104,12 @@
                                andImages:self.resultPhotos];
         }
     }];
+}
+
+- (void)deleteImage:(NSNotification *)notification
+{
+    NSNumber *number = notification.object;
+    [self handleData:[number integerValue]];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -163,7 +180,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == _maintenceInfo.inspection_info.count + 1)
+    if (indexPath.section == self.maintenceInfo.inspection_info.count + 1)
     {
         BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MainTenanceCell"];
         if (!cell)
@@ -173,31 +190,31 @@
         }
         cell.remarkTV.delegate = self;
         cell.titleLabel.text = @"备   注";
-        cell.remarkTV.text = _maintenceInfo.notes;
+        cell.remarkTV.text = self.maintenceInfo.notes;
         self.indexPath = indexPath;
         
-        [cell handleImagesFrame:_maintenceInfo.pic];
+        [cell handleImagesFrame:self.maintenceInfo.pic];
         
         @weakify(self);
         UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
         [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
             //展示大图
-            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
+            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imgViewOne.tag];
         }];
         [cell.imgViewOne addGestureRecognizer:tapGROne];
         UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
         [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
-            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
+            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imgViewTwo.tag];
         }];
         [cell.imgViewTwo addGestureRecognizer:tapGRTwo];
         UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
         [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
-            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
+            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imgViewThree.tag];
         }];
         [cell.imgViewThree addGestureRecognizer:tapGRThree];

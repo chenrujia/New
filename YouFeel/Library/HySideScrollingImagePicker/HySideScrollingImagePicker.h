@@ -17,6 +17,8 @@ typedef void(^CompleteAnimationBlock)(BOOL Complete);
 
 @interface HySideScrollingImagePicker : UIView
 
+@property (nonatomic, strong) NSMutableArray *selectedIndexes;
+
 @property (nonatomic,assign) BOOL isMultipleSelection;
 /**
  *  是否只能选择一张，默认可多选

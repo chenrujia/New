@@ -17,8 +17,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        self.photosArray = [[NSMutableArray alloc] init];
-
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 60.f, 30)];
         _titleLabel.textColor = colorWithHexString(@"000000");
         _titleLabel.font = [UIFont boldSystemFontOfSize:18.f];

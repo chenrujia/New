@@ -17,12 +17,14 @@
     if (self)
     {
         self.userInteractionEnabled = YES;
+        
         //侦听长按事件
         @weakify(self);
         [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"LongPress" object:nil] subscribeNext:^(id x) {
             @strongify(self);
             [self longPress];
         }];
+        
         //侦听删除事件
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
         
@@ -31,12 +33,13 @@
         [[recognize rac_gestureSignal] subscribeNext:^(id x) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"LongPress" object:nil];
         }];
+        
         //长按响应时间
         recognize.minimumPressDuration = 1;
         [self addGestureRecognizer:recognize];
         
-        self.deleteBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [_deleteBtn setBackgroundColor:[UIColor redColor]];
+        self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_deleteBtn setImage:[UIImage imageNamed:@"deleteImage"] forState:UIControlStateNormal];
         _deleteBtn.frame= CGRectMake(0, 0, 44, 44);
         _deleteBtn.hidden = YES;
         [[_deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -57,7 +60,6 @@
 - (void)deleteImage:(NSNotification *)notification
 {
     NSNumber *number = notification.object;
-    NSLog(@"number.......%@",number);
     CGRect addBtnRect = CGRectMake(10.f, 170.f - IMAGEWIDTH - 10.f, IMAGEWIDTH, IMAGEWIDTH);
     
     if (self.tag == [number integerValue])

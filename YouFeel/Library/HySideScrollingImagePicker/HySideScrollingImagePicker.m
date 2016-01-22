@@ -13,6 +13,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "AssetsLibraryD.h"
 #import "MBProgressHUD.h"
+#import "BXTGlobal.h"
 
 #define kImageSpacing 5.0f
 #define kCollectionViewHeight 178.0f
@@ -39,8 +40,6 @@
 @property (nonatomic, strong) ALAssetsGroup *group;
 
 @property (nonatomic,strong) NSMutableArray *allArr;
-
-@property (nonatomic, strong) NSMutableArray *selectedIndexes;
 
 @property (nonatomic,strong)NSIndexPath	* lastIndexPath;
 
@@ -207,9 +206,7 @@
     flow.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     flow.minimumInteritemSpacing = kImageSpacing;
     
-    // Configure the collection view
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flow];
-//    collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     collectionView.delegate = self;
     collectionView.dataSource = self;
     collectionView.allowsMultipleSelection = YES;
@@ -347,7 +344,8 @@
         }
         else
         {
-            if (self.isSinglePicture) {
+            if (self.isSinglePicture)
+            {
                 if ([_selectedIndexes count] >= 1)
                 {
                     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
@@ -365,8 +363,10 @@
                     [checkmarkView setChecked:YES];
                     [_IndexPathArr addObject:indexPath];
                 }
-            } else {
-                if ([_selectedIndexes count] >= 3)
+            }
+            else
+            {
+                if ([_selectedIndexes count] >= [BXTGlobal shareGlobal].maxPics)
                 {
                     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
                     hud.mode = MBProgressHUDModeText;

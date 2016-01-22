@@ -76,6 +76,9 @@
 {
     [super viewDidLoad];
     
+    //侦听删除事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
+
     manIDs = [NSMutableArray array];
     self.mans = [NSMutableArray array];
     [BXTGlobal shareGlobal].maxPics = 3;
@@ -96,6 +99,12 @@
 {
     [super viewDidAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)deleteImage:(NSNotification *)notification
+{
+    NSNumber *number = notification.object;
+    [self handleData:[number integerValue]];
 }
 
 #pragma mark -

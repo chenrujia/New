@@ -84,6 +84,9 @@
 {
     [super viewDidLoad];
     
+    //侦听删除事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
+    
     fau_dataSource = [NSMutableArray array];
     maintenanceState = @"已修好";
     stateArray= @[@"未修好",@"已修好"];
@@ -113,6 +116,12 @@
 {
     [super viewDidAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)deleteImage:(NSNotification *)notification
+{
+    NSNumber *number = notification.object;
+    [self handleData:[number integerValue]];
 }
 
 #pragma mark -

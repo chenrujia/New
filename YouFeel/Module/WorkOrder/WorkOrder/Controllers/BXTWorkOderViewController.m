@@ -60,6 +60,10 @@
 {
     [super viewDidLoad];
     [BXTGlobal shareGlobal].maxPics = 3;
+    
+    //侦听删除事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
+    
     [self allNotifications];
     self.repairState = @"2";
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
@@ -80,6 +84,12 @@
         @strongify(self);
         [self.currentTableView reloadData];
     }];
+}
+
+- (void)deleteImage:(NSNotification *)notification
+{
+    NSNumber *number = notification.object;
+    [self handleData:[number integerValue]];
 }
 
 #pragma mark -

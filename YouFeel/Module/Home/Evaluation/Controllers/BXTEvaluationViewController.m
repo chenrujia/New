@@ -43,6 +43,15 @@
     self.rateArray = [NSMutableArray arrayWithObjects:@"5",@"5",@"5", nil];
     [self createSubviews];
     [self navigationSetting:@"评价" andRightTitle:nil andRightImage:nil];
+    
+    //侦听删除事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
+}
+
+- (void)deleteImage:(NSNotification *)notification
+{
+    NSNumber *number = notification.object;
+    [self handleData:[number integerValue]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
