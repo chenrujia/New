@@ -429,6 +429,7 @@
                     [BXTGlobal setUserProperty:shopTF.text withKey:U_SHOP];
                     [self.currentTableView reloadData];
                     
+                    
                     [self showLoadingMBP:@"正在上传地点信息..."];
                     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                     [request commitNewShop:shopTF.text];
