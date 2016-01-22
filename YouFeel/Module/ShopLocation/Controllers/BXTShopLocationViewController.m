@@ -62,7 +62,17 @@
     BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [dep_request shopLocation];
     
-    [self navigationSetting:@"选择位置" andRightTitle:nil andRightImage:nil];
+    if (self.whichPush == PushType_BindingAddress)
+    {
+        [self navigationSetting:@"绑定位置" andRightTitle:nil andRightImage:nil];
+    }
+    else
+    {
+        [self navigationSetting:@"选择位置" andRightTitle:nil andRightImage:nil];
+    }
+    
+    
+    
     [self createTableView];
 }
 
@@ -84,7 +94,15 @@
     
     UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     doneBtn.frame = CGRectMake(20, 20, SCREEN_WIDTH - 40, 50.f);
-    [doneBtn setTitle:@"提交审核" forState:UIControlStateNormal];
+    if (self.whichPush == PushType_BindingAddress)
+    {
+        [doneBtn setTitle:@"提交审核" forState:UIControlStateNormal];
+    }
+    else
+    {
+        [doneBtn setTitle:@"确定位置" forState:UIControlStateNormal];
+    }
+    
     [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     doneBtn.layer.masksToBounds = YES;
@@ -92,7 +110,7 @@
     @weakify(self);
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self navigationLeftButton];
+        [self sendNewInform];
     }];
     [view addSubview:doneBtn];
 }
@@ -133,6 +151,10 @@
 
 - (void)navigationLeftButton
 {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)sendNewInform {
     if (_isResign && (![BXTGlobal getUserProperty:U_FLOOOR] || ![BXTGlobal getUserProperty:U_AREA] || ![BXTGlobal getUserProperty:U_SHOP]))
     {
         [BXTGlobal showText:@"请填写完整信息" view:self.view completionBlock:nil];
@@ -157,11 +179,18 @@
         }
     }
     
-    [self showLoadingMBP:@"正在更新信息..."];
-    /**请求分店位置**/
-    BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dep_request updateShopAddress:selecedShopInfo.stores_id];
     
+    if (self.whichPush == PushType_BindingAddress)
+    {
+        [self showLoadingMBP:@"正在更新信息..."];
+        /**请求分店位置**/
+        BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dep_request updateShopAddress:selecedShopInfo.stores_id];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark -

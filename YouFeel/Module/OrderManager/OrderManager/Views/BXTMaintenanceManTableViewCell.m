@@ -36,8 +36,9 @@
             button.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
             button.layer.borderWidth = 1.f;
             button.layer.cornerRadius = 4.f;
-            [button setFrame:CGRectMake(SCREEN_WIDTH - 90.f - 15.f, 10.f, 90.f, 30.f)];
+            [button setFrame:CGRectMake(SCREEN_WIDTH - 75.f - 15.f, 12.f, 75.f, 26.f)];
             [button setTitle:@"维修过程" forState:UIControlStateNormal];
+            button.titleLabel.font = [UIFont systemFontOfSize:15];
             [button setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             [self addSubview:button];
             button;

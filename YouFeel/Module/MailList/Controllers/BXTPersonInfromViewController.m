@@ -57,7 +57,7 @@
     logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, valueForDevice(235.f, 213.f, 181.5f, 153.5f) + 30)];
     logoImgView.userInteractionEnabled = YES;
     logoImgView.image = [UIImage imageNamed:@"Nav_Bar"];
-
+    
     [self.view addSubview:logoImgView];
     
     // 返回
@@ -134,8 +134,13 @@
     phoneBtn.layer.borderWidth = 0.5;
     [phoneBtn setImage:[UIImage imageNamed:@"phone"] forState:UIControlStateNormal];
     [self.view addSubview:phoneBtn];
+    
+    // 自己不能通话
+    if ([self.userID isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]]) {
+        messageBtn.enabled = NO;
+        phoneBtn.enabled = NO;
+    }
 }
-
 
 #pragma mark -
 #pragma mark - tableView代理方法

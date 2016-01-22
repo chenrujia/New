@@ -423,7 +423,7 @@
         }
         cell.detailLable.hidden = NO;
         cell.detailTF.hidden = YES;
-
+        
         if (indexPath.section == 0)
         {
             cell.titleLabel.text = @"位   置";
