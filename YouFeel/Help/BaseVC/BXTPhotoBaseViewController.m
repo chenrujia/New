@@ -21,9 +21,63 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.selectPhotos = [[NSMutableArray alloc] init];
-    self.resultPhotos = [[NSMutableArray alloc] init];
+    self.selectPhotos = [NSMutableArray arrayWithCapacity:0];
+    self.resultPhotos = [NSMutableArray arrayWithCapacity:0];
+}
+
+- (void)handleData:(NSInteger)number
+{
+    [self removeImage:number];
+}
+
+- (void)removeImage:(NSInteger)index
+{
+    BXTRemarksTableViewCell *cell;
+    if (self.remarkCell)
+    {
+        cell = self.remarkCell;
+    }
+    else
+    {
+        cell = (BXTRemarksTableViewCell *)[self.currentTableView cellForRowAtIndexPath:self.indexPath];
+    }
+
+    if (index == 0)
+    {
+        [self.selectPhotos removeObjectAtIndex:index];
+        [self.resultPhotos removeObjectAtIndex:index];
+    }
+    else if (index == 1)
+    {
+        if (cell.imgViewOne.isGetBack)
+        {
+            [self.selectPhotos removeObjectAtIndex:0];
+            [self.resultPhotos removeObjectAtIndex:0];
+        }
+        else
+        {
+            [self.selectPhotos removeObjectAtIndex:index];
+            [self.resultPhotos removeObjectAtIndex:index];
+        }
+    }
+    else if (index == 2)
+    {
+        if (cell.imgViewOne.isGetBack && cell.imgViewTwo.isGetBack)
+        {
+            [self.selectPhotos removeObjectAtIndex:0];
+            [self.resultPhotos removeObjectAtIndex:0];
+        }
+        else if ((cell.imgViewOne.isGetBack && !cell.imgViewTwo.isGetBack) || (!cell.imgViewOne.isGetBack && cell.imgViewTwo.isGetBack))
+        {
+            [self.selectPhotos removeObjectAtIndex:1];
+            [self.resultPhotos removeObjectAtIndex:1];
+        }
+        else
+        {
+            [self.selectPhotos removeObjectAtIndex:index];
+            [self.resultPhotos removeObjectAtIndex:index];
+        }
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -38,27 +92,28 @@
 {
     HySideScrollingImagePicker *hy = [[HySideScrollingImagePicker alloc] initWithCancelStr:@"取消" otherButtonTitles:@[@"拍摄",@"从相册选择"]];
     hy.isMultipleSelection = NO;
-    
+    [BXTGlobal shareGlobal].maxPics = 3 - [self.selectPhotos count];
+    @weakify(self);
     hy.SeletedImages = ^(NSArray *GetImages, NSInteger Buttonindex){
-        
+        @strongify(self);
         switch (Buttonindex) {
             case 1:
             {
                 if (GetImages.count != 0)
                 {
-                    [_selectPhotos removeAllObjects];
-                    if (_isSettingVC)
+                    if (self.isSettingVC)
                     {
                         //取原图
-                        [_selectPhotos addObjectsFromArray:GetImages];
+                        [self.selectPhotos removeAllObjects];
+                        [self.selectPhotos addObjectsFromArray:GetImages];
                         UIImage *image = [self handleImage];
                         [self showMLImageCropView:image];
                     }
                     else
                     {
-                        [_resultPhotos removeAllObjects];
+                        [self.resultPhotos removeAllObjects];
                         //取原图
-                        [_selectPhotos addObjectsFromArray:GetImages];
+                        [self.selectPhotos addObjectsFromArray:GetImages];
                         [self selectImages];
                     }
                 }
@@ -70,9 +125,7 @@
                         if (IS_IOS_8)
                         {
                             UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"无法启动相机" message:@"请为报修通开放相机权限：手机设置->隐私->相机->报修通（打开）" preferredStyle:UIAlertControllerStyleAlert];
-                            @weakify(self);
                             UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-                            @strongify(self);
                             [alertCtr addAction:alertAction];
                             [self presentViewController:alertCtr animated:YES completion:nil];
                         }
@@ -97,7 +150,7 @@
             {
                 LocalPhotoViewController *pick=[[LocalPhotoViewController alloc] init];
                 pick.selectPhotoDelegate = self;
-                pick.selectPhotos = _selectPhotos;
+                pick.selectPhotos = self.selectPhotos;
                 [self.navigationController pushViewController:pick animated:YES];
                 self.navigationController.navigationBar.hidden = NO;
             }
@@ -121,7 +174,7 @@
 
 - (UIImage *)handleImage
 {
-    id obj = [_selectPhotos objectAtIndex:0];
+    id obj = [self.selectPhotos objectAtIndex:0];
     UIImage *newImage = nil;
     if ([obj isKindOfClass:[UIImage class]])
     {
@@ -142,48 +195,50 @@
 - (void)selectImages
 {
     BXTRemarksTableViewCell *cell;
-    LogBlue(@"indexPath.....%ld,%ld",(long)_indexPath.section,(long)_indexPath.row);
-    if (_remarkCell)
+    if (self.remarkCell)
     {
-        cell = _remarkCell;
+        cell = self.remarkCell;
     }
     else
     {
-        cell = (BXTRemarksTableViewCell *)[_currentTableView cellForRowAtIndexPath:_indexPath];
+        cell = (BXTRemarksTableViewCell *)[self.currentTableView cellForRowAtIndexPath:self.indexPath];
     }
-    if (_selectPhotos.count == 1)
+    if (self.selectPhotos.count == 1)
     {
         [self resetCell:cell];
         [self resetDatasource:cell arrayWithIndex:0];
         
+        @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
-            
+            @strongify(self);
             [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
             
         } completion:nil];
     }
-    else if (_selectPhotos.count == 2)
+    else if (self.selectPhotos.count == 2)
     {
         [self resetCell:cell];
         [self resetDatasource:cell arrayWithIndex:0];
         [self resetDatasource:cell arrayWithIndex:1];
         
+        @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
-            
+            @strongify(self);
             [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
             [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
             
         } completion:nil];
     }
-    else if (_selectPhotos.count == 3)
+    else if (self.selectPhotos.count == 3)
     {
         [self resetCell:cell];
         [self resetDatasource:cell arrayWithIndex:0];
         [self resetDatasource:cell arrayWithIndex:1];
         [self resetDatasource:cell arrayWithIndex:2];
         
+        @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
-            
+            @strongify(self);
             [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
             [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
             [self resetFrame:cell arrayWithIndex:2 withValue:(IMAGEWIDTH + 10.f) * 3];
@@ -206,7 +261,7 @@
     }
     
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    browser.displayActionButton = NO;
+    browser.displayActionButton = YES;
     browser.displayNavArrows = NO;
     browser.displaySelectionButtons = NO;
     browser.alwaysShowControls = NO;
@@ -251,21 +306,22 @@
         //设置相机支持的类型，拍照和录像
         imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
     }
-    [self.view.window.rootViewController presentViewController:imagePickerController animated:YES completion:nil];
+    [self presentViewController:imagePickerController animated:YES completion:nil];
 }
 
 #pragma mark -
 #pragma mark SelectPhotoDelegate
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
+    [self.resultPhotos removeAllObjects];
     if (_isSettingVC)
     {
-        _selectPhotos = photos;
+        self.selectPhotos = photos;
         UIImage *image = [self handleImage];
         [self showMLImageCropView:image];
         return;
     }
-    _selectPhotos = photos;
+    self.selectPhotos = photos;
     BXTRemarksTableViewCell *cell;
     if (_remarkCell)
     {
@@ -279,9 +335,9 @@
     {
         [self resetCell:cell];
         [self resetDatasource:cell arrayWithIndex:0];
-        
+        @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
-            
+            @strongify(self);
             [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
             
         } completion:nil];
@@ -291,9 +347,9 @@
         [self resetCell:cell];
         [self resetDatasource:cell arrayWithIndex:0];
         [self resetDatasource:cell arrayWithIndex:1];
-        
+        @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
-            
+            @strongify(self);
             [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
             [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
             
@@ -305,9 +361,9 @@
         [self resetDatasource:cell arrayWithIndex:0];
         [self resetDatasource:cell arrayWithIndex:1];
         [self resetDatasource:cell arrayWithIndex:2];
-        
+        @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
-            
+            @strongify(self);
             [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
             [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
             [self resetFrame:cell arrayWithIndex:2 withValue:(IMAGEWIDTH + 10.f) * 3];
@@ -344,7 +400,6 @@
         UIImage *posterImage = [UIImage imageWithCGImage:posterImageRef scale:[representation scale] orientation:UIImageOrientationUp];
         newImage = posterImage;
     }
-    [cell.photosArray addObject:newImage];
     [_resultPhotos addObject:newImage];
     
     if (index == 0)
@@ -396,6 +451,7 @@
         [picker dismissViewControllerAnimated:YES completion:^{
             @strongify(self);
             [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+            [self.resultPhotos removeAllObjects];
             [self.selectPhotos addObject:headImage];
             [self selectImages];
         }];

@@ -938,7 +938,9 @@ andRepairerIsReacive:(NSString *)reacive
         for(NSInteger i = 0; i < images.count; i++)
         {
             UIImage *image = [images objectAtIndex:i];
-            NSData  *imageData = UIImageJPEGRepresentation(image, 0.9f);
+            NSData  *imageData = UIImageJPEGRepresentation(image, 0.3f);
+            NSInteger length = imageData.length;
+            LogRed(@"length...........%ld",(long)length);
             // 上传的参数名
             NSString * Name = [NSString stringWithFormat:@"image%ld", (long)i];
             // 上传filename

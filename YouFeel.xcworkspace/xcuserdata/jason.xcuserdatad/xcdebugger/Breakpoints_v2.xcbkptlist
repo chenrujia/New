@@ -9,46 +9,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YouFeel/Module/OrderManager/NewOrder/Controllers/BXTNewOrderViewController.m"
-            timestampString = "474969913.856671"
+            filePath = "YouFeel/Help/BaseVC/BXTPhotoBaseViewController.m"
+            timestampString = "475149573.552672"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "651"
-            endingLineNumber = "651"
-            landmarkName = "-requestResponseData:requeseType:"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "-addImages"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[BXTNewOrderViewController requestResponseData:requeseType:]"
-                  moduleName = "YouFeel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jason/Desktop/New/YouFeel/Module/OrderManager/NewOrder/Controllers/BXTNewOrderViewController.m"
-                  timestampString = "475063010.092082"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "651"
-                  endingLineNumber = "651"
-                  offsetFromSymbolStart = "10044">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__61-[BXTNewOrderViewController requestResponseData:requeseType:]_block_invoke582"
-                  moduleName = "YouFeel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jason/Desktop/New/YouFeel/Module/OrderManager/NewOrder/Controllers/BXTNewOrderViewController.m"
-                  timestampString = "475063010.092258"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "651"
-                  endingLineNumber = "651"
-                  offsetFromSymbolStart = "28">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YouFeel/Help/BaseVC/BXTPhotoBaseViewController.m"
+            timestampString = "475149601.709011"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "-removeImage:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YouFeel/Help/BaseVC/BXTPhotoBaseViewController.m"
+            timestampString = "475149640.648702"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "-handleData:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -181,7 +181,7 @@
         BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
         UIFont *font = [UIFont systemFontOfSize:17.f];
         CGSize size = MB_MULTILINE_TEXTSIZE(deviceInfo.notes, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000), NSLineBreakByWordWrapping);
-        if (deviceInfo.pic.count > 0)
+        if (_maintenceInfo.pic.count > 0)
         {
             return 12.f + size.height + 12.f + 73.f + 20.f;
         }
@@ -366,6 +366,7 @@
         [self navigationSetting:@"维保作业书" andRightTitle:@"修改" andRightImage:nil];
     }
     //单独过滤出检查项目
+    [checkProjectArray removeAllObjects];
     for (BXTInspectionInfo *inspection_info in maintence.inspection_info)
     {
         for (BXTCheckProjectInfo *check_info in inspection_info.check_arr)

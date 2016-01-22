@@ -30,5 +30,6 @@
 - (void)addImages;
 - (void)loadMWPhotoBrowser:(NSInteger)index;
 - (void)loadMWPhotoBrowserForDetail:(NSInteger)index withFaultPicCount:(NSInteger)faultPicCount withFixedPicCount:(NSInteger)fixedPicCount withEvaluationPicCount:(NSInteger)evaluationPicCount;
+- (void)handleData:(NSInteger)number;
 
 @end

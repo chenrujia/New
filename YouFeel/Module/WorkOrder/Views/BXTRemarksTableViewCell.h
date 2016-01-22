@@ -19,7 +19,6 @@
 @property (nonatomic ,strong) BXTCustomImageView *imgViewOne;
 @property (nonatomic ,strong) BXTCustomImageView *imgViewTwo;
 @property (nonatomic ,strong) BXTCustomImageView *imgViewThree;
-@property (nonatomic ,strong) NSMutableArray     *photosArray;
 
 - (void)handleImagesFrame:(NSArray *)array;
 
