@@ -317,6 +317,7 @@
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request userInfo];
         }];
+        shopLocationVC.whichPush = PushType_BindingAddress;
         [self.navigationController pushViewController:shopLocationVC animated:YES];
     }
     

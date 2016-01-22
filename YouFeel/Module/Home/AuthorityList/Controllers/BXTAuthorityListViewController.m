@@ -28,7 +28,11 @@
     
     [self navigationSetting:@"项目列表" andRightTitle:nil andRightImage:nil];
     self.dataArray = [[NSMutableArray alloc] init];
+    
     self.dataArray = [BXTGlobal getUserProperty:U_MYSHOP];
+    
+    NSLog(@"\n%@", self.dataArray);
+    
     [self createUI];
 }
 
@@ -64,7 +68,7 @@
     }
     
     NSDictionary *dict = self.dataArray[indexPath.row];
-    [cell.iconView sd_setImageWithURL:dict[@"shop_pic"] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
+    [cell.iconView sd_setImageWithURL:dict[@"shop_logo"] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
     cell.titleView.text = dict[@"shop_name"];
     cell.addressView.text = [NSString stringWithFormat:@"地址：%@", dict[@"shop_address"]];
     if ([BXTGlobal isBlankString:dict[@"shop_address"]])

@@ -8,6 +8,7 @@
 
 #import "BXTMailListCell.h"
 #import "UIImageView+WebCache.h"
+#import "BXTGlobal.h"
 
 @implementation BXTMailListCell
 

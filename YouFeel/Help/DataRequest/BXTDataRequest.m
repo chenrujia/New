@@ -68,7 +68,7 @@
     }
     else
     {
-        url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops",KURLREQUEST];
+        url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops/is_hot/1",KURLREQUEST];
     }
     [self getRequest:url];
 }
@@ -96,6 +96,7 @@
                           @"clientid":@"123",
                           @"gender":[BXTGlobal getUserProperty:U_SEX],
                           @"out_userid":[BXTGlobal getUserProperty:U_USERID],
+                          @"stores_id": @"",
                           @"shops_id":company.company_id,
                           @"subgroup":subGroup};
     NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",[BXTGlobal shareGlobal].baseURL];
@@ -314,9 +315,9 @@ andRepairerIsReacive:(NSString *)reacive
                           @"faulttype_type":faulttype_type,
                           @"cause":cause,
                           @"urgent":level,
-                          @"part":depID,
+                          @"department":depID,
                           @"area":floorID,
-                          @"posit":areaID,
+                          @"place":areaID,
                           @"stores_id":shopID,
                           @"equipment":eqID,
                           @"fault":fault,
@@ -869,17 +870,17 @@ andRepairerIsReacive:(NSString *)reacive
                                  page:(NSString *)page
 {
     // TODO: -----------------  调试 - 后期需修改 -----------------
-    //    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_USERID],
-    //                          @"type": @"1",
-    //                          @"read_state": readState,
-    //                          @"pagesize": pagesize,
-    //                          @"page": page};
-    
-    NSDictionary *dic = @{@"user_id": @"0",
+    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_USERID],
                           @"type": @"1",
-                          @"read_state": @"0",
+                          @"read_state": readState,
                           @"pagesize": pagesize,
                           @"page": page};
+    
+    //    NSDictionary *dic = @{@"user_id": @"0",
+    //                          @"type": @"1",
+    //                          @"read_state": @"0",
+    //                          @"pagesize": pagesize,
+    //                          @"page": page};
     NSString *url = [NSString stringWithFormat:@"%@&module=Announcement&opt=announcement_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

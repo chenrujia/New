@@ -65,6 +65,7 @@
         [tabBarController setViewControllers:@[homeNav,mailNav,applicationsNav,settingNav]];
         [[self class] customizeTabBarAppearance];
         
+
         _tabBarController = tabBarController;
     }
     return _tabBarController;

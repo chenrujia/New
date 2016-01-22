@@ -86,6 +86,21 @@
 		783DDA5D1C3FD45C0035B927 /* BXTQRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 783DDA571C3FD45C0035B927 /* BXTQRBaseViewController.m */; };
 		783DDA5E1C3FD45C0035B927 /* BXTQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 783DDA591C3FD45C0035B927 /* BXTQRCodeViewController.m */; };
 		783DDA5F1C3FD45C0035B927 /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 783DDA5B1C3FD45C0035B927 /* CodeScan.bundle */; };
+		783E6C251C51BFF400DC13FB /* BXTShopLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C0D1C51BFF400DC13FB /* BXTShopLocationViewController.m */; };
+		783E6C261C51BFF400DC13FB /* BXTAreaInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C101C51BFF400DC13FB /* BXTAreaInfo.m */; };
+		783E6C271C51BFF400DC13FB /* BXTFloorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C121C51BFF400DC13FB /* BXTFloorInfo.m */; };
+		783E6C281C51BFF400DC13FB /* BXTShopInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C141C51BFF400DC13FB /* BXTShopInfo.m */; };
+		783E6C291C51BFF400DC13FB /* BXTRepairWordOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C181C51BFF400DC13FB /* BXTRepairWordOrderViewController.m */; };
+		783E6C2A1C51BFF400DC13FB /* BXTWorkOderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C1A1C51BFF400DC13FB /* BXTWorkOderViewController.m */; };
+		783E6C2B1C51BFF400DC13FB /* BXTFaultInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C1D1C51BFF400DC13FB /* BXTFaultInfo.m */; };
+		783E6C2C1C51BFF400DC13FB /* BXTFaultTypeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C1F1C51BFF400DC13FB /* BXTFaultTypeInfo.m */; };
+		783E6C2D1C51BFF400DC13FB /* BXTCustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C221C51BFF400DC13FB /* BXTCustomImageView.m */; };
+		783E6C2E1C51BFF400DC13FB /* BXTRemarksTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C241C51BFF400DC13FB /* BXTRemarksTableViewCell.m */; };
+		783E6C311C51C05700DC13FB /* BXTChooseFaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C301C51C05700DC13FB /* BXTChooseFaultViewController.m */; };
+		783E6C811C5200BB00DC13FB /* BXTFaultTypeGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C801C5200BB00DC13FB /* BXTFaultTypeGroup.m */; };
+		783E6C841C52033500DC13FB /* BXTFaultType.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C831C52033500DC13FB /* BXTFaultType.m */; };
+		783E6C871C520C8D00DC13FB /* BXTFaultTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C861C520C8D00DC13FB /* BXTFaultTypeView.m */; };
+		783E6C891C520CAC00DC13FB /* BXTFaultTypeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 783E6C881C520CAC00DC13FB /* BXTFaultTypeView.xib */; };
 		7867DC0C1C4CB9F3000749F1 /* BXTAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC0B1C4CB9F3000749F1 /* BXTAboutUsViewController.m */; };
 		7867DC271C4CBA5B000749F1 /* BXTCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC101C4CBA5B000749F1 /* BXTCustomerServiceViewController.m */; };
 		7867DC281C4CBA5B000749F1 /* BXTHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC141C4CBA5B000749F1 /* BXTHomeViewController.m */; };
@@ -218,15 +233,6 @@
 		9602214A1BC9201400010072 /* UIView+Nav.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602213B1BC9201400010072 /* UIView+Nav.m */; };
 		9602214B1BC9201400010072 /* UIView+ZXQuartz.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602213D1BC9201400010072 /* UIView+ZXQuartz.m */; };
 		9602214C1BC9201400010072 /* UIViewController+DismissKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602213F1BC9201400010072 /* UIViewController+DismissKeyboard.m */; };
-		960223001BC9216300010072 /* BXTShopLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602225C1BC9216300010072 /* BXTShopLocationViewController.m */; };
-		960223011BC9216300010072 /* BXTAreaInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222601BC9216300010072 /* BXTAreaInfo.m */; };
-		960223021BC9216300010072 /* BXTFloorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222621BC9216300010072 /* BXTFloorInfo.m */; };
-		960223031BC9216300010072 /* BXTShopInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222641BC9216300010072 /* BXTShopInfo.m */; };
-		960223061BC9216300010072 /* BXTRepairWordOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222721BC9216300010072 /* BXTRepairWordOrderViewController.m */; };
-		960223071BC9216300010072 /* BXTWorkOderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222741BC9216300010072 /* BXTWorkOderViewController.m */; };
-		9602230E1BC9216300010072 /* BXTFaultInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602227E1BC9216300010072 /* BXTFaultInfo.m */; };
-		9602230F1BC9216300010072 /* BXTFaultTypeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222801BC9216300010072 /* BXTFaultTypeInfo.m */; };
-		960223101BC9216300010072 /* BXTRemarksTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 960222831BC9216300010072 /* BXTRemarksTableViewCell.m */; };
 		9607A3C51BE0BC0F000A6C5B /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9607A3C41BE0BC0F000A6C5B /* Emoji.plist */; };
 		9634156A1C44E62C00B28C53 /* BXTMaintenanceBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963415681C44E62C00B28C53 /* BXTMaintenanceBookViewController.m */; };
 		9634156B1C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963415691C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib */; };
@@ -271,7 +277,6 @@
 		9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */; };
 		9660CEE21C437E2E00176DDE /* BXTMaintenanceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9660CEE01C437E2E00176DDE /* BXTMaintenanceViewController.xib */; };
 		9662659A1C3A6E8A001113FF /* AboutOrder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 966265991C3A6E8A001113FF /* AboutOrder.storyboard */; };
-		966F20431C50CFCA0018760B /* BXTCustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966F20421C50CFCA0018760B /* BXTCustomImageView.m */; };
 		9671BB501C1ED29F00D90BFF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AABA331BE0765A0071B6FA /* libc++.tbd */; };
 		9671BB521C1ED3AB00D90BFF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 960223111BC922DB00010072 /* libsqlite3.tbd */; };
 		967C3D3F1C45FBB70078F1D6 /* BXTCheckProjectInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D3A1C45FBB70078F1D6 /* BXTCheckProjectInfo.m */; };
@@ -473,6 +478,35 @@
 		783DDA581C3FD45C0035B927 /* BXTQRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTQRCodeViewController.h; sourceTree = "<group>"; };
 		783DDA591C3FD45C0035B927 /* BXTQRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTQRCodeViewController.m; sourceTree = "<group>"; };
 		783DDA5B1C3FD45C0035B927 /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
+		783E6C0C1C51BFF400DC13FB /* BXTShopLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTShopLocationViewController.h; sourceTree = "<group>"; };
+		783E6C0D1C51BFF400DC13FB /* BXTShopLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTShopLocationViewController.m; sourceTree = "<group>"; };
+		783E6C0F1C51BFF400DC13FB /* BXTAreaInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAreaInfo.h; sourceTree = "<group>"; };
+		783E6C101C51BFF400DC13FB /* BXTAreaInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAreaInfo.m; sourceTree = "<group>"; };
+		783E6C111C51BFF400DC13FB /* BXTFloorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFloorInfo.h; sourceTree = "<group>"; };
+		783E6C121C51BFF400DC13FB /* BXTFloorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFloorInfo.m; sourceTree = "<group>"; };
+		783E6C131C51BFF400DC13FB /* BXTShopInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTShopInfo.h; sourceTree = "<group>"; };
+		783E6C141C51BFF400DC13FB /* BXTShopInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTShopInfo.m; sourceTree = "<group>"; };
+		783E6C171C51BFF400DC13FB /* BXTRepairWordOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairWordOrderViewController.h; sourceTree = "<group>"; };
+		783E6C181C51BFF400DC13FB /* BXTRepairWordOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairWordOrderViewController.m; sourceTree = "<group>"; };
+		783E6C191C51BFF400DC13FB /* BXTWorkOderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTWorkOderViewController.h; sourceTree = "<group>"; };
+		783E6C1A1C51BFF400DC13FB /* BXTWorkOderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTWorkOderViewController.m; sourceTree = "<group>"; };
+		783E6C1C1C51BFF400DC13FB /* BXTFaultInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFaultInfo.h; sourceTree = "<group>"; };
+		783E6C1D1C51BFF400DC13FB /* BXTFaultInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFaultInfo.m; sourceTree = "<group>"; };
+		783E6C1E1C51BFF400DC13FB /* BXTFaultTypeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFaultTypeInfo.h; sourceTree = "<group>"; };
+		783E6C1F1C51BFF400DC13FB /* BXTFaultTypeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFaultTypeInfo.m; sourceTree = "<group>"; };
+		783E6C211C51BFF400DC13FB /* BXTCustomImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomImageView.h; sourceTree = "<group>"; };
+		783E6C221C51BFF400DC13FB /* BXTCustomImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCustomImageView.m; sourceTree = "<group>"; };
+		783E6C231C51BFF400DC13FB /* BXTRemarksTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRemarksTableViewCell.h; sourceTree = "<group>"; };
+		783E6C241C51BFF400DC13FB /* BXTRemarksTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRemarksTableViewCell.m; sourceTree = "<group>"; };
+		783E6C2F1C51C05700DC13FB /* BXTChooseFaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTChooseFaultViewController.h; sourceTree = "<group>"; };
+		783E6C301C51C05700DC13FB /* BXTChooseFaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChooseFaultViewController.m; sourceTree = "<group>"; };
+		783E6C7F1C5200BB00DC13FB /* BXTFaultTypeGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFaultTypeGroup.h; sourceTree = "<group>"; };
+		783E6C801C5200BB00DC13FB /* BXTFaultTypeGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFaultTypeGroup.m; sourceTree = "<group>"; };
+		783E6C821C52033500DC13FB /* BXTFaultType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFaultType.h; sourceTree = "<group>"; };
+		783E6C831C52033500DC13FB /* BXTFaultType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFaultType.m; sourceTree = "<group>"; };
+		783E6C851C520C8D00DC13FB /* BXTFaultTypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFaultTypeView.h; sourceTree = "<group>"; };
+		783E6C861C520C8D00DC13FB /* BXTFaultTypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFaultTypeView.m; sourceTree = "<group>"; };
+		783E6C881C520CAC00DC13FB /* BXTFaultTypeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTFaultTypeView.xib; sourceTree = "<group>"; };
 		7867DC0A1C4CB9F3000749F1 /* BXTAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAboutUsViewController.h; sourceTree = "<group>"; };
 		7867DC0B1C4CB9F3000749F1 /* BXTAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAboutUsViewController.m; sourceTree = "<group>"; };
 		7867DC0F1C4CBA5B000749F1 /* BXTCustomerServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomerServiceViewController.h; sourceTree = "<group>"; };
@@ -730,24 +764,6 @@
 		960221411BC9201400010072 /* BXTHeaderFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHeaderFile.h; sourceTree = "<group>"; };
 		960221421BC9201400010072 /* BXTHeaderForVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHeaderForVC.h; sourceTree = "<group>"; };
 		960221441BC9201400010072 /* BXTPublicSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPublicSetting.h; sourceTree = "<group>"; };
-		9602225B1BC9216300010072 /* BXTShopLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTShopLocationViewController.h; sourceTree = "<group>"; };
-		9602225C1BC9216300010072 /* BXTShopLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTShopLocationViewController.m; sourceTree = "<group>"; };
-		9602225F1BC9216300010072 /* BXTAreaInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAreaInfo.h; sourceTree = "<group>"; };
-		960222601BC9216300010072 /* BXTAreaInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAreaInfo.m; sourceTree = "<group>"; };
-		960222611BC9216300010072 /* BXTFloorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFloorInfo.h; sourceTree = "<group>"; };
-		960222621BC9216300010072 /* BXTFloorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFloorInfo.m; sourceTree = "<group>"; };
-		960222631BC9216300010072 /* BXTShopInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTShopInfo.h; sourceTree = "<group>"; };
-		960222641BC9216300010072 /* BXTShopInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTShopInfo.m; sourceTree = "<group>"; };
-		960222711BC9216300010072 /* BXTRepairWordOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairWordOrderViewController.h; sourceTree = "<group>"; };
-		960222721BC9216300010072 /* BXTRepairWordOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairWordOrderViewController.m; sourceTree = "<group>"; };
-		960222731BC9216300010072 /* BXTWorkOderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTWorkOderViewController.h; sourceTree = "<group>"; };
-		960222741BC9216300010072 /* BXTWorkOderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTWorkOderViewController.m; sourceTree = "<group>"; };
-		9602227D1BC9216300010072 /* BXTFaultInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFaultInfo.h; sourceTree = "<group>"; };
-		9602227E1BC9216300010072 /* BXTFaultInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFaultInfo.m; sourceTree = "<group>"; };
-		9602227F1BC9216300010072 /* BXTFaultTypeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFaultTypeInfo.h; sourceTree = "<group>"; };
-		960222801BC9216300010072 /* BXTFaultTypeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFaultTypeInfo.m; sourceTree = "<group>"; };
-		960222821BC9216300010072 /* BXTRemarksTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRemarksTableViewCell.h; sourceTree = "<group>"; };
-		960222831BC9216300010072 /* BXTRemarksTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRemarksTableViewCell.m; sourceTree = "<group>"; };
 		960223111BC922DB00010072 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		9607A3C41BE0BC0F000A6C5B /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
 		963415671C44E62C00B28C53 /* BXTMaintenanceBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenanceBookViewController.h; sourceTree = "<group>"; };
@@ -829,8 +845,6 @@
 		9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenanceViewController.m; sourceTree = "<group>"; };
 		9660CEE01C437E2E00176DDE /* BXTMaintenanceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMaintenanceViewController.xib; sourceTree = "<group>"; };
 		966265991C3A6E8A001113FF /* AboutOrder.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutOrder.storyboard; sourceTree = "<group>"; };
-		966F20411C50CFCA0018760B /* BXTCustomImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomImageView.h; sourceTree = "<group>"; };
-		966F20421C50CFCA0018760B /* BXTCustomImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCustomImageView.m; sourceTree = "<group>"; };
 		967C3D391C45FBB70078F1D6 /* BXTCheckProjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCheckProjectInfo.h; sourceTree = "<group>"; };
 		967C3D3A1C45FBB70078F1D6 /* BXTCheckProjectInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCheckProjectInfo.m; sourceTree = "<group>"; };
 		967C3D3B1C45FBB70078F1D6 /* BXTInspectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTInspectionInfo.h; sourceTree = "<group>"; };
@@ -1441,6 +1455,130 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		783E6C051C51BFF400DC13FB /* WorkOrder */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C061C51BFF400DC13FB /* ChooseFault */,
+				783E6C0A1C51BFF400DC13FB /* ShopLocation */,
+				783E6C151C51BFF400DC13FB /* WorkOrder */,
+			);
+			path = WorkOrder;
+			sourceTree = "<group>";
+		};
+		783E6C061C51BFF400DC13FB /* ChooseFault */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C071C51BFF400DC13FB /* Controllers */,
+				783E6C081C51BFF400DC13FB /* Models */,
+				783E6C091C51BFF400DC13FB /* Views */,
+			);
+			path = ChooseFault;
+			sourceTree = "<group>";
+		};
+		783E6C071C51BFF400DC13FB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C2F1C51C05700DC13FB /* BXTChooseFaultViewController.h */,
+				783E6C301C51C05700DC13FB /* BXTChooseFaultViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		783E6C081C51BFF400DC13FB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C7F1C5200BB00DC13FB /* BXTFaultTypeGroup.h */,
+				783E6C801C5200BB00DC13FB /* BXTFaultTypeGroup.m */,
+				783E6C821C52033500DC13FB /* BXTFaultType.h */,
+				783E6C831C52033500DC13FB /* BXTFaultType.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		783E6C091C51BFF400DC13FB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C851C520C8D00DC13FB /* BXTFaultTypeView.h */,
+				783E6C861C520C8D00DC13FB /* BXTFaultTypeView.m */,
+				783E6C881C520CAC00DC13FB /* BXTFaultTypeView.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		783E6C0A1C51BFF400DC13FB /* ShopLocation */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C0B1C51BFF400DC13FB /* Controllers */,
+				783E6C0E1C51BFF400DC13FB /* Models */,
+			);
+			path = ShopLocation;
+			sourceTree = "<group>";
+		};
+		783E6C0B1C51BFF400DC13FB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C0C1C51BFF400DC13FB /* BXTShopLocationViewController.h */,
+				783E6C0D1C51BFF400DC13FB /* BXTShopLocationViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		783E6C0E1C51BFF400DC13FB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C0F1C51BFF400DC13FB /* BXTAreaInfo.h */,
+				783E6C101C51BFF400DC13FB /* BXTAreaInfo.m */,
+				783E6C111C51BFF400DC13FB /* BXTFloorInfo.h */,
+				783E6C121C51BFF400DC13FB /* BXTFloorInfo.m */,
+				783E6C131C51BFF400DC13FB /* BXTShopInfo.h */,
+				783E6C141C51BFF400DC13FB /* BXTShopInfo.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		783E6C151C51BFF400DC13FB /* WorkOrder */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C161C51BFF400DC13FB /* Controllers */,
+				783E6C1B1C51BFF400DC13FB /* Models */,
+				783E6C201C51BFF400DC13FB /* Views */,
+			);
+			path = WorkOrder;
+			sourceTree = "<group>";
+		};
+		783E6C161C51BFF400DC13FB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C171C51BFF400DC13FB /* BXTRepairWordOrderViewController.h */,
+				783E6C181C51BFF400DC13FB /* BXTRepairWordOrderViewController.m */,
+				783E6C191C51BFF400DC13FB /* BXTWorkOderViewController.h */,
+				783E6C1A1C51BFF400DC13FB /* BXTWorkOderViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		783E6C1B1C51BFF400DC13FB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C1C1C51BFF400DC13FB /* BXTFaultInfo.h */,
+				783E6C1D1C51BFF400DC13FB /* BXTFaultInfo.m */,
+				783E6C1E1C51BFF400DC13FB /* BXTFaultTypeInfo.h */,
+				783E6C1F1C51BFF400DC13FB /* BXTFaultTypeInfo.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		783E6C201C51BFF400DC13FB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				783E6C211C51BFF400DC13FB /* BXTCustomImageView.h */,
+				783E6C221C51BFF400DC13FB /* BXTCustomImageView.m */,
+				783E6C231C51BFF400DC13FB /* BXTRemarksTableViewCell.h */,
+				783E6C241C51BFF400DC13FB /* BXTRemarksTableViewCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		7867DC081C4CB9F3000749F1 /* AboutUs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1558,11 +1696,11 @@
 		7867DC401C4CBB47000749F1 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
+				7867DC6D1C4CBB47000749F1 /* Statistics */,
 				7867DC411C4CBB47000749F1 /* Completion */,
 				7867DC4D1C4CBB47000749F1 /* Evaluation */,
 				7867DC591C4CBB47000749F1 /* Incidence */,
 				7867DC611C4CBB47000749F1 /* Profession */,
-				7867DC6D1C4CBB47000749F1 /* Statistics */,
 				7867DC7A1C4CBB47000749F1 /* Workload */,
 			);
 			path = Statistics;
@@ -2515,15 +2653,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		78B1830B1BF2EAC8007D5B24 /* WorkOrder */ = {
-			isa = PBXGroup;
-			children = (
-				960222591BC9216300010072 /* ShopLocation */,
-				9602226F1BC9216300010072 /* WorkOrder */,
-			);
-			name = WorkOrder;
-			sourceTree = "<group>";
-		};
 		78C55A551C47339700FFEB37 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -2727,88 +2856,6 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		960222591BC9216300010072 /* ShopLocation */ = {
-			isa = PBXGroup;
-			children = (
-				9602225A1BC9216300010072 /* Controllers */,
-				9602225E1BC9216300010072 /* Models */,
-				960222651BC9216300010072 /* Views */,
-			);
-			path = ShopLocation;
-			sourceTree = "<group>";
-		};
-		9602225A1BC9216300010072 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				9602225B1BC9216300010072 /* BXTShopLocationViewController.h */,
-				9602225C1BC9216300010072 /* BXTShopLocationViewController.m */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		9602225E1BC9216300010072 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				9602225F1BC9216300010072 /* BXTAreaInfo.h */,
-				960222601BC9216300010072 /* BXTAreaInfo.m */,
-				960222611BC9216300010072 /* BXTFloorInfo.h */,
-				960222621BC9216300010072 /* BXTFloorInfo.m */,
-				960222631BC9216300010072 /* BXTShopInfo.h */,
-				960222641BC9216300010072 /* BXTShopInfo.m */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		960222651BC9216300010072 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		9602226F1BC9216300010072 /* WorkOrder */ = {
-			isa = PBXGroup;
-			children = (
-				960222701BC9216300010072 /* Controllers */,
-				9602227C1BC9216300010072 /* Models */,
-				960222811BC9216300010072 /* Views */,
-			);
-			path = WorkOrder;
-			sourceTree = "<group>";
-		};
-		960222701BC9216300010072 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				960222731BC9216300010072 /* BXTWorkOderViewController.h */,
-				960222741BC9216300010072 /* BXTWorkOderViewController.m */,
-				960222711BC9216300010072 /* BXTRepairWordOrderViewController.h */,
-				960222721BC9216300010072 /* BXTRepairWordOrderViewController.m */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		9602227C1BC9216300010072 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				9602227D1BC9216300010072 /* BXTFaultInfo.h */,
-				9602227E1BC9216300010072 /* BXTFaultInfo.m */,
-				9602227F1BC9216300010072 /* BXTFaultTypeInfo.h */,
-				960222801BC9216300010072 /* BXTFaultTypeInfo.m */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		960222811BC9216300010072 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				960222821BC9216300010072 /* BXTRemarksTableViewCell.h */,
-				960222831BC9216300010072 /* BXTRemarksTableViewCell.m */,
-				966F20411C50CFCA0018760B /* BXTCustomImageView.h */,
-				966F20421C50CFCA0018760B /* BXTCustomImageView.m */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		964E6F081C3275BC0081DEBB /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -2925,11 +2972,11 @@
 		9652AB341BC9069B009A666D /* Module */ = {
 			isa = PBXGroup;
 			children = (
+				783E6C051C51BFF400DC13FB /* WorkOrder */,
 				7867DCB41C4CBCAB000749F1 /* Resign/Login */,
 				7867DCF61C4CBE4F000749F1 /* Headquarters */,
 				781EF1C81C3D382C0027FE72 /* EquipmentDetail */,
 				7867DD2C1C4CBEA1000749F1 /* OrderManager */,
-				78B1830B1BF2EAC8007D5B24 /* WorkOrder */,
 				7867DD861C4CBEE9000749F1 /* Repair/ReaciveOrders */,
 				96C7F4141C2BC16900AD4C71 /* TabBar */,
 			);
@@ -3348,6 +3395,7 @@
 				7867DCD11C4CBCAC000749F1 /* BXTResignTableViewCell.xib in Resources */,
 				964E6F0A1C3276300081DEBB /* LoginAndResign.storyboard in Resources */,
 				782985A81C40B99200D0837C /* BXTUserInformCell.xib in Resources */,
+				783E6C891C520CAC00DC13FB /* BXTFaultTypeView.xib in Resources */,
 				9662659A1C3A6E8A001113FF /* AboutOrder.storyboard in Resources */,
 				967C3D4B1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.xib in Resources */,
 				967C3D461C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib in Resources */,
@@ -3458,6 +3506,7 @@
 				9652ABEE1BC90DCC009A666D /* ANKeyValueCache.m in Sources */,
 				9652ABEF1BC90DCC009A666D /* ANKeyValueData.m in Sources */,
 				7867DD761C4CBEA1000749F1 /* RGCollectionViewCell.m in Sources */,
+				783E6C2D1C51BFF400DC13FB /* BXTCustomImageView.m in Sources */,
 				7867DC271C4CBA5B000749F1 /* BXTCustomerServiceViewController.m in Sources */,
 				7867DD781C4CBEA1000749F1 /* BXTMaintenanceProcessViewController.m in Sources */,
 				96AB06301C1FB48E0038E2AF /* DOPDropDownMenu.m in Sources */,
@@ -3465,7 +3514,6 @@
 				782D6BC41C0D6CFC00E1828F /* SPChartUtil.m in Sources */,
 				782985951C40B4CB00D0837C /* BXTSettingTableViewCell.m in Sources */,
 				960221471BC9201400010072 /* NSString+URL.m in Sources */,
-				9602230F1BC9216300010072 /* BXTFaultTypeInfo.m in Sources */,
 				9652AB071BC902DF009A666D /* AppDelegate.m in Sources */,
 				7867DC2E1C4CBA5B000749F1 /* BXTRemindNum.m in Sources */,
 				7867DD7F1C4CBEA1000749F1 /* BXTMMOrderManagerViewController.m in Sources */,
@@ -3475,21 +3523,20 @@
 				9652ABF61BC90DCC009A666D /* NSString+ANKeyValue.m in Sources */,
 				7867DC2D1C4CBA5B000749F1 /* BXTGroupInfo.m in Sources */,
 				9652ABF71BC90DCC009A666D /* UIImage+ANKeyValue.m in Sources */,
-				960223031BC9216300010072 /* BXTShopInfo.m in Sources */,
 				7867DC831C4CBB47000749F1 /* BXTCompletionViewController.m in Sources */,
-				960223001BC9216300010072 /* BXTShopLocationViewController.m in Sources */,
+				783E6C871C520C8D00DC13FB /* BXTFaultTypeView.m in Sources */,
+				783E6C261C51BFF400DC13FB /* BXTAreaInfo.m in Sources */,
 				7818DBE71C0824D800DC22C6 /* PNRadarChartDataItem.m in Sources */,
 				781EF20D1C3D382C0027FE72 /* BXTEquipmentInformCell.m in Sources */,
+				783E6C811C5200BB00DC13FB /* BXTFaultTypeGroup.m in Sources */,
 				7829858A1C40A61500D0837C /* BXTMineViewController.m in Sources */,
 				7867DCA41C4CBBB7000749F1 /* BXTAuthorityListViewController.m in Sources */,
 				7829859E1C40B56E00D0837C /* BXTProjectInfromViewController.m in Sources */,
 				7867DC2F1C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m in Sources */,
-				966F20431C50CFCA0018760B /* BXTCustomImageView.m in Sources */,
 				96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */,
 				7867DD271C4CBE4F000749F1 /* BXTHeadquartersViewController.m in Sources */,
 				9652AB361BC9069B009A666D /* BXTGlobal.m in Sources */,
 				7867DC281C4CBA5B000749F1 /* BXTHomeViewController.m in Sources */,
-				960223071BC9216300010072 /* BXTWorkOderViewController.m in Sources */,
 				7867DCCD1C4CBCAC000749F1 /* BXTLoginViewController.m in Sources */,
 				9634156F1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m in Sources */,
 				9652ABEA1BC90DCC009A666D /* AESCrypt.m in Sources */,
@@ -3512,15 +3559,16 @@
 				7823D20B1C3231A000E3641C /* UIActionSheet+BlockT.m in Sources */,
 				782D6BD31C0D88B300E1828F /* SPChartPopup.m in Sources */,
 				7867DCF01C4CBD42000749F1 /* BXTNoneEVTableViewCell.m in Sources */,
-				960223101BC9216300010072 /* BXTRemarksTableViewCell.m in Sources */,
 				7867DC2C1C4CBA5B000749F1 /* BXTAdsInform.m in Sources */,
 				78C55A661C47339700FFEB37 /* BXTEquipmentAdsName.m in Sources */,
+				783E6C271C51BFF400DC13FB /* BXTFloorInfo.m in Sources */,
 				9602214B1BC9201400010072 /* UIView+ZXQuartz.m in Sources */,
 				7867DCA51C4CBBB7000749F1 /* BXTAuthorityListCell.m in Sources */,
 				7867DCB21C4CBC09000749F1 /* BXTAchievementsInfo.m in Sources */,
 				78C55B041C47BF7000FFEB37 /* BXTMainReadNoticeView.m in Sources */,
 				7818DBE51C0824D800DC22C6 /* PNPieChartDataItem.m in Sources */,
 				96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */,
+				783E6C2C1C51BFF400DC13FB /* BXTFaultTypeInfo.m in Sources */,
 				7867DCE91C4CBD42000749F1 /* BXTEvaluationViewController.m in Sources */,
 				7867DD7D1C4CBEA1000749F1 /* BXTManagerOMTableViewCell.m in Sources */,
 				9602214C1BC9201400010072 /* UIViewController+DismissKeyboard.m in Sources */,
@@ -3534,6 +3582,7 @@
 				7867DD211C4CBE4F000749F1 /* BXTPostionInfo.m in Sources */,
 				7818DBEA1C0824D800DC22C6 /* PNScatterChartDataItem.m in Sources */,
 				96C7F4261C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m in Sources */,
+				783E6C2A1C51BFF400DC13FB /* BXTWorkOderViewController.m in Sources */,
 				9652AB401BC9070E009A666D /* BXTBaseViewController.m in Sources */,
 				7867DD291C4CBE4F000749F1 /* CCLocationManager.m in Sources */,
 				7867DD821C4CBEA1000749F1 /* BXTOrderManagerViewController.m in Sources */,
@@ -3578,10 +3627,10 @@
 				9652ABEB1BC90DCC009A666D /* NSData+Base64.m in Sources */,
 				7867DCEE1C4CBD42000749F1 /* BXTHaveEVTableViewCell.m in Sources */,
 				7867DD721C4CBEA1000749F1 /* BXTGrabOrderViewController.m in Sources */,
-				960223061BC9216300010072 /* BXTRepairWordOrderViewController.m in Sources */,
 				960221481BC9201400010072 /* UIImage+SubImage.m in Sources */,
 				781EF20C1C3D382C0027FE72 /* BXTEquipmentFilesView.m in Sources */,
 				782985AC1C40BB6600D0837C /* BXTMineIconCell.m in Sources */,
+				783E6C311C51C05700DC13FB /* BXTChooseFaultViewController.m in Sources */,
 				7867DD2B1C4CBE4F000749F1 /* BXTHeadquartersTableViewCell.m in Sources */,
 				9652ABED1BC90DCC009A666D /* NSString+Base64.m in Sources */,
 				7829858E1C40AD3500D0837C /* BXTMineCell.m in Sources */,
@@ -3610,11 +3659,11 @@
 				781EF1FB1C3D382C0027FE72 /* BXTEquipmentViewController.m in Sources */,
 				7867DD6F1C4CBEA1000749F1 /* BXTAddOtherManViewController.m in Sources */,
 				96C684971BE76B4B0038A342 /* SideScrollingCheckCell.m in Sources */,
+				783E6C291C51BFF400DC13FB /* BXTRepairWordOrderViewController.m in Sources */,
 				7867DDB11C4CBEE9000749F1 /* BXTRepairDetailInfo.m in Sources */,
 				7818DBDC1C0824D800DC22C6 /* PNBarChart.m in Sources */,
 				7837101B1C4503E900A8D5EE /* BXTPersonChecks.m in Sources */,
 				7867DC0C1C4CB9F3000749F1 /* BXTAboutUsViewController.m in Sources */,
-				960223011BC9216300010072 /* BXTAreaInfo.m in Sources */,
 				7867DD701C4CBEA1000749F1 /* BXTAddOtherManInfo.m in Sources */,
 				7867DD7E1C4CBEA1000749F1 /* BXTManagerOMView.m in Sources */,
 				967C3D401C45FBB70078F1D6 /* BXTInspectionInfo.m in Sources */,
@@ -3629,7 +3678,6 @@
 				9634156A1C44E62C00B28C53 /* BXTMaintenanceBookViewController.m in Sources */,
 				781EF20F1C3D382C0027FE72 /* BXTEquipmentInformView.m in Sources */,
 				9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */,
-				9602230E1BC9216300010072 /* BXTFaultInfo.m in Sources */,
 				783DDA4A1C3FB4A50035B927 /* ChineseToPinyinResource.m in Sources */,
 				9652ABEC1BC90DCC009A666D /* NSData+CommonCrypto.m in Sources */,
 				9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */,
@@ -3647,6 +3695,7 @@
 				7867DD7C1C4CBEA1000749F1 /* BXTManagerOMViewController.m in Sources */,
 				9652ABF41BC90DCC009A666D /* ANPersistentStrategy.m in Sources */,
 				7867DC951C4CBB47000749F1 /* BXTStatisticsViewController.m in Sources */,
+				783E6C281C51BFF400DC13FB /* BXTShopInfo.m in Sources */,
 				782985841C40A5B200D0837C /* BXTUserInfo.m in Sources */,
 				7867DC291C4CBA5B000749F1 /* BXTLoadingViewController.m in Sources */,
 				7839780C1C34D9EB00BE9620 /* BXTMailListCell.m in Sources */,
@@ -3657,17 +3706,18 @@
 				78C55A681C47339700FFEB37 /* BXTEquipmentData.m in Sources */,
 				9652ABF11BC90DCC009A666D /* ANKeyValueTable.m in Sources */,
 				783DDA4C1C3FB4A50035B927 /* NSString+PinYin4Cocoa.m in Sources */,
-				960223021BC9216300010072 /* BXTFloorInfo.m in Sources */,
 				781EF2091C3D382C0027FE72 /* BXTEquipmentBaseView.m in Sources */,
 				7867DCCC1C4CBCAC000749F1 /* BXTFindPassWordViewController.m in Sources */,
 				7867DD2A1C4CBE4F000749F1 /* CLLocation+YCLocation.m in Sources */,
 				7818DBE81C0824D800DC22C6 /* PNScatterChart.m in Sources */,
+				783E6C2B1C51BFF400DC13FB /* BXTFaultInfo.m in Sources */,
 				78C55A651C47339700FFEB37 /* BXTCurrentOrderData.m in Sources */,
 				7867DDAC1C4CBEE9000749F1 /* BXTRepairTableViewCell.m in Sources */,
 				7818DBD41C0824D800DC22C6 /* BarChatItemView.m in Sources */,
 				96C684941BE76B4B0038A342 /* HCollectionViewCell.m in Sources */,
 				7818DBE11C0824D800DC22C6 /* PNLineChart.m in Sources */,
 				7867DC901C4CBB47000749F1 /* BXTProfessionFooter.m in Sources */,
+				783E6C2E1C51BFF400DC13FB /* BXTRemarksTableViewCell.m in Sources */,
 				78C55B0A1C47C12700FFEB37 /* BXTUnReadNoticeView.m in Sources */,
 				7867DDAD1C4CBEE9000749F1 /* BXTDetailBaseViewController.m in Sources */,
 				783DDA5E1C3FD45C0035B927 /* BXTQRCodeViewController.m in Sources */,
@@ -3677,6 +3727,7 @@
 				7867DD281C4CBE4F000749F1 /* BXTHeadquartersInfo.m in Sources */,
 				7867DD7A1C4CBEA1000749F1 /* BXTMMLogTableViewCell.m in Sources */,
 				7867DCB31C4CBC09000749F1 /* BXTArchievementsTableViewCell.m in Sources */,
+				783E6C841C52033500DC13FB /* BXTFaultType.m in Sources */,
 				782D6BC11C0D6CFC00E1828F /* SPBar.m in Sources */,
 				7818DBE61C0824D800DC22C6 /* PNRadarChart.m in Sources */,
 				96C7F4221C2BC21200AD4C71 /* BXTMailListViewController.m in Sources */,
@@ -3694,6 +3745,7 @@
 				7867DCCE1C4CBCAC000749F1 /* BXTNickNameViewController.m in Sources */,
 				9652AB411BC9070E009A666D /* BXTSelectBoxView.m in Sources */,
 				78213FCD1C3E469A003290A8 /* BXTStandardViewController.m in Sources */,
+				783E6C251C51BFF400DC13FB /* BXTShopLocationViewController.m in Sources */,
 				783DDA4E1C3FB4A50035B927 /* PinYinForObjc.m in Sources */,
 				7818DBE21C0824D800DC22C6 /* PNLineChartData.m in Sources */,
 				7867DC861C4CBB47000749F1 /* BXTCompletionHeader.m in Sources */,
@@ -3877,7 +3929,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -3910,7 +3962,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
