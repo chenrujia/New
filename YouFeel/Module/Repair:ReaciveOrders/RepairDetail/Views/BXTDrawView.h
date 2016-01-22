@@ -12,7 +12,8 @@
 
 @property (nonatomic ,assign) NSInteger repairState;
 @property (nonatomic ,assign) NSInteger isRepairing;
+@property (nonatomic ,assign) BOOL      isShow;
 
-- (instancetype)initWithFrame:(CGRect)frame withRepairState:(NSInteger)state withIsRespairing:(NSInteger)repairing;
+- (instancetype)initWithFrame:(CGRect)frame withRepairState:(NSInteger)state withIsRespairing:(NSInteger)repairing isShowState:(BOOL)show;
 
 @end

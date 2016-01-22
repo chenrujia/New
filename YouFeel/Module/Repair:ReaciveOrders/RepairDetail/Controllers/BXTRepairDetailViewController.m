@@ -175,7 +175,7 @@
             }
             [_contentView layoutIfNeeded];
             
-            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_lineOne.frame) + 10, SCREEN_WIDTH, StateViewHeight) withRepairState:self.repairDetail.repairstate withIsRespairing:self.repairDetail.isRepairing];
+            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_lineOne.frame) + 10, SCREEN_WIDTH, StateViewHeight) withRepairState:self.repairDetail.repairstate withIsRespairing:self.repairDetail.isRepairing isShowState:YES];
             [_contentView addSubview:drawView];
 
             if (!self.repairDetail.man_hours.length)
@@ -191,7 +191,7 @@
         {
             _line_one_top.constant = 10.f;
             [_contentView layoutIfNeeded];
-            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_lineOne.frame) + 10.f, SCREEN_WIDTH, 90.f) withRepairState:self.repairDetail.repairstate withIsRespairing:self.repairDetail.isRepairing];
+            BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_lineOne.frame) + 10.f, SCREEN_WIDTH, 90.f) withRepairState:self.repairDetail.repairstate withIsRespairing:self.repairDetail.isRepairing isShowState:YES];
             [_contentView addSubview:drawView];
             
             if (!self.repairDetail.man_hours.length)

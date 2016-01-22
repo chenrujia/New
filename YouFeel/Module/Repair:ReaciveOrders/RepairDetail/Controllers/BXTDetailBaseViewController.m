@@ -259,7 +259,7 @@
     else
     {
         UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
-        contact.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+        contact.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
         contact.layer.borderWidth = 1.f;
         contact.layer.cornerRadius = 4.f;
         [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];

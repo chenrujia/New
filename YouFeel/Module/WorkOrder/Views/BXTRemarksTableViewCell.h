@@ -7,18 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTCustomImageView.h"
 
 #define IMAGEWIDTH 67.5f
 
 @interface BXTRemarksTableViewCell : UITableViewCell
 
-@property (nonatomic ,strong) UILabel        *titleLabel;
-@property (nonatomic ,strong) UIButton       *addBtn;
-@property (nonatomic ,strong) UITextView     *remarkTV;
-@property (nonatomic ,strong) UIImageView    *imgViewOne;
-@property (nonatomic ,strong) UIImageView    *imgViewTwo;
-@property (nonatomic ,strong) UIImageView    *imgViewThree;
-@property (nonatomic ,strong) NSMutableArray *photosArray;
+@property (nonatomic ,strong) UILabel            *titleLabel;
+@property (nonatomic ,strong) UIButton           *addBtn;
+@property (nonatomic ,strong) UITextView         *remarkTV;
+@property (nonatomic ,strong) BXTCustomImageView *imgViewOne;
+@property (nonatomic ,strong) BXTCustomImageView *imgViewTwo;
+@property (nonatomic ,strong) BXTCustomImageView *imgViewThree;
+@property (nonatomic ,strong) NSMutableArray     *photosArray;
 
 - (void)handleImagesFrame:(NSArray *)array;
 

@@ -11,8 +11,12 @@
 #import "BXTHeaderForVC.h"
 #import "BXTDrawView.h"
 #import "BXTSelectBoxView.h"
+#import "BXTPersonInfromViewController.h"
+#import "BXTMaintenanceProcessViewController.h"
+#import "BXTAddOtherManViewController.h"
+#import "BXTRejectOrderViewController.h"
 
-@interface BXTMaintenanceDetailViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
+@interface BXTMaintenanceDetailViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
 
 @property (nonatomic, strong) BXTSelectBoxView *boxView;
 @property (nonatomic ,strong) NSString         *repair_id;
@@ -20,6 +24,7 @@
 @property (nonatomic ,strong) UIDatePicker     *datePicker;
 @property (nonatomic ,strong) UIView           *bgView;
 @property (nonatomic ,assign) NSTimeInterval   timeInterval;
+@property (nonatomic, strong) NSMutableArray   *manIDArray;
 
 @end
 
@@ -36,9 +41,16 @@
     [super viewDidLoad];
     [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
     _sco_content_width.constant = SCREEN_WIDTH;
-    _connectTa.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+    _connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _connectTa.layer.borderWidth = 1.f;
     _connectTa.layer.cornerRadius = 4.f;
+    //联系他
+    @weakify(self);
+    [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        NSDictionary *repaier_fault_dic = self.repairDetail.repair_fault_arr[0];
+        [self handleUserInfo:repaier_fault_dic];
+    }];
     _maintenance.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _maintenance.layer.borderWidth = 1.f;
     _maintenance.layer.cornerRadius = 4.f;
@@ -47,8 +59,17 @@
     _groupName.layer.cornerRadius = 4.f;
     _reaciveOrder.layer.masksToBounds = YES;
     _reaciveOrder.layer.cornerRadius = 4.f;
-    _leftItem.image = nil;
-    _leftItem.title = @"增加人员";
+    self.manIDArray = [[NSMutableArray alloc] init];
+    //点击头像
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
+    [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        NSDictionary *repaier_fault_dic = self.repairDetail.repair_fault_arr[0];
+        BXTPersonInfromViewController *personVC = [[BXTPersonInfromViewController alloc] init];
+        personVC.userID = [repaier_fault_dic objectForKey:@"id"];
+        [self.navigationController pushViewController:personVC animated:YES];
+    }];
+    [_headImgView addGestureRecognizer:tapGesture];
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
@@ -184,6 +205,21 @@
 }
 
 #pragma mark -
+#pragma mark Touch
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    UIView *view = touch.view;
+    if (view.tag == 101)
+    {
+        [view removeFromSuperview];
+        [UIView animateWithDuration:0.3f animations:^{
+            [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
+        } completion:nil];
+    }
+}
+
+#pragma mark -
 #pragma mark BXTBoxSelectedTitleDelegate
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
 {
@@ -214,6 +250,28 @@
                       andUserID:userID
                        andUsers:users
                       andIsGrad:NO];
+    }
+}
+
+#pragma mark -
+#pragma mark UITabBarDelegate
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    if (item.tag == 1)
+    {
+        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[_repair_id integerValue] andWithVCType:DetailType];
+        addOtherVC.manIDArray = self.manIDArray;
+        [self.navigationController pushViewController:addOtherVC animated:YES];
+    }
+    else if (item.tag == 2)
+    {
+        BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:self.repairDetail.faulttype_name andCurrentFaultID:self.repairDetail.faulttype andRepairID:self.repairDetail.repairID andReaciveTime:self.repairDetail.start_time];
+        @weakify(self);
+        maintenanceProcossVC.BlockRefresh = ^() {
+            @strongify(self);
+            [self requestDetail];
+        };
+        [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
     }
 }
 
@@ -314,45 +372,90 @@
         
         //设备列表相关
         NSInteger deviceCount = self.repairDetail.device_list.count;
-        _second_bv_height.constant = 48.f + 63.f * deviceCount;
-        [_secondBV layoutIfNeeded];
-        for (NSInteger i = 0; i < deviceCount; i++)
+        CGFloat secondHeight = 48.f + 63.f * deviceCount;
+        if (deviceCount)
         {
-            UIView *deviceView = [self deviceLists:i];
-            [_secondBV addSubview:deviceView];
+            _second_bv_height.constant = secondHeight;
+            [_secondBV layoutIfNeeded];
+            _third_bv_top.constant = 12.f + secondHeight + 12.f;
+            for (NSInteger i = 0; i < deviceCount; i++)
+            {
+                UIView *deviceView = [self deviceLists:i];
+                [_secondBV addSubview:deviceView];
+            }
+        }
+        else
+        {
+            _secondBV.hidden = YES;
+            _third_bv_top.constant = 12.f;
         }
         
         //状态相关
-        BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, StateViewHeight) withRepairState:self.repairDetail.repairstate withIsRespairing:self.repairDetail.isRepairing];
+        BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, StateViewHeight) withRepairState:self.repairDetail.repairstate withIsRespairing:self.repairDetail.isRepairing isShowState:NO];
         [_thirdBV addSubview:drawView];
         NSString *repairDateStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.dispatching_time];
         _arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
-        _mmProcess.text = [NSString stringWithFormat:@"维修备注:%@",self.repairDetail.workprocess];
-        [_mmProcess layoutIfNeeded];
-        _workTime.text = [NSString stringWithFormat:@"维修工时:%@小时",self.repairDetail.man_hours];
-        NSString *time_str = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.end_time];
-        _completeTime.text = [NSString stringWithFormat:@"完成时间:%@",time_str];
-        _third_bv_height.constant = CGRectGetMaxY(_completeTime.frame) + 10.f;
+        if (self.repairDetail.man_hours.length > 0)
+        {
+            _mmProcess.hidden = NO;
+            _workTime.hidden = NO;
+            _completeTime.hidden = NO;
+            _mmProcess.text = [NSString stringWithFormat:@"维修备注:%@",self.repairDetail.workprocess];
+            [_mmProcess layoutIfNeeded];
+            _workTime.text = [NSString stringWithFormat:@"维修工时:%@小时",self.repairDetail.man_hours];
+            NSString *time_str = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.end_time];
+            _completeTime.text = [NSString stringWithFormat:@"完成时间:%@",time_str];
+            _third_bv_height.constant = CGRectGetMaxY(_completeTime.frame) + 10.f;
+        }
+        else
+        {
+            _mmProcess.hidden = YES;
+            _workTime.hidden = YES;
+            _completeTime.hidden = YES;
+            _third_bv_height.constant = CGRectGetMaxY(_arrangeTime.frame) + 10.f;
+        }
         [_thirdBV layoutIfNeeded];
 
-        //维修员相关
-        NSInteger usersCount = self.repairDetail.repair_user_arr.count;
-        _fouth_bv_height.constant = 52 + RepairHeight * usersCount;
-        [_fouthBV layoutIfNeeded];
+        //接单按钮、增加人员和维修过程
         CGFloat height = 0.f;
         _reaciveOrder.hidden = YES;
+        _bottomTabBar.hidden = YES;
         if (self.repairDetail.repairstate == 1)
         {
             height = 90.f;
             _reaciveOrder.hidden = NO;
         }
-        _sco_content_height.constant = CGRectGetMaxY(_fouthBV.frame) + height;
-        [_contentView layoutIfNeeded];
-        for (NSInteger i = 0; i < usersCount; i++)
+        else if (self.repairDetail.repairstate == 2 && self.repairDetail.isRepairing == 2)
         {
-            UIView *userBack = [self viewForUser:i andMaintenanceMaxY:CGRectGetMaxY(_maintenanceMan.frame) + 20 andLevelWidth:CGRectGetWidth(_level.frame)];
-            [_fouthBV addSubview:userBack];
+            if (!self.isRejectVC && [BXTGlobal shareGlobal].isRepair)
+            {
+                height = 70.f;
+                _bottomTabBar.hidden = NO;
+            }
         }
+        
+        //维修员相关
+        NSInteger usersCount = self.repairDetail.repair_user_arr.count;
+        _fouth_bv_height.constant = 52 + RepairHeight * usersCount;
+        [_fouthBV layoutIfNeeded];
+        if (usersCount)
+        {
+            for (NSInteger i = 0; i < usersCount; i++)
+            {
+                NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
+                [self.manIDArray addObject:userDic[@"id"]];
+                
+                UIView *userBack = [self viewForUser:i andMaintenanceMaxY:CGRectGetMaxY(_maintenanceMan.frame) + 20 andLevelWidth:CGRectGetWidth(_level.frame)];
+                [_fouthBV addSubview:userBack];
+            }
+            _sco_content_height.constant = CGRectGetMaxY(_fouthBV.frame) + height;
+        }
+        else
+        {
+            _fouthBV.hidden = YES;
+            _sco_content_height.constant = CGRectGetMaxY(_thirdBV.frame) + height;
+        }
+        [_contentView layoutIfNeeded];
     }
     else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {

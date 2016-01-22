@@ -271,6 +271,7 @@
 		9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */; };
 		9660CEE21C437E2E00176DDE /* BXTMaintenanceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9660CEE01C437E2E00176DDE /* BXTMaintenanceViewController.xib */; };
 		9662659A1C3A6E8A001113FF /* AboutOrder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 966265991C3A6E8A001113FF /* AboutOrder.storyboard */; };
+		966F20431C50CFCA0018760B /* BXTCustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966F20421C50CFCA0018760B /* BXTCustomImageView.m */; };
 		9671BB501C1ED29F00D90BFF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AABA331BE0765A0071B6FA /* libc++.tbd */; };
 		9671BB521C1ED3AB00D90BFF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 960223111BC922DB00010072 /* libsqlite3.tbd */; };
 		967C3D3F1C45FBB70078F1D6 /* BXTCheckProjectInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D3A1C45FBB70078F1D6 /* BXTCheckProjectInfo.m */; };
@@ -828,6 +829,8 @@
 		9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenanceViewController.m; sourceTree = "<group>"; };
 		9660CEE01C437E2E00176DDE /* BXTMaintenanceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMaintenanceViewController.xib; sourceTree = "<group>"; };
 		966265991C3A6E8A001113FF /* AboutOrder.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutOrder.storyboard; sourceTree = "<group>"; };
+		966F20411C50CFCA0018760B /* BXTCustomImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomImageView.h; sourceTree = "<group>"; };
+		966F20421C50CFCA0018760B /* BXTCustomImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCustomImageView.m; sourceTree = "<group>"; };
 		967C3D391C45FBB70078F1D6 /* BXTCheckProjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCheckProjectInfo.h; sourceTree = "<group>"; };
 		967C3D3A1C45FBB70078F1D6 /* BXTCheckProjectInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCheckProjectInfo.m; sourceTree = "<group>"; };
 		967C3D3B1C45FBB70078F1D6 /* BXTInspectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTInspectionInfo.h; sourceTree = "<group>"; };
@@ -2384,9 +2387,9 @@
 		7867DD861C4CBEE9000749F1 /* Repair/ReaciveOrders */ = {
 			isa = PBXGroup;
 			children = (
-				7867DD871C4CBEE9000749F1 /* ReaciveOrders */,
 				7867DD8E1C4CBEE9000749F1 /* Repair */,
 				7867DD981C4CBEE9000749F1 /* RepairDetail */,
+				7867DD871C4CBEE9000749F1 /* ReaciveOrders */,
 			);
 			name = Repair/ReaciveOrders;
 			path = "Repair:ReaciveOrders";
@@ -2800,6 +2803,8 @@
 			children = (
 				960222821BC9216300010072 /* BXTRemarksTableViewCell.h */,
 				960222831BC9216300010072 /* BXTRemarksTableViewCell.m */,
+				966F20411C50CFCA0018760B /* BXTCustomImageView.h */,
+				966F20421C50CFCA0018760B /* BXTCustomImageView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3479,6 +3484,7 @@
 				7867DCA41C4CBBB7000749F1 /* BXTAuthorityListViewController.m in Sources */,
 				7829859E1C40B56E00D0837C /* BXTProjectInfromViewController.m in Sources */,
 				7867DC2F1C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m in Sources */,
+				966F20431C50CFCA0018760B /* BXTCustomImageView.m in Sources */,
 				96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */,
 				7867DD271C4CBE4F000749F1 /* BXTHeadquartersViewController.m in Sources */,
 				9652AB361BC9069B009A666D /* BXTGlobal.m in Sources */,
@@ -3871,7 +3877,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
+				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -3904,7 +3910,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
+				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
