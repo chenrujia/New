@@ -120,14 +120,16 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         if (![self.groupView.faultTypeView.text isEqualToString:@"请选择故障类型"] && ![self.typeView.faultTypeView.text isEqualToString:@"请选择故障类别"]) {
-            if (self.delegateSignal) {
-                NSString *str = [NSString stringWithFormat:@"%@-%@", self.groupView.faultTypeView.text, self.typeView.faultTypeView.text];
-                [self.delegateSignal sendNext:@[self.transFaulttypeID, str]];
-            }
-            [self.navigationController popViewControllerAnimated:YES];
+            [BXTGlobal showText:@"故障选择成功" view:self.view completionBlock:^{
+                if (self.delegateSignal) {
+                    NSString *str = [NSString stringWithFormat:@"%@-%@", self.groupView.faultTypeView.text, self.typeView.faultTypeView.text];
+                    [self.delegateSignal sendNext:@[self.transFaulttypeID, str]];
+                }
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
         }
         else {
-            [BXTGlobal showText:@"请完善信息" view:self.view completionBlock:nil];
+            [BXTGlobal showText:@"请选择故障类型和类别" view:self.view completionBlock:nil];
         }
     }];
     [self.bgView addSubview:sureBtn];

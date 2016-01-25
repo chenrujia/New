@@ -353,6 +353,20 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     return [NSArray arrayWithObjects:yearStr, monthStr, dayStr, nil];
 }
 
++ (void)showLoadingMBP:(NSString *)text
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = text;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+}
+
++ (void)hideMBP
+{
+    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+}
+
 + (void)showText:(NSString *)text view:(UIView *)view completionBlock:(void (^)())completion {
     [MBProgressHUD hideHUDForView:view animated:YES];
     MBProgressHUD *showHud = [[MBProgressHUD alloc] initWithView:view];

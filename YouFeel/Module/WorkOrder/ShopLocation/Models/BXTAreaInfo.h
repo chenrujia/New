@@ -14,4 +14,7 @@
 @property (nonatomic ,strong) NSString *place_name;
 @property (nonatomic ,strong) NSArray  *stores;
 
++ (instancetype)modelWithDict:(NSDictionary *)dict;
+- (instancetype)initWithDict:(NSDictionary *)dict;
+
 @end

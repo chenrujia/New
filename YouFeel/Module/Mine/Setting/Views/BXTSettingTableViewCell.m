@@ -18,7 +18,7 @@
     {
         self.titleLabel = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 60.f, 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 90.f, 20)];
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont systemFontOfSize:17.];
             [self addSubview:label];
@@ -28,7 +28,7 @@
         
         self.detailLable = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_titleLabel.frame) + 20.f, 15.f, SCREEN_WIDTH - (CGRectGetMaxX(_titleLabel.frame) + 20.f) - 35.f, 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_titleLabel.frame), 15.f, SCREEN_WIDTH - (CGRectGetMaxX(_titleLabel.frame) + 20.f) - 35.f, 20)];
             label.textColor = colorWithHexString(@"909497");
             label.textAlignment = NSTextAlignmentLeft;
             label.font = [UIFont systemFontOfSize:15.f];
@@ -49,7 +49,7 @@
         
         self.detailTF = ({
             
-            UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_titleLabel.frame) + 20.f, 10., CGRectGetWidth(_detailLable.frame), 30)];
+            UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_titleLabel.frame), 10., CGRectGetWidth(_detailLable.frame), 30)];
             textField.borderStyle = UITextBorderStyleNone;
             textField.textColor = colorWithHexString(@"909497");
             textField.hidden = YES;
@@ -83,7 +83,7 @@
             
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.hidden = YES;
-            button.frame = CGRectMake(CGRectGetMaxX(_titleLabel.frame) + 27.f, 5, 57.f, 40.f);
+            button.frame = CGRectMake(CGRectGetMaxX(_titleLabel.frame) + 7.f, 5, 57.f, 40.f);
             [button setTitle:@"一般" forState:UIControlStateNormal];
             [button setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             button.layer.masksToBounds = YES;
@@ -99,7 +99,7 @@
             
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.hidden = YES;
-            button.frame = CGRectMake(CGRectGetMaxX(_normelBtn.frame) + 20.f, 5, 57.f, 40.f);
+            button.frame = CGRectMake(CGRectGetMaxX(_normelBtn.frame), 5, 57.f, 40.f);
             [button setTitle:@"紧急" forState:UIControlStateNormal];
             [button setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             button.layer.masksToBounds = YES;

@@ -13,4 +13,7 @@
 @property (nonatomic ,strong) NSString *stores_id;
 @property (nonatomic ,strong) NSString *stores_name;
 
++ (instancetype)modelWithDict:(NSDictionary *)dict;
+- (instancetype)initWithDict:(NSDictionary *)dict;
+
 @end

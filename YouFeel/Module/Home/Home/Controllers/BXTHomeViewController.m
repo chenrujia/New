@@ -19,6 +19,7 @@
 #import "SDCycleScrollView.h"
 #import "BXTSettingViewController.h"
 #import "BXTAdsInform.h"
+#import "BXTNoticeInformViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -241,7 +242,14 @@
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
     BXTAdsInform *model = self.adsArray[index];
-    NSLog(@"---点击了  %@ ", model.title);
+    
+    BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
+    nivc.urlStr = model.more;
+    nivc.pushType = PushType_Ads;
+    nivc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:nivc animated:YES];
+    
+    NSLog(@"---点击了  %@ ", model.more);
 }
 
 #pragma mark -
@@ -413,6 +421,11 @@
         [BXTRemindNum sharedManager].inspectioNum = [NSString stringWithFormat:@"%@", numDict[@"inspectio_number"]];
         [BXTRemindNum sharedManager].appNum = [NSString stringWithFormat:@"%@", numDict[@"app_sum_number"]];
         [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%@", numDict[@"announcement_number"]];
+        
+        if ( [[BXTRemindNum sharedManager].appNum integerValue] != 0) {
+            UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:2];
+            tController.tabBarItem.badgeValue = [BXTRemindNum sharedManager].appNum;
+        }
         
         [_currentTableView reloadData];
     }
