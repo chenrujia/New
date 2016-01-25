@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DOPDropDownMenu.h"
 #import "BXTDataRequest.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 typedef NS_ENUM(NSInteger, RefreshType) {
     Down,
@@ -22,7 +23,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     AllType = 3,
 };
 
-@interface BXTManagerOMView : UIView <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
+@interface BXTManagerOMView : UIView <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 {
     NSArray          *typesArray;
     NSInteger        currentPage;

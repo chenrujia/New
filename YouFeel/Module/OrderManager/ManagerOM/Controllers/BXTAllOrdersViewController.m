@@ -113,7 +113,7 @@
             doneBtnheight = 55.f;
             scrollViewHeight = alertHeight - doneBtnheight - 13.f;
         }
-        else if (IS_IPHONE6P)
+        else if (IS_IPHONE6)
         {
             timeBackHeight = 262.f;
             line_y = 45.f;

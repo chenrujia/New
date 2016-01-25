@@ -13,10 +13,11 @@
 #import "BXTFaultInfo.h"
 #import "BXTFaultTypeInfo.h"
 #import "BXTSelectBoxView.h"
+#import "UIScrollView+EmptyDataSet.h"
 #import "BXTReaciveOrderTableViewCell.h"
 #import "BXTMaintenanceDetailViewController.h"
 
-@interface BXTReaciveOrdersViewController ()<DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,BXTBoxSelectedTitleDelegate,UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate>
+@interface BXTReaciveOrdersViewController ()<DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,BXTBoxSelectedTitleDelegate,UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 {
     NSMutableArray    *ordersArray;
     NSMutableArray    *areasArray;
@@ -105,6 +106,8 @@
     [currentTableView registerClass:[BXTReaciveOrderTableViewCell class] forCellReuseIdentifier:@"ReaciveOrderCell"];
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
+    currentTableView.emptyDataSetDelegate = self;
+    currentTableView.emptyDataSetSource = self;
     [self.view addSubview:currentTableView];
 }
 
@@ -364,6 +367,17 @@
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
     [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
     [self.navigationController pushViewController:repairDetailVC animated:YES];
+}
+
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"没有符合条件的工单";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName:[UIColor blackColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 #pragma mark -

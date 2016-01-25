@@ -20,7 +20,7 @@
 
         self.logoImgView = ({
         
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(RealValue(26.f), RealValue(15.f), RealValue(30.f), RealValue(30.f))];
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(26.f, 15.f, 30.f, 30.f)];
             [self addSubview:imageView];
             imageView;
         
@@ -28,10 +28,10 @@
         
         self.titleLabel = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_logoImgView.frame) + RealValue(26.f), 0, 100.f, 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_logoImgView.frame) + 26.f, 0, 100.f, 20)];
             label.center = CGPointMake(label.center.x, _logoImgView.center.y);
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont systemFontOfSize:RealValue(17.f)];
+            label.font = [UIFont systemFontOfSize:16.f];
             [self addSubview:label];
             label;
             

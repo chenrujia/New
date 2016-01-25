@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "BXTDataRequest.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 typedef NS_ENUM(NSInteger, RefreshType) {
     Down,
     Up
 };
 
-@interface BXTOrderListView : UIView <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
+@interface BXTOrderListView : UIView <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
 {
     NSInteger        currentPage;
     NSInteger        selectTag;

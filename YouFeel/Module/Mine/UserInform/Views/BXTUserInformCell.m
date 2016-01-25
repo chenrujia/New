@@ -26,8 +26,8 @@
 - (void)awakeFromNib {
     // Initialization code
     
-    self.titleView.font = [UIFont systemFontOfSize:RealValue(17)];
-    self.detailView.font = [UIFont systemFontOfSize:RealValue(17)];
+    self.titleView.font = [UIFont systemFontOfSize:17];
+    self.detailView.font = [UIFont systemFontOfSize:17];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

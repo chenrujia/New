@@ -66,6 +66,8 @@
         // 忽略掉底部inset
         _currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
         _currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 40.f;
+        _currentTableView.emptyDataSetSource = self;
+        _currentTableView.emptyDataSetDelegate = self;
         if (![BXTGlobal shareGlobal].isRepair)
         {
             [_currentTableView registerClass:[BXTRepairTableViewCell class] forCellReuseIdentifier:@"OrderListCell"];
@@ -387,6 +389,17 @@
     [self showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request startRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+}
+
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"没有符合条件的工单";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName:[UIColor blackColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 #pragma mark -
