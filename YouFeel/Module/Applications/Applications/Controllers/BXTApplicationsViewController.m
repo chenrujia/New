@@ -26,16 +26,16 @@
 
 @implementation BXTApplicationsViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.tabBarItem.badgeValue = nil;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self navigationSetting:@"应用" andRightTitle:nil andRightImage:nil];
-    
-    self.navigationController.tabBarItem.badgeValue = nil;
-    
-    // 消灭红点
-    [BXTRemindNum sharedManager].announcementNum = @"0";
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"APPREMIND" object:nil];
     
     self.titleArray = @[@"项目通告", @"业务统计", @"敬请期待", @""];
     self.imageArray = @[@"app_book", @"app_statistics", @"app_symbol", @""];

@@ -42,21 +42,6 @@
 
 - (void)dealloc
 {
-    NSArray *array = [BXTGlobal getUserProperty:U_BINDINGADS];
-    if (array.count)
-    {
-        NSDictionary *areaDic = array[0];
-        BXTFloorInfo *floor = [[BXTFloorInfo alloc] init];
-        floor.area_id = [areaDic objectForKey:@"area_id"];
-        floor.area_name = [areaDic objectForKey:@"area_name"];
-        [BXTGlobal setUserProperty:floor withKey:U_FLOOOR];
-        
-        BXTAreaInfo *area = [[BXTAreaInfo alloc] init];
-        area.place_id = [areaDic objectForKey:@"place_id"];
-        area.place_name = [areaDic objectForKey:@"place_name"];
-        [BXTGlobal setUserProperty:area withKey:U_AREA];
-    }
-    
     LogBlue(@"新建报修释放了。。。");
 }
 
@@ -476,7 +461,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    NSArray *data = [dic objectForKey:@"data"];
     if (type == CreateRepair)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)

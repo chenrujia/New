@@ -147,7 +147,7 @@
     //项目列表
     UIButton *branchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     branchBtn.frame = CGRectMake(5, valueForDevice(25.f, 25.f, 20.f, 15.f), 44, 44);
-    [branchBtn setBackgroundImage:[UIImage imageNamed:@"list_button"] forState:UIControlStateNormal];
+    [branchBtn setBackgroundImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         // 商铺列表
         BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];

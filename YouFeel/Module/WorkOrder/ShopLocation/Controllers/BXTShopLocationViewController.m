@@ -178,13 +178,16 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     }
     else
     {
-        BXTFloorInfo *firstModel = self.addressFirstArray[self.indexOfRow1];
-        BXTAreaInfo *secondModel = self.addressSecondArray[self.indexOfRow1][self.indexOfRow2];
-        BXTShopInfo *thirdModel = self.addressThirdArray[self.indexOfRow1][self.indexOfRow2][self.indexOfRow3];
-        if (self.delegateSignal) {
-            [self.delegateSignal sendNext:@[firstModel.area_id, firstModel.area_name, secondModel.place_id, secondModel.place_name, thirdModel.stores_id, thirdModel.stores_name]];
-        }
-        [self.navigationController popViewControllerAnimated:YES];
+        [BXTGlobal showText:@"位置选择成功" view:self.view completionBlock:^{
+            BXTFloorInfo *firstModel = self.addressFirstArray[self.indexOfRow1];
+            BXTAreaInfo *secondModel = self.addressSecondArray[self.indexOfRow1][self.indexOfRow2];
+            BXTShopInfo *thirdModel = self.addressThirdArray[self.indexOfRow1][self.indexOfRow2][self.indexOfRow3];
+            if (self.delegateSignal) {
+                [self.delegateSignal sendNext:@[firstModel.area_id, firstModel.area_name, secondModel.place_id, secondModel.place_name, thirdModel.stores_id, thirdModel.stores_name]];
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        
     }
 }
 
