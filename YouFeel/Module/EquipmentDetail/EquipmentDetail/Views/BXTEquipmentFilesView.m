@@ -29,7 +29,7 @@
 @property (nonatomic, strong) UITableView      *tableView;
 @property (nonatomic, strong) UIView           *bgView;
 @property (nonatomic, strong) NSMutableArray   *dataArray;
-@property (nonatomic, strong) NSMutableArray   *ChoosTimeArray;
+@property (nonatomic, strong) NSMutableArray   *choosTimeArray;
 @property (nonatomic, strong) NSMutableArray   *maintencesArray;
 
 @end
@@ -152,13 +152,13 @@
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     
-    if (self.ChoosTimeArray.count == 0)
+    if (self.choosTimeArray.count == 0)
     {
         [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] deviceID:self.deviceID timestart:@"" timeover:@""];
     }
     else
     {
-        [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] deviceID:self.deviceID timestart:self.ChoosTimeArray[0] timeover:self.ChoosTimeArray[1]];
+        [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] deviceID:self.deviceID timestart:self.choosTimeArray[0] timeover:self.choosTimeArray[1]];
     }
 }
 
@@ -225,7 +225,7 @@
     {
         if (indexPath.row == 0)
         {
-            [self.ChoosTimeArray removeAllObjects];
+            [self.choosTimeArray removeAllObjects];
             
             [self showLoadingMBP:@"数据加载中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -238,9 +238,7 @@
             @weakify(self);
             [tfvc.delegateSignal subscribeNext:^(NSArray *timeArray) {
                 @strongify(self);
-                
-                self.ChoosTimeArray = [[NSMutableArray alloc] initWithArray:timeArray];
-                
+                self.choosTimeArray = [[NSMutableArray alloc] initWithArray:timeArray];
                 [self showLoadingMBP:@"数据加载中..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] deviceID:self.deviceID timestart:timeArray[0] timeover:timeArray[1]];

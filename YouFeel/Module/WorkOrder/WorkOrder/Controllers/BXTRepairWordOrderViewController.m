@@ -441,7 +441,8 @@
         }];
         shopLocationVC.delegateSignal = [RACSubject subject];
         [shopLocationVC.delegateSignal subscribeNext:^(NSArray *array) {
-            @strongify(self);
+            self.addressIDArray = [[NSArray alloc] initWithArray:array];
+            address = [NSString stringWithFormat:@"%@-%@-%@", self.addressIDArray[1], self.addressIDArray[3], self.addressIDArray[5]];
             [self.currentTableView reloadData];
 //            self.addressIDArray = [[NSArray alloc] initWithArray:array];
         }];

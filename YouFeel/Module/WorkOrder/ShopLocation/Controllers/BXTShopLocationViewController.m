@@ -154,7 +154,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         [BXTGlobal showText:@"请填写完整信息" view:self.view completionBlock:nil];
         return;
     }
-    else if (_isResign) {
+    else if (_isResign)
+    {
         //        id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
         //        if ([shopInfo isKindOfClass:[BXTShopInfo class]])
         //        {
