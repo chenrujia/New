@@ -367,6 +367,7 @@
         [cfvc.delegateSignal subscribeNext:^(NSArray *transArray) {
             NSString *transID = transArray[0];
             NSLog(@"---------- %@", transID);
+            
             self.faultStr = transArray[1];
             if ([transID isEqualToString:@"other"]) {
                 self.faulttypeID = @"";
