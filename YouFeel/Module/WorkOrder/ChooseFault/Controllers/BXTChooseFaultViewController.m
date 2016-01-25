@@ -12,6 +12,7 @@
 #import "BXTFaultType.h"
 #import "BXTFaultTypeGroup.h"
 #import "BXTFaultTypeView.h"
+#import "BXTFaultTypeList.h"
 
 typedef NS_ENUM(NSInteger, SelectedType) {
     SelectedType_First = 1,
@@ -48,7 +49,6 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 @property (nonatomic, strong) NSMutableArray *searchArray;
 @property (nonatomic, copy) NSString *searchStr;
 
-@property (nonatomic, strong) NSMutableArray *allPersonArray;
 
 @end
 
@@ -63,11 +63,20 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     self.faultArray = [[NSMutableArray alloc] init];
     self.faultGroup = [[NSMutableArray alloc] init];
     self.faultType = [[NSMutableArray alloc] init];
+    self.searchArray = [[NSMutableArray alloc] init];
     
-    
-    /**请求故障类型列表**/
-    BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [fau_request faultTypeList];
+    [self showLoadingMBP:@"数据加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**请求故障类型列表**/
+        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [fau_request faultTypeList];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /** 获取全部故障类型 **/
+        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [fau_request allFaultTypeListWith:@"1"];
+    });
     
     [self createUI];
 }
@@ -245,28 +254,29 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 {
     self.searchStr = searchText;
     
-    NSArray *allPersonArray = self.allPersonArray;
+    
+    NSArray *allPersonArray = [BXTGlobal readFileWithfileName:@"AllFaultTypeList"];
     
     NSMutableArray *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
         
         for (int i=0; i<allPersonArray.count; i++) {
-            BXTHeadquartersInfo *model = [BXTHeadquartersInfo modelObjectWithDictionary:allPersonArray[i]];
+            BXTFaultTypeList *model = [BXTFaultTypeList modelWithDict:allPersonArray[i]];
             
-            if ([ChineseInclude isIncludeChineseInString:model.name]) {
-                NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.name];
+            if ([ChineseInclude isIncludeChineseInString:model.faulttype]) {
+                NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.faulttype];
                 NSRange titleResult=[tempPinYinStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                 
                 if (titleResult.length > 0) {
                     [searchResults addObject:allPersonArray[i]];
                 } else {
-                    NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:model.name]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                    NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:model.faulttype]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                     if (titleHeadResult.length > 0) {
                         [searchResults addObject:allPersonArray[i]];
                     }
                 }
             } else {
-                NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                NSRange titleResult=[model.faulttype rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                 if (titleResult.length > 0) {
                     [searchResults addObject:allPersonArray[i]];
                 }
@@ -308,7 +318,9 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (tableView == self.tableView_Search) {
+        return 50;
+    }
     return self.cellSize.height + 29;
 }
 
@@ -336,11 +348,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     }
     
     if (tableView == self.tableView_Search) {
-        if (self.searchArray.count == 0) {
-            //            self.remindLabel.hidden = NO;
-        }
-        if ([self.searchStr isEqualToString:@""]) {
-            self.remindLabel.hidden = YES;
+        if (self.searchArray.count == 0 && self.tableView_Search.hidden == NO) {
+            self.remindLabel.hidden = NO;
         }
         return self.searchArray.count;
     }
@@ -357,8 +366,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         }
         
         NSDictionary *dict = self.searchArray[indexPath.row];
-        BXTHeadquartersInfo *infoModel = [BXTHeadquartersInfo modelObjectWithDictionary:dict];
-        cell.textLabel.text = infoModel.name;
+        BXTFaultTypeList *infoModel = [BXTFaultTypeList modelWithDict:dict];
+        cell.textLabel.text = infoModel.faulttype;
         
         return cell;
     }
@@ -396,6 +405,17 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    if (tableView == self.tableView_Search) {
+        [BXTGlobal showText:@"故障选择成功" view:self.view completionBlock:^{
+            if (self.delegateSignal) {
+                BXTFaultTypeList *listModel = [BXTFaultTypeList modelWithDict: self.searchArray[indexPath.row]];
+                NSString *str = [NSString stringWithFormat:@"%@", listModel.faulttype];
+                [self.delegateSignal sendNext:@[listModel.faultID, str]];
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+    }
+    
     if (tableView == self.tableView_fault) {
         self.isBgBtnExist = NO;
         [UIView animateWithDuration:0.5 animations:^{
@@ -410,7 +430,6 @@ typedef NS_ENUM(NSInteger, SelectedType) {
             self.indexOfRow = indexPath.row;
             
             self.typeView.faultTypeView.text = @"请选择故障类别";
-            //            self.transArray replaceObjectAtIndex:0 withObject:model.
         }
         else {
             if (indexPath.row <= self.faultArray.count - 1) {
@@ -430,6 +449,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
+    
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == FaultType && data.count > 0) {
@@ -453,7 +474,9 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         self.faultGroup = groupArray;
         self.faultType = faultType;
     }
-    
+    else if (type == AllFaultType) {
+        [BXTGlobal writeFileWithfileName:@"AllFaultTypeList" Array:dic[@"data"]];
+    }
 }
 
 - (void)requestError:(NSError *)error

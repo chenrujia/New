@@ -99,7 +99,7 @@
             
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.hidden = YES;
-            button.frame = CGRectMake(CGRectGetMaxX(_normelBtn.frame), 5, 57.f, 40.f);
+            button.frame = CGRectMake(CGRectGetMaxX(_normelBtn.frame) + 20, 5, 57.f, 40.f);
             [button setTitle:@"紧急" forState:UIControlStateNormal];
             [button setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             button.layer.masksToBounds = YES;

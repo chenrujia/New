@@ -135,6 +135,14 @@
     [self postRequest:url withParameters:nil];
 }
 
+- (void)allFaultTypeListWith:(NSString *)taskType
+{
+    self.requestType = AllFaultType;
+    NSDictionary *dic = @{@"task_type": taskType};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_all_faulttype",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)repairsList:(NSString *)state
             andPage:(NSInteger)page
 andIsMaintenanceMan:(BOOL)isMaintenanceMan

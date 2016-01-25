@@ -1,44 +1,35 @@
 //
-//  BXTWorkOderViewController.m
-//  BXT
+//  NewWorkMtOrderViewController.m
+//  YouFeel
 //
-//  Created by Jason on 15/8/31.
-//  Copyright (c) 2015年 Jason. All rights reserved.
+//  Created by 满孝意 on 16/1/25.
+//  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTRepairWordOrderViewController.h"
+#import "BXTNewWorkMtOrderViewController.h"
 #import "BXTHeaderForVC.h"
 #import "BXTSettingTableViewCell.h"
 #import "UIImage+SubImage.h"
 #import "BXTFaultInfo.h"
 #import "BXTFaultTypeInfo.h"
 #import "BXTShopLocationViewController.h"
-#import "BXTAddOtherManViewController.h"
-#import "BXTAddOtherManInfo.h"
 #import "BXTChooseFaultViewController.h"
-
 #define MOBILE 11
 #define CAUSE 12
 
-@interface BXTRepairWordOrderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UITextFieldDelegate,BXTDataResponseDelegate>
+@interface BXTNewWorkMtOrderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UITextFieldDelegate,BXTDataResponseDelegate>
 {
-    BXTFaultTypeInfo *fault_type_info;
-    BXTFaultInfo     *selectFaultInfo;
-    BXTFaultTypeInfo *selectFaultTypeInfo;
-    NSMutableArray   *dep_dataSource;
     NSMutableArray   *fau_dataSource;
     NSString         *cause;
     NSString         *notes;
+    BXTFaultInfo     *selectFaultInfo;
+    BXTFaultTypeInfo *selectFaultTypeInfo;
     
-    NSInteger        indexSection;
-    NSMutableArray   *manIDs;
     NSInteger        faulttype_type;
-    
 }
 
-@property (nonatomic ,strong) NSMutableArray *mans;
-@property (nonatomic ,strong) NSString       *faultType;
-@property (nonatomic, strong) NSString       *repairState;
+@property (nonatomic ,strong) NSString     *faultType;
+@property (nonatomic, strong) NSString     *repairState;
 
 @property (nonatomic, copy) NSString *faulttypeID;
 @property (nonatomic, copy) NSString *faulttype_typeID;
@@ -47,7 +38,8 @@
 
 @end
 
-@implementation BXTRepairWordOrderViewController
+@implementation BXTNewWorkMtOrderViewController
+
 
 - (void)dealloc
 {
@@ -57,26 +49,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [BXTGlobal shareGlobal].maxPics = 3;
     
     //侦听删除事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
     
-    manIDs = [NSMutableArray array];
-    self.mans = [NSMutableArray array];
-    [BXTGlobal shareGlobal].maxPics = 3;
+    [self allNotifications];
     self.repairState = @"2";
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
-    dep_dataSource = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
+    
     
     [self navigationSetting:@"新建工单" andRightTitle:nil andRightImage:nil];
     [self createTableView];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)allNotifications
 {
-    [super viewDidAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"PublicRepair" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.currentTableView reloadData];
+    }];
 }
 
 - (void)deleteImage:(NSNotification *)notification
@@ -97,60 +91,8 @@
     [self.view addSubview:backView];
 }
 
-- (void)repairClick
-{
-    if (IS_IOS_8)
-    {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [alertCtr addAction:alertAction];
-        @weakify(self);
-        UIAlertAction *needAction = [UIAlertAction actionWithTitle:@"需要增援" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            @strongify(self);
-            BXTAddOtherManViewController *addOtherManVC = [[BXTAddOtherManViewController alloc] initWithRepairID:0 andWithVCType:RepairType];
-            [addOtherManVC didChoosedMans:^(NSMutableArray *mans) {
-                [self handleMansArray:mans];
-            }];
-            [self.navigationController pushViewController:addOtherManVC animated:YES];
-        }];
-        [alertCtr addAction:needAction];
-        UIAlertAction *notNeedAction = [UIAlertAction actionWithTitle:@"不需要增援" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            @strongify(self);
-            [self handleMansArray:[NSMutableArray array]];
-        }];
-        [alertCtr addAction:notNeedAction];
-        [self presentViewController:alertCtr animated:YES completion:nil];
-    }
-    else
-    {
-        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"需要增援",@"不需要增援", nil];
-        @weakify(self);
-        [[sheet rac_buttonClickedSignal] subscribeNext:^(id x) {
-            @strongify(self);
-            if ([x integerValue] == 0)
-            {
-                BXTAddOtherManViewController *addOtherManVC = [[BXTAddOtherManViewController alloc] initWithRepairID:0 andWithVCType:RepairType];
-                [addOtherManVC didChoosedMans:^(NSMutableArray *mans) {
-                    [self handleMansArray:mans];
-                }];
-                [self.navigationController pushViewController:addOtherManVC animated:YES];
-            }
-            else
-            {
-                [self handleMansArray:[NSMutableArray array]];
-            }
-        }];
-        [sheet showInView:self.view];
-    }
-}
-
-- (void)handleMansArray:(NSMutableArray *)array
-{
-    self.mans = array;
-    indexSection = 1;
-    [self.currentTableView reloadData];
-}
-
+#pragma mark -
+#pragma mark 事件处理
 - (void)createNewWorkOrder:(NSArray *)array
 {
     if ([self.faultType isEqualToString:@"请选择故障类型"])
@@ -244,7 +186,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 4 + indexSection)
+    if (section == 3)
     {
         return 80.f;
     }
@@ -254,26 +196,13 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 4 + indexSection)
+    if (section == 3)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
         
-        CGFloat width = (SCREEN_WIDTH - 60.f)/2.f;
-        CGFloat x = 40.f + width;
-        
-        UIButton *repairBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        repairBtn.frame = CGRectMake(20, 20, width, 50.f);
-        [repairBtn setTitle:@"我来修" forState:UIControlStateNormal];
-        [repairBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-        [repairBtn setBackgroundColor:colorWithHexString(@"3cafff")];
-        repairBtn.layer.masksToBounds = YES;
-        repairBtn.layer.cornerRadius = 4.f;
-        [repairBtn addTarget:self action:@selector(repairClick) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:repairBtn];
-        
         UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        doneBtn.frame = CGRectMake(x, 20, width, 50.f);
+        doneBtn.frame = CGRectMake(20, 20, SCREEN_WIDTH - 40.f, 50.f);
         [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
         [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
@@ -298,7 +227,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4)
+    if (indexPath.section == 3)
     {
         return 170;
     }
@@ -307,7 +236,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5 + indexSection;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -317,7 +246,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4)
+    if (indexPath.section == 3)
     {
         BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarkCell"];
         if (!cell)
@@ -360,44 +289,8 @@
             cell = [[BXTSettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RepairCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        cell.detailLable.hidden = NO;
-        cell.detailTF.hidden = YES;
         
         if (indexPath.section == 0)
-        {
-            cell.titleLabel.text = @"位   置";
-            BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
-            BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
-            if (floorInfo)
-            {
-                id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-                if (shopInfo)
-                {
-                    if ([shopInfo isKindOfClass:[NSString class]])
-                    {
-                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,shopInfo];
-                    }
-                    else
-                    {
-                        BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
-                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,tempShop.stores_name];
-                    }
-                }
-                else
-                {
-                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",floorInfo.area_name,areaInfo.place_name];
-                }
-            }
-            else
-            {
-                cell.detailLable.text = @"请选择您商铺所在具体位置";
-            }
-            
-            cell.checkImgView.hidden = NO;
-            cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
-            cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
-        }
-        else if (indexPath.section == 1)
         {
             cell.titleLabel.text = @"故   障";
             if (!self.faultStr)
@@ -414,7 +307,7 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 2)
+        else if (indexPath.section == 1)
         {
             cell.titleLabel.text = @"描   述";
             cell.detailLable.hidden = YES;
@@ -428,16 +321,17 @@
             {
                 cell.detailTF.tag = CAUSE;
                 cell.detailTF.delegate = self;
-                cell.detailTF.placeholder = @"请输入故障原因";
+                cell.detailTF.placeholder = @"请输入故障描述";
                 [cell.detailTF setValue:colorWithHexString(@"909497") forKeyPath:@"_placeholderLabel.textColor"];
                 [cell.detailTF setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
             }
         }
-        else if (indexPath.section == 3)
+        else
         {
             cell.titleLabel.text = @"等   级";
             cell.emergencyBtn.hidden = NO;
             cell.normelBtn.hidden = NO;
+            cell.detailLable.hidden = YES;
             @weakify(self);
             [[cell.emergencyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 @strongify(self);
@@ -452,40 +346,14 @@
                 cell.normelBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
             }];
         }
-        else if (indexPath.section == 5)
-        {
-            cell.titleLabel.text = @"维修员";
-            [manIDs removeAllObjects];
-            [manIDs addObject:[BXTGlobal getUserProperty:U_BRANCHUSERID]];
-            NSMutableArray *manNames = [NSMutableArray arrayWithObjects:[BXTGlobal getUserProperty:U_NAME], nil];
-            for (BXTAddOtherManInfo *otherMan in _mans)
-            {
-                [manNames addObject:otherMan.name];
-                [manIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherMan.manID]];
-            }
-            NSString *strName = [manNames componentsJoinedByString:@"、"];
-            cell.detailLable.text = strName;
-        }
         return cell;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (indexPath.section == 0)
-    {
-        @weakify(self);
-        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithIsResign:NO andBlock:^{
-            @strongify(self);
-            [self.currentTableView reloadData];
-        }];
-        shopLocationVC.delegateSignal = [RACSubject subject];
-        [shopLocationVC.delegateSignal subscribeNext:^(NSArray *array) {
-            self.addressIDArray = [[NSArray alloc] initWithArray:array];
-        }];
-        [self.navigationController pushViewController:shopLocationVC animated:YES];
-    }
-    if (indexPath.section == 1)
     {
         BXTChooseFaultViewController *cfvc = [[BXTChooseFaultViewController alloc] init];
         cfvc.delegateSignal = [RACSubject subject];
@@ -537,11 +405,11 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    notes = textView.text;
     if (textView.text.length < 1)
     {
         textView.text = @"请输入报修内容";
     }
+    notes = textView.text;
 }
 
 #pragma mark -
@@ -549,24 +417,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    NSArray *data = [dic objectForKey:@"data"];
-    if (type == DepartmentType)
-    {
-        if (data.count)
-        {
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"dep_id" onClass:[BXTDepartmentInfo class]];
-                [config addObjectMapping:text];
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTDepartmentInfo class] andConfiguration:config];
-                BXTDepartmentInfo *departmentInfo = [parser parseDictionary:dictionary];
-                
-                [dep_dataSource addObject:departmentInfo];
-            }
-        }
-    }
-    
     if (type == CreateRepair)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)

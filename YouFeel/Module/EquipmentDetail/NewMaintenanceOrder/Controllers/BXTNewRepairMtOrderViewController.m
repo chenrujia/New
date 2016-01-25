@@ -1,18 +1,17 @@
 //
-//  BXTWorkOderViewController.m
-//  BXT
+//  NewPepairMtOrderViewController.m
+//  YouFeel
 //
-//  Created by Jason on 15/8/31.
-//  Copyright (c) 2015年 Jason. All rights reserved.
+//  Created by 满孝意 on 16/1/25.
+//  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTRepairWordOrderViewController.h"
+#import "BXTNewRepairMtOrderViewController.h"
 #import "BXTHeaderForVC.h"
 #import "BXTSettingTableViewCell.h"
 #import "UIImage+SubImage.h"
 #import "BXTFaultInfo.h"
 #import "BXTFaultTypeInfo.h"
-#import "BXTShopLocationViewController.h"
 #import "BXTAddOtherManViewController.h"
 #import "BXTAddOtherManInfo.h"
 #import "BXTChooseFaultViewController.h"
@@ -20,7 +19,7 @@
 #define MOBILE 11
 #define CAUSE 12
 
-@interface BXTRepairWordOrderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UITextFieldDelegate,BXTDataResponseDelegate>
+@interface BXTNewRepairMtOrderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UITextFieldDelegate,BXTDataResponseDelegate>
 {
     BXTFaultTypeInfo *fault_type_info;
     BXTFaultInfo     *selectFaultInfo;
@@ -47,7 +46,7 @@
 
 @end
 
-@implementation BXTRepairWordOrderViewController
+@implementation BXTNewRepairMtOrderViewController
 
 - (void)dealloc
 {
@@ -244,7 +243,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 4 + indexSection)
+    if (section == 3 + indexSection)
     {
         return 80.f;
     }
@@ -254,7 +253,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 4 + indexSection)
+    if (section == 3 + indexSection)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -298,7 +297,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4)
+    if (indexPath.section == 3)
     {
         return 170;
     }
@@ -307,7 +306,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5 + indexSection;
+    return 4 + indexSection;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -317,7 +316,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4)
+    if (indexPath.section == 3)
     {
         BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarkCell"];
         if (!cell)
@@ -365,40 +364,6 @@
         
         if (indexPath.section == 0)
         {
-            cell.titleLabel.text = @"位   置";
-            BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
-            BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
-            if (floorInfo)
-            {
-                id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-                if (shopInfo)
-                {
-                    if ([shopInfo isKindOfClass:[NSString class]])
-                    {
-                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,shopInfo];
-                    }
-                    else
-                    {
-                        BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
-                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,tempShop.stores_name];
-                    }
-                }
-                else
-                {
-                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",floorInfo.area_name,areaInfo.place_name];
-                }
-            }
-            else
-            {
-                cell.detailLable.text = @"请选择您商铺所在具体位置";
-            }
-            
-            cell.checkImgView.hidden = NO;
-            cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
-            cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
-        }
-        else if (indexPath.section == 1)
-        {
             cell.titleLabel.text = @"故   障";
             if (!self.faultStr)
             {
@@ -414,7 +379,7 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 2)
+        else if (indexPath.section == 1)
         {
             cell.titleLabel.text = @"描   述";
             cell.detailLable.hidden = YES;
@@ -433,7 +398,7 @@
                 [cell.detailTF setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
             }
         }
-        else if (indexPath.section == 3)
+        else if (indexPath.section == 2)
         {
             cell.titleLabel.text = @"等   级";
             cell.emergencyBtn.hidden = NO;
@@ -452,7 +417,7 @@
                 cell.normelBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
             }];
         }
-        else if (indexPath.section == 5)
+        else if (indexPath.section == 4)
         {
             cell.titleLabel.text = @"维修员";
             [manIDs removeAllObjects];
@@ -473,19 +438,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0)
-    {
-        @weakify(self);
-        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithIsResign:NO andBlock:^{
-            @strongify(self);
-            [self.currentTableView reloadData];
-        }];
-        shopLocationVC.delegateSignal = [RACSubject subject];
-        [shopLocationVC.delegateSignal subscribeNext:^(NSArray *array) {
-            self.addressIDArray = [[NSArray alloc] initWithArray:array];
-        }];
-        [self.navigationController pushViewController:shopLocationVC animated:YES];
-    }
-    if (indexPath.section == 1)
     {
         BXTChooseFaultViewController *cfvc = [[BXTChooseFaultViewController alloc] init];
         cfvc.delegateSignal = [RACSubject subject];

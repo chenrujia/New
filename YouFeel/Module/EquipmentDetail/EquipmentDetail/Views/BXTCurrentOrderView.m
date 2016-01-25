@@ -10,11 +10,13 @@
 #import "BXTCurrentOrderCell.h"
 #import "BXTHeaderForVC.h"
 #import "BXTEquipmentInformCell.h"
-#import "BXTRepairWordOrderViewController.h"
 #import "BXTMaintenanceDetailViewController.h"
 #import "BXTTimeFilterViewController.h"
 #import "BXTSelectBoxView.h"
 #import <MJRefresh.h>
+
+#import "BXTNewRepairMtOrderViewController.h"
+#import "BXTNewWorkMtOrderViewController.h"
 
 typedef NS_ENUM(NSInteger, OrderType) {
     OrderType_Normal = 5,
@@ -101,8 +103,14 @@ typedef NS_ENUM(NSInteger, OrderType) {
     newOrderBtn.backgroundColor = [UIColor whiteColor];
     newOrderBtn.layer.cornerRadius = 5;
     [[newOrderBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        BXTRepairWordOrderViewController *workOderVC = [[BXTRepairWordOrderViewController alloc] init];
-        [[self getNavigation] pushViewController:workOderVC animated:YES];
+        if ([BXTGlobal shareGlobal].isRepair) {
+            BXTNewRepairMtOrderViewController *workOderVC = [[BXTNewRepairMtOrderViewController alloc] init];
+            [[self getNavigation] pushViewController:workOderVC animated:YES];
+        }
+        else {
+            BXTNewWorkMtOrderViewController *workOderVC = [[BXTNewWorkMtOrderViewController alloc] init];
+            [[self getNavigation] pushViewController:workOderVC animated:YES];
+        }
     }];
     [downBgView addSubview:newOrderBtn];
     
