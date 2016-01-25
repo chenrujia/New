@@ -31,6 +31,8 @@
     [super viewDidLoad];
     [self navigationSetting:@"应用" andRightTitle:nil andRightImage:nil];
     
+    self.navigationController.tabBarItem.badgeValue = nil;
+    
     // 消灭红点
     [BXTRemindNum sharedManager].announcementNum = @"0";
     [[NSNotificationCenter defaultCenter] postNotificationName:@"APPREMIND" object:nil];

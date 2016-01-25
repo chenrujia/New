@@ -10,7 +10,6 @@
 #import "BXTHeaderForVC.h"
 #import "BXTSettingTableViewCell.h"
 #import "UIImage+SubImage.h"
-#import "BXTSelectBoxView.h"
 #import "BXTFaultInfo.h"
 #import "BXTFaultTypeInfo.h"
 #import "BXTShopLocationViewController.h"
@@ -21,9 +20,8 @@
 #define MOBILE 11
 #define CAUSE 12
 
-@interface BXTRepairWordOrderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
+@interface BXTRepairWordOrderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UITextFieldDelegate,BXTDataResponseDelegate>
 {
-    BXTSelectBoxView *boxView;
     BXTFaultTypeInfo *fault_type_info;
     BXTFaultInfo     *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
@@ -31,7 +29,7 @@
     NSMutableArray   *fau_dataSource;
     NSString         *cause;
     NSString         *notes;
-    UIView           *toolView;
+    
     NSInteger        indexSection;
     NSMutableArray   *manIDs;
     NSInteger        faulttype_type;
@@ -39,14 +37,13 @@
 }
 
 @property (nonatomic ,strong) NSMutableArray *mans;
-@property (nonatomic, strong) UIPickerView   *pickView;
 @property (nonatomic ,strong) NSString       *faultType;
 @property (nonatomic, strong) NSString       *repairState;
-@property (nonatomic, strong) UIView         *pickerbackView;
 
 @property (nonatomic, copy) NSString *faulttypeID;
 @property (nonatomic, copy) NSString *faulttype_typeID;
 @property (nonatomic, copy) NSString *faultStr;
+@property (nonatomic, strong) NSArray *addressIDArray;
 
 @end
 
@@ -78,7 +75,7 @@
     
     //侦听删除事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
-
+    
     manIDs = [NSMutableArray array];
     self.mans = [NSMutableArray array];
     [BXTGlobal shareGlobal].maxPics = 3;
@@ -86,10 +83,6 @@
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
     dep_dataSource = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
-    
-    /**请求故障类型列表**/
-    BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [fau_request faultTypeList];
     
     [self navigationSetting:@"新建工单" andRightTitle:nil andRightImage:nil];
     [self createTableView];
@@ -117,58 +110,6 @@
     self.currentTableView.dataSource = self;
     [backView addSubview:self.currentTableView];
     [self.view addSubview:backView];
-}
-
-#pragma mark -
-#pragma mark 事件处理
-- (void)createBoxView:(NSInteger)section
-{
-    self.pickerbackView = [[UIView alloc] initWithFrame:self.view.bounds];
-    _pickerbackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
-    _pickerbackView.tag = 101;
-    [self.view addSubview:_pickerbackView];
-    
-    if (section == -1)
-    {
-        boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"部门" boxSelectedViewType:DepartmentView listDataSource:dep_dataSource markID:nil actionDelegate:self];
-        
-        [self.view addSubview:boxView];
-        [UIView animateWithDuration:0.3f animations:^{
-            [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
-        }];
-    }
-    else if (section == 1)
-    {
-        // 工具条
-        toolView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-44, SCREEN_WIDTH, 44)];
-        toolView.backgroundColor = colorWithHexString(@"cccdd0");
-        [_pickerbackView addSubview:toolView];
-        // sure
-        UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-80, 2, 80, 40)];
-        [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
-        [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        sureBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-        @weakify(self);
-        [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            @strongify(self);
-            if (self.pickView)
-            {
-                [self.pickView removeFromSuperview];
-                self.pickView = nil;
-                [self.pickerbackView removeFromSuperview];
-                [self.currentTableView reloadData];
-            }
-        }];
-        [toolView addSubview:sureBtn];
-        
-        self.pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        _pickView.tag = 1000;
-        _pickView.showsSelectionIndicator = YES;
-        _pickView.backgroundColor = colorWithHexString(@"cdced1");
-        _pickView.dataSource = self;
-        _pickView.delegate = self;
-        [self.view addSubview:_pickView];
-    }
 }
 
 - (void)repairClick
@@ -267,8 +208,6 @@
 - (void)requestWithShopID:(NSString *)shopID andRepairUsers:(NSArray *)array
 {
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-    BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
-    BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
     
     /**请求新建工单**/
     BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -277,9 +216,9 @@
                    faultCause:cause
                    faultLevel:_repairState
                   depatmentID:departmentInfo.dep_id
-                  floorInfoID:floorInfo.area_id
-                   areaInfoId:areaInfo.place_id
-                   shopInfoID:shopID
+                  floorInfoID:self.addressIDArray[0]
+                   areaInfoId:self.addressIDArray[2]
+                   shopInfoID:self.addressIDArray[4]
                     equipment:@"0"
                    faultNotes:notes
                    imageArray:self.resultPhotos
@@ -482,7 +421,7 @@
             }
             else
             {
-                cell.detailLable.frame = CGRectMake(CGRectGetMaxX(cell.titleLabel.frame) + 20.f, 10., SCREEN_WIDTH - CGRectGetMaxX(cell.titleLabel.frame) - 50, 30);
+                cell.detailLable.frame = CGRectMake(CGRectGetMaxX(cell.titleLabel.frame), 10., SCREEN_WIDTH - CGRectGetMaxX(cell.titleLabel.frame) - 50, 30);
                 cell.detailLable.text = self.faultStr;
             }
             self.faultType = cell.detailLable.text;
@@ -555,6 +494,10 @@
             @strongify(self);
             [self.currentTableView reloadData];
         }];
+        shopLocationVC.delegateSignal = [RACSubject subject];
+        [shopLocationVC.delegateSignal subscribeNext:^(NSArray *array) {
+            self.addressIDArray = [[NSArray alloc] initWithArray:array];
+        }];
         [self.navigationController pushViewController:shopLocationVC animated:YES];
     }
     if (indexPath.section == 1)
@@ -581,27 +524,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    UITouch *touch = [touches anyObject];
-    UIView *view = touch.view;
-    if (view.tag == 101)
-    {
-        if (_pickView)
-        {
-            [_pickView removeFromSuperview];
-            _pickView = nil;
-            [self.currentTableView reloadData];
-        }
-        else
-        {
-            [UIView animateWithDuration:0.3f animations:^{
-                [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-            } completion:^(BOOL finished) {
-                [boxView removeFromSuperview];
-                boxView = nil;
-            }];
-        }
-        [view removeFromSuperview];
-    }
+    [self.view endEditing:YES];
 }
 
 #pragma mark -
@@ -658,45 +581,7 @@
             }
         }
     }
-    else if (type == FaultType)
-    {
-        for (NSDictionary *dictionary in data)
-        {
-            DCParserConfiguration *config = [DCParserConfiguration configuration];
-            DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"fault_id" onClass:[BXTFaultInfo class]];
-            [config addObjectMapping:text];
-            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTFaultInfo class] andConfiguration:config];
-            BXTFaultInfo *faultObj = [parser parseDictionary:dictionary];
-            
-            NSMutableArray *fault_subs = [NSMutableArray array];
-            NSArray *places = [dictionary objectForKey:@"sub_data"];
-            
-            for (NSDictionary *placeDic in places)
-            {
-                DCParserConfiguration *fault_type_config = [DCParserConfiguration configuration];
-                DCObjectMapping *fault_type_map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"fau_id" onClass:[BXTFaultTypeInfo class]];
-                [fault_type_config addObjectMapping:fault_type_map];
-                DCKeyValueObjectMapping *fault_type_parser = [DCKeyValueObjectMapping mapperForClass:[BXTFaultTypeInfo class] andConfiguration:fault_type_config];
-                BXTFaultTypeInfo *faultTypeObj = [fault_type_parser parseDictionary:placeDic];
-                [fault_subs addObject:faultTypeObj];
-            }
-            
-            BXTFaultTypeInfo *otherFaultTypeInfo = [[BXTFaultTypeInfo alloc] init];
-            otherFaultTypeInfo.fau_id = 1;
-            otherFaultTypeInfo.faulttype = @"其他";
-            [fault_subs addObject:otherFaultTypeInfo];
-            
-            faultObj.sub_data = fault_subs;
-            [fau_dataSource addObject:faultObj];
-        }
-        
-        if (fau_dataSource.count > 0)
-        {
-            selectFaultInfo = fau_dataSource[0];
-            NSArray *faultTypesArray = selectFaultInfo.sub_data;
-            selectFaultTypeInfo = faultTypesArray[0];
-        }
-    }
+    
     if (type == CreateRepair)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
@@ -712,82 +597,6 @@
 - (void)requestError:(NSError *)error
 {
     [self hideMBP];
-}
-
-#pragma mark -
-#pragma mark BXTBoxSelectedTitleDelegate
-- (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
-{
-    if (type == FaultInfoView)
-    {
-        fault_type_info = obj;
-    }
-    [self.currentTableView reloadData];
-    
-    UIView *view = [self.view viewWithTag:101];
-    [view removeFromSuperview];
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-    } completion:^(BOOL finished) {
-        [boxView removeFromSuperview];
-        boxView = nil;
-    }];
-}
-
-#pragma mark -
-#pragma mark UIPickerViewDelegate
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 2;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    if (component == 0)
-    {
-        return fau_dataSource.count;
-    }
-    return selectFaultInfo.sub_data.count;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    if (component == 0)
-    {
-        BXTFaultInfo *faultInfo = fau_dataSource[row];
-        return faultInfo.faulttype_type;
-    }
-    
-    BXTFaultTypeInfo *faultTypeInfo = selectFaultInfo.sub_data[row];
-    return faultTypeInfo.faulttype;
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    if (component == 0)
-    {
-        selectFaultInfo = fau_dataSource[row];
-        NSArray *faultTypesArray = selectFaultInfo.sub_data;
-        if (faultTypesArray.count)
-        {
-            selectFaultTypeInfo = faultTypesArray[0];
-        }
-        [pickerView reloadComponent:1];
-        
-        NSInteger typeID = selectFaultTypeInfo.faulttype_type;
-        if (typeID != 0) {
-            faulttype_type = typeID;
-        }
-    }
-    else
-    {
-        NSArray *faultTypesArray = selectFaultInfo.sub_data;
-        if (faultTypesArray.count)
-        {
-            selectFaultTypeInfo = faultTypesArray[row];
-        }
-    }
 }
 
 - (void)didReceiveMemoryWarning

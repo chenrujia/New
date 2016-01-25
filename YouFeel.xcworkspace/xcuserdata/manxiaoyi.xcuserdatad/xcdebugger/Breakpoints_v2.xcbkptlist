@@ -55,13 +55,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YouFeel/Help/DataRequest/BXTDataRequest.m"
-            timestampString = "475149045.277371"
+            filePath = "YouFeel/Module/WorkOrder/WorkOrder/Controllers/BXTWorkOderViewController.m"
+            timestampString = "475321451.516673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "331"
-            endingLineNumber = "331"
-            landmarkName = "-createRepair:faultType_type:faultCause:faultLevel:depatmentID:floorInfoID:areaInfoId:shopInfoID:equipment:faultNotes:imageArray:repairUserArray:"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YouFeel/Module/Mine/ProjectInform/Controllers/BXTProjectInfromViewController.m"
+            timestampString = "475321513.595182"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

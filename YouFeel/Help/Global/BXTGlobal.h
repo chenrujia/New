@@ -132,6 +132,14 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
 + (NSArray *)yearAndmonthAndDay;
 
 /**
+ *  数据加载中...
+ */
++ (void)showLoadingMBP:(NSString *)text;
+/**
+ *  隐藏MBProgressHUD
+ */
++ (void)hideMBP;
+/**
  * ---- 显示提示信息后添加动作 ---- 
  */
 + (void)showText:(NSString *)text view:(UIView *)view completionBlock:(void (^)())completion;

@@ -8,7 +8,7 @@
 
 #import "BXTNoticeInformViewController.h"
 
-@interface BXTNoticeInformViewController ()
+@interface BXTNoticeInformViewController () <UIWebViewDelegate>
 
 @end
 
@@ -19,15 +19,33 @@
     // Do any additional setup after loading the view.
     
     
-    [self navigationSetting:@"公告详情" andRightTitle:nil andRightImage:nil];
+    if (self.pushType == PushType_Ads) {
+        [self navigationSetting:@"广告详情" andRightTitle:nil andRightImage:nil];
+    }
+    else {
+        [self navigationSetting:@"公告详情" andRightTitle:nil andRightImage:nil];
+    }
     
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64)];
-    webView.scalesPageToFit = YES;
-    NSURL *urlStr = [NSURL URLWithString:self.urlStr];
-    NSURLRequest *request = [NSURLRequest requestWithURL:urlStr];
-    [webView loadRequest:request];
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
+    NSString *urlStr = self.urlStr;
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
+    webView.delegate = self;
+    [self.view addSubview:webView];
     
     NSLog(@"%@", self.urlStr);
+}
+
+#pragma mark -
+#pragma mark - UIWebViewDelegate
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [BXTGlobal hideMBP];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {
