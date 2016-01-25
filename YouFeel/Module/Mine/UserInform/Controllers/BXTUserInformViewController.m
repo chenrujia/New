@@ -87,7 +87,7 @@
     {
         return 100.f;
     }
-    return RealValue(60.f);
+    return 60.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

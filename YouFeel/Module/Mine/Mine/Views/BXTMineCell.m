@@ -26,8 +26,8 @@
 - (void)awakeFromNib {
     // Initialization code
     
-    self.iconView.frame = CGRectMake(15, RealValue(15), RealValue(30), RealValue(30));
-    self.titleView.font = [UIFont systemFontOfSize:RealValue(17)];
+    self.iconView.frame = CGRectMake(15, 15, 30, 30);
+    self.titleView.font = [UIFont systemFontOfSize:17];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

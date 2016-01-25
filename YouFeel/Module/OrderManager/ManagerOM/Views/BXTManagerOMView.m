@@ -90,6 +90,8 @@
         [currentTableView registerClass:[BXTManagerOMTableViewCell class] forCellReuseIdentifier:@"Cell"];
         [currentTableView setDelegate:self];
         [currentTableView setDataSource:self];
+        [currentTableView setEmptyDataSetSource:self];
+        [currentTableView setEmptyDataSetDelegate:self];
         [self addSubview:currentTableView];
         //请求
         [self loadNewData];
@@ -418,6 +420,17 @@
         [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
+}
+
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"没有符合条件的工单";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName:[UIColor blackColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 #pragma mark -

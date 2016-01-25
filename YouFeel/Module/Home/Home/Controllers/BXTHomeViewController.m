@@ -26,11 +26,9 @@
 
 @interface BXTHomeViewController ()<BXTDataResponseDelegate, SDCycleScrollViewDelegate>
 {
-    NSInteger      unreadNumber;
-    BOOL           isConfigInfoSuccess;
-    
-    UIButton *messageBtn;
-    
+    NSInteger         unreadNumber;
+    BOOL              isConfigInfoSuccess;
+    UIButton          *messageBtn;
     SDCycleScrollView *cycleScrollView;
 }
 
@@ -70,7 +68,8 @@
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /** 获取配置参数 **/
-        if ([BXTGlobal shareGlobal].isRepair) {
+        if ([BXTGlobal shareGlobal].isRepair)
+        {
             BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
             [dataRequest configInfo];
         }
@@ -141,8 +140,7 @@
 - (void)createLogoView
 {
     CGFloat deviceRatio = SCREEN_WIDTH/375;
-    
-    logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 76 + 180*deviceRatio)];
+    logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64 + 180*deviceRatio)];
     logoImgView.userInteractionEnabled = YES;
     [self.view addSubview:logoImgView];
     
@@ -166,7 +164,7 @@
     [shop_label setTextColor:colorWithHexString(@"ffffff")];
     [logoImgView addSubview:shop_label];
     
-    // 消息
+    //消息
     messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [messageBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 5.f, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
     [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
@@ -179,7 +177,7 @@
     }];
     [logoImgView addSubview:messageBtn];
     
-    // 扫描
+    //扫描
     UIButton *scanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [scanBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 50, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
     [scanBtn setBackgroundImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
@@ -202,11 +200,9 @@
     }];
     [logoImgView addSubview:scanBtn];
     
-    
-    // 广告页
-    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 180*deviceRatio + 6) delegate:self placeholderImage:[UIImage imageNamed:@"ReBackgroundsIphone6"]];
+    //广告页
+    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 180*deviceRatio + 6) delegate:self placeholderImage:[UIImage imageNamed:@"ReBackgroundsIphone6"]];
     [logoImgView addSubview:cycleScrollView];
-    
     
     self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(logoImgView.frame) - KTABBARHEIGHT-5) style:UITableViewStyleGrouped];
     [_currentTableView registerClass:[BXTHomeTableViewCell class] forCellReuseIdentifier:@"HomeCell"];
@@ -270,7 +266,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return RealValue(60.f);
+    return 60.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
