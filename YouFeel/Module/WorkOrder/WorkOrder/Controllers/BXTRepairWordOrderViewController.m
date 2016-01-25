@@ -481,7 +481,9 @@
         }];
         shopLocationVC.delegateSignal = [RACSubject subject];
         [shopLocationVC.delegateSignal subscribeNext:^(NSArray *array) {
-            self.addressIDArray = [[NSArray alloc] initWithArray:array];
+            @strongify(self);
+            [self.currentTableView reloadData];
+//            self.addressIDArray = [[NSArray alloc] initWithArray:array];
         }];
         [self.navigationController pushViewController:shopLocationVC animated:YES];
     }

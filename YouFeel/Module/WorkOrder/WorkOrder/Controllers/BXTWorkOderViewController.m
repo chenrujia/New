@@ -24,7 +24,6 @@
     NSString         *notes;
     BXTFaultInfo     *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
-    
     NSInteger        faulttype_type;
 }
 

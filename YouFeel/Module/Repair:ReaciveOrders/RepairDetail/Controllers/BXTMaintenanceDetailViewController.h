@@ -14,6 +14,10 @@
  *  是否有关闭工单按钮
  */
 @property (nonatomic, assign) BOOL isRejectVC;
+/**
+ *  从全部工单过来的只有查看的权利
+ */
+@property (nonatomic, assign) BOOL isAllOrderType;
 
 @property (weak, nonatomic) IBOutlet UIView       *contentView;
 @property (weak, nonatomic) IBOutlet UIScrollView *images_scrollview;

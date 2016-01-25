@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     BXTSelectBoxView *boxView;
     NSArray *comeTimeArray;
     NSDate *originDate;
-    NSArray *ChooseTimeArray;
+    
 }
 
 @property (nonatomic, assign) NSInteger       currentPage;
@@ -45,6 +45,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
 @property (nonatomic, strong) UITableView     *tableView;
 @property (nonatomic, assign) CGFloat         cellHeight;
 @property (nonatomic, copy  ) NSString        *typeStr;
+@property (nonatomic, strong) NSArray         *chooseTimeArray;;
 
 @end
 
@@ -136,7 +137,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     if ([self.typeStr isEqualToString:@""])
     {
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request deviceRepairListWithOrder:@"" deviceID:self.deviceID timestart:ChooseTimeArray[0] timeover:ChooseTimeArray[1] pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+        [request deviceRepairListWithOrder:@"" deviceID:self.deviceID timestart:self.chooseTimeArray[0] timeover:_chooseTimeArray[1] pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
     }
     else
     {
@@ -352,9 +353,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
         @weakify(self);
         [tfvc.delegateSignal subscribeNext:^(NSArray *timeArray) {
             @strongify(self);
-            
-            ChooseTimeArray = [[NSArray alloc] initWithArray:timeArray];
-            
+            self.chooseTimeArray = [[NSArray alloc] initWithArray:timeArray];
             [self showLoadingMBP:@"数据加载中..."];
             dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
             dispatch_async(concurrentQueue, ^{

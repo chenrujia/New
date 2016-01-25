@@ -143,14 +143,11 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     }];
     [self.bgView addSubview:sureBtn];
     
-    
-    // UITableView - tableView_Search
     self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
     self.tableView_Search.dataSource = self;
     self.tableView_Search.delegate = self;
     [self.view addSubview:self.tableView_Search];
     
-    // UITableView - tableView_Search - tableHeaderView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
     self.tableView_Search.tableHeaderView = headerView;
     UILabel *alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 150, 30)];
