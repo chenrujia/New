@@ -136,7 +136,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [self.view addSubview:naviView];
     
     UILabel *navi_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64, 20, SCREEN_WIDTH-128, 44)];
-    navi_titleLabel.font = [UIFont systemFontOfSize:16];
+    navi_titleLabel.font = [UIFont systemFontOfSize:17];
     navi_titleLabel.textColor = [UIColor whiteColor];
     navi_titleLabel.textAlignment = NSTextAlignmentCenter;
     navi_titleLabel.text = title;
@@ -418,6 +418,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         
         UILabel *textView = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 150, 30)];
         textView.text = [NSString stringWithFormat:@"%@ (%@)", self.titleArray[indexPath.row], self.titleNumArray[indexPath.row]];
+        textView.font = [UIFont systemFontOfSize:16];
         [cell.contentView addSubview:textView];
     }
     
