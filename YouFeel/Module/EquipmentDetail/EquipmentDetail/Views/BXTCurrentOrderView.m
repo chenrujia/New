@@ -106,10 +106,12 @@ typedef NS_ENUM(NSInteger, OrderType) {
     [[newOrderBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         if ([BXTGlobal shareGlobal].isRepair) {
             BXTNewRepairMtOrderViewController *workOderVC = [[BXTNewRepairMtOrderViewController alloc] init];
+            workOderVC.deviceID = self.deviceID;
             [[self getNavigation] pushViewController:workOderVC animated:YES];
         }
         else {
             BXTNewWorkMtOrderViewController *workOderVC = [[BXTNewWorkMtOrderViewController alloc] init];
+            workOderVC.deviceID = self.deviceID;
             [[self getNavigation] pushViewController:workOderVC animated:YES];
         }
     }];

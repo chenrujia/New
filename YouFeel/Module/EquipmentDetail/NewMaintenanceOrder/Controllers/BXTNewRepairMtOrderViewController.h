@@ -10,4 +10,6 @@
 
 @interface BXTNewRepairMtOrderViewController : BXTPhotoBaseViewController
 
+@property (nonatomic, strong) NSString *deviceID;
+
 @end

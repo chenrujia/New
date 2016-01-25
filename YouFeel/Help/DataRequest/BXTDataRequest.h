@@ -20,6 +20,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     CommitShop,
     FaultType,
     AllFaultType,
+    CreateMaintenanceOrder,
     CreateRepair,
     RepairList,
     DeleteRepair,
@@ -174,9 +175,16 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  设备添加报修
  */
-//- (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
-//                                    faulttype:(NSString *)faulttype
-//                                        notes:(NSString *)
+- (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
+                                    faulttype:(NSString *)faulttype
+                               faultType_type:(NSString *)faulttype_type
+                                   faultCause:(NSString *)cause
+                                   faultLevel:(NSString *)level
+                                  depatmentID:(NSString *)depID
+                                    equipment:(NSString *)eqID
+                                   faultNotes:(NSString *)notes
+                                   imageArray:(NSArray *)images
+                              repairUserArray:(NSArray *)userArray;
 
 /**
  *  新建工单
@@ -505,8 +513,8 @@ andRepairerIsReacive:(NSString *)reacive;
  *  公告列表
  */
 - (void)announcementListWithReadState:(NSString *)readState
-                        pagesize:(NSString *)pagesize
-                            page:(NSString *)page;
+                             pagesize:(NSString *)pagesize
+                                 page:(NSString *)page;
 
 /**
  *  提醒数字接口

@@ -33,7 +33,7 @@
     NSInteger        indexSection;
     NSMutableArray   *manIDs;
     NSInteger        faulttype_type;
-    
+    NSString        *address;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mans;
@@ -68,6 +68,7 @@
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
     dep_dataSource = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
+    address = @"请选择您商铺所在具体位置";
     
     [self navigationSetting:@"新建工单" andRightTitle:nil andRightImage:nil];
     [self createTableView];
@@ -153,6 +154,10 @@
 
 - (void)createNewWorkOrder:(NSArray *)array
 {
+    if ([address isEqualToString:@"请选择您商铺所在具体位置"]) {
+        [self showAlertView:@"请选择商铺所在位置"];
+        return;
+    }
     if ([self.faultType isEqualToString:@"请选择故障类型"])
     {
         [self showAlertView:@"请选择故障类型"];
@@ -173,27 +178,8 @@
     }
     
     [self showLoadingMBP:@"新工单创建中..."];
-    id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-    if (!shopInfo)
-    {
-        [self requestWithShopID:@"" andRepairUsers:array];
-        return;
-    }
-    if ([shopInfo isKindOfClass:[NSString class]])
-    {
-        [self requestWithShopID:shopInfo andRepairUsers:array];
-    }
-    else
-    {
-        BXTShopInfo *tempShopInfo = (BXTShopInfo *)shopInfo;
-        [self requestWithShopID:tempShopInfo.stores_id andRepairUsers:array];
-    }
-}
-
-- (void)requestWithShopID:(NSString *)shopID andRepairUsers:(NSArray *)array
-{
-    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     
+    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     /**请求新建工单**/
     BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [rep_request createRepair:self.faulttypeID
@@ -366,33 +352,7 @@
         if (indexPath.section == 0)
         {
             cell.titleLabel.text = @"位   置";
-            BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
-            BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
-            if (floorInfo)
-            {
-                id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-                if (shopInfo)
-                {
-                    if ([shopInfo isKindOfClass:[NSString class]])
-                    {
-                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,shopInfo];
-                    }
-                    else
-                    {
-                        BXTShopInfo *tempShop = (BXTShopInfo *)shopInfo;
-                        cell.detailLable.text = [NSString stringWithFormat:@"%@ %@ %@",floorInfo.area_name,areaInfo.place_name,tempShop.stores_name];
-                    }
-                }
-                else
-                {
-                    cell.detailLable.text = [NSString stringWithFormat:@"%@ %@",floorInfo.area_name,areaInfo.place_name];
-                }
-            }
-            else
-            {
-                cell.detailLable.text = @"请选择您商铺所在具体位置";
-            }
-            
+            cell.detailLable.text = address;
             cell.checkImgView.hidden = NO;
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
@@ -494,6 +454,7 @@
         [cfvc.delegateSignal subscribeNext:^(NSArray *transArray) {
             NSString *transID = transArray[0];
             NSLog(@"---------- %@", transID);
+            
             self.faultStr = transArray[1];
             if ([transID isEqualToString:@"other"]) {
                 self.faulttypeID = @"";
