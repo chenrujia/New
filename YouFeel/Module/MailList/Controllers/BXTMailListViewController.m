@@ -184,15 +184,23 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     
     // headerView - bgView
     self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_HEIGHT, 50)];
-    self.bgView.backgroundColor = colorWithHexString(@"#ffb648");
+    self.bgView.backgroundColor = colorWithHexString(@"#e4e3e2");
     self.bgView.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
     self.bgView.layer.borderWidth = 0.5;
     [self.view addSubview:self.bgView];
     
     
+    // headerView - UIScrollView
+    self.subScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(89, 0, SCREEN_WIDTH-90, 50)];
+    self.subScrollView.backgroundColor = colorWithHexString(@"#e4e3e2");
+    self.subScrollView.showsHorizontalScrollIndicator = NO;
+    [self.bgView addSubview:self.subScrollView];
+    
+    
     // 顶部视图
     UIButton *rootBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 105, 50)];
     [rootBtn setTitle:@"组织机构" forState:UIControlStateNormal];
+    [rootBtn setBackgroundImage:[UIImage imageNamed:@"mail_rectangle_root"] forState:UIControlStateNormal];
     rootBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     rootBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     rootBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
@@ -215,14 +223,6 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         }
     }];
     [self.bgView addSubview:rootBtn];
-    
-    
-    // headerView - UIScrollView
-    self.subScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(89, 0, SCREEN_WIDTH-90, 50)];
-    self.subScrollView.backgroundColor = colorWithHexString(@"#ffb648");
-    self.subScrollView.showsHorizontalScrollIndicator = NO;
-    [self.bgView addSubview:self.subScrollView];
-    
     
     // UITableView - tableView
     self.tableView = [[SKSTableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.bgView.frame) - 50) style:UITableViewStyleGrouped];
@@ -434,7 +434,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 40, 40)];
     [imageView sd_setImageWithURL:[NSURL URLWithString:listModel.head] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
-
+    
     imageView.layer.masksToBounds = YES;
     [showCell.contentView addSubview:imageView];
     
@@ -447,7 +447,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     UILabel *positionView = [[UILabel alloc] initWithFrame:CGRectMake(65, 31, 100, 21)];
     positionView.text = listModel.role_name;
     positionView.textColor = colorWithHexString(@"#999999");
-    positionView.font = [UIFont systemFontOfSize:14];
+    positionView.font = [UIFont systemFontOfSize:13];
     [showCell.contentView addSubview:positionView];
     
     UIButton *phoneView = [UIButton buttonWithType:UIButtonTypeCustom];

@@ -56,7 +56,7 @@
     
     [self allNotifications];
     self.repairState = @"2";
-    self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
+    self.indexPath = [NSIndexPath indexPathForRow:0 inSection:3];
     fau_dataSource = [[NSMutableArray alloc] init];
     
     
@@ -115,41 +115,20 @@
     }
     
     [self showLoadingMBP:@"新工单创建中..."];
-    id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
-    if (!shopInfo)
-    {
-        [self requestWithShopID:@"" andRepairUsers:array];
-        return;
-    }
-    if ([shopInfo isKindOfClass:[NSString class]])
-    {
-        [self requestWithShopID:shopInfo andRepairUsers:array];
-    }
-    else
-    {
-        BXTShopInfo *tempShopInfo = (BXTShopInfo *)shopInfo;
-        [self requestWithShopID:tempShopInfo.stores_id andRepairUsers:array];
-    }
-}
-
-- (void)requestWithShopID:(NSString *)shopID andRepairUsers:(NSArray *)array
-{
-    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     
+    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     /**请求新建工单**/
     BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [rep_request createRepair:self.faulttypeID
-               faultType_type:self.faulttype_typeID
-                   faultCause:cause
-                   faultLevel:_repairState
-                  depatmentID:departmentInfo.dep_id
-                  floorInfoID:self.addressIDArray[0]
-                   areaInfoId:self.addressIDArray[2]
-                   shopInfoID:self.addressIDArray[4]
-                    equipment:@"0"
-                   faultNotes:notes
-                   imageArray:self.resultPhotos
-              repairUserArray:array];
+    [rep_request createNewMaintenanceOrderWithDeviceID:self.deviceID
+                                             faulttype:self.faulttypeID
+                                        faultType_type:self.faulttype_typeID
+                                            faultCause:cause
+                                            faultLevel:_repairState
+                                           depatmentID:departmentInfo.dep_id
+                                             equipment:@"0"
+                                            faultNotes:notes
+                                            imageArray:self.resultPhotos
+                                       repairUserArray:array];
 }
 
 - (void)showAlertView:(NSString *)title
@@ -416,6 +395,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     if (type == CreateRepair)
     {

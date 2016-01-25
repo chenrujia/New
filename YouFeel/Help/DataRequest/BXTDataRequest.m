@@ -295,6 +295,46 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
+                                    faulttype:(NSString *)faulttype
+                               faultType_type:(NSString *)faulttype_type
+                                   faultCause:(NSString *)cause
+                                   faultLevel:(NSString *)level
+                                  depatmentID:(NSString *)depID
+                                    equipment:(NSString *)eqID
+                                   faultNotes:(NSString *)notes
+                                   imageArray:(NSArray *)images
+                              repairUserArray:(NSArray *)userArray
+{
+    self.requestType = CreateMaintenanceOrder;
+    
+    if (!notes)
+    {
+        notes = @"";
+    }
+    
+    NSString *fault = [BXTGlobal getUserProperty:U_NAME];
+    NSString *faultID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
+    NSString *moblie = [BXTGlobal getUserProperty:U_MOBILE];
+    NSDictionary *dic = @{@"type":@"add",
+                          @"device_ids": deviceID,
+                          @"faulttype":faulttype,
+                          @"faulttype_type":faulttype_type,
+                          @"cause":cause,
+                          @"urgent":level,
+                          @"department":depID,
+                          @"equipment":eqID,
+                          @"fault":fault,
+                          @"fault_id":faultID,
+                          @"visitmobile":moblie,
+                          @"notes":notes,
+                          @"collection":@"",
+                          @"collection_note":@"",
+                          @"repair_user_arr":userArray};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Device_repair&opt=device_add_fault",[BXTGlobal shareGlobal].baseURL];
+    [self uploadImageRequest:url withParameters:dic withImages:images];
+}
+
 - (void)createRepair:(NSString *)faultType
       faultType_type:(NSString *)faulttype_type
           faultCause:(NSString *)cause
