@@ -70,9 +70,10 @@
 #pragma mark 事件处理
 - (void)navigationRightButton
 {
-    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintenceInfo deviceID:self.deviceID];
-    mainVC.isUpdate = YES;
-    [self.navigationController pushViewController:mainVC animated:YES];
+#warning 接口加上device_state_list
+//    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintenceInfo deviceID:self.deviceID];
+//    mainVC.isUpdate = YES;
+//    [self.navigationController pushViewController:mainVC animated:YES];
 }
 
 - (void)connactBtnClick:(UIButton *)btn
@@ -305,23 +306,26 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
-        BXTControlUserInfo *userInfo = deviceInfo.control_user_arr[1];
-        [cell.headImage sd_setImageWithURL:[NSURL URLWithString:userInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-        cell.userName.text = userInfo.name;
-        cell.userJob.text = userInfo.role;
-        if (userInfo.mobile.length == 0)
+        if (deviceInfo.control_user_arr.count >= 2)
         {
-            cell.userMoblie.text = @"暂无";
+            BXTControlUserInfo *userInfo = deviceInfo.control_user_arr[1];
+            [cell.headImage sd_setImageWithURL:[NSURL URLWithString:userInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            cell.userName.text = userInfo.name;
+            cell.userJob.text = userInfo.role;
+            if (userInfo.mobile.length == 0)
+            {
+                cell.userMoblie.text = @"暂无";
+            }
+            else
+            {
+                NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:userInfo.mobile];
+                [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
+                [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
+                cell.userMoblie.attributedText = attributedString;
+            }
+            cell.connactTa.tag = indexPath.section;
+            [cell.connactTa addTarget:self action:@selector(connactBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         }
-        else
-        {
-            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:userInfo.mobile];
-            [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
-            [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
-            cell.userMoblie.attributedText = attributedString;
-        }
-        cell.connactTa.tag = indexPath.section;
-        [cell.connactTa addTarget:self action:@selector(connactBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
         return cell;
     }

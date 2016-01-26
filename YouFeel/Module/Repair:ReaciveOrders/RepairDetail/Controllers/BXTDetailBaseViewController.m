@@ -313,7 +313,11 @@
     maintenaceBtn.layer.borderWidth = 1.f;
     maintenaceBtn.layer.cornerRadius = 4.f;
     [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 11.f, 83.f, 40.f)];
-    if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 0)
+    if ((self.repairDetail.repairstate == 1 || self.repairDetail.repairstate == 2) && !self.repairDetail.isRepairing)
+    {
+        [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
+    }
+    else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 0)
     {
         [maintenaceBtn setTitle:@"开始保养" forState:UIControlStateNormal];
     }

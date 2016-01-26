@@ -117,6 +117,7 @@
             button.backgroundColor = colorWithHexString(@"3cafff");
             [button setFrame:CGRectMake(0, CGRectGetMaxY(_repairTime.frame) + 10.f, 230.f, 40.f)];
             [button setCenter:CGPointMake(SCREEN_WIDTH/2.f, button.center.y)];
+            button.titleLabel.font = [UIFont systemFontOfSize:18.f];
             [button setTitle:@"接单" forState:UIControlStateNormal];
             [button setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
             [self addSubview:button];

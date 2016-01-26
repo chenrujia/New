@@ -19,7 +19,9 @@
 #import "BXTSelectBoxView.h"
 
 @interface BXTEquipmentFilesView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
-
+{
+    UIButton *maintenanceBtn;
+}
 @property (nonatomic, strong) DOPDropDownMenu  *DDMenu;
 @property (nonatomic, strong) BXTSelectBoxView *boxView;;
 @property (nonatomic, assign) CGFloat          cellHeight;
@@ -31,6 +33,8 @@
 @property (nonatomic, strong) NSMutableArray   *dataArray;
 @property (nonatomic, strong) NSMutableArray   *choosTimeArray;
 @property (nonatomic, strong) NSMutableArray   *maintencesArray;
+@property (nonatomic, strong) NSArray          *deviceStates;
+
 
 @end
 
@@ -125,17 +129,27 @@
     downBgView.backgroundColor = colorWithHexString(@"#DFE0E1");
     [self addSubview:downBgView];
     
-    UIButton *MaintenanceBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 13, SCREEN_WIDTH-80, 40)];
-    MaintenanceBtn.backgroundColor = [UIColor whiteColor];
-    [MaintenanceBtn setTitle:@"维保作业" forState:UIControlStateNormal];
-    [MaintenanceBtn setTitleColor:colorWithHexString(@"#3AB0FE") forState:UIControlStateNormal];
-    MaintenanceBtn.layer.cornerRadius = 5;
-    [[MaintenanceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    maintenanceBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 13, SCREEN_WIDTH-80, 40)];
+    maintenanceBtn.backgroundColor = [UIColor whiteColor];
+    [maintenanceBtn setTitle:@"维保作业" forState:UIControlStateNormal];
+    [maintenanceBtn setTitleColor:colorWithHexString(@"#3AB0FE") forState:UIControlStateNormal];
+    maintenanceBtn.layer.cornerRadius = 5;
+    [[maintenanceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BOOL haveInspection = [[NSUserDefaults standardUserDefaults] boolForKey:@"FirstInspection"];
         if (haveInspection)
         {
-            [self showList];
+            if (self.maintencesArray.count == 1)
+            {
+                BXTMaintenceInfo *maintenceInfo = self.maintencesArray[0];
+                BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
+                mainVC.isUpdate = NO;
+                [[self getNavigation] pushViewController:mainVC animated:YES];
+            }
+            else
+            {
+                [self showList];
+            }
         }
         else
         {
@@ -144,7 +158,7 @@
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
         }
     }];
-    [downBgView addSubview:MaintenanceBtn];
+    [downBgView addSubview:maintenanceBtn];
 }
 
 - (void)getResource
@@ -195,7 +209,7 @@
     [self.bgView removeFromSuperview];
     [self.boxView removeFromSuperview];
     BXTMaintenceInfo *maintenceInfo = obj;
-    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID];
+    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
     mainVC.isUpdate = NO;
     [[self getNavigation] pushViewController:mainVC animated:YES];
 }
@@ -310,7 +324,7 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Inspection_Record_List)
     {
-        LogRed(@"Inspection_Record_List.....%@",dic);
+        LogRed(@"维保记录接口.....%@",dic);
         [_tableView.mj_header endRefreshing];
         [_tableView.mj_footer endRefreshing];
         if (_currentPage == 1)
@@ -320,7 +334,16 @@
     }
     else if (type == MaintenanceEquipmentList)
     {
-        LogBlue(@"MaintenanceEquipmentList.....%@",dic);
+        NSString *str = [dic objectForKey:@"number"];
+        NSInteger number = [str integerValue];
+        if (number == 0)
+        {
+            [maintenanceBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            maintenanceBtn.userInteractionEnabled = NO;
+        }
+        NSArray *states = [dic objectForKey:@"device_state_list"];
+        self.deviceStates = states;
+        LogBlue(@"开始作业接口.....%@",dic);
     }
     
     for (NSDictionary *dictionary in data)
