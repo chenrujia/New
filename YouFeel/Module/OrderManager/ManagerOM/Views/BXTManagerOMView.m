@@ -260,7 +260,7 @@
             timeName = @"";
         }
         [request allRepairs:collection
-                andTimeName:timeName
+              andTimeName:timeName
                andStartTime:startTime
                  andEndTime:endTime
                andOrderType:priorityType

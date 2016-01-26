@@ -685,7 +685,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         
         NSArray *user_listArray = dict[@"user_list"];
         // 组人数
-        [self.titleNumArray addObject:[NSString stringWithFormat:@"%ld", user_listArray.count]];
+        [self.titleNumArray addObject:[NSString stringWithFormat:@"%ld", (unsigned long)user_listArray.count]];
         
         // 组可展开
         NSArray *listArray = dict[@"list"];

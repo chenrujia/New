@@ -55,7 +55,7 @@
 #pragma mark - getResource
 - (void)requestNetResourceWithReadState:(NSInteger)readState
 {
-    NSString *readStateStr = [NSString stringWithFormat:@"%ld", readState];
+    NSString *readStateStr = [NSString stringWithFormat:@"%ld", (long)readState];
     self.currentPage = 1;
     __block __typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -72,7 +72,7 @@
 - (void)getResourcereadWithReadState:(NSString *)readState
 {
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request announcementListWithReadState:readState pagesize:@"5" page:[NSString stringWithFormat:@"%ld", self.currentPage]];
+    [request announcementListWithReadState:readState pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
 
 #pragma mark -

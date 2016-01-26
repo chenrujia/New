@@ -20,7 +20,7 @@
     
     
     if (self.pushType == PushType_Ads) {
-        [self navigationSetting:@"广告详情" andRightTitle:nil andRightImage:nil];
+        [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
     }
     else {
         [self navigationSetting:@"公告详情" andRightTitle:nil andRightImage:nil];

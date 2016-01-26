@@ -208,7 +208,7 @@
             }
         }];
         [timeRangeBack addSubview:_datePicker];
-
+        
         //专业分组白色背景图
         NSInteger row = floor(groupArray.count/4.f);
         UIView *groupBack = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(timeRangeBack.frame), SCREEN_WIDTH, groupBackHeight + row * 40)];
@@ -233,7 +233,7 @@
         groupsLabel.textAlignment = NSTextAlignmentRight;
         groupsLabel.textColor = colorWithHexString(@"3cafff");
         [groupBack addSubview:groupsLabel];
-
+        
         CGFloat width = (SCREEN_WIDTH - 75.f)/4.f;
         for (NSInteger index = 0; index < groupArray.count; index++)
         {
@@ -454,13 +454,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

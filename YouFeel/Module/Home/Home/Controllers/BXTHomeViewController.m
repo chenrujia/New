@@ -242,6 +242,7 @@
     BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
     nivc.urlStr = model.more;
     nivc.pushType = PushType_Ads;
+    nivc.titleStr = model.title;
     nivc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:nivc animated:YES];
     

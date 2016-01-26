@@ -122,6 +122,7 @@
     {
         switch (indexPath.row) {
             case 0: {
+                [BXTRemindNum sharedManager].announcementNum = @"0";
                 [self.navigationController pushViewController:nlvc animated:YES];
             } break;
             case 1: [self.navigationController pushViewController:epvc animated:YES]; break;
