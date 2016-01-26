@@ -109,6 +109,7 @@
     if (section == 0)
     {
         titleLabel.text = @"设备信息";
+        
         return view;
     }
     else if (section == 1)
