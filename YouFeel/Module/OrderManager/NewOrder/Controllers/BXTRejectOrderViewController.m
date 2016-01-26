@@ -50,6 +50,7 @@
     UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     commitBtn.frame = CGRectMake(20, CGRectGetMaxY(cause.frame) + 40.f, SCREEN_WIDTH - 40, 50.f);
     [commitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    commitBtn.titleLabel.font = [UIFont systemFontOfSize:20];
     [commitBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
     commitBtn.layer.masksToBounds = YES;

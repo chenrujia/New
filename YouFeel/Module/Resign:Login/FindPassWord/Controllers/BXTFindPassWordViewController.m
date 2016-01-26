@@ -75,6 +75,7 @@
         UIButton *nextTapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         nextTapBtn.frame = CGRectMake(20, 30, SCREEN_WIDTH - 40, 50.f);
         [nextTapBtn setTitle:@"提交" forState:UIControlStateNormal];
+        nextTapBtn.titleLabel.font = [UIFont systemFontOfSize:20];
         [nextTapBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         [nextTapBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         nextTapBtn.layer.masksToBounds = YES;

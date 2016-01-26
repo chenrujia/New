@@ -32,6 +32,7 @@
                          bundle:(NSBundle *)nibBundleOrNil
                       maintence:(BXTMaintenceInfo *)maintence
                        deviceID:(NSString *)devID
+                deviceStateList:(NSArray *)states
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
@@ -39,6 +40,7 @@
         self.notes = @"";
         self.maintenceInfo = maintence;
         self.deviceID = devID;
+        self.deviceStates = states;
     }
     return self;
 }
@@ -112,9 +114,11 @@
     [self handleData:[number integerValue]];
 }
 
+#pragma mark -
+#pragma mark UITableDelegate && UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0 || section == _maintenceInfo.inspection_info.count + 1)
+    if (section == 0 || section == _maintenceInfo.inspection_info.count + 2)
     {
         return 0.1f;
     }
@@ -123,20 +127,26 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == 0 || section == _maintenceInfo.inspection_info.count + 1)
+    if (section == 0 || section == _maintenceInfo.inspection_info.count + 2)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
         view.backgroundColor = [UIColor clearColor];
         return view;
     }
-    
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50.f)];
     view.backgroundColor = [UIColor whiteColor];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 100.f, 30)];
     titleLabel.textColor = colorWithHexString(@"000000");
     titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-    BXTInspectionInfo *inspectionInfo = _maintenceInfo.inspection_info[section - 1];
-    titleLabel.text = inspectionInfo.check_item;
+    if (section == _maintenceInfo.inspection_info.count + 1)
+    {
+        titleLabel.text = @"设备状态";
+    }
+    else
+    {
+        BXTInspectionInfo *inspectionInfo = _maintenceInfo.inspection_info[section - 1];
+        titleLabel.text = inspectionInfo.check_item;
+    }
     [view addSubview:titleLabel];
     
     return view;
@@ -156,14 +166,18 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2 + _maintenceInfo.inspection_info.count;
+    return 3 + _maintenceInfo.inspection_info.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0 || section == _maintenceInfo.inspection_info.count + 1)
+    if (section == 0 || section == _maintenceInfo.inspection_info.count + 2)
     {
         return 1;
+    }
+    else if(section == _maintenceInfo.inspection_info.count + 1)
+    {
+        return self.deviceStates.count;
     }
     BXTInspectionInfo *inspection = _maintenceInfo.inspection_info[section - 1];
     return inspection.check_arr.count;
@@ -171,7 +185,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == _maintenceInfo.inspection_info.count + 1)
+    if (indexPath.section == _maintenceInfo.inspection_info.count + 2)
     {
         return 170;
     }
@@ -180,7 +194,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == self.maintenceInfo.inspection_info.count + 1)
+    if (indexPath.section == self.maintenceInfo.inspection_info.count + 2)
     {
         BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MainTenanceCell"];
         if (!cell)
@@ -229,20 +243,24 @@
         {
             cell = [[BXTSettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MainTenanceCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.titleLabel.frame = CGRectMake(15.f, 15.f, 120.f, 20);
             cell.detailLable.textAlignment = NSTextAlignmentRight;
         }
         if (indexPath.section == 0)
         {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.titleLabel.frame = CGRectMake(15.f, 15.f, 120.f, 20);
             cell.titleLabel.text = @"设备操作规范";
+        }
+        else if (indexPath.section == self.maintenceInfo.inspection_info.count + 1)
+        {
+            NSDictionary *dic = self.deviceStates[indexPath.row];
+            cell.titleLabel.text = [dic objectForKey:@"state"];
         }
         else
         {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             BXTInspectionInfo *inspection = _maintenceInfo.inspection_info[indexPath.section - 1];
             BXTCheckProjectInfo *checkProject = inspection.check_arr[indexPath.row];
-            cell.titleLabel.frame = CGRectMake(15.f, 15.f, 120.f, 20);
             cell.titleLabel.text = checkProject.check_con;
             cell.detailLable.text = checkProject.default_description;
         }

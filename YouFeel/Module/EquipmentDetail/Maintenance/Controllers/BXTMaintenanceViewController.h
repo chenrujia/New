@@ -17,10 +17,12 @@
 @property (nonatomic, strong) NSString         *notes;
 @property (nonatomic, assign) BOOL             isUpdate;//更新还是添加接口
 @property (nonatomic, strong) NSString         *deviceID;
+@property (nonatomic, strong) NSArray          *deviceStates;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil
                          bundle:(NSBundle *)nibBundleOrNil
                       maintence:(BXTMaintenceInfo *)maintence
-                       deviceID:(NSString *)devID;
+                       deviceID:(NSString *)devID
+                deviceStateList:(NSArray *)states;
 
 @end

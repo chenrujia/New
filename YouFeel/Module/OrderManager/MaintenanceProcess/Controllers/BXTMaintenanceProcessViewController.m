@@ -246,8 +246,9 @@
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
         UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        doneBtn.frame = CGRectMake(20, 20, SCREEN_WIDTH - 40, 50.f);
+        doneBtn.frame = CGRectMake(10, 20, SCREEN_WIDTH - 20, 50.f);
         [doneBtn setTitle:@"提交" forState:UIControlStateNormal];
+        doneBtn.titleLabel.font = [UIFont systemFontOfSize:20];
         [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
         [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         doneBtn.layer.masksToBounds = YES;

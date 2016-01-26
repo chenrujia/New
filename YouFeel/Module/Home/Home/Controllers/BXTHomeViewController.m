@@ -86,7 +86,7 @@
 {
     [super viewWillAppear:animated];
     
-    [self showLoadingMBP:@"数据加载中..."];
+//    [self showLoadingMBP:@"数据加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /** 消息列表 **/
