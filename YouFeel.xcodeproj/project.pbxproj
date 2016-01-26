@@ -104,6 +104,7 @@
 		783E6C841C52033500DC13FB /* BXTFaultType.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C831C52033500DC13FB /* BXTFaultType.m */; };
 		783E6C871C520C8D00DC13FB /* BXTFaultTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C861C520C8D00DC13FB /* BXTFaultTypeView.m */; };
 		783E6C891C520CAC00DC13FB /* BXTFaultTypeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 783E6C881C520CAC00DC13FB /* BXTFaultTypeView.xib */; };
+		78644F6B1C575D5600D2C4C5 /* BXTDeviceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 78644F6A1C575D5600D2C4C5 /* BXTDeviceList.m */; };
 		7867DC0C1C4CB9F3000749F1 /* BXTAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC0B1C4CB9F3000749F1 /* BXTAboutUsViewController.m */; };
 		7867DC271C4CBA5B000749F1 /* BXTCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC101C4CBA5B000749F1 /* BXTCustomerServiceViewController.m */; };
 		7867DC281C4CBA5B000749F1 /* BXTHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC141C4CBA5B000749F1 /* BXTHomeViewController.m */; };
@@ -516,6 +517,8 @@
 		783E6C851C520C8D00DC13FB /* BXTFaultTypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFaultTypeView.h; sourceTree = "<group>"; };
 		783E6C861C520C8D00DC13FB /* BXTFaultTypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFaultTypeView.m; sourceTree = "<group>"; };
 		783E6C881C520CAC00DC13FB /* BXTFaultTypeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTFaultTypeView.xib; sourceTree = "<group>"; };
+		78644F691C575D5600D2C4C5 /* BXTDeviceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceList.h; sourceTree = "<group>"; };
+		78644F6A1C575D5600D2C4C5 /* BXTDeviceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceList.m; sourceTree = "<group>"; };
 		7867DC0A1C4CB9F3000749F1 /* BXTAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAboutUsViewController.h; sourceTree = "<group>"; };
 		7867DC0B1C4CB9F3000749F1 /* BXTAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAboutUsViewController.m; sourceTree = "<group>"; };
 		7867DC0F1C4CBA5B000749F1 /* BXTCustomerServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomerServiceViewController.h; sourceTree = "<group>"; };
@@ -1579,6 +1582,8 @@
 				783E6C101C51BFF400DC13FB /* BXTAreaInfo.m */,
 				783E6C131C51BFF400DC13FB /* BXTShopInfo.h */,
 				783E6C141C51BFF400DC13FB /* BXTShopInfo.m */,
+				78644F691C575D5600D2C4C5 /* BXTDeviceList.h */,
+				78644F6A1C575D5600D2C4C5 /* BXTDeviceList.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3641,6 +3646,7 @@
 				7867DDA91C4CBEE9000749F1 /* BXTReaciveOrderTableViewCell.m in Sources */,
 				7867DD801C4CBEA1000749F1 /* BXTNewOrderViewController.m in Sources */,
 				7867DD1E1C4CBE4F000749F1 /* BXTAuthenticationViewController.m in Sources */,
+				78644F6B1C575D5600D2C4C5 /* BXTDeviceList.m in Sources */,
 				967C3D411C45FBB70078F1D6 /* BXTMaintenceInfo.m in Sources */,
 				7867DD791C4CBEA1000749F1 /* BXTMaintenanceProcessTableViewCell.m in Sources */,
 				7867DC2B1C4CBA5B000749F1 /* BXTShopsHomeViewController.m in Sources */,
@@ -3976,7 +3982,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -4004,7 +4010,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};

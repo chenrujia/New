@@ -165,7 +165,7 @@
     }
     if ([BXTGlobal isBlankString:cause])
     {
-        [self showAlertView:@"请输入故障描述"];
+        [self showAlertView:@"请输入故障原因"];
         return;
     }
     if (faulttype_type == 0)
@@ -286,7 +286,7 @@
 {
     if (indexPath.section == 4)
     {
-        return 170;
+        return 130;
     }
     return 50.f;
 }
@@ -374,7 +374,7 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 2)
+        else if (indexPath.section == 3)
         {
             cell.titleLabel.text = @"描   述";
             cell.detailLable.hidden = YES;
@@ -393,7 +393,7 @@
                 [cell.detailTF setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
             }
         }
-        else if (indexPath.section == 3)
+        else if (indexPath.section == 2)
         {
             cell.titleLabel.text = @"等   级";
             cell.emergencyBtn.hidden = NO;
@@ -442,9 +442,14 @@
         shopLocationVC.delegateSignal = [RACSubject subject];
         [shopLocationVC.delegateSignal subscribeNext:^(NSArray *array) {
             self.addressIDArray = [[NSArray alloc] initWithArray:array];
-            address = [NSString stringWithFormat:@"%@-%@-%@", self.addressIDArray[1], self.addressIDArray[3], self.addressIDArray[5]];
+            if ([BXTGlobal isBlankString:self.addressIDArray[5]]) {
+                address = [NSString stringWithFormat:@"%@-%@", self.addressIDArray[1], self.addressIDArray[3]];
+            }
+            else {
+                address = [NSString stringWithFormat:@"%@-%@-%@", self.addressIDArray[1], self.addressIDArray[3], self.addressIDArray[5]];
+            }
+            NSLog(@"--------------- %@", array);
             [self.currentTableView reloadData];
-//            self.addressIDArray = [[NSArray alloc] initWithArray:array];
         }];
         [self.navigationController pushViewController:shopLocationVC animated:YES];
     }

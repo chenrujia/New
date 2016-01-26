@@ -208,7 +208,7 @@
 {
     if (indexPath.section == 3)
     {
-        return 170;
+        return 130;
     }
     return 50.f;
 }
@@ -286,7 +286,7 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 1)
+        else if (indexPath.section == 2)
         {
             cell.titleLabel.text = @"描   述";
             cell.detailLable.hidden = YES;

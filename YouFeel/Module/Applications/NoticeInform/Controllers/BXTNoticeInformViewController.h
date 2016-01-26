@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger, PushType) {
 @interface BXTNoticeInformViewController : BXTBaseViewController
 
 @property (nonatomic, assign) NSInteger pushType;
+@property (nonatomic, copy) NSString *titleStr;
 @property (nonatomic, copy) NSString *urlStr;
 
 @end

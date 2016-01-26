@@ -22,6 +22,7 @@ typedef enum {
 @property (nonatomic, strong) NSMutableArray *percentArrat;
 @property (nonatomic, strong) NSMutableArray *monthArray;
 @property (nonatomic, strong) NSMutableArray *yearArray;
+@property (nonatomic, assign) NSInteger chooseType;
 
 @property (nonatomic, strong) BXTCompletionHeader *headerView;
 @property (nonatomic, strong) BXTCompletionFooter *footerView;
@@ -179,7 +180,7 @@ typedef enum {
     //  ---------- 柱状图 ----------
     // CompletionFooter
     self.footerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTCompletionFooter" owner:nil options:nil] lastObject];
-    self.footerView.frame = CGRectMake(0, 410, SCREEN_WIDTH, 410);
+    self.footerView.frame = CGRectMake(0, 410, SCREEN_WIDTH, 480);
     [self.rootScrollView addSubview:self.footerView];
     self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.footerView.frame));
     
@@ -196,12 +197,14 @@ typedef enum {
     CGFloat barChartW;
     if (type == year)
     {
+        self.chooseType = year;
         finalArray = self.yearArray;
         xText = @"month";
         barChartW = 50;
     }
     else if (type == month)
     {
+        self.chooseType = month;
         finalArray = self.monthArray;
         xText = @"day";
         barChartW = 40;
@@ -225,7 +228,13 @@ typedef enum {
         NSNumber *undownNum = [NSNumber numberWithInteger:[undownStr integerValue]];
         
         NSArray *dataArray = @[downNum, specialNum, undownNum];
-        [barArray addObject:[SPBarChartData dataWithValues:dataArray colors:colorArray description:[NSString stringWithFormat:@"%@", dict[xText]]]];
+        if (type == year) {
+            [barArray addObject:[SPBarChartData dataWithValues:dataArray colors:colorArray description:[NSString stringWithFormat:@"%@月", dict[xText]]]];
+        }
+        else {
+            [barArray addObject:[SPBarChartData dataWithValues:dataArray colors:colorArray description:[NSString stringWithFormat:@"%@日", dict[xText]]]];
+        }
+        
         
         NSInteger sumNum = [downStr integerValue] + [specialStr integerValue] + [undownStr integerValue];
         NSString *sumStr = [NSString stringWithFormat:@"%ld", (long)sumNum];
@@ -254,6 +263,20 @@ typedef enum {
     
     [scrollView addSubview:barChart];
     scrollView.contentSize = CGSizeMake(barChart.frame.size.width, barChart.frame.size.height);
+    
+    
+    NSDictionary *firstDict = finalArray[0];
+    NSString *downStr = [NSString stringWithFormat:@"%@", firstDict[@"yes_number"]];
+    NSString *specialStr = [NSString stringWithFormat:@"%@", firstDict[@"collection_number"]];
+    NSString *undownStr = [NSString stringWithFormat:@"%@", firstDict[@"no_number"]];
+    
+    NSString *typeStr = self.chooseType == year ? @"月" : @"日";
+    self.footerView.titleView.text = [NSString stringWithFormat:@"1%@", typeStr];
+    NSInteger sum = [downStr integerValue] + [specialStr integerValue] + [undownStr integerValue];
+    self.footerView.sumView.text = [NSString stringWithFormat:@"共计：%ld单", (long)sum];
+    self.footerView.doneView.text = [NSString stringWithFormat:@"完成：%@单", downStr];
+    self.footerView.specialView.text = [NSString stringWithFormat:@"未完成：%@单", undownStr];
+    self.footerView.undownView.text = [NSString stringWithFormat:@"特殊工单：%@单", specialStr];
 }
 
 #pragma mark -
@@ -274,6 +297,14 @@ typedef enum {
     [label sizeToFit];
     
     NSLog(@"Selected bar %@", label.text);
+    
+    NSString *typeStr = self.chooseType == year ? @"月" : @"日";
+    self.footerView.titleView.text = [NSString stringWithFormat:@"%ld%@", (long)barIndex + 1, typeStr];
+    NSInteger sum = [data.values[0] integerValue] + [data.values[1] integerValue] + [data.values[2] integerValue];
+    self.footerView.sumView.text = [NSString stringWithFormat:@"共计：%ld单", (long)sum];
+    self.footerView.doneView.text = [NSString stringWithFormat:@"完成：%@单", data.values[0]];
+    self.footerView.specialView.text = [NSString stringWithFormat:@"未完成：%@单", data.values[1]];
+    self.footerView.undownView.text = [NSString stringWithFormat:@"特殊工单：%@单", data.values[2]];
     
     SPChartPopup * popup = [[SPChartPopup alloc] initWithContentView:label];
     [popup setPopupColor:colorWithHexString(@"#999999")];

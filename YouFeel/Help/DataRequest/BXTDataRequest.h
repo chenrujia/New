@@ -25,6 +25,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     RepairList,
     DeleteRepair,
     RepairDetail,
+    DeviceList,
     ReaciveOrder,
     PropertyGrouping,
     MaintenanceProcess,
@@ -106,6 +107,11 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  分店位置
  */
 - (void)shopLocation;
+
+/**
+ *  设备列表
+ */
+- (void)deviceListWithPlaceID:(NSString *)placeID;
 
 /**
  *  店铺信息

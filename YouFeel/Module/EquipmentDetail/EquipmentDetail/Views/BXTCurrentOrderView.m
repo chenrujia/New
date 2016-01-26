@@ -345,7 +345,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
         case 2: type = OrderType_Maintenance; break;
         default: break;
     }
-    self.typeStr = [NSString stringWithFormat:@"%ld", type];
+    self.typeStr = [NSString stringWithFormat:@"%ld", (long)type];
     if (indexPath.row == 3) {
         self.typeStr = @"";
     }

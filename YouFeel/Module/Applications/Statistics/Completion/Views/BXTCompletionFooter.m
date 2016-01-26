@@ -25,6 +25,10 @@
     self.pointView2.layer.cornerRadius = 10.25;
     self.pointView2.layer.masksToBounds = YES;
     self.pointView2.backgroundColor = colorWithHexString(@"#0FCCC0");
+    
+    self.roundView.layer.cornerRadius = 5;
+    self.roundView.layer.masksToBounds = YES;
+    self.roundView.backgroundColor = colorWithHexString(@"#0FCCC0");
 }
 
 /*
