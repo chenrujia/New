@@ -11,8 +11,10 @@
 @interface BXTMaintenanceBookViewController : BXTDetailBaseViewController<UITableViewDelegate,UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
+@property (nonatomic, strong) NSArray  *deviceStates;
 @property (nonatomic, strong) NSString *deviceID;
+@property (nonatomic, strong) NSString *workID;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID workOrderID:(NSString *)work_id;
 
 @end

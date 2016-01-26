@@ -215,6 +215,11 @@ andRepairerIsReacive:(NSString *)reacive
         stateIsComplete = YES;
     }
     NSDictionary *dic;
+    NSString *timeName = @"";
+    if (beginTime.length > 0)
+    {
+        timeName = @"repair_time";
+    }
     if (stateIsComplete)
     {
         dic = @{@"state":@"2",
@@ -224,6 +229,7 @@ andRepairerIsReacive:(NSString *)reacive
                 @"department":department,
                 @"timestart":beginTime,
                 @"timeover":endTime,
+                @"timename":timeName,
                 @"faulttype":faultType,
                 @"task_type":taskType};
     }
@@ -236,6 +242,7 @@ andRepairerIsReacive:(NSString *)reacive
                 @"department":department,
                 @"timestart":beginTime,
                 @"timeover":endTime,
+                @"timename":timeName,
                 @"faulttype":faultType,
                 @"task_type":taskType};
     }
@@ -783,9 +790,15 @@ andRepairerIsReacive:(NSString *)reacive
                              page:(NSString *)page
 {
     self.requestType = Device_Repair_List;
+    NSString *timeName = @"";
+    if (startTime.length > 0)
+    {
+        timeName = @"repair_time";
+    }
     NSDictionary *dic = @{@"order": order,
                           @"timestart": startTime,
                           @"timeover": endTime,
+                          @"timename":timeName,
                           @"pagesize": pagesize,
                           @"page": page,
                           @"device_id":device_id};
@@ -800,10 +813,16 @@ andRepairerIsReacive:(NSString *)reacive
                                 timeover:(NSString *)endTime
 {
     self.requestType = Inspection_Record_List;
+    NSString *timeName = @"";
+    if (startTime.length > 0)
+    {
+        timeName = @"repair_time";
+    }
     NSDictionary *dic = @{@"pagesize": pagesize,
                           @"page": page,
                           @"timestart": startTime,
                           @"timeover": endTime,
+                          @"timename":timeName,
                           @"device_id":device_id};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=inspection_record_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -853,6 +872,7 @@ andRepairerIsReacive:(NSString *)reacive
             andInspectionID:(NSString *)inspectionID
           andInspectionData:(NSString *)inspectionData
                    andNotes:(NSString *)notes
+                   andState:(NSString *)state
                   andImages:(NSArray *)images
 {
     self.requestType = Add_Inspection;
@@ -860,6 +880,7 @@ andRepairerIsReacive:(NSString *)reacive
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"device_id":device_id,
                           @"inspection_info":inspectionData,
+                          @"device_state":state,
                           @"notes":notes};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=add_inspection_record",[BXTGlobal shareGlobal].baseURL];
     if (images && images.count > 0)
@@ -877,6 +898,7 @@ andRepairerIsReacive:(NSString *)reacive
                  andInspectionID:(NSString *)inspectionID
                andInspectionData:(NSString *)inspectionData
                         andNotes:(NSString *)notes
+                        andState:(NSString *)state
                        andImages:(NSArray *)images
 {
     self.requestType = Update_Inspection;
@@ -884,6 +906,7 @@ andRepairerIsReacive:(NSString *)reacive
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"device_id":device_id,
                           @"inspection_info":inspectionData,
+                          @"device_state":state,
                           @"notes":notes};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=update_inspection_record",[BXTGlobal shareGlobal].baseURL];
     if (images && images.count > 0)
@@ -897,8 +920,10 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)inspectionRecordInfo:(NSString *)deviceID
+                   andWorkID:(NSString *)workID
 {
-    NSDictionary *dic = @{@"id":deviceID,
+    NSDictionary *dic = @{@"device_id":deviceID,
+                          @"workorder_id":workID,
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=inspection_record_con",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];

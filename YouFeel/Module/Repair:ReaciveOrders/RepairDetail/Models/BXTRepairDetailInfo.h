@@ -62,5 +62,6 @@
 
 //维保相关
 @property (nonatomic, strong) NSArray      *device_list;
+@property (nonatomic, strong) NSNumber     *all_inspection_state;
 
 @end

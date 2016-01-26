@@ -330,6 +330,7 @@
         }
         cell.remarkTV.delegate = self;
         cell.remarkTV.tag = kNOTE;
+        cell.remarkTV.text = @"请输入维修内容";
         cell.titleLabel.text = @"备   注";
         
         @weakify(self);
@@ -714,15 +715,5 @@
     [super didReceiveMemoryWarning];
 
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -542,8 +542,8 @@
                 beginTime = endTime - 7776000;
             }
             
-            repairBeginTime = [NSString stringWithFormat:@"%f",beginTime];
-            repairEndTime = [NSString stringWithFormat:@"%f",endTime];
+            repairBeginTime = [NSString stringWithFormat:@"%.0f",beginTime];
+            repairEndTime = [NSString stringWithFormat:@"%.0f",endTime];
         }
     }
     

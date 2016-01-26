@@ -17,7 +17,9 @@
 @property (nonatomic, strong) NSString         *notes;
 @property (nonatomic, assign) BOOL             isUpdate;//更新还是添加接口
 @property (nonatomic, strong) NSString         *deviceID;
+@property (nonatomic, strong) NSString         *state;
 @property (nonatomic, strong) NSArray          *deviceStates;
+@property (nonatomic, assign) BOOL             isFirst;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil
                          bundle:(NSBundle *)nibBundleOrNil

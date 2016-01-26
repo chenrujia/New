@@ -36,5 +36,7 @@
 @property (nonatomic, strong) NSString *device_id;
 @property (nonatomic, strong) NSArray  *pic;
 @property (nonatomic, strong) NSString *notes;
+@property (nonatomic, strong) NSArray  *repair_arr;
+@property (nonatomic, strong) NSString *device_state_name;
 
 @end

@@ -278,13 +278,21 @@
     }
     else if (item.tag == 2)
     {
-        BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:self.repairDetail.faulttype_name andCurrentFaultID:self.repairDetail.faulttype andRepairID:self.repairDetail.repairID andReaciveTime:self.repairDetail.start_time];
-        @weakify(self);
-        maintenanceProcossVC.BlockRefresh = ^() {
-            @strongify(self);
-            [self requestDetail];
-        };
-        [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
+        //如果还有设备在维保中，则不让修改维保过程
+        if (self.repairDetail.all_inspection_state.integerValue == 1)
+        {
+            [self showMBP:@"设备正在维保中，此刻不能更改维修过程！" withBlock:nil];
+        }
+        else
+        {
+            BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:self.repairDetail.faulttype_name andCurrentFaultID:self.repairDetail.faulttype andRepairID:self.repairDetail.repairID andReaciveTime:self.repairDetail.start_time];
+            @weakify(self);
+            maintenanceProcossVC.BlockRefresh = ^() {
+                @strongify(self);
+                [self requestDetail];
+            };
+            [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
+        }
     }
 }
 
@@ -416,8 +424,18 @@
         //状态相关
         BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, StateViewHeight) withRepairState:self.repairDetail.repairstate withIsRespairing:self.repairDetail.isRepairing isShowState:NO];
         [_thirdBV addSubview:drawView];
-        NSString *repairDateStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.dispatching_time];
-        _arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
+        
+        if (self.repairDetail.repairstate == 1)
+        {
+            _third_bv_height.constant = CGRectGetMaxY(_arrangeTime.frame) - 32.f;
+            _arrangeTime.hidden = YES;
+        }
+        else
+        {
+            NSString *repairDateStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.receive_time];
+            _arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
+            _third_bv_height.constant = CGRectGetMaxY(_arrangeTime.frame) + 10.f;
+        }
         if (self.repairDetail.man_hours.length > 0)
         {
             _mmProcess.hidden = NO;
@@ -426,8 +444,10 @@
             _mmProcess.text = [NSString stringWithFormat:@"维修备注:%@",self.repairDetail.workprocess];
             [_mmProcess layoutIfNeeded];
             _workTime.text = [NSString stringWithFormat:@"维修工时:%@小时",self.repairDetail.man_hours];
+            [_workTime layoutIfNeeded];
             NSString *time_str = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.end_time];
             _completeTime.text = [NSString stringWithFormat:@"完成时间:%@",time_str];
+            [_completeTime layoutIfNeeded];
             _third_bv_height.constant = CGRectGetMaxY(_completeTime.frame) + 10.f;
         }
         else
@@ -435,7 +455,6 @@
             _mmProcess.hidden = YES;
             _workTime.hidden = YES;
             _completeTime.hidden = YES;
-            _third_bv_height.constant = CGRectGetMaxY(_arrangeTime.frame) + 10.f;
         }
         [_thirdBV layoutIfNeeded];
 
@@ -448,7 +467,7 @@
             height = 90.f;
             _reaciveOrder.hidden = NO;
         }
-        else if (self.repairDetail.repairstate == 2 && self.repairDetail.isRepairing == 2)
+        else if (self.repairDetail.repairstate == 2 && self.repairDetail.isRepairing == 2 && !_isAllOrderType)
         {
             if (!self.isRejectVC && [BXTGlobal shareGlobal].isRepair)
             {
@@ -463,14 +482,25 @@
         [_fouthBV layoutIfNeeded];
         if (usersCount)
         {
+            CGFloat log_height = 0.f;
             for (NSInteger i = 0; i < usersCount; i++)
             {
                 NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
+                NSString *content = [userDic objectForKey:@"log_content"];
+                if (content.length > 0)
+                {
+                    NSString *log = [NSString stringWithFormat:@"维修日志：%@",content];
+                    CGSize size = MB_MULTILINE_TEXTSIZE(log, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30, 1000.f), NSLineBreakByWordWrapping);
+                    log_height = size.height + 20.f;
+                }
+                
                 [self.manIDArray addObject:userDic[@"id"]];
                 
                 UIView *userBack = [self viewForUser:i andMaintenanceMaxY:CGRectGetMaxY(_maintenanceMan.frame) + 20 andLevelWidth:CGRectGetWidth(_level.frame)];
                 [_fouthBV addSubview:userBack];
             }
+            _fouth_bv_height.constant = 52 + RepairHeight * usersCount + log_height;
+            [_fouthBV layoutIfNeeded];
             _sco_content_height.constant = CGRectGetMaxY(_fouthBV.frame) + height;
         }
         else

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VVz-ga-zQn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VVz-ga-zQn">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -199,8 +199,8 @@
                                     <constraint firstAttribute="height" constant="40" id="cqs-sx-MfM"/>
                                     <constraint firstAttribute="width" constant="90" id="mLl-lS-avW"/>
                                 </constraints>
-                                <state key="normal" title="忘记密码">
-                                    <color key="titleColor" red="0.30588235294117649" green="0.45490196078431372" blue="0.6470588235294118" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="忘记密码？">
+                                    <color key="titleColor" red="0.23529411759999999" green="0.68627450980000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -244,7 +244,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eSA-yQ-bMM">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="Bh9-xq-TzZ"/>
+                                    <constraint firstAttribute="height" constant="44" id="Bh9-xq-TzZ">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="50"/>
+                                    </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="登录" backgroundImage="login_normal">
@@ -275,22 +277,32 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="yU8-CE-RjG" firstAttribute="leading" secondItem="BzX-Cn-25W" secondAttribute="leading" id="7d2-Mq-Mow"/>
-                            <constraint firstItem="eSA-yQ-bMM" firstAttribute="leading" secondItem="BzX-Cn-25W" secondAttribute="leading" constant="30" id="EU6-kv-962"/>
+                            <constraint firstItem="eSA-yQ-bMM" firstAttribute="leading" secondItem="BzX-Cn-25W" secondAttribute="leading" constant="30" id="EU6-kv-962">
+                                <variation key="heightClass=regular-widthClass=compact" constant="20"/>
+                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="eSA-yQ-bMM" secondAttribute="trailing" id="F3m-OG-MCA"/>
                             <constraint firstItem="zg9-Vp-Wvt" firstAttribute="centerX" secondItem="BzX-Cn-25W" secondAttribute="centerX" id="Kt9-Bl-4sq"/>
-                            <constraint firstAttribute="trailing" secondItem="eSA-yQ-bMM" secondAttribute="trailing" constant="30" id="LGf-iB-Zo7"/>
+                            <constraint firstAttribute="trailing" secondItem="eSA-yQ-bMM" secondAttribute="trailing" constant="30" id="LGf-iB-Zo7">
+                                <variation key="heightClass=regular-widthClass=compact" constant="20"/>
+                            </constraint>
                             <constraint firstItem="f9P-FV-sj4" firstAttribute="top" secondItem="Vm5-ht-s9n" secondAttribute="bottom" constant="80" id="Z5z-eX-zu1">
                                 <variation key="heightClass=regular-widthClass=compact" constant="80"/>
                             </constraint>
                             <constraint firstItem="yU8-CE-RjG" firstAttribute="top" secondItem="BzX-Cn-25W" secondAttribute="top" constant="215" id="a5H-Pw-Vxg"/>
                             <constraint firstAttribute="trailing" secondItem="AWq-IE-X7a" secondAttribute="trailing" id="cYG-LE-DES"/>
-                            <constraint firstAttribute="trailing" secondItem="AWq-IE-X7a" secondAttribute="trailing" constant="30" id="kP5-Rv-UAf"/>
+                            <constraint firstAttribute="trailing" secondItem="AWq-IE-X7a" secondAttribute="trailing" constant="30" id="kP5-Rv-UAf">
+                                <variation key="heightClass=regular-widthClass=compact" constant="10"/>
+                            </constraint>
                             <constraint firstItem="eSA-yQ-bMM" firstAttribute="leading" secondItem="BzX-Cn-25W" secondAttribute="leading" id="klV-z9-Q9T"/>
                             <constraint firstItem="yU8-CE-RjG" firstAttribute="top" secondItem="f9P-FV-sj4" secondAttribute="bottom" constant="53" id="oEM-HO-pE6"/>
                             <constraint firstItem="f9P-FV-sj4" firstAttribute="centerX" secondItem="BzX-Cn-25W" secondAttribute="centerX" id="pYC-Sm-Gfb"/>
                             <constraint firstAttribute="trailing" secondItem="yU8-CE-RjG" secondAttribute="trailing" id="sOu-gf-sDJ"/>
-                            <constraint firstItem="EAv-EK-vLX" firstAttribute="top" secondItem="zg9-Vp-Wvt" secondAttribute="bottom" constant="30" id="tzy-Jm-dmX"/>
-                            <constraint firstItem="AWq-IE-X7a" firstAttribute="top" secondItem="eSA-yQ-bMM" secondAttribute="bottom" constant="8" id="xPr-eu-iZ5"/>
+                            <constraint firstItem="EAv-EK-vLX" firstAttribute="top" secondItem="zg9-Vp-Wvt" secondAttribute="bottom" constant="30" id="tzy-Jm-dmX">
+                                <variation key="heightClass=regular-widthClass=compact" constant="26"/>
+                            </constraint>
+                            <constraint firstItem="AWq-IE-X7a" firstAttribute="top" secondItem="eSA-yQ-bMM" secondAttribute="bottom" constant="8" id="xPr-eu-iZ5">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstItem="eSA-yQ-bMM" firstAttribute="top" secondItem="yU8-CE-RjG" secondAttribute="bottom" constant="36" id="yvD-Si-TOa"/>
                         </constraints>
                         <variation key="default">

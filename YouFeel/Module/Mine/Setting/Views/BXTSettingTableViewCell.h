@@ -20,7 +20,9 @@
 @property (nonatomic ,strong) UISwitch    *switchbtn;
 
 @property (nonatomic ,strong) UIImageView *headImageView;
-@property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UILabel *phoneLabel;
+@property (nonatomic, strong) UILabel     *nameLabel;
+@property (nonatomic, strong) UILabel     *phoneLabel;
+//是否显示checkImgView
+@property (nonatomic, assign) BOOL        isShow;
 
 @end

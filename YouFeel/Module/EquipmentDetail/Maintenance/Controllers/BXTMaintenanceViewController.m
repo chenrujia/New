@@ -41,6 +41,12 @@
         self.maintenceInfo = maintence;
         self.deviceID = devID;
         self.deviceStates = states;
+        if (self.deviceStates.count > 0)
+        {
+            self.isFirst = YES;
+            NSDictionary *dic = self.deviceStates[0];
+            self.state = [dic objectForKey:@"id"];
+        }
     }
     return self;
 }
@@ -94,6 +100,7 @@
                               andInspectionID:self.maintenceInfo.inspection_item_id
                             andInspectionData:jsonStr
                                      andNotes:self.notes
+                                     andState:self.state
                                     andImages:self.resultPhotos];
         }
         else
@@ -103,6 +110,7 @@
                          andInspectionID:self.maintenceInfo.inspection_item_id
                        andInspectionData:jsonStr
                                 andNotes:self.notes
+                                andState:self.state
                                andImages:self.resultPhotos];
         }
     }];
@@ -253,6 +261,11 @@
         }
         else if (indexPath.section == self.maintenceInfo.inspection_info.count + 1)
         {
+            if (indexPath.row == 0 && self.isFirst)
+            {
+                cell.isShow = YES;
+                self.isFirst = NO;
+            }
             NSDictionary *dic = self.deviceStates[indexPath.row];
             cell.titleLabel.text = [dic objectForKey:@"state"];
         }
@@ -271,31 +284,45 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section != 0 && indexPath.section != _maintenceInfo.inspection_info.count + 1)
-    {
-        BXTInspectionInfo *inspectionInfo = _maintenceInfo.inspection_info[indexPath.section - 1];
-        BXTCheckProjectInfo *checkProject = inspectionInfo.check_arr[indexPath.row];
-        BXTChangeStateViewController *changeStateVC = [[BXTChangeStateViewController alloc] initWithNibName:@"BXTChangeStateViewController" bundle:nil withNotes:checkProject.default_description withTitle:inspectionInfo.check_item withDetail:checkProject.check_con];
-        @weakify(self);
-        [changeStateVC valueChanged:^(NSString *text) {
-            @strongify(self);
-            
-            checkProject.default_description = text;
-            NSMutableArray *tempIns = [NSMutableArray arrayWithArray:inspectionInfo.check_arr];
-            [tempIns replaceObjectAtIndex:indexPath.row withObject:checkProject];
-            inspectionInfo.check_arr = tempIns;
-            NSMutableArray *tempInsInfos = [NSMutableArray arrayWithArray:self.maintenceInfo.inspection_info];
-            [tempInsInfos replaceObjectAtIndex:indexPath.section - 1 withObject:inspectionInfo];
-            self.maintenceInfo.inspection_info = tempInsInfos;
-            
-            [self.currentTable reloadData];
-        }];
-        [self.navigationController pushViewController:changeStateVC animated:YES];
-    }
-    else if (indexPath.section == 0)
+    //操作规范
+    if (indexPath.section == 0)
     {
         BXTStandardViewController *standardVC = [[BXTStandardViewController alloc] init];
         [self.navigationController pushViewController:standardVC animated:YES];
+    }
+    //维保状态
+    else if (indexPath.section == _maintenceInfo.inspection_info.count + 1)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeSelectState" object:nil];
+        BXTSettingTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        cell.isShow = YES;
+        NSDictionary *dic = self.deviceStates[indexPath.row];
+        self.state = [dic objectForKey:@"id"];
+    }
+    else
+    {
+        //维保项目
+        if (indexPath.row != _maintenceInfo.inspection_info.count + 2)
+        {
+            BXTInspectionInfo *inspectionInfo = _maintenceInfo.inspection_info[indexPath.section - 1];
+            BXTCheckProjectInfo *checkProject = inspectionInfo.check_arr[indexPath.row];
+            BXTChangeStateViewController *changeStateVC = [[BXTChangeStateViewController alloc] initWithNibName:@"BXTChangeStateViewController" bundle:nil withNotes:checkProject.default_description withTitle:inspectionInfo.check_item withDetail:checkProject.check_con];
+            @weakify(self);
+            [changeStateVC valueChanged:^(NSString *text) {
+                @strongify(self);
+                
+                checkProject.default_description = text;
+                NSMutableArray *tempIns = [NSMutableArray arrayWithArray:inspectionInfo.check_arr];
+                [tempIns replaceObjectAtIndex:indexPath.row withObject:checkProject];
+                inspectionInfo.check_arr = tempIns;
+                NSMutableArray *tempInsInfos = [NSMutableArray arrayWithArray:self.maintenceInfo.inspection_info];
+                [tempInsInfos replaceObjectAtIndex:indexPath.section - 1 withObject:inspectionInfo];
+                self.maintenceInfo.inspection_info = tempInsInfos;
+                
+                [self.currentTable reloadData];
+            }];
+            [self.navigationController pushViewController:changeStateVC animated:YES];
+        }
     }
 }
 

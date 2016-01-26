@@ -121,6 +121,13 @@
             imageView;
             
         });
+        
+        @weakify(self);
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeSelectState" object:nil] subscribeNext:^(id x) {
+            @strongify(self);
+            self.isShow = NO;
+            self.checkImgView.hidden = YES;
+        }];
     }
     return self;
 }
@@ -137,6 +144,19 @@
         obj = @"0";
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PublicRepair" object:obj];
+}
+
+- (void)setIsShow:(BOOL)isShow
+{
+    _isShow = isShow;
+    if (isShow)
+    {
+        _checkImgView.hidden = NO;
+    }
+    else
+    {
+        _checkImgView.hidden = YES;
+    }
 }
 
 - (void)setFrame:(CGRect)frame
