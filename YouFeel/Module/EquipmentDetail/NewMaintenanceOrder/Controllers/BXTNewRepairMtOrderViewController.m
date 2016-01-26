@@ -64,7 +64,7 @@
     self.mans = [NSMutableArray array];
     [BXTGlobal shareGlobal].maxPics = 3;
     self.repairState = @"2";
-    self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
+    self.indexPath = [NSIndexPath indexPathForRow:0 inSection:3];
     dep_dataSource = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
     
@@ -500,13 +500,16 @@
         }
     }
     
-    if (type == CreateRepair)
+    if (type == CreateMaintenanceOrder)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestRepairList" object:nil];
             [self showMBP:@"新工单已创建！" withBlock:^(BOOL hidden) {
-                [self.navigationController popViewControllerAnimated:YES];
+                if (self.delegateSignal) {
+                    [self.delegateSignal sendNext:nil];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
             }];
         }
     }

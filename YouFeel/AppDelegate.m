@@ -584,7 +584,7 @@ void UncaughtExceptionHandler(NSException *exception){
 }
 
 /**
- *  网络状态变化。
+ *  网络状态变化。 
  *
  *  @param status 网络状态。
  */

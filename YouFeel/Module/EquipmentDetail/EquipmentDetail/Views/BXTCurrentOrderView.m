@@ -106,11 +106,21 @@ typedef NS_ENUM(NSInteger, OrderType) {
         if ([BXTGlobal shareGlobal].isRepair) {
             BXTNewRepairMtOrderViewController *workOderVC = [[BXTNewRepairMtOrderViewController alloc] init];
             workOderVC.deviceID = self.deviceID;
+            workOderVC.delegateSignal = [RACSubject subject];
+            [workOderVC.delegateSignal subscribeNext:^(id x) {
+                self.currentPage = 1;
+                [weakSelf getResource];
+            }];
             [[self getNavigation] pushViewController:workOderVC animated:YES];
         }
         else {
             BXTNewWorkMtOrderViewController *workOderVC = [[BXTNewWorkMtOrderViewController alloc] init];
             workOderVC.deviceID = self.deviceID;
+            workOderVC.delegateSignal = [RACSubject subject];
+            [workOderVC.delegateSignal subscribeNext:^(id x) {
+                self.currentPage = 1;
+                [weakSelf getResource];
+            }];
             [[self getNavigation] pushViewController:workOderVC animated:YES];
         }
     }];

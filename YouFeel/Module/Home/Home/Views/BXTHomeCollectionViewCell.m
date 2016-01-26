@@ -45,7 +45,7 @@
             UILabel *label = [[UILabel alloc] init];
             label.textColor = colorWithHexString(@"000000");
             label.textAlignment = NSTextAlignmentCenter;
-            label.font = [UIFont systemFontOfSize:15.f];
+            label.font = [UIFont systemFontOfSize:13.f];
             [self.contentView addSubview:label];
             label;
             

@@ -103,14 +103,14 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     cell.textLabel.text = self.dataArray[indexPath.section][indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize:17.f];
+    cell.textLabel.font = [UIFont systemFontOfSize:16.f];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.f;
+    return 50.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
