@@ -85,6 +85,7 @@
         {
             @strongify(self);
             BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:NO andWithOrderID:nil];
+            newOrderVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:newOrderVC animated:YES];
         }
     }];
@@ -111,6 +112,7 @@
         [BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
     {
         BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
+        grabOrderVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:grabOrderVC animated:YES];
     }
 }

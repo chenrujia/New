@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) NSString *deviceID;
 
+@property (nonatomic, strong) RACSubject *delegateSignal;
+
 @end
