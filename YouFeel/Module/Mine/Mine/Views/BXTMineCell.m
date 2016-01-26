@@ -23,17 +23,15 @@
     return cell;
 }
 
-- (void)awakeFromNib {
-    // Initialization code
-    
+- (void)awakeFromNib
+{
     self.iconView.frame = CGRectMake(15, 15, 30, 30);
     self.titleView.font = [UIFont systemFontOfSize:17];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

@@ -482,6 +482,7 @@ andRepairerIsReacive:(NSString *)reacive;
             andInspectionID:(NSString *)inspectionID
           andInspectionData:(NSString *)inspectionData
                    andNotes:(NSString *)notes
+                   andState:(NSString *)state
                   andImages:(NSArray *)images;
 
 /**
@@ -492,12 +493,14 @@ andRepairerIsReacive:(NSString *)reacive;
                  andInspectionID:(NSString *)inspectionID
                andInspectionData:(NSString *)inspectionData
                         andNotes:(NSString *)notes
+                        andState:(NSString *)state
                        andImages:(NSArray *)images;
 
 /**
  *  设备维护记录详情
  */
-- (void)inspectionRecordInfo:(NSString *)deviceID;
+- (void)inspectionRecordInfo:(NSString *)deviceID
+                   andWorkID:(NSString *)workID;
 
 /**
  *  首页广告页

@@ -17,7 +17,9 @@
 #define RepairHeight    95.f
 
 @interface BXTDetailBaseViewController : BXTPhotoBaseViewController
-
+{
+    CGFloat log_height;
+}
 @property (nonatomic ,strong) BXTRepairDetailInfo *repairDetail;
 
 - (void)handleUserInfoWithUser:(BXTControlUserInfo *)user;

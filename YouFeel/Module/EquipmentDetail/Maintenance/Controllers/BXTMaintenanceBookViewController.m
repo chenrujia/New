@@ -30,12 +30,13 @@
 
 @implementation BXTMaintenanceBookViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID workOrderID:(NSString *)work_id
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
         self.deviceID = devID;
+        self.workID = work_id;
         checkProjectArray = [NSMutableArray array];
         cpHeightArray = [NSMutableArray array];
     }
@@ -50,12 +51,12 @@
     [self showLoadingMBP:@"努力加载中..."];
     //请求详情
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request inspectionRecordInfo:_deviceID];
+    [request inspectionRecordInfo:self.deviceID andWorkID:self.workID];
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshTable" object:nil] subscribeNext:^(id x) {
         @strongify(self);
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request inspectionRecordInfo:self.deviceID];
+        [request inspectionRecordInfo:self.deviceID andWorkID:self.workID];
     }];
 }
 
@@ -70,24 +71,14 @@
 #pragma mark 事件处理
 - (void)navigationRightButton
 {
-#warning 接口加上device_state_list
-//    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintenceInfo deviceID:self.deviceID];
-//    mainVC.isUpdate = YES;
-//    [self.navigationController pushViewController:mainVC animated:YES];
+    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
+    mainVC.isUpdate = YES;
+    [self.navigationController pushViewController:mainVC animated:YES];
 }
 
 - (void)connactBtnClick:(UIButton *)btn
 {
-    BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
-    BXTControlUserInfo *userInfo;
-    if (btn.tag == 4)
-    {
-        userInfo = deviceInfo.control_user_arr[0];
-    }
-    else if (btn.tag == 5)
-    {
-        userInfo = deviceInfo.control_user_arr[1];
-    }
+    BXTControlUserInfo *userInfo = _maintenceInfo.repair_arr[0];
     [self handleUserInfoWithUser:userInfo];
 }
 
@@ -118,10 +109,15 @@
     }
     else if (section == 2)
     {
-        titleLabel.text = @"完成时间";
+        titleLabel.text = @"设备状态";
         return view;
     }
     else if (section == 3)
+    {
+        titleLabel.text = @"完成时间";
+        return view;
+    }
+    else if (section == 4)
     {
         titleLabel.text = @"备注";
         return view;
@@ -147,7 +143,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -173,18 +169,18 @@
         }
         return 100.f;
     }
-    else if (indexPath.section == 2)
+    else if (indexPath.section == 2 || indexPath.section == 3)
     {
         return 50.f;
     }
-    else if (indexPath.section == 3)
+    else if (indexPath.section == 4)
     {
         BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
         UIFont *font = [UIFont systemFontOfSize:17.f];
         CGSize size = MB_MULTILINE_TEXTSIZE(deviceInfo.notes, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000), NSLineBreakByWordWrapping);
         if (_maintenceInfo.pic.count > 0)
         {
-            return 12.f + size.height + 12.f + 73.f + 20.f;
+            return 12.f + size.height + 12.f + 73.f + 40.f;
         }
         return 12.f + size.height + 12.f;
     }
@@ -249,18 +245,25 @@
         
         return cell;
     }
-    else if (indexPath.section == 2)
+    else if (indexPath.section == 2 || indexPath.section == 3)
     {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TimeCell"];
         if (!cell)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TimeCell"];
         }
-        cell.textLabel.text = _maintenceInfo.create_time;
+        if (indexPath.section == 2)
+        {
+            cell.textLabel.text = _maintenceInfo.device_state_name;
+        }
+        else
+        {
+            cell.textLabel.text = _maintenceInfo.create_time;
+        }
         
         return cell;
     }
-    else if (indexPath.section == 3)
+    else if (indexPath.section == 4)
     {
         BXTMaintenceNotesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MaintenceNotesCell"];
         if (!cell)
@@ -305,10 +308,9 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"ManagerUserCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
-        if (deviceInfo.control_user_arr.count >= 2)
+        if (_maintenceInfo.repair_arr.count > 0)
         {
-            BXTControlUserInfo *userInfo = deviceInfo.control_user_arr[1];
+            BXTControlUserInfo *userInfo = _maintenceInfo.repair_arr[0];
             [cell.headImage sd_setImageWithURL:[NSURL URLWithString:userInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             cell.userName.text = userInfo.name;
             cell.userJob.text = userInfo.role;
@@ -323,7 +325,6 @@
                 [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
                 cell.userMoblie.attributedText = attributedString;
             }
-            cell.connactTa.tag = indexPath.section;
             [cell.connactTa addTarget:self action:@selector(connactBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         }
         
@@ -342,11 +343,15 @@
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     LogRed(@"dic...%@",dic);
-    NSDictionary *dictionary = data[0];
+    NSArray *states = [dic objectForKey:@"device_state_list"];
+    self.deviceStates = states;
     
+    NSDictionary *dictionary = data[0];
     DCObjectMapping *maintenceID = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"maintenceID" onClass:[BXTMaintenceInfo class]];
+    DCArrayMapping *deviceConMapper = [DCArrayMapping mapperForClassElements:[BXTDeviceConfigInfo class] forAttribute:@"device_con" onClass:[BXTMaintenceInfo class]];
     DCParserConfiguration *maintenceConfig = [DCParserConfiguration configuration];
     [maintenceConfig addObjectMapping:maintenceID];
+    [maintenceConfig addArrayMapper:deviceConMapper];
     DCKeyValueObjectMapping *maintenceParser = [DCKeyValueObjectMapping mapperForClass:[BXTMaintenceInfo class]  andConfiguration:maintenceConfig];
     BXTMaintenceInfo *maintence = [maintenceParser parseDictionary:dictionary];
     
@@ -369,6 +374,7 @@
         [navView removeFromSuperview];
         [self navigationSetting:@"维保作业书" andRightTitle:@"修改" andRightImage:nil];
     }
+    
     //单独过滤出检查项目
     [checkProjectArray removeAllObjects];
     for (BXTInspectionInfo *inspection_info in maintence.inspection_info)
@@ -379,19 +385,21 @@
             [checkProjectArray addObject:check_info];
         }
     }
-    //管理员和维修员
-    NSMutableArray *devicesArray = [NSMutableArray array];
-    NSArray *device_con_array = [dictionary objectForKey:@"device_con"];
-    for (NSDictionary *deviceDic in device_con_array)
+
+    //维修员
+    NSMutableArray *usersArray = [NSMutableArray array];
+    NSArray *repairArray = [dictionary objectForKey:@"repair_arr"];
+    for (NSDictionary *userDic in repairArray)
     {
-        DCArrayMapping *deviceMapper = [DCArrayMapping mapperForClassElements:[BXTControlUserInfo class] forAttribute:@"control_user_arr" onClass:[BXTDeviceConfigInfo class]];
-        DCParserConfiguration *deviceConfig = [DCParserConfiguration configuration];
-        [deviceConfig addArrayMapper:deviceMapper];
-        DCKeyValueObjectMapping *deviceParser = [DCKeyValueObjectMapping mapperForClass:[BXTDeviceConfigInfo class]  andConfiguration:deviceConfig];
-        BXTInspectionInfo *device = [deviceParser parseDictionary:deviceDic];
-        [devicesArray addObject:device];
+        DCObjectMapping *userID = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"userID" onClass:[BXTControlUserInfo class]];
+        DCParserConfiguration *userConfig = [DCParserConfiguration configuration];
+        [userConfig addMapper:userID];
+        DCKeyValueObjectMapping *userParser = [DCKeyValueObjectMapping mapperForClass:[BXTControlUserInfo class]  andConfiguration:userConfig];
+        BXTControlUserInfo *user = [userParser parseDictionary:userDic];
+        [usersArray addObject:user];
     }
-    maintence.device_con = devicesArray;
+    maintence.repair_arr = usersArray;
+    
     self.maintenceInfo = maintence;
     [_currentTable reloadData];
 }

@@ -48,7 +48,22 @@
     self.dataArray = [[NSMutableArray alloc] init];
     self.maintencesArray = [[NSMutableArray alloc] init];
     [self showLoadingMBP:@"数据加载中..."];
+    [self requestData];
     
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshTable" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        self.currentPage = 1;
+        [self.dataArray removeAllObjects];
+        [self.maintencesArray removeAllObjects];
+        [self requestData];
+    }];
+    
+    [self createUI];
+}
+
+- (void)requestData
+{
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**请求维保档案**/
@@ -60,16 +75,6 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request maintenanceEquipmentList:self.deviceID];
     });
-    
-    @weakify(self);
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshTable" object:nil] subscribeNext:^(id x) {
-        @strongify(self);
-        self.currentPage = 1;
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request inspectionRecordListWithPagesize:@"5" page:@"1" deviceID:self.deviceID timestart:@"" timeover:@""];
-    }];
-    
-    [self createUI];
 }
 
 - (void)createUI
@@ -136,17 +141,28 @@
     maintenanceBtn.layer.cornerRadius = 5;
     [[maintenanceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
+        
+        
         BOOL haveInspection = [[NSUserDefaults standardUserDefaults] boolForKey:@"FirstInspection"];
         if (haveInspection)
         {
             if (self.maintencesArray.count == 1)
             {
                 BXTMaintenceInfo *maintenceInfo = self.maintencesArray[0];
-                BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
-                mainVC.isUpdate = NO;
-                [[self getNavigation] pushViewController:mainVC animated:YES];
+                //已在维保中，不需要再次新建维保作业
+                if ([maintenceInfo.inspection_state integerValue] > 0)
+                {
+                    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:maintenceInfo.maintenceID workOrderID:maintenceInfo.maintenceID];
+                    [[self getNavigation] pushViewController:bookVC animated:YES];
+                }
+                else
+                {
+                    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
+                    mainVC.isUpdate = NO;
+                    [[self getNavigation] pushViewController:mainVC animated:YES];
+                }
             }
-            else
+            else if (self.maintencesArray.count > 1)
             {
                 [self showList];
             }
@@ -157,6 +173,9 @@
             [[self getNavigation] pushViewController:sdvc animated:YES];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
         }
+
+        
+        
     }];
     [downBgView addSubview:maintenanceBtn];
 }
@@ -209,9 +228,18 @@
     [self.bgView removeFromSuperview];
     [self.boxView removeFromSuperview];
     BXTMaintenceInfo *maintenceInfo = obj;
-    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
-    mainVC.isUpdate = NO;
-    [[self getNavigation] pushViewController:mainVC animated:YES];
+    //已在维保中，不需要再次新建维保作业
+    if ([maintenceInfo.inspection_state integerValue] > 0)
+    {
+        BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:maintenceInfo.maintenceID workOrderID:maintenceInfo.workorder_id];
+        [[self getNavigation] pushViewController:bookVC animated:YES];
+    }
+    else
+    {
+        BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
+        mainVC.isUpdate = NO;
+        [[self getNavigation] pushViewController:mainVC animated:YES];
+    }
 }
 
 #pragma mark -
@@ -309,7 +337,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTMaintenceInfo *mainInfo = _dataArray[indexPath.section];
-    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:mainInfo.maintenceID];
+    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:mainInfo.maintenceID workOrderID:mainInfo.workorder_id];
     [[self getNavigation] pushViewController:bookVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

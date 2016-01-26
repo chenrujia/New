@@ -26,7 +26,7 @@
 {
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = user.userID;
-    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
+    NSString *my_userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
     if ([userInfo.userId isEqualToString:my_userID]) return;
     userInfo.name = user.name;
     userInfo.portraitUri = user.head_pic;
@@ -193,10 +193,28 @@
 {
     NSInteger count = self.repairDetail.repair_user_arr.count;
     NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
-    UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, mainMaxY + i * RepairHeight, SCREEN_WIDTH, RepairHeight)];
+    NSString *content = [userDic objectForKey:@"log_content"];
+    CGFloat height = RepairHeight;
+    CGSize size = CGSizeZero;
+    if (content.length > 0)
+    {
+        NSString *log = [NSString stringWithFormat:@"维修日志：%@",content];
+        size = MB_MULTILINE_TEXTSIZE(log, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30, 1000.f), NSLineBreakByWordWrapping);
+        height = RepairHeight + size.height + 20.f;
+    }
+    UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, mainMaxY + i * RepairHeight + log_height, SCREEN_WIDTH, height)];
     UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
     [userImgView sd_setImageWithURL:[NSURL URLWithString:[userDic objectForKey:@"head_pic"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     [userBack addSubview:userImgView];
+    //log_height：维修日志的高度
+    if (size.height > 0)
+    {
+        log_height = size.height + 20.f;
+    }
+    else
+    {
+        log_height = 0.f;
+    }
     
     UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 8.f, levelWidth, 20)];
     userName.textColor = colorWithHexString(@"000000");
@@ -236,6 +254,17 @@
         [self.view addSubview:callWeb];
     }];
     [userBack addSubview:phone];
+    //维修日志
+    if (height > RepairHeight)
+    {
+        UILabel *log = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(userImgView.frame), CGRectGetMaxY(userImgView.frame) + 12.f, SCREEN_WIDTH - 30.f, size.height)];
+        log.textColor = colorWithHexString(@"000000");
+        log.numberOfLines = 0;
+        log.lineBreakMode = NSLineBreakByWordWrapping;
+        log.font = [UIFont systemFontOfSize:16.f];
+        log.text = content;
+        [userBack addSubview:log];
+    }
     
     if ([[userDic objectForKey:@"id"] isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]] &&
         _repairDetail.repairstate == 2 &&
@@ -313,7 +342,7 @@
     maintenaceBtn.layer.borderWidth = 1.f;
     maintenaceBtn.layer.cornerRadius = 4.f;
     [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 11.f, 83.f, 40.f)];
-    if ((self.repairDetail.repairstate == 1 || self.repairDetail.repairstate == 2) && !self.repairDetail.isRepairing)
+    if ((self.repairDetail.repairstate == 1 || self.repairDetail.repairstate == 2) && self.repairDetail.isRepairing == 1)
     {
         [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
     }
