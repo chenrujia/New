@@ -28,7 +28,7 @@
         
         self.titleLabel = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_logoImgView.frame) + 26.f, 0, 100.f, 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_logoImgView.frame) + 20.f, 0, 100.f, 20)];
             label.center = CGPointMake(label.center.x, _logoImgView.center.y);
             label.textColor = colorWithHexString(@"000000");
             label.font = [UIFont systemFontOfSize:16.f];

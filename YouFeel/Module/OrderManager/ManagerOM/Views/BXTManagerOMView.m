@@ -400,8 +400,7 @@
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-#warning 问题啊。。。。。。。。！！！！！
-//        repairDetailVC.isRejectVC = YES;
+        repairDetailVC.isRejectVC = YES;
         [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
@@ -409,7 +408,7 @@
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-//        repairDetailVC.isAllOrderType = YES;
+        repairDetailVC.isAllOrderType = YES;
         [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }

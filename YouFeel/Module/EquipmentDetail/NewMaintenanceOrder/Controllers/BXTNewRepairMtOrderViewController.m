@@ -420,9 +420,10 @@
     {
         BXTChooseFaultViewController *cfvc = [[BXTChooseFaultViewController alloc] init];
         cfvc.delegateSignal = [RACSubject subject];
+        @weakify(self);
         [cfvc.delegateSignal subscribeNext:^(NSArray *transArray) {
+            @strongify(self);
             NSString *transID = transArray[0];
-            NSLog(@"---------- %@", transID);
             self.faultStr = transArray[1];
             if ([transID isEqualToString:@"other"]) {
                 self.faulttypeID = @"";

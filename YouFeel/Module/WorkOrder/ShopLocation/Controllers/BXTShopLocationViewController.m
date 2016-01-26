@@ -154,7 +154,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         [BXTGlobal showText:@"请填写完整信息" view:self.view completionBlock:nil];
         return;
     }
-    else if (_isResign) {
+    else if (_isResign)
+    {
         //        id shopInfo = [BXTGlobal getUserProperty:U_SHOP];
         //        if ([shopInfo isKindOfClass:[BXTShopInfo class]])
         //        {
@@ -182,7 +183,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
             BXTFloorInfo *firstModel = self.addressFirstArray[self.indexOfRow1];
             BXTAreaInfo *secondModel = self.addressSecondArray[self.indexOfRow1][self.indexOfRow2];
             BXTShopInfo *thirdModel = self.addressThirdArray[self.indexOfRow1][self.indexOfRow2][self.indexOfRow3];
-            if (self.delegateSignal) {
+            if (self.delegateSignal)
+            {
                 [self.delegateSignal sendNext:@[firstModel.area_id, firstModel.area_name, secondModel.place_id, secondModel.place_name, thirdModel.stores_id, thirdModel.stores_name]];
             }
             [self.navigationController popViewControllerAnimated:YES];

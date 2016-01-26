@@ -39,7 +39,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
+    if (self.isRejectVC)
+    {
+        [self navigationSetting:@"工单详情" andRightTitle:@"关闭工单" andRightImage:nil];
+    }
+    else
+    {
+        [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
+    }
     _sco_content_width.constant = SCREEN_WIDTH;
     _connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _connectTa.layer.borderWidth = 1.f;
@@ -180,6 +187,12 @@
     [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
 }
 
+- (void)navigationRightButton
+{
+    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%@",self.repair_id] andIsAssign:YES];
+    [self.navigationController pushViewController:rejectVC animated:YES];
+}
+
 - (IBAction)reaciveAction:(id)sender
 {
     UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -311,6 +324,16 @@
             [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
             [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
             _mobile.attributedText = attributedString;
+            UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] init];
+            @weakify(self);
+            [[moblieTap rac_gestureSignal] subscribeNext:^(id x) {
+                @strongify(self);
+                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", self.repairDetail.visitmobile];
+                UIWebView *callWeb = [[UIWebView alloc] init];
+                [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+                [self.view addSubview:callWeb];
+            }];
+            [_mobile addGestureRecognizer:moblieTap];
         }
         
         //动态计算groupName宽度
@@ -420,7 +443,7 @@
         CGFloat height = 0.f;
         _reaciveOrder.hidden = YES;
         _bottomTabBar.hidden = YES;
-        if (self.repairDetail.repairstate == 1)
+        if (self.repairDetail.repairstate == 1 && !_isAllOrderType)
         {
             height = 90.f;
             _reaciveOrder.hidden = NO;

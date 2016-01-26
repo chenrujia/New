@@ -312,7 +312,9 @@
         BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithIsResign:YES andBlock:^{
         }];
         shopLocationVC.delegateSignal = [RACSubject subject];
+        @weakify(self);
         [shopLocationVC.delegateSignal subscribeNext:^(id x) {
+            @strongify(self);
             //获取用户信息
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request userInfo];

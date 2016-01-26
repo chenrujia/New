@@ -356,11 +356,20 @@
         }
         else
         {
-#warning oh，忘记给手机号加点击事件了。。。。。。。。
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.repairDetail.visitmobile];
             [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
             [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
             _mobile.attributedText = attributedString;
+            UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] init];
+            @weakify(self);
+            [[moblieTap rac_gestureSignal] subscribeNext:^(id x) {
+                @strongify(self);
+                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", self.repairDetail.visitmobile];
+                UIWebView *callWeb = [[UIWebView alloc] init];
+                [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+                [self.view addSubview:callWeb];
+            }];
+            [_mobile addGestureRecognizer:moblieTap];
         }
         
         //动态计算groupName宽度

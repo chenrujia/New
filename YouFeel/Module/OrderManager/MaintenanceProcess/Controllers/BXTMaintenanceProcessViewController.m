@@ -522,7 +522,7 @@
 {
     if (textView.tag == kNOTE)
     {
-        if ([textView.text isEqualToString:@"请输入报修内容"])
+        if ([textView.text isEqualToString:@"请输入维修内容"])
         {
             textView.text = @"";
         }
@@ -545,7 +545,7 @@
         _notes = textView.text;
         if (textView.text.length < 1)
         {
-            textView.text = @"请输入报修内容";
+            textView.text = @"请输入维修内容";
         }
     }
     else
