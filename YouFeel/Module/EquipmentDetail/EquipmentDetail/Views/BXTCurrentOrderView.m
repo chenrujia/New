@@ -405,7 +405,10 @@ typedef NS_ENUM(NSInteger, OrderType) {
     
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
-    self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+    if (IS_IOS_8)
+    {
+        self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+    }
     
     return cell;
 }
@@ -448,7 +451,8 @@ typedef NS_ENUM(NSInteger, OrderType) {
     
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
-    if (self.currentPage == 1) {
+    if (self.currentPage == 1)
+    {
         [self.dataArray removeAllObjects];
     }
     
@@ -462,6 +466,14 @@ typedef NS_ENUM(NSInteger, OrderType) {
             [self.dataArray addObject:odModel];
         }
         [self.tableView reloadData];
+        if (!IS_IOS_8)
+        {
+            double delayInSeconds = 0.5;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.tableView reloadData];
+            });
+        }
     }
     else if (type == ReaciveOrder)
     {
@@ -474,7 +486,6 @@ typedef NS_ENUM(NSInteger, OrderType) {
 - (void)requestError:(NSError *)error
 {
     [self hideMBP];
-    
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
 }

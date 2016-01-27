@@ -310,7 +310,10 @@
     
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
-    self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+    if (IS_IOS_8)
+    {
+        self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+    }
     
     return cell;
 }
@@ -404,7 +407,18 @@
             [_dataArray addObject:maintence];
         }
     }
-    [_tableView reloadData];
+    if (type == Inspection_Record_List)
+    {
+        [_tableView reloadData];
+        if (!IS_IOS_8)
+        {
+            double delayInSeconds = 0.5;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.tableView reloadData];
+            });
+        }
+    }
 }
 
 - (void)requestError:(NSError *)error
