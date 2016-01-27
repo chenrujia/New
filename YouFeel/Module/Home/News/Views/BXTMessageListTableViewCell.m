@@ -45,7 +45,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_iconView.frame) + 15.f, 20.f, 100.f, 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
             
@@ -55,7 +55,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_titleLabel.frame), CGRectGetMaxY(_titleLabel.frame) + 10.f, SCREEN_WIDTH - CGRectGetMinX(_titleLabel.frame) - 15.f, 20)];
             label.textColor = colorWithHexString(@"909497");
-            label.font = [UIFont boldSystemFontOfSize:14.f];
+            label.font = [UIFont systemFontOfSize:14.f];
             [self addSubview:label];
             label;
             

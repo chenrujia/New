@@ -41,7 +41,7 @@
 - (void)createSubviews
 {
     UITextView *cause = [[UITextView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 20.f, SCREEN_WIDTH, 170.f)];
-    cause.font = [UIFont boldSystemFontOfSize:16.];
+    cause.font = [UIFont systemFontOfSize:16.];
     cause.textColor = colorWithHexString(@"909497");
     cause.text = _isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）";
     cause.delegate = self;

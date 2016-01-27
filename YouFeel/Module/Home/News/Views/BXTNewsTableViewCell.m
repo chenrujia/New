@@ -22,7 +22,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 240.f, 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
             
@@ -53,7 +53,7 @@
             label.textColor = colorWithHexString(@"909497");
             label.numberOfLines = 0.f;
             label.lineBreakMode = NSLineBreakByWordWrapping;
-            label.font = [UIFont boldSystemFontOfSize:15.f];
+            label.font = [UIFont systemFontOfSize:15.f];
             [self addSubview:label];
             label;
             
@@ -64,7 +64,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 140.f - 15.f, CGRectGetMinY(_detailLabel.frame) + 34.f, 140, 20)];
             label.textColor = colorWithHexString(@"909497");
             label.textAlignment = NSTextAlignmentRight;
-            label.font = [UIFont boldSystemFontOfSize:15.f];
+            label.font = [UIFont systemFontOfSize:15.f];
             [self addSubview:label];
             label;
             

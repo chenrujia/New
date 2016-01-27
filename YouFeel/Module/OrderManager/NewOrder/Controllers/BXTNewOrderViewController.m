@@ -139,7 +139,7 @@
     
     repairerName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImgView.frame) + 10.f, CGRectGetMinY(headImgView.frame) + 5.f, 160.f, 20)];
     repairerName.textColor = colorWithHexString(@"000000");
-    repairerName.font = [UIFont boldSystemFontOfSize:16.f];
+    repairerName.font = [UIFont systemFontOfSize:16.f];
     [self.view addSubview:repairerName];
     
     repairerDetail = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(repairerName.frame), CGRectGetMinY(headImgView.frame) + 28.f, 160.f, 20)];
@@ -179,7 +179,7 @@
     
     repairID = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(line.frame) + 15.f, SCREEN_WIDTH - 30.f, 20)];
     repairID.textColor = colorWithHexString(@"000000");
-    repairID.font = [UIFont boldSystemFontOfSize:17.f];
+    repairID.font = [UIFont systemFontOfSize:17.f];
     repairID.text = @"工单号:";
     [self.view addSubview:repairID];
     
@@ -198,14 +198,14 @@
     
     time = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineTwo.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     time.textColor = colorWithHexString(@"000000");
-    time.font = [UIFont boldSystemFontOfSize:17.f];
+    time.font = [UIFont systemFontOfSize:17.f];
     time.text = @"报修时间:";
     [self.view addSubview:time];
     
     orderType = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 80.f - 15.f, CGRectGetMaxY(lineTwo.frame) + 10.f, 80.f, 20)];
     orderType.textColor = colorWithHexString(@"cc0202");
     orderType.textAlignment = NSTextAlignmentRight;
-    orderType.font = [UIFont boldSystemFontOfSize:16.f];
+    orderType.font = [UIFont systemFontOfSize:16.f];
     [self.view addSubview:orderType];
     
     lineThree = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(time.frame) + 12.f, SCREEN_WIDTH - 30.f, 1.f)];
@@ -214,26 +214,26 @@
     
     place = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineThree.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     place.textColor = colorWithHexString(@"000000");
-    place.font = [UIFont boldSystemFontOfSize:17.f];
+    place.font = [UIFont systemFontOfSize:17.f];
     place.text = @"位置:";
     place.numberOfLines = 0;
     [self.view addSubview:place];
     
     faultType = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(place.frame) + 10.f, CGRectGetWidth(place.frame), 20)];
     faultType.textColor = colorWithHexString(@"000000");
-    faultType.font = [UIFont boldSystemFontOfSize:17.f];
+    faultType.font = [UIFont systemFontOfSize:17.f];
     faultType.text = @"故障类型:";
     [self.view addSubview:faultType];
     
     cause = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(faultType.frame) + 10.f, CGRectGetWidth(faultType.frame), 20)];
     cause.textColor = colorWithHexString(@"000000");
-    cause.font = [UIFont boldSystemFontOfSize:17.f];
+    cause.font = [UIFont systemFontOfSize:17.f];
     cause.text = @"故障描述:";
     [self.view addSubview:cause];
     
     level = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(cause.frame) + 10.f, CGRectGetWidth(cause.frame), 20)];
     level.textColor = colorWithHexString(@"000000");
-    level.font = [UIFont boldSystemFontOfSize:17.f];
+    level.font = [UIFont systemFontOfSize:17.f];
     NSString *str = @"等级:紧急";
     NSRange range = [str rangeOfString:@"紧急"];
     NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
@@ -245,7 +245,7 @@
     notes.textColor = colorWithHexString(@"000000");
     notes.numberOfLines = 0;
     notes.lineBreakMode = NSLineBreakByWordWrapping;
-    notes.font = [UIFont boldSystemFontOfSize:17.f];
+    notes.font = [UIFont systemFontOfSize:17.f];
     [self.view addSubview:notes];
     
     CGFloat bv_height = IS_IPHONE6 ? 80.f : 70.f;
@@ -334,7 +334,7 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
     titleLabel.backgroundColor = colorWithHexString(@"ffffff");
     titleLabel.text = @"请选择到达时间";
-    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [_bgView addSubview:titleLabel];
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
@@ -582,7 +582,7 @@
         
         place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
         
-        CGSize cause_size = MB_MULTILINE_TEXTSIZE(place.text, [UIFont boldSystemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+        CGSize cause_size = MB_MULTILINE_TEXTSIZE(place.text, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
         // 更新所有控件位置 1
         place.frame = CGRectMake(15.f, CGRectGetMaxY(lineThree.frame) + 10.f, SCREEN_WIDTH - 30.f, cause_size.height);
         faultType.frame = CGRectMake(15.f, CGRectGetMaxY(place.frame) + 10.f, CGRectGetWidth(place.frame), 20);
@@ -607,7 +607,7 @@
         }
         
         notes.text = [NSString stringWithFormat:@"报修内容:%@",_repairDetail.notes];
-        UIFont *font = [UIFont boldSystemFontOfSize:17.f];
+        UIFont *font = [UIFont systemFontOfSize:17.f];
         CGSize size = MB_MULTILINE_TEXTSIZE(notes.text, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000.f), NSLineBreakByWordWrapping);
         notes.frame = CGRectMake(15.f, CGRectGetMaxY(level.frame) + 8.f, CGRectGetWidth(level.frame), size.height);
         

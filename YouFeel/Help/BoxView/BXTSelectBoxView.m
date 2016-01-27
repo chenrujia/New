@@ -42,7 +42,7 @@
         title_label.center = CGPointMake(SCREEN_WIDTH/2.f, 20.f);
         title_label.textAlignment = NSTextAlignmentCenter;
         title_label.textColor = colorWithHexString(@"000000");
-        title_label.font = [UIFont boldSystemFontOfSize:16.f];
+        title_label.font = [UIFont systemFontOfSize:16.f];
         title_label.text = [NSString stringWithFormat:@"选择%@",title];
         [self addSubview:title_label];
         

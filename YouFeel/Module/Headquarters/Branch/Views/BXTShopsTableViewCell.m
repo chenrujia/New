@@ -22,7 +22,7 @@
         
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 200.f, 30)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:18.];
+            label.font = [UIFont systemFontOfSize:18.];
             [self addSubview:label];
             label;
         

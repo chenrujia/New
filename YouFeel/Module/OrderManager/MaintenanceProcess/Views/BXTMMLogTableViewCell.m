@@ -20,7 +20,7 @@
         
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 80.f, 30)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:18.f];
+            label.font = [UIFont systemFontOfSize:18.f];
             [self addSubview:label];
             label;
         
@@ -29,7 +29,7 @@
         self.remarkTV = ({
         
             UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(110.f, 10.f, SCREEN_WIDTH - 110.f - 10.f, 150.f)];
-            textView.font = [UIFont boldSystemFontOfSize:16.];
+            textView.font = [UIFont systemFontOfSize:16.];
             textView.textColor = colorWithHexString(@"909497");
             textView.text = @"请输入维修日志";
             [self addSubview:textView];
