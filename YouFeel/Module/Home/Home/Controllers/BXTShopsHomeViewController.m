@@ -62,6 +62,7 @@ typedef NS_ENUM(NSInteger, HiddenType) {
                            @"我的审批",
                            @"项目热线",nil];
     
+#warning 改。。。。
 //    NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
 //    if (![roleArray containsObject:@"116"] && ![roleArray containsObject:@"114"])
 //    {
