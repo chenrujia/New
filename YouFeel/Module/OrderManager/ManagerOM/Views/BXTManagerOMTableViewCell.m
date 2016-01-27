@@ -126,19 +126,18 @@
     self.groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(self.groupName.frame), group_size.width, group_size.height);
     self.groupName.text = group_name;
     
-    
     NSString *placeStr = [NSString stringWithFormat:@"位置:%@-%@-%@",repairInfo.area, repairInfo.place, repairInfo.stores_name];
-    if ([BXTGlobal isBlankString:repairInfo.stores_name]) {
+    if ([BXTGlobal isBlankString:repairInfo.stores_name])
+    {
         placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
     }
     
-    CGSize cause_size0 = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+    CGSize place_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
     self.place.text = placeStr;
-    // 更新所有控件位置 1
-    self.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, cause_size0.height + 3);
+    
+    //更新所有控件位置1
+    self.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, place_size.height + 3);
     self.faultType.frame = CGRectMake(15.f, CGRectGetMaxY(_place.frame) + 10.f, CGRectGetWidth(_place.frame), 20);
-    
-    
     self.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
     
     //自适应故障描述
@@ -146,25 +145,25 @@
     CGSize cause_size = MB_MULTILINE_TEXTSIZE(causeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
     self.cause.text = causeStr;
     
-    
-    // 更新所有控件位置 2
+    //更新所有控件位置 2
     self.cause.frame = CGRectMake(15.f, CGRectGetMaxY(_faultType.frame) + 10.f, CGRectGetWidth(_faultType.frame), cause_size.height);
     self.line.frame = CGRectMake(15, CGRectGetMaxY(_cause.frame) + 10.f, SCREEN_WIDTH - 30, 1.f);
     self.orderType.frame = CGRectMake(15.f, CGRectGetMaxY(_line.frame) + 10.f, CGRectGetWidth(_cause.frame), 20);
     self.repairTime.frame = CGRectMake(15.f, CGRectGetMaxY(_line.frame) + 10.f, CGRectGetWidth(_cause.frame), 20);
-    self.cellHeight = CGRectGetMaxY(_repairTime.frame) + 8;
+    if (IS_IOS_8)
+    {
+        self.cellHeight = CGRectGetMaxY(_repairTime.frame) + 8;
+    }
 }
 
 - (void)awakeFromNib
 {
-    // Initialization code
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
 }
 
 @end
