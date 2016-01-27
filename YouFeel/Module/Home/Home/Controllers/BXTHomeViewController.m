@@ -20,6 +20,13 @@
 #import "BXTSettingViewController.h"
 #import "BXTAdsInform.h"
 #import "BXTNoticeInformViewController.h"
+#import "BXTOrderManagerViewController.h"
+#import "BXTEvaluationListViewController.h"
+#import "BXTManagerOMViewController.h"
+#import "BXTStatisticsViewController.h"
+#import "BXTExaminationViewController.h"
+#import "BXTReaciveOrdersViewController.h"
+#import "BXTAchievementsViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -50,10 +57,8 @@
     [self addNotifications];
     [self createLogoView];
     [self loginRongCloud];
-    
     datasource = [NSMutableArray array];
     self.adsArray = [[NSMutableArray alloc] init];
-    
     NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (users)
     {
@@ -79,14 +84,11 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request advertisementPages];
     });
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-//    [self showLoadingMBP:@"数据加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /** 消息列表 **/
@@ -100,7 +102,6 @@
             [request remindNumberWithDailyTimeStart:[BXTRemindNum sharedManager].timeStart_Daily InspectioTimeStart:[BXTRemindNum sharedManager].timeStart_Inspectio];
         });
     });
-    
 }
 
 - (void)addNotifications
@@ -133,6 +134,20 @@
             self.usersArray = [NSMutableArray array];
         }
     }];
+}
+
+- (BOOL)is_verify
+{
+    NSString *is_verify = [BXTGlobal getUserProperty:U_IS_VERIFY];
+    if ([is_verify integerValue] != 1)
+    {
+        [BXTGlobal showText:@"您尚未验证，现在去验证" view:self.view completionBlock:^{
+            BXTSettingViewController *svc = [[BXTSettingViewController alloc] init];
+            [self.navigationController pushViewController:svc animated:YES];
+        }];
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark -
@@ -234,19 +249,92 @@
     
 }
 
+- (void)pushMyOrders
+{
+    // 我的工单
+    BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
+    orderManagerVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:orderManagerVC animated:YES];
+}
+
+- (void)pushEvaluationList
+{
+    // 评价
+    BXTEvaluationListViewController *evaluationListVC = [[BXTEvaluationListViewController alloc] init];
+    evaluationListVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:evaluationListVC animated:YES];
+}
+
+- (void)pushSpecialOrders
+{
+    // 特殊工单
+    BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
+    serviceVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:serviceVC animated:YES];
+}
+
+- (void)pushStatistics
+{
+    // 业务统计
+    BXTStatisticsViewController *statisticsVC = [[BXTStatisticsViewController alloc] init];
+    statisticsVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:statisticsVC animated:YES];
+}
+
+- (void)pushExamination
+{
+    // 审批
+    BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
+    examinationVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:examinationVC animated:YES];
+}
+
+- (void)pushNormalOrders
+{
+    //正常工单
+    [BXTRemindNum sharedManager].timeStart_Daily = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+    SaveValueTUD(@"timeStart_Daily", [BXTRemindNum sharedManager].timeStart_Daily);
+    BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:1];
+    reaciveVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:reaciveVC animated:YES];
+}
+
+- (void)pushMaintenceOrders
+{
+    //维保工单
+    [BXTRemindNum sharedManager].timeStart_Inspectio = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+    BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
+    SaveValueTUD(@"timeStart_Inspectio", [BXTRemindNum sharedManager].timeStart_Inspectio);
+    reaciveVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:reaciveVC animated:YES];
+}
+
+- (void)pushAchievements
+{
+    // 我的绩效
+    BXTAchievementsViewController *achievementVC = [[BXTAchievementsViewController alloc] init];
+    achievementVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:achievementVC animated:YES];
+}
+
+- (void)projectPhone
+{
+    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
+    UIWebView *callWeb = [[UIWebView alloc] init];
+    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+    [self.view addSubview:callWeb];
+}
+
 #pragma mark - SDCycleScrollViewDelegate
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
     BXTAdsInform *model = self.adsArray[index];
-    
     BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
     nivc.urlStr = model.more;
     nivc.pushType = PushType_Ads;
     nivc.titleStr = model.title;
     nivc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:nivc animated:YES];
-    
-    NSLog(@"---点击了  %@ ", model.more);
 }
 
 #pragma mark -
@@ -456,34 +544,9 @@
     }
 }
 
-- (BOOL)is_verify
-{
-    NSString *is_verify = [BXTGlobal getUserProperty:U_IS_VERIFY];
-    if ([is_verify integerValue] != 1)
-    {
-        [BXTGlobal showText:@"您尚未验证，现在去验证" view:self.view completionBlock:^{
-            BXTSettingViewController *svc = [[BXTSettingViewController alloc] init];
-            [self.navigationController pushViewController:svc animated:YES];
-        }];
-        return YES;
-    }
-    return NO;
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

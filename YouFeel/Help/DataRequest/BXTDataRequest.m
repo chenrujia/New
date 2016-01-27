@@ -263,15 +263,10 @@ andRepairerIsReacive:(NSString *)reacive
     {
         closeState = @"2";
     }
-    NSDictionary *dic = @{@"long_time":longTime,
-                          @"dispatching_user":disUser,
-                          @"close_state":closeState,
-                          @"close_user":closeUser,
-                          @"order":orderType,
-                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                          @"order_subgroup":groupID,
-                          @"pagesize":@"5"};
-    if (close_state.length > 0) {
+    NSDictionary *dic;
+    //不区分类型
+    if (close_state.length > 0)
+    {
         dic = @{@"long_time":longTime,
                 @"dispatching_user":disUser,
                 @"close_state":closeState,
@@ -282,7 +277,17 @@ andRepairerIsReacive:(NSString *)reacive
                 @"pagesize":@"5",
                 @"close_state":close_state};
     }
-    
+    else
+    {
+        dic = @{@"long_time":longTime,
+                @"dispatching_user":disUser,
+                @"close_state":closeState,
+                @"close_user":closeUser,
+                @"order":orderType,
+                @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                @"pagesize":@"5",
+                @"order_subgroup":groupID};
+    }
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -307,7 +312,8 @@ andRepairerIsReacive:(NSString *)reacive
                           @"state":state,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5",
-                          @"close_state":@"all"};
+                          @"close_state":@"all",
+                          @"task_type":@"1"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

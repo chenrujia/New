@@ -17,10 +17,10 @@ typedef NS_ENUM(NSInteger, RefreshType) {
 };
 
 typedef NS_ENUM(NSInteger, OrderType) {
-    OutTimeType = 0,
-    DistributeType = 1,
-    CloseType = 2,
-    AllType = 3,
+    OutTimeType = 0,//待处理
+    DistributeType = 1,//已指派
+    CloseType = 2,//已关闭
+    AllType = 3,//全部工单功能中使用
 };
 
 @interface BXTManagerOMView : UIView <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
