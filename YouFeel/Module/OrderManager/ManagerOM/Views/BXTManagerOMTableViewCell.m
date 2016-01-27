@@ -44,9 +44,11 @@
             
         });
         
+        
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 50.f, SCREEN_WIDTH - 30, 1.f)];
         lineView.backgroundColor = colorWithHexString(@"dee3e5");
         [self addSubview:lineView];
+        
         
         self.place = ({
             
