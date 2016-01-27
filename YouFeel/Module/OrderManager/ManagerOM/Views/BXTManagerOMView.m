@@ -51,13 +51,27 @@
         }
         groups = [NSArray array];
         BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
-        if (groupInfo.subgroup.length > 0)
+        if (_orderType == OutTimeType || _orderType == AllType)
         {
-            typesArray = @[@"时间排序",@"超时工单优先",@"特殊工单优先",@"本组优先"];
+            if (groupInfo.subgroup.length > 0)
+            {
+                typesArray = @[@"时间排序",@"超时工单优先",@"特殊工单优先",@"本组优先"];
+            }
+            else
+            {
+                typesArray = @[@"时间排序",@"超时工单优先",@"特殊工单优先"];
+            }
         }
         else
         {
-            typesArray = @[@"时间排序",@"超时工单优先",@"特殊工单优先"];
+            if (groupInfo.subgroup.length > 0)
+            {
+                typesArray = @[@"时间排序",@"本组优先"];
+            }
+            else
+            {
+                typesArray = @[@"时间排序"];
+            }
         }
         repairListArray = [NSMutableArray array];
         priorityType = @"1";
@@ -168,7 +182,9 @@
         {
             state = selectOT;
             collection = @"not_all";
-        } else {
+        }
+        else
+        {
             state = selectOT;
             collection = @"";
         }
@@ -276,12 +292,7 @@
 #pragma mark DOPDropDownMenuDataSource && DOPDropDownMenuDelegate
 - (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
 {
-    BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
-    if (groupInfo.subgroup.length > 0)
-    {
-        return 4;
-    }
-    return 3;
+    return typesArray.count;
 }
 
 - (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath
@@ -292,7 +303,16 @@
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {
     BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
-    if (groupInfo.subgroup.length > 0 && indexPath.row == 3)
+    NSInteger row;
+    if (_orderType == OutTimeType || _orderType == AllType)
+    {
+        row = 3;
+    }
+    else
+    {
+        row = 1;
+    }
+    if (groupInfo.subgroup.length > 0 && indexPath.row == row)
     {
         groupID = groupInfo.group_id;
         priorityType = @"4";
@@ -302,6 +322,7 @@
         priorityType = [NSString stringWithFormat:@"%ld",(long)indexPath.row + 1];
         groupID = @"";
     }
+    
     [self loadNewData];
 }
 

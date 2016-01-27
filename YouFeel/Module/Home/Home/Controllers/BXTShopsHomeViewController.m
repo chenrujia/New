@@ -7,29 +7,10 @@
 //
 
 #import "BXTShopsHomeViewController.h"
-#import "BXTRepairViewController.h"
-#import "BXTOrderManagerViewController.h"
-#import "BXTExaminationViewController.h"
 #import "BXTWorkOderViewController.h"
-#import "BXTEvaluationListViewController.h"
 #import "BXTHeadquartersInfo.h"
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
-#import "BXTMessageListViewController.h"
-#import "BXTFeedbackViewController.h"
-#import "BXTCustomerServiceViewController.h"
-#import "BXTAboutUsViewController.h"
-#import "BXTAchievementsViewController.h"
-#import "BXTManagerOMViewController.h"
-#import "BXTStatisticsViewController.h"
-#import "BXTGrabOrderViewController.h"
-#import "BXTExaminationViewController.h"
-
-typedef NS_ENUM(NSInteger, HiddenType) {
-    HiddenType_SpecialOrders = 1,
-    HiddenType_BusinessStatistics,
-    HiddenType_Both
-};
 
 @interface BXTShopsHomeViewController ()
 
@@ -42,10 +23,7 @@ typedef NS_ENUM(NSInteger, HiddenType) {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     logoImgView.image = [UIImage imageNamed:@"Nav_Bar"];
-    
-    
     [logo_Btn setImage:[UIImage imageNamed:@"WarrantyIcon"] forState:UIControlStateNormal];
     title_label.text = @"我要报修";
     
@@ -223,17 +201,6 @@ typedef NS_ENUM(NSInteger, HiddenType) {
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

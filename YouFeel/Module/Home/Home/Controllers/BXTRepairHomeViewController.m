@@ -7,49 +7,61 @@
 //
 
 #import "BXTRepairHomeViewController.h"
-#import "BXTReaciveOrdersViewController.h"
-#import "BXTOrderManagerViewController.h"
 #import "BXTGrabOrderViewController.h"
-#import "BXTAchievementsViewController.h"
-#import "BXTEvaluationListViewController.h"
+#import "BXTNewOrderViewController.h"
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
-#import "BXTMessageListViewController.h"
-#import "BXTFeedbackViewController.h"
-#import "BXTCustomerServiceViewController.h"
-#import "BXTAboutUsViewController.h"
-#import "BXTRepairWordOrderViewController.h"
-#import "BXTExaminationViewController.h"
-#import "BXTManagerOMViewController.h"
-#import "BXTNewOrderViewController.h"
-#import "BXTMMOrderManagerViewController.h"
-#import "BXTAuthorityListViewController.h"
-#import "BXTSettingViewController.h"
-#import "BXTReaciveOrdersViewController.h"
 
 @interface BXTRepairHomeViewController ()
+
+@property (nonatomic, assign) NSInteger whichHidden;
 
 @end
 
 @implementation BXTRepairHomeViewController
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     logoImgView.image = [UIImage imageNamed:@"Nav_Bar"];
-    
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
     title_label.text = @"我的工单";
-    
     [self addGrabAndAssignOrderNotifications];
-    self.imgNameArray = [NSMutableArray arrayWithObjects:@"My_Orders",@[@"Day_Order",@"Maintenance_Orders"],@"My_Achievements",@"Project_Phone",nil];
-    self.titleNameArray = [NSMutableArray arrayWithObjects:@"我的工单",@[@"日常工单",@"维保工单"],@"我的绩效",@"项目热线",nil];
+    
+    self.imgNameArray = [NSMutableArray arrayWithObjects:@"My_Orders",
+                         @[@"Day_Order",@"Maintenance_Orders"],
+                         @"Special_Orders",
+                         @"Business_Statistics",
+                         @"My_Achievements",
+                         @"Project_Phone",nil];
+    self.titleNameArray = [NSMutableArray arrayWithObjects:@"我的工单",
+                           @[@"日常工单",@"维保工单"],
+                           @"特殊工单",
+                           @"业务统计",
+                           @"我的绩效",
+                           @"项目热线",nil];
+    
+    NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
+    if (![roleArray containsObject:@"116"] && ![roleArray containsObject:@"114"])
+    {
+        [self.titleNameArray removeObject:@"特殊工单"];
+        [self.imgNameArray removeObject:@"Special_Orders"];
+        [self.titleNameArray removeObject:@"业务统计"];
+        [self.imgNameArray removeObject:@"Business_Statistics"];
+        self.whichHidden = HiddenType_Both;
+    }
+    else if (![roleArray containsObject:@"116"])
+    {
+        [self.titleNameArray removeObject:@"特殊工单"];
+        [self.imgNameArray removeObject:@"Special_Orders"];
+        self.whichHidden = HiddenType_SpecialOrders;
+    }
+    else if (![roleArray containsObject:@"114"])
+    {
+        [self.titleNameArray removeObject:@"业务统计"];
+        [self.imgNameArray removeObject:@"Business_Statistics"];
+        self.whichHidden = HiddenType_BusinessStatistics;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -99,9 +111,7 @@
     {
         return;
     }
-    // 我的工单
-    BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-    [self.navigationController pushViewController:orderManagerVC animated:YES];
+    [self pushMyOrders];
 }
 
 - (void)comingNewRepairs
@@ -121,64 +131,131 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 0)
+    if (self.whichHidden == HiddenType_Both)
     {
-        // 我的工单
-        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-        orderManagerVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:orderManagerVC animated:YES];
-        
-    }
-    else if (indexPath.section == 1)
-    {
-        
-        if (indexPath.row == 0)
+        switch (indexPath.section)
         {
-            [BXTRemindNum sharedManager].timeStart_Daily = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
-            SaveValueTUD(@"timeStart_Daily", [BXTRemindNum sharedManager].timeStart_Daily);
-            BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:1];
-            reaciveVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:reaciveVC animated:YES];
+            case 0:
+                [self pushMyOrders];
+                break;
+            case 1:
+                if (indexPath.row == 0)
+                {
+                    [self pushNormalOrders];
+                }
+                else
+                {
+                    [self pushMaintenceOrders];
+                }
+                break;
+            case 2:
+                [self pushAchievements];
+                break;
+            case 3:
+                [self projectPhone];
+                break;
+            default:
+                break;
         }
-        else
+    }
+    else if (self.whichHidden == HiddenType_SpecialOrders)
+    {
+        switch (indexPath.section)
         {
-            [BXTRemindNum sharedManager].timeStart_Inspectio = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
-            BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
-            SaveValueTUD(@"timeStart_Inspectio", [BXTRemindNum sharedManager].timeStart_Inspectio);
-            reaciveVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:reaciveVC animated:YES];
+            case 0:
+                [self pushMyOrders];
+                break;
+            case 1:
+                if (indexPath.row == 0)
+                {
+                    [self pushNormalOrders];
+                }
+                else
+                {
+                    [self pushMaintenceOrders];
+                }
+                break;
+            case 2:
+                [self pushStatistics];
+                break;
+            case 3:
+                [self pushAchievements];
+                break;
+            case 4:
+                [self projectPhone];
+                break;
+            default:
+                break;
         }
     }
-    else if (indexPath.section == 2)
+    else if (self.whichHidden == HiddenType_BusinessStatistics)
     {
-        // 我的绩效
-        BXTAchievementsViewController *achievementVC = [[BXTAchievementsViewController alloc] init];
-        achievementVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:achievementVC animated:YES];
+        switch (indexPath.section)
+        {
+            case 0:
+                [self pushMyOrders];
+                break;
+            case 1:
+                if (indexPath.row == 0)
+                {
+                    [self pushNormalOrders];
+                }
+                else
+                {
+                    [self pushMaintenceOrders];
+                }
+                break;
+            case 2:
+                [self pushSpecialOrders];
+                break;
+            case 3:
+                [self pushAchievements];
+                break;
+            case 4:
+                [self projectPhone];
+                break;
+            default:
+                break;
+        }
     }
-    else if (indexPath.section == 3)
+    else
     {
-        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
-        UIWebView *callWeb = [[UIWebView alloc] init];
-        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-        [self.view addSubview:callWeb];
+        switch (indexPath.section)
+        {
+            case 0:
+                [self pushMyOrders];
+                break;
+            case 1:
+                if (indexPath.row == 0)
+                {
+                    [self pushNormalOrders];
+                }
+                else
+                {
+                    [self pushMaintenceOrders];
+                }
+                break;
+            case 2:
+                [self pushSpecialOrders];
+                break;
+            case 3:
+                [self pushStatistics];
+                break;
+            case 4:
+                [self pushAchievements];
+                break;
+            case 5:
+                [self projectPhone];
+                break;
+            default:
+                break;
+        }
     }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

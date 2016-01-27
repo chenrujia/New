@@ -10,6 +10,12 @@
 #import <RongIMKit/RongIMKit.h>
 #import "BXTRemindNum.h"
 
+typedef NS_ENUM(NSInteger, HiddenType) {
+    HiddenType_SpecialOrders = 1,
+    HiddenType_BusinessStatistics,
+    HiddenType_Both
+};
+
 @interface BXTHomeViewController : BXTBaseViewController <UITableViewDataSource,UITableViewDelegate,RCIMUserInfoDataSource>
 {
     UILabel          *shop_label;
@@ -25,6 +31,17 @@
 
 - (void)createLogoView;
 - (void)repairClick;
+
+- (void)pushMyOrders;
+- (void)pushEvaluationList;
+- (void)pushSpecialOrders;
+- (void)pushStatistics;
+- (void)pushExamination;
+- (void)pushNormalOrders;
+- (void)pushMaintenceOrders;
+- (void)pushAchievements;
+- (void)projectPhone;
+
 /**
  *  是否已验证
  */
