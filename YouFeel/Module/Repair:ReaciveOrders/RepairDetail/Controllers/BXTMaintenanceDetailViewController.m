@@ -443,11 +443,10 @@
             _completeTime.hidden = NO;
             _mmProcess.text = [NSString stringWithFormat:@"维修备注:%@",self.repairDetail.workprocess];
             [_mmProcess layoutIfNeeded];
+            [_thirdBV layoutIfNeeded];
             _workTime.text = [NSString stringWithFormat:@"维修工时:%@小时",self.repairDetail.man_hours];
-            [_workTime layoutIfNeeded];
             NSString *time_str = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.end_time];
             _completeTime.text = [NSString stringWithFormat:@"完成时间:%@",time_str];
-            [_completeTime layoutIfNeeded];
             _third_bv_height.constant = CGRectGetMaxY(_completeTime.frame) + 10.f;
         }
         else
@@ -482,7 +481,7 @@
         [_fouthBV layoutIfNeeded];
         if (usersCount)
         {
-            CGFloat log_height = 0.f;
+            CGFloat log_content_height = 0.f;
             for (NSInteger i = 0; i < usersCount; i++)
             {
                 NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
@@ -491,7 +490,7 @@
                 {
                     NSString *log = [NSString stringWithFormat:@"维修日志：%@",content];
                     CGSize size = MB_MULTILINE_TEXTSIZE(log, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30, 1000.f), NSLineBreakByWordWrapping);
-                    log_height = size.height + 20.f;
+                    log_content_height = size.height + 20.f;
                 }
                 
                 [self.manIDArray addObject:userDic[@"id"]];
@@ -499,7 +498,7 @@
                 UIView *userBack = [self viewForUser:i andMaintenanceMaxY:CGRectGetMaxY(_maintenanceMan.frame) + 20 andLevelWidth:CGRectGetWidth(_level.frame)];
                 [_fouthBV addSubview:userBack];
             }
-            _fouth_bv_height.constant = 52 + RepairHeight * usersCount + log_height;
+            _fouth_bv_height.constant = 52 + RepairHeight * usersCount + log_content_height;
             [_fouthBV layoutIfNeeded];
             _sco_content_height.constant = CGRectGetMaxY(_fouthBV.frame) + height;
         }
