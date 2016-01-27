@@ -31,7 +31,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_titleLabel.frame), 15.f, SCREEN_WIDTH - (CGRectGetMaxX(_titleLabel.frame) + 20.f) - 35.f, 20)];
             label.textColor = colorWithHexString(@"909497");
             label.textAlignment = NSTextAlignmentLeft;
-            label.font = [UIFont systemFontOfSize:15.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
             

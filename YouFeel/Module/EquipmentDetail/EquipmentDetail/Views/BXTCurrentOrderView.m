@@ -26,12 +26,12 @@ typedef NS_ENUM(NSInteger, OrderType) {
 
 @interface BXTCurrentOrderView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, BXTBoxSelectedTitleDelegate>
 {
-    BXTSelectBoxView *boxView;
     NSArray *comeTimeArray;
     NSDate *originDate;
     
 }
 
+@property (nonatomic, strong) BXTSelectBoxView *boxView;
 @property (nonatomic, assign) NSInteger       currentPage;
 @property (nonatomic, strong) UIButton        *bgView;
 @property (nonatomic, strong) UIButton        *bgView_fit;
@@ -103,7 +103,9 @@ typedef NS_ENUM(NSInteger, OrderType) {
     
     newOrderBtn.backgroundColor = [UIColor whiteColor];
     newOrderBtn.layer.cornerRadius = 5;
+    @weakify(self);
     [[newOrderBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         if ([BXTGlobal shareGlobal].isRepair) {
             BXTNewRepairMtOrderViewController *workOderVC = [[BXTNewRepairMtOrderViewController alloc] init];
             workOderVC.deviceID = self.deviceID;
@@ -170,24 +172,24 @@ typedef NS_ENUM(NSInteger, OrderType) {
         @strongify(self);
         [self.bgView removeFromSuperview];
         [UIView animateWithDuration:0.3f animations:^{
-            [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
+            [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
         }];
     }];
     [ApplicationWindow addSubview:self.bgView];
     
-    if (boxView)
+    if (self.boxView)
     {
-        [boxView boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray];
-        [ApplicationWindow bringSubviewToFront:boxView];
+        [self.boxView boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray];
+        [ApplicationWindow bringSubviewToFront:self.boxView];
     }
     else
     {
-        boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray markID:nil actionDelegate:self];
-        [ApplicationWindow addSubview:boxView];
+        self.boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray markID:nil actionDelegate:self];
+        [ApplicationWindow addSubview:self.boxView];
     }
     
     [UIView animateWithDuration:0.3f animations:^{
-        [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
+        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
     }];
 }
 
@@ -293,7 +295,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
 {
     [self.bgView removeFromSuperview];
     [UIView animateWithDuration:0.3f animations:^{
-        [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
+        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
     }];
     
     if ([obj isKindOfClass:[NSString class]])
@@ -393,8 +395,9 @@ typedef NS_ENUM(NSInteger, OrderType) {
     BXTCurrentOrderCell *cell = [BXTCurrentOrderCell cellWithTableView:tableView];
     
     cell.orderList = self.dataArray[indexPath.section];
-    
+    @weakify(self);
     [[cell.receiveOrderView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         NSLog(@"%@", cell.orderList.dataIdentifier);
         self.orderID = cell.orderList.dataIdentifier;
         [self createBXTSelectBoxView];

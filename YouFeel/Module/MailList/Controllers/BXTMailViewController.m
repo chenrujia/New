@@ -31,7 +31,7 @@
     // Do any additional setup after loading the view.
     
     UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(80, 5, SCREEN_WIDTH-160, 30)];
-    label.font = [UIFont systemFontOfSize:16.0f];
+    label.font = [UIFont systemFontOfSize:18.0f];
     label.backgroundColor = [UIColor clearColor];
     label.text = @"通讯录";
     label.textColor = [UIColor whiteColor];

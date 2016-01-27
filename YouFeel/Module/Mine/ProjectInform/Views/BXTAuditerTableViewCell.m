@@ -47,6 +47,7 @@
         _contactBtn.layer.cornerRadius = 4.f;
         [_contactBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 67.f, 83.f, 40.f)];
         [_contactBtn setTitle:@"联系Ta" forState:UIControlStateNormal];
+        _contactBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         [_contactBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
         [self addSubview:_contactBtn];
     }

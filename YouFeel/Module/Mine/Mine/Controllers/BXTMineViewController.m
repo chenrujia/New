@@ -19,9 +19,8 @@
 #import "BXTSettingViewController.h"
 
 @interface BXTMineViewController () <UITableViewDataSource,UITableViewDelegate>
-{
-    UITableView *currentTableView;
-}
+
+@property (nonatomic, strong) UITableView *currentTableView;
 
 @property (nonatomic, strong) NSArray *iconArray;
 @property (nonatomic, strong) NSArray *titleArray;
@@ -52,14 +51,16 @@
     self.iconArray = [[NSArray alloc] initWithObjects:@"mine_tools", @"mine_pen", @"mine_cog", nil];
     self.titleArray = [[NSArray alloc] initWithObjects:@"项目信息", @"意见反馈", @"设置", nil];
     
-    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - KTABBARHEIGHT) style:UITableViewStyleGrouped];
-    currentTableView.delegate = self;
-    currentTableView.dataSource = self;
-    currentTableView.showsVerticalScrollIndicator = NO;
-    [self.view addSubview:currentTableView];
+    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - KTABBARHEIGHT) style:UITableViewStyleGrouped];
+    self.currentTableView.delegate = self;
+    self.currentTableView.dataSource = self;
+    self.currentTableView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:self.currentTableView];
     
+    @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"HEADERIMAGE" object:nil] subscribeNext:^(id x) {
-        [currentTableView reloadData];
+        @strongify(self);
+        [self.currentTableView reloadData];
     }];
 }
 

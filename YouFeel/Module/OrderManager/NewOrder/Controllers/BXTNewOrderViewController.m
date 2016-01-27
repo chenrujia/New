@@ -166,6 +166,7 @@
     UIButton *connetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     connetBtn.frame = CGRectMake(SCREEN_WIDTH - 83.3f - 15.f, KNAVIVIEWHEIGHT + 30.f, 83.3f, 40.f);
     [connetBtn setTitle:@"联系Ta" forState:UIControlStateNormal];
+    connetBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [connetBtn setTitleColor:colorWithHexString(@"3bafff") forState:UIControlStateNormal];
     connetBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
     connetBtn.layer.borderWidth = 1.f;

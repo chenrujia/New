@@ -148,7 +148,9 @@
     UIButton *branchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     branchBtn.frame = CGRectMake(5, valueForDevice(25.f, 25.f, 20.f, 15.f), 44, 44);
     [branchBtn setBackgroundImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
+    @weakify(self);
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         // 商铺列表
         BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
         alVC.hidesBottomBarWhenPushed = YES;
@@ -168,7 +170,6 @@
     messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [messageBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 5.f, valueForDevice(25.f, 25.f, 20.f, 15.f), 44.f, 44.f)];
     [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
-    @weakify(self);
     [[messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];

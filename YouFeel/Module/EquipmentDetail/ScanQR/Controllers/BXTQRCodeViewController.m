@@ -88,7 +88,9 @@
     _btnFlash.bounds = CGRectMake(0, 0, size.width, size.height);
     _btnFlash.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame)/2, CGRectGetHeight(_bottomItemsView.frame)/2);
     [_btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_nor"] forState:UIControlStateNormal];
+    @weakify(self);
     [[_btnFlash rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         //开关闪光灯
         [super openOrCloseFlash];
         if (self.isOpenFlash) {
@@ -104,6 +106,7 @@
     [_btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_nor"] forState:UIControlStateNormal];
     [_btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_down"] forState:UIControlStateHighlighted];
     [[_btnPhoto rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         //打开相册
         if ([LBXScanWrapper isGetPhotoPermission]) {
             [self openLocalPhoto];
