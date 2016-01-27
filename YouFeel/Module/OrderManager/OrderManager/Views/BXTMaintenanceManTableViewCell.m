@@ -24,7 +24,7 @@
         
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 180.f, 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
         
@@ -50,7 +50,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100.f - 15.f, 10.f, 100.f, 20)];
             label.textColor = colorWithHexString(@"de1a1a");
             label.textAlignment = NSTextAlignmentRight;
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
         
@@ -61,7 +61,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 30.f, 20)];
             label.numberOfLines = 0;
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
         
@@ -71,7 +71,7 @@
         
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_place.frame) + 10.f, CGRectGetWidth(_place.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
             
@@ -81,7 +81,7 @@
         
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
         
@@ -92,7 +92,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_level.frame) + 8.f, CGRectGetWidth(_level.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
             label.textAlignment = NSTextAlignmentLeft;
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
         

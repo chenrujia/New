@@ -354,6 +354,7 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)createRepair:(NSString *)faultType
       faultType_type:(NSString *)faulttype_type
+           deviceIDs:(NSString *)deviceID
           faultCause:(NSString *)cause
           faultLevel:(NSString *)level
          depatmentID:(NSString *)depID
@@ -378,6 +379,7 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"type":@"add",
                           @"faulttype":faultType,
                           @"faulttype_type":faulttype_type,
+                          @"device_ids": deviceID,
                           @"cause":cause,
                           @"urgent":level,
                           @"department":depID,

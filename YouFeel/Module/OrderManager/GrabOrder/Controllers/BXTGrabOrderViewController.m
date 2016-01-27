@@ -109,7 +109,7 @@
             label.center = CGPointMake(arc_height/2.f, arc_height/2.f);
             label.textAlignment = NSTextAlignmentCenter;
             label.textColor = [UIColor whiteColor];
-            label.font = [UIFont boldSystemFontOfSize:20.f];
+            label.font = [UIFont systemFontOfSize:20.f];
             label.text = @"60s";
             [arc_View addSubview:label];
             label;
@@ -172,7 +172,7 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
     titleLabel.backgroundColor = colorWithHexString(@"ffffff");
     titleLabel.text = @"请选择到达时间";
-    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [bgView addSubview:titleLabel];
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];

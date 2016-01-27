@@ -145,7 +145,7 @@
     view.backgroundColor = [UIColor whiteColor];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 100.f, 30)];
     titleLabel.textColor = colorWithHexString(@"000000");
-    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
     if (section == _maintenceInfo.inspection_info.count + 1)
     {
         titleLabel.text = @"设备状态";

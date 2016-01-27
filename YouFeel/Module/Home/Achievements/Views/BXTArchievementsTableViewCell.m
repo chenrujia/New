@@ -19,7 +19,7 @@
         self.timeLabel = ({
         
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 100.f, 20.f)];
-            label.font = [UIFont boldSystemFontOfSize:16.f];
+            label.font = [UIFont systemFontOfSize:16.f];
             [self addSubview:label];
             label;
         

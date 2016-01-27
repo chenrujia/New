@@ -14,6 +14,16 @@
 
 @implementation BXTUnReadNoticeView
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        [self initial];
+    }
+    return self;
+}
+
 #pragma mark -
 #pragma mark - 初始化
 - (void)initial

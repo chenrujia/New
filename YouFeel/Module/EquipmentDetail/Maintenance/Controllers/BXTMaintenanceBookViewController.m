@@ -95,7 +95,7 @@
     view.backgroundColor = [UIColor clearColor];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 0, 100.f, 30)];
     titleLabel.textColor = colorWithHexString(@"888c8f");
-    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
     [view addSubview:titleLabel];
     if (section == 0)
     {

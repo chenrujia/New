@@ -134,7 +134,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80.f, 40.f)];
     titleLabel.text = @"新建工单";
-    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
     titleLabel.textColor = colorWithHexString(@"3cafff");
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.center = CGPointMake(newOrderBtn.bounds.size.width/2.f + 22.f, 20.f);
@@ -222,7 +222,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
     titleLabel.backgroundColor = colorWithHexString(@"ffffff");
     titleLabel.text = @"请选择到达时间";
-    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.pickerBgView addSubview:titleLabel];
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];

@@ -24,7 +24,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 180.f, 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:16.f];
+            label.font = [UIFont systemFontOfSize:16.f];
             [self addSubview:label];
             label;
             

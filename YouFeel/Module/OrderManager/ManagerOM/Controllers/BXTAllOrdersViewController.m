@@ -154,7 +154,7 @@
         [timeRangeBack addSubview:lineView];
         
         UILabel *timeAange = [[UILabel alloc] initWithFrame:CGRectMake(15.f, (line_y - 20)/2.f, 100, 20)];
-        timeAange.font = [UIFont boldSystemFontOfSize:17.f];
+        timeAange.font = [UIFont systemFontOfSize:17.f];
         timeAange.text = @"时间范围";
         [timeRangeBack addSubview:timeAange];
         
@@ -162,7 +162,7 @@
         _startTime.tag = 1;
         [_startTime setFrame:CGRectMake(SCREEN_WIDTH - 105.f - 100.f - 15.f, (line_y - 44)/2.f, 105, 44)];
         [_startTime setBackgroundColor:colorWithHexString(@"ffffff")];
-        _startTime.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+        _startTime.titleLabel.font = [UIFont systemFontOfSize:16.f];
         [_startTime setTitle:@"开始时间" forState:UIControlStateNormal];
         [_startTime setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
         @weakify(self);
@@ -178,7 +178,7 @@
         _endTime.tag = 0;
         [_endTime setFrame:CGRectMake(CGRectGetMaxX(_startTime.frame), (line_y - 44)/2.f, 100, 44)];
         [_endTime setBackgroundColor:colorWithHexString(@"ffffff")];
-        _endTime.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+        _endTime.titleLabel.font = [UIFont systemFontOfSize:16.f];
         [_endTime setTitle:@"结束时间" forState:UIControlStateNormal];
         [_endTime setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
         [[_endTime rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -224,12 +224,12 @@
         [groupBack addSubview:lineTwoView];
         
         UILabel *proGroup = [[UILabel alloc] initWithFrame:CGRectMake(15.f, (line_y - 20)/2.f, 100, 20)];
-        proGroup.font = [UIFont boldSystemFontOfSize:17.f];
+        proGroup.font = [UIFont systemFontOfSize:17.f];
         proGroup.text = @"专业分组";
         [groupBack addSubview:proGroup];
         
         groupsLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 215.f, (line_y - 20)/2.f, 200, 20.f)];
-        groupsLabel.font = [UIFont boldSystemFontOfSize:17.f];
+        groupsLabel.font = [UIFont systemFontOfSize:17.f];
         groupsLabel.textAlignment = NSTextAlignmentRight;
         groupsLabel.textColor = colorWithHexString(@"3cafff");
         [groupBack addSubview:groupsLabel];
@@ -271,12 +271,12 @@
         [orderTypeBack addSubview:lineThreeView];
         
         UILabel *orderName = [[UILabel alloc] initWithFrame:CGRectMake(15.f, (line_y - 20)/2.f, 100, 20)];
-        orderName.font = [UIFont boldSystemFontOfSize:17.f];
+        orderName.font = [UIFont systemFontOfSize:17.f];
         orderName.text = @"工单分类";
         [orderTypeBack addSubview:orderName];
         
         orderTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 115.f, (line_y - 20)/2.f, 100, 20.f)];
-        orderTypeLabel.font = [UIFont boldSystemFontOfSize:17.f];
+        orderTypeLabel.font = [UIFont systemFontOfSize:17.f];
         orderTypeLabel.textAlignment = NSTextAlignmentRight;
         orderTypeLabel.textColor = colorWithHexString(@"3cafff");
         [orderTypeBack addSubview:orderTypeLabel];

@@ -12,9 +12,10 @@
 #import "BXTUnReadNoticeView.h"
 
 @interface BXTNoticeListViewController () <SegmentViewDelegate, UIScrollViewDelegate>
-
+{
+    UIScrollView *currentSrcoller;
+}
 @property (nonatomic, strong) SegmentView *segmentView;
-@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) NSInteger currentPage;
 
 @end
@@ -51,21 +52,21 @@
     
     
     // UIScrollView
-    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64 + 50.f, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 50.f)];
-    self.scrollView.delegate = self;
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 2, 0);
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    [self.view addSubview:self.scrollView];
+    currentSrcoller = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 50.f, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 50.f)];
+    currentSrcoller.delegate = self;
+    currentSrcoller.contentSize = CGSizeMake(SCREEN_WIDTH * 2, 0);
+    currentSrcoller.pagingEnabled = YES;
+    currentSrcoller.showsHorizontalScrollIndicator = NO;
+    [self.view addSubview:currentSrcoller];
+    
     
     // BXTUnReadNoticeView
     BXTUnReadNoticeView *unReadView = [[BXTUnReadNoticeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(backView.frame))];
-    [self.scrollView addSubview:unReadView];
+    [currentSrcoller addSubview:unReadView];
     
     // BXTReadNoticeView
-    BXTReadNoticeView *readView = [[BXTReadNoticeView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(backView.frame))];
-    [self.scrollView addSubview:readView];
-    
+    BXTReadNoticeView *readView = [[BXTReadNoticeView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(backView.frame))];
+    [currentSrcoller addSubview:readView];
 }
 
 #pragma mark -
@@ -73,7 +74,7 @@
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
 {
     self.currentPage = index;
-    [self.scrollView setContentOffset:CGPointMake(self.currentPage * SCREEN_WIDTH, 0) animated:YES];
+    [currentSrcoller setContentOffset:CGPointMake(self.currentPage * SCREEN_WIDTH, 0) animated:YES];
 }
 
 #pragma mark -

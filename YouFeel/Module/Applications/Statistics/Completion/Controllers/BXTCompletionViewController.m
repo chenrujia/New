@@ -71,7 +71,7 @@ typedef enum {
     centerLabel.text = @"点击可查看工单详情";
     centerLabel.textColor = [UIColor whiteColor];
     centerLabel.textAlignment = NSTextAlignmentCenter;
-    centerLabel.font = [UIFont boldSystemFontOfSize:21];
+    centerLabel.font = [UIFont systemFontOfSize:21];
     [pickerbgView addSubview:centerLabel];
     
     UIImageView *leftArrowIV = [[UIImageView alloc] initWithFrame:CGRectMake(140, 430, 18, 31)];

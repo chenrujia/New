@@ -125,6 +125,7 @@
     BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [rep_request createRepair:self.faulttypeID
                faultType_type:self.faulttype_typeID
+                    deviceIDs:self.addressIDArray[6]
                    faultCause:cause
                    faultLevel:_repairState
                   depatmentID:departmentInfo.dep_id

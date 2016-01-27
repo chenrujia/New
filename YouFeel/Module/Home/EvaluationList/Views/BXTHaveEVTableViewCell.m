@@ -22,7 +22,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 200.f, 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
             
@@ -36,7 +36,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 30.f, 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
             
@@ -46,7 +46,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_place.frame) + 10.f, CGRectGetWidth(_place.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
             
@@ -54,7 +54,7 @@
         
         UILabel *evaScore = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_cause.frame) + 10.f, 90.f, 20)];
         evaScore.textColor = colorWithHexString(@"000000");
-        evaScore.font = [UIFont boldSystemFontOfSize:17.f];
+        evaScore.font = [UIFont systemFontOfSize:17.f];
         evaScore.text = @"综合评价：";
         [self addSubview:evaScore];
 
@@ -81,7 +81,7 @@
         
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineViewTwo.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
         
