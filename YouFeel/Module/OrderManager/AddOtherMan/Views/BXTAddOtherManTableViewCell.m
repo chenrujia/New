@@ -34,7 +34,7 @@
             label.textColor = colorWithHexString(@"000000");
             label.numberOfLines = 0;
             label.lineBreakMode = NSLineBreakByWordWrapping;
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self addSubview:label];
             label;
         

@@ -24,7 +24,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 15.f, 180.f, 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:16.f];
+            label.font = [UIFont systemFontOfSize:16.f];
             [self addSubview:label];
             label;
             
@@ -44,16 +44,18 @@
             
         });
         
+        
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 50.f, SCREEN_WIDTH - 30, 1.f)];
         lineView.backgroundColor = colorWithHexString(@"dee3e5");
         [self addSubview:lineView];
+        
         
         self.place = ({
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(lineView.frame) + 8.f, SCREEN_WIDTH - 30.f, 20)];
             label.numberOfLines = 0;
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:16.f];
+            label.font = [UIFont systemFontOfSize:16.f];
             [self addSubview:label];
             label;
             
@@ -63,7 +65,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_place.frame) + 10.f, CGRectGetWidth(_place.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:16.f];
+            label.font = [UIFont systemFontOfSize:16.f];
             [self addSubview:label];
             label;
             
@@ -75,7 +77,7 @@
             label.textColor = colorWithHexString(@"000000");
             label.numberOfLines = 0;
             label.lineBreakMode = NSLineBreakByWordWrapping;
-            label.font = [UIFont boldSystemFontOfSize:16.f];
+            label.font = [UIFont systemFontOfSize:16.f];
             [self addSubview:label];
             label;
             
@@ -94,7 +96,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_line.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
             label.textColor = colorWithHexString(@"cc0202");
-            label.font = [UIFont boldSystemFontOfSize:16.f];
+            label.font = [UIFont systemFontOfSize:16.f];
             [self addSubview:label];
             label;
             
@@ -104,7 +106,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_line.frame) + 10.f, CGRectGetWidth(_cause.frame), 20)];
             label.textColor = colorWithHexString(@"c1c9cc");
-            label.font = [UIFont boldSystemFontOfSize:16.f];
+            label.font = [UIFont systemFontOfSize:16.f];
             label.textAlignment = NSTextAlignmentRight;
             [self addSubview:label];
             label;
@@ -130,7 +132,7 @@
         placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
     }
     
-    CGSize cause_size0 = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont boldSystemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+    CGSize cause_size0 = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
     self.place.text = placeStr;
     // 更新所有控件位置 1
     self.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, cause_size0.height + 3);
@@ -141,7 +143,7 @@
     
     //自适应故障描述
     NSString *causeStr = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
-    CGSize cause_size = MB_MULTILINE_TEXTSIZE(causeStr, [UIFont boldSystemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+    CGSize cause_size = MB_MULTILINE_TEXTSIZE(causeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
     self.cause.text = causeStr;
     
     

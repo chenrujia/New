@@ -110,7 +110,7 @@ static const NSString *kDefaultSolidChar = @"★";
 		else
         {
             CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), _solidColor.CGColor);
-            [kDefaultSolidChar drawAtPoint:currPoint withAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:kFontSize]}];
+            [kDefaultSolidChar drawAtPoint:currPoint withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:kFontSize]}];
         }
 			
 		currPoint.x += kStarWidth;
@@ -127,7 +127,7 @@ static const NSString *kDefaultSolidChar = @"★";
 		else
         {
             CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), _emptyColor.CGColor);
-            [kDefaultEmptyChar drawAtPoint:currPoint withAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:kFontSize]}];
+            [kDefaultEmptyChar drawAtPoint:currPoint withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:kFontSize]}];
         }
 		currPoint.x += kStarWidth;
 	}

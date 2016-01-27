@@ -151,7 +151,7 @@
     nameLabel.center = CGPointMake(SCREEN_WIDTH/2.f, nameLabel.center.y);
     nameLabel.textAlignment = NSTextAlignmentCenter;
     nameLabel.textColor = colorWithHexString(@"ffffff");
-    nameLabel.font = [UIFont boldSystemFontOfSize:IS_IPHONE4 ? 15.f : 17.f];
+    nameLabel.font = [UIFont systemFontOfSize:IS_IPHONE4 ? 15.f : 17.f];
     nameLabel.text = [BXTGlobal getUserProperty:U_NAME];
     [logoView addSubview:nameLabel];
     
@@ -159,7 +159,7 @@
     groupLabel.center = CGPointMake(SCREEN_WIDTH/2.f, groupLabel.center.y);
     groupLabel.textAlignment = NSTextAlignmentCenter;
     groupLabel.textColor = colorWithHexString(@"ffffff");
-    groupLabel.font = [UIFont boldSystemFontOfSize:IS_IPHONE4 ? 11.f : 13.f];
+    groupLabel.font = [UIFont systemFontOfSize:IS_IPHONE4 ? 11.f : 13.f];
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
     BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
     if ([BXTGlobal shareGlobal].isRepair)

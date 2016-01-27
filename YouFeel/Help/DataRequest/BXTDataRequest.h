@@ -197,6 +197,7 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)createRepair:(NSString *)faultType
       faultType_type:(NSString *)faulttype_type
+           deviceIDs:(NSString *)deviceID
           faultCause:(NSString *)cause
           faultLevel:(NSString *)level
          depatmentID:(NSString *)depID

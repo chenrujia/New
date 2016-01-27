@@ -84,7 +84,7 @@
     {
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.f, 30 + 60 * i, 80.f, 20.f)];
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.font = [UIFont boldSystemFontOfSize:17.f];
+        titleLabel.font = [UIFont systemFontOfSize:17.f];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.text = titleArray[i];
         [backView addSubview:titleLabel];

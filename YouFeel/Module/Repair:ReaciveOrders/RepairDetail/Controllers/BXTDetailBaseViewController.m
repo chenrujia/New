@@ -220,7 +220,7 @@
     userName.textColor = colorWithHexString(@"000000");
     userName.numberOfLines = 0;
     userName.lineBreakMode = NSLineBreakByWordWrapping;
-    userName.font = [UIFont boldSystemFontOfSize:16.f];
+    userName.font = [UIFont systemFontOfSize:16.f];
     userName.text = [userDic objectForKey:@"name"];
     [userBack addSubview:userName];
     
@@ -228,7 +228,7 @@
     role.textColor = colorWithHexString(@"909497");
     role.numberOfLines = 0;
     role.lineBreakMode = NSLineBreakByWordWrapping;
-    role.font = [UIFont boldSystemFontOfSize:14.f];
+    role.font = [UIFont systemFontOfSize:14.f];
     role.text = [NSString stringWithFormat:@"%@-%@",[userDic objectForKey:@"department"],[userDic objectForKey:@"role"]];
     [userBack addSubview:role];
     
@@ -237,7 +237,7 @@
     phone.numberOfLines = 0;
     phone.lineBreakMode = NSLineBreakByWordWrapping;
     phone.userInteractionEnabled = YES;
-    phone.font = [UIFont boldSystemFontOfSize:14.f];
+    phone.font = [UIFont systemFontOfSize:14.f];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[userDic objectForKey:@"mobile"]];
     [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
     [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];

@@ -159,7 +159,7 @@
     //店名
     shop_label = [[UILabel alloc] initWithFrame:CGRectMake(0, valueForDevice(35.f, 35.f, 30.f, 25.f), SCREEN_WIDTH-130, 20.f)];
     shop_label.center = CGPointMake(SCREEN_WIDTH/2.f, shop_label.center.y);
-    shop_label.font = [UIFont boldSystemFontOfSize:17.f];
+    shop_label.font = [UIFont systemFontOfSize:17.f];
     shop_label.textAlignment = NSTextAlignmentCenter;
     [shop_label setTextColor:colorWithHexString(@"ffffff")];
     [logoImgView addSubview:shop_label];
@@ -201,7 +201,7 @@
     [logoImgView addSubview:scanBtn];
     
     //广告页
-    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 180*deviceRatio + 6) delegate:self placeholderImage:[UIImage imageNamed:@"ReBackgroundsIphone6"]];
+    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 180*deviceRatio + 6) delegate:self placeholderImage:[UIImage imageNamed:@"allDefault"]];
     [logoImgView addSubview:cycleScrollView];
     
     self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(logoImgView.frame) - KTABBARHEIGHT-5) style:UITableViewStyleGrouped];

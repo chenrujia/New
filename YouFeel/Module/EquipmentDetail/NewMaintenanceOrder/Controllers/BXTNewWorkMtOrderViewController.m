@@ -302,7 +302,7 @@
                 cell.detailTF.delegate = self;
                 cell.detailTF.placeholder = @"请输入故障描述";
                 [cell.detailTF setValue:colorWithHexString(@"909497") forKeyPath:@"_placeholderLabel.textColor"];
-                [cell.detailTF setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
+                [cell.detailTF setValue:[UIFont systemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
             }
         }
         else

@@ -144,7 +144,7 @@
     {
         NSDictionary *dict = data[0];
         
-        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:dict[@"pic"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"backgroundIphone4s"]];
+        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:dict[@"pic"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"allDefault"]];
         @weakify(self);
         [[self.headImageView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);

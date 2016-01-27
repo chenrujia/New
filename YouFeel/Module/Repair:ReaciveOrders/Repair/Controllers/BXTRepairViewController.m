@@ -125,7 +125,7 @@
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80.f, 40.f)];
     titleLabel.text = @"新建工单";
-    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
     titleLabel.textColor = colorWithHexString(@"3cafff");
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.center = CGPointMake(newBtn.bounds.size.width/2.f + 22.f, 20.f);

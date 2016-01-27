@@ -75,7 +75,7 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, valueForDevice(35.f, 35.f, 30.f, 25.f), SCREEN_WIDTH-130, 20.f)];
     titleLabel.center = CGPointMake(SCREEN_WIDTH/2.f, titleLabel.center.y);
     titleLabel.text = @"个人信息";
-    titleLabel.font = [UIFont boldSystemFontOfSize:17.f];
+    titleLabel.font = [UIFont systemFontOfSize:17.f];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [titleLabel setTextColor:colorWithHexString(@"ffffff")];
     [logoImgView addSubview:titleLabel];
@@ -92,7 +92,7 @@
     nameLabel.center = CGPointMake(SCREEN_WIDTH/2.f, nameLabel.center.y);
     nameLabel.textAlignment = NSTextAlignmentCenter;
     nameLabel.textColor = colorWithHexString(@"ffffff");
-    nameLabel.font = [UIFont boldSystemFontOfSize:17.f];
+    nameLabel.font = [UIFont systemFontOfSize:17.f];
     [logoImgView addSubview:nameLabel];
     
     // 性别

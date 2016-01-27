@@ -57,7 +57,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_imageView.frame) - 45.f, 170, 25)];
             label.backgroundColor = colorWithHexString(@"c30e06");
             label.textColor = colorWithHexString(@"ffffff");
-            label.font = [UIFont boldSystemFontOfSize:15.f];
+            label.font = [UIFont systemFontOfSize:15.f];
             [self.imageView addSubview:label];
             label;
             
@@ -67,7 +67,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width-15-80, CGRectGetMaxY(_imageView.frame) + 10.f, 60, 25)];
             label.textColor = colorWithHexString(@"3cb7ff");
-            label.font = [UIFont boldSystemFontOfSize:16.f];
+            label.font = [UIFont systemFontOfSize:16.f];
             label.textAlignment = NSTextAlignmentCenter;
             label.layer.borderColor = [colorWithHexString(@"3cb7ff") CGColor];
             label.layer.borderWidth = 1.f;
@@ -81,7 +81,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_imageView.frame) + 15.f, CGRectGetWidth(_imageView.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self.scrollView addSubview:label];
             label;
             
@@ -91,7 +91,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_repairID.frame) + 10.f, CGRectGetWidth(_repairID.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self.scrollView addSubview:label];
             label;
             
@@ -101,7 +101,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_location.frame) + 10.f, CGRectGetWidth(_location.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self.scrollView addSubview:label];
             label;
             
@@ -113,7 +113,7 @@
             label.textColor = colorWithHexString(@"000000");
             label.numberOfLines = 0;
             label.lineBreakMode = NSLineBreakByTruncatingTail;
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self.scrollView addSubview:label];
             label;
             
@@ -123,7 +123,7 @@
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(_notes.frame) + 10.f, CGRectGetWidth(_notes.frame), 20)];
             label.textColor = colorWithHexString(@"000000");
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self.scrollView addSubview:label];
             label;
             
@@ -135,7 +135,7 @@
             label.textColor = colorWithHexString(@"000000");
             label.numberOfLines = 0;
             label.lineBreakMode = NSLineBreakByTruncatingTail;
-            label.font = [UIFont boldSystemFontOfSize:17.f];
+            label.font = [UIFont systemFontOfSize:17.f];
             [self.scrollView addSubview:label];
             label;
             
@@ -161,7 +161,7 @@
         //            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(coinImgView.frame), 10.f, CGRectGetWidth(_backView.frame) - CGRectGetMaxX(coinImgView.frame), 22)];
         //            label.textColor = colorWithHexString(@"ffffff");
         //            label.textAlignment = NSTextAlignmentCenter;
-        //            label.font = [UIFont boldSystemFontOfSize:14.f];
+        //            label.font = [UIFont systemFontOfSize:14.f];
         //            label.text = @"可获得25金币";
         //            [_backView addSubview:label];
         //            label;
@@ -239,7 +239,7 @@
         }
         NSString *contents0 = subgroup_name;
         
-        UIFont *font0 = [UIFont boldSystemFontOfSize:16.f];
+        UIFont *font0 = [UIFont systemFontOfSize:16.f];
         CGSize size0 = MB_MULTILINE_TEXTSIZE(contents0, font0, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
         _faulttype.frame = CGRectMake(_imageView.frame.size.width-size0.width-15, CGRectGetMaxY(_imageView.frame)+10, size0.width+10, 25);
         _faulttype.text = contents0;
@@ -247,7 +247,7 @@
         _repairID.text = [NSString stringWithFormat:@"工单号：%@",repairDetail.orderid];
         _location.text = [NSString stringWithFormat:@"位置：%@",repairDetail.place_name];
         NSString *contents = [NSString stringWithFormat:@"故障描述：%@",repairDetail.cause];
-        UIFont *font = [UIFont boldSystemFontOfSize:17.f];
+        UIFont *font = [UIFont systemFontOfSize:17.f];
         CGSize size = MB_MULTILINE_TEXTSIZE(contents, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
         
         _cause.text = [NSString stringWithFormat:@"故障类型：%@",repairDetail.faulttype_name];

@@ -200,7 +200,7 @@
         if ([BXTGlobal isBlankString:repairInfo.stores_name]) {
             placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
         }
-        CGSize cause_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont boldSystemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+        CGSize cause_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
         cell.place.text = placeStr;
         // 更新所有控件位置
         cell.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, cause_size.height);
@@ -277,7 +277,7 @@
         if ([BXTGlobal isBlankString:repairInfo.stores_name]) {
             placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
         }
-        CGSize cause_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont boldSystemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+        CGSize cause_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
         cell.place.text = placeStr;
         // 更新所有控件位置
         cell.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, cause_size.height);

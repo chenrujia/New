@@ -15,7 +15,7 @@
     self = [super initWithFrame:frame];
 
     if (self) {
-        self.font                      = [UIFont boldSystemFontOfSize:11.0f];
+        self.font                      = [UIFont systemFontOfSize:11.0f];
         self.backgroundColor           = [UIColor clearColor];
         self.textAlignment             = NSTextAlignmentCenter;
         self.userInteractionEnabled    = YES;
