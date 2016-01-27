@@ -166,6 +166,7 @@
     UIButton *connetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     connetBtn.frame = CGRectMake(SCREEN_WIDTH - 83.3f - 15.f, KNAVIVIEWHEIGHT + 30.f, 83.3f, 40.f);
     [connetBtn setTitle:@"联系Ta" forState:UIControlStateNormal];
+    connetBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [connetBtn setTitleColor:colorWithHexString(@"3bafff") forState:UIControlStateNormal];
     connetBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
     connetBtn.layer.borderWidth = 1.f;
@@ -550,10 +551,16 @@
         [dateFormatter setDateFormat:@"MM-dd HH:mm"];
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_repairDetail.visitmobile];
-        [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
-        [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
-        mobile.attributedText = attributedString;
+        
+        if (_repairDetail.visitmobile.length != 11) {
+            mobile.text = @"暂无";
+        }
+        else {
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_repairDetail.visitmobile];
+            [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
+            [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
+            mobile.attributedText = attributedString;
+        }
         
         NSString *group_name = _repairDetail.subgroup_name.length > 0 ? _repairDetail.subgroup_name : @"其他";
         CGSize group_size = MB_MULTILINE_TEXTSIZE(group_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);

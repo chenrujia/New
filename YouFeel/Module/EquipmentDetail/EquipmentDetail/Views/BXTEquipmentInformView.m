@@ -78,7 +78,9 @@
         BXTEquipmentInform_PersonCell *cell = [BXTEquipmentInform_PersonCell cellWithTableView:tableView];
         
         cell.userList = self.detailArray[indexPath.section][indexPath.row];
+        @weakify(self);
         [[cell.connectView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
             [self connectTaWithOutID:cell.userList];
         }];
         

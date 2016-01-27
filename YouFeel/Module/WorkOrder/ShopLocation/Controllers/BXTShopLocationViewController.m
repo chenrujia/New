@@ -177,8 +177,6 @@ typedef NS_ENUM(NSInteger, SelectedType) {
             BXTFloorInfo *firstModel = self.addressFirstArray[self.indexOfRow1];
             BXTAreaInfo *secondModel = self.addressSecondArray[self.indexOfRow1][self.indexOfRow2];
             
-            
-            
             if ([self.addressThirdArray[self.indexOfRow1][self.indexOfRow2] count] != 0) {
                 BXTShopInfo *thirdModel = self.addressThirdArray[self.indexOfRow1][self.indexOfRow2][self.indexOfRow3];
                 if (self.delegateSignal)

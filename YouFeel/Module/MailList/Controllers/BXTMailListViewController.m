@@ -27,12 +27,14 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 @interface BXTMailListViewController () <UISearchBarDelegate, BXTDataResponseDelegate, SKSTableViewDelegate, MBProgressHUDDelegate, UIScrollViewDelegate>
 {
     UIImageView *arrow;
-    /** ---- 分组按钮X轴坐标 ---- */
-    CGFloat groupBtnX;
+   
     
     /** ---- 是否不为首页面 ---- */
     BOOL isNotRootView;
 }
+
+/** ---- 分组按钮X轴坐标 ---- */
+@property (nonatomic, assign) CGFloat groupBtnX;
 
 @property(nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView_Search;
@@ -98,7 +100,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.subOtherArray = [[NSMutableArray alloc] init];
     self.OtherArray = [[NSMutableArray alloc] init];
     self.searchArray = [[NSMutableArray alloc] init];
-    groupBtnX = 0;
+    self.groupBtnX = 0;
     
     
     [self showLoadingMBP:@"数据加载中..."];
@@ -205,7 +207,9 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     rootBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     rootBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
     [rootBtn setTitleColor:colorWithHexString(@"#ffffff") forState:UIControlStateNormal];
+    @weakify(self);
     [[rootBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         for (UIView *view in self.subScrollView.subviews)
         {
             [self showRootView:NO];
@@ -214,7 +218,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
                 [view removeFromSuperview];
             }
             self.subScrollView.contentSize = CGSizeMake(0, 50);
-            groupBtnX = 0;
+            self.groupBtnX = 0;
             self.OLDArray = (NSMutableArray *)self.dataArray;
             [self ergodicArray:self.dataArray OtherListArray:nil];
             
@@ -559,7 +563,9 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         
         
         UIButton *button = [self createShowButtonTitle:dict[@"name"]];
+        @weakify(self);
         [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *subBtn) {
+            @strongify(self);
             // 数据设置
             NSInteger selectedIndex = subBtn.frame.origin.x/90;
             [self ergodicArray:self.listArray[selectedIndex] OtherListArray:self.listOtherArray[selectedIndex]];
@@ -593,7 +599,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
                         [subView removeFromSuperview];
                         [subBtn setBackgroundImage:[UIImage imageNamed:@"mail_rectangle_selected"] forState:UIControlStateNormal];
                         self.subScrollView.contentSize = CGSizeMake(subBtn.frame.origin.x + subBtn.frame.size.width, 50);
-                        groupBtnX = subBtn.frame.origin.x + 90;
+                        self.groupBtnX = subBtn.frame.origin.x + 90;
                     }
                 }
             }
@@ -721,7 +727,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 #pragma mark - 自定义方法
 - (UIButton *)createShowButtonTitle:(NSString *)title
 {
-    UIButton *groupBtn = [[UIButton alloc] initWithFrame:CGRectMake(groupBtnX, 0, 120, 50)];
+    UIButton *groupBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.groupBtnX, 0, 120, 50)];
     [groupBtn setTitle:title forState:UIControlStateNormal];
     groupBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [groupBtn setTitleColor:colorWithHexString(@"#ffffff") forState:UIControlStateNormal];
@@ -739,7 +745,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     UIButton *lastButton = self.subScrollView.subviews.lastObject;
     [lastButton setBackgroundImage:[UIImage imageNamed:@"mail_rectangle_selected"] forState:UIControlStateNormal];
     self.subScrollView.contentSize = CGSizeMake(lastButton.frame.origin.x + lastButton.frame.size.width, 50);
-    groupBtnX = lastButton.frame.origin.x + 90;
+    self.groupBtnX = lastButton.frame.origin.x + 90;
     
     return groupBtn;
 }

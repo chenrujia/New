@@ -19,7 +19,7 @@
 #define MOBILE 11
 #define CAUSE 12
 
-@interface BXTNewRepairMtOrderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UITextFieldDelegate,BXTDataResponseDelegate>
+@interface BXTNewRepairMtOrderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,BXTDataResponseDelegate>
 {
     BXTFaultTypeInfo *fault_type_info;
     BXTFaultInfo     *selectFaultInfo;
@@ -27,7 +27,6 @@
     NSMutableArray   *dep_dataSource;
     NSMutableArray   *fau_dataSource;
     NSString         *cause;
-    NSString         *notes;
     
     NSInteger        indexSection;
     NSMutableArray   *manIDs;
@@ -64,7 +63,7 @@
     self.mans = [NSMutableArray array];
     [BXTGlobal shareGlobal].maxPics = 3;
     self.repairState = @"2";
-    self.indexPath = [NSIndexPath indexPathForRow:0 inSection:3];
+    self.indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
     dep_dataSource = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
     
@@ -166,10 +165,6 @@
     {
         faulttype_type = 1;
     }
-    if ([BXTGlobal isBlankString:notes])
-    {
-        notes = @"";
-    }
     
     [self showLoadingMBP:@"新工单创建中..."];
     
@@ -183,7 +178,7 @@
                                             faultLevel:_repairState
                                            depatmentID:departmentInfo.dep_id
                                              equipment:@"0"
-                                            faultNotes:notes
+                                            faultNotes:@""
                                             imageArray:self.resultPhotos
                                        repairUserArray:array];
 }
@@ -222,7 +217,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 3 + indexSection)
+    if (section == 2 + indexSection)
     {
         return 80.f;
     }
@@ -232,7 +227,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 3 + indexSection)
+    if (section == 2 + indexSection)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -276,16 +271,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 3)
+    if (indexPath.section == 2)
     {
-        return 130;
+        return 150;
     }
     return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4 + indexSection;
+    return 3 + indexSection;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -295,7 +290,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 3)
+    if (indexPath.section == 2)
     {
         BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarkCell"];
         if (!cell)
@@ -304,7 +299,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         cell.remarkTV.delegate = self;
-        cell.titleLabel.text = @"备   注";
+        cell.titleLabel.text = @"描   述";
         
         @weakify(self);
         UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
@@ -358,25 +353,6 @@
             cell.checkImgView.frame = CGRectMake(SCREEN_WIDTH - 13.f - 15.f, 17.75f, 8.5f, 14.5f);
             cell.checkImgView.image = [UIImage imageNamed:@"Arrow-right"];
         }
-        else if (indexPath.section == 2)
-        {
-            cell.titleLabel.text = @"描   述";
-            cell.detailLable.hidden = YES;
-            cell.detailTF.hidden = NO;
-            cell.detailTF.keyboardType = UIKeyboardTypeDefault;
-            if (cause)
-            {
-                cell.detailTF.text = cause;
-            }
-            else
-            {
-                cell.detailTF.tag = CAUSE;
-                cell.detailTF.delegate = self;
-                cell.detailTF.placeholder = @"请输入故障原因";
-                [cell.detailTF setValue:colorWithHexString(@"909497") forKeyPath:@"_placeholderLabel.textColor"];
-                [cell.detailTF setValue:[UIFont systemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
-            }
-        }
         else if (indexPath.section == 1)
         {
             cell.titleLabel.text = @"等   级";
@@ -396,7 +372,7 @@
                 cell.normelBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
             }];
         }
-        else if (indexPath.section == 4)
+        else if (indexPath.section == 3)
         {
             cell.titleLabel.text = @"维修员";
             [manIDs removeAllObjects];
@@ -446,18 +422,6 @@
 
 #pragma mark -
 #pragma mark UITextViewDelegate
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if (textField.tag == MOBILE)
-    {
-        [BXTGlobal setUserProperty:textField.text withKey:U_MOBILE];
-    }
-    else if (textField.tag == CAUSE)
-    {
-        cause = textField.text;
-    }
-}
-
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@"请输入报修内容"])
@@ -469,7 +433,7 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    notes = textView.text;
+    cause = textView.text;
     if (textView.text.length < 1)
     {
         textView.text = @"请输入报修内容";

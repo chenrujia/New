@@ -111,7 +111,7 @@
         
         // 设置文字
         // btn.adjustsImageWhenHighlighted = NO;
-        btn.titleLabel.font = [UIFont systemFontOfSize:14];
+        btn.titleLabel.font = [UIFont systemFontOfSize:16];
         [btn setTitle:titles[i] forState:UIControlStateNormal];
         
         // 设置监听器

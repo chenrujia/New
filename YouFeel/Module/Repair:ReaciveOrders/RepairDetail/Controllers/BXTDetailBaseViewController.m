@@ -293,6 +293,7 @@
         contact.layer.cornerRadius = 4.f;
         [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
         [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
+        contact.titleLabel.font = [UIFont systemFontOfSize:16];
         [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
         @weakify(self);
         [[contact rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -358,6 +359,7 @@
     {
         [maintenaceBtn setTitle:@"已完成" forState:UIControlStateNormal];
     }
+    maintenaceBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [maintenaceBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
     @weakify(self);
     [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {

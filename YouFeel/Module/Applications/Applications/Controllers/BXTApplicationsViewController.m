@@ -17,6 +17,8 @@
 
 @interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (nonatomic, strong) UICollectionView *itemsCollectionView;
+
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSArray *imageArray;
 
@@ -30,6 +32,8 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.tabBarItem.badgeValue = nil;
+    
+    [self.itemsCollectionView reloadData];
 }
 
 - (void)viewDidLoad
@@ -57,13 +61,13 @@
     UICollectionViewFlowLayout *flowLayout= [[UICollectionViewFlowLayout alloc]init];
     flowLayout.minimumLineSpacing = 0.f;
     flowLayout.minimumInteritemSpacing = 0.f;
-    UICollectionView *itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64 + 180 * Ratio, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.headImageView.frame) - 50) collectionViewLayout:flowLayout];
-    itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f5");
-    [itemsCollectionView registerClass:[BXTHomeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
-    itemsCollectionView.showsVerticalScrollIndicator = NO;
-    itemsCollectionView.delegate = self;
-    itemsCollectionView.dataSource = self;
-    [self.view addSubview:itemsCollectionView];
+    self.itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64 + 180 * Ratio, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.headImageView.frame) - 50) collectionViewLayout:flowLayout];
+    self.itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f5");
+    [self.itemsCollectionView registerClass:[BXTHomeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
+    self.itemsCollectionView.showsVerticalScrollIndicator = NO;
+    self.itemsCollectionView.delegate = self;
+    self.itemsCollectionView.dataSource = self;
+    [self.view addSubview:self.itemsCollectionView];
 }
 
 #pragma mark -

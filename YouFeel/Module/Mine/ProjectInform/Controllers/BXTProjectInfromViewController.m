@@ -228,6 +228,9 @@
         cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
         [cell.auditStatusLabel setFrame:CGRectMake(CGRectGetMaxX(cell.detailLable.frame) + 20.f, 15.f, 80.f, 20.f)];
         cell.auditStatusLabel.text = verify_state;
+        if ([verify_state isEqualToString:@"未验证"]) {
+            cell.auditStatusLabel.text = @"等待审核";
+        }
         if ([BXTGlobal shareGlobal].isRepair)
         {
             if (indexPath.row == 0)
@@ -275,8 +278,11 @@
             cell.detailLable.frame = CGRectMake(100.f, 15.f, SCREEN_WIDTH - 100.f - 100.f, 20);
             [cell.auditStatusLabel setFrame:CGRectMake(CGRectGetMaxX(cell.detailLable.frame) + 20.f, 15.f, 80.f, 20.f)];
             cell.auditStatusLabel.text = verify_state;
+            if ([verify_state isEqualToString:@"未验证"]) {
+                cell.auditStatusLabel.text = @"等待审核";
+            }
             BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
-            cell.titleLabel.text = @" 职      位 ";
+            cell.titleLabel.text = @" 职     位 ";
             cell.detailLable.text = positionInfo.role;
         }
         else if (indexPath.row == 1)

@@ -61,6 +61,7 @@
         [self.imgNameArray removeObject:@"Business_Statistics"];
         self.whichHidden = HiddenType_BusinessStatistics;
     }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

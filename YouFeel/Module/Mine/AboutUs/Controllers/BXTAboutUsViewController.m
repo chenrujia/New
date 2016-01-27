@@ -27,7 +27,7 @@
 {
     [super viewDidLoad];
     
-    headerHeight = IS_IPHONE6P ? 300.f+60.f : 350.f*2.f/3.f+60.f;
+    headerHeight = IS_IPHONE6P ? 300.f+50.f : 350.f*2.f/3.f+50.f;
     
     [self navigationSetting:@"关于我们" andRightTitle:nil andRightImage:nil];
     [self loadingViews];
@@ -56,7 +56,7 @@
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, headerHeight)];
     backView.backgroundColor = [UIColor clearColor];
     
-    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, IS_IPHONE6P ? 45.f : 30.f, 182.f, 63.f)];
+    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, IS_IPHONE6P ? 45.f : 30.f, 150.f, 50.f)];
     iconView.center = CGPointMake(SCREEN_WIDTH/2.f, iconView.center.y);
     iconView.image = [UIImage imageNamed:@"logo"];
     [backView addSubview:iconView];
