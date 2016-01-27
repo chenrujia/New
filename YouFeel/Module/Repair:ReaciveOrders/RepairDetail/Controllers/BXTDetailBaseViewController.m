@@ -359,6 +359,7 @@
     {
         [maintenaceBtn setTitle:@"已完成" forState:UIControlStateNormal];
     }
+    maintenaceBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [maintenaceBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
     @weakify(self);
     [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {

@@ -303,8 +303,8 @@ typedef enum {
     NSInteger sum = [data.values[0] integerValue] + [data.values[1] integerValue] + [data.values[2] integerValue];
     self.footerView.sumView.text = [NSString stringWithFormat:@"共计：%ld单", (long)sum];
     self.footerView.doneView.text = [NSString stringWithFormat:@"完成：%@单", data.values[0]];
-    self.footerView.specialView.text = [NSString stringWithFormat:@"未完成：%@单", data.values[1]];
-    self.footerView.undownView.text = [NSString stringWithFormat:@"特殊工单：%@单", data.values[2]];
+    self.footerView.undownView.text = [NSString stringWithFormat:@"特殊工单：%@单", data.values[1]];
+    self.footerView.specialView.text = [NSString stringWithFormat:@"未完成：%@单", data.values[2]];
     
     SPChartPopup * popup = [[SPChartPopup alloc] initWithContentView:label];
     [popup setPopupColor:colorWithHexString(@"#999999")];

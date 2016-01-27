@@ -456,7 +456,7 @@
             _completeTime.hidden = YES;
         }
         [_thirdBV layoutIfNeeded];
-
+        
         //接单按钮、增加人员和维修过程
         CGFloat height = 0.f;
         _reaciveOrder.hidden = YES;

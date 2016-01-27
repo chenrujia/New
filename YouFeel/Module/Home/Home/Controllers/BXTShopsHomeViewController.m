@@ -86,111 +86,86 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // 我的工单
-    BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-    orderManagerVC.hidesBottomBarWhenPushed = YES;
-    // 评价
-    BXTEvaluationListViewController *achievementVC = [[BXTEvaluationListViewController alloc] init];
-    achievementVC.hidesBottomBarWhenPushed = YES;
-    // 特殊工单
-    BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
-    serviceVC.hidesBottomBarWhenPushed = YES;
-    // 业务统计
-    BXTStatisticsViewController *statisticsVC = [[BXTStatisticsViewController alloc] init];
-    statisticsVC.hidesBottomBarWhenPushed = YES;
-    // 审批
-    BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
-    examinationVC.hidesBottomBarWhenPushed = YES;
-    
-    if (self.whichHidden == HiddenType_Both) {
+    if (self.whichHidden == HiddenType_Both)
+    {
         switch (indexPath.section) {
-            case 0:  {
-                [self.navigationController pushViewController:orderManagerVC animated:YES];
-            } break;
-            case 1: {
-                [self.navigationController pushViewController:achievementVC animated:YES];
-            } break;
-            case 2: {
-                [self.navigationController pushViewController:examinationVC animated:YES];
-            } break;
-            case 3: {
-                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
-                UIWebView *callWeb = [[UIWebView alloc] init];
-                [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-                [self.view addSubview:callWeb];
-            } break;
+            case 0:
+                [self pushMyOrders];
+                break;
+            case 1:
+                [self pushEvaluationList];
+                break;
+            case 2:
+                [self pushExamination];
+                break;
+            case 3:
+                [self projectPhone];
+                break;
             default: break;
         }
     }
-    else if (self.whichHidden == HiddenType_SpecialOrders) {
+    else if (self.whichHidden == HiddenType_SpecialOrders)
+    {
         switch (indexPath.section) {
-            case 0:  {
-                [self.navigationController pushViewController:orderManagerVC animated:YES];
-            } break;
-            case 1: {
-                [self.navigationController pushViewController:achievementVC animated:YES];
-            } break;
-            case 2: {
-                [self.navigationController pushViewController:statisticsVC animated:YES];
-            } break;
-            case 3: {
-                [self.navigationController pushViewController:examinationVC animated:YES];
-            } break;
-            case 4: {
-                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
-                UIWebView *callWeb = [[UIWebView alloc] init];
-                [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-                [self.view addSubview:callWeb];
-            } break;
+            case 0:
+                [self pushMyOrders];
+                break;
+            case 1:
+                [self pushEvaluationList];
+                break;
+            case 2:
+                [self pushStatistics];
+                break;
+            case 3:
+                [self pushExamination];
+                break;
+            case 4:
+                [self projectPhone];
+                break;
             default: break;
         }
     }
-    else if (self.whichHidden == HiddenType_BusinessStatistics) {
+    else if (self.whichHidden == HiddenType_BusinessStatistics)
+    {
         switch (indexPath.section) {
-            case 0:  {
-                [self.navigationController pushViewController:orderManagerVC animated:YES];
-            } break;
-            case 1: {
-                [self.navigationController pushViewController:achievementVC animated:YES];
-            } break;
-            case 2: {
-                [self.navigationController pushViewController:serviceVC animated:YES];
-            } break;
-            case 3: {
-                [self.navigationController pushViewController:examinationVC animated:YES];
-            } break;
-            case 4: {
-                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
-                UIWebView *callWeb = [[UIWebView alloc] init];
-                [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-                [self.view addSubview:callWeb];
-            } break;
+            case 0:
+                [self pushMyOrders];
+                break;
+            case 1:
+                [self pushEvaluationList];
+                break;
+            case 2:
+                [self pushSpecialOrders];
+                break;
+            case 3:
+                [self pushExamination];
+                break;
+            case 4:
+                [self projectPhone];
+                break;
             default: break;
         }
     }
     else {
         switch (indexPath.section) {
-            case 0:  {
-                [self.navigationController pushViewController:orderManagerVC animated:YES];
-            } break;
-            case 1: {
-                [self.navigationController pushViewController:achievementVC animated:YES];
-            } break;
-            case 2: {
-                [self.navigationController pushViewController:serviceVC animated:YES];
-            } break;
-            case 3: {
-                [self.navigationController pushViewController:statisticsVC animated:YES];
-            } break;
-            case 4: {
-                [self.navigationController pushViewController:examinationVC animated:YES];
-            } break;
-            case 5: {
-                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
-                UIWebView *callWeb = [[UIWebView alloc] init];
-                [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-                [self.view addSubview:callWeb];
-            } break;
+            case 0:
+                [self pushMyOrders];
+                break;
+            case 1:
+                [self pushEvaluationList];
+                break;
+            case 2:
+                [self pushSpecialOrders];
+                break;
+            case 3:
+                [self pushStatistics];
+                break;
+            case 4:
+                [self pushExamination];
+                break;
+            case 5:
+                [self projectPhone];
+                break;
             default: break;
         }
     }

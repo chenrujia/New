@@ -26,7 +26,7 @@
         _remarkTV.font = [UIFont systemFontOfSize:16.];
         _remarkTV.textColor = colorWithHexString(@"909497");
         _remarkTV.text = @"请输入报修内容";
-        //[self addSubview:_remarkTV];
+        [self addSubview:_remarkTV];
         
         _imgViewOne = [[BXTCustomImageView alloc] init];
         _imgViewOne.userInteractionEnabled = YES;
