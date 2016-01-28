@@ -1021,6 +1021,7 @@ andRepairerIsReacive:(NSString *)reacive
             withParameters:(NSDictionary *)parameters
                 withImages:(NSArray *)images
 {
+    
     LogRed(@"url......%@",url);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
