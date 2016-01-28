@@ -21,23 +21,20 @@
     /** ---- 热门项目 ---- */
     NSMutableArray    *shopsArray;
     /** ---- 附近项目 ---- */
+    CLLocationManager *locationManager;
     NSMutableArray    *locationShopsArray;
     UISearchBar       *headSearchBar;
     UITableView       *currentTableView;
-    CLLocationManager *locationManager;
     BOOL              isPush;
     BOOL              is_binding;
-    
-    NSMutableArray *searchResults;
-    NSString    *searchStr;
+    NSMutableArray    *searchResults;
+    NSString          *searchStr;
 }
 
-@property (nonatomic, assign) BOOL isOpenLocationProject;
-
-@property(nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, strong) UITableView *tableView_Search;
-@property (nonatomic, strong) UILabel *remindLabel;
-
+@property (nonatomic, assign) BOOL           isOpenLocationProject;
+@property (nonatomic, strong) UISearchBar    *searchBar;
+@property (nonatomic, strong) UITableView    *tableView_Search;
+@property (nonatomic, strong) UILabel        *remindLabel;
 @property (nonatomic, strong) NSMutableArray *searchArray;
 @property (nonatomic, strong) NSMutableArray *allPersonArray;
 
@@ -101,14 +98,12 @@
     self.searchBar.backgroundColor = colorWithHexString(NavColorStr);
     self.searchBar.backgroundImage = [self imageWithColor:[UIColor clearColor] size:self.searchBar.bounds.size];
     
-    
     // UITableView
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 55, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
     [currentTableView registerClass:[BXTHeadquartersTableViewCell class] forCellReuseIdentifier:@"HeadquartersTableViewCell"];
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     [self.view addSubview:currentTableView];
-    
     
     // UITableView - tableView_Search
     self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];

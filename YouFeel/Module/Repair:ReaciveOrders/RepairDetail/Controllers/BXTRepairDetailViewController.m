@@ -65,12 +65,27 @@
 #pragma mark 事件处理
 - (void)loadingUsers
 {
-    NSString *repairDateStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.dispatching_time];
-    _arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
+    //工单还在等待中，不显示派单时间
+    if (self.repairDetail.repairstate == 1)
+    {
+        _arrangeTime.hidden = YES;
+        _line_two_top.constant = 0.f;
+        [_contentView layoutIfNeeded];
+    }
+    else
+    {
+        NSString *repairDateStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.receive_time];
+        _arrangeTime.text = [NSString stringWithFormat:@"接单时间:%@",repairDateStr];
+    }
     //是否填写过维修过程
     if (!_workTime.hidden)
     {
-        _mmProcess.text = [NSString stringWithFormat:@"维修备注:%@",self.repairDetail.workprocess];
+        NSString *notes = [NSString stringWithFormat:@"维修备注:%@",self.repairDetail.workprocess];
+        CGSize notes_size = MB_MULTILINE_TEXTSIZE(notes, [UIFont systemFontOfSize:17], CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX), NSLineBreakByWordWrapping);
+        _line_two_top.constant = notes_size.height + 86.f;
+        [_contentView layoutIfNeeded];
+        
+        _mmProcess.text = notes;
         [_mmProcess layoutIfNeeded];
         _workTime.text = [NSString stringWithFormat:@"维修工时:%@小时",self.repairDetail.man_hours];
         NSString *time_str = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.end_time];
@@ -156,8 +171,6 @@
             [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
             _level.attributedText = attributeStr;
         }
-        _notes.text = [NSString stringWithFormat:@"报修内容:%@",self.repairDetail.notes];
-        [_notes layoutIfNeeded];
         //是否包含故障图片
         NSArray *imgArray = [self containAllArray];
         if (imgArray.count > 0)

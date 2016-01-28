@@ -198,7 +198,7 @@
 - (void)loadingUsers
 {
     NSString *repairDateStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.dispatching_time];
-    _arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
+    _arrangeTime.text = [NSString stringWithFormat:@"接单时间:%@",repairDateStr];
     //是否填写过维修过程
     if (!_workTime.hidden)
     {

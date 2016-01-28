@@ -306,13 +306,17 @@
                 @strongify(self);
                 self.repairState = @"1";
                 cell.emergencyBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+                [cell.emergencyBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
                 cell.normelBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+                [cell.normelBtn setTitleColor:colorWithHexString(@"e2e6e8") forState:UIControlStateNormal];
             }];
             [[cell.normelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 @strongify(self);
                 self.repairState = @"2";
-                cell.emergencyBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
                 cell.normelBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+                [cell.normelBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+                cell.emergencyBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+                [cell.emergencyBtn setTitleColor:colorWithHexString(@"e2e6e8") forState:UIControlStateNormal];
             }];
         }
         return cell;

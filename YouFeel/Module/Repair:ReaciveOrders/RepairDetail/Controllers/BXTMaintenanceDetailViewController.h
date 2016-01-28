@@ -18,6 +18,10 @@
  *  从全部工单过来的只有查看的权利
  */
 @property (nonatomic, assign) BOOL isAllOrderType;
+/**
+ *  是否是从设备详情过来的
+ */
+@property (nonatomic, assign) BOOL isComingFromDeviceInfo;
 
 @property (weak, nonatomic) IBOutlet UIView       *contentView;
 @property (weak, nonatomic) IBOutlet UIScrollView *images_scrollview;
@@ -35,7 +39,6 @@
 @property (weak, nonatomic) IBOutlet UILabel      *faultType;
 @property (weak, nonatomic) IBOutlet UILabel      *cause;
 @property (weak, nonatomic) IBOutlet UILabel      *level;
-@property (weak, nonatomic) IBOutlet UILabel      *notes;
 @property (weak, nonatomic) IBOutlet UIView       *firstBV;
 @property (weak, nonatomic) IBOutlet UIView       *secondBV;
 @property (weak, nonatomic) IBOutlet UIView       *thirdBV;

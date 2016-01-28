@@ -17,7 +17,12 @@
 #import "BXTChangeStateViewController.h"
 #import "SDWebImageManager.h"
 
-@interface BXTMaintenanceViewController ()<BXTDataResponseDelegate>
+@interface BXTMaintenanceViewController ()<BXTDataResponseDelegate,CLLocationManagerDelegate>
+{
+    CLLocationManager *locationManager;
+}
+@property (nonatomic, assign) CGFloat longitude;
+@property (nonatomic, assign) CGFloat latitude;
 
 @end
 
@@ -55,7 +60,8 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"维保作业" andRightTitle:nil andRightImage:nil];
-    
+    //定位
+    [self locationPoint];
     //侦听删除事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
     
@@ -101,7 +107,9 @@
                             andInspectionData:jsonStr
                                      andNotes:self.notes
                                      andState:self.state
-                                    andImages:self.resultPhotos];
+                                    andImages:self.resultPhotos
+                                 andLongitude:self.longitude
+                                  andLatitude:self.latitude];
         }
         else
         {
@@ -111,15 +119,58 @@
                        andInspectionData:jsonStr
                                 andNotes:self.notes
                                 andState:self.state
-                               andImages:self.resultPhotos];
+                               andImages:self.resultPhotos
+                            andLongitude:self.longitude
+                             andLatitude:self.latitude];
         }
     }];
+}
+
+- (void)locationPoint
+{
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    if (IS_IOS_8)
+    {
+        [UIApplication sharedApplication].idleTimerDisabled = TRUE;
+        [locationManager requestAlwaysAuthorization];        //NSLocationAlwaysUsageDescription
+        [locationManager requestWhenInUseAuthorization];     //NSLocationWhenInUseDescription
+    }
+    locationManager.distanceFilter = kCLDistanceFilterNone; // 如果设为kCLDistanceFilterNone，则每秒更新一次;
+    if ([CLLocationManager locationServicesEnabled])
+    {
+        [locationManager startUpdatingLocation];
+    }
+    else
+    {
+        NSLog(@"请开启定位功能！");
+    }
 }
 
 - (void)deleteImage:(NSNotification *)notification
 {
     NSNumber *number = notification.object;
     [self handleData:[number integerValue]];
+}
+
+#pragma mark -
+#pragma mark CLLocationManagerDelegate
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
+{
+    NSLog(@"%@",locations);
+    CLLocation *location = locations[0];
+    self.latitude = location.coordinate.latitude;
+    self.longitude = location.coordinate.longitude;
+    NSLog(@"纬度:%f",location.coordinate.latitude);
+    NSLog(@"经度:%f",location.coordinate.longitude);
+    [manager stopUpdatingLocation];
+}
+
+// 定位失误时触发
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"error:%@",error);
 }
 
 #pragma mark -
@@ -143,7 +194,7 @@
     }
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50.f)];
     view.backgroundColor = [UIColor whiteColor];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 100.f, 30)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., SCREEN_WIDTH - 30.f, 30)];
     titleLabel.textColor = colorWithHexString(@"000000");
     titleLabel.font = [UIFont systemFontOfSize:16.f];
     if (section == _maintenceInfo.inspection_info.count + 1)
@@ -204,10 +255,10 @@
 {
     if (indexPath.section == self.maintenceInfo.inspection_info.count + 2)
     {
-        BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MainTenanceCell"];
+        BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarksTableViewCell"];
         if (!cell)
         {
-            cell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MainTenanceCell"];
+            cell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RemarksTableViewCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         cell.remarkTV.delegate = self;
@@ -257,10 +308,12 @@
         if (indexPath.section == 0)
         {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.checkImgView.hidden = YES;
             cell.titleLabel.text = @"设备操作规范";
         }
         else if (indexPath.section == self.maintenceInfo.inspection_info.count + 1)
         {
+            cell.accessoryType = UITableViewCellAccessoryNone;
             if (indexPath.row == 0 && self.isFirst)
             {
                 cell.isShow = YES;
@@ -268,13 +321,16 @@
             }
             NSDictionary *dic = self.deviceStates[indexPath.row];
             cell.titleLabel.text = [dic objectForKey:@"state"];
+            cell.detailLable.hidden = YES;
         }
         else
         {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.checkImgView.hidden = YES;
             BXTInspectionInfo *inspection = _maintenceInfo.inspection_info[indexPath.section - 1];
             BXTCheckProjectInfo *checkProject = inspection.check_arr[indexPath.row];
             cell.titleLabel.text = checkProject.check_con;
+            cell.detailLable.hidden = NO;
             cell.detailLable.text = checkProject.default_description;
         }
         return cell;

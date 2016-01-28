@@ -314,7 +314,7 @@
     return userBack;
 }
 
-- (UIView *)deviceLists:(NSInteger)i
+- (UIView *)deviceLists:(NSInteger)i comingFromDeviceInfo:(BOOL)isComing
 {
     NSDictionary *deviceDic = _repairDetail.device_list[i];
     CGFloat height = 63.f;
@@ -338,38 +338,41 @@
     deviceNumber.text = [NSString stringWithFormat:@"设备编号:%@",[deviceDic objectForKey:@"code_number"]];
     [deviceBackView addSubview:deviceNumber];
     
-    UIButton *maintenaceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    maintenaceBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    maintenaceBtn.layer.borderWidth = 1.f;
-    maintenaceBtn.layer.cornerRadius = 4.f;
-    [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 11.f, 83.f, 40.f)];
-    if ((self.repairDetail.repairstate == 1 || self.repairDetail.repairstate == 2) && self.repairDetail.isRepairing == 1)
+    if (!isComing)
     {
-        [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
+        UIButton *maintenaceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        maintenaceBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+        maintenaceBtn.layer.borderWidth = 1.f;
+        maintenaceBtn.layer.cornerRadius = 4.f;
+        [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 11.f, 83.f, 40.f)];
+        if ((self.repairDetail.repairstate == 1 || self.repairDetail.repairstate == 2) && self.repairDetail.isRepairing == 1)
+        {
+            [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
+        }
+        else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 0)
+        {
+            [maintenaceBtn setTitle:@"开始保养" forState:UIControlStateNormal];
+        }
+        else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 1)
+        {
+            [maintenaceBtn setTitle:@"维保中" forState:UIControlStateNormal];
+        }
+        else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 2)
+        {
+            [maintenaceBtn setTitle:@"已完成" forState:UIControlStateNormal];
+        }
+        maintenaceBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        [maintenaceBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+        @weakify(self);
+        [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            NSDictionary *deviceDic = self.repairDetail.device_list[i];
+            BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:[deviceDic objectForKey:@"id"]];
+            epvc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:epvc animated:YES];
+        }];
+        [deviceBackView addSubview:maintenaceBtn];
     }
-    else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 0)
-    {
-        [maintenaceBtn setTitle:@"开始保养" forState:UIControlStateNormal];
-    }
-    else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 1)
-    {
-        [maintenaceBtn setTitle:@"维保中" forState:UIControlStateNormal];
-    }
-    else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 2)
-    {
-        [maintenaceBtn setTitle:@"已完成" forState:UIControlStateNormal];
-    }
-    maintenaceBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-    [maintenaceBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-    @weakify(self);
-    [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        NSDictionary *deviceDic = self.repairDetail.device_list[i];
-        BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:[deviceDic objectForKey:@"id"]];
-        epvc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:epvc animated:YES];
-    }];
-    [deviceBackView addSubview:maintenaceBtn];
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(deviceNumber.frame) + 10.f - 1, SCREEN_WIDTH - 30.f, 1.f)];
     line.backgroundColor = colorWithHexString(@"e2e6e8");

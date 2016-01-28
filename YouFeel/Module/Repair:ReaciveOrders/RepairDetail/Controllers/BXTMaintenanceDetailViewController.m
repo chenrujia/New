@@ -373,8 +373,6 @@
             [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
             _level.attributedText = attributeStr;
         }
-        _notes.text = [NSString stringWithFormat:@"报修内容:%@",self.repairDetail.notes];
-        [_notes layoutIfNeeded];
         [_firstBV layoutIfNeeded];
         
         //有无故障图
@@ -397,7 +395,7 @@
         }
         else
         {
-            _first_bv_height.constant = CGRectGetMaxY(_notes.frame) + 20.f;
+            _first_bv_height.constant = CGRectGetMaxY(_level.frame) + 20.f;
             [_firstBV layoutIfNeeded];
         }
         
@@ -411,7 +409,7 @@
             _third_bv_top.constant = 12.f + secondHeight + 12.f;
             for (NSInteger i = 0; i < deviceCount; i++)
             {
-                UIView *deviceView = [self deviceLists:i];
+                UIView *deviceView = [self deviceLists:i comingFromDeviceInfo:self.isComingFromDeviceInfo];
                 [_secondBV addSubview:deviceView];
             }
         }
@@ -433,7 +431,7 @@
         else
         {
             NSString *repairDateStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.receive_time];
-            _arrangeTime.text = [NSString stringWithFormat:@"派工时间:%@",repairDateStr];
+            _arrangeTime.text = [NSString stringWithFormat:@"接单时间:%@",repairDateStr];
             _third_bv_height.constant = CGRectGetMaxY(_arrangeTime.frame) + 10.f;
         }
         if (self.repairDetail.man_hours.length > 0)
@@ -461,12 +459,13 @@
         CGFloat height = 0.f;
         _reaciveOrder.hidden = YES;
         _bottomTabBar.hidden = YES;
-        if (self.repairDetail.repairstate == 1 && !_isAllOrderType)
+        
+        if (self.repairDetail.repairstate == 1 && !_isAllOrderType && [BXTGlobal shareGlobal].isRepair)
         {
             height = 90.f;
             _reaciveOrder.hidden = NO;
         }
-        else if (self.repairDetail.repairstate == 2 && self.repairDetail.isRepairing == 2 && !_isAllOrderType)
+        else if (self.repairDetail.repairstate == 2 && self.repairDetail.isRepairing == 2 && !_isAllOrderType && [BXTGlobal shareGlobal].isRepair && !self.isComingFromDeviceInfo)
         {
             if (!self.isRejectVC && [BXTGlobal shareGlobal].isRepair)
             {

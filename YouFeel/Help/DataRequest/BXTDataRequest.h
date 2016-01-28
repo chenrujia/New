@@ -490,7 +490,9 @@ andRepairerIsReacive:(NSString *)reacive;
           andInspectionData:(NSString *)inspectionData
                    andNotes:(NSString *)notes
                    andState:(NSString *)state
-                  andImages:(NSArray *)images;
+                  andImages:(NSArray *)images
+               andLongitude:(CGFloat)longitude
+                andLatitude:(CGFloat)latitude;
 
 /**
  *  修改设备维护记录
@@ -501,7 +503,9 @@ andRepairerIsReacive:(NSString *)reacive;
                andInspectionData:(NSString *)inspectionData
                         andNotes:(NSString *)notes
                         andState:(NSString *)state
-                       andImages:(NSArray *)images;
+                       andImages:(NSArray *)images
+                    andLongitude:(CGFloat)longitude
+                     andLatitude:(CGFloat)latitude;
 
 /**
  *  设备维护记录详情

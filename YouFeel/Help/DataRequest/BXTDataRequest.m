@@ -882,6 +882,8 @@ andRepairerIsReacive:(NSString *)reacive
                    andNotes:(NSString *)notes
                    andState:(NSString *)state
                   andImages:(NSArray *)images
+               andLongitude:(CGFloat)longitude
+                andLatitude:(CGFloat)latitude
 {
     self.requestType = Add_Inspection;
     NSDictionary *dic = @{@"workorder_id":workorderID,
@@ -889,7 +891,9 @@ andRepairerIsReacive:(NSString *)reacive
                           @"device_id":device_id,
                           @"inspection_info":inspectionData,
                           @"device_state":state,
-                          @"notes":notes};
+                          @"notes":notes,
+                          @"longitude":[NSString stringWithFormat:@"%f",longitude],
+                          @"latitude":[NSString stringWithFormat:@"%f",latitude]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=add_inspection_record",[BXTGlobal shareGlobal].baseURL];
     if (images && images.count > 0)
     {
@@ -908,6 +912,8 @@ andRepairerIsReacive:(NSString *)reacive
                         andNotes:(NSString *)notes
                         andState:(NSString *)state
                        andImages:(NSArray *)images
+                    andLongitude:(CGFloat)longitude
+                     andLatitude:(CGFloat)latitude
 {
     self.requestType = Update_Inspection;
     NSDictionary *dic = @{@"id":recordID,
@@ -915,7 +921,9 @@ andRepairerIsReacive:(NSString *)reacive
                           @"device_id":device_id,
                           @"inspection_info":inspectionData,
                           @"device_state":state,
-                          @"notes":notes};
+                          @"notes":notes,
+                          @"longitude":[NSString stringWithFormat:@"%f",longitude],
+                          @"latitude":[NSString stringWithFormat:@"%f",latitude]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=update_inspection_record",[BXTGlobal shareGlobal].baseURL];
     if (images && images.count > 0)
     {
@@ -930,9 +938,19 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)inspectionRecordInfo:(NSString *)deviceID
                    andWorkID:(NSString *)workID
 {
-    NSDictionary *dic = @{@"device_id":deviceID,
-                          @"workorder_id":workID,
-                          @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSDictionary *dic;
+    if (workID)
+    {
+        dic = @{@"device_id":deviceID,
+                @"workorder_id":workID,
+                @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    }
+    else
+    {
+        dic = @{@"id":deviceID,
+                @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    }
+    LogBlue(@"传入的值.......%@",dic);
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=inspection_record_con",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -1031,8 +1049,6 @@ andRepairerIsReacive:(NSString *)reacive
         {
             UIImage *image = [images objectAtIndex:i];
             NSData  *imageData = UIImageJPEGRepresentation(image, 0.3f);
-            NSInteger length = imageData.length;
-            LogRed(@"length...........%ld",(long)length);
             // 上传的参数名
             NSString * Name = [NSString stringWithFormat:@"image%ld", (long)i];
             // 上传filename

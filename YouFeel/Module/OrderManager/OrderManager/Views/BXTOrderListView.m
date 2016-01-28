@@ -295,17 +295,32 @@
         }
         
         cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
+        
         if (repairInfo.order_type == 3)
         {
-            cell.orderType.hidden = NO;
             cell.maintenanceProcess.hidden = YES;
+            cell.orderType.hidden = NO;
             cell.orderType.text = @"特殊工单";
         }
         else
         {
-            cell.orderType.hidden = YES;
-            cell.maintenanceProcess.hidden = NO;
+            //1:正常工单、2:维保工单
+            if (repairInfo.task_type.integerValue == 2)
+            {
+                cell.orderType.hidden = YES;
+                cell.maintenanceProcess.hidden = NO;
+                [cell.maintenanceProcess setTitle:@"维保" forState:UIControlStateNormal];
+                [cell.maintenanceProcess setFrame:CGRectMake(SCREEN_WIDTH - 40.f - 15.f, 12.f, 40.f, 26.f)];
+            }
+            else
+            {
+                cell.orderType.hidden = YES;
+                cell.maintenanceProcess.hidden = NO;
+                [cell.maintenanceProcess setTitle:@"维修过程" forState:UIControlStateNormal];
+                [cell.maintenanceProcess setFrame:CGRectMake(SCREEN_WIDTH - 75.f - 15.f, 12.f, 75.f, 26.f)];
+            }
         }
+        
         if (repairInfo.urgent == 2)
         {
             cell.level.text = @"等级:一般";
@@ -352,8 +367,11 @@
         [[cell.maintenanceProcess rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
             BXTRepairInfo *repairInfo = [self.repairListArray objectAtIndex:indexPath.section];
-            BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:repairInfo.fault_id andRepairID:repairInfo.repairID andReaciveTime:repairInfo.start_time];
-            [self.navigation pushViewController:maintenanceProcossVC animated:YES];
+            if (repairInfo.task_type.integerValue == 1)
+            {
+                BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:repairInfo.fault_id andRepairID:repairInfo.repairID andReaciveTime:repairInfo.start_time];
+                [self.navigation pushViewController:maintenanceProcossVC animated:YES];
+            }
         }];
         return cell;
     }
@@ -412,6 +430,7 @@
     [self hideTheMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
+    NSLog(@"dic..%@",dic);
     if (type == StartRepair)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)

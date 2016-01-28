@@ -22,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet UILabel            *faultType;
 @property (weak, nonatomic) IBOutlet UILabel            *cause;
 @property (weak, nonatomic) IBOutlet UILabel            *level;
-@property (weak, nonatomic) IBOutlet UILabel            *notes;
 @property (weak, nonatomic) IBOutlet UIView             *lineOne;
 @property (weak, nonatomic) IBOutlet UIView             *lineTwo;
 @property (weak, nonatomic) IBOutlet UILabel            *arrangeTime;

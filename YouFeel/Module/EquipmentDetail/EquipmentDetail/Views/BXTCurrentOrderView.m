@@ -438,6 +438,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
     [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%@", odModel.dataIdentifier]];
+    repairDetailVC.isComingFromDeviceInfo = YES;
     [[self getNavigation] pushViewController:repairDetailVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
