@@ -101,7 +101,7 @@
             button.hidden = YES;
             button.frame = CGRectMake(CGRectGetMaxX(_normelBtn.frame) + 20, 5, 57.f, 40.f);
             [button setTitle:@"紧急" forState:UIControlStateNormal];
-            [button setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [button setTitleColor:colorWithHexString(@"e2e6e8") forState:UIControlStateNormal];
             button.layer.masksToBounds = YES;
             button.layer.cornerRadius = 4.f;
             button.layer.borderWidth = 1.f;

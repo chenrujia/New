@@ -161,9 +161,9 @@
         BXTRepairInfo *repairInfo = [[BXTRepairInfo alloc] init];
         repairInfo.repairID = [dic[@"about_id"] integerValue];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTRepairDetailViewController *repairDetail = (BXTRepairDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTRepairDetailViewController"];
-        [repairDetail dataWithRepair:repairInfo];
-        [self.navigationController pushViewController:repairDetail animated:YES];    }
+        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+        [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        [self.navigationController pushViewController:repairDetailVC animated:YES];    }
     else if ([dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"1"]] ||
              [dic[@"handle_type"] isEqual:[NSString stringWithFormat:@"%@%@%@",companyInfo.company_id,notice_type,@"5"]])
     {

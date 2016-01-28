@@ -14,7 +14,7 @@
 #import "BXTRepairInfo.h"
 #import "MJRefresh.h"
 #import "BXTRepairTableViewCell.h"
-#import "BXTRepairDetailViewController.h"
+#import "BXTMaintenanceDetailViewController.h"
 
 @interface BXTRepairViewController () <UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,BXTDataResponseDelegate>
 {
@@ -320,9 +320,9 @@
 {
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-    BXTRepairDetailViewController *repairDetail = (BXTRepairDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTRepairDetailViewController"];
-    [repairDetail dataWithRepair:repairInfo];
-    [self.navigationController pushViewController:repairDetail animated:YES];
+    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+    [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+    [self.navigationController pushViewController:repairDetailVC animated:YES];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
