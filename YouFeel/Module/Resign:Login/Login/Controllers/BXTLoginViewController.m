@@ -75,6 +75,7 @@
 
 - (IBAction)loginAction:(id)sender
 {
+    [self.view endEditing:YES];
     [self resignFirstResponder];
     
     if ([BXTGlobal validateMobile:self.userName])
@@ -165,6 +166,17 @@
     else if (type == UpdateHeadPic)
     {
         NSLog(@"Update success");
+    }
+    else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"044"])
+    {
+        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"授权到期，请联系软件相关人员！" chooseBlock:^(NSInteger buttonIdx) {
+            if (buttonIdx == 1) {
+                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:4008937878"];
+                UIWebView *callWeb = [[UIWebView alloc] init];
+                [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+                [self.view addSubview:callWeb];
+            }
+        } buttonsStatement:@"取消", @"联系客服", nil];
     }
     else
     {

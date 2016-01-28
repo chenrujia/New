@@ -8,8 +8,9 @@
 
 #import "BXTMainReadNoticeView.h"
 #import "BXTNoticeInformViewController.h"
+#import "UIScrollView+EmptyDataSet.h"
 
-@interface BXTMainReadNoticeView ()
+@interface BXTMainReadNoticeView () <DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>
 
 @end
 
@@ -48,6 +49,8 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.emptyDataSetSource = self;
     [self addSubview:self.tableView];
 }
 
@@ -154,6 +157,17 @@
     [BXTGlobal showText:@"请求失败，请重试" view:self completionBlock:nil];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
+}
+
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"没有符合条件的项目通告";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName:[UIColor blackColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 #pragma mark -

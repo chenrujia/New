@@ -11,6 +11,7 @@
 #import "BXTHeaderFile.h"
 #import "AppDelegate.h"
 #import "AFHTTPSessionManager.h"
+#import "DES3Util.h"
 
 @implementation BXTDataRequest
 
@@ -990,6 +991,8 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {
+//    url = [self encryptTheURL:url dict:parameters];
+    
     LogRed(@"url......\n%@", url);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
@@ -1099,6 +1102,63 @@ andRepairerIsReacive:(NSString *)reacive
 {
     [progressHUD removeFromSuperview];
     progressHUD = nil;
+}
+
+// 加密
+- (NSString *)encryptTheURL:(NSString *)url dict:(NSDictionary *)parameters
+{
+    // value1(shop_id) + value2(key) + hellouf.com  ------  md5加密 <ONE>
+    //  shop_id + $ + key + # + <ONE>  ----- DES3Util
+    
+    NSString *finalStr;
+    if (parameters) {
+        // 获取key数组
+        NSMutableArray *keyArray = [[NSMutableArray alloc] init];
+        for (NSString *key in parameters) {
+            [keyArray addObject:key];
+        }
+        
+        // 随机取值
+        int random = arc4random() % keyArray.count;
+        NSString *randomKey = keyArray[random];
+        NSString *randomValue = parameters[randomKey];
+        
+        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+        NSString *str1 = [NSString stringWithFormat:@"%@%@hellouf", companyInfo.company_id, randomValue];
+        NSString *md5Str = [BXTGlobal md5:str1];
+        
+        NSString *str2 = [NSString stringWithFormat:@"shop_id$%@#%@", randomKey, md5Str];
+        finalStr = [DES3Util encrypt:str2];
+    }
+    else {
+        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+        NSString *str1 = [NSString stringWithFormat:@"%@%@hellouf", companyInfo.company_id, @""];
+        NSString *md5Str = [BXTGlobal md5:str1];
+        
+        NSString *str2 = [NSString stringWithFormat:@"shop_id$%@#%@", @"", md5Str];
+        finalStr = [DES3Util encrypt:str2];
+    }
+    
+    NSString *finalURL = [finalStr stringByReplacingOccurrencesOfString:@"+" withString:@"_"];
+    finalURL = [finalURL stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+    
+    url = [NSString stringWithFormat:@"%@/encrypt_content/%@", url, finalURL];
+    
+    return url;
+}
+
+//加密数据后朱换成json
+- (NSData *)toJSONData:(id)theData
+{
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:theData
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    if ([jsonData length] != 0 && error == nil) {
+        return jsonData;
+    } else {
+        return nil;
+    }
 }
 
 @end

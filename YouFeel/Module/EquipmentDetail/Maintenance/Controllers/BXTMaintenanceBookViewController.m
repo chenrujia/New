@@ -386,7 +386,7 @@
             [checkProjectArray addObject:check_info];
         }
     }
-
+    
     //维修员
     NSMutableArray *usersArray = [NSMutableArray array];
     NSArray *repairArray = [dictionary objectForKey:@"repair_arr"];

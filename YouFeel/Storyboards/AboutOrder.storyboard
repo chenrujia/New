@@ -665,8 +665,12 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FtC-QK-nWs">
                                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="pCz-cr-HjV"/>
-                                                    <constraint firstAttribute="width" constant="83" id="r8l-bi-gTi"/>
+                                                    <constraint firstAttribute="height" constant="40" id="pCz-cr-HjV">
+                                                        <variation key="heightClass=regular-widthClass=compact" constant="40"/>
+                                                    </constraint>
+                                                    <constraint firstAttribute="width" constant="83" id="r8l-bi-gTi">
+                                                        <variation key="heightClass=regular-widthClass=compact" constant="83"/>
+                                                    </constraint>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <state key="normal" title="联系Ta">
@@ -1570,7 +1574,7 @@
                                                             <constraint firstAttribute="height" constant="26" id="D9B-WK-FrO"/>
                                                             <constraint firstAttribute="width" constant="42" id="ccj-7s-OF6"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="0.23529411759999999" green="0.68627450980000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                         <variation key="default">
@@ -1589,8 +1593,12 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rFJ-6D-z31">
                                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="o0c-xs-5QD"/>
-                                                            <constraint firstAttribute="width" constant="83" id="rIg-sh-wIA"/>
+                                                            <constraint firstAttribute="height" constant="40" id="o0c-xs-5QD">
+                                                                <variation key="heightClass=regular-widthClass=compact" constant="40"/>
+                                                            </constraint>
+                                                            <constraint firstAttribute="width" constant="83" id="rIg-sh-wIA">
+                                                                <variation key="heightClass=regular-widthClass=compact" constant="83"/>
+                                                            </constraint>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <state key="normal" title="联系Ta">
@@ -1615,7 +1623,7 @@
                                                             <constraint firstAttribute="width" constant="42" id="ZiY-hf-wdZ"/>
                                                             <constraint firstAttribute="height" constant="26" id="yZp-2Q-GA2"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="0.23529411759999999" green="0.68627450980000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                         <variation key="default">

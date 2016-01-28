@@ -18,8 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
-    if (self.pushType == PushType_Ads) {
+    if (self.pushType == PushType_Ads || self.pushType == PushType_Project) {
         [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
     }
     else {

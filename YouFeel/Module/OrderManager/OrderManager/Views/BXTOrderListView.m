@@ -233,9 +233,7 @@
             cell.level.attributedText = attributeStr;
         }
         
-        NSArray *usersArray = repairInfo.repair_user;
-        NSString *components = [usersArray componentsJoinedByString:@","];
-        cell.state.text = components;
+        cell.state.text = repairInfo.repair_user_name;
         cell.tag = indexPath.section;
         cell.cancelRepair.hidden = YES;
         

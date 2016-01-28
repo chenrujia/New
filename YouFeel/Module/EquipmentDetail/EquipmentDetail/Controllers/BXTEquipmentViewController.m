@@ -27,6 +27,13 @@
 
 @implementation BXTEquipmentViewController
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.translucent = NO;
+}
+
 - (instancetype)initWithDeviceID:(NSString *)device_id
 {
     self = [super init];
@@ -56,11 +63,11 @@
     
     if (![BXTGlobal shareGlobal].isRepair)
     {
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"当期工单",@"设备档案"] isWhiteBGColor:1];
+        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"当前工单",@"设备档案"] isWhiteBGColor:1];
     }
     else
     {
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"当期工单",@"设备档案"] isWhiteBGColor:1];
+        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"当前工单",@"设备档案"] isWhiteBGColor:1];
     }
     
     segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;

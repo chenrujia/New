@@ -286,7 +286,7 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         else {
             if (self.typeOfRow == SelectedType_Forth) {
                 BXTDeviceList *model = self.addressArray[indexPath.row];
-                cell.textLabel.text = model.name;
+                cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", model.name, model.code_number];
             }
         }
         

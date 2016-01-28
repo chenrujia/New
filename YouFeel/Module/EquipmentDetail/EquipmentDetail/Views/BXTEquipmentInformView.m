@@ -100,7 +100,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 4) {
-        return 80;
+        return 90;
     }
     return 50;
 }
@@ -188,12 +188,12 @@
         
         BXTEquipmentData *equipmentModel = [BXTEquipmentData modelObjectWithDictionary:dataDict];
         // section == 0
-        NSMutableArray *equipArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.name, equipmentModel.model_number, nil];
+        NSMutableArray *equipArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.name, equipmentModel.code_number, nil];
         
         // section == 1
         NSArray *adsNameArray = dataDict[@"ads_name"];
         BXTEquipmentAdsName *adsNameModel = [BXTEquipmentAdsName modelObjectWithDictionary:adsNameArray[0]];
-        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.code_number, equipmentModel.type_name, equipmentModel.brand, adsNameModel.place_name, equipmentModel.server_area, equipmentModel.install_time, equipmentModel.start_time, nil];
+        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.model_number, equipmentModel.type_name, equipmentModel.brand, adsNameModel.place_name, equipmentModel.server_area, equipmentModel.install_time, equipmentModel.start_time, nil];
         
         // section == 2
         NSArray *factoryArray = dataDict[@"factory_info"];

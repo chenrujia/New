@@ -12,6 +12,7 @@
 
 @property (nonatomic ,strong) NSString *name;
 @property (nonatomic ,strong) NSString *deviceID;
+@property (nonatomic ,strong) NSString *code_number;
 
 + (instancetype)modelWithDict:(NSDictionary *)dict;
 - (instancetype)initWithDict:(NSDictionary *)dict;

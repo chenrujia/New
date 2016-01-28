@@ -68,6 +68,8 @@
 		782985AD1C40BB6600D0837C /* BXTMineIconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782985AB1C40BB6600D0837C /* BXTMineIconCell.xib */; };
 		782985B01C40BDBF00D0837C /* MLImageCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 782985AF1C40BDBF00D0837C /* MLImageCrop.m */; };
 		782985B31C40E48F00D0837C /* BXTSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782985B21C40E48F00D0837C /* BXTSettingViewController.m */; };
+		782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AD4D41C5A12BD00A1C4D8 /* DES3Util.m */; };
+		782AD4D91C5A12BD00A1C4D8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AD4D61C5A12BD00A1C4D8 /* GTMBase64.m */; };
 		782D6BC11C0D6CFC00E1828F /* SPBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB51C0D6CFC00E1828F /* SPBar.m */; };
 		782D6BC21C0D6CFC00E1828F /* SPBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB71C0D6CFC00E1828F /* SPBarChart.m */; };
 		782D6BC31C0D6CFC00E1828F /* SPBarChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB91C0D6CFC00E1828F /* SPBarChartData.m */; };
@@ -447,6 +449,11 @@
 		782985AF1C40BDBF00D0837C /* MLImageCrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLImageCrop.m; sourceTree = "<group>"; };
 		782985B11C40E48F00D0837C /* BXTSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSettingViewController.h; sourceTree = "<group>"; };
 		782985B21C40E48F00D0837C /* BXTSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSettingViewController.m; sourceTree = "<group>"; };
+		782AD4D31C5A12BD00A1C4D8 /* DES3Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DES3Util.h; sourceTree = "<group>"; };
+		782AD4D41C5A12BD00A1C4D8 /* DES3Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DES3Util.m; sourceTree = "<group>"; };
+		782AD4D51C5A12BD00A1C4D8 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
+		782AD4D61C5A12BD00A1C4D8 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
+		782AD4D71C5A12BD00A1C4D8 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		782D6BB41C0D6CFC00E1828F /* SPBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPBar.h; sourceTree = "<group>"; };
 		782D6BB51C0D6CFC00E1828F /* SPBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPBar.m; sourceTree = "<group>"; };
 		782D6BB61C0D6CFC00E1828F /* SPBarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPBarChart.h; sourceTree = "<group>"; };
@@ -1396,6 +1403,18 @@
 				782985A21C40B6A100D0837C /* BXTFeedbackViewController.m */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		782AD4D21C5A12BD00A1C4D8 /* DES3Util */ = {
+			isa = PBXGroup;
+			children = (
+				782AD4D31C5A12BD00A1C4D8 /* DES3Util.h */,
+				782AD4D41C5A12BD00A1C4D8 /* DES3Util.m */,
+				782AD4D51C5A12BD00A1C4D8 /* GTMBase64.h */,
+				782AD4D61C5A12BD00A1C4D8 /* GTMBase64.m */,
+				782AD4D71C5A12BD00A1C4D8 /* GTMDefines.h */,
+			);
+			path = DES3Util;
 			sourceTree = "<group>";
 		};
 		782D6BB31C0D6CFC00E1828F /* SPBarChart */ = {
@@ -3011,6 +3030,7 @@
 		9652AB331BC9069B009A666D /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				782AD4D21C5A12BD00A1C4D8 /* DES3Util */,
 				783DDA3C1C3FB4A50035B927 /* PinYinForObjc */,
 				96AB06271C1FB48E0038E2AF /* DOPDropDownMenu */,
 				7818DB9A1C0824D800DC22C6 /* StatisticsChart */,
@@ -3659,6 +3679,7 @@
 				7823D20A1C3231A000E3641C /* MYAlertAction.m in Sources */,
 				7818DBE01C0824D800DC22C6 /* PNGenericChart.m in Sources */,
 				7867DC961C4CBB47000749F1 /* MYPieElement.m in Sources */,
+				782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */,
 				7867DC971C4CBB47000749F1 /* BXTStatisticsCell.m in Sources */,
 				7867DC3F1C4CBAE8000749F1 /* BXTNewsTableViewCell.m in Sources */,
 				7867DD7B1C4CBEA1000749F1 /* BXTAllOrdersViewController.m in Sources */,
@@ -3666,6 +3687,7 @@
 				7867DC891C4CBB47000749F1 /* BXTStEvaluationFooter.m in Sources */,
 				7867DD751C4CBEA1000749F1 /* RGCardViewLayout.m in Sources */,
 				7818DBDD1C0824D800DC22C6 /* PNChartLabel.m in Sources */,
+				782AD4D91C5A12BD00A1C4D8 /* GTMBase64.m in Sources */,
 				7867DCF51C4CBDAA000749F1 /* BXTExaminationViewController.m in Sources */,
 				7867DC841C4CBB47000749F1 /* BXTCompletionFooter.m in Sources */,
 				781EF1831C3CB3B30027FE72 /* BXTMailViewController.m in Sources */,

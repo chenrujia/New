@@ -15,6 +15,11 @@
 
 @implementation BXTRepairButton
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 +(void)load
 {
     [super registerSubclass];
@@ -57,6 +62,17 @@
         nav.navigationBarHidden = YES;
         [[AppDelegate appdelegete].window.rootViewController presentViewController:nav animated:YES completion:nil];
     }];
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTRepairButton" object:nil] subscribeNext:^(id x) {
+        [button setImage:[UIImage imageNamed:@"Tab_Repair"] forState:UIControlStateNormal];
+        button.center = CGPointMake(SCREEN_WIDTH/2, 15);
+    }];
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTRepairButtonOther" object:nil] subscribeNext:^(id x) {
+        [button setImage:[UIImage imageNamed:@"Tab_Bar"] forState:UIControlStateNormal];
+        button.center = CGPointMake(SCREEN_WIDTH/2, 25);
+    }];
+    
     return button;
 }
 
