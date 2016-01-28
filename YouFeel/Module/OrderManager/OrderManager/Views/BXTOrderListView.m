@@ -11,7 +11,6 @@
 #import "BXTHeaderForVC.h"
 #import "BXTRepairInfo.h"
 #import "MJRefresh.h"
-#import "BXTRepairDetailViewController.h"
 #import "UIView+Nav.h"
 #import "BXTMaintenanceManTableViewCell.h"
 #import "BXTMaintenanceDetailViewController.h"
@@ -380,26 +379,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
-    if (![BXTGlobal shareGlobal].isRepair)
+    if ([BXTGlobal shareGlobal].isRepair && repairInfo.order_type != 3)
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTRepairDetailViewController *repairDetail = (BXTRepairDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTRepairDetailViewController"];
-        [repairDetail dataWithRepair:repairInfo];
-        [[self navigation] pushViewController:repairDetail animated:YES];
+        [self showAlertView:@"特殊工单不可点击"];
     }
     else
     {
-        if (repairInfo.order_type != 3)
-        {
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-            BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-            [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
-            [[self navigation] pushViewController:repairDetailVC animated:YES];
-        }
-        else
-        {
-            [self showAlertView:@"特殊工单不可点击"];
-        }
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+        [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
 }
 

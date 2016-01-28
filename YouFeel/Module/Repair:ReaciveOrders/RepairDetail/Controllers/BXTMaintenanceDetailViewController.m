@@ -15,6 +15,7 @@
 #import "BXTMaintenanceProcessViewController.h"
 #import "BXTAddOtherManViewController.h"
 #import "BXTRejectOrderViewController.h"
+#import "BXTEvaluationViewController.h"
 
 @interface BXTMaintenanceDetailViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
 
@@ -25,6 +26,8 @@
 @property (nonatomic ,strong) UIView           *bgView;
 @property (nonatomic ,assign) NSTimeInterval   timeInterval;
 @property (nonatomic, strong) NSMutableArray   *manIDArray;
+@property (nonatomic ,strong) UIButton         *evaluationBtn;
+@property (nonatomic ,strong) UIView           *evaBackView;
 
 @end
 
@@ -51,6 +54,7 @@
     _connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _connectTa.layer.borderWidth = 1.f;
     _connectTa.layer.cornerRadius = 4.f;
+    _cancelRepair.layer.cornerRadius = 4.f;
     //联系他
     @weakify(self);
     [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -86,6 +90,21 @@
     [timeArray addObject:@"自定义"];
     self.comeTimeArray = timeArray;
     
+    //由于详情采用了统一的详情，所以如果是报修者的身份，则一下信息是不让看的
+    if (![BXTGlobal shareGlobal].isRepair)
+    {
+        _headImgView.hidden = YES;
+        _repairerName.hidden = YES;
+        _repairerDetail.hidden = YES;
+        _mobile.hidden = YES;
+        _connectTa.hidden = YES;
+        _lineView.hidden = YES;
+        _maintenance.hidden = YES;
+        _groupName.hidden = YES;
+        _repair_id_top.constant = 12.f;
+        [_repairID layoutIfNeeded];
+    }
+    //发起请求
     [self requestDetail];
 }
 
@@ -191,6 +210,50 @@
 {
     BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%@",self.repair_id] andIsAssign:YES];
     [self.navigationController pushViewController:rejectVC animated:YES];
+}
+
+- (IBAction)cancelTheRepair:(id)sender
+{
+    if (self.repairDetail.repairstate == 1)
+    {
+        if (IS_IOS_8)
+        {
+            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"您确定要取消此工单?" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            [alertCtr addAction:cancelAction];
+            @weakify(self);
+            UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+                @strongify(self);
+                /**删除工单**/
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]];
+            }];
+            [alertCtr addAction:doneAction];
+            [self presentViewController:alertCtr animated:YES completion:nil];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您确定要取消此工单?"
+                                                            message:nil
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"确定",nil];
+            @weakify(self);
+            [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
+                @strongify(self);
+                if ([x integerValue] == 1)
+                {
+                    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                    [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]];
+                }
+            }];
+            [alert show];
+        }
+    }
+    else
+    {
+        [self showMBP:@"此工单正在进行中，不允许删除!" withBlock:nil];
+    }
 }
 
 - (IBAction)reaciveAction:(id)sender
@@ -456,20 +519,19 @@
         [_thirdBV layoutIfNeeded];
         
         //接单按钮、增加人员和维修过程
-        CGFloat height = 0.f;
+        CGFloat reacive_height = 0.f;
         _reaciveOrder.hidden = YES;
         _bottomTabBar.hidden = YES;
-        
         if (self.repairDetail.repairstate == 1 && !_isAllOrderType && [BXTGlobal shareGlobal].isRepair)
         {
-            height = 90.f;
+            reacive_height = 90.f;
             _reaciveOrder.hidden = NO;
         }
         else if (self.repairDetail.repairstate == 2 && self.repairDetail.isRepairing == 2 && !_isAllOrderType && [BXTGlobal shareGlobal].isRepair && !self.isComingFromDeviceInfo)
         {
             if (!self.isRejectVC && [BXTGlobal shareGlobal].isRepair)
             {
-                height = 70.f;
+                reacive_height = 70.f;
                 _bottomTabBar.hidden = NO;
             }
         }
@@ -491,21 +553,54 @@
                     CGSize size = MB_MULTILINE_TEXTSIZE(log, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30, 1000.f), NSLineBreakByWordWrapping);
                     log_content_height = size.height + 20.f;
                 }
-                
                 [self.manIDArray addObject:userDic[@"id"]];
-                
                 UIView *userBack = [self viewForUser:i andMaintenanceMaxY:CGRectGetMaxY(_maintenanceMan.frame) + 20 andLevelWidth:CGRectGetWidth(_level.frame)];
                 [_fouthBV addSubview:userBack];
             }
             _fouth_bv_height.constant = 52 + RepairHeight * usersCount + log_content_height;
             [_fouthBV layoutIfNeeded];
-            _sco_content_height.constant = CGRectGetMaxY(_fouthBV.frame) + height;
+            _sco_content_height.constant = CGRectGetMaxY(_fouthBV.frame) + reacive_height;
         }
         else
         {
             _fouthBV.hidden = YES;
-            _sco_content_height.constant = CGRectGetMaxY(_thirdBV.frame) + height;
+            _sco_content_height.constant = CGRectGetMaxY(_thirdBV.frame) + reacive_height;
         }
+        [_contentView layoutIfNeeded];
+        
+        //取消报修按钮
+        _cancelRepair.hidden = YES;
+        if (![BXTGlobal shareGlobal].isRepair && self.repairDetail.repairstate == 1)
+        {
+            _sco_content_height.constant += 80.f;
+            _cancelRepair.hidden = NO;
+        }
+        //评价按钮
+        if (![BXTGlobal shareGlobal].isRepair && self.repairDetail.repairstate == 3)
+        {
+            self.evaBackView = [[UIView alloc] initWithFrame:CGRectMake(0.f, SCREEN_HEIGHT - 200.f/3.f, SCREEN_WIDTH, 200.f/3.f)];
+            _evaBackView.backgroundColor = [UIColor blackColor];
+            _evaBackView.alpha = 0.6;
+            [self.view addSubview:_evaBackView];
+            
+            self.evaluationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [_evaluationBtn setFrame:CGRectMake(0, 0, 200.f, 40.f)];
+            [_evaluationBtn setCenter:CGPointMake(SCREEN_WIDTH/2.f,CGRectGetMinY(_evaBackView.frame) + _evaBackView.bounds.size.height/2.f)];
+            [_evaluationBtn setTitle:@"发表评价" forState:UIControlStateNormal];
+            [_evaluationBtn setTitleColor:colorWithHexString(@"3bb0ff") forState:UIControlStateNormal];
+            [_evaluationBtn setBackgroundColor:[UIColor whiteColor]];
+            _evaluationBtn.layer.cornerRadius = 4.f;
+            _evaluationBtn.layer.masksToBounds = YES;
+            @weakify(self);
+            [[_evaluationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                @strongify(self);
+                BXTEvaluationViewController *evaluationVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]];
+                [self.navigationController pushViewController:evaluationVC animated:YES];
+            }];
+            [self.view addSubview:_evaluationBtn];
+            _sco_content_height.constant += 200.f/3.f;
+        }
+
         [_contentView layoutIfNeeded];
     }
     else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)

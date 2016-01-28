@@ -10,8 +10,9 @@
 #import "BXTHeaderForVC.h"
 #import "BXTHaveEVTableViewCell.h"
 #import "BXTNoneEVInfo.h"
-#import "BXTRepairDetailViewController.h"
 #import "UIView+Nav.h"
+#import "BXTRepairInfo.h"
+#import "BXTMaintenanceDetailViewController.h"
 
 @implementation BXTHaveEvaluationView
 
@@ -121,10 +122,9 @@
     BXTRepairInfo *repairInfo = [[BXTRepairInfo alloc] init];
     repairInfo.repairID = [evaInfo.evaID integerValue];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-    BXTRepairDetailViewController *repairDetail = (BXTRepairDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTRepairDetailViewController"];
-    [repairDetail dataWithRepair:repairInfo];
-    [[self navigation] pushViewController:repairDetail animated:YES];
-}
+    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+    [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+    [[self navigation] pushViewController:repairDetailVC animated:YES];}
 
 #pragma mark -
 #pragma mark BXTDataResponseDelegate
