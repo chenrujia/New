@@ -191,14 +191,28 @@
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (data.count > 0)
+    if ([dic[@"returncode"] integerValue] == 0)
     {
-        NSDictionary *dict = data[0];
-        NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
-        
-        BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_type"]];
-        // 存储 设备 ID
-        [self.navigationController pushViewController:epvc animated:YES];
+        if (data.count > 0)
+        {
+            NSDictionary *dict = data[0];
+            NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
+            
+            BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_content"]];
+            // 存储 设备 ID
+            [self.navigationController pushViewController:epvc animated:YES];
+        }
+    }
+    else
+    {
+        [MYAlertAction showAlertWithTitle:@"扫描非工单，请重试" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+            if (buttonIdx == 0) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            else {
+                [self reStartDevice];
+            }
+        } buttonsStatement:@"返回", @"重试", nil];
     }
     
 }

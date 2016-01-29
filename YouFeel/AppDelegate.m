@@ -42,7 +42,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     //初始化融云SDK
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
-
+    
     //自动键盘
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     
@@ -539,6 +539,10 @@ void UncaughtExceptionHandler(NSException *exception){
             [self loadingLoginVC];
         }
     }
+    else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"044"])
+    {
+        [self loadingLoginVC];
+    }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
         NSArray *data = [dic objectForKey:@"data"];
@@ -578,7 +582,7 @@ void UncaughtExceptionHandler(NSException *exception){
 }
 
 /**
- *  网络状态变化。 
+ *  网络状态变化。
  *
  *  @param status 网络状态。
  */

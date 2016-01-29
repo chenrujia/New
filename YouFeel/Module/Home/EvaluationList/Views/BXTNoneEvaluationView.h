@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "BXTDataRequest.h"
+#import "UIScrollView+EmptyDataSet.h"
 
-@interface BXTNoneEvaluationView : UIView<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
+@interface BXTNoneEvaluationView : UIView<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 {
     UITableView    *currentTable;
 }

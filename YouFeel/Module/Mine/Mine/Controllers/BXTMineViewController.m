@@ -29,6 +29,13 @@
 
 @implementation BXTMineViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
+}
+
 - (void)dealloc
 {
     LogBlue(@"设置界面释放了！！！！！！");
@@ -72,7 +79,7 @@
     {
         return 0.1;
     }
-    return 10.f;
+    return 8.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -86,7 +93,7 @@
     {
         return 100.f;
     }
-    return 60.f;
+    return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

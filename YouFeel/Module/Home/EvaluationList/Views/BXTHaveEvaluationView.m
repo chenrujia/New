@@ -34,6 +34,8 @@
         [currentTable registerClass:[BXTHaveEVTableViewCell class] forCellReuseIdentifier:@"Cell"];
         currentTable.delegate = self;
         currentTable.dataSource = self;
+        currentTable.emptyDataSetDelegate = self;
+        currentTable.emptyDataSetSource = self;
         [self addSubview:currentTable];
         
         [self showLoadingMBP:@"努力加载中..."];
@@ -152,5 +154,15 @@
     [self hideTheMBP];
 }
 
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"暂无已评价工单";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName:[UIColor blackColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
 
 @end

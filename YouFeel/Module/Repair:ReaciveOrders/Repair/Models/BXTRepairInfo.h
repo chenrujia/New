@@ -40,5 +40,6 @@
 @property (nonatomic ,strong) NSString  *long_time;
 @property (nonatomic, strong) NSString  *stores_name;
 @property (nonatomic, strong) NSNumber  *task_type;
+@property (nonatomic, strong) NSString *repair_user_name;
 
 @end

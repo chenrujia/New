@@ -102,6 +102,8 @@
             [request remindNumberWithDailyTimeStart:[BXTRemindNum sharedManager].timeStart_Daily InspectioTimeStart:[BXTRemindNum sharedManager].timeStart_Inspectio];
         });
     });
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButton" object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -355,7 +357,7 @@
     {
         return 0.1f;//section头部高度
     }
-    return 10.f;//section头部高度
+    return 8.f;//section头部高度
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -365,7 +367,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.f;
+    return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

@@ -31,13 +31,11 @@
                          @"My_Evaluation",
                          @"Special_Orders",
                          @"Business_Statistics",
-                         @"My_Examination",
                          @"Project_Phone",nil];
     self.titleNameArray = [NSMutableArray arrayWithObjects:@"我的工单",
                            @"我的评价",
                            @"特殊工单",
                            @"业务统计",
-                           @"我的审批",
                            @"项目热线",nil];
     
     NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
@@ -96,9 +94,6 @@
                 [self pushEvaluationList];
                 break;
             case 2:
-                [self pushExamination];
-                break;
-            case 3:
                 [self projectPhone];
                 break;
             default: break;
@@ -117,9 +112,6 @@
                 [self pushStatistics];
                 break;
             case 3:
-                [self pushExamination];
-                break;
-            case 4:
                 [self projectPhone];
                 break;
             default: break;
@@ -138,9 +130,6 @@
                 [self pushSpecialOrders];
                 break;
             case 3:
-                [self pushExamination];
-                break;
-            case 4:
                 [self projectPhone];
                 break;
             default: break;
@@ -161,9 +150,6 @@
                 [self pushStatistics];
                 break;
             case 4:
-                [self pushExamination];
-                break;
-            case 5:
                 [self projectPhone];
                 break;
             default: break;

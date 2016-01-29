@@ -34,6 +34,8 @@
     self.navigationController.tabBarItem.badgeValue = nil;
     
     [self.itemsCollectionView reloadData];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
 }
 
 - (void)viewDidLoad
@@ -154,6 +156,8 @@
             @strongify(self);
             BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
             nivc.urlStr = dict[@"url"];
+            nivc.titleStr = dict[@"name"];
+            nivc.pushType = PushType_Project;
             nivc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:nivc animated:YES];
         }];
