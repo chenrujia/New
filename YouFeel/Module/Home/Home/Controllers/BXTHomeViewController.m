@@ -104,6 +104,15 @@
     });
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (self.hidesBottomBarWhenPushed)
+    {
+        self.hidesBottomBarWhenPushed = NO;
+    }
+}
+
 - (void)addNotifications
 {
     @weakify(self);

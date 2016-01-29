@@ -50,6 +50,7 @@
     {
         [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
     }
+    isFirst = YES;
     _sco_content_width.constant = SCREEN_WIDTH;
     _connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _connectTa.layer.borderWidth = 1.f;
@@ -104,8 +105,13 @@
         _repair_id_top.constant = 12.f;
         [_repairID layoutIfNeeded];
     }
+    
     //发起请求
     [self requestDetail];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestDetail" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        [self requestDetail];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -201,17 +207,21 @@
 - (void)requestDetail
 {
     /**获取详情**/
-    [self showLoadingMBP:@"努力加载中..."];
+    [BXTGlobal showLoadingMBP:@"努力加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
 }
 
+#pragma mark -
+#pragma mark 关闭工单（跟权限相关）
 - (void)navigationRightButton
 {
     BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%@",self.repair_id] andIsAssign:YES];
     [self.navigationController pushViewController:rejectVC animated:YES];
 }
 
+#pragma mark -
+#pragma mark 取消报修
 - (IBAction)cancelTheRepair:(id)sender
 {
     if (self.repairDetail.repairstate == 1)
@@ -256,6 +266,8 @@
     }
 }
 
+#pragma mark -
+#pragma mark 我要接单
 - (IBAction)reaciveAction:(id)sender
 {
     UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -359,9 +371,11 @@
     }
 }
 
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     LogRed(@"%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
@@ -467,6 +481,16 @@
         CGFloat secondHeight = 48.f + 63.f * deviceCount;
         if (deviceCount)
         {
+            //先清除，后添加
+            for (UIView *subview in _secondBV.subviews)
+            {
+                //设备列表（label）以及其下面的线（view）
+                if (subview.tag == 1 || subview.tag == 2)
+                {
+                    continue;
+                }
+                [subview removeFromSuperview];
+            }
             _second_bv_height.constant = secondHeight;
             [_secondBV layoutIfNeeded];
             _third_bv_top.constant = 12.f + secondHeight + 12.f;
@@ -542,6 +566,16 @@
         [_fouthBV layoutIfNeeded];
         if (usersCount)
         {
+            //先清除，后添加
+            for (UIView *subview in _fouthBV.subviews)
+            {
+                //维修员（label）以及其下面的线（view）
+                if (subview.tag == 1 || subview.tag == 2)
+                {
+                    continue;
+                }
+                [subview removeFromSuperview];
+            }
             CGFloat log_content_height = 0.f;
             for (NSInteger i = 0; i < usersCount; i++)
             {
@@ -621,11 +655,21 @@
             }];
         }
     }
+    else if (type == DeleteRepair)
+    {
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+            [self showMBP:@"删除成功!" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+        }
+    }
 }
 
 - (void)requestError:(NSError *)error
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

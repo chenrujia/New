@@ -9,7 +9,9 @@
 #import "BXTDetailBaseViewController.h"
 
 @interface BXTMaintenanceDetailViewController : BXTDetailBaseViewController
-
+{
+    BOOL isFirst;//判断是不是第一次进入viewDidAppear
+}
 /**
  *  是否有关闭工单按钮
  */
@@ -52,7 +54,6 @@
 @property (weak, nonatomic) IBOutlet UIButton     *reaciveOrder;
 @property (weak, nonatomic) IBOutlet UITabBar     *bottomTabBar;
 @property (weak, nonatomic) IBOutlet UIButton     *cancelRepair;
-
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sco_content_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sco_content_width;

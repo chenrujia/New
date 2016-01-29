@@ -14,19 +14,19 @@
 
 @implementation BXTNoticeInformViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    
-    if (self.pushType == PushType_Ads) {
+    if (self.pushType == PushType_Ads)
+    {
         [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
     }
-    else {
+    else
+    {
         [self navigationSetting:@"公告详情" andRightTitle:nil andRightImage:nil];
     }
     
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [self showLoadingMBP:@"努力加载中..."];
     UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
     NSString *urlStr = self.urlStr;
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
@@ -40,12 +40,12 @@
 #pragma mark - UIWebViewDelegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [BXTGlobal hideMBP];
+    [self hideMBP];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    [BXTGlobal hideMBP];
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {
