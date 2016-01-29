@@ -205,7 +205,7 @@
     }
     else
     {
-        [MYAlertAction showAlertWithTitle:@"扫描非工单，请重试" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+        [MYAlertAction showAlertWithTitle:@"扫描结果无效，请重试" msg:nil chooseBlock:^(NSInteger buttonIdx) {
             if (buttonIdx == 0) {
                 [self.navigationController popViewControllerAnimated:YES];
             }

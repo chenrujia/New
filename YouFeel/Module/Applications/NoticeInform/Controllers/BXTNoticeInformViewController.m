@@ -35,6 +35,14 @@
     NSLog(@"%@", self.urlStr);
 }
 
+- (void)navigationLeftButton
+{
+    if (self.delegateSignal) {
+        [self.delegateSignal sendNext:nil];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark -
 #pragma mark - UIWebViewDelegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView
