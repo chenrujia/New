@@ -10,6 +10,7 @@
 #import "BXTHeaderFile.h"
 #import "NSString+URL.h"
 #import "MobClick.h"
+#import "CYLTabBarController.h"
 #import "BXTLoadingViewController.h"
 #import "BXTHeadquartersViewController.h"
 #import "UINavigationController+YRBackGesture.h"
@@ -388,7 +389,7 @@ void UncaughtExceptionHandler(NSException *exception){
             if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)//收到抢单信息
             {
                 [[BXTGlobal shareGlobal].newsOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
-                if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
+                if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
                 {
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:@""];
                 }
@@ -396,7 +397,7 @@ void UncaughtExceptionHandler(NSException *exception){
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)//收到派工或者维修邀请
             {
                 [[BXTGlobal shareGlobal].assignOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
-                if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
+                if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
                 {
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"AssignOrderComing" object:nil];
                 }
@@ -418,8 +419,6 @@ void UncaughtExceptionHandler(NSException *exception){
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewsComing" object:@"1"];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    
-    LogRed(@"task id : %@",taskId);
 }
 
 - (void)showAlertView:(NSString *)title

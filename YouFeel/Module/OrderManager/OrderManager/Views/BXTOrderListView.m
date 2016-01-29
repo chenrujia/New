@@ -377,7 +377,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
-    if ([BXTGlobal shareGlobal].isRepair && repairInfo.order_type != 3)
+    if ([BXTGlobal shareGlobal].isRepair && repairInfo.order_type == 3)
     {
         [self showAlertView:@"特殊工单不可点击"];
     }
