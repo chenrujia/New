@@ -20,4 +20,6 @@ typedef NS_ENUM(NSInteger, PushType) {
 @property (nonatomic, copy) NSString *titleStr;
 @property (nonatomic, copy) NSString *urlStr;
 
+@property (nonatomic, strong) RACSubject *delegateSignal;
+
 @end

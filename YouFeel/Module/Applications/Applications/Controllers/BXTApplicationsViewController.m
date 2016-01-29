@@ -31,7 +31,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.tabBarItem.badgeValue = nil;
     
     [self.itemsCollectionView reloadData];
     
@@ -55,15 +54,14 @@
 - (void)createUI
 {
     // UIImageView
-    CGFloat Ratio = SCREEN_WIDTH / 375  ;
-    self.headImageView = [[UIButton alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 180 * Ratio)];
+    self.headImageView = [[UIButton alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, valueForDevice(240, 145, 123, 123))];
     [self.view addSubview:self.headImageView];
     
     // UICollectionView
     UICollectionViewFlowLayout *flowLayout= [[UICollectionViewFlowLayout alloc]init];
     flowLayout.minimumLineSpacing = 0.f;
     flowLayout.minimumInteritemSpacing = 0.f;
-    self.itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64 + 180 * Ratio, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.headImageView.frame) - 50) collectionViewLayout:flowLayout];
+    self.itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64 + valueForDevice(240, 145, 123, 123), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.headImageView.frame) - 50) collectionViewLayout:flowLayout];
     self.itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f5");
     [self.itemsCollectionView registerClass:[BXTHomeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
     self.itemsCollectionView.showsVerticalScrollIndicator = NO;
@@ -91,6 +89,8 @@
     
     cell.namelabel.text = self.titleArray[indexPath.row];
     cell.iconImage = [UIImage imageNamed:self.imageArray[indexPath.row]];
+    
+    [cell newsRedNumber:0];
     
     if (indexPath.section == 0 && indexPath.row == 0) {
         [cell newsRedNumber:[[BXTRemindNum sharedManager].announcementNum integerValue]];
@@ -129,6 +129,12 @@
         switch (indexPath.row) {
             case 0: {
                 [BXTRemindNum sharedManager].announcementNum = @"0";
+                
+                nlvc.delegateSignal = [RACSubject subject];
+                [nlvc.delegateSignal subscribeNext:^(id x) {
+                    self.navigationController.tabBarItem.badgeValue = nil;
+                }];
+                
                 [self.navigationController pushViewController:nlvc animated:YES];
             } break;
             case 1: [self.navigationController pushViewController:epvc animated:YES]; break;

@@ -666,9 +666,8 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)configInfo
 {
     self.requestType = ConfigInfo;
-    NSDictionary *dic = @{@"shop_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Config&opt=Config_info",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
+    [self postRequest:url withParameters:nil];
 }
 
 - (void)startRepair:(NSString *)repairID
@@ -960,7 +959,6 @@ andRepairerIsReacive:(NSString *)reacive
 {
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    
     NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
     [self getRequest:url];
 }
@@ -1009,7 +1007,7 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {
-//    url = [self encryptTheURL:url dict:parameters];
+    url = [self encryptTheURL:url dict:parameters];
     
     LogRed(@"url......\n%@", url);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -1039,6 +1037,7 @@ andRepairerIsReacive:(NSString *)reacive
             withParameters:(NSDictionary *)parameters
                 withImages:(NSArray *)images
 {
+    url = [self encryptTheURL:url dict:parameters];
     
     LogRed(@"url......%@",url);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -1092,9 +1091,12 @@ andRepairerIsReacive:(NSString *)reacive
 #pragma mark - 字典转成JSon
 - (NSString *)dictionaryToJson:(NSDictionary *)dic
 {
-    NSError *parseError = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
-    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    if (dic) {
+        NSError *parseError = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+        return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    return @"";
 }
 
 - (void)showHUD
@@ -1124,58 +1126,43 @@ andRepairerIsReacive:(NSString *)reacive
 // 加密
 - (NSString *)encryptTheURL:(NSString *)url dict:(NSDictionary *)parameters
 {
-    // value1(shop_id) + value2(key) + hellouf.com  ------  md5加密 <ONE>
-    //  shop_id + $ + key + # + <ONE>  ----- DES3Util
+    // value1(shop_id) + value2(key) + hellouf.com  ------>  md5加密 <ONE>
+    //  shop_id + $ + key + # + <ONE>  -----> DES3Util
     
     NSString *finalStr;
+    NSString *randomKey = @"";
+    id randomValue = @"";
+    
     if (parameters) {
         // 获取key数组
         NSMutableArray *keyArray = [[NSMutableArray alloc] init];
         for (NSString *key in parameters) {
             [keyArray addObject:key];
         }
-        
         // 随机取值
         int random = arc4random() % keyArray.count;
         NSString *randomKey = keyArray[random];
-        NSString *randomValue = parameters[randomKey];
-        
-        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        NSString *str1 = [NSString stringWithFormat:@"%@%@hellouf", companyInfo.company_id, randomValue];
-        NSString *md5Str = [BXTGlobal md5:str1];
-        
-        NSString *str2 = [NSString stringWithFormat:@"shop_id$%@#%@", randomKey, md5Str];
-        finalStr = [DES3Util encrypt:str2];
+        id randomValue = parameters[randomKey];
+        // 只有字符串可以向下进行
+        if (![randomValue isKindOfClass:[NSString class]]) {
+            randomKey = @"";
+            randomValue = @"";
+        }
     }
-    else {
-        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        NSString *str1 = [NSString stringWithFormat:@"%@%@hellouf", companyInfo.company_id, @""];
-        NSString *md5Str = [BXTGlobal md5:str1];
-        
-        NSString *str2 = [NSString stringWithFormat:@"shop_id$%@#%@", @"", md5Str];
-        finalStr = [DES3Util encrypt:str2];
-    }
+    
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    NSString *str1 = [NSString stringWithFormat:@"%@%@hellouf.com", companyInfo.company_id, randomValue];
+    NSString *md5Str = [BXTGlobal md5:str1];
+    
+    NSString *str2 = [NSString stringWithFormat:@"shop_id$%@#%@", randomKey, md5Str];
+    finalStr = [DES3Util encrypt:str2];
     
     NSString *finalURL = [finalStr stringByReplacingOccurrencesOfString:@"+" withString:@"_"];
     finalURL = [finalURL stringByReplacingOccurrencesOfString:@" " withString:@"-"];
     
-    url = [NSString stringWithFormat:@"%@/encrypt_content/%@", url, finalURL];
+    url = [NSString stringWithFormat:@"%@&encrypt_content=%@", url, finalURL];
     
     return url;
-}
-
-//加密数据后朱换成json
-- (NSData *)toJSONData:(id)theData
-{
-    NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:theData
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:&error];
-    if ([jsonData length] != 0 && error == nil) {
-        return jsonData;
-    } else {
-        return nil;
-    }
 }
 
 @end

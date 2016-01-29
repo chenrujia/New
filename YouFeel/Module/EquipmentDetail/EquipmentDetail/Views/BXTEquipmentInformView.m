@@ -178,7 +178,7 @@
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == Device_Con && data.count > 0)
+    if (type == Device_Con && data.count > 0 && [dic[@"returncode"] integerValue] == 0)
     {
         NSDictionary *dataDict = data[0];
         
@@ -232,6 +232,12 @@
         [self.detailArray addObjectsFromArray:@[equipArray, baseArray, companyArray, paramsArray, authorArray]];
         
         [self.tableView reloadData];
+    }
+    else if ([dic[@"returncode"] integerValue] == 002)
+    {
+        [MYAlertAction showAlertWithTitle:@"暂无此设备" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+            [[self getNavigation] popViewControllerAnimated:YES];
+        } buttonsStatement:@"退出", nil];
     }
 }
 

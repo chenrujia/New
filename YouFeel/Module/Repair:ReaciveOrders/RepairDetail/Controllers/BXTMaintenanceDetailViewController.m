@@ -634,7 +634,7 @@
             [self.view addSubview:_evaluationBtn];
             _sco_content_height.constant += 200.f/3.f;
         }
-
+        
         [_contentView layoutIfNeeded];
     }
     else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
