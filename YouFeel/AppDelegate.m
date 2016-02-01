@@ -16,6 +16,8 @@
 #import "UINavigationController+YRBackGesture.h"
 #import "BXTApplicationsViewController.h"
 #import "BXTNoticeListViewController.h"
+#import "BXTNewOrderViewController.h"
+#import "BXTGrabOrderViewController.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -391,17 +393,44 @@ void UncaughtExceptionHandler(NSException *exception){
             if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)//收到抢单信息
             {
                 [[BXTGlobal shareGlobal].newsOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
-                if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
+                BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
+                grabOrderVC.hidesBottomBarWhenPushed = YES;
+                
+                // 工单数 > 实时抢单页面数 -> 跳转
+                BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
+                if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&
+                    [BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
                 {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"GrabOrder" object:@""];
+                    if ([BXTGlobal shareGlobal].presentNav)
+                    {
+                        [[BXTGlobal shareGlobal].presentNav pushViewController:grabOrderVC animated:YES];
+                    }
+                    else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
+                    {
+                        CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
+                        UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
+                        [nav pushViewController:grabOrderVC animated:YES];
+                    }
                 }
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)//收到派工或者维修邀请
             {
                 [[BXTGlobal shareGlobal].assignOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
-                if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
+                BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:NO andWithOrderID:nil];
+                newOrderVC.hidesBottomBarWhenPushed = YES;
+                
+                if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
                 {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"AssignOrderComing" object:nil];
+                    if ([BXTGlobal shareGlobal].presentNav)
+                    {
+                        [[BXTGlobal shareGlobal].presentNav pushViewController:newOrderVC animated:YES];
+                    }
+                    else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
+                    {
+                        CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
+                        UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
+                        [nav pushViewController:newOrderVC animated:YES];
+                    }
                 }
             }
             else
@@ -419,13 +448,17 @@ void UncaughtExceptionHandler(NSException *exception){
             if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)
             {
                 [[BXTGlobal shareGlobal].assignOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
-                if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
+                BXTNoticeListViewController *noticeVC = [[BXTNoticeListViewController alloc] init];
+                noticeVC.hidesBottomBarWhenPushed = YES;
+                
+                if ([BXTGlobal shareGlobal].presentNav)
+                {
+                    [[BXTGlobal shareGlobal].presentNav pushViewController:noticeVC animated:YES];
+                }
+                else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
                 {
                     CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
                     UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
-                    
-                    BXTNoticeListViewController *noticeVC = [[BXTNoticeListViewController alloc] init];
-                    noticeVC.hidesBottomBarWhenPushed = YES;
                     [nav pushViewController:noticeVC animated:YES];
                 }
             }

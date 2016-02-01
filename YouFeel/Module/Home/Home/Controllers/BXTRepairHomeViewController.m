@@ -26,7 +26,6 @@
     logoImgView.image = [UIImage imageNamed:@"Nav_Bar"];
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
     title_label.text = @"我的工单";
-    [self addGrabAndAssignOrderNotifications];
     
     self.imgNameArray = [NSMutableArray arrayWithObjects:@"My_Orders",
                          @[@"Day_Order",@"Maintenance_Orders"],
@@ -82,25 +81,6 @@
             [self comingNewRepairs];
         }
     }
-}
-
-- (void)addGrabAndAssignOrderNotifications
-{
-    @weakify(self);
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"GrabOrder" object:nil] subscribeNext:^(id x) {
-        @strongify(self);
-        [self comingNewRepairs];
-    }];
-    
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"AssignOrderComing" object:nil] subscribeNext:^(id x) {
-        if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
-        {
-            @strongify(self);
-            BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:NO andWithOrderID:nil];
-            newOrderVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:newOrderVC animated:YES];
-        }
-    }];
 }
 
 #pragma mark -

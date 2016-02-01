@@ -33,6 +33,7 @@
 @property (nonatomic ,strong) NSString       *newsShopID;
 @property (nonatomic ,assign) BOOL           isRepair;//Yes是维修员，No是报修者
 @property (nonatomic ,assign) NSString       *longTime;
+@property (nonatomic, strong) UINavigationController *presentNav;
 
 @property (nonatomic, assign) NSInteger numOfPresented;
 @property (nonatomic, assign) NSInteger assignNumber;

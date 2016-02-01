@@ -66,7 +66,7 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request propertyGrouping];
     
-    [self navigationSetting:@"全部工单" andRightTitle:@"筛选" andRightImage:nil];
+    [self navigationSetting:@"全部工单" andRightTitle:@"   筛选" andRightImage:nil];
     
     
     if (self.isSpecialPush)
