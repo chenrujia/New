@@ -469,7 +469,7 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  个人信息
  */
-- (void)mailListOfOnePersonWithID:(NSString *)userID;
+- (void)mailListOfOnePersonWithID:(NSString *)userID shopID:(NSString *)shopID;
 
 /**
  *  解析二维码内容

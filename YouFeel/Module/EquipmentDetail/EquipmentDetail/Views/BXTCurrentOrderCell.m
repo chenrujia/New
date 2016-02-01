@@ -41,6 +41,11 @@
         self.receiveOrderView.backgroundColor = colorWithHexString(@"#d9d9d9");
         self.receiveOrderView.userInteractionEnabled = NO;
     }
+    
+    if (![BXTGlobal shareGlobal].isRepair) {
+        self.receiveOrderView.backgroundColor = colorWithHexString(@"#d9d9d9");
+        self.receiveOrderView.userInteractionEnabled = NO;
+    }
 }
 
 - (void)awakeFromNib {

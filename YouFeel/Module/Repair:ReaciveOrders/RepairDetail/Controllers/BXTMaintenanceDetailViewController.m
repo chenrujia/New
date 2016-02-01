@@ -79,6 +79,8 @@
         NSDictionary *repaier_fault_dic = self.repairDetail.repair_fault_arr[0];
         BXTPersonInfromViewController *personVC = [[BXTPersonInfromViewController alloc] init];
         personVC.userID = [repaier_fault_dic objectForKey:@"id"];
+        NSArray *shopArray = [BXTGlobal getUserProperty:U_SHOPIDS];
+        personVC.shopID = shopArray[0];
         [self.navigationController pushViewController:personVC animated:YES];
     }];
     [_headImgView addGestureRecognizer:tapGesture];

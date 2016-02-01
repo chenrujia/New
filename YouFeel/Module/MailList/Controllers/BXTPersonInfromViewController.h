@@ -11,5 +11,6 @@
 @interface BXTPersonInfromViewController : BXTBaseViewController
 
 @property (nonatomic, copy) NSString *userID;
+@property (nonatomic, copy) NSString *shopID;
 
 @end

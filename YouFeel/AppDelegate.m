@@ -14,6 +14,8 @@
 #import "BXTLoadingViewController.h"
 #import "BXTHeadquartersViewController.h"
 #import "UINavigationController+YRBackGesture.h"
+#import "BXTApplicationsViewController.h"
+#import "BXTNoticeListViewController.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -412,6 +414,21 @@ void UncaughtExceptionHandler(NSException *exception){
             break;
         case 4://预警
             
+            break;
+        case 6://广播
+            if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)
+            {
+                [[BXTGlobal shareGlobal].assignOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
+                if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
+                {
+                    CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
+                    UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:2] ;
+                    
+                    BXTNoticeListViewController *noticeVC = [[BXTNoticeListViewController alloc] init];
+                    noticeVC.hidesBottomBarWhenPushed = YES;
+                    [nav pushViewController:noticeVC animated:YES];
+                }
+            }
             break;
         default:
             break;

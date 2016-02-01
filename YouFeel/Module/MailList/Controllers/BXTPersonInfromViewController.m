@@ -42,7 +42,7 @@
     
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request mailListOfOnePersonWithID:self.userID];
+    [request mailListOfOnePersonWithID:self.userID shopID:self.shopID];
     
     [self createHeaderView];
     

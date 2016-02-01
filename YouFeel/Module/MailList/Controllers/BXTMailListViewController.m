@@ -531,7 +531,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     if (tableView == self.tableView_Search)
     {
         BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
-        [self pushPersonInfromViewControllerWithUserID:[NSString stringWithFormat:@"%@", model.user_id]];
+        [self pushPersonInfromViewControllerWithUserID:[NSString stringWithFormat:@"%@", model.user_id] shopID:model.shops_id];
         
         [self showTableViewAndHideSearchTableView:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -542,7 +542,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     if (indexPath.section == 1)
     {
         BXTMailListModel *listModel = self.subOtherArray[indexPath.row];
-        [self pushPersonInfromViewControllerWithUserID:listModel.user_id];
+        [self pushPersonInfromViewControllerWithUserID:listModel.user_id shopID:listModel.shops_id];
         return;
     }
     
@@ -612,15 +612,16 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 - (void)tableView:(SKSTableView *)tableView didSelectSubRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTMailListModel *listModel = self.subDataArray[indexPath.row][indexPath.subRow];
-    [self pushPersonInfromViewControllerWithUserID:listModel.user_id];
+    [self pushPersonInfromViewControllerWithUserID:listModel.user_id shopID:listModel.shops_id];
     
     NSLog(@"didSelectSubRow - Section: %ld, Row:%ld, Subrow:%ld", (long)indexPath.section, (long)indexPath.row, (long)indexPath.subRow);
 }
 
-- (void)pushPersonInfromViewControllerWithUserID:(NSString *)userID
+- (void)pushPersonInfromViewControllerWithUserID:(NSString *)userID shopID:(NSString *)shopID
 {
     BXTPersonInfromViewController *pivc = [[BXTPersonInfromViewController alloc] init];
     pivc.userID = userID;
+    pivc.shopID = shopID;
     pivc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:pivc animated:YES];
 }
