@@ -199,7 +199,7 @@
             NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
             
             BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_content"]];
-            // 存储 设备 ID
+            epvc.pushType = PushType_Scan;
             [self.navigationController pushViewController:epvc animated:YES];
         }
     }

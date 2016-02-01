@@ -111,6 +111,7 @@
 #pragma mark 事件处理
 - (void)navigationLeftButton
 {
+    [BXTGlobal shareGlobal].presentNav = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -251,7 +251,6 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 {
     self.searchStr = searchText;
     
-    
     NSArray *allPersonArray = [BXTGlobal readFileWithfileName:@"AllFaultTypeList"];
     
     NSMutableArray *searchResults = [[NSMutableArray alloc]init];
@@ -281,8 +280,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         }
     } else if (self.searchBar.text.length > 0 && [ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
         for (NSDictionary *dict in allPersonArray) {
-            BXTHeadquartersInfo *model = [BXTHeadquartersInfo modelObjectWithDictionary:dict];
-            NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+            BXTFaultTypeList *model = [BXTFaultTypeList modelWithDict:dict];
+            NSRange titleResult=[model.faulttype rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
             if (titleResult.length > 0) {
                 [searchResults addObject:dict];
             }

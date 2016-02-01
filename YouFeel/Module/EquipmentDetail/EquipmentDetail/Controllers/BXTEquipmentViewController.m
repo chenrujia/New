@@ -95,7 +95,12 @@
 
 - (void)navigationLeftButton
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.pushType == PushType_Scan)    {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark -

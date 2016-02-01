@@ -57,7 +57,10 @@
             BXTRepairViewController *repairVC = [[BXTRepairViewController alloc] initWithVCType:ShopsVCType];
             repairVC.isRepairList = YES;
             nav = [[UINavigationController alloc] initWithRootViewController:repairVC];
+            
         }
+        
+        [BXTGlobal shareGlobal].presentNav = nav;
         [nav setEnableBackGesture:YES];
         nav.navigationBarHidden = YES;
         [[AppDelegate appdelegete].window.rootViewController presentViewController:nav animated:YES completion:nil];
