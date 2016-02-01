@@ -66,8 +66,7 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request propertyGrouping];
     
-    UIImage *rightImage = [UIImage imageNamed:@"w_small_round"];
-    [self navigationSetting:@"全部工单" andRightTitle:nil andRightImage:rightImage];
+    [self navigationSetting:@"全部工单" andRightTitle:@"筛选" andRightImage:nil];
     
     
     if (self.isSpecialPush)

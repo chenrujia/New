@@ -422,7 +422,7 @@ void UncaughtExceptionHandler(NSException *exception){
                 if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
                 {
                     CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
-                    UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:2] ;
+                    UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
                     
                     BXTNoticeListViewController *noticeVC = [[BXTNoticeListViewController alloc] init];
                     noticeVC.hidesBottomBarWhenPushed = YES;
