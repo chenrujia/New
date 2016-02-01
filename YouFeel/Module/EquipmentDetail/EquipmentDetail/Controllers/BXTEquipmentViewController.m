@@ -61,21 +61,13 @@
     [backView setBackgroundColor:colorWithHexString(@"ffffff")];
     [self.view addSubview:backView];
     
-    if (![BXTGlobal shareGlobal].isRepair)
-    {
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"当前工单",@"设备档案"] isWhiteBGColor:1];
-    }
-    else
-    {
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"当前工单",@"设备档案"] isWhiteBGColor:1];
-    }
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"当前工单",@"设备档案"] isWhiteBGColor:1];
     
     segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
     segment.layer.borderWidth = 1.f;
     segment.delegate = self;
-    
     [backView addSubview:segment];
     
     currentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, navBarHeight + 40.f, SCREEN_WIDTH, SCREEN_HEIGHT - navBarHeight - 40.f)];
@@ -93,6 +85,12 @@
     
     BXTEquipmentFilesView *epfView = [[BXTEquipmentFilesView alloc] initWithFrame:CGRectMake(2*SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
     [currentScrollView addSubview:epfView];
+    
+    // 跳转类型判断
+    if (self.pushType == PushType_StartMaintain) {
+        [segment segemtBtnChange:2];
+        [currentScrollView setContentOffset:CGPointMake(2 * SCREEN_WIDTH, 0) animated:YES];
+    }
 }
 
 - (void)navigationLeftButton

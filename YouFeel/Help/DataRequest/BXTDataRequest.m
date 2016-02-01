@@ -851,11 +851,14 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:nil];
 }
 
-- (void)mailListOfOnePersonWithID:(NSString *)userID
+- (void)mailListOfOnePersonWithID:(NSString *)userID shopID:(NSString *)shopID
 {
     self.requestType = UserInfo;
+    SaveValueTUD(@"shopID_Special", shopID);
+    
     NSDictionary *dic = @{@"id": userID};
-    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_con",[BXTGlobal shareGlobal].baseURL];
+    NSString *baseURL = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_con", baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -1126,7 +1129,7 @@ andRepairerIsReacive:(NSString *)reacive
 // 加密
 - (NSString *)encryptTheURL:(NSString *)url dict:(NSDictionary *)parameters
 {
-    // value1(shop_id) + value2(key) + hellouf.com  ------>  md5加密 <ONE>
+    // value1(shop_id) + value2(key) + hell ouf.com  ------>  md5加密 <ONE>
     //  shop_id + $ + key + # + <ONE>  -----> DES3Util
     
     NSString *finalStr;
@@ -1151,7 +1154,10 @@ andRepairerIsReacive:(NSString *)reacive
     }
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    NSString *str1 = [NSString stringWithFormat:@"%@%@hellouf.com", companyInfo.company_id, randomValue];
+    NSString *str1 = [NSString stringWithFormat:@"%@%@hello%@", companyInfo.company_id, randomValue, @"uf.com"];
+    if (self.requestType == UserInfo) {
+        str1 = [NSString stringWithFormat:@"%@%@hello%@", ValueFUD(@"shopID_Special"), randomValue, @"uf.com"];
+    }
     NSString *md5Str = [BXTGlobal md5:str1];
     
     NSString *str2 = [NSString stringWithFormat:@"shop_id$%@#%@", randomKey, md5Str];

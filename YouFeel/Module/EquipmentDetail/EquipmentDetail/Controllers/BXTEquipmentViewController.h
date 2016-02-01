@@ -8,8 +8,14 @@
 
 #import "BXTBaseViewController.h"
 
+typedef  NS_ENUM(NSInteger, PushType) {
+    PushType_StartMaintain = 1,
+    PushType_Other
+};
+
 @interface BXTEquipmentViewController : BXTBaseViewController
 
+@property (nonatomic, assign) NSInteger pushType;
 - (instancetype)initWithDeviceID:(NSString *)device_id;
 
 @end

@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "BXTHeaderForVC.h"
 #import "BXTEquipmentViewController.h"
+#import "BXTPersonInfromViewController.h"
 
 @interface BXTDetailBaseViewController ()<BXTDataResponseDelegate>
 
@@ -202,10 +203,26 @@
         size = MB_MULTILINE_TEXTSIZE(log, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30, 1000.f), NSLineBreakByWordWrapping);
         height = RepairHeight + size.height + 20.f;
     }
+    
     UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, mainMaxY + i * RepairHeight + log_height, SCREEN_WIDTH, height)];
     UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
     [userImgView sd_setImageWithURL:[NSURL URLWithString:[userDic objectForKey:@"head_pic"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+    userImgView.userInteractionEnabled = YES;
     [userBack addSubview:userImgView];
+    
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
+    @weakify(self);
+    [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTPersonInfromViewController *piVC = [[BXTPersonInfromViewController alloc] init];
+        piVC.userID = [userDic objectForKey:@"id"];
+        NSArray *shopArray = [BXTGlobal getUserProperty:U_SHOPIDS];
+        piVC.shopID = shopArray[0];
+        [self.navigationController pushViewController:piVC animated:YES];
+    }];
+    [userImgView addGestureRecognizer:tapGR];
+    
+    
     //log_height：维修日志的高度
     if (size.height > 0)
     {
@@ -244,7 +261,6 @@
     phone.attributedText = attributedString;
     UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] init];
     [phone addGestureRecognizer:moblieTap];
-    @weakify(self);
     [[moblieTap rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
         NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
@@ -369,6 +385,7 @@
             @strongify(self);
             NSDictionary *deviceDic = self.repairDetail.device_list[i];
             BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:[deviceDic objectForKey:@"id"]];
+            epvc.pushType = PushType_StartMaintain;
             epvc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:epvc animated:YES];
         }];
@@ -384,12 +401,12 @@
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-
+    
 }
 
 - (void)requestError:(NSError *)error
 {
-
+    
 }
 
 - (void)didReceiveMemoryWarning
