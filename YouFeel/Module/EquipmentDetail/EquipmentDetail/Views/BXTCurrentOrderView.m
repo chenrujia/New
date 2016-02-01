@@ -405,10 +405,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
-    if (IS_IOS_8)
-    {
-        self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
-    }
+    self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
     
     return cell;
 }
