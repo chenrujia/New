@@ -59,6 +59,7 @@
 @property (nonatomic ,strong) NSString     *long_time;
 @property (nonatomic ,strong) NSString     *start_time;
 @property (nonatomic ,assign) NSInteger    order_type;
+@property (nonatomic, assign) NSInteger    task_type;
 
 //维保相关
 @property (nonatomic, strong) NSArray      *device_list;

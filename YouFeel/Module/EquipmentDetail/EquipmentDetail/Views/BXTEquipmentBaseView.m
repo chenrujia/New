@@ -62,16 +62,15 @@
 {
     id rootVC = [AppDelegate appdelegete].window.rootViewController;
     UINavigationController *nav = nil;
-    if ([rootVC isKindOfClass:[CYLTabBarController class]])
+    if ([BXTGlobal shareGlobal].presentNav)
     {
-        CYLTabBarController *tempVC = rootVC;
+        nav = [BXTGlobal shareGlobal].presentNav;
+    }
+    else
+    {
+        CYLTabBarController *tempVC = (CYLTabBarController *)rootVC;
         nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
     }
-    else if ([rootVC isKindOfClass:[UINavigationController class]])
-    {
-        nav = rootVC;
-    }
-    LogBlue(@"nav.navigationBar.hidden:%d",nav.navigationBar.hidden);
     
     return nav;
 }

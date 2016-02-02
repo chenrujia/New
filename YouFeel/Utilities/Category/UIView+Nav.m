@@ -9,6 +9,7 @@
 #import "UIView+Nav.h"
 #import "AppDelegate.h"
 #import "MBProgressHUD.h"
+#import "BXTGlobal.h"
 #import "CYLTabBarController.h"
 
 @implementation UIView (Nav)
@@ -17,14 +18,14 @@
 {
     id rootVC = [AppDelegate appdelegete].window.rootViewController;
     UINavigationController *nav = nil;
-    if ([rootVC isKindOfClass:[CYLTabBarController class]])
+    if ([BXTGlobal shareGlobal].presentNav)
     {
-        CYLTabBarController *tempVC = rootVC;
-        nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
+        nav = [BXTGlobal shareGlobal].presentNav;
     }
-    else if ([rootVC isKindOfClass:[UINavigationController class]])
+    else
     {
-        nav = rootVC;
+        CYLTabBarController *tempVC = (CYLTabBarController *)rootVC;
+        nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
     }
     
     return nav;
