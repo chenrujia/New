@@ -40,6 +40,7 @@
 - (void)initial
 {
     self.dataArray = [[NSMutableArray alloc] init];
+    self.currentPage = 1;
     
     [self createUI];
 }
@@ -59,7 +60,7 @@
 - (void)requestNetResourceWithReadState:(NSInteger)readState
 {
     NSString *readStateStr = [NSString stringWithFormat:@"%ld", (long)readState];
-    self.currentPage = 1;
+    
     __block __typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
@@ -163,7 +164,7 @@
 #pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"没有符合条件的项目通告";
+    NSString *text = @"没有符合条件的项目公告";
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName:[UIColor blackColor]};
     

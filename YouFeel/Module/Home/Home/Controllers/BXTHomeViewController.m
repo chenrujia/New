@@ -39,6 +39,7 @@
     SDCycleScrollView *cycleScrollView;
 }
 
+@property (nonatomic, strong) NSMutableArray *logosArray;
 @property (nonatomic, strong) NSMutableArray *usersArray;
 @property (nonatomic, strong) NSMutableArray *adsArray;
 
@@ -57,8 +58,9 @@
     [self addNotifications];
     [self createLogoView];
     [self loginRongCloud];
-    datasource = [NSMutableArray array];
+    
     self.adsArray = [[NSMutableArray alloc] init];
+    self.logosArray = [[NSMutableArray alloc] init];
     NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (users)
     {
@@ -165,14 +167,13 @@
 #pragma mark 初始化视图
 - (void)createLogoView
 {
-    CGFloat adsViewH = valueForDevice(240, 145, 123, 123);
-    logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64 + adsViewH)];
+    logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64)];
     logoImgView.userInteractionEnabled = YES;
     [self.view addSubview:logoImgView];
     
     //项目列表
     UIButton *branchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    branchBtn.frame = CGRectMake(5, valueForDevice(25.f, 25.f, 20.f, 15.f)-5, 47, 47);
+    branchBtn.frame = CGRectMake(5, 20, 47, 47);
     [branchBtn setBackgroundImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
     @weakify(self);
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -185,7 +186,7 @@
     [logoImgView addSubview:branchBtn];
     
     //店名
-    shop_label = [[UILabel alloc] initWithFrame:CGRectMake(0, valueForDevice(35.f, 35.f, 30.f, 25.f)-2, SCREEN_WIDTH-130, 20.f)];
+    shop_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 33, SCREEN_WIDTH-130, 20.f)];
     shop_label.center = CGPointMake(SCREEN_WIDTH/2.f, shop_label.center.y);
     shop_label.font = [UIFont systemFontOfSize:18.f];
     shop_label.textAlignment = NSTextAlignmentCenter;
@@ -194,11 +195,11 @@
     
     //消息
     messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [messageBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 5.f, valueForDevice(25.f, 25.f, 20.f, 15.f)-5, 44.f, 44.f)];
+    [messageBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 5.f, 20, 44.f, 44.f)];
     [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
     [[messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] initWithDataSourch:datasource];
+        BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] init];
         messageVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:messageVC animated:YES];
     }];
@@ -206,7 +207,7 @@
     
     //扫描
     UIButton *scanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [scanBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 50, valueForDevice(25.f, 25.f, 20.f, 15.f)-5, 44.f, 44.f)];
+    [scanBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 50, 20, 44.f, 44.f)];
     [scanBtn setBackgroundImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
     [[scanBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -227,9 +228,6 @@
     }];
     [logoImgView addSubview:scanBtn];
     
-    //广告页
-    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, adsViewH + 6) delegate:self placeholderImage:[UIImage imageNamed:@"allDefault"]];
-    [logoImgView addSubview:cycleScrollView];
     
     self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(logoImgView.frame) - KTABBARHEIGHT-5) style:UITableViewStyleGrouped];
     [_currentTableView registerClass:[BXTHomeTableViewCell class] forCellReuseIdentifier:@"HomeCell"];
@@ -237,6 +235,7 @@
     _currentTableView.dataSource = self;
     _currentTableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:_currentTableView];
+    
 }
 
 - (void)loginRongCloud
@@ -355,9 +354,25 @@
 {
     if (section == 0)
     {
-        return 0.1f;//section头部高度
+        return valueForDevice(240, 145, 123, 123);;//section头部高度
     }
     return 8.f;//section头部高度
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        CGFloat adsViewH = valueForDevice(240, 145, 123, 123);
+        if (!cycleScrollView)
+        {
+            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, adsViewH ) delegate:self placeholderImage:[UIImage imageNamed:@"allDefault"]];
+        }
+        cycleScrollView.imageURLStringsGroup = self.logosArray;
+        
+        return cycleScrollView;
+    }
+    return [UIView new];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -456,7 +471,6 @@
     [self hideMBP];
     
     NSDictionary *dic = response;
-    [datasource removeAllObjects];
     NSArray *array = [dic objectForKey:@"data"];
     
     if (type == ConfigInfo)
@@ -494,14 +508,17 @@
     }
     else if (type == Ads_Pics)
     {
-        NSMutableArray *imageArray = [[NSMutableArray alloc] init];
         NSMutableArray *modelArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *dict in array) {
+        for (NSDictionary *dict in array)
+        {
             BXTAdsInform *model = [BXTAdsInform modeWithDict:dict];
             [modelArray addObject:model];
-            [imageArray addObject:model.pic];
+            [self.logosArray addObject:model.pic];
         }
-        cycleScrollView.imageURLStringsGroup = imageArray;
+        if (cycleScrollView)
+        {
+            cycleScrollView.imageURLStringsGroup = self.logosArray;
+        }
         self.adsArray = modelArray;
     }
     else if (type == UserInfoForChatList)
@@ -539,10 +556,6 @@
             [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
         }
         
-        if (array.count)
-        {
-            [datasource addObjectsFromArray:array];
-        }
         [_currentTableView reloadData];
     }
 }

@@ -18,7 +18,7 @@
 @property (nonatomic, copy) NSString *inspectioNum;
 /** ---- 应用 ---- */
 @property (nonatomic, copy) NSString *appNum;
-/** ---- 项目通告 ---- */
+/** ---- 项目公告 ---- */
 @property (nonatomic, copy) NSString *announcementNum;
 
 /** ---- 点击阅读时间-日常 ---- */

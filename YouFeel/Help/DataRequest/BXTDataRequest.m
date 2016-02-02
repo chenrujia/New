@@ -983,18 +983,11 @@ andRepairerIsReacive:(NSString *)reacive
                              pagesize:(NSString *)pagesize
                                  page:(NSString *)page
 {
-    // TODO: -----------------  调试 - 后期需修改 -----------------
-    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_USERID],
+    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"type": @"1",
                           @"read_state": readState,
                           @"pagesize": pagesize,
                           @"page": page};
-    
-    //    NSDictionary *dic = @{@"user_id": @"0",
-    //                          @"type": @"1",
-    //                          @"read_state": @"0",
-    //                          @"pagesize": pagesize,
-    //                          @"page": page};
     NSString *url = [NSString stringWithFormat:@"%@&module=Announcement&opt=announcement_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
