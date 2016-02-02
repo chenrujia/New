@@ -101,14 +101,6 @@
 #pragma mark 事件处理
 - (void)addMan:(UIButton *)btn
 {
-    for (NSString *indexStr in indexArray)
-    {
-        if (btn.tag == [indexStr intValue])
-        {
-            return;
-        }
-    }
-    
     btn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;;
     
     BXTAddOtherManInfo *manInfo = dataSource[btn.tag];
@@ -231,13 +223,12 @@
         [selectManIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherManInfo.manID]];
     }
     
-    // 以前人员ID
-    [selectManIDs addObjectsFromArray:self.manIDArray];
-    
     // 去重
     NSMutableArray *categoryArray = [[NSMutableArray alloc] init];
-    for (unsigned i = 0; i < selectManIDs.count; i++){
-        if (![categoryArray containsObject:selectManIDs[i]]){
+    for (unsigned i = 0; i < selectManIDs.count; i++)
+    {
+        if (![categoryArray containsObject:selectManIDs[i]])
+        {
             [categoryArray addObject:selectManIDs[i]];
         }
     }
@@ -282,14 +273,7 @@
             break;
         }
     }
-    for (NSString *manID in self.manIDArray) {
-        if ([manID integerValue] == otherManInfo.manID)
-        {
-            cell.addBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
-            break;
-        }
-    }
-    
+
     cell.addBtn.tag = indexPath.row;
     [cell.addBtn addTarget:self action:@selector(addMan:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -389,13 +373,12 @@
                     }
                     isHave = YES;
                 }
+                else if ([self.manIDArray containsObject:[NSString stringWithFormat:@"%ld",(long)otherManInfo.manID]])
+                {
+                    ++number;
+                    [selectMans addObject:otherManInfo];
+                }
                 [dataSource addObject:otherManInfo];
-                
-                [listArray addObject:[NSString stringWithFormat:@"%ld", (long)otherManInfo.manID]];
-            }
-            
-            for (NSString *manID in self.manIDArray) {
-                [indexArray addObject:[NSString stringWithFormat:@"%ld", (unsigned long)[listArray indexOfObject:manID]]];
             }
         }
         [currentTableView reloadData];
@@ -406,9 +389,12 @@
         {
             [self showMBP:@"添加成功！" withBlock:^(BOOL hidden) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-                if (vcType == AssignType) {
+                if (vcType == AssignType)
+                {
                     [self.navigationController popToRootViewControllerAnimated:YES];
-                } else {
+                }
+                else
+                {
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }];
@@ -427,15 +413,5 @@
     [super didReceiveMemoryWarning];
     
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

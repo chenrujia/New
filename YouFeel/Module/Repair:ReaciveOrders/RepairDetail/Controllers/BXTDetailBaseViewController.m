@@ -366,13 +366,14 @@
         maintenaceBtn.layer.cornerRadius = 4.f;
         [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 11.f, 83.f, 40.f)];
         maintenaceBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-        if (!IS_IPHONE6) {
+        if (!IS_IPHONE6)
+        {
             [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 70.f - 15.f, 11.f, 70.f, 35.f)];
             maintenaceBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         }
-        
-        //如果是报修者身份，或者是维修员还没有到达现场（点击开始维修），则只提供查看权限
-        if (((self.repairDetail.repairstate == 1 || self.repairDetail.repairstate == 2) && self.repairDetail.isRepairing == 1) || ![BXTGlobal shareGlobal].isRepair)
+
+        //如果是报修者身份，或者是维修员还没有到达现场（点击开始维修），或者是正常工单，则只提供查看权限
+        if (((self.repairDetail.repairstate == 1 || self.repairDetail.repairstate == 2) && self.repairDetail.isRepairing == 1) || ![BXTGlobal shareGlobal].isRepair || self.repairDetail.task_type == 1)
         {
             [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
         }

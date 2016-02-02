@@ -119,21 +119,14 @@
     [BXTGlobal setUserProperty:[dic objectForKey:@"mobile"] withKey:U_MOBILE];
     [BXTGlobal setUserProperty:[dic objectForKey:@"is_verify"] withKey:U_IS_VERIFY];
     
-    //    UINavigationController *nav;
     if ([[dic objectForKey:@"is_repair"] integerValue] == 1)
     {
         [BXTGlobal shareGlobal].isRepair = NO;
-        //        BXTShopsHomeViewController *homeVC = [[BXTShopsHomeViewController alloc] init];
-        //        nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
     }
     else if ([[dic objectForKey:@"is_repair"] integerValue] == 2)
     {
         [BXTGlobal shareGlobal].isRepair = YES;
-        //        BXTRepairHomeViewController *homeVC = [[BXTRepairHomeViewController alloc] init];
-        //        nav = [[UINavigationController alloc] initWithRootViewController:homeVC];
     }
-    //    nav.navigationBar.hidden = YES;
-    //    [AppDelegate appdelegete].window.rootViewController = nav;
     
     CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
     [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];
