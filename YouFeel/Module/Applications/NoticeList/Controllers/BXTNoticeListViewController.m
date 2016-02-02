@@ -32,6 +32,14 @@
     [self createUI];
 }
 
+- (void)navigationLeftButton
+{
+    if (self.delegateSignal) {
+        [self.delegateSignal sendNext:nil];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)createUI
 {
     // UIView

@@ -61,7 +61,7 @@
     [backView setBackgroundColor:colorWithHexString(@"ffffff")];
     [self.view addSubview:backView];
     
-    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"当前工单",@"设备档案"] isWhiteBGColor:1];
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"设备工单",@"维保档案"] isWhiteBGColor:1];
     
     segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     segment.layer.masksToBounds = YES;

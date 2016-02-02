@@ -25,12 +25,22 @@
     self.navigationController.navigationBarHidden = NO;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
+    
+    // - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left
+    self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [[RCIMClient sharedRCIMClient] getTotalUnreadCount]];
+    if ([[RCIMClient sharedRCIMClient] getTotalUnreadCount] == 0)
+    {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        self.navigationController.tabBarItem.badgeValue = nil;
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    
     
     UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(80, 5, SCREEN_WIDTH-160, 30)];
     label.font = [UIFont systemFontOfSize:18.0f];
@@ -74,6 +84,7 @@
     // 删除位置功能
     //[conversationVC.pluginBoardView removeItemAtIndex:2];
     conversationVC.hidesBottomBarWhenPushed = YES;
+    
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
 

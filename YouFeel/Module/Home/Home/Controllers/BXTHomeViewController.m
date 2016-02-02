@@ -522,6 +522,7 @@
         [BXTRemindNum sharedManager].appNum = [NSString stringWithFormat:@"%@", numDict[@"app_sum_number"]];
         [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%@", numDict[@"announcement_number"]];
         
+        // 应用提示
         if ( [[BXTRemindNum sharedManager].appNum integerValue] != 0) {
             UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:2];
             tController.tabBarItem.badgeValue = [BXTRemindNum sharedManager].appNum;

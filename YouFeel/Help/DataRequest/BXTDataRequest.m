@@ -568,12 +568,16 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)newsListWithPage:(NSInteger)page
+              noticeType:(NSString *)noticeType
 {
+    // notice_type
+    // 1.系统消息 2工单消息 3工作通知消息 4.预警消息 6 公告消息
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"10",
-                          @"shop_id":companyInfo.company_id};
+                          @"shop_id":companyInfo.company_id,
+                          @"notice_type": noticeType};
     NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_list",KURLREQUEST];
     [self postRequest:url withParameters:dic];
 }

@@ -48,6 +48,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
 }
 
+- (void)navigationLeftButton
+{
+    if (self.delegateSignal) {
+        [self.delegateSignal sendNext:nil];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)deleteImage:(NSNotification *)notification
 {
     NSNumber *number = notification.object;

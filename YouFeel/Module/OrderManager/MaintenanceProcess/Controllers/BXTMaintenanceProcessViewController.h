@@ -14,6 +14,8 @@ typedef void(^blockT)(void);
 
 @property (nonatomic, copy) blockT BlockRefresh;
 
+@property (nonatomic, strong) RACSubject *delegateSignal;
+
 - (instancetype)initWithCause:(NSString *)cause
             andCurrentFaultID:(NSInteger)faultID
                   andRepairID:(NSInteger)repairID

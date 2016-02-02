@@ -308,7 +308,8 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  消息列表
  */
-- (void)newsListWithPage:(NSInteger)page;
+- (void)newsListWithPage:(NSInteger)page
+              noticeType:(NSString *)noticeType;
 
 /**
  *  消息分类列表
