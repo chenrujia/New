@@ -235,7 +235,6 @@
     _currentTableView.dataSource = self;
     _currentTableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:_currentTableView];
-    
 }
 
 - (void)loginRongCloud
