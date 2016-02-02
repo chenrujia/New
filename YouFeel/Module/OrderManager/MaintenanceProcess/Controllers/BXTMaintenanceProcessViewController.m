@@ -686,6 +686,18 @@
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }];
         }
+        else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+            __weak typeof(self) weakSelf = self;
+            [self showMBP:@"工单已被处理！" withBlock:^(BOOL hidden) {
+                if (weakSelf.BlockRefresh)
+                {
+                    weakSelf.BlockRefresh();
+                }
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            }];
+        }
     }
     else if (type == SpecialOrderTypes)
     {

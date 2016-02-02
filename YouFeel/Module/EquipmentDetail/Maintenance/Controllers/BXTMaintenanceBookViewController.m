@@ -181,9 +181,9 @@
         CGSize size = MB_MULTILINE_TEXTSIZE(deviceInfo.notes, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000), NSLineBreakByWordWrapping);
         if (_maintenceInfo.pic.count > 0)
         {
-            return 12.f + size.height + 12.f + 73.f + 40.f;
+            return 12.f + size.height + 12.f + 73.f + 90.f;
         }
-        return 12.f + size.height + 12.f;
+        return 12.f + size.height + 12.f + 56.f;
     }
     return 97.f;
 }
@@ -202,7 +202,7 @@
         
         BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
         cell.deviceName.text = [NSString stringWithFormat:@"设备名称：%@",deviceInfo.name];
-        cell.deviceNumber.text = [NSString stringWithFormat:@"设备编号：%@",deviceInfo.model_number];
+        cell.deviceNumber.text = [NSString stringWithFormat:@"设备编号：%@",deviceInfo.code_number];
         cell.deviceSystem.text = [NSString stringWithFormat:@"系统：%@",_maintenceInfo.faulttype_type_name];
         cell.maintenanceProject.text = [NSString stringWithFormat:@"维保项目：%@",_maintenceInfo.inspection_item_name];
         cell.maintenancePlane.text = [NSString stringWithFormat:@"维保计划：%@",_maintenceInfo.inspection_time];

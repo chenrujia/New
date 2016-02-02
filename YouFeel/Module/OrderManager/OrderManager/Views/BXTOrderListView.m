@@ -215,11 +215,8 @@
         CGFloat width = IS_IPHONE6 ? 84.f : 56.f;
         cell.evaButton.frame = CGRectMake(SCREEN_WIDTH - width - 15.f, CGRectGetMaxY(cell.lineViewTwo.frame) + 15.f, width, 30.f);
         cell.cancelRepair.frame = CGRectMake(SCREEN_WIDTH - 114.f - 15.f, CGRectGetMaxY(cell.lineViewTwo.frame) + 10.f, 114.f, 40.f);
-        if (IS_IOS_8)
-        {
-            self.cellHeight = CGRectGetMaxY(cell.repairState.frame) + 12;
-            self.cellHeight_nobtn = CGRectGetMaxY(cell.repairState.frame) + 8 - 64;
-        }
+        self.cellHeight = CGRectGetMaxY(cell.repairState.frame) + 12;
+        self.cellHeight_nobtn = CGRectGetMaxY(cell.repairState.frame) + 8 - 64;
         cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
         cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
         if (repairInfo.urgent == 2)
@@ -297,12 +294,8 @@
         cell.lineViewTwo.frame = CGRectMake(10, CGRectGetMaxY(cell.time.frame) + 8.f, SCREEN_WIDTH - 20, 1.f);
         cell.reaciveBtn.frame = CGRectMake(0, CGRectGetMaxY(cell.lineViewTwo.frame) + 10.f, 230.f, 40.f);
         cell.reaciveBtn.center = CGPointMake(SCREEN_WIDTH/2.f, cell.reaciveBtn.center.y);
-        if (IS_IOS_8)
-        {
-            self.cellHeight = CGRectGetMaxY(cell.reaciveBtn.frame) + 8;
-            self.cellHeight_nobtn = CGRectGetMaxY(cell.reaciveBtn.frame) + 8 - 58;
-        }
-        
+        self.cellHeight = CGRectGetMaxY(cell.reaciveBtn.frame) + 8;
+        self.cellHeight_nobtn = CGRectGetMaxY(cell.reaciveBtn.frame) + 8 - 58;
         cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
         
         if (repairInfo.order_type == 3)

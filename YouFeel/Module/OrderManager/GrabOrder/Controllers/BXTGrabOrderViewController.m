@@ -256,7 +256,6 @@
     if (button.tag == 10001)
     {
         [self showLoadingMBP:@"奋力争抢中..."];
-        //NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)timeInterval/60+1];
         NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)_timeInterval];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSInteger index = [BXTGlobal shareGlobal].numOfPresented - 1;
@@ -364,8 +363,11 @@
     RGCollectionViewCell *cell = (RGCollectionViewCell  *)[collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
     
     NSInteger index = [BXTGlobal shareGlobal].numOfPresented - 1;
-    NSString *orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
-    [cell requestDetailWithOrderID:orderID];
+    if ([BXTGlobal shareGlobal].newsOrderIDs.count - 1 >= index)
+    {
+        NSString *orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
+        [cell requestDetailWithOrderID:orderID];
+    }
     
     return cell;
 }
@@ -505,17 +507,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

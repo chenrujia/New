@@ -195,7 +195,6 @@ andRepairerIsReacive:(NSString *)reacive
                 @"is_repairing":reacive};
     }
     
-    NSLog(@"dic --- %@", dic);
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -247,6 +246,7 @@ andRepairerIsReacive:(NSString *)reacive
                 @"faulttype":faultType,
                 @"task_type":taskType};
     }
+    LogBlue(@"dic --- %@", dic);
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -957,7 +957,6 @@ andRepairerIsReacive:(NSString *)reacive
         dic = @{@"id":deviceID,
                 @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
     }
-    LogBlue(@"传入的值.......%@",dic);
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=inspection_record_con",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

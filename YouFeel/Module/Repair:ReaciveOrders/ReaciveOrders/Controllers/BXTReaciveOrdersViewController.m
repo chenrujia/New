@@ -471,14 +471,17 @@
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {
+    //判断有无二级菜单
     if (indexPath.item >= 0)
     {
+        //地区
         if (indexPath.column == 0)
         {
             BXTFloorInfo *floor = areasArray[indexPath.row];
             BXTAreaInfo *area = floor.place[indexPath.item];
             selectArea = area;
         }
+        //故障类型
         else if (indexPath.column == 3)
         {
             BXTFaultInfo *fault = repairTypesArray[indexPath.row];
@@ -488,11 +491,8 @@
     }
     else
     {
+        //选择四个栏目中的第一个都要重新请求所有数据
         if (indexPath.row == 0)
-        {
-            return;
-        }
-        else if (indexPath.row == 1)
         {
             [self showLoadingMBP:@"努力加载中..."];
             /**获取报修列表**/
@@ -507,11 +507,13 @@
                       andTaskType:self.taskType];
             return;
         }
+        //部门
         else if (indexPath.column == 1)
         {
             BXTDepartmentInfo *department = departmentsArray[indexPath.row];
             selectDepartment = department;
         }
+        //时间
         else if (indexPath.column == 2)
         {
             NSString *time = timesArray[indexPath.row];

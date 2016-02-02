@@ -222,7 +222,6 @@
     }];
     [userImgView addGestureRecognizer:tapGR];
     
-    
     //log_height：维修日志的高度
     if (size.height > 0)
     {
@@ -270,6 +269,7 @@
         [self.view addSubview:callWeb];
     }];
     [userBack addSubview:phone];
+    
     //维修日志
     if (height > RepairHeight)
     {
@@ -278,7 +278,7 @@
         log.numberOfLines = 0;
         log.lineBreakMode = NSLineBreakByWordWrapping;
         log.font = [UIFont systemFontOfSize:16.f];
-        log.text = content;
+        log.text = [NSString stringWithFormat:@"维修备注：%@",content];
         [userBack addSubview:log];
     }
     
@@ -347,7 +347,7 @@
     deviceName.numberOfLines = 0;
     deviceName.lineBreakMode = NSLineBreakByWordWrapping;
     deviceName.font = [UIFont systemFontOfSize:16.f];
-    deviceName.text = [NSString stringWithFormat:@"设备名称:%@",[deviceDic objectForKey:@"name"]];
+    deviceName.text = [deviceDic objectForKey:@"name"];
     [deviceBackView addSubview:deviceName];
     
     UILabel *deviceNumber = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(deviceName.frame) + 8.f, SCREEN_WIDTH - 108.f, 20)];
@@ -355,7 +355,7 @@
     deviceNumber.numberOfLines = 0;
     deviceNumber.lineBreakMode = NSLineBreakByWordWrapping;
     deviceNumber.font = [UIFont systemFontOfSize:16.f];
-    deviceNumber.text = [NSString stringWithFormat:@"设备编号:%@",[deviceDic objectForKey:@"code_number"]];
+    deviceNumber.text = [deviceDic objectForKey:@"code_number"];
     [deviceBackView addSubview:deviceNumber];
     
     if (!isComing)

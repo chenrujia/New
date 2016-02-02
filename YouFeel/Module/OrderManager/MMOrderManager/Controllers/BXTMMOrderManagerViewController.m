@@ -270,10 +270,7 @@
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
         cell.level.attributedText = attributeStr;
     }
-    
-    NSArray *usersArray = repairInfo.repair_user;
-    NSString *components = [usersArray componentsJoinedByString:@","];
-    cell.state.text = components;
+    cell.state.text = repairInfo.repair_user_name;
     cell.repairState.text = repairInfo.receive_state;
     
     cell.tag = indexPath.section;
@@ -369,17 +366,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
