@@ -23,6 +23,7 @@
     [self requestNetResourceWithReadState:NoticeType_UnRead];
 }
 
+// 点击返回刷新
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTReadNotice *model = self.dataArray[indexPath.section];
@@ -32,6 +33,7 @@
     nivc.delegateSignal = [RACSubject subject];
     [nivc.delegateSignal subscribeNext:^(id x) {
         [self.tableView.mj_header beginRefreshing];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"beginRefreshing" object:nil];
     }];
     [[self getNavigation] pushViewController:nivc animated:YES];
     
