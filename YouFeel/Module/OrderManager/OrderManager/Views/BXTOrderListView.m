@@ -20,6 +20,8 @@
 
 @interface BXTOrderListView ()
 
+@property (nonatomic, assign) NSInteger pushIndex;
+
 /**
  *  cell 高度
  */
@@ -46,6 +48,7 @@
             [self loadNewData];
         }];
         
+        self.pushIndex = 1;
         refreshType = Down;
         currentPage = 1;
         self.repairState = state;
@@ -73,7 +76,7 @@
         }
         else
         {
-            [_currentTableView registerClass:[BXTMaintenanceManTableViewCell class] forCellReuseIdentifier:@"OrderListCell"];
+            [_currentTableView registerClass:[BXTMaintenanceManTableViewCell class] forCellReuseIdentifier:@"MaintenanceManCell"];
         }
         _currentTableView.delegate = self;
         _currentTableView.dataSource = self;
@@ -246,13 +249,21 @@
         else if (repairInfo.repairstate == 3)
         {
             cell.evaButton.hidden = NO;
-            @weakify(self);
-            [[cell.evaButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                @strongify(self);
-                BXTRepairInfo *repairInfo = [self.repairListArray objectAtIndex:indexPath.section];
-                BXTEvaluationViewController *evaluateVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
-                [[self navigation] pushViewController:evaluateVC animated:YES];
-            }];
+            
+            if (self.pushIndex == 1) {
+                @weakify(self);
+                self.pushIndex++;
+                [[cell.evaButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                    @strongify(self);
+                    BXTRepairInfo *repairInfo = [self.repairListArray objectAtIndex:indexPath.section];
+                    BXTEvaluationViewController *evaluateVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+                    evaluateVC.delegateSignal = [RACSubject subject];
+                    [evaluateVC.delegateSignal subscribeNext:^(id x) {
+                        self.pushIndex = 1;
+                    }];
+                    [[self navigation] pushViewController:evaluateVC animated:YES];
+                }];
+            }
         }
         else if (repairInfo.repairstate == 5)
         {
@@ -263,7 +274,7 @@
     }
     else
     {
-        BXTMaintenanceManTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OrderListCell" forIndexPath:indexPath];
+        BXTMaintenanceManTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MaintenanceManCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
@@ -366,8 +377,15 @@
             BXTRepairInfo *repairInfo = [self.repairListArray objectAtIndex:indexPath.section];
             if (repairInfo.task_type.integerValue == 1)
             {
-                BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:repairInfo.fault_id andRepairID:repairInfo.repairID andReaciveTime:repairInfo.start_time];
-                [self.navigation pushViewController:maintenanceProcossVC animated:YES];
+                if (self.pushIndex == 1) {
+                    self.pushIndex++;
+                    BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:repairInfo.fault_id andRepairID:repairInfo.repairID andReaciveTime:repairInfo.start_time];
+                    maintenanceProcossVC.delegateSignal = [RACSubject subject];
+                    [maintenanceProcossVC.delegateSignal subscribeNext:^(id x) {
+                        self.pushIndex = 1;
+                    }];
+                    [self.navigation pushViewController:maintenanceProcossVC animated:YES];
+                }
             }
         }];
         return cell;

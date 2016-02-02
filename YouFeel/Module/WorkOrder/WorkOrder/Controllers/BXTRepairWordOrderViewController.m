@@ -72,7 +72,7 @@
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:3];
     dep_dataSource = [[NSMutableArray alloc] init];
     fau_dataSource = [[NSMutableArray alloc] init];
-    address = @"请选择您商铺所在具体位置";
+    address = @"请选择位置";
     
     [self navigationSetting:@"新建工单" andRightTitle:nil andRightImage:nil];
     [self createTableView];
@@ -158,7 +158,7 @@
 
 - (void)createNewWorkOrder:(NSArray *)array
 {
-    if ([address isEqualToString:@"请选择您商铺所在具体位置"]) {
+    if ([address isEqualToString:@"请选择位置"]) {
         [self showAlertView:@"请选择商铺所在位置"];
         return;
     }

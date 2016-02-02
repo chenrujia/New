@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 @interface BXTMailListViewController () <UISearchBarDelegate, BXTDataResponseDelegate, SKSTableViewDelegate, MBProgressHUDDelegate, UIScrollViewDelegate>
 {
     UIImageView *arrow;
-   
+    
     
     /** ---- 是否不为首页面 ---- */
     BOOL isNotRootView;
@@ -390,9 +390,15 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMailListCell" owner:nil options:nil] lastObject];
         }
         
-        NSDictionary *dict = self.searchArray[indexPath.row];
-        BXTMailListModel *model = [BXTMailListModel modelWithDict:dict];
-        cell.nameView.text = model.name;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
+        cell.mailListModel = model;
+        
+        @weakify(self);
+        [[cell.messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self connectTaWithOutID:cell.mailListModel];
+        }];
         
         return cell;
     }

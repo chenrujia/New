@@ -124,6 +124,14 @@
     [self handleData:[number integerValue]];
 }
 
+- (void)navigationLeftButton
+{
+    if (self.delegateSignal) {
+        [self.delegateSignal sendNext:nil];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark -
 #pragma mark 初始化视图
 - (void)createTableView

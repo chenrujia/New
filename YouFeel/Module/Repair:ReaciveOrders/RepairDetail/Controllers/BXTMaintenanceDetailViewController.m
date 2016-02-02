@@ -56,6 +56,7 @@
     _connectTa.layer.borderWidth = 1.f;
     _connectTa.layer.cornerRadius = 4.f;
     _cancelRepair.layer.cornerRadius = 4.f;
+    
     //联系他
     @weakify(self);
     [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -120,6 +121,13 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    
+    if (!IS_IPHONE6) {
+        _connectTaW.constant = 70;
+        _connectTaH.constant = 35;
+        [_connectTa setNeedsUpdateConstraints];
+        [_connectTa updateConstraintsIfNeeded];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated

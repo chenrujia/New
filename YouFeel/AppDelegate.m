@@ -655,6 +655,15 @@ void UncaughtExceptionHandler(NSException *exception){
 {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NewsComing" object:@"2"];
+        
+        // 通讯提示
+        CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
+        UIViewController *mailController = [tabbarC.viewControllers objectAtIndex:1];
+        
+        mailController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [[RCIMClient sharedRCIMClient] getTotalUnreadCount]];
+        if ([[RCIMClient sharedRCIMClient] getTotalUnreadCount] == 0) {
+            mailController.tabBarItem.badgeValue = nil;
+        }
     });
 }
 

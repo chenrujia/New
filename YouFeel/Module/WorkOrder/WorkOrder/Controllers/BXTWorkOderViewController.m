@@ -56,7 +56,7 @@
     self.repairState = @"2";
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:3];
     fau_dataSource = [[NSMutableArray alloc] init];
-    address = @"请选择您商铺所在具体位置";
+    address = @"请选择位置";
     
     
     [self navigationSetting:@"新建工单" andRightTitle:nil andRightImage:nil];
@@ -94,7 +94,7 @@
 #pragma mark 事件处理
 - (void)createNewWorkOrder:(NSArray *)array
 {
-    if ([address isEqualToString:@"请选择您商铺所在具体位置"]) {
+    if ([address isEqualToString:@"请选择位置"]) {
         [self showAlertView:@"请选择商铺所在位置"];
         return;
     }

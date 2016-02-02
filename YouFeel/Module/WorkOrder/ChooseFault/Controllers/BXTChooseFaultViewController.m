@@ -199,7 +199,7 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     [self.view addSubview:self.bgBtn];
     
     CGSize bgSize = self.view.frame.size;
-    self.tableView_fault = [[UITableView alloc] initWithFrame:CGRectMake(20, 30, bgSize.width-40, bgSize.height-60) style:UITableViewStylePlain];
+    self.tableView_fault = [[UITableView alloc] initWithFrame:CGRectMake(20, 70, bgSize.width-40, bgSize.height-140) style:UITableViewStylePlain];
     self.tableView_fault.backgroundColor = colorWithHexString(@"eff3f6");
     self.tableView_fault.delegate = self;
     self.tableView_fault.dataSource = self;

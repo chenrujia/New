@@ -32,6 +32,8 @@
 @property (weak, nonatomic) IBOutlet UILabel      *repairerDetail;
 @property (weak, nonatomic) IBOutlet UILabel      *mobile;
 @property (weak, nonatomic) IBOutlet UIButton     *connectTa;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *connectTaH;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *connectTaW;
 @property (weak, nonatomic) IBOutlet UIView       *lineView;
 @property (weak, nonatomic) IBOutlet UILabel      *repairID;
 @property (weak, nonatomic) IBOutlet UILabel      *maintenance;

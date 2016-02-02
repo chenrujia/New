@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *orderIDView;
 @property (weak, nonatomic) IBOutlet UILabel *typeView;
 
+@property (weak, nonatomic) IBOutlet UILabel *systemView;
 @property (weak, nonatomic) IBOutlet UILabel *projectView;
 @property (weak, nonatomic) IBOutlet UILabel *planView;
 @property (weak, nonatomic) IBOutlet UILabel *repairManView;

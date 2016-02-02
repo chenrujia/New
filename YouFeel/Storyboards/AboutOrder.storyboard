@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="c6P-IK-6Yn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="c6P-IK-6Yn">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -665,8 +665,8 @@
                                                 </variation>
                                                 <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
-                                                        <include reference="pCz-cr-HjV"/>
-                                                        <include reference="r8l-bi-gTi"/>
+                                                        <exclude reference="pCz-cr-HjV"/>
+                                                        <exclude reference="r8l-bi-gTi"/>
                                                     </mask>
                                                 </variation>
                                             </button>
@@ -2551,6 +2551,8 @@
                         <outlet property="cause" destination="vBF-hW-0in" id="u7a-0r-Sfb"/>
                         <outlet property="completeTime" destination="fXR-Mr-PCi" id="r82-gx-J9d"/>
                         <outlet property="connectTa" destination="rFJ-6D-z31" id="Tga-8A-RaP"/>
+                        <outlet property="connectTaH" destination="o0c-xs-5QD" id="2oG-wF-Kip"/>
+                        <outlet property="connectTaW" destination="rIg-sh-wIA" id="R5Y-gn-seS"/>
                         <outlet property="contentView" destination="m4s-3W-kIn" id="L6H-zh-mbN"/>
                         <outlet property="endTime" destination="tug-Ub-UCv" id="2hm-ha-qeb"/>
                         <outlet property="faultType" destination="f81-5c-2yt" id="waT-mS-9zG"/>

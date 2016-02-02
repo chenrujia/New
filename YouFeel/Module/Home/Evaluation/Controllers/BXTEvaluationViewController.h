@@ -11,6 +11,7 @@
 @interface BXTEvaluationViewController : BXTPhotoBaseViewController
 
 @property (nonatomic ,strong) NSString *repairID;
+@property (nonatomic, strong) RACSubject *delegateSignal;
 
 - (instancetype)initWithRepairID:(NSString *)reID;
 
