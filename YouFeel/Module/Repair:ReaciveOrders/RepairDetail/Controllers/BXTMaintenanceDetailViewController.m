@@ -632,7 +632,7 @@
             _cancelRepair.hidden = NO;
         }
         //评价按钮
-        if (![BXTGlobal shareGlobal].isRepair && self.repairDetail.repairstate == 3)
+        if (![BXTGlobal shareGlobal].isRepair && self.repairDetail.repairstate == 3 && !_isComingFromDeviceInfo)
         {
             self.evaBackView = [[UIView alloc] initWithFrame:CGRectMake(0.f, SCREEN_HEIGHT - 200.f/3.f, SCREEN_WIDTH, 200.f/3.f)];
             _evaBackView.backgroundColor = [UIColor blackColor];
