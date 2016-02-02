@@ -38,7 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"现状" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"作业" andRightTitle:nil andRightImage:nil];
     _commitBtn.layer.cornerRadius = 4.f;
     self.textview.text = self.notes;
     self.titleLabel.text = _titleText;
