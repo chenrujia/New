@@ -18,6 +18,7 @@
 #import "BXTNoticeListViewController.h"
 #import "BXTNewOrderViewController.h"
 #import "BXTGrabOrderViewController.h"
+#import "BXTRemindNum.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -433,20 +434,12 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         case 6://广播
             if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)
             {
-                [[BXTGlobal shareGlobal].assignOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
-                BXTNoticeListViewController *noticeVC = [[BXTNoticeListViewController alloc] init];
-                noticeVC.hidesBottomBarWhenPushed = YES;
-                
-                if ([BXTGlobal shareGlobal].presentNav)
-                {
-                    [[BXTGlobal shareGlobal].presentNav pushViewController:noticeVC animated:YES];
-                }
-                else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
-                {
-                    CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
-                    UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
-                    [nav pushViewController:noticeVC animated:YES];
-                }
+                // 通讯提示
+                CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
+                UIViewController *appController = [tabbarC.viewControllers objectAtIndex:2];
+                NSInteger appNumStr = [[BXTRemindNum sharedManager].appNum integerValue] + 1;
+                appController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld", appNumStr];
+                [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%ld", appNumStr];
             }
             break;
         default:

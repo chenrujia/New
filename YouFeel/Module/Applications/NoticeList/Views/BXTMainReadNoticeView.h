@@ -14,6 +14,7 @@
 #import "CYLTabBarController.h"
 #import "AppDelegate.h"
 #import "BXTReadNotice.h"
+#import "BXTNoticeInformViewController.h"
 
 typedef NS_ENUM(NSInteger, NoticeType) {
     NoticeType_UnRead = 1,
@@ -31,5 +32,7 @@ typedef NS_ENUM(NSInteger, NoticeType) {
 
 /** ---- 请求数据 ---- */
 - (void)requestNetResourceWithReadState:(NSInteger)readState;
+
+- (UINavigationController *)getNavigation;
 
 @end

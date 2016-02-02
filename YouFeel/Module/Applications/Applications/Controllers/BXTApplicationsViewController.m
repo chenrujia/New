@@ -34,6 +34,11 @@
     
     [self.itemsCollectionView reloadData];
     
+    if ([[BXTRemindNum sharedManager].announcementNum isEqualToString:@"0"])
+    {
+        self.navigationController.tabBarItem.badgeValue = nil;
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
 }
 
