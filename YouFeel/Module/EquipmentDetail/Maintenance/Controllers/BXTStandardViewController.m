@@ -61,7 +61,6 @@
     CGSize size = MB_MULTILINE_TEXTSIZE(dict[@"content"], [UIFont systemFontOfSize:16], CGSizeMake(SCREEN_WIDTH-30, CGFLOAT_MAX), NSLineBreakByWordWrapping);
     self.scrollView.contentSize = CGSizeMake(size.width, size.height + 20);
     
-    
     UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, SCREEN_WIDTH-30, size.height)];
     contentLabel.text = dict[@"content"];
     contentLabel.font = [UIFont systemFontOfSize:16];
