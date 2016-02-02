@@ -367,7 +367,10 @@
         {
             cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, adsViewH ) delegate:self placeholderImage:[UIImage imageNamed:@"allDefault"]];
         }
-        cycleScrollView.imageURLStringsGroup = self.logosArray;
+        if (cycleScrollView.imageURLStringsGroup.count == 0)
+        {
+            cycleScrollView.imageURLStringsGroup = self.logosArray;
+        }
         
         return cycleScrollView;
     }
