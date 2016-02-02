@@ -21,6 +21,10 @@
     [super initial];
     
     [self requestNetResourceWithReadState:NoticeType_Read];
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"beginRefreshing" object:nil] subscribeNext:^(id x) {
+        [self.tableView.mj_header beginRefreshing];
+    }];
 }
 
 @end

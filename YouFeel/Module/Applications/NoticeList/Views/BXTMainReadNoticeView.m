@@ -7,7 +7,6 @@
 //
 
 #import "BXTMainReadNoticeView.h"
-#import "BXTNoticeInformViewController.h"
 #import "UIScrollView+EmptyDataSet.h"
 
 @interface BXTMainReadNoticeView () <DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>

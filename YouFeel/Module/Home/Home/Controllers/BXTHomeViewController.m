@@ -235,7 +235,6 @@
     _currentTableView.dataSource = self;
     _currentTableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:_currentTableView];
-    
 }
 
 - (void)loginRongCloud
@@ -390,7 +389,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([BXTGlobal isBlankString:ValueFUD(@"shop_tel")]) {
+    if ([BXTGlobal isBlankString:ValueFUD(@"shop_tel")] || [ValueFUD(@"shop_tel") integerValue] == 0) {
         return [_titleNameArray count] - 1;
     }
     return [_titleNameArray count];

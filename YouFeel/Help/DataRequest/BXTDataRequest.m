@@ -996,7 +996,7 @@ andRepairerIsReacive:(NSString *)reacive
                     InspectioTimeStart:(NSString *)inspectioStart
 {
     self.requestType = Remind_Number;
-    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_USERID],
+    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"daily_timestart": dailyStart,
                           @"inspectio_timestart": inspectioStart};
     NSString *url = [NSString stringWithFormat:@"%@&module=Remind&opt=remind_number",[BXTGlobal shareGlobal].baseURL];
