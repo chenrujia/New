@@ -21,7 +21,6 @@ typedef NS_ENUM(NSInteger, HiddenType) {
     UILabel          *shop_label;
     UIButton         *logo_Btn;
     UILabel          *title_label;
-    NSMutableArray   *datasource;
     UIImageView      *logoImgView;
 }
 

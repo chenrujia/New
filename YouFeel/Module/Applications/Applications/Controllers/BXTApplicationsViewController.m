@@ -42,7 +42,7 @@
     [super viewDidLoad];
     [self navigationSetting:@"应用" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray = @[@"项目通告", @"业务统计", @"敬请期待", @""];
+    self.titleArray = @[@"项目公告", @"业务统计", @"敬请期待", @""];
     self.imageArray = @[@"app_book", @"app_statistics", @"app_symbol", @""];
     
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
