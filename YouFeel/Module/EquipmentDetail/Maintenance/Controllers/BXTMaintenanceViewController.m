@@ -21,6 +21,9 @@
 {
     CLLocationManager *locationManager;
 }
+
+//维保项目列表
+@property (nonatomic, strong) NSMutableArray *maintenanceProes;
 @property (nonatomic, assign) CGFloat longitude;
 @property (nonatomic, assign) CGFloat latitude;
 
@@ -44,6 +47,15 @@
     {
         self.notes = @"";
         self.maintenceInfo = maintence;
+        self.maintenanceProes = [NSMutableArray array];
+        //过滤check_arr空的情况
+        for (BXTInspectionInfo *inspection in self.maintenceInfo.inspection_info)
+        {
+            if (inspection.check_arr.count)
+            {
+                [self.maintenanceProes addObject:inspection];
+            }
+        }
         self.deviceID = devID;
         self.deviceStates = states;
         if (self.deviceStates.count > 0)
@@ -87,7 +99,7 @@
     [[_commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-        for (BXTInspectionInfo *inspectionInfo in self.maintenceInfo.inspection_info)
+        for (BXTInspectionInfo *inspectionInfo in self.maintenanceProes)
         {
             for (BXTCheckProjectInfo *checkProjectInfo in inspectionInfo.check_arr)
             {
@@ -177,7 +189,7 @@
 #pragma mark UITableDelegate && UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0 || section == _maintenceInfo.inspection_info.count + 2)
+    if (section == 0 || section == self.maintenanceProes.count + 2)
     {
         return 0.1f;
     }
@@ -186,7 +198,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == 0 || section == _maintenceInfo.inspection_info.count + 2)
+    if (section == 0 || section == self.maintenanceProes.count + 2)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
         view.backgroundColor = [UIColor clearColor];
@@ -197,13 +209,13 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., SCREEN_WIDTH - 30.f, 30)];
     titleLabel.textColor = colorWithHexString(@"000000");
     titleLabel.font = [UIFont systemFontOfSize:16.f];
-    if (section == _maintenceInfo.inspection_info.count + 1)
+    if (section == self.maintenanceProes.count + 1)
     {
         titleLabel.text = @"设备状态";
     }
     else
     {
-        BXTInspectionInfo *inspectionInfo = _maintenceInfo.inspection_info[section - 1];
+        BXTInspectionInfo *inspectionInfo = self.maintenanceProes[section - 1];
         titleLabel.text = inspectionInfo.check_item;
     }
     [view addSubview:titleLabel];
@@ -225,26 +237,26 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3 + _maintenceInfo.inspection_info.count;
+    return 3 + self.maintenanceProes.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0 || section == _maintenceInfo.inspection_info.count + 2)
+    if (section == 0 || section == self.maintenanceProes.count + 2)
     {
         return 1;
     }
-    else if(section == _maintenceInfo.inspection_info.count + 1)
+    else if(section == self.maintenanceProes.count + 1)
     {
         return self.deviceStates.count;
     }
-    BXTInspectionInfo *inspection = _maintenceInfo.inspection_info[section - 1];
+    BXTInspectionInfo *inspection = self.maintenanceProes[section - 1];
     return inspection.check_arr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == _maintenceInfo.inspection_info.count + 2)
+    if (indexPath.section == self.maintenanceProes.count + 2)
     {
         return 170;
     }
@@ -253,7 +265,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == self.maintenceInfo.inspection_info.count + 2)
+    if (indexPath.section == self.maintenanceProes.count + 2)
     {
         BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarksTableViewCell"];
         if (!cell)
@@ -309,9 +321,10 @@
         {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.checkImgView.hidden = YES;
+            cell.detailLable.hidden = YES;
             cell.titleLabel.text = @"设备操作规范";
         }
-        else if (indexPath.section == self.maintenceInfo.inspection_info.count + 1)
+        else if (indexPath.section == self.maintenanceProes.count + 1)
         {
             cell.accessoryType = UITableViewCellAccessoryNone;
             if (indexPath.row == 0 && self.isFirst)
@@ -327,7 +340,7 @@
         {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.checkImgView.hidden = YES;
-            BXTInspectionInfo *inspection = _maintenceInfo.inspection_info[indexPath.section - 1];
+            BXTInspectionInfo *inspection = self.maintenanceProes[indexPath.section - 1];
             BXTCheckProjectInfo *checkProject = inspection.check_arr[indexPath.row];
             cell.titleLabel.text = checkProject.check_con;
             cell.detailLable.hidden = NO;
@@ -347,7 +360,7 @@
         [self.navigationController pushViewController:standardVC animated:YES];
     }
     //维保状态
-    else if (indexPath.section == _maintenceInfo.inspection_info.count + 1)
+    else if (indexPath.section == self.maintenanceProes.count + 1)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeSelectState" object:nil];
         BXTSettingTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -358,9 +371,9 @@
     else
     {
         //维保项目
-        if (indexPath.row != _maintenceInfo.inspection_info.count + 2)
+        if (indexPath.row != self.maintenanceProes.count + 2)
         {
-            BXTInspectionInfo *inspectionInfo = _maintenceInfo.inspection_info[indexPath.section - 1];
+            BXTInspectionInfo *inspectionInfo = self.maintenanceProes[indexPath.section - 1];
             BXTCheckProjectInfo *checkProject = inspectionInfo.check_arr[indexPath.row];
             BXTChangeStateViewController *changeStateVC = [[BXTChangeStateViewController alloc] initWithNibName:@"BXTChangeStateViewController" bundle:nil withNotes:checkProject.default_description withTitle:inspectionInfo.check_item withDetail:checkProject.check_con];
             @weakify(self);
@@ -371,9 +384,9 @@
                 NSMutableArray *tempIns = [NSMutableArray arrayWithArray:inspectionInfo.check_arr];
                 [tempIns replaceObjectAtIndex:indexPath.row withObject:checkProject];
                 inspectionInfo.check_arr = tempIns;
-                NSMutableArray *tempInsInfos = [NSMutableArray arrayWithArray:self.maintenceInfo.inspection_info];
+                NSMutableArray *tempInsInfos = [NSMutableArray arrayWithArray:self.maintenanceProes];
                 [tempInsInfos replaceObjectAtIndex:indexPath.section - 1 withObject:inspectionInfo];
-                self.maintenceInfo.inspection_info = tempInsInfos;
+                self.maintenanceProes = tempInsInfos;
                 
                 [self.currentTable reloadData];
             }];

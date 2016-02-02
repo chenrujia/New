@@ -270,10 +270,7 @@
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
         cell.level.attributedText = attributeStr;
     }
-    
-    NSArray *usersArray = repairInfo.repair_user;
-    NSString *components = [usersArray componentsJoinedByString:@","];
-    cell.state.text = components;
+    cell.state.text = repairInfo.repair_user_name;
     cell.repairState.text = repairInfo.receive_state;
     
     cell.tag = indexPath.section;

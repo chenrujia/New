@@ -73,7 +73,7 @@
                 [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
                 [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
             }
-            else if (_isRepairing == 2)
+            else if (_isRepairing == 2 || _isRepairing == 3)
             {
                 [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
                 [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];

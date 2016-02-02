@@ -32,7 +32,7 @@
     NSInteger        indexSection;
     NSMutableArray   *manIDs;
     NSInteger        faulttype_type;
-    NSString        *address;
+    NSString         *address;
 }
 
 @property (nonatomic ,strong) NSMutableArray *mans;
@@ -102,6 +102,8 @@
     [self.view addSubview:backView];
 }
 
+#pragma mark -
+#pragma mark 我来修
 - (void)repairClick
 {
     if (IS_IOS_8)
@@ -156,7 +158,7 @@
     [self.currentTableView reloadData];
 }
 
-- (void)createNewWorkOrder:(NSArray *)array
+- (void)createNewWorkOrder
 {
     if ([address isEqualToString:@"请选择您商铺所在具体位置"]) {
         [self showAlertView:@"请选择商铺所在位置"];
@@ -186,7 +188,7 @@
                faultType_type:self.faulttype_typeID
                     deviceIDs:self.addressIDArray[6]
                    faultCause:cause
-                   faultLevel:_repairState
+                   faultLevel:self.repairState
                   depatmentID:departmentInfo.dep_id
                   floorInfoID:self.addressIDArray[0]
                    areaInfoId:self.addressIDArray[2]
@@ -194,7 +196,7 @@
                     equipment:@"0"
                    faultNotes:@""
                    imageArray:self.resultPhotos
-              repairUserArray:array];
+              repairUserArray:manIDs];
 }
 
 - (void)showAlertView:(NSString *)title
@@ -269,7 +271,7 @@
         @weakify(self);
         [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            [self createNewWorkOrder:[NSArray array]];
+            [self createNewWorkOrder];
         }];
         [view addSubview:doneBtn];
         
@@ -402,12 +404,19 @@
         {
             cell.titleLabel.text = @"维修员";
             [manIDs removeAllObjects];
-            [manIDs addObject:[BXTGlobal getUserProperty:U_BRANCHUSERID]];
-            NSMutableArray *manNames = [NSMutableArray arrayWithObjects:[BXTGlobal getUserProperty:U_NAME], nil];
-            for (BXTAddOtherManInfo *otherMan in _mans)
+            NSMutableArray *manNames = [NSMutableArray array];
+            if (_mans.count)
             {
-                [manNames addObject:otherMan.name];
-                [manIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherMan.manID]];
+                for (BXTAddOtherManInfo *otherMan in _mans)
+                {
+                    [manNames addObject:otherMan.name];
+                    [manIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherMan.manID]];
+                }
+            }
+            else
+            {
+                [manIDs addObject:[BXTGlobal getUserProperty:U_BRANCHUSERID]];
+                [manNames addObject:[BXTGlobal getUserProperty:U_NAME]];
             }
             NSString *strName = [manNames componentsJoinedByString:@"、"];
             cell.detailLable.text = strName;
