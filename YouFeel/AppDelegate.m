@@ -434,7 +434,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         case 6://广播
             if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)
             {
-                // 通讯提示
+                // 应用提示
                 CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
                 UIViewController *appController = [tabbarC.viewControllers objectAtIndex:2];
                 NSInteger appNumStr = [[BXTRemindNum sharedManager].appNum integerValue] + 1;
