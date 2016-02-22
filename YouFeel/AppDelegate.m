@@ -438,8 +438,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
                 UIViewController *appController = [tabbarC.viewControllers objectAtIndex:2];
                 NSInteger appNumStr = [[BXTRemindNum sharedManager].appNum integerValue] + 1;
-                appController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld", appNumStr];
-                [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%ld", appNumStr];
+                appController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld", (long)appNumStr];
+                [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%ld", (long)appNumStr];
             }
             break;
         default:
@@ -552,7 +552,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
             [BXTGlobal shareGlobal].baseURL = url;
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];

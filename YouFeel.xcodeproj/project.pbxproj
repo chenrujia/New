@@ -213,8 +213,6 @@
 		7867DDAC1C4CBEE9000749F1 /* BXTRepairTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD971C4CBEE9000749F1 /* BXTRepairTableViewCell.m */; };
 		7867DDAD1C4CBEE9000749F1 /* BXTDetailBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD9B1C4CBEE9000749F1 /* BXTDetailBaseViewController.m */; };
 		7867DDAE1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD9D1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.m */; };
-		7867DDAF1C4CBEE9000749F1 /* BXTOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD9F1C4CBEE9000749F1 /* BXTOrderDetailViewController.m */; };
-		7867DDB01C4CBEE9000749F1 /* BXTRepairDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DDA11C4CBEE9000749F1 /* BXTRepairDetailViewController.m */; };
 		7867DDB11C4CBEE9000749F1 /* BXTRepairDetailInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DDA41C4CBEE9000749F1 /* BXTRepairDetailInfo.m */; };
 		7867DDB21C4CBEE9000749F1 /* BXTDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DDA71C4CBEE9000749F1 /* BXTDrawView.m */; };
 		786B571D1C3A06C400F48402 /* BXTPersonInfromViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 786B571C1C3A06C400F48402 /* BXTPersonInfromViewController.m */; };
@@ -727,10 +725,6 @@
 		7867DD9B1C4CBEE9000749F1 /* BXTDetailBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDetailBaseViewController.m; sourceTree = "<group>"; };
 		7867DD9C1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenanceDetailViewController.h; sourceTree = "<group>"; };
 		7867DD9D1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenanceDetailViewController.m; sourceTree = "<group>"; };
-		7867DD9E1C4CBEE9000749F1 /* BXTOrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTOrderDetailViewController.h; sourceTree = "<group>"; };
-		7867DD9F1C4CBEE9000749F1 /* BXTOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOrderDetailViewController.m; sourceTree = "<group>"; };
-		7867DDA01C4CBEE9000749F1 /* BXTRepairDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairDetailViewController.h; sourceTree = "<group>"; };
-		7867DDA11C4CBEE9000749F1 /* BXTRepairDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairDetailViewController.m; sourceTree = "<group>"; };
 		7867DDA31C4CBEE9000749F1 /* BXTRepairDetailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairDetailInfo.h; sourceTree = "<group>"; };
 		7867DDA41C4CBEE9000749F1 /* BXTRepairDetailInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairDetailInfo.m; sourceTree = "<group>"; };
 		7867DDA61C4CBEE9000749F1 /* BXTDrawView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDrawView.h; sourceTree = "<group>"; };
@@ -2683,10 +2677,6 @@
 			children = (
 				7867DD9A1C4CBEE9000749F1 /* BXTDetailBaseViewController.h */,
 				7867DD9B1C4CBEE9000749F1 /* BXTDetailBaseViewController.m */,
-				7867DD9E1C4CBEE9000749F1 /* BXTOrderDetailViewController.h */,
-				7867DD9F1C4CBEE9000749F1 /* BXTOrderDetailViewController.m */,
-				7867DDA01C4CBEE9000749F1 /* BXTRepairDetailViewController.h */,
-				7867DDA11C4CBEE9000749F1 /* BXTRepairDetailViewController.m */,
 				7867DD9C1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.h */,
 				7867DD9D1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.m */,
 			);
@@ -3619,7 +3609,6 @@
 				782D6BC21C0D6CFC00E1828F /* SPBarChart.m in Sources */,
 				7818DBD31C0824D800DC22C6 /* AksStraightPieChart.m in Sources */,
 				7867DD1F1C4CBE4F000749F1 /* BXTDepartmentInfo.m in Sources */,
-				7867DDAF1C4CBEE9000749F1 /* BXTOrderDetailViewController.m in Sources */,
 				7867DD741C4CBEA1000749F1 /* MDRadialProgressView.m in Sources */,
 				7867DC921C4CBB47000749F1 /* BXTProfessionHeader.m in Sources */,
 				7867DD831C4CBEA1000749F1 /* BXTMaintenanceManTableViewCell.m in Sources */,
@@ -3778,7 +3767,6 @@
 				7867DC291C4CBA5B000749F1 /* BXTLoadingViewController.m in Sources */,
 				7839780C1C34D9EB00BE9620 /* BXTMailListCell.m in Sources */,
 				7818DBDB1C0824D800DC22C6 /* PNBar.m in Sources */,
-				7867DDB01C4CBEE9000749F1 /* BXTRepairDetailViewController.m in Sources */,
 				7867DD201C4CBE4F000749F1 /* BXTGroupingInfo.m in Sources */,
 				7867DD771C4CBEA1000749F1 /* WZFlashButton.m in Sources */,
 				78C55A681C47339700FFEB37 /* BXTEquipmentData.m in Sources */,
