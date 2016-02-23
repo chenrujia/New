@@ -76,15 +76,12 @@
     NSDictionary *dict1 = @{CYLTabBarItemImage : @"Tab_Home",
                             CYLTabBarItemSelectedImage : @"Tab_Home_Select",
                             };
-    
     NSDictionary *dict2 = @{CYLTabBarItemImage : @"Tab_Friends",
                             CYLTabBarItemSelectedImage : @"Tab_Friends_Select",
                             };
-    
     NSDictionary *dict3 = @{CYLTabBarItemImage : @"Tab_Application",
                             CYLTabBarItemSelectedImage : @"Tab_Application_Select",
                             };
-    
     NSDictionary *dict4 = @{CYLTabBarItemImage : @"Tab_My",
                             CYLTabBarItemSelectedImage : @"Tab_My_Select",
                             };

@@ -27,6 +27,11 @@
 }
 
 /**
+ *  隐藏年月日选择项
+ */
+@property (nonatomic, assign) BOOL hideDatePicker;
+
+/**
  *  所有子界面控件加载到rootScrollView上即可
  */
 @property (nonatomic, strong) UIScrollView *rootScrollView;
