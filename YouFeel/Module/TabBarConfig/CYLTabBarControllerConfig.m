@@ -85,6 +85,7 @@
     NSDictionary *dict4 = @{CYLTabBarItemImage : @"Tab_My",
                             CYLTabBarItemSelectedImage : @"Tab_My_Select",
                             };
+    
     NSArray *tabBarItemsAttributes = @[dict1,dict2,dict3,dict4];
     tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
 }

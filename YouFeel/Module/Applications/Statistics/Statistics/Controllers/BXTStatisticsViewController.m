@@ -7,22 +7,22 @@
 //
 
 #import "BXTStatisticsViewController.h"
-#import "BXTStatisticsCell.h"
-#import "BXTCompletionViewController.h"
-#import "BXTProfessionViewController.h"
-#import "BXTIncidenceViewController.h"
-#import "BXTWorkloadViewController.h"
-#import "BXStEvaluationViewController.h"
-#import "BXTAllOrdersViewController.h"
-
+#import "SegmentView.h"
 #import "BXTHeaderForVC.h"
+#import "BXTStatisticsFirstView.h"
+#import "BXTStatisticsSecondView.h"
+#import "BXTStatisticsThirdView.h"
+#import "BXTStatisticsForthView.h"
+#import "BXTAllOrdersViewController.h"
+#import "BXTReaciveOrdersViewController.h"
+#import "BXTEquipmentListViewController.h"
 
-@interface BXTStatisticsViewController () <UITableViewDataSource, UITableViewDelegate>
-
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) NSMutableArray *imageArray1;
-@property (nonatomic, strong) NSMutableArray *imageArray2;
+@interface BXTStatisticsViewController () <SegmentViewDelegate, UIScrollViewDelegate>
+{
+    UIScrollView *currentScrollView;
+    SegmentView *segment;
+    NSInteger currentPage;
+}
 
 @end
 
@@ -31,91 +31,101 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"业务统计" andRightTitle:@"     更多" andRightImage:nil];
+    [self navigationSetting:@"业务统计" andRightTitle:@"全部工单" andRightImage:nil];
     
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"维修完成率统计", @"专业分组统计", @"故障发生率统计", @"维修员工作量统计", @"维修评价统计",nil];
-    self.imageArray1 = [[NSMutableArray alloc] init];
-    self.imageArray2 = [[NSMutableArray alloc] init];
-    for (int i=1; i<=5; i++)
-    {
-        [self.imageArray1 addObject:[NSString stringWithFormat:@"Statistics_%d", i]];
-        [self.imageArray2 addObject:[NSString stringWithFormat:@"Round_%d", i]];
-    }
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
+    // backView
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, KNAVIVIEWHEIGHT, SCREEN_WIDTH, 40.f)];
+    [backView setBackgroundColor:colorWithHexString(@"ffffff")];
+    [self.view addSubview:backView];
+    
+    // SegmentView
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(0.f, 5.f, SCREEN_WIDTH, 30.f) andTitles:@[@"日常工单", @"维保计划", @"设备状态", @"工作情况"] isWhiteBGColor:1];
+    segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+    segment.layer.masksToBounds = YES;
+    segment.layer.cornerRadius = 4.f;
+    segment.layer.borderWidth = 1.f;
+    segment.delegate = self;
+    [backView addSubview:segment];
+    
+    // UIScrollView
+    currentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 40.f, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(backView.frame))];
+    currentScrollView.delegate = self;
+    currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 4, 0);
+    currentScrollView.pagingEnabled = YES;
+    [self.view addSubview:currentScrollView];
+    
+    
+    // Views
+    CGFloat scrollViewH = currentScrollView.frame.size.height;
+    BXTStatisticsFirstView *firstView = [[BXTStatisticsFirstView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH * 0, 0, SCREEN_WIDTH, scrollViewH)];
+    [currentScrollView addSubview:firstView];
+    
+    BXTStatisticsSecondView *secondView = [[BXTStatisticsSecondView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH * 1, 0, SCREEN_WIDTH, scrollViewH)];
+    [currentScrollView addSubview:secondView];
+    
+    BXTStatisticsThirdView *thirdView = [[BXTStatisticsThirdView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH * 2, 0, SCREEN_WIDTH, scrollViewH)];
+    [currentScrollView addSubview:thirdView];
+    
+    BXTStatisticsForthView *forthView = [[BXTStatisticsForthView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH * 3, 0, SCREEN_WIDTH, scrollViewH)];
+    [currentScrollView addSubview:forthView];
 }
 
 - (void)navigationRightButton
 {
+    // 全部工单
     BXTAllOrdersViewController *allOrdersVC = [[BXTAllOrdersViewController alloc] init];
-    [self.navigationController pushViewController:allOrdersVC animated:YES];
+    // 全部维保
+    BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
+    // 全部设备
+    BXTEquipmentListViewController *equipmentVC = [[BXTEquipmentListViewController alloc] init];
+    
+    switch (currentPage) {
+        case 0: [self.navigationController pushViewController:allOrdersVC animated:YES]; break;
+        case 1: [self.navigationController pushViewController:reaciveVC animated:YES]; break;
+        case 2: [self.navigationController pushViewController:equipmentVC animated:YES]; break;
+        default: break;
+    }
 }
 
 #pragma mark -
-#pragma mark - tableView代理方法
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+#pragma mark SegmentViewDelegate
+- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
 {
-    return self.dataArray.count;
+    currentPage = index;
+    [currentScrollView setContentOffset:CGPointMake(currentPage * SCREEN_WIDTH, 0) animated:YES];
+    
+    // 右上角按钮
+    [self selectedSegmentedOfIndex:currentPage];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+#pragma mark -
+#pragma mark SegmentViewDelegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    return 1;
+    // 得到每页宽度
+    CGFloat pageWidth = scrollView.frame.size.width;
+    // 根据当前的x坐标和页宽度计算出当前页数
+    NSInteger page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    
+    if (page == currentPage) return;
+    currentPage = page;
+    
+    [segment segemtBtnChange:currentPage];
+    
+    // 右上角按钮
+    [self selectedSegmentedOfIndex:currentPage];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)selectedSegmentedOfIndex:(NSInteger)index
 {
-    static NSString *cellID = @"cell";
-    BXTStatisticsCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil)
-    {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTStatisticsCell" owner:nil options:nil] lastObject];
-    }
-    
-    cell.titleView.text = self.dataArray[indexPath.section];
-    cell.detailView.text = self.dataArray[indexPath.section];
-    [cell.imageView1 setImage:[UIImage imageNamed:self.imageArray1[indexPath.section]]];
-    [cell.imageView2 setImage:[UIImage imageNamed:self.imageArray2[indexPath.section]]];
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    BXTCompletionViewController *clvc = [[BXTCompletionViewController alloc] init];
-    BXTProfessionViewController *pfvc = [[BXTProfessionViewController alloc] init];
-    BXTIncidenceViewController *idvc = [[BXTIncidenceViewController alloc] init];
-    BXTWorkloadViewController *wlvc = [[BXTWorkloadViewController alloc] init];
-    BXStEvaluationViewController *evvc = [[BXStEvaluationViewController alloc] init];
-    
-    switch (indexPath.section) {
-        case 0: [self.navigationController pushViewController:clvc animated:YES]; break;
-        case 1: [self.navigationController pushViewController:pfvc animated:YES]; break;
-        case 2: [self.navigationController pushViewController:idvc animated:YES]; break;
-        case 3: [self.navigationController pushViewController:wlvc animated:YES]; break;
-        case 4: [self.navigationController pushViewController:evvc animated:YES]; break;
+    switch (index) {
+        case 0: [self navigationSetting:@"业务统计" andRightTitle:@"全部工单" andRightImage:nil]; break;
+        case 1: [self navigationSetting:@"业务统计" andRightTitle:@"全部维保" andRightImage:nil]; break;
+        case 2: [self navigationSetting:@"业务统计" andRightTitle:@"全部设备" andRightImage:nil]; break;
+        case 3: [self navigationSetting:@"业务统计" andRightTitle:nil andRightImage:nil]; break;
         default: break;
     }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 110;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 0.1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 12.5;
 }
 
 - (void)didReceiveMemoryWarning

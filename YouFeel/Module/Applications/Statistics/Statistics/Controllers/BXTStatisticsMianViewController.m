@@ -21,10 +21,19 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
     [self createNavigationBar];
-    self.rootScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 110.f, SCREEN_WIDTH, SCREEN_HEIGHT-110.f)];
+    
+    if (!self.hideDatePicker) {
+        self.rootScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 110.f, SCREEN_WIDTH, SCREEN_HEIGHT-110.f)];
+        self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT-110);
+    }
+    else {
+        self.rootScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT)];
+        self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT);
+    }
+    
     self.rootScrollView.backgroundColor = colorWithHexString(@"eff3f6");
     self.rootScrollView.showsVerticalScrollIndicator = NO;
-    self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT-110);
+    
     [self.view addSubview:self.rootScrollView];
 }
 
@@ -68,7 +77,12 @@
     //[navBarView addSubview:rightBtn];
     
     // UISegmentedControl
-    [self createSegmentedCtr];
+    if (!self.hideDatePicker) {
+        [self createSegmentedCtr];
+    } else {
+        navBarView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
+    }
+    
 }
 
 - (void)navigationLeftButton
