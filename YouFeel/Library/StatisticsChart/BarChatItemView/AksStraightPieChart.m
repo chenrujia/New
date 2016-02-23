@@ -101,32 +101,37 @@
     CGPathRelease(visiblePath);
 }
 
-- (void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect
+{
     CGContextRef currentGraphicsContext = UIGraphicsGetCurrentContext();
     
     float sumOfAllSegmentValues = 0;
     
-    for (int i = 0; i < dataToRepresent.count; i++) {
+    for (int i = 0; i < dataToRepresent.count; i++)
+    {
         sumOfAllSegmentValues += [[[dataToRepresent objectAtIndex:i] objectForKey:@"value"]intValue];
     }
     
     CGRect progressRect = rect;
     CGRect lastSegmentRect  = CGRectMake(0, 0, 0, 0);
     
-    for (int i = 0; i < dataToRepresent.count; i++) {
+    for (int i = 0; i < dataToRepresent.count; i++)
+    {
         float currentSegmentValue = [[[dataToRepresent objectAtIndex:i] objectForKey:@"value"]intValue];
         CGColorRef color          = [[[dataToRepresent objectAtIndex:i] objectForKey:@"color"]CGColor];
         float percentage          = currentSegmentValue / sumOfAllSegmentValues;
         
         progressRect = rect;
         
-        if (self.isVertical) {
+        if (self.isVertical)
+        {
             progressRect.size.height  *= percentage;
             progressRect.origin.y    += lastSegmentRect.origin.y + lastSegmentRect.size.height;
             
             if (progressRect.origin.y > 0) progressRect.origin.y += 0.20;
-        } else {
-            
+        }
+        else
+        {
             progressRect.size.width  *= percentage;
             progressRect.origin.x    += lastSegmentRect.origin.x + lastSegmentRect.size.width;
             
@@ -146,8 +151,10 @@
     //[self addInnerShadowEffect];
 }
 
-- (void)tapGPClick {
-    if (self.transPieClick) {
+- (void)tapGPClick
+{
+    if (self.transPieClick)
+    {
         self.transPieClick();
     }
 }

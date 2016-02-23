@@ -17,7 +17,9 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 {
-    if (self == [super init]) {
+    self = [super init];
+    if (self)
+    {
         [self setValuesForKeysWithDictionary:dict];
     }
     return self;
@@ -25,7 +27,8 @@
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
-    if ([key isEqualToString:@"id"]) {
+    if ([key isEqualToString:@"id"])
+    {
         self.StrID = value;
     }
 }

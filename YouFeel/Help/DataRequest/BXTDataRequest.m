@@ -1132,10 +1132,12 @@ andRepairerIsReacive:(NSString *)reacive
     NSString *randomKey = @"";
     id randomValue = @"";
     
-    if (parameters) {
+    if (parameters)
+    {
         // 获取key数组
         NSMutableArray *keyArray = [[NSMutableArray alloc] init];
-        for (NSString *key in parameters) {
+        for (NSString *key in parameters)
+        {
             [keyArray addObject:key];
         }
         // 随机取值
@@ -1143,7 +1145,8 @@ andRepairerIsReacive:(NSString *)reacive
         NSString *randomKey = keyArray[random];
         id randomValue = parameters[randomKey];
         // 只有字符串可以向下进行
-        if (![randomValue isKindOfClass:[NSString class]]) {
+        if (![randomValue isKindOfClass:[NSString class]])
+        {
             randomKey = @"";
             randomValue = @"";
         }
@@ -1151,7 +1154,8 @@ andRepairerIsReacive:(NSString *)reacive
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *str1 = [NSString stringWithFormat:@"%@%@hello%@", companyInfo.company_id, randomValue, @"uf.com"];
-    if (self.requestType == UserInfo) {
+    if (self.requestType == UserInfo)
+    {
         str1 = [NSString stringWithFormat:@"%@%@hello%@", ValueFUD(@"shopID_Special"), randomValue, @"uf.com"];
     }
     NSString *md5Str = [BXTGlobal md5:str1];

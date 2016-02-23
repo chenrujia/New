@@ -67,7 +67,10 @@ static NSString *cellIndentify = @"resignCellIndentify";
     {
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 16.f)];
     }
-    view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
+    else
+    {
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
+    }
     view.backgroundColor = [UIColor clearColor];
     return view;
 }

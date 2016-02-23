@@ -17,7 +17,8 @@
 
 - (instancetype)initWithDict:(NSDictionary *)dict
 {
-    if (self == [super init]) {
+    self = [super init];
+    if (self) {
         [self setValuesForKeysWithDictionary:dict];
     }
     return self;

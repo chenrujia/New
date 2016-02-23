@@ -171,9 +171,6 @@
             [self showAlertView:@"请选择你所在部门"];
             return;
         }
-        
-        departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-        
         //先选部门，后选职位
         if ([BXTGlobal getUserProperty:U_DEPARTMENT])
         {
