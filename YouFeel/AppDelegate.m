@@ -438,8 +438,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
                 UIViewController *appController = [tabbarC.viewControllers objectAtIndex:2];
                 NSInteger appNumStr = [[BXTRemindNum sharedManager].appNum integerValue] + 1;
-                appController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld", appNumStr];
-                [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%ld", appNumStr];
+                appController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld", (long)appNumStr];
+                [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%ld", (long)appNumStr];
             }
             break;
         default:

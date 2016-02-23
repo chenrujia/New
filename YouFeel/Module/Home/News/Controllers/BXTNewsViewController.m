@@ -10,9 +10,9 @@
 #import "BXTHeaderForVC.h"
 #import "BXTNewsTableViewCell.h"
 #import "MJRefresh.h"
+#import "BXTRepairInfo.h"
 #import "BXTMaintenanceDetailViewController.h"
 #import "BXTReaciveOrdersViewController.h"
-#import "BXTRepairDetailViewController.h"
 #import "BXTManagerOMViewController.h"
 
 @interface BXTNewsViewController ()<UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate>
