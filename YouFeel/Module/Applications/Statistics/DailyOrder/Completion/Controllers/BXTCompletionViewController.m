@@ -210,9 +210,8 @@ typedef enum {
         barChartW = 40;
     }
     
-    
     // SPBarChart
-    SPBarChart *barChart = [[SPBarChart alloc] initWithFrame:CGRectMake(0, 0, barChartW*finalArray.count, scrollView.frame.size.height)];
+    SPBarChart *barChart = [[SPBarChart alloc] initWithFrame:CGRectMake(0, 0, barChartW * finalArray.count, scrollView.frame.size.height)];
     
     NSMutableArray *barArray = [[NSMutableArray alloc] init];
     NSMutableArray *heightArray = [[NSMutableArray alloc] init];

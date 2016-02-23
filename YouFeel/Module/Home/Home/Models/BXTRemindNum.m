@@ -24,11 +24,14 @@
 
 - (instancetype)init
 {
-    if (self == [super init]) {
+    self = [super init];
+    if (self)
+    {
         self.timeStart_Daily = @"0";
         self.timeStart_Inspectio = @"0";
         
-        if ([ValueFUD(@"timeStart_Daily") integerValue] != 0) {
+        if ([ValueFUD(@"timeStart_Daily") integerValue] != 0)
+        {
             self.timeStart_Daily = ValueFUD(@"timeStart_Daily");
         }
         if ([ValueFUD(@"timeStart_Inspectio") integerValue] != 0) {
