@@ -184,6 +184,7 @@
         alVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:alVC animated:YES];
         
+        
 //        BXTEPFilterViewController *filterVC = [[BXTEPFilterViewController alloc] init];
 //        filterVC.hidesBottomBarWhenPushed = YES;
 //        [self.navigationController pushViewController:filterVC animated:YES];
