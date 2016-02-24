@@ -693,6 +693,16 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)statisticsMTCompleteWithTimeStart:(NSString *)startTime
+                                  timeEnd:(NSString *)endTime
+{
+    self.requestType = Statistics_MTComplete;
+    NSDictionary *dic = @{@"time_start":startTime,
+                          @"time_end":endTime};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=inspection_plan",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)statisticsSubgroupWithTimeStart:(NSString *)startTime
                                 timeEnd:(NSString *)endTime
 {

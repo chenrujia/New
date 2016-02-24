@@ -27,6 +27,7 @@
 #import "BXTExaminationViewController.h"
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTAchievementsViewController.h"
+#import "BXTEPFilterViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -182,6 +183,11 @@
         BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
         alVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:alVC animated:YES];
+        
+        
+//        BXTEPFilterViewController *filterVC = [[BXTEPFilterViewController alloc] init];
+//        filterVC.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:filterVC animated:YES];
     }];
     [logoImgView addSubview:branchBtn];
     

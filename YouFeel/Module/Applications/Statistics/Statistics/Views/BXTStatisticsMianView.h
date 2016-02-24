@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSArray *detailArray;
 @property (nonatomic, strong) NSMutableArray *imageArray1;
 @property (nonatomic, strong) NSMutableArray *imageArray2;
 
