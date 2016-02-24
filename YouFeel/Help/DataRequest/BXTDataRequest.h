@@ -42,6 +42,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     ConfigInfo,
     StartRepair,
     Statistics_Complete,
+    Statistics_MTComplete,
     Statistics_Subgroup,
     Statistics_Faulttype,
     Statistics_Workload_day,
@@ -374,6 +375,12 @@ andRepairerIsReacive:(NSString *)reacive;
  *  统计-完成率统计
  */
 - (void)statisticsCompleteWithTimeStart:(NSString *)startTime
+                                timeEnd:(NSString *)endTime;
+
+/**
+ *  统计-维保完成率统计
+ */
+- (void)statisticsMTCompleteWithTimeStart:(NSString *)startTime
                                 timeEnd:(NSString *)endTime;
 
 /**
