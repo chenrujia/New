@@ -105,21 +105,4 @@
     [MBProgressHUD hideHUDForView:self animated:YES];
 }
 
-- (UINavigationController *)getNavigation
-{
-    id rootVC = [AppDelegate appdelegete].window.rootViewController;
-    UINavigationController *nav = nil;
-    if ([BXTGlobal shareGlobal].presentNav)
-    {
-        nav = [BXTGlobal shareGlobal].presentNav;
-    }
-    else
-    {
-        CYLTabBarController *tempVC = (CYLTabBarController *)rootVC;
-        nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
-    }
-    
-    return nav;
-}
-
 @end

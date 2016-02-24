@@ -215,7 +215,15 @@
     
     [self showLoadingMBP:@"正在验证中..."];
     
-    NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME], @"password":textStr, @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+    NSDictionary *userInfoDic;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+    {
+        userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME], @"password":textStr, @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+    }
+    else
+    {
+        userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME], @"password":textStr, @"cid":@""};
+    }
     
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
     [dataRequest loginUser:userInfoDic];

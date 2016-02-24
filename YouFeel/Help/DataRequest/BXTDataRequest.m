@@ -118,7 +118,15 @@
 - (void)branchLogin
 {
     self.requestType = BranchLogin;
-    NSDictionary *dic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"clientid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+    NSDictionary *dic;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+    {
+        dic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"clientid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+    }
+    else
+    {
+        dic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"clientid":@""};
+    }
     NSString *url = [NSString stringWithFormat:@"%@&module=login&opt=login",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

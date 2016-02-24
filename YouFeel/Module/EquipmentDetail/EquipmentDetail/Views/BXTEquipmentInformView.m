@@ -9,6 +9,7 @@
 #import "BXTEquipmentInformView.h"
 #import "BXTHeaderForVC.h"
 #import "DataModels.h"
+#import "UIView+Nav.h"
 #import "BXTEquipmentInformCell.h"
 #import "BXTEquipmentInform_PersonCell.h"
 
@@ -236,7 +237,7 @@
     else if ([dic[@"returncode"] integerValue] == 002)
     {
         [MYAlertAction showAlertWithTitle:@"暂无此设备" msg:nil chooseBlock:^(NSInteger buttonIdx) {
-            [[self getNavigation] popViewControllerAnimated:YES];
+            [[self navigation] popViewControllerAnimated:YES];
         } buttonsStatement:@"退出", nil];
     }
 }
@@ -290,6 +291,6 @@
     conversationVC.title = userInfo.name;
     // 删除位置功能
     //[conversationVC.pluginBoardView removeItemAtIndex:2];
-    [[self getNavigation] pushViewController:conversationVC animated:YES];
+    [[self navigation] pushViewController:conversationVC animated:YES];
 }
 @end

@@ -33,6 +33,4 @@ typedef NS_ENUM(NSInteger, NoticeType) {
 /** ---- 请求数据 ---- */
 - (void)requestNetResourceWithReadState:(NSInteger)readState;
 
-- (UINavigationController *)getNavigation;
-
 @end

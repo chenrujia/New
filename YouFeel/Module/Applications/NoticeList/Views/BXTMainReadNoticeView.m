@@ -7,6 +7,7 @@
 //
 
 #import "BXTMainReadNoticeView.h"
+#import "UIView+Nav.h"
 #import "UIScrollView+EmptyDataSet.h"
 
 @interface BXTMainReadNoticeView () <DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>
@@ -124,7 +125,7 @@
     
     BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
     nivc.urlStr = model.view_url;
-    [[self getNavigation] pushViewController:nivc animated:YES];
+    [[self navigation] pushViewController:nivc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -169,25 +170,6 @@
                                  NSForegroundColorAttributeName:[UIColor blackColor]};
     
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
-}
-
-#pragma mark -
-#pragma mark - 方法
-- (UINavigationController *)getNavigation
-{
-    id rootVC = [AppDelegate appdelegete].window.rootViewController;
-    UINavigationController *nav = nil;
-    if ([rootVC isKindOfClass:[CYLTabBarController class]])
-    {
-        CYLTabBarController *tempVC = rootVC;
-        nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
-    }
-    else if ([rootVC isKindOfClass:[UINavigationController class]])
-    {
-        nav = rootVC;
-    }
-    
-    return nav;
 }
 
 @end

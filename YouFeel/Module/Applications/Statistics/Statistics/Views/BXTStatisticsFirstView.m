@@ -11,6 +11,7 @@
 #import "BXTProfessionViewController.h"
 #import "BXTIncidenceViewController.h"
 #import "BXTWorkloadViewController.h"
+#import "UIView+Nav.h"
 
 @implementation BXTStatisticsFirstView
 
@@ -56,9 +57,9 @@
     BXTIncidenceViewController *idvc = [[BXTIncidenceViewController alloc] init];
     
     switch (indexPath.section) {
-        case 0: [[self getNavigation] pushViewController:clvc animated:YES]; break;
-        case 1: [[self getNavigation] pushViewController:pfvc animated:YES]; break;
-        case 2: [[self getNavigation] pushViewController:idvc animated:YES]; break;
+        case 0: [[self navigation] pushViewController:clvc animated:YES]; break;
+        case 1: [[self navigation] pushViewController:pfvc animated:YES]; break;
+        case 2: [[self navigation] pushViewController:idvc animated:YES]; break;
         default: break;
     }
     

@@ -631,8 +631,15 @@
             _sco_content_height.constant += 80.f;
             _cancelRepair.hidden = NO;
         }
+        
         //评价按钮
-        if (![BXTGlobal shareGlobal].isRepair && self.repairDetail.repairstate == 3 && !_isComingFromDeviceInfo)
+        NSDictionary *repairUserDic = self.repairDetail.repair_fault_arr[0];
+        BOOL isSelf = NO;
+        if ([[BXTGlobal getUserProperty:U_BRANCHUSERID] isEqualToString:[repairUserDic objectForKey:@"id"]])
+        {
+            isSelf = YES;
+        }
+        if (isSelf && self.repairDetail.repairstate == 3 && !_isComingFromDeviceInfo && !_isAllOrderType)
         {
             self.evaBackView = [[UIView alloc] initWithFrame:CGRectMake(0.f, SCREEN_HEIGHT - 200.f/3.f, SCREEN_WIDTH, 200.f/3.f)];
             _evaBackView.backgroundColor = [UIColor blackColor];
@@ -655,6 +662,16 @@
             }];
             [self.view addSubview:_evaluationBtn];
             _sco_content_height.constant += 200.f/3.f;
+        }
+        else
+        {
+            if (_evaBackView && _evaluationBtn)
+            {
+                [_evaBackView removeFromSuperview];
+                _evaBackView = nil;
+                [_evaluationBtn removeFromSuperview];
+                _evaluationBtn = nil;
+            }
         }
         
         [_contentView layoutIfNeeded];

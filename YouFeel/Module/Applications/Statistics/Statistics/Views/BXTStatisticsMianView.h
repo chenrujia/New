@@ -31,7 +31,4 @@
 /** ---- 隐藏 ---- */
 - (void)hideMBP;
 
-/** ---- 获取UINavigationController ---- */
-- (UINavigationController *)getNavigation;
-
 @end

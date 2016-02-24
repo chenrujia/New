@@ -9,6 +9,7 @@
 #import "BXTStatisticsForthView.h"
 #import "BXTWorkloadViewController.h"
 #import "BXStEvaluationViewController.h"
+#import "UIView+Nav.h"
 
 @implementation BXTStatisticsForthView
 
@@ -53,8 +54,8 @@
     BXStEvaluationViewController *evvc = [[BXStEvaluationViewController alloc] init];
     
     switch (indexPath.section) {
-        case 0: [[self getNavigation] pushViewController:wlvc animated:YES]; break;
-        case 1: [[self getNavigation] pushViewController:evvc animated:YES]; break;
+        case 0: [[self navigation] pushViewController:wlvc animated:YES]; break;
+        case 1: [[self navigation] pushViewController:evvc animated:YES]; break;
         default: break;
     }
     

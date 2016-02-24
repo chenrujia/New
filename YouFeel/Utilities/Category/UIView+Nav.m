@@ -22,6 +22,10 @@
     {
         nav = [BXTGlobal shareGlobal].presentNav;
     }
+    else if ([rootVC isKindOfClass:[UINavigationController class]])
+    {
+        nav = rootVC;
+    }
     else
     {
         CYLTabBarController *tempVC = (CYLTabBarController *)rootVC;

@@ -85,7 +85,15 @@
         [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
         [BXTGlobal setUserProperty:self.passWord withKey:U_PASSWORD];
         
-        NSDictionary *userInfoDic = @{@"username":self.userName,@"password":self.passWord,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+        NSDictionary *userInfoDic;
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+        {
+            userInfoDic = @{@"username":self.userName,@"password":self.passWord,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+        }
+        else
+        {
+            userInfoDic = @{@"username":self.userName,@"password":self.passWord,@"cid":@""};
+        }
         
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
         [dataRequest loginUser:userInfoDic];
