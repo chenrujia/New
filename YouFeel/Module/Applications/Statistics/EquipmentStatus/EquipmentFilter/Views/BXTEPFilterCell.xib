@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="BXTEPFilterCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开始时间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x3I-Je-JdE">
+                        <rect key="frame" x="15" y="14" width="80" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="WjN-Ee-qfU"/>
+                            <constraint firstAttribute="width" constant="80" id="nUZ-KW-vsA"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016/02/15" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mbf-69-E0h">
+                        <rect key="frame" x="110" y="15" width="265" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="siI-27-BUR"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.19215686274509805" green="0.61568627450980395" blue="0.99607843137254903" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="mbf-69-E0h" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="GJm-WE-Uv6"/>
+                    <constraint firstItem="x3I-Je-JdE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="KoZ-UJ-Zg1"/>
+                    <constraint firstItem="x3I-Je-JdE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="ePx-Aa-O58"/>
+                    <constraint firstItem="mbf-69-E0h" firstAttribute="leading" secondItem="x3I-Je-JdE" secondAttribute="trailing" constant="15" id="mXU-DB-Vph"/>
+                    <constraint firstAttribute="trailing" secondItem="mbf-69-E0h" secondAttribute="trailing" id="ry6-mO-AJY"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="detailView" destination="mbf-69-E0h" id="o03-2R-A9l"/>
+                <outlet property="titleView" destination="x3I-Je-JdE" id="NKx-vD-Bnw"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

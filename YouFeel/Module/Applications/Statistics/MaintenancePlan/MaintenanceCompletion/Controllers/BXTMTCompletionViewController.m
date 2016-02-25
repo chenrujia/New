@@ -94,7 +94,7 @@
 
 - (void)createList
 {
-    //  ---------- 饼状图 ----------
+    //  ---------- 条形图 ----------
     // CompletionFooter
     self.footerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTCompletionFooter" owner:nil options:nil] lastObject];
     self.footerView.frame = CGRectMake(0, 460, SCREEN_WIDTH, 320);
@@ -105,16 +105,44 @@
     NSDictionary *dataDict = self.percentDict[@"now"];
     
     [self.footerView.pieView clearChart];
-    [self.footerView.pieView addDataToRepresent:60 WithColor:colorWithHexString(@"#0FCCC0")];
-    [self.footerView.pieView addDataToRepresent:30 WithColor:colorWithHexString(@"#0C88CC")];
-    [self.footerView.pieView addDataToRepresent:10 WithColor:colorWithHexString(@"#FD7070")];
-    [self.footerView.pieView addDataToRepresent:20 WithColor:colorWithHexString(@"#DEE7E8")];
+    [self.footerView.pieView addDataToRepresent:[dataDict[@"total"] intValue] WithColor:colorWithHexString(@"#0FCCC0")];
+    [self.footerView.pieView addDataToRepresent:[dataDict[@"over"] intValue] WithColor:colorWithHexString(@"#0C88CC")];
+    [self.footerView.pieView addDataToRepresent:[dataDict[@"working"] intValue] WithColor:colorWithHexString(@"#FD7070")];
+    [self.footerView.pieView addDataToRepresent:[dataDict[@"unover"] intValue] WithColor:colorWithHexString(@"#DEE7E8")];
     self.footerView.pieView.userInteractionEnabled = NO;
     
     self.footerView.allView.text = [NSString stringWithFormat:@"%@", dataDict[@"total"]];
     self.footerView.downView.text = [NSString stringWithFormat:@"%@", dataDict[@"over"]];
     self.footerView.doingView.text = [NSString stringWithFormat:@"%@", dataDict[@"working"]];
     self.footerView.undownView.text = [NSString stringWithFormat:@"%@", dataDict[@"unover"]];
+}
+
+#pragma mark -
+#pragma mark - 父类点击事件
+- (void)datePickerBtnClick:(UIButton *)button
+{
+    if (button.tag == 10001)
+    {
+        [self.headerView.pieView removeFromSuperview];
+        
+        /**饼状图**/
+        if (!selectedDate)
+        {
+            selectedDate = [NSDate date];
+        }
+        [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
+        
+        NSString *todayStr = [self transTimeWithDate:selectedDate];
+        [self.transTimeArray removeAllObjects];
+        [self.transTimeArray addObject:todayStr];
+        [self.transTimeArray addObject:todayStr];
+        
+        [self showLoadingMBP:@"数据加载中..."];
+        /**饼状图**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request statisticsMTCompleteWithTimeStart:todayStr timeEnd:todayStr];
+    }
+    [super datePickerBtnClick:button];
 }
 
 #pragma mark -
@@ -127,22 +155,14 @@
     if (type == Statistics_MTComplete && data.count > 0)
     {
         self.percentDict = dic[@"data"];
+        
         [self createPieView];
         [self createList];
     }
-    //    else if (type == Statistics_Workload_day && data.count > 0)
-    //    {
-    //        self.monthArray = [[NSMutableArray alloc] initWithArray:data];
-    //        [self createBarChartViewWithType:month];
-    //    }
-    //    else if (type == Statistics_Workload_year && data.count > 0)
-    //    {
-    //        self.yearArray = [[NSMutableArray alloc] initWithArray:data];
-    //        [self createBarChartViewWithType:year];
-    //    }
 }
 
-- (void)requestError:(NSError *)error {
+- (void)requestError:(NSError *)error
+{
     [self hideMBP];
 }
 
