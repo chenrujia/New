@@ -10,6 +10,7 @@
 #import "BXTEPAvailabilityViewController.h"
 #import "BXTMTPlanHeaderView.h"
 #import "BXTMTStatisticsCell.h"
+#import "UIView+Nav.h"
 
 @implementation BXTStatisticsThirdView
 
