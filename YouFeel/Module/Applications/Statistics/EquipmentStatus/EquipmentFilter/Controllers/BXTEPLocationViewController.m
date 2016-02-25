@@ -1,84 +1,77 @@
 //
-//  BXTEquipmentListViewController.m
+//  BXTEPLocationViewController.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/2/22.
+//  Created by 满孝意 on 16/2/24.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTEquipmentListViewController.h"
-#import "BXTEPFilterViewController.h"
-#import "DOPDropDownMenu.h"
+#import "BXTEPLocationViewController.h"
 
-@interface BXTEquipmentListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate>
+@interface BXTEPLocationViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) NSArray *typeArray;
 
 @end
 
-@implementation BXTEquipmentListViewController
+@implementation BXTEPLocationViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self navigationSetting:@"维保设备列表" andRightTitle:@"   筛选" andRightImage:nil];
+    [self navigationSetting:@"位置" andRightTitle:nil andRightImage:nil];
     
-    self.typeArray = [[NSArray alloc] initWithObjects:@"默认排序", @"故障设备优先", @"正常设备优先", nil];
+    self.titleArray = @[@"一级位置", @"二级位置", @"三级位置"];
     self.dataArray = [[NSMutableArray alloc] init];
-    [self.dataArray addObject:@"12"];
-    [self.dataArray addObject:@"13"];
-    
-    [self createUI];
-}
-
-- (void)navigationRightButton
-{
-    BXTEPFilterViewController *filterVC = [[BXTEPFilterViewController alloc] init];
-    [self.navigationController pushViewController:filterVC animated:YES];
 }
 
 #pragma mark -
 #pragma mark - createUI
 - (void)createUI
 {
-    // 添加下拉菜单
-    DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, KNAVIVIEWHEIGHT) andHeight:44];
-    menu.delegate = self;
-    menu.dataSource = self;
-    [self.view addSubview:menu];
-    
-    // UITableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(menu.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(menu.frame)) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT- KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-}
-
-#pragma mark -
-#pragma mark DOPDropDownMenuDataSource && DOPDropDownMenuDelegate
-- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
-{
-    return self.typeArray.count;
-}
-
-- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath
-{
-    return self.typeArray[indexPath.row];
-}
-
-- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
-{
     
+    // footerView
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
+    footerView.backgroundColor = [UIColor clearColor];
+    self.tableView.tableFooterView = footerView;
+    
+    UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    doneBtn.frame = CGRectMake(20, 30, SCREEN_WIDTH - 40, 50.f);
+    [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
+    doneBtn.layer.masksToBounds = YES;
+    doneBtn.layer.cornerRadius = 4.f;
+    @weakify(self);
+    [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        if ([self.dataArray containsObject:@"待完善"]) {
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写完全筛选条件" chooseBlock:^(NSInteger buttonIdx) {
+                
+            } buttonsStatement:@"确定", nil];
+        }
+        else {
+            [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
+                
+            }];
+        }
+    }];
+    [footerView addSubview:doneBtn];
 }
+
 
 #pragma mark -
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.dataArray.count;
+    return self.titleArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -8,6 +8,8 @@
 
 #import "BXTStatisticsThirdView.h"
 #import "BXTEPAvailabilityViewController.h"
+#import "BXTMTPlanHeaderView.h"
+#import "BXTMTStatisticsCell.h"
 
 @implementation BXTStatisticsThirdView
 
@@ -18,13 +20,34 @@
     [super initial];
     
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"设备完好率统计", @"设备运行计划统计", @"预防性维保情况统计", nil];
-    self.imageArray1 = [[NSMutableArray alloc] init];
-    self.imageArray2 = [[NSMutableArray alloc] init];
-    for (int i=1; i<=3; i++)
+    self.detailArray = [[NSMutableArray alloc] initWithObjects:@"实时设备运行情况", @"开发中，敬请期待", @"开发中，敬请期待", nil];
+    
+    BXTMTPlanHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTPlanHeaderView" owner:nil options:nil] lastObject];
+    self.tableView.tableHeaderView = headerView;
+}
+
+#pragma mark -
+#pragma mark - tableView代理方法
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellID = @"cell";
+    BXTMTStatisticsCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cell == nil)
     {
-        [self.imageArray1 addObject:[NSString stringWithFormat:@"Statistics_%d", i]];
-        [self.imageArray2 addObject:[NSString stringWithFormat:@"Round_%d", i]];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTStatisticsCell" owner:nil options:nil] lastObject];
     }
+    
+    cell.titleView.text = self.dataArray[indexPath.section];
+    cell.detailView.text = self.detailArray[indexPath.section];
+    
+    [cell.pieChartView clearChart];
+    [cell.pieChartView addDataToRepresent:60 WithColor:colorWithHexString(@"#0FCCC0")];
+    [cell.pieChartView addDataToRepresent:30 WithColor:colorWithHexString(@"#0C88CC")];
+    [cell.pieChartView addDataToRepresent:10 WithColor:colorWithHexString(@"#FD7070")];
+    [cell.pieChartView addDataToRepresent:20 WithColor:colorWithHexString(@"#DEE7E8")];
+    cell.pieChartView.userInteractionEnabled = NO;
+    
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
