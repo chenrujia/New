@@ -17,6 +17,7 @@
 #import "BXTInspectionInfo.h"
 #import "BXTCheckProjectInfo.h"
 #import "BXTSelectBoxView.h"
+#import "UIView+Nav.h"
 
 @interface BXTEquipmentFilesView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 {
@@ -86,7 +87,7 @@
     [[topBtnView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] init];
-        [[self getNavigation] pushViewController:sdvc animated:YES];
+        [[self navigation] pushViewController:sdvc animated:YES];
     }];
     [self addSubview:topBtnView];
     UILabel *titleView = [[UILabel alloc] initWithFrame:CGRectMake(15, 7, 150, 30)];
@@ -151,13 +152,13 @@
                 if ([maintenceInfo.inspection_state integerValue] > 0)
                 {
                     BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID workOrderID:maintenceInfo.maintenceID];
-                    [[self getNavigation] pushViewController:bookVC animated:YES];
+                    [[self navigation] pushViewController:bookVC animated:YES];
                 }
                 else
                 {
                     BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
                     mainVC.isUpdate = NO;
-                    [[self getNavigation] pushViewController:mainVC animated:YES];
+                    [[self navigation] pushViewController:mainVC animated:YES];
                 }
             }
             else if (self.maintencesArray.count > 1)
@@ -168,7 +169,7 @@
         else
         {
             BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] init];
-            [[self getNavigation] pushViewController:sdvc animated:YES];
+            [[self navigation] pushViewController:sdvc animated:YES];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
         }
 
@@ -230,13 +231,13 @@
     if ([maintenceInfo.inspection_state integerValue] > 0)
     {
         BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID workOrderID:maintenceInfo.maintenceID];
-        [[self getNavigation] pushViewController:bookVC animated:YES];
+        [[self navigation] pushViewController:bookVC animated:YES];
     }
     else
     {
         BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
         mainVC.isUpdate = NO;
-        [[self getNavigation] pushViewController:mainVC animated:YES];
+        [[self navigation] pushViewController:mainVC animated:YES];
     }
 }
 
@@ -283,7 +284,7 @@
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] deviceID:self.deviceID timestart:timeArray[0] timeover:timeArray[1]];
             }];
-            [[self getNavigation] pushViewController:tfvc animated:YES];
+            [[self navigation] pushViewController:tfvc animated:YES];
         }
     }
     self.count++;
@@ -336,7 +337,7 @@
 {
     BXTMaintenceInfo *mainInfo = _dataArray[indexPath.section];
     BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:mainInfo.maintenceID workOrderID:nil];
-    [[self getNavigation] pushViewController:bookVC animated:YES];
+    [[self navigation] pushViewController:bookVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

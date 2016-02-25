@@ -232,7 +232,17 @@
             [self showMBP:@"重设密码成功！" withBlock:^(BOOL hidden) {
                 @strongify(self);
                 [BXTGlobal setUserProperty:self.pwStr withKey:U_PASSWORD];
-                NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":self.pwStr,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+                
+                NSDictionary *userInfoDic;
+                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+                {
+                    userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":self.pwStr,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+                }
+                else
+                {
+                    userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":self.pwStr,@"cid":@""};
+                }
+                
                 BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
                 [dataRequest loginUser:userInfoDic];
             }];

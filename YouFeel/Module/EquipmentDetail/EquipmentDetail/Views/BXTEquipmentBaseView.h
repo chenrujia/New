@@ -26,9 +26,6 @@
 /** ---- 隐藏 ---- */
 - (void)hideMBP;
 
-/** ---- 获取UINavigationController ---- */
-- (UINavigationController *)getNavigation;
-
 - (instancetype)initWithFrame:(CGRect)frame deviceID:(NSString *)device_id;
 
 @end

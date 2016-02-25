@@ -14,7 +14,7 @@
 #import "BXTTimeFilterViewController.h"
 #import "BXTSelectBoxView.h"
 #import <MJRefresh.h>
-
+#import "UIView+Nav.h"
 #import "BXTNewRepairMtOrderViewController.h"
 #import "BXTNewWorkMtOrderViewController.h"
 
@@ -114,7 +114,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
                 self.currentPage = 1;
                 [weakSelf getResource];
             }];
-            [[self getNavigation] pushViewController:workOderVC animated:YES];
+            [[self navigation] pushViewController:workOderVC animated:YES];
         }
         else {
             BXTNewWorkMtOrderViewController *workOderVC = [[BXTNewWorkMtOrderViewController alloc] init];
@@ -124,7 +124,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
                 self.currentPage = 1;
                 [weakSelf getResource];
             }];
-            [[self getNavigation] pushViewController:workOderVC animated:YES];
+            [[self navigation] pushViewController:workOderVC animated:YES];
         }
     }];
     [downBgView addSubview:newOrderBtn];
@@ -375,7 +375,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
                 [request deviceRepairListWithOrder:@"" deviceID:self.deviceID timestart:timeArray[0] timeover:timeArray[1] pagesize:@"5" page:@"1"];
             });
         }];
-        [[self getNavigation] pushViewController:tfvc animated:YES];
+        [[self navigation] pushViewController:tfvc animated:YES];
     }
 }
 #pragma mark -
@@ -436,7 +436,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
     [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%@", odModel.dataIdentifier]];
     repairDetailVC.isComingFromDeviceInfo = YES;
-    [[self getNavigation] pushViewController:repairDetailVC animated:YES];
+    [[self navigation] pushViewController:repairDetailVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

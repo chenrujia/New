@@ -208,7 +208,7 @@
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [self hideMBP];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"EvaluateSuccess" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"HiddenEvaluationBtn" object:nil];
         @weakify(self);

@@ -55,7 +55,7 @@
     BXTEPAvailabilityViewController *abvc = [[BXTEPAvailabilityViewController alloc] init];
     
     switch (indexPath.section) {
-        case 0: [[self getNavigation] pushViewController:abvc animated:YES]; break;
+        case 0: [[self navigation] pushViewController:abvc animated:YES]; break;
         case 1:  break;
         case 2:  break;
         default: break;

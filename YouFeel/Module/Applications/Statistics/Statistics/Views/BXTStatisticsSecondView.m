@@ -12,6 +12,7 @@
 #import "BXTMTSystemViewController.h"
 #import "BXTMTPlanHeaderView.h"
 #import "BXTMTStatisticsCell.h"
+#import "UIView+Nav.h"
 
 @implementation BXTStatisticsSecondView
 
@@ -60,9 +61,9 @@
     BXTMTSystemViewController *stvc = [[BXTMTSystemViewController alloc] init];
     
     switch (indexPath.section) {
-        case 0: [[self getNavigation] pushViewController:clvc animated:YES]; break;
-        case 1: [[self getNavigation] pushViewController:pfvc animated:YES]; break;
-        case 2: [[self getNavigation] pushViewController:stvc animated:YES]; break;
+        case 0: [[self navigation] pushViewController:clvc animated:YES]; break;
+        case 1: [[self navigation] pushViewController:pfvc animated:YES]; break;
+        case 2: [[self navigation] pushViewController:stvc animated:YES]; break;
         default: break;
     }
     

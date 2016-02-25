@@ -7,6 +7,7 @@
 //
 
 #import "BXTUnReadNoticeView.h"
+#import "UIView+Nav.h"
 
 @interface BXTUnReadNoticeView ()
 
@@ -35,7 +36,7 @@
         [self.tableView.mj_header beginRefreshing];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"beginRefreshing" object:nil];
     }];
-    [[self getNavigation] pushViewController:nivc animated:YES];
+    [[self navigation] pushViewController:nivc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
