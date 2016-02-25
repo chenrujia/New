@@ -56,10 +56,9 @@
     [self afterTimeWithSection:0];
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     [self createCollectionView];
-    
     markDic = [NSMutableDictionary dictionaryWithObject:@"60" forKey:@"0"];
-    
     [self addNotifications];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

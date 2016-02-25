@@ -558,7 +558,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
             [pic_request updateHeadPic:[userInfoDic objectForKey:@"pic"]];
             
-            
             /**分店登录**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request branchLogin];

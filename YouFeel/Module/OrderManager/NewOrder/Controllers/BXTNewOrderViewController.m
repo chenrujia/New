@@ -101,6 +101,7 @@
         self.currentOrderID = [[BXTGlobal shareGlobal].assignOrderIDs objectAtIndex:index - 1];
     }
     [request repairDetail:[NSString stringWithFormat:@"%@",_currentOrderID]];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)viewDidAppear:(BOOL)animated
