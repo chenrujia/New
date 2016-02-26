@@ -12,15 +12,16 @@
 
 @implementation BXTDrawView
 
-- (instancetype)initWithFrame:(CGRect)frame withRepairState:(NSInteger)state withIsRespairing:(NSInteger)repairing isShowState:(BOOL)show
+- (instancetype)initWithFrame:(CGRect)frame
+                 withProgress:(NSArray *)progresses
+                  isShowState:(BOOL)show
 {
     self = [super initWithFrame:frame];
     if (self)
     {
         self.backgroundColor = colorWithHexString(@"ffffff");
         self.isShow = show;
-        self.repairState = state;
-        self.isRepairing = repairing;
+        self.progress = progresses;
     }
     return self;
 }
@@ -30,7 +31,6 @@
     UIColor *grayColor = colorWithHexString(@"e2e6e8");
     [grayColor setStroke];
     [grayColor setFill];
-//    [self drawLineFrom:CGPointMake(0, 0) to:CGPointMake(rect.size.width, 0) withLineWidth:1.f];
     
     if (_isShow)
     {
@@ -39,7 +39,7 @@
     
     [grayColor setStroke];
     [grayColor setFill];
-    CGFloat x = 30.f;
+    CGFloat x = 40.f;
     CGFloat y = 45.f;
     //最下面那个灰色长条
     [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(rect.size.width - x, y) withLineWidth:10.f];
@@ -48,76 +48,77 @@
     [orangeColor setStroke];
     [orangeColor setFill];
     
+    NSDictionary *dicOne = _progress[0];
+    NSDictionary *dicTwo = _progress[1];
+    NSDictionary *dicThree = _progress[2];
+    NSDictionary *dicFour = _progress[3];
+    NSDictionary *dicFive = _progress[4];
     CGFloat space = (SCREEN_WIDTH - x*2.f)/4.f;
     
-    switch (_repairState)
+    if ([dicOne[@"state"] integerValue] && ![dicTwo[@"state"] integerValue])
     {
-        case 1:
-            [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
-            [grayColor setStroke];
-            [grayColor setFill];
-            [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
-            [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
-            [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
-            [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
-            break;
-        case 2:
-            if (_isRepairing == 1)
-            {
-                [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
-                [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
-                [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
-                [grayColor setStroke];
-                [grayColor setFill];
-                [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
-                [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
-                [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
-            }
-            else if (_isRepairing == 2 || _isRepairing == 3)
-            {
-                [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
-                [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
-                [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
-                [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:10.f];
-                [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
-                [grayColor setStroke];
-                [grayColor setFill];
-                [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
-                [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
-            }
-            break;
-        case 3:
-            [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
-            [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
-            [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
-            [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:10.f];
-            [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
-            [self drawLineFrom:CGPointMake(x + space * 2, y) to:CGPointMake(x + space * 3, y) withLineWidth:10.f];
-            [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
-            [grayColor setStroke];
-            [grayColor setFill];
-            [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
-            break;
-        case 5:
-            [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
-            [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
-            [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
-            [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:10.f];
-            [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
-            [self drawLineFrom:CGPointMake(x + space * 2, y) to:CGPointMake(x + space * 3, y) withLineWidth:10.f];
-            [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
-            [self drawLineFrom:CGPointMake(x + space * 3, y) to:CGPointMake(x + space * 4, y) withLineWidth:10.f];
-            [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
-            break;
-        default:
-            break;
+        [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
+        [grayColor setStroke];
+        [grayColor setFill];
+        [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
+    }
+    else if ([dicTwo[@"state"] integerValue] && ![dicThree[@"state"] integerValue])
+    {
+        [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
+        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
+        [grayColor setStroke];
+        [grayColor setFill];
+        [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
+    }
+    else if ([dicThree[@"state"] integerValue] && ![dicFour[@"state"] integerValue])
+    {
+        [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
+        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
+        [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
+        [grayColor setStroke];
+        [grayColor setFill];
+        [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
+    }
+    else if ([dicFour[@"state"] integerValue] && ![dicFive[@"state"] integerValue])
+    {
+        [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
+        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
+        [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
+        [self drawLineFrom:CGPointMake(x + space * 2, y) to:CGPointMake(x + space * 3, y) withLineWidth:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
+        [grayColor setStroke];
+        [grayColor setFill];
+        [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
+    }
+    else if ([dicFive[@"state"] integerValue])
+    {
+        [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
+        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
+        [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
+        [self drawLineFrom:CGPointMake(x + space * 2, y) to:CGPointMake(x + space * 3, y) withLineWidth:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
+        [self drawLineFrom:CGPointMake(x + space * 3, y) to:CGPointMake(x + space * 4, y) withLineWidth:10.f];
+        [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
     }
 
-    [self drawTextInRect:CGRectMake(6.f, 62, 60.f, 20.f) Contents:@"等待中" contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space - 23.f, 62, 60.f, 20.f) Contents:@"已接单" contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 2 - 23.f, 62, 60.f, 20.f) Contents:@"维修中" contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 3 - 23.f, 62, 60.f, 20.f) Contents:@"已完成" contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 4 - 23.f, 62, 60.f, 20.f) Contents:@"已评价" contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(6.f, 62, 60.f, 20.f) Contents:[dicOne objectForKey:@"word"] contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space - 26.f, 62, 60.f, 20.f) Contents:[dicTwo objectForKey:@"word"] contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 2 - 23.f, 62, 60.f, 20.f) Contents:[dicThree objectForKey:@"word"] contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 3 - 26.f, 62, 60.f, 20.f) Contents:[dicFour objectForKey:@"word"] contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 4 - 26.f, 62, 60.f, 20.f) Contents:[dicFive objectForKey:@"word"] contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
 }
 
 @end

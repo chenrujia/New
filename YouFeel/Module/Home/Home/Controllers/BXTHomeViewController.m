@@ -532,6 +532,7 @@
         userInfo.portraitUri = [dictionary objectForKey:@"pic"];
         [_usersArray addObject:userInfo];
         [BXTGlobal setUserProperty:_usersArray withKey:U_USERSARRAY];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMailList" object:nil];
     }
     else if (type == Remind_Number)
     {

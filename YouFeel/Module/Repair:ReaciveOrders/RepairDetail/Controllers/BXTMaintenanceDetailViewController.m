@@ -527,7 +527,7 @@
         }
         
         //状态相关
-        BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, StateViewHeight) withRepairState:self.repairDetail.repairstate withIsRespairing:self.repairDetail.isRepairing isShowState:NO];
+        BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, StateViewHeight) withProgress:self.repairDetail.progress isShowState:NO];
         [_thirdBV addSubview:drawView];
         
         if (self.repairDetail.repairstate == 1)
