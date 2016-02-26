@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="XXXXXX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l3n-d0-SqK">
-                        <rect key="frame" x="90" y="14" width="270" height="21"/>
+                        <rect key="frame" x="90" y="14" width="215" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -29,19 +29,38 @@
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="故障" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uzA-Ed-Gk4">
+                        <rect key="frame" x="310" y="14" width="50" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="QLl-eM-HVH"/>
+                            <constraint firstAttribute="width" constant="50" id="RMD-3a-5I2"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.86274509803921573" green="0.0" blue="0.074509803921568626" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="uzA-Ed-Gk4" firstAttribute="leading" secondItem="l3n-d0-SqK" secondAttribute="trailing" constant="5" id="90p-Na-R3T"/>
                     <constraint firstItem="l3n-d0-SqK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="CQU-d6-c1k"/>
                     <constraint firstAttribute="bottom" secondItem="l3n-d0-SqK" secondAttribute="bottom" constant="14" id="IPK-zl-6wF"/>
                     <constraint firstItem="l3n-d0-SqK" firstAttribute="leading" secondItem="SB4-E7-Hrc" secondAttribute="trailing" id="N2Y-tP-miA"/>
                     <constraint firstAttribute="trailing" secondItem="l3n-d0-SqK" secondAttribute="trailing" constant="15" id="WXq-dL-tM0"/>
+                    <constraint firstAttribute="trailing" secondItem="uzA-Ed-Gk4" secondAttribute="trailing" constant="15" id="WiE-4I-jod"/>
                     <constraint firstItem="SB4-E7-Hrc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="cCv-QN-AXq"/>
+                    <constraint firstItem="uzA-Ed-Gk4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="wsP-h6-Ppw"/>
                     <constraint firstItem="SB4-E7-Hrc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="xo5-Xt-dWR"/>
                     <constraint firstAttribute="bottom" secondItem="SB4-E7-Hrc" secondAttribute="bottom" constant="14" id="zEn-db-Sgp"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="WXq-dL-tM0"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="detailView" destination="l3n-d0-SqK" id="kXj-RC-Ls5"/>
+                <outlet property="statusView" destination="uzA-Ed-Gk4" id="n0e-bz-DdJ"/>
                 <outlet property="titleView" destination="SB4-E7-Hrc" id="tXp-7G-yMl"/>
             </connections>
             <point key="canvasLocation" x="347.5" y="418"/>

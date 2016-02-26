@@ -12,6 +12,7 @@
 #import "UIView+Nav.h"
 #import "BXTEquipmentInformCell.h"
 #import "BXTEquipmentInform_PersonCell.h"
+#import "BXTEPStateCell.h"
 
 @interface BXTEquipmentInformView () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 {
@@ -25,6 +26,9 @@
 @property (nonatomic, strong) NSMutableArray *detailArray;
 @property (nonatomic, strong) NSMutableArray *isShowArray;
 
+@property (nonatomic, copy) NSString *stateName;
+@property (nonatomic, assign) CGFloat cellHeight;
+
 @end
 
 @implementation BXTEquipmentInformView
@@ -33,7 +37,7 @@
 - (void)initial
 {
     self.dataArray = [[NSArray alloc] init];
-    self.headerTitleArray = @[@"", @"基本信息", @"厂家信息", @"设备参数", @"设备负责人"];
+    self.headerTitleArray = @[@"", @"基本信息", @"厂家信息", @"设备参数", @"设备负责人", @"设备状态记录"];
     self.detailArray = [[NSMutableArray alloc] init];
     self.isShowArray = [[NSMutableArray alloc] init];
     for (int i=0; i<=self.headerTitleArray.count-1; i++)
@@ -75,6 +79,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 5) {
+        BXTEPStateCell *cell = [BXTEPStateCell cellWithTableView:tableView];
+        
+        cell.stateList = self.detailArray[indexPath.section][indexPath.row];
+        
+        [cell setNeedsUpdateConstraints];
+        [cell updateConstraintsIfNeeded];
+        self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+        
+        return cell;
+    }
+    
     if (indexPath.section == 4) {
         BXTEquipmentInform_PersonCell *cell = [BXTEquipmentInform_PersonCell cellWithTableView:tableView];
         
@@ -95,11 +111,19 @@
         cell.detailView.text = self.detailArray[indexPath.section][indexPath.row];
     }
     
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        cell.statusView.hidden = NO;
+        cell.statusView.text = self.stateName;
+    }
+    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 5) {
+        return self.cellHeight;
+    }
     if (indexPath.section == 4) {
         return 90;
     }
@@ -183,11 +207,12 @@
     {
         NSDictionary *dataDict = data[0];
         
-        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@[@"设备名称", @"设备编号"],  @[@"设备型号", @"设备分类", @"设备品牌", @"安装位置", @"服务区域", @"接管日期", @"启用日期"], @[@"品牌", @"厂家", @"地址", @"联系人", @"联系电话"], @[@"设备参数"], @[@"负责人"]]];
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@[@"设备名称", @"设备编号"],  @[@"设备型号", @"设备分类", @"设备品牌", @"安装位置", @"服务区域", @"接管日期", @"启用日期"], @[@"品牌", @"厂家", @"地址", @"联系人", @"联系电话"], @[@"设备参数"], @[@"负责人"], @[@"状态记录"]]];
         
         BXTEquipmentData *equipmentModel = [BXTEquipmentData modelObjectWithDictionary:dataDict];
         // section == 0
         NSMutableArray *equipArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.name, equipmentModel.code_number, nil];
+        self.stateName = equipmentModel.state_name;
         
         // section == 1
         NSArray *adsNameArray = dataDict[@"ads_name"];
@@ -196,8 +221,11 @@
         
         // section == 2
         NSArray *factoryArray = dataDict[@"factory_info"];
-        BXTEquipmentFactoryInfo *factoryInfoModel = [BXTEquipmentFactoryInfo modelObjectWithDictionary:factoryArray[0]];
-        NSMutableArray *companyArray = [[NSMutableArray alloc] initWithObjects:factoryInfoModel.bread, factoryInfoModel.factory_name, factoryInfoModel.address, factoryInfoModel.linkman, factoryInfoModel.mobile, nil];
+        NSMutableArray *companyArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", nil];
+        if (factoryArray.count != 0) {
+            BXTEquipmentFactoryInfo *factoryInfoModel = [BXTEquipmentFactoryInfo modelObjectWithDictionary:factoryArray[0]];
+            companyArray = (NSMutableArray *)@[factoryInfoModel.bread, factoryInfoModel.factory_name, factoryInfoModel.address, factoryInfoModel.linkman, factoryInfoModel.mobile];
+        }
         
         // section == 3
         NSArray *paramsArray0 = dataDict[@"params"];
@@ -219,6 +247,16 @@
             [authorArray addObject:controlUserModel];
         }
         
+        // section == 5
+        NSArray *stateArray0 = dataDict[@"state_record_list"];
+        NSMutableArray *stateArray = [[NSMutableArray alloc] init];
+        NSMutableArray *stateTitleArray = [[NSMutableArray alloc] init];
+        for (NSDictionary *stateDict in stateArray0) {
+            BXTEquipmentState *stateRecordModel = [BXTEquipmentState modelObjectWithDictionary:stateDict];
+            [stateTitleArray addObject:@"状态记录"];
+            [stateArray addObject:stateRecordModel];
+        }
+        
         // 存储 设备操作规范
         NSArray *conditionArray = dataDict[@"operating_condition"];
         if (conditionArray.count)
@@ -230,7 +268,8 @@
         // 更新数组
         [self.titleArray replaceObjectAtIndex:3 withObject:paramsTitleArray];
         [self.titleArray replaceObjectAtIndex:4 withObject:authorTitleArray];
-        [self.detailArray addObjectsFromArray:@[equipArray, baseArray, companyArray, paramsArray, authorArray]];
+        [self.titleArray replaceObjectAtIndex:5 withObject:stateTitleArray];
+        [self.detailArray addObjectsFromArray:@[equipArray, baseArray, companyArray, paramsArray, authorArray, stateArray]];
         
         [self.tableView reloadData];
     }

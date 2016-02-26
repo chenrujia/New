@@ -17,6 +17,9 @@
     if (cell == nil) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEquipmentInformCell" owner:nil options:nil] lastObject];
     }
+    
+    cell.statusView.hidden = YES;
+    
     return cell;
 }
 

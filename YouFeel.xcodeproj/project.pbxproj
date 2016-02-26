@@ -57,6 +57,17 @@
 		78213FC11C3E3977003290A8 /* BXTEquipmentInform_PersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78213FBF1C3E3977003290A8 /* BXTEquipmentInform_PersonCell.m */; };
 		78213FC21C3E3977003290A8 /* BXTEquipmentInform_PersonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78213FC01C3E3977003290A8 /* BXTEquipmentInform_PersonCell.xib */; };
 		78213FCD1C3E469A003290A8 /* BXTStandardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78213FCC1C3E469A003290A8 /* BXTStandardViewController.m */; };
+		7823C88C1C7E92A800E2858B /* BXTEPLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823C88A1C7E92A800E2858B /* BXTEPLocationCell.m */; };
+		7823C88D1C7E92A800E2858B /* BXTEPLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7823C88B1C7E92A800E2858B /* BXTEPLocationCell.xib */; };
+		7823C8921C7E9FD500E2858B /* BXTEquipmentListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7823C8901C7E9FD500E2858B /* BXTEquipmentListCell.xib */; };
+		7823C8961C7EAEA700E2858B /* BXTMTPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823C8941C7EAEA700E2858B /* BXTMTPlanListCell.m */; };
+		7823C8971C7EAEA700E2858B /* BXTMTPlanListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7823C8951C7EAEA700E2858B /* BXTMTPlanListCell.xib */; };
+		7823C89A1C7EDCD200E2858B /* BXTEPSummaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823C8991C7EDCD200E2858B /* BXTEPSummaryView.m */; };
+		7823C89C1C7EDCE900E2858B /* BXTEPSummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7823C89B1C7EDCE900E2858B /* BXTEPSummaryView.xib */; };
+		7823C89F1C7EDFE900E2858B /* BXTEPSystemRateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823C89E1C7EDFE900E2858B /* BXTEPSystemRateView.m */; };
+		7823C8A41C7EFCD100E2858B /* BXTEquipmentState.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823C8A31C7EFCD100E2858B /* BXTEquipmentState.m */; };
+		7823C8A81C7EFDD400E2858B /* BXTEPStateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823C8A61C7EFDD400E2858B /* BXTEPStateCell.m */; };
+		7823C8A91C7EFDD400E2858B /* BXTEPStateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7823C8A71C7EFDD400E2858B /* BXTEPStateCell.xib */; };
 		7823D20A1C3231A000E3641C /* MYAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2051C3231A000E3641C /* MYAlertAction.m */; };
 		7823D20B1C3231A000E3641C /* UIActionSheet+BlockT.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2071C3231A000E3641C /* UIActionSheet+BlockT.m */; };
 		7823D20C1C3231A000E3641C /* UIAlertView+BlockT.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2091C3231A000E3641C /* UIAlertView+BlockT.m */; };
@@ -453,6 +464,25 @@
 		78213FC01C3E3977003290A8 /* BXTEquipmentInform_PersonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEquipmentInform_PersonCell.xib; sourceTree = "<group>"; };
 		78213FCB1C3E469A003290A8 /* BXTStandardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStandardViewController.h; sourceTree = "<group>"; };
 		78213FCC1C3E469A003290A8 /* BXTStandardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTStandardViewController.m; sourceTree = "<group>"; };
+		7823C8891C7E92A800E2858B /* BXTEPLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPLocationCell.h; sourceTree = "<group>"; };
+		7823C88A1C7E92A800E2858B /* BXTEPLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPLocationCell.m; sourceTree = "<group>"; };
+		7823C88B1C7E92A800E2858B /* BXTEPLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPLocationCell.xib; sourceTree = "<group>"; };
+		7823C88E1C7E9FD500E2858B /* BXTEquipmentListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEquipmentListCell.h; sourceTree = "<group>"; };
+		7823C88F1C7E9FD500E2858B /* BXTEquipmentListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEquipmentListCell.m; sourceTree = "<group>"; };
+		7823C8901C7E9FD500E2858B /* BXTEquipmentListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEquipmentListCell.xib; sourceTree = "<group>"; };
+		7823C8931C7EAEA700E2858B /* BXTMTPlanListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTPlanListCell.h; sourceTree = "<group>"; };
+		7823C8941C7EAEA700E2858B /* BXTMTPlanListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTPlanListCell.m; sourceTree = "<group>"; };
+		7823C8951C7EAEA700E2858B /* BXTMTPlanListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMTPlanListCell.xib; sourceTree = "<group>"; };
+		7823C8981C7EDCD200E2858B /* BXTEPSummaryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPSummaryView.h; sourceTree = "<group>"; };
+		7823C8991C7EDCD200E2858B /* BXTEPSummaryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPSummaryView.m; sourceTree = "<group>"; };
+		7823C89B1C7EDCE900E2858B /* BXTEPSummaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPSummaryView.xib; sourceTree = "<group>"; };
+		7823C89D1C7EDFE900E2858B /* BXTEPSystemRateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPSystemRateView.h; sourceTree = "<group>"; };
+		7823C89E1C7EDFE900E2858B /* BXTEPSystemRateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPSystemRateView.m; sourceTree = "<group>"; };
+		7823C8A21C7EFCD100E2858B /* BXTEquipmentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEquipmentState.h; sourceTree = "<group>"; };
+		7823C8A31C7EFCD100E2858B /* BXTEquipmentState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEquipmentState.m; sourceTree = "<group>"; };
+		7823C8A51C7EFDD400E2858B /* BXTEPStateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPStateCell.h; sourceTree = "<group>"; };
+		7823C8A61C7EFDD400E2858B /* BXTEPStateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPStateCell.m; sourceTree = "<group>"; };
+		7823C8A71C7EFDD400E2858B /* BXTEPStateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPStateCell.xib; sourceTree = "<group>"; };
 		7823D2041C3231A000E3641C /* MYAlertAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYAlertAction.h; sourceTree = "<group>"; };
 		7823D2051C3231A000E3641C /* MYAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYAlertAction.m; sourceTree = "<group>"; };
 		7823D2061C3231A000E3641C /* UIActionSheet+BlockT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+BlockT.h"; sourceTree = "<group>"; };
@@ -1045,6 +1075,9 @@
 		78090B0F1C7DA7DF003E1565 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7823C8931C7EAEA700E2858B /* BXTMTPlanListCell.h */,
+				7823C8941C7EAEA700E2858B /* BXTMTPlanListCell.m */,
+				7823C8951C7EAEA700E2858B /* BXTMTPlanListCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1116,6 +1149,9 @@
 				78090B251C7DAF47003E1565 /* BXTEPFilterCell.h */,
 				78090B261C7DAF47003E1565 /* BXTEPFilterCell.m */,
 				78090B271C7DAF47003E1565 /* BXTEPFilterCell.xib */,
+				7823C8891C7E92A800E2858B /* BXTEPLocationCell.h */,
+				7823C88A1C7E92A800E2858B /* BXTEPLocationCell.m */,
+				7823C88B1C7E92A800E2858B /* BXTEPLocationCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1362,6 +1398,9 @@
 				781EF1ED1C3D382C0027FE72 /* BXTEquipmentFilesCell.h */,
 				781EF1EE1C3D382C0027FE72 /* BXTEquipmentFilesCell.m */,
 				781EF1EF1C3D382C0027FE72 /* BXTEquipmentFilesCell.xib */,
+				7823C8A51C7EFDD400E2858B /* BXTEPStateCell.h */,
+				7823C8A61C7EFDD400E2858B /* BXTEPStateCell.m */,
+				7823C8A71C7EFDD400E2858B /* BXTEPStateCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -2987,6 +3026,9 @@
 		7893D8F21C7ADCB500F042D5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7823C88E1C7E9FD500E2858B /* BXTEquipmentListCell.h */,
+				7823C88F1C7E9FD500E2858B /* BXTEquipmentListCell.m */,
+				7823C8901C7E9FD500E2858B /* BXTEquipmentListCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3125,6 +3167,11 @@
 		7893D9051C7AE4F600F042D5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7823C8981C7EDCD200E2858B /* BXTEPSummaryView.h */,
+				7823C8991C7EDCD200E2858B /* BXTEPSummaryView.m */,
+				7823C89B1C7EDCE900E2858B /* BXTEPSummaryView.xib */,
+				7823C89D1C7EDFE900E2858B /* BXTEPSystemRateView.h */,
+				7823C89E1C7EDFE900E2858B /* BXTEPSystemRateView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3161,6 +3208,8 @@
 				78C55A611C47339700FFEB37 /* BXTEquipmentFactoryInfo.m */,
 				78C55A621C47339700FFEB37 /* BXTEquipmentParams.h */,
 				78C55A631C47339700FFEB37 /* BXTEquipmentParams.m */,
+				7823C8A21C7EFCD100E2858B /* BXTEquipmentState.h */,
+				7823C8A31C7EFCD100E2858B /* BXTEquipmentState.m */,
 			);
 			path = BXTEquipment;
 			sourceTree = "<group>";
@@ -3849,6 +3898,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7823C8971C7EAEA700E2858B /* BXTMTPlanListCell.xib in Resources */,
 				783DDA501C3FB4A50035B927 /* unicode_to_hanyu_pinyin.txt in Resources */,
 				9652AC341BC90EC9009A666D /* LocalPhotoCell.xib in Resources */,
 				96AABA541BE0BB220071B6FA /* RongCloudKit.strings in Resources */,
@@ -3883,10 +3933,13 @@
 				9652AC311BC90EC9009A666D /* LocalAlbumCell.xib in Resources */,
 				7893D8921C7AA70D00F042D5 /* BXTStatisticsCell.xib in Resources */,
 				78426B521C7C389F00BAE0F4 /* BXTMTStatisticsCell.xib in Resources */,
+				7823C89C1C7EDCE900E2858B /* BXTEPSummaryView.xib in Resources */,
 				7893D8E91C7ADA8000F042D5 /* BXTStEvaluationFooter.xib in Resources */,
 				78426B601C7C61DE00BAE0F4 /* BXTMTCompletionFooter.xib in Resources */,
+				7823C88D1C7E92A800E2858B /* BXTEPLocationCell.xib in Resources */,
 				78C55B0F1C47C50C00FFEB37 /* BXTReadNoticeCell.xib in Resources */,
 				964C4AC41C157C7B00E6C8C4 /* Assets.xcassets in Resources */,
+				7823C8A91C7EFDD400E2858B /* BXTEPStateCell.xib in Resources */,
 				78090B321C7DC68F003E1565 /* BXTEPHeaderView.xib in Resources */,
 				782985AD1C40BB6600D0837C /* BXTMineIconCell.xib in Resources */,
 				96F8C5F31C439A450035F187 /* BXTChangeStateViewController.xib in Resources */,
@@ -3896,6 +3949,7 @@
 				7839780D1C34D9EB00BE9620 /* BXTMailListCell.xib in Resources */,
 				9607A3C51BE0BC0F000A6C5B /* Emoji.plist in Resources */,
 				96AB062E1C1FB48E0038E2AF /* icon_chose_arrow_nor@2x.png in Resources */,
+				7823C8921C7E9FD500E2858B /* BXTEquipmentListCell.xib in Resources */,
 				781EF2071C3D382C0027FE72 /* BXTCurrentOrderCell.xib in Resources */,
 				96AB062F1C1FB48E0038E2AF /* icon_chose_arrow_sel@2x.png in Resources */,
 			);
@@ -4030,6 +4084,7 @@
 				7893D8E71C7ADA8000F042D5 /* BXStEvaluationViewController.m in Sources */,
 				7867DCCD1C4CBCAC000749F1 /* BXTLoginViewController.m in Sources */,
 				9634156F1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m in Sources */,
+				7823C8A81C7EFDD400E2858B /* BXTEPStateCell.m in Sources */,
 				9652ABEA1BC90DCC009A666D /* AESCrypt.m in Sources */,
 				7818DBEB1C0824D800DC22C6 /* UICountingLabel.m in Sources */,
 				7893D8E21C7ADA8000F042D5 /* BXTProfessionViewController.m in Sources */,
@@ -4039,6 +4094,7 @@
 				7818DBD31C0824D800DC22C6 /* AksStraightPieChart.m in Sources */,
 				7867DD1F1C4CBE4F000749F1 /* BXTDepartmentInfo.m in Sources */,
 				7867DD741C4CBEA1000749F1 /* MDRadialProgressView.m in Sources */,
+				7823C89A1C7EDCD200E2858B /* BXTEPSummaryView.m in Sources */,
 				7893D8EA1C7ADA8000F042D5 /* BXTStEvaluationHeader.m in Sources */,
 				7867DD831C4CBEA1000749F1 /* BXTMaintenanceManTableViewCell.m in Sources */,
 				7818DBDF1C0824D800DC22C6 /* PNColor.m in Sources */,
@@ -4069,6 +4125,7 @@
 				782985B31C40E48F00D0837C /* BXTSettingViewController.m in Sources */,
 				7893D8951C7AA7B300F042D5 /* BXTStatisticsMianView.m in Sources */,
 				967C3D4F1C4620E00078F1D6 /* BXTControlUserTableViewCell.m in Sources */,
+				7823C89F1C7EDFE900E2858B /* BXTEPSystemRateView.m in Sources */,
 				7867DD841C4CBEA1000749F1 /* BXTOrderListView.m in Sources */,
 				7867DDAE1C4CBEE9000749F1 /* BXTMaintenanceDetailViewController.m in Sources */,
 				781EF2081C3D382C0027FE72 /* BXTCurrentOrderView.m in Sources */,
@@ -4115,6 +4172,7 @@
 				781EF1831C3CB3B30027FE72 /* BXTMailViewController.m in Sources */,
 				7867DD221C4CBE4F000749F1 /* BXTPropertyView.m in Sources */,
 				78266AED1C48C98E0004C49A /* BXTReadNotice.m in Sources */,
+				7823C88C1C7E92A800E2858B /* BXTEPLocationCell.m in Sources */,
 				78213FC11C3E3977003290A8 /* BXTEquipmentInform_PersonCell.m in Sources */,
 				7867DD851C4CBEA1000749F1 /* SegmentView.m in Sources */,
 				7867DCD01C4CBCAC000749F1 /* BXTResignTableViewCell.m in Sources */,
@@ -4186,6 +4244,7 @@
 				9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */,
 				9602214A1BC9201400010072 /* UIView+Nav.m in Sources */,
 				782985981C40B4D800D0837C /* BXTAuditerTableViewCell.m in Sources */,
+				7823C8961C7EAEA700E2858B /* BXTMTPlanListCell.m in Sources */,
 				78C55B0E1C47C50C00FFEB37 /* BXTReadNoticeCell.m in Sources */,
 				9652ABF31BC90DCC009A666D /* ANPersistentData.m in Sources */,
 				7893D8E11C7ADA8000F042D5 /* BXTIncidenceView.m in Sources */,
@@ -4214,6 +4273,7 @@
 				9652ABF11BC90DCC009A666D /* ANKeyValueTable.m in Sources */,
 				783DDA4C1C3FB4A50035B927 /* NSString+PinYin4Cocoa.m in Sources */,
 				781EF2091C3D382C0027FE72 /* BXTEquipmentBaseView.m in Sources */,
+				7823C8A41C7EFCD100E2858B /* BXTEquipmentState.m in Sources */,
 				7867DCCC1C4CBCAC000749F1 /* BXTFindPassWordViewController.m in Sources */,
 				7867DD2A1C4CBE4F000749F1 /* CLLocation+YCLocation.m in Sources */,
 				7818DBE81C0824D800DC22C6 /* PNScatterChart.m in Sources */,

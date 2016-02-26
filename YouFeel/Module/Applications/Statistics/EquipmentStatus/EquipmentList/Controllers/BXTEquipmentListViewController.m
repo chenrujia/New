@@ -9,12 +9,15 @@
 #import "BXTEquipmentListViewController.h"
 #import "BXTEPFilterViewController.h"
 #import "DOPDropDownMenu.h"
+#import "BXTEquipmentListCell.m"
 
 @interface BXTEquipmentListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSArray *typeArray;
+
+@property (nonatomic, assign) CGFloat cellHeight;
 
 @end
 
@@ -88,20 +91,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellID = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
-    }
+    BXTEquipmentListCell *cell = [BXTEquipmentListCell cellWithTableView:tableView];
     
-    cell.textLabel.text = self.dataArray[indexPath.section];
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 45;
+    return self.cellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

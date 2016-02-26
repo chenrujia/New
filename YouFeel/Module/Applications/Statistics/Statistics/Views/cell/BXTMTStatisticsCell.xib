@@ -15,27 +15,27 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="维保完成率统计" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6IV-kf-YYo">
-                        <rect key="frame" x="15" y="32" width="125" height="21"/>
+                        <rect key="frame" x="15" y="32" width="140" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="8uD-9N-ikj"/>
-                            <constraint firstAttribute="width" constant="125" id="qdk-1e-BLk"/>
+                            <constraint firstAttribute="width" constant="140" id="qdk-1e-BLk"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="项目总体完成情况" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZKx-9i-gue">
-                        <rect key="frame" x="15" y="56" width="125" height="21"/>
+                        <rect key="frame" x="15" y="56" width="140" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="KcL-9a-gLd"/>
-                            <constraint firstAttribute="width" constant="125" id="eId-HC-SIK"/>
+                            <constraint firstAttribute="width" constant="140" id="eId-HC-SIK"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.56470588239999997" green="0.58039215690000001" blue="0.59215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bSH-pf-xXT" customClass="AksStraightPieChart">
-                        <rect key="frame" x="140" y="35" width="225" height="39.5"/>
+                        <rect key="frame" x="155" y="35" width="210" height="39.5"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </subviews>

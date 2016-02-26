@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSString *install_time;
 @property (nonatomic, strong) NSString *take_over_time;
 @property (nonatomic, strong) NSString *state;
+@property (nonatomic, strong) NSString *state_name;
 @property (nonatomic, strong) NSString *dataIdentifier;
 @property (nonatomic, strong) NSString *place_id;
 @property (nonatomic, strong) NSString *type_name;

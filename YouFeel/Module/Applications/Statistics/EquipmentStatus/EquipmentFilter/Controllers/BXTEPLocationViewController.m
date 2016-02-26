@@ -7,11 +7,13 @@
 //
 
 #import "BXTEPLocationViewController.h"
+#import "BXTEPLocationCell.h"
 
 @interface BXTEPLocationViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, strong) NSArray *placeholderArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
 @end
@@ -25,7 +27,10 @@
     [self navigationSetting:@"位置" andRightTitle:nil andRightImage:nil];
     
     self.titleArray = @[@"一级位置", @"二级位置", @"三级位置"];
-    self.dataArray = [[NSMutableArray alloc] init];
+    self.placeholderArray = @[@"请输入(必填项)", @"请输入(非必填项)", @"请输入(非必填项)"];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", nil];
+    
+    [self createUI];
 }
 
 #pragma mark -
@@ -52,14 +57,19 @@
     @weakify(self);
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if ([self.dataArray containsObject:@"待完善"]) {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写完全筛选条件" chooseBlock:^(NSInteger buttonIdx) {
+        [self.view endEditing:YES];
+        
+        if ([BXTGlobal isBlankString:self.dataArray[0]]) {
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写一级位置" chooseBlock:^(NSInteger buttonIdx) {
                 
             } buttonsStatement:@"确定", nil];
         }
         else {
-            [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
-                
+            [BXTGlobal showText:@"输入成功" view:self.view completionBlock:^{
+                if (self.delegateSignal) {
+                    [self.delegateSignal sendNext:self.dataArray];
+                }
+                [self.navigationController popViewControllerAnimated:YES];
             }];
         }
     }];
@@ -82,19 +92,27 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    BXTEPLocationCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEPLocationCell" owner:nil options:nil] lastObject];
     }
     
-    cell.textLabel.text = self.dataArray[indexPath.section];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.titleView.text = self.titleArray[indexPath.section];
+    cell.descView.placeholder = self.placeholderArray[indexPath.section];
+    @weakify(self);
+    [[cell.descView rac_textSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.dataArray replaceObjectAtIndex:indexPath.section withObject:x];
+    }];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 45;
+    return 50;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
