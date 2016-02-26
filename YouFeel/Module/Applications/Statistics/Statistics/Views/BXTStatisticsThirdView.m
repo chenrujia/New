@@ -8,7 +8,7 @@
 
 #import "BXTStatisticsThirdView.h"
 #import "BXTEPAvailabilityViewController.h"
-#import "BXTMTPlanHeaderView.h"
+#import "BXTEPHeaderView.h"
 #import "BXTMTStatisticsCell.h"
 #import "UIView+Nav.h"
 
@@ -20,10 +20,10 @@
 {
     [super initial];
     
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"设备完好率统计", @"设备运行计划统计", @"预防性维保情况统计", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"设备完好率统计", @"设备运行计划统计", @"预防性维保统计", nil];
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@"实时设备运行情况", @"开发中，敬请期待", @"开发中，敬请期待", nil];
     
-    BXTMTPlanHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTPlanHeaderView" owner:nil options:nil] lastObject];
+    BXTEPHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTEPHeaderView" owner:nil options:nil] lastObject];
     self.tableView.tableHeaderView = headerView;
 }
 
@@ -42,10 +42,9 @@
     cell.detailView.text = self.detailArray[indexPath.section];
     
     [cell.pieChartView clearChart];
-    [cell.pieChartView addDataToRepresent:60 WithColor:colorWithHexString(@"#0FCCC0")];
-    [cell.pieChartView addDataToRepresent:30 WithColor:colorWithHexString(@"#0C88CC")];
-    [cell.pieChartView addDataToRepresent:10 WithColor:colorWithHexString(@"#FD7070")];
-    [cell.pieChartView addDataToRepresent:20 WithColor:colorWithHexString(@"#DEE7E8")];
+    [cell.pieChartView addDataToRepresent:60 WithColor:colorWithHexString(@"#34B47E")];
+    [cell.pieChartView addDataToRepresent:30 WithColor:colorWithHexString(@"#D6AD5B")];
+    [cell.pieChartView addDataToRepresent:10 WithColor:colorWithHexString(@"#CA5B5B")];
     cell.pieChartView.userInteractionEnabled = NO;
     
     return cell;

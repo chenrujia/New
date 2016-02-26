@@ -35,8 +35,8 @@
     
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray = @[@"安装位置", @"维保周期", @"系统分组", @"设备状态"];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", @"待完善", nil];
+    self.titleArray = @[@"安装位置", @"系统分组", @"设备状态"];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", nil];
     
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
@@ -164,7 +164,7 @@
     if (tableView == self.selectTableView) {
         NSString *selectRow  = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
         
-        if (self.showSelectedRow != 2) {
+        if (self.showSelectedRow != 1) {
             //判断数组中有没有被选中行的行号,
             if ([self.mulitSelectArray containsObject:selectRow]) {
                 [self.mulitSelectArray removeObject:selectRow];
@@ -193,6 +193,15 @@
     
     if (indexPath.section == 0) {
         BXTEPLocationViewController *locationVC = [[BXTEPLocationViewController alloc] init];
+        locationVC.delegateSignal = [RACSubject subject];
+        @weakify(self);
+        [locationVC.delegateSignal subscribeNext:^(NSArray *array) {
+            @strongify(self);
+            NSString *finalStr = [array componentsJoinedByString:@"-"];
+            [self.dataArray replaceObjectAtIndex:0 withObject:finalStr];
+            
+            [self.tableView reloadData];
+        }];
         [self.navigationController pushViewController:locationVC animated:YES];
     }
     else {
@@ -209,13 +218,10 @@
 {
     self.showSelectedRow = 0;
     if (index == 1) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"月保", @"季保", @"半年保", @"年保", nil];
+        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"消防系统", @"空调系统", @"弱电系统", @"AAA系统", nil];
+        self.showSelectedRow = 1;
     }
     else if (index == 2) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"消防系统", @"空调系统", @"弱电系统", @"AAA系统", nil];
-        self.showSelectedRow = 2;
-    }
-    else if (index == 3) {
         self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"故障", @"正常", nil];
     }
     

@@ -10,4 +10,6 @@
 
 @interface BXTEPLocationViewController : BXTBaseViewController
 
+@property (nonatomic, strong) RACSubject *delegateSignal;
+
 @end

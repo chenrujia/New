@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="261" id="KGk-i7-Jjw" customClass="BXTEquipmentListCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="261"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="260.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备编号：15923533" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m0e-Tf-GkP">
+                        <rect key="frame" x="15" y="15" width="288" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正常" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hdx-Q0-qiO">
+                        <rect key="frame" x="318" y="15" width="42" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="42" id="XdH-oe-fDi"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dDx-hO-cQk" userLabel="Line1">
+                        <rect key="frame" x="15" y="50" width="345" height="1"/>
+                        <color key="backgroundColor" red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="2hk-18-uLh"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统：15923533" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="gTW-hp-mix">
+                        <rect key="frame" x="15" y="63" width="345" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="位置：15923533" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="rwu-XV-Knl">
+                        <rect key="frame" x="15" y="145" width="345" height="100.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备名称：15923533设备编号：15923533设备编号：15923533设备编号：15923533" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="Qbq-xv-ePo">
+                        <rect key="frame" x="15" y="86" width="345" height="54"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="dDx-hO-cQk" firstAttribute="top" secondItem="m0e-Tf-GkP" secondAttribute="bottom" constant="15" id="A6R-Ah-rYJ"/>
+                    <constraint firstAttribute="trailing" secondItem="Qbq-xv-ePo" secondAttribute="trailing" constant="15" id="By0-hC-reI"/>
+                    <constraint firstAttribute="trailing" secondItem="gTW-hp-mix" secondAttribute="trailing" constant="15" id="FFJ-ne-wUB"/>
+                    <constraint firstItem="Qbq-xv-ePo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="GKt-kJ-y1M"/>
+                    <constraint firstItem="dDx-hO-cQk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="GaE-n8-m4k"/>
+                    <constraint firstItem="hdx-Q0-qiO" firstAttribute="leading" secondItem="m0e-Tf-GkP" secondAttribute="trailing" constant="15" id="LJg-74-HHd"/>
+                    <constraint firstAttribute="trailing" secondItem="hdx-Q0-qiO" secondAttribute="trailing" constant="15" id="LWg-sY-Z03"/>
+                    <constraint firstItem="dDx-hO-cQk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="50" id="PC9-Ms-4aI"/>
+                    <constraint firstItem="m0e-Tf-GkP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="QiA-Us-wfy"/>
+                    <constraint firstItem="dDx-hO-cQk" firstAttribute="top" secondItem="hdx-Q0-qiO" secondAttribute="bottom" constant="15" id="Rse-bu-2Th"/>
+                    <constraint firstAttribute="trailing" secondItem="dDx-hO-cQk" secondAttribute="trailing" constant="15" id="Suj-Hg-YUk"/>
+                    <constraint firstItem="rwu-XV-Knl" firstAttribute="top" secondItem="Qbq-xv-ePo" secondAttribute="bottom" constant="5" id="d7g-E0-spi"/>
+                    <constraint firstItem="gTW-hp-mix" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="eOl-7j-dGh"/>
+                    <constraint firstAttribute="bottom" secondItem="rwu-XV-Knl" secondAttribute="bottom" constant="15" id="ehP-oO-yvq"/>
+                    <constraint firstAttribute="trailing" secondItem="rwu-XV-Knl" secondAttribute="trailing" constant="15" id="hiJ-zn-BvW"/>
+                    <constraint firstItem="hdx-Q0-qiO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="jLr-mv-OPy"/>
+                    <constraint firstItem="m0e-Tf-GkP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="l74-sb-sYs"/>
+                    <constraint firstItem="Qbq-xv-ePo" firstAttribute="top" secondItem="gTW-hp-mix" secondAttribute="bottom" constant="5" id="oDP-sV-ura"/>
+                    <constraint firstItem="rwu-XV-Knl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="r08-ax-RFi"/>
+                    <constraint firstItem="gTW-hp-mix" firstAttribute="top" secondItem="dDx-hO-cQk" secondAttribute="bottom" constant="12" id="yuf-DL-Fzd"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="NumberView" destination="m0e-Tf-GkP" id="Lgj-pp-Ehc"/>
+                <outlet property="locationView" destination="rwu-XV-Knl" id="hrC-55-AJ7"/>
+                <outlet property="nameView" destination="Qbq-xv-ePo" id="LEB-bo-DvY"/>
+                <outlet property="statusView" destination="hdx-Q0-qiO" id="3td-Mx-cz1"/>
+                <outlet property="systemView" destination="gTW-hp-mix" id="K81-cj-SrC"/>
+            </connections>
+            <point key="canvasLocation" x="297.5" y="484.5"/>
+        </tableViewCell>
+    </objects>
+</document>
