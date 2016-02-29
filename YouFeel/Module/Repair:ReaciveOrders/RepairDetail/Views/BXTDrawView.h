@@ -10,10 +10,11 @@
 
 @interface BXTDrawView : UIView
 
-@property (nonatomic ,assign) NSInteger repairState;
-@property (nonatomic ,assign) NSInteger isRepairing;
-@property (nonatomic ,assign) BOOL      isShow;
+@property (nonatomic, strong) NSArray *progress;
+@property (nonatomic ,assign) BOOL    isShow;
 
-- (instancetype)initWithFrame:(CGRect)frame withRepairState:(NSInteger)state withIsRespairing:(NSInteger)repairing isShowState:(BOOL)show;
+- (instancetype)initWithFrame:(CGRect)frame
+                 withProgress:(NSArray *)progresses
+                  isShowState:(BOOL)show;
 
 @end

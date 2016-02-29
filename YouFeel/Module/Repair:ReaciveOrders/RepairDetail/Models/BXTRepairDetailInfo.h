@@ -10,7 +10,6 @@
 
 @interface BXTRepairDetailInfo : NSObject
 
-@property (nonatomic ,strong) NSDictionary *Praise;
 @property (nonatomic ,assign) NSInteger    area;
 @property (nonatomic ,strong) NSString     *area_name;
 @property (nonatomic ,strong) NSString     *cause;
@@ -60,6 +59,7 @@
 @property (nonatomic ,strong) NSString     *start_time;
 @property (nonatomic ,assign) NSInteger    order_type;
 @property (nonatomic, assign) NSInteger    task_type;
+@property (nonatomic, strong) NSArray      *progress;
 
 //维保相关
 @property (nonatomic, strong) NSArray      *device_list;

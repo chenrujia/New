@@ -25,8 +25,12 @@
     self.navigationController.navigationBarHidden = NO;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ReloadMailList" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.conversationListTableView reloadData];
+    }];
     
-    // - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left
     self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [[RCIMClient sharedRCIMClient] getTotalUnreadCount]];
     if ([[RCIMClient sharedRCIMClient] getTotalUnreadCount] == 0)
     {
@@ -38,9 +42,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    
     
     UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(80, 5, SCREEN_WIDTH-160, 30)];
     label.font = [UIFont systemFontOfSize:18.0f];
@@ -50,10 +51,8 @@
     label.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = label;
     
-    
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
     [self setDisplayConversationTypes:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION)]];
-    
     
     UIButton * nav_rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     nav_rightButton.frame = CGRectMake(SCREEN_WIDTH - 60, 20, 60, 44);
@@ -88,19 +87,9 @@
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
