@@ -41,10 +41,17 @@
     cell.titleView.text = self.dataArray[indexPath.section];
     cell.detailView.text = self.detailArray[indexPath.section];
     
+    NSArray *transArray = ValueFUD(@"thirdViewEPStateArray");
+    NSDictionary *dataDict = transArray[0];
+    
     [cell.pieChartView clearChart];
-    [cell.pieChartView addDataToRepresent:60 WithColor:colorWithHexString(@"#34B47E")];
-    [cell.pieChartView addDataToRepresent:30 WithColor:colorWithHexString(@"#D6AD5B")];
-    [cell.pieChartView addDataToRepresent:10 WithColor:colorWithHexString(@"#CA5B5B")];
+    [cell.pieChartView addDataToRepresent:[dataDict[@"working_per"] doubleValue] WithColor:colorWithHexString(@"#34B47E")];
+    [cell.pieChartView addDataToRepresent:[dataDict[@"stop_per"] doubleValue] WithColor:colorWithHexString(@"#D6AD5B")];
+
+    if ([dataDict[@"working_per"] doubleValue] == 0 && [dataDict[@"stop_per"] doubleValue] == 0) {
+        [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#d9d9d9")];
+    }
+    
     cell.pieChartView.userInteractionEnabled = NO;
     
     return cell;

@@ -225,7 +225,7 @@
     dispatch_async(concurrentQueue, ^{
         /**请求故障类型列表**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request faultTypeList];
+        [fau_request faultTypeListWithRTaskType:@"all"];
     });
 }
 

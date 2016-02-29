@@ -12,6 +12,5 @@
 
 @property (weak, nonatomic) IBOutlet UIView *image1;
 @property (weak, nonatomic) IBOutlet UIView *image2;
-@property (weak, nonatomic) IBOutlet UIView *image3;
 
 @end

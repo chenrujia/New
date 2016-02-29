@@ -21,13 +21,25 @@
     return cell;
 }
 
+- (void)setPlanList:(BXTMTPlanList *)planList
+{
+    _planList = planList;
+    
+    self.orderNumView.text = [NSString stringWithFormat:@"编号：%@", planList.inspection_code];
+    self.statusView.text = [NSString stringWithFormat:@"%@", [planList.state integerValue] == 1 ? @"维保中" : @"已完成"];
+    self.projectView.text = [NSString stringWithFormat:@"维保项目%@", planList.faulttype];
+    self.planView.text = [NSString stringWithFormat:@"维保计划：%@--%@", planList.start_date, planList.end_date];
+    self.repairerView.text = [NSString stringWithFormat:@"维修人：%@", planList.user_name];
+    self.timeView.text = [NSString stringWithFormat:@"完成时间：%@", planList.end_date];
+}
+
 - (void)awakeFromNib {
     // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

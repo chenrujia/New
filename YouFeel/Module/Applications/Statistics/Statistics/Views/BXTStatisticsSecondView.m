@@ -14,6 +14,10 @@
 #import "BXTMTStatisticsCell.h"
 #import "UIView+Nav.h"
 
+@interface BXTStatisticsSecondView ()
+
+@end
+
 @implementation BXTStatisticsSecondView
 
 #pragma mark -
@@ -27,7 +31,6 @@
     
     BXTMTPlanHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTPlanHeaderView" owner:nil options:nil] lastObject];
     self.tableView.tableHeaderView = headerView;
-    
 }
 
 #pragma mark -
@@ -44,11 +47,19 @@
     cell.titleView.text = self.dataArray[indexPath.section];
     cell.detailView.text = self.detailArray[indexPath.section];
     
+    NSArray *transArray = ValueFUD(@"secondViewMTPlanArray");
+    NSDictionary *dataDict = transArray[indexPath.section];
+    
     [cell.pieChartView clearChart];
-    [cell.pieChartView addDataToRepresent:60 WithColor:colorWithHexString(@"#0FCCC0")];
-    [cell.pieChartView addDataToRepresent:30 WithColor:colorWithHexString(@"#0C88CC")];
-    [cell.pieChartView addDataToRepresent:10 WithColor:colorWithHexString(@"#FD7070")];
-    [cell.pieChartView addDataToRepresent:20 WithColor:colorWithHexString(@"#DEE7E8")];
+    [cell.pieChartView addDataToRepresent:[dataDict[@"over_per"] doubleValue] WithColor:colorWithHexString(@"#0FCCC0")];
+    [cell.pieChartView addDataToRepresent:[dataDict[@"working_per"] doubleValue] WithColor:colorWithHexString(@"#0C88CC")];
+    [cell.pieChartView addDataToRepresent:[dataDict[@"unover_per"] doubleValue] WithColor:colorWithHexString(@"#FD7070")];
+    [cell.pieChartView addDataToRepresent:[dataDict[@"unstart_per"] doubleValue] WithColor:colorWithHexString(@"#DEE7E8")];
+    
+    if ([dataDict[@"over_per"] doubleValue] == 0 && [dataDict[@"working_per"] doubleValue] == 0 && [dataDict[@"unover_per"] doubleValue] ==0 && [dataDict[@"unstart_per"] doubleValue] == 0) {
+        [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#d9d9d9")];
+    }
+    
     cell.pieChartView.userInteractionEnabled = NO;
     
     return cell;
