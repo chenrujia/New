@@ -101,7 +101,7 @@
     
     /**请求故障类型列表**/
     BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [fau_request faultTypeList];
+    [fau_request faultTypeListWithRTaskType:@"all"];
     
     /**请求特殊工单类型列表**/
     BXTDataRequest *ot_request = [[BXTDataRequest alloc] initWithDelegate:self];

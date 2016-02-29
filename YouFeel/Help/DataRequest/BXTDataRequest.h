@@ -41,8 +41,11 @@ typedef NS_ENUM(NSInteger, RequestType) {
     UpdateShopAddress,
     ConfigInfo,
     StartRepair,
-    Statistics_Complete,
+    InspectionPlanOverview,
+    Statistics_MTPlanList,
+    Statistics_EPList,
     Statistics_MTComplete,
+    Statistics_Complete,
     Statistics_Subgroup,
     Statistics_Faulttype,
     Statistics_Workload_day,
@@ -137,7 +140,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  故障类型
  */
-- (void)faultTypeList;
+- (void)faultTypeListWithRTaskType:(NSString *)taskType;
 
 /**
  *  全部故障类型
@@ -372,15 +375,44 @@ andRepairerIsReacive:(NSString *)reacive;
 - (void)startRepair:(NSString *)repairID;
 
 /**
- *  统计-完成率统计
+ *  统计-计划维保概览
  */
-- (void)statisticsCompleteWithTimeStart:(NSString *)startTime
-                                timeEnd:(NSString *)endTime;
+- (void)inspectionPlanOverview;
+
+/**
+ *  统计-维保任务列表
+ */
+- (void)statisticsMTPlanListWithTimeStart:(NSString *)startTime
+                                  TimeEnd:(NSString *)endTime
+                              SubgroupIDs:(NSString *)subgroupIDs
+                         FaulttypeTypeIDs:(NSString *)faulttypeTypeIDs
+                                    State:(NSString *)state
+                                    Order:(NSString *)order
+                                 Pagesize:(NSString *)pageSize
+                                     Page:(NSString *)page;
+
+/**
+ *  统计-维保设备列表
+ */
+- (void)statisticsEPListWithTime:(NSString *)date
+                           State:(NSString *)state
+                          TypeID:(NSString *)typeID
+                          AreaID:(NSString *)areaID
+                         PlaceID:(NSString *)placeID
+                        StoresID:(NSString *)storesID
+                        Pagesize:(NSString *)pageSize
+                            Page:(NSString *)page;
 
 /**
  *  统计-维保完成率统计
  */
 - (void)statisticsMTCompleteWithTimeStart:(NSString *)startTime
+                                  timeEnd:(NSString *)endTime;
+
+/**
+ *  统计-完成率统计
+ */
+- (void)statisticsCompleteWithTimeStart:(NSString *)startTime
                                 timeEnd:(NSString *)endTime;
 
 /**

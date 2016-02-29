@@ -10,4 +10,6 @@
 
 @interface BXTEPFilterViewController : BXTBaseViewController
 
+@property (nonatomic, strong) RACSubject *delegateSignal;
+
 @end

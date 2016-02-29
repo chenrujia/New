@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTEPList.h"
 
 @interface BXTEquipmentListCell : UITableViewCell
 
@@ -18,5 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *locationView;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+@property (nonatomic, strong) BXTEPList *epList;
 
 @end

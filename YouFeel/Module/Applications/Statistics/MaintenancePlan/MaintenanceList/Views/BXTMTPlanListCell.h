@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTMTPlanList.h"
 
 @interface BXTMTPlanListCell : UITableViewCell
 
@@ -20,5 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeView;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+@property (nonatomic, strong) BXTMTPlanList *planList;
 
 @end

@@ -17,12 +17,15 @@
 #import "BXTMaintenanceListViewController.h"
 #import "BXTEquipmentListViewController.h"
 
-@interface BXTStatisticsViewController () <SegmentViewDelegate, UIScrollViewDelegate>
+@interface BXTStatisticsViewController () <SegmentViewDelegate, UIScrollViewDelegate, BXTDataResponseDelegate>
 {
     UIScrollView *currentScrollView;
     SegmentView *segment;
     NSInteger currentPage;
 }
+
+@property (nonatomic, strong) NSMutableArray *MTPlanArray;
+@property (nonatomic, strong) NSMutableArray *EPStateArray;
 
 @end
 
@@ -33,7 +36,34 @@
     [super viewDidLoad];
     [self navigationSetting:@"业务统计" andRightTitle:@"全部工单" andRightImage:nil];
     
+    self.MTPlanArray = [[NSMutableArray alloc] init];
+    self.EPStateArray = [[NSMutableArray alloc] init];
     
+    [self showLoadingMBP:@"数据加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request inspectionPlanOverview];
+    
+}
+
+- (void)navigationRightButton
+{
+    // 全部工单
+    BXTAllOrdersViewController *allOrdersVC = [[BXTAllOrdersViewController alloc] init];
+    // 全部维保
+    BXTMaintenanceListViewController *mtListVC = [[BXTMaintenanceListViewController alloc] init];
+    // 全部设备
+    BXTEquipmentListViewController *equipmentVC = [[BXTEquipmentListViewController alloc] init];
+    
+    switch (currentPage) {
+        case 0: [self.navigationController pushViewController:allOrdersVC animated:YES]; break;
+        case 1: [self.navigationController pushViewController:mtListVC animated:YES]; break;
+        case 2: [self.navigationController pushViewController:equipmentVC animated:YES]; break;
+        default: break;
+    }
+}
+
+- (void)createUI
+{
     // backView
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, KNAVIVIEWHEIGHT, SCREEN_WIDTH, 40.f)];
     [backView setBackgroundColor:colorWithHexString(@"ffffff")];
@@ -69,23 +99,6 @@
     
     BXTStatisticsForthView *forthView = [[BXTStatisticsForthView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH * 3, 0, SCREEN_WIDTH, scrollViewH)];
     [currentScrollView addSubview:forthView];
-}
-
-- (void)navigationRightButton
-{
-    // 全部工单
-    BXTAllOrdersViewController *allOrdersVC = [[BXTAllOrdersViewController alloc] init];
-    // 全部维保
-    BXTMaintenanceListViewController *mtListVC = [[BXTMaintenanceListViewController alloc] init];
-    // 全部设备
-    BXTEquipmentListViewController *equipmentVC = [[BXTEquipmentListViewController alloc] init];
-    
-    switch (currentPage) {
-        case 0: [self.navigationController pushViewController:allOrdersVC animated:YES]; break;
-        case 1: [self.navigationController pushViewController:mtListVC animated:YES]; break;
-        case 2: [self.navigationController pushViewController:equipmentVC animated:YES]; break;
-        default: break;
-    }
 }
 
 #pragma mark -
@@ -126,6 +139,40 @@
         case 3: [self navigationSetting:@"业务统计" andRightTitle:nil andRightImage:nil]; break;
         default: break;
     }
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    if (type == InspectionPlanOverview && [[NSString stringWithFormat:@"%@", dic[@"returncode"]] integerValue] == 0)
+    {
+        NSArray *data = dic[@"data"];
+        for (NSDictionary *dataDict in data)
+        {
+            [self.MTPlanArray addObject:dataDict];
+            SaveValueTUD(@"secondViewMTPlanArray", self.MTPlanArray);
+        }
+        
+        NSArray *device_data = dic[@"device_data"];
+        for (NSDictionary *dataDict in device_data)
+        {
+            [self.EPStateArray addObject:dataDict];
+            SaveValueTUD(@"thirdViewEPStateArray", self.EPStateArray);
+        }
+    }
+    
+    [self createUI];
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
+    
+    [self createUI];
 }
 
 - (void)didReceiveMemoryWarning

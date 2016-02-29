@@ -10,14 +10,24 @@
 #import "BXTEPFilterViewController.h"
 #import "DOPDropDownMenu.h"
 #import "BXTEquipmentListCell.m"
+#import <MJRefresh.h>
+#import "BXTEPList.h"
 
-@interface BXTEquipmentListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate>
+@interface BXTEquipmentListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, strong) NSArray *typeArray;
 
 @property (nonatomic, assign) CGFloat cellHeight;
+
+@property (nonatomic, copy) NSString *date;
+@property (nonatomic, copy) NSString *state;
+@property (nonatomic, copy) NSString *typeID;
+@property (nonatomic, copy) NSString *areaID;
+@property (nonatomic, copy) NSString *placeID;
+@property (nonatomic, copy) NSString *storesID;
 
 @end
 
@@ -31,8 +41,13 @@
     
     self.typeArray = [[NSArray alloc] initWithObjects:@"默认排序", @"故障设备优先", @"正常设备优先", nil];
     self.dataArray = [[NSMutableArray alloc] init];
-    [self.dataArray addObject:@"12"];
-    [self.dataArray addObject:@"13"];
+    self.currentPage = 1;
+    self.date = @"";
+    self.state = @"";
+    self.typeID = @"";
+    self.areaID = @"";
+    self.placeID = @"";
+    self.storesID = @"";
     
     [self createUI];
 }
@@ -41,6 +56,13 @@
 {
     BXTEPFilterViewController *filterVC = [[BXTEPFilterViewController alloc] init];
     [self.navigationController pushViewController:filterVC animated:YES];
+}
+
+- (void)getResource
+{
+    [self showLoadingMBP:@"数据加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statisticsEPListWithTime:self.date State:self.state TypeID:self.typeID AreaID:self.areaID PlaceID:self.placeID StoresID:self.storesID Pagesize:@"5" Page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
 
 #pragma mark -
@@ -52,12 +74,24 @@
     menu.delegate = self;
     menu.dataSource = self;
     [self.view addSubview:menu];
+    [menu selectDefalutIndexPath];
+    
     
     // UITableView
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(menu.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(menu.frame)) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    
+    __block __typeof(self) weakSelf = self;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        weakSelf.currentPage = 1;
+        [weakSelf getResource];
+    }];
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.currentPage++;
+        [weakSelf getResource];
+    }];
 }
 
 #pragma mark -
@@ -74,7 +108,14 @@
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {
-    
+    self.currentPage = 1;
+    switch (indexPath.row) {
+        case 0: self.state = @""; break;
+        case 1: self.state = @"2"; break;
+        case 2: self.state = @"1"; break;
+        default: break;
+    }
+    [self getResource];
 }
 
 #pragma mark -
@@ -92,6 +133,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTEquipmentListCell *cell = [BXTEquipmentListCell cellWithTableView:tableView];
+    
+    cell.epList = self.dataArray[indexPath.section];
     
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
@@ -121,6 +164,47 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
+    if (self.currentPage == 1)
+    {
+        [self.dataArray removeAllObjects];
+    }
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == Statistics_EPList && data.count > 0)
+    {
+        for (NSDictionary *dataDict in data)
+        {
+            BXTEPList *listModel = [BXTEPList modelWithDict:dataDict];
+            [self.dataArray addObject:listModel];
+        }
+        
+        if (!IS_IOS_8)
+        {
+            double delayInSeconds = 0.5;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.tableView reloadData];
+            });
+        }
+    }
+    [self.tableView reloadData];
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -9,7 +9,7 @@
 #import "BXTMTFilterViewController.h"
 #import "BXTEPFilterCell.h"
 
-@interface BXTMTFilterViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface BXTMTFilterViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 {
     UIView *bgView;
     UIView *selectBgView;
@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *transArray;
 
 @property (nonatomic, strong) UIDatePicker *datePicker;
 
@@ -26,6 +27,11 @@
 @property (nonatomic, strong) NSMutableArray *mulitSelectArray;
 @property (nonatomic, assign) int selectRow;
 @property (nonatomic, assign) int showSelectedRow;
+
+@property (nonatomic, strong) NSMutableArray *subgroupArray;
+@property (nonatomic, strong) NSMutableArray *subgroupIDArray;
+@property (nonatomic, strong) NSMutableArray *faulttypeArray;
+@property (nonatomic, strong) NSMutableArray *faulttypeIDArray;
 
 @end
 
@@ -39,10 +45,29 @@
     
     self.titleArray = @[@"开始时间", @"结束时间", @"专业分组", @"系统分组", @"工单分类"];
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", @"待完善", @"待完善", nil];
+    self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", nil];
+    self.subgroupArray = [[NSMutableArray alloc] init];
+    self.subgroupIDArray = [[NSMutableArray alloc] init];
+    self.faulttypeArray = [[NSMutableArray alloc] init];
+    self.faulttypeIDArray = [[NSMutableArray alloc] init];
     
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
+    
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**专业分组**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request propertyGrouping];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**系统分组**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request faultTypeListWithRTaskType:@"2"];
+    });
     
     
     [self createUI];
@@ -79,7 +104,10 @@
         }
         else {
             [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
-                
+                if (self.delegateSignal) {
+                    [self.delegateSignal sendNext:self.transArray];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
             }];
         }
     }];
@@ -209,13 +237,13 @@
 {
     self.showSelectedRow = 0;
     if (index == 2) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"电气组", @"特种设备组", @"综修组", @"暖通组", @"保洁组", @"其他", nil];
+        self.selectArray = self.subgroupArray;
     }
     else if (index == 3) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"消防系统", @"空调系统", @"弱电系统", @"AAA系统", nil];
+        self.selectArray = self.faulttypeArray;
     }
     else if (index == 4) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"已完成", @"进行中", @"未完成", nil];
+        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"进行中", @"已完成", nil];
         self.showSelectedRow = 4;
     }
     
@@ -249,14 +277,30 @@
         @strongify(self);
         
         NSString *finalStr =@"";
+        NSString *finalNumStr = @"";
         for (id object in self.mulitSelectArray) {
             finalStr = [finalStr stringByAppendingString:[NSString stringWithFormat:@" %@", self.selectArray[[object intValue]]]];
+            
+            if (index == 2) {
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.subgroupIDArray[[object intValue]]]];
+            }
+            else if (index == 3) {
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.faulttypeIDArray[[object intValue]]]];
+            }
+            else {
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", object]];
+            }
+            
         }
-        
+        if (finalNumStr.length >= 1) {
+            finalNumStr = [finalNumStr substringToIndex:finalNumStr.length - 1];
+        }
+
         // 赋值
         if (![BXTGlobal isBlankString:finalStr])
         {
             [self.dataArray replaceObjectAtIndex:index withObject:finalStr];
+            [self.transArray replaceObjectAtIndex:index withObject:finalNumStr];
             [self.tableView reloadData];
         }
         
@@ -316,9 +360,6 @@
     [[self.datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
         // 显示时间
         timeLabel.text = [self weekdayStringFromDate:self.datePicker.date];
-        
-        //        // 时间戳
-        //        self.timeInterval = [self.datePicker.date timeIntervalSince1970];
     }];
     [bgView addSubview:self.datePicker];
     
@@ -337,6 +378,7 @@
     [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         [self.dataArray replaceObjectAtIndex:index withObject:timeLabel.text];
+        [self.transArray replaceObjectAtIndex:index withObject:[self transTimeWithTime:timeLabel.text]];
         [self.tableView reloadData];
         
         self.datePicker = nil;
@@ -365,6 +407,12 @@
     return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];
 }
 
+
+- (NSString *)transTimeWithTime:(NSString *)time
+{
+    return [[time substringToIndex:10] stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
@@ -387,6 +435,40 @@
         }
         [view removeFromSuperview];
     }
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == PropertyGrouping && data.count > 0)
+    {
+        for (NSDictionary *dataDict in data)
+        {
+            [self.subgroupArray addObject:dataDict[@"subgroup"]];
+            [self.subgroupIDArray addObject:dataDict[@"id"]];
+        }
+        
+        
+    }
+    else if (type == FaultType && data.count > 0)
+    {
+        for (NSDictionary *dataDict in data)
+        {
+            [self.faulttypeArray addObject:dataDict[@"faulttype_type"]];
+            [self.faulttypeIDArray addObject:dataDict[@"id"]];
+        }
+    }
+    [self.selectTableView reloadData];
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

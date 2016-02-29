@@ -147,10 +147,13 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)faultTypeList
+- (void)faultTypeListWithRTaskType:(NSString *)taskType
 {
     self.requestType = FaultType;
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_faulttype_type",[BXTGlobal shareGlobal].baseURL];
+    if ([taskType isEqualToString:@"2"]) {
+        url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_faulttype_type&task_type=%@",[BXTGlobal shareGlobal].baseURL, taskType];
+    }
     [self postRequest:url withParameters:nil];
 }
 
@@ -691,13 +694,54 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)statisticsCompleteWithTimeStart:(NSString *)startTime
-                                timeEnd:(NSString *)endTime
+- (void)inspectionPlanOverview
 {
-    self.requestType = Statistics_Complete;
-    NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_complete",[BXTGlobal shareGlobal].baseURL];
+    self.requestType = InspectionPlanOverview;
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=inspection_plan_overview",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
+}
+
+- (void)statisticsMTPlanListWithTimeStart:(NSString *)startTime
+                                  TimeEnd:(NSString *)endTime
+                              SubgroupIDs:(NSString *)subgroupIDs
+                         FaulttypeTypeIDs:(NSString *)faulttypeTypeIDs
+                                    State:(NSString *)state
+                                    Order:(NSString *)order
+                                 Pagesize:(NSString *)pageSize
+                                     Page:(NSString *)page
+{
+    self.requestType = Statistics_MTPlanList;
+    NSDictionary *dic = @{@"time_start": startTime,
+                          @"time_end": endTime,
+                          @"subgroup_ids": subgroupIDs,
+                          @"faulttype_type_ids": faulttypeTypeIDs,
+                          @"state": state,
+                          @"order": order,
+                          @"pagesize": pageSize,
+                          @"page": page};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=inspection_task_list",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)statisticsEPListWithTime:(NSString *)date
+                           State:(NSString *)state
+                          TypeID:(NSString *)typeID
+                          AreaID:(NSString *)areaID
+                         PlaceID:(NSString *)placeID
+                        StoresID:(NSString *)storesID
+                        Pagesize:(NSString *)pageSize
+                            Page:(NSString *)page
+{
+    self.requestType = Statistics_EPList;
+    NSDictionary *dic = @{@"date": date,
+                          @"state": state,
+                          @"type_id": typeID,
+                          @"area_id": areaID,
+                          @"place_id": placeID,
+                          @"stores_id": storesID,
+                          @"pagesize": pageSize,
+                          @"page": page};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=device_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -708,6 +752,16 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"time_start":startTime,
                           @"time_end":endTime};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=inspection_plan",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)statisticsCompleteWithTimeStart:(NSString *)startTime
+                                timeEnd:(NSString *)endTime
+{
+    self.requestType = Statistics_Complete;
+    NSDictionary *dic = @{@"time_start":startTime,
+                          @"time_end":endTime};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_complete",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

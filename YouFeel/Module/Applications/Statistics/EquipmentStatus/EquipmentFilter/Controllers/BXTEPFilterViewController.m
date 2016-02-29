@@ -12,12 +12,16 @@
 
 @interface BXTEPFilterViewController () <UITableViewDataSource, UITableViewDelegate>
 {
+    UIView *bgView;
     UIView *selectBgView;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *transArray;
+
+@property (nonatomic, strong) UIDatePicker *datePicker;
 
 @property (nonatomic, strong) UITableView *selectTableView;
 @property (nonatomic, strong) NSMutableArray *selectArray;
@@ -35,8 +39,9 @@
     
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray = @[@"安装位置", @"系统分组", @"设备状态"];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", nil];
+    self.titleArray = @[@"日期", @"安装位置", @"设备类型", @"设备状态"];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", @"待完善", nil];
+    self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", nil];
     
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
@@ -77,7 +82,10 @@
         }
         else {
             [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
-                
+                if (self.delegateSignal) {
+                    [self.delegateSignal sendNext:self.transArray];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
             }];
         }
     }];
@@ -164,7 +172,7 @@
     if (tableView == self.selectTableView) {
         NSString *selectRow  = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
         
-        if (self.showSelectedRow != 1) {
+        if (self.showSelectedRow != 2) {
             //判断数组中有没有被选中行的行号,
             if ([self.mulitSelectArray containsObject:selectRow]) {
                 [self.mulitSelectArray removeObject:selectRow];
@@ -192,13 +200,16 @@
     }
     
     if (indexPath.section == 0) {
+        [self createDatePickerWithIndex:indexPath.section];
+    }
+    else if (indexPath.section == 1) {
         BXTEPLocationViewController *locationVC = [[BXTEPLocationViewController alloc] init];
         locationVC.delegateSignal = [RACSubject subject];
         @weakify(self);
         [locationVC.delegateSignal subscribeNext:^(NSArray *array) {
             @strongify(self);
             NSString *finalStr = [array componentsJoinedByString:@"-"];
-            [self.dataArray replaceObjectAtIndex:0 withObject:finalStr];
+            [self.dataArray replaceObjectAtIndex:1 withObject:finalStr];
             
             [self.tableView reloadData];
         }];
@@ -217,11 +228,11 @@
 - (void)createTableViewWithIndex:(NSInteger)index
 {
     self.showSelectedRow = 0;
-    if (index == 1) {
+    if (index == 2) {
         self.selectArray = [[NSMutableArray alloc] initWithObjects:@"消防系统", @"空调系统", @"弱电系统", @"AAA系统", nil];
-        self.showSelectedRow = 1;
+        self.showSelectedRow = 2;
     }
-    else if (index == 2) {
+    else if (index == 3) {
         self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"故障", @"正常", nil];
     }
     
@@ -278,11 +289,116 @@
     [toolView addSubview:sureBtn];
 }
 
+- (void)createDatePickerWithIndex:(NSInteger)index
+{
+    // bgView
+    bgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    bgView.tag = 101;
+    [self.view addSubview:bgView];
+    
+    
+    // headerView
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-50, SCREEN_WIDTH, 50)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    [bgView addSubview:headerView];
+    
+    // titleLabel
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 80, 30)];
+    titleLabel.text = @"开始时间";
+    if (index == 1) {
+        titleLabel.text = @"结束时间";
+    }
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [headerView addSubview:titleLabel];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49, SCREEN_WIDTH, 1)];
+    line.backgroundColor = colorWithHexString(@"e2e6e8");
+    [headerView addSubview:line];
+    
+    // timeLabel
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 165, 10, 150, 30)];
+    timeLabel.text = [self weekdayStringFromDate:[NSDate date]];
+    timeLabel.textColor = colorWithHexString(@"#3BAFFF");
+    timeLabel.font = [UIFont systemFontOfSize:16.f];
+    timeLabel.textAlignment = NSTextAlignmentRight;
+    [headerView addSubview:timeLabel];
+    
+    
+    // datePicker
+    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
+    self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    self.datePicker.backgroundColor = colorWithHexString(@"ffffff");
+    self.datePicker.minimumDate = [NSDate date];
+    self.datePicker.datePickerMode = UIDatePickerModeDate;
+    [[self.datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+        // 显示时间
+        timeLabel.text = [self weekdayStringFromDate:self.datePicker.date];
+    }];
+    [bgView addSubview:self.datePicker];
+    
+    
+    // toolView
+    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
+    toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
+    [bgView addSubview:toolView];
+    
+    // sure
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 50)];
+    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    sureBtn.backgroundColor = [UIColor whiteColor];
+    @weakify(self);
+    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.dataArray replaceObjectAtIndex:index withObject:timeLabel.text];
+        [self.transArray replaceObjectAtIndex:index withObject:[self transTimeWithTime:timeLabel.text]];
+        [self.tableView reloadData];
+        
+        self.datePicker = nil;
+        [bgView removeFromSuperview];
+    }];
+    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    sureBtn.layer.borderWidth = 0.5;
+    [toolView addSubview:sureBtn];
+}
+
+// 时间戳转换成 2015年11月27日 星期五 格式
+- (NSString*)weekdayStringFromDate:(NSDate*)inputDate
+{
+    NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
+    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+    [calendar setTimeZone: timeZone];
+    NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+    NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
+    NSString *weekStr = [weekdays objectAtIndex:theComponents.weekday];
+    
+    NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+    [formatter1 setDateFormat:@"yyyy/MM/dd"];
+    NSString *dateStr = [formatter1 stringFromDate:inputDate];
+    
+    return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];
+}
+
+- (NSString *)transTimeWithTime:(NSString *)time
+{
+    return [[time substringToIndex:10] stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
     UIView *view = touch.view;
-    if (view.tag == 102)
+    if (view.tag == 101)
+    {
+        if (_datePicker)
+        {
+            [_datePicker removeFromSuperview];
+            _datePicker = nil;
+        }
+        [view removeFromSuperview];
+    }
+    else if (view.tag == 102)
     {
         if (_selectTableView) {
             [self.mulitSelectArray removeAllObjects];
