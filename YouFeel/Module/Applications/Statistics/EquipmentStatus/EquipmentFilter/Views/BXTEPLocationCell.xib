@@ -23,25 +23,25 @@
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tR2-fs-L1C">
-                        <rect key="frame" x="90" y="0.0" width="270" height="49.5"/>
-                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knq-7S-UWV">
+                        <rect key="frame" x="95" y="14" width="265" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <textInputTraits key="textInputTraits"/>
-                    </textField>
+                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Yzc-n4-jwp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="OV1-zM-uMP"/>
-                    <constraint firstAttribute="trailing" secondItem="tR2-fs-L1C" secondAttribute="trailing" constant="15" id="aLc-o9-EMI"/>
                     <constraint firstItem="Yzc-n4-jwp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="dH1-yW-Yff"/>
+                    <constraint firstItem="knq-7S-UWV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="g7O-ew-MgZ"/>
+                    <constraint firstAttribute="bottom" secondItem="knq-7S-UWV" secondAttribute="bottom" constant="14" id="k5g-ky-QFh"/>
                     <constraint firstAttribute="bottom" secondItem="Yzc-n4-jwp" secondAttribute="bottom" constant="14" id="nSw-QC-sun"/>
-                    <constraint firstItem="tR2-fs-L1C" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="opn-aa-ePA"/>
-                    <constraint firstAttribute="bottom" secondItem="tR2-fs-L1C" secondAttribute="bottom" id="ssj-7o-apm"/>
-                    <constraint firstItem="tR2-fs-L1C" firstAttribute="leading" secondItem="Yzc-n4-jwp" secondAttribute="trailing" constant="5" id="vCA-7o-YeY"/>
+                    <constraint firstItem="knq-7S-UWV" firstAttribute="leading" secondItem="Yzc-n4-jwp" secondAttribute="trailing" constant="10" id="oDy-RM-woG"/>
+                    <constraint firstAttribute="trailing" secondItem="knq-7S-UWV" secondAttribute="trailing" constant="15" id="oeN-Se-4Xm"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="descView" destination="tR2-fs-L1C" id="8Bl-m6-656"/>
+                <outlet property="descView" destination="knq-7S-UWV" id="WnB-r9-rip"/>
                 <outlet property="titleView" destination="Yzc-n4-jwp" id="Ijb-20-xKW"/>
             </connections>
             <point key="canvasLocation" x="297.5" y="454"/>

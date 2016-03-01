@@ -23,7 +23,7 @@
 @property (nonatomic, assign) CGFloat cellHeight;
 
 @property (nonatomic, copy) NSString *date;
-@property (nonatomic, copy) NSString *state;
+@property (nonatomic, copy) NSString *order;
 @property (nonatomic, copy) NSString *typeID;
 @property (nonatomic, copy) NSString *areaID;
 @property (nonatomic, copy) NSString *placeID;
@@ -39,11 +39,14 @@
     
     [self navigationSetting:@"维保设备列表" andRightTitle:@"   筛选" andRightImage:nil];
     
-    self.typeArray = [[NSArray alloc] initWithObjects:@"默认排序", @"故障设备优先", @"正常设备优先", nil];
+    self.typeArray = [[NSArray alloc] initWithObjects:@"设备编号逆序", @"设备编号正序", nil];
     self.dataArray = [[NSMutableArray alloc] init];
     self.currentPage = 1;
     self.date = @"";
-    self.state = @"";
+    if (!self.state) {
+        self.state = @"";
+    }
+    self.order = @"";
     self.typeID = @"";
     self.areaID = @"";
     self.placeID = @"";
@@ -55,6 +58,22 @@
 - (void)navigationRightButton
 {
     BXTEPFilterViewController *filterVC = [[BXTEPFilterViewController alloc] init];
+    filterVC.delegateSignal = [RACSubject subject];
+    [filterVC.delegateSignal subscribeNext:^(NSArray *transArray) {
+        NSLog(@"transArray -= ---------- %@", transArray);
+        self.date = transArray[0];
+        
+        NSArray *placeArray = transArray[1];
+        self.areaID = placeArray[0];
+        self.placeID = placeArray[2];
+        self.storesID = placeArray[4];
+        
+        self.typeID = transArray[2];
+        self.state = transArray[3];
+        
+        self.currentPage = 1;
+        [self getResource];
+    }];
     [self.navigationController pushViewController:filterVC animated:YES];
 }
 
@@ -62,7 +81,7 @@
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsEPListWithTime:self.date State:self.state TypeID:self.typeID AreaID:self.areaID PlaceID:self.placeID StoresID:self.storesID Pagesize:@"5" Page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    [request statisticsEPListWithTime:self.date State:self.state Order:self.order TypeID:self.typeID AreaID:self.areaID PlaceID:self.placeID StoresID:self.storesID Pagesize:@"5" Page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
 
 #pragma mark -
@@ -110,9 +129,8 @@
 {
     self.currentPage = 1;
     switch (indexPath.row) {
-        case 0: self.state = @""; break;
-        case 1: self.state = @"2"; break;
-        case 2: self.state = @"1"; break;
+        case 0: self.order = @"desc"; break;
+        case 1: self.order = @"asc"; break;
         default: break;
     }
     [self getResource];

@@ -10,6 +10,17 @@
 
 @implementation BXTEPLocationCell
 
++ (instancetype)cellWithTableView:(UITableView *)tableView
+{
+    static NSString *cellID = @"cell";
+    BXTEPLocationCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cell == nil) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEPLocationCell" owner:nil options:nil] lastObject];
+    }
+    
+    return cell;
+}
+
 - (void)awakeFromNib {
     // Initialization code
 }

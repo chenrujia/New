@@ -41,9 +41,12 @@ typedef NS_ENUM(NSInteger, RequestType) {
     UpdateShopAddress,
     ConfigInfo,
     StartRepair,
+    Device_AvailableStatics,
+    Device_AvailableType,
     InspectionPlanOverview,
     Statistics_MTPlanList,
     Statistics_EPList,
+    Statistics_DeviceTypeList,
     Statistics_MTComplete,
     Statistics_Complete,
     Statistics_Subgroup,
@@ -380,6 +383,16 @@ andRepairerIsReacive:(NSString *)reacive;
 - (void)inspectionPlanOverview;
 
 /**
+ *  统计-设备完好率统计
+ */
+- (void)deviceAvailableStaticsWithDate:(NSString *)date;
+
+/**
+ *  统计-设备分类统计
+ */
+- (void)deviceTypeStaticsWithDate:(NSString *)date;
+
+/**
  *  统计-维保任务列表
  */
 - (void)statisticsMTPlanListWithTimeStart:(NSString *)startTime
@@ -396,12 +409,18 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)statisticsEPListWithTime:(NSString *)date
                            State:(NSString *)state
+                           Order:(NSString *)order
                           TypeID:(NSString *)typeID
                           AreaID:(NSString *)areaID
                          PlaceID:(NSString *)placeID
                         StoresID:(NSString *)storesID
                         Pagesize:(NSString *)pageSize
                             Page:(NSString *)page;
+
+/**
+ *  获取设备分类（一级分类）
+ */
+- (void)deviceTypeList;
 
 /**
  *  统计-维保完成率统计

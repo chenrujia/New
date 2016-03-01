@@ -11,6 +11,8 @@
 @interface BXTEPLocationCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *titleView;
-@property (weak, nonatomic) IBOutlet UITextField *descView;
+@property (weak, nonatomic) IBOutlet UILabel *descView;
+
++ (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @end
