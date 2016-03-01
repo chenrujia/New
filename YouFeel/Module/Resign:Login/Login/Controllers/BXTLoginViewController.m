@@ -12,6 +12,8 @@
 #import "UIViewController+DismissKeyboard.h"
 #import "BXTDataRequest.h"
 #import "BXTHeadquartersInfo.h"
+#import "AppDelegate.h"
+#import "BXTResignViewController.h"
 
 #define UserNameTag 11
 #define PassWordTag 12
@@ -27,6 +29,7 @@
 @property (nonatomic ,strong) NSString *passWord;
 
 - (IBAction)loginAction:(id)sender;
+- (IBAction)loginByWeiXin:(id)sender;
 
 @end
 
@@ -42,7 +45,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"ffffff");
     
-    //!!!: 适配，适配，还得适配，醉了。。。
     if (IS_IPHONE4)
     {
         _logo_top.constant = 60.f;
@@ -50,8 +52,16 @@
         _resign_bottom.constant = 20;
     }
     
-    [_nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
     @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"GotoResignVC" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
+        BXTResignViewController *resignVC = (BXTResignViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTResignViewController"];
+        [resignVC isLoginByWeiXin:YES];
+        [self.navigationController pushViewController:resignVC animated:YES];
+    }];
+    
+    [_nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
     [[_nameTF.rac_textSignal filter:^BOOL(id value) {
         NSString *str = value;
         return str.length == 11;
@@ -88,11 +98,17 @@
         NSDictionary *userInfoDic;
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
         {
-            userInfoDic = @{@"username":self.userName,@"password":self.passWord,@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+            userInfoDic = @{@"username":self.userName,
+                            @"password":self.passWord,
+                            @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
+                            @"type":@"1"};
         }
         else
         {
-            userInfoDic = @{@"username":self.userName,@"password":self.passWord,@"cid":@""};
+            userInfoDic = @{@"username":self.userName,
+                            @"password":self.passWord,
+                            @"cid":@"",
+                            @"type":@"1"};
         }
         
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -101,6 +117,33 @@
     else
     {
         [self showMBP:@"手机号格式不对" withBlock:nil];
+    }
+}
+
+- (IBAction)loginByWeiXin:(id)sender
+{
+    if ([WXApi isWXAppInstalled])
+    {
+        //授权登录
+        SendAuthReq *req =[[SendAuthReq alloc ] init];
+        req.scope = @"snsapi_userinfo"; // 此处不能随意改
+        req.state = @"123"; // 这个貌似没影响
+        [WXApi sendReq:req];
+    }
+    else
+    {
+        if (IS_IOS_8)
+        {
+            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"您未安装微信" message:@"请使用其他方式登录" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+            [alertCtr addAction:doneAction];
+            [self presentViewController:alertCtr animated:YES completion:nil];
+        }
+        else
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您未安装微信" message:@"请使用其他方式登录" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+        }
     }
 }
 

@@ -27,6 +27,11 @@
 
 @implementation BXTResignViewController
 
+- (void)isLoginByWeiXin:(BOOL)loginType
+{
+    self.isLoginByWX = loginType;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -87,7 +92,9 @@
         nextTapBtn.layer.masksToBounds = YES;
         nextTapBtn.layer.cornerRadius = 4.f;
         @weakify(self);
-        [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {            
+            NSString *open_ID = [BXTGlobal getUserProperty:U_OPENID];
+            
             @strongify(self);
             if (![BXTGlobal validateMobile:self.userName])
             {
@@ -111,6 +118,7 @@
                 [BXTGlobal setUserProperty:self.passWord withKey:U_PASSWORD];
                 
                 BXTNickNameViewController *nickNameVC = [[BXTNickNameViewController alloc] init];
+                [nickNameVC isLoginByWeiXin:self.isLoginByWX];
                 [self.navigationController pushViewController:nickNameVC animated:YES];
             }
         }];

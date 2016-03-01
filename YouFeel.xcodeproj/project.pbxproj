@@ -278,6 +278,8 @@
 		9602214B1BC9201400010072 /* UIView+ZXQuartz.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602213D1BC9201400010072 /* UIView+ZXQuartz.m */; };
 		9602214C1BC9201400010072 /* UIViewController+DismissKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602213F1BC9201400010072 /* UIViewController+DismissKeyboard.m */; };
 		9607A3C51BE0BC0F000A6C5B /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9607A3C41BE0BC0F000A6C5B /* Emoji.plist */; };
+		961B8CF21C857FF7003035F9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961B8CF11C857FF7003035F9 /* CoreTelephony.framework */; };
+		961B8CF41C858001003035F9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961B8CF31C858001003035F9 /* SystemConfiguration.framework */; };
 		9634156A1C44E62C00B28C53 /* BXTMaintenanceBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963415681C44E62C00B28C53 /* BXTMaintenanceBookViewController.m */; };
 		9634156B1C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963415691C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib */; };
 		9634156F1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9634156D1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m */; };
@@ -337,6 +339,7 @@
 		96AB062E1C1FB48E0038E2AF /* icon_chose_arrow_nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96AB06291C1FB48E0038E2AF /* icon_chose_arrow_nor@2x.png */; };
 		96AB062F1C1FB48E0038E2AF /* icon_chose_arrow_sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96AB062A1C1FB48E0038E2AF /* icon_chose_arrow_sel@2x.png */; };
 		96AB06301C1FB48E0038E2AF /* DOPDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AB062D1C1FB48E0038E2AF /* DOPDropDownMenu.m */; };
+		96BDF1911C8579FE00CEDA58 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BDF18D1C8579FE00CEDA58 /* libWeChatSDK.a */; };
 		96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C684891BE76B4B0038A342 /* AssetsLibraryD.m */; };
 		96C684941BE76B4B0038A342 /* HCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C6848B1BE76B4B0038A342 /* HCollectionViewCell.m */; };
 		96C684951BE76B4B0038A342 /* HySideScrollingImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C6848D1BE76B4B0038A342 /* HySideScrollingImagePicker.m */; };
@@ -888,6 +891,8 @@
 		960221441BC9201400010072 /* BXTPublicSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPublicSetting.h; sourceTree = "<group>"; };
 		960223111BC922DB00010072 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		9607A3C41BE0BC0F000A6C5B /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
+		961B8CF11C857FF7003035F9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		961B8CF31C858001003035F9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		963415671C44E62C00B28C53 /* BXTMaintenanceBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenanceBookViewController.h; sourceTree = "<group>"; };
 		963415681C44E62C00B28C53 /* BXTMaintenanceBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenanceBookViewController.m; sourceTree = "<group>"; };
 		963415691C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMaintenanceBookViewController.xib; sourceTree = "<group>"; };
@@ -990,6 +995,10 @@
 		96AB062C1C1FB48E0038E2AF /* DOPDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOPDropDownMenu.h; sourceTree = "<group>"; };
 		96AB062D1C1FB48E0038E2AF /* DOPDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOPDropDownMenu.m; sourceTree = "<group>"; };
 		96BA7C411C1ABFAE00F02EF0 /* BXTPCH.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BXTPCH.pch; sourceTree = "<group>"; };
+		96BDF18D1C8579FE00CEDA58 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		96BDF18E1C8579FE00CEDA58 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		96BDF18F1C8579FE00CEDA58 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		96BDF1901C8579FE00CEDA58 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		96C684881BE76B4B0038A342 /* AssetsLibraryD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetsLibraryD.h; sourceTree = "<group>"; };
 		96C684891BE76B4B0038A342 /* AssetsLibraryD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetsLibraryD.m; sourceTree = "<group>"; };
 		96C6848A1BE76B4B0038A342 /* HCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCollectionViewCell.h; sourceTree = "<group>"; };
@@ -1020,8 +1029,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				961B8CF41C858001003035F9 /* SystemConfiguration.framework in Frameworks */,
+				961B8CF21C857FF7003035F9 /* CoreTelephony.framework in Frameworks */,
 				9671BB521C1ED3AB00D90BFF /* libsqlite3.tbd in Frameworks */,
 				9671BB501C1ED29F00D90BFF /* libc++.tbd in Frameworks */,
+				96BDF1911C8579FE00CEDA58 /* libWeChatSDK.a in Frameworks */,
 				AE0F09ADE5FBE74A74BFEBC5 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3494,6 +3506,7 @@
 		9652AB331BC9069B009A666D /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				96BDF18C1C8579FE00CEDA58 /* WeiXin */,
 				782AD4D21C5A12BD00A1C4D8 /* DES3Util */,
 				783DDA3C1C3FB4A50035B927 /* PinYinForObjc */,
 				96AB06271C1FB48E0038E2AF /* DOPDropDownMenu */,
@@ -3675,6 +3688,8 @@
 		968910621BD1F6BC008540D0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				961B8CF31C858001003035F9 /* SystemConfiguration.framework */,
+				961B8CF11C857FF7003035F9 /* CoreTelephony.framework */,
 				96AABA331BE0765A0071B6FA /* libc++.tbd */,
 				960223111BC922DB00010072 /* libsqlite3.tbd */,
 				D6A888DE73728378A7408BFC /* libPods.a */,
@@ -3723,6 +3738,17 @@
 				96AB062D1C1FB48E0038E2AF /* DOPDropDownMenu.m */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		96BDF18C1C8579FE00CEDA58 /* WeiXin */ = {
+			isa = PBXGroup;
+			children = (
+				96BDF18D1C8579FE00CEDA58 /* libWeChatSDK.a */,
+				96BDF18E1C8579FE00CEDA58 /* WechatAuthSDK.h */,
+				96BDF18F1C8579FE00CEDA58 /* WXApi.h */,
+				96BDF1901C8579FE00CEDA58 /* WXApiObject.h */,
+			);
+			path = WeiXin;
 			sourceTree = "<group>";
 		};
 		96C684871BE76B4B0038A342 /* ALAssetsLibrary */ = {
@@ -4502,6 +4528,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GetuiSDK",
+					"$(PROJECT_DIR)/YouFeel/Library/WeiXin",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
@@ -4530,6 +4557,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GetuiSDK",
+					"$(PROJECT_DIR)/YouFeel/Library/WeiXin",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
