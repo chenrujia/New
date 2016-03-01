@@ -770,12 +770,14 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:nil];
 }
 
-- (void)statisticsMTCompleteWithTimeStart:(NSString *)startTime
-                                  timeEnd:(NSString *)endTime
+- (void)statisticsMTCompleteWithDate:(NSString *)date
+                            Subgroup:(NSString *)subgroup
+                       FaulttypeType:(NSString *)faulttypeType
 {
     self.requestType = Statistics_MTComplete;
-    NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime};
+    NSDictionary *dic = @{@"date":date,
+                          @"subgroup":subgroup,
+                          @"faulttype_type":faulttypeType};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=inspection_plan",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -830,10 +832,12 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)statisticsWorkloadWithTimeStart:(NSString *)startTime
                                 timeEnd:(NSString *)endTime
+                                   Type:(NSString *)type
 {
     self.requestType = Statistics_Workload;
     NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime};
+                          @"time_end":endTime,
+                          @"task_type":type};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_workload",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

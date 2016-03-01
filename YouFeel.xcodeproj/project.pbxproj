@@ -71,6 +71,11 @@
 		7823D20B1C3231A000E3641C /* UIActionSheet+BlockT.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2071C3231A000E3641C /* UIActionSheet+BlockT.m */; };
 		7823D20C1C3231A000E3641C /* UIAlertView+BlockT.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2091C3231A000E3641C /* UIAlertView+BlockT.m */; };
 		78266AED1C48C98E0004C49A /* BXTReadNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = 78266AEC1C48C98E0004C49A /* BXTReadNotice.m */; };
+		7827D0451C85734F00E9E29E /* BXTMTProfessionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7827D0441C85734F00E9E29E /* BXTMTProfessionHeader.m */; };
+		7827D0481C85736400E9E29E /* BXTMTProfessionTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7827D0471C85736400E9E29E /* BXTMTProfessionTopView.m */; };
+		7827D04A1C85738100E9E29E /* BXTMTProfessionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7827D0491C85738100E9E29E /* BXTMTProfessionHeader.xib */; };
+		7827D04C1C85738C00E9E29E /* BXTMTProfessionTopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7827D04B1C85738C00E9E29E /* BXTMTProfessionTopView.xib */; };
+		7827D0521C8578BA00E9E29E /* BXTMTProfessionBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7827D0511C8578BA00E9E29E /* BXTMTProfessionBaseViewController.m */; };
 		782985841C40A5B200D0837C /* BXTUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7829856F1C40A5B200D0837C /* BXTUserInfo.m */; };
 		7829858A1C40A61500D0837C /* BXTMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782985891C40A61500D0837C /* BXTMineViewController.m */; };
 		7829858E1C40AD3500D0837C /* BXTMineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7829858C1C40AD3500D0837C /* BXTMineCell.m */; };
@@ -494,6 +499,14 @@
 		7823D2091C3231A000E3641C /* UIAlertView+BlockT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+BlockT.m"; sourceTree = "<group>"; };
 		78266AEB1C48C98E0004C49A /* BXTReadNotice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTReadNotice.h; sourceTree = "<group>"; };
 		78266AEC1C48C98E0004C49A /* BXTReadNotice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTReadNotice.m; sourceTree = "<group>"; };
+		7827D0431C85734F00E9E29E /* BXTMTProfessionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTProfessionHeader.h; sourceTree = "<group>"; };
+		7827D0441C85734F00E9E29E /* BXTMTProfessionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTProfessionHeader.m; sourceTree = "<group>"; };
+		7827D0461C85736400E9E29E /* BXTMTProfessionTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTProfessionTopView.h; sourceTree = "<group>"; };
+		7827D0471C85736400E9E29E /* BXTMTProfessionTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTProfessionTopView.m; sourceTree = "<group>"; };
+		7827D0491C85738100E9E29E /* BXTMTProfessionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMTProfessionHeader.xib; sourceTree = "<group>"; };
+		7827D04B1C85738C00E9E29E /* BXTMTProfessionTopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMTProfessionTopView.xib; sourceTree = "<group>"; };
+		7827D0501C8578BA00E9E29E /* BXTMTProfessionBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTProfessionBaseViewController.h; sourceTree = "<group>"; };
+		7827D0511C8578BA00E9E29E /* BXTMTProfessionBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTProfessionBaseViewController.m; sourceTree = "<group>"; };
 		7829856E1C40A5B200D0837C /* BXTUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTUserInfo.h; sourceTree = "<group>"; };
 		7829856F1C40A5B200D0837C /* BXTUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTUserInfo.m; sourceTree = "<group>"; };
 		782985881C40A61500D0837C /* BXTMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMineViewController.h; sourceTree = "<group>"; };
@@ -3105,6 +3118,8 @@
 			children = (
 				7893D9091C7AE6FB00F042D5 /* BXTMTProfessionViewController.h */,
 				7893D90A1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m */,
+				7827D0501C8578BA00E9E29E /* BXTMTProfessionBaseViewController.h */,
+				7827D0511C8578BA00E9E29E /* BXTMTProfessionBaseViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3119,6 +3134,12 @@
 		7893D8FD1C7AE4EE00F042D5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7827D0461C85736400E9E29E /* BXTMTProfessionTopView.h */,
+				7827D0471C85736400E9E29E /* BXTMTProfessionTopView.m */,
+				7827D04B1C85738C00E9E29E /* BXTMTProfessionTopView.xib */,
+				7827D0431C85734F00E9E29E /* BXTMTProfessionHeader.h */,
+				7827D0441C85734F00E9E29E /* BXTMTProfessionHeader.m */,
+				7827D0491C85738100E9E29E /* BXTMTProfessionHeader.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3963,6 +3984,7 @@
 				9660CEE21C437E2E00176DDE /* BXTMaintenanceViewController.xib in Resources */,
 				9652AC311BC90EC9009A666D /* LocalAlbumCell.xib in Resources */,
 				7893D8921C7AA70D00F042D5 /* BXTStatisticsCell.xib in Resources */,
+				7827D04A1C85738100E9E29E /* BXTMTProfessionHeader.xib in Resources */,
 				78426B521C7C389F00BAE0F4 /* BXTMTStatisticsCell.xib in Resources */,
 				7823C89C1C7EDCE900E2858B /* BXTEPSummaryView.xib in Resources */,
 				7893D8E91C7ADA8000F042D5 /* BXTStEvaluationFooter.xib in Resources */,
@@ -3979,6 +4001,7 @@
 				964C4AC21C157C0800E6C8C4 /* ImageResources.bundle in Resources */,
 				967C3D501C4620E00078F1D6 /* BXTControlUserTableViewCell.xib in Resources */,
 				7839780D1C34D9EB00BE9620 /* BXTMailListCell.xib in Resources */,
+				7827D04C1C85738C00E9E29E /* BXTMTProfessionTopView.xib in Resources */,
 				9607A3C51BE0BC0F000A6C5B /* Emoji.plist in Resources */,
 				96AB062E1C1FB48E0038E2AF /* icon_chose_arrow_nor@2x.png in Resources */,
 				7823C8921C7E9FD500E2858B /* BXTEquipmentListCell.xib in Resources */,
@@ -4128,6 +4151,7 @@
 				7867DD1F1C4CBE4F000749F1 /* BXTDepartmentInfo.m in Sources */,
 				7867DD741C4CBEA1000749F1 /* MDRadialProgressView.m in Sources */,
 				7823C89A1C7EDCD200E2858B /* BXTEPSummaryView.m in Sources */,
+				7827D0521C8578BA00E9E29E /* BXTMTProfessionBaseViewController.m in Sources */,
 				7893D8EA1C7ADA8000F042D5 /* BXTStEvaluationHeader.m in Sources */,
 				7867DD831C4CBEA1000749F1 /* BXTMaintenanceManTableViewCell.m in Sources */,
 				7818DBDF1C0824D800DC22C6 /* PNColor.m in Sources */,
@@ -4187,6 +4211,7 @@
 				7893D8E31C7ADA8000F042D5 /* BXTProfessionFooter.m in Sources */,
 				78C55B071C47C11700FFEB37 /* BXTReadNoticeView.m in Sources */,
 				781EF20A1C3D382C0027FE72 /* BXTEquipmentFilesCell.m in Sources */,
+				7827D0481C85736400E9E29E /* BXTMTProfessionTopView.m in Sources */,
 				7867DC3E1C4CBAE8000749F1 /* BXTMessageListTableViewCell.m in Sources */,
 				7823D20A1C3231A000E3641C /* MYAlertAction.m in Sources */,
 				7893D90B1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m in Sources */,
@@ -4343,6 +4368,7 @@
 				7823D20C1C3231A000E3641C /* UIAlertView+BlockT.m in Sources */,
 				7818DBE41C0824D800DC22C6 /* PNPieChart.m in Sources */,
 				78090B291C7DAF47003E1565 /* BXTEPFilterCell.m in Sources */,
+				7827D0451C85734F00E9E29E /* BXTMTProfessionHeader.m in Sources */,
 				7867DD231C4CBE4F000749F1 /* BXTRepairerView.m in Sources */,
 				963415761C45009A00B28C53 /* BXTDeviceConfigInfo.m in Sources */,
 				7829859B1C40B53B00D0837C /* BXTUserInformViewController.m in Sources */,

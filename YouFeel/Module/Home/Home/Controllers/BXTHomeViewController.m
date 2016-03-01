@@ -27,7 +27,7 @@
 #import "BXTExaminationViewController.h"
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTAchievementsViewController.h"
-#import "BXTEPFilterViewController.h"
+#import "BXTMTProfessionViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -180,9 +180,13 @@
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         // 商铺列表
-        BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
-        alVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:alVC animated:YES];
+//        BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
+//        alVC.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:alVC animated:YES];
+        
+        BXTMTProfessionViewController *cpvc = [[BXTMTProfessionViewController alloc] init];
+        cpvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:cpvc animated:YES];
         
     }];
     [logoImgView addSubview:branchBtn];

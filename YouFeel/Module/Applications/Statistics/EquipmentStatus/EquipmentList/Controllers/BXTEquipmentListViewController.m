@@ -12,6 +12,7 @@
 #import "BXTEquipmentListCell.m"
 #import <MJRefresh.h>
 #import "BXTEPList.h"
+#import "BXTEquipmentViewController.h"
 
 @interface BXTEquipmentListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -178,6 +179,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BXTEPList *list = self.dataArray[indexPath.section];
+    
+    BXTEquipmentViewController *epVC = [[BXTEquipmentViewController alloc] initWithDeviceID:list.EPID];
+    [self.navigationController pushViewController:epVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

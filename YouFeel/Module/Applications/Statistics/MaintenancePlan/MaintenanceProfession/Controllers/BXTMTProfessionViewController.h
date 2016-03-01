@@ -10,4 +10,9 @@
 
 @interface BXTMTProfessionViewController : BXTStatisticsMianViewController
 
+/**
+ *  专业 - 系统 跳转
+ */
+@property (nonatomic, assign) BOOL isSystemPush;
+
 @end

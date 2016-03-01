@@ -23,4 +23,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *doingView;
 @property (weak, nonatomic) IBOutlet UILabel *undownView;
 
+@property (weak, nonatomic) IBOutlet UIButton *btn0;
+@property (weak, nonatomic) IBOutlet UIButton *btn2;
+@property (weak, nonatomic) IBOutlet UIButton *btn3;
+@property (weak, nonatomic) IBOutlet UIButton *btn4;
+
+
+
 @end

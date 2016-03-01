@@ -25,9 +25,8 @@
 @property (nonatomic, copy) NSString *order;
 @property (nonatomic, copy) NSString *startTime;
 @property (nonatomic, copy) NSString *endTime;
-@property (nonatomic, copy) NSString *subgroupIDs;
-@property (nonatomic, copy) NSString *faulttypeIDs;
-@property (nonatomic, copy) NSString *stateStr;
+
+
 
 @end
 
@@ -45,10 +44,16 @@
     self.order = @"desc";
     self.startTime = @"";
     self.endTime = @"";
-    self.subgroupIDs = @"";
-    self.faulttypeIDs = @"";
-    self.stateStr = @"";
-    
+
+    if (!self.subgroupIDs) {
+        self.subgroupIDs = @"";
+    }
+    if (!self.faulttypeIDs) {
+        self.faulttypeIDs = @"";
+    }
+    if (!self.stateStr) {
+        self.stateStr = @"";
+    }
     
     [self createUI];
 }
@@ -169,6 +174,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BXTMTPlanList *list = self.dataArray[indexPath.section];
+    NSLog(@"%@", list.PlanID);
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
