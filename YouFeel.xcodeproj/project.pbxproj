@@ -12,7 +12,6 @@
 		78090B281C7DAF47003E1565 /* BXTEPFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78090B221C7DAF47003E1565 /* BXTEPFilterViewController.m */; };
 		78090B291C7DAF47003E1565 /* BXTEPFilterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78090B261C7DAF47003E1565 /* BXTEPFilterCell.m */; };
 		78090B2A1C7DAF47003E1565 /* BXTEPFilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78090B271C7DAF47003E1565 /* BXTEPFilterCell.xib */; };
-		78090B2D1C7DB364003E1565 /* BXTEPLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78090B2C1C7DB364003E1565 /* BXTEPLocationViewController.m */; };
 		78090B301C7DC67A003E1565 /* BXTEPHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78090B2F1C7DC67A003E1565 /* BXTEPHeaderView.m */; };
 		78090B321C7DC68F003E1565 /* BXTEPHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78090B311C7DC68F003E1565 /* BXTEPHeaderView.xib */; };
 		7818DBD31C0824D800DC22C6 /* AksStraightPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DB9D1C0824D800DC22C6 /* AksStraightPieChart.m */; };
@@ -257,6 +256,10 @@
 		7893D90B1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7893D90A1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m */; };
 		7893D90E1C7AE71400F042D5 /* BXTMTSystemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7893D90D1C7AE71400F042D5 /* BXTMTSystemViewController.m */; };
 		7893D9141C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7893D9131C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m */; };
+		78A1B8651C83DB8E00F252BE /* BXTEPLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B8641C83DB8E00F252BE /* BXTEPLocationViewController.m */; };
+		78A1B86A1C8428CF00F252BE /* BXTEPSystemRateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B8681C8428CF00F252BE /* BXTEPSystemRateCell.m */; };
+		78A1B86B1C8428CF00F252BE /* BXTEPSystemRateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */; };
+		78A1B86E1C8430C000F252BE /* BXTEPSystemRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B86D1C8430C000F252BE /* BXTEPSystemRate.m */; };
 		78C55A651C47339700FFEB37 /* BXTCurrentOrderData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A581C47339700FFEB37 /* BXTCurrentOrderData.m */; };
 		78C55A661C47339700FFEB37 /* BXTEquipmentAdsName.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A5B1C47339700FFEB37 /* BXTEquipmentAdsName.m */; };
 		78C55A671C47339700FFEB37 /* BXTEquipmentControlUserArr.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A5D1C47339700FFEB37 /* BXTEquipmentControlUserArr.m */; };
@@ -381,8 +384,6 @@
 		78090B251C7DAF47003E1565 /* BXTEPFilterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPFilterCell.h; sourceTree = "<group>"; };
 		78090B261C7DAF47003E1565 /* BXTEPFilterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPFilterCell.m; sourceTree = "<group>"; };
 		78090B271C7DAF47003E1565 /* BXTEPFilterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPFilterCell.xib; sourceTree = "<group>"; };
-		78090B2B1C7DB364003E1565 /* BXTEPLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPLocationViewController.h; sourceTree = "<group>"; };
-		78090B2C1C7DB364003E1565 /* BXTEPLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPLocationViewController.m; sourceTree = "<group>"; };
 		78090B2E1C7DC67A003E1565 /* BXTEPHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPHeaderView.h; sourceTree = "<group>"; };
 		78090B2F1C7DC67A003E1565 /* BXTEPHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPHeaderView.m; sourceTree = "<group>"; };
 		78090B311C7DC68F003E1565 /* BXTEPHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPHeaderView.xib; sourceTree = "<group>"; };
@@ -845,6 +846,13 @@
 		7893D90D1C7AE71400F042D5 /* BXTMTSystemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTSystemViewController.m; sourceTree = "<group>"; };
 		7893D9121C7AE80C00F042D5 /* BXTEPAvailabilityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPAvailabilityViewController.h; sourceTree = "<group>"; };
 		7893D9131C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPAvailabilityViewController.m; sourceTree = "<group>"; };
+		78A1B8631C83DB8E00F252BE /* BXTEPLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPLocationViewController.h; sourceTree = "<group>"; };
+		78A1B8641C83DB8E00F252BE /* BXTEPLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPLocationViewController.m; sourceTree = "<group>"; };
+		78A1B8671C8428CF00F252BE /* BXTEPSystemRateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPSystemRateCell.h; sourceTree = "<group>"; };
+		78A1B8681C8428CF00F252BE /* BXTEPSystemRateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPSystemRateCell.m; sourceTree = "<group>"; };
+		78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPSystemRateCell.xib; sourceTree = "<group>"; };
+		78A1B86C1C8430C000F252BE /* BXTEPSystemRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPSystemRate.h; sourceTree = "<group>"; };
+		78A1B86D1C8430C000F252BE /* BXTEPSystemRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPSystemRate.m; sourceTree = "<group>"; };
 		78C55A571C47339700FFEB37 /* BXTCurrentOrderData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCurrentOrderData.h; sourceTree = "<group>"; };
 		78C55A581C47339700FFEB37 /* BXTCurrentOrderData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCurrentOrderData.m; sourceTree = "<group>"; };
 		78C55A5A1C47339700FFEB37 /* BXTEquipmentAdsName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEquipmentAdsName.h; sourceTree = "<group>"; };
@@ -1150,8 +1158,8 @@
 			children = (
 				78090B211C7DAF47003E1565 /* BXTEPFilterViewController.h */,
 				78090B221C7DAF47003E1565 /* BXTEPFilterViewController.m */,
-				78090B2B1C7DB364003E1565 /* BXTEPLocationViewController.h */,
-				78090B2C1C7DB364003E1565 /* BXTEPLocationViewController.m */,
+				78A1B8631C83DB8E00F252BE /* BXTEPLocationViewController.h */,
+				78A1B8641C83DB8E00F252BE /* BXTEPLocationViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3182,6 +3190,8 @@
 		7893D9041C7AE4F600F042D5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				78A1B86C1C8430C000F252BE /* BXTEPSystemRate.h */,
+				78A1B86D1C8430C000F252BE /* BXTEPSystemRate.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3189,6 +3199,7 @@
 		7893D9051C7AE4F600F042D5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				78A1B8661C8428A800F252BE /* Cell */,
 				7823C8981C7EDCD200E2858B /* BXTEPSummaryView.h */,
 				7823C8991C7EDCD200E2858B /* BXTEPSummaryView.m */,
 				7823C89B1C7EDCE900E2858B /* BXTEPSummaryView.xib */,
@@ -3196,6 +3207,16 @@
 				7823C89E1C7EDFE900E2858B /* BXTEPSystemRateView.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		78A1B8661C8428A800F252BE /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				78A1B8671C8428CF00F252BE /* BXTEPSystemRateCell.h */,
+				78A1B8681C8428CF00F252BE /* BXTEPSystemRateCell.m */,
+				78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 		78C55A551C47339700FFEB37 /* Models */ = {
@@ -3976,6 +3997,7 @@
 				78C55B0F1C47C50C00FFEB37 /* BXTReadNoticeCell.xib in Resources */,
 				964C4AC41C157C7B00E6C8C4 /* Assets.xcassets in Resources */,
 				7823C8A91C7EFDD400E2858B /* BXTEPStateCell.xib in Resources */,
+				78A1B86B1C8428CF00F252BE /* BXTEPSystemRateCell.xib in Resources */,
 				78090B321C7DC68F003E1565 /* BXTEPHeaderView.xib in Resources */,
 				782985AD1C40BB6600D0837C /* BXTMineIconCell.xib in Resources */,
 				96F8C5F31C439A450035F187 /* BXTChangeStateViewController.xib in Resources */,
@@ -4117,6 +4139,7 @@
 				7893D8DE1C7ADA8000F042D5 /* BXTCompletionHeader.m in Sources */,
 				9652AB361BC9069B009A666D /* BXTGlobal.m in Sources */,
 				7867DC281C4CBA5B000749F1 /* BXTHomeViewController.m in Sources */,
+				78A1B86E1C8430C000F252BE /* BXTEPSystemRate.m in Sources */,
 				7893D8E71C7ADA8000F042D5 /* BXStEvaluationViewController.m in Sources */,
 				7867DCCD1C4CBCAC000749F1 /* BXTLoginViewController.m in Sources */,
 				9634156F1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m in Sources */,
@@ -4178,7 +4201,6 @@
 				7867DC2A1C4CBA5B000749F1 /* BXTRepairHomeViewController.m in Sources */,
 				786B571D1C3A06C400F48402 /* BXTPersonInfromViewController.m in Sources */,
 				7867DDA91C4CBEE9000749F1 /* BXTReaciveOrderTableViewCell.m in Sources */,
-				78090B2D1C7DB364003E1565 /* BXTEPLocationViewController.m in Sources */,
 				7867DD801C4CBEA1000749F1 /* BXTNewOrderViewController.m in Sources */,
 				7867DD1E1C4CBE4F000749F1 /* BXTAuthenticationViewController.m in Sources */,
 				78644F6B1C575D5600D2C4C5 /* BXTDeviceList.m in Sources */,
@@ -4217,6 +4239,7 @@
 				782D6BC51C0D6CFC00E1828F /* SPChartView.m in Sources */,
 				9652ABEB1BC90DCC009A666D /* NSData+Base64.m in Sources */,
 				7867DCEE1C4CBD42000749F1 /* BXTHaveEVTableViewCell.m in Sources */,
+				78A1B86A1C8428CF00F252BE /* BXTEPSystemRateCell.m in Sources */,
 				7893D8E01C7ADA8000F042D5 /* BXTIncidenceViewController.m in Sources */,
 				7867DD721C4CBEA1000749F1 /* BXTGrabOrderViewController.m in Sources */,
 				960221481BC9201400010072 /* UIImage+SubImage.m in Sources */,
@@ -4317,6 +4340,7 @@
 				7818DBE81C0824D800DC22C6 /* PNScatterChart.m in Sources */,
 				783E6C2B1C51BFF400DC13FB /* BXTFaultInfo.m in Sources */,
 				7893D8DB1C7ADA8000F042D5 /* BXTCompletionViewController.m in Sources */,
+				78A1B8651C83DB8E00F252BE /* BXTEPLocationViewController.m in Sources */,
 				78C55A651C47339700FFEB37 /* BXTCurrentOrderData.m in Sources */,
 				7867DDAC1C4CBEE9000749F1 /* BXTRepairTableViewCell.m in Sources */,
 				7818DBD41C0824D800DC22C6 /* BarChatItemView.m in Sources */,
@@ -4533,7 +4557,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -4562,7 +4586,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};

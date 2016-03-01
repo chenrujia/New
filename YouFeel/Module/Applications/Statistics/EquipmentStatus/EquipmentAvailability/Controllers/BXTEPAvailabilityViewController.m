@@ -72,10 +72,10 @@
     // Views
     CGFloat scrollViewH = currentScrollView.frame.size.height;
     BXTEPSummaryView *firstView = [[[NSBundle mainBundle] loadNibNamed:@"BXTEPSummaryView" owner:nil options:nil] lastObject];
-    firstView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 495);
+    firstView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 475);
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, scrollViewH)];
-    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, firstView.frame.size.height+ 55);
+    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, firstView.frame.size.height+ 70);
     [scrollView addSubview:firstView];
     [currentScrollView addSubview:scrollView];
     
@@ -109,6 +109,28 @@
     currentPage = page;
     
     [segment segemtBtnChange:currentPage];
+}
+
+#pragma mark -
+#pragma mark - 父类点击事件
+- (void)datePickerBtnClick:(UIButton *)button
+{
+    if (button.tag == 10001)
+    {
+        /**饼状图**/
+        if (!selectedDate)
+        {
+            selectedDate = [NSDate date];
+        }
+        [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
+        
+        NSString *timeStr = [NSString stringWithFormat:@"%@", selectedDate];
+        timeStr = [timeStr substringToIndex:10];
+        NSLog(@"timeStr ---- %@", timeStr);
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTEPSummaryViewAndBXTEPSystemRateView" object:nil userInfo:@{@"timeStr": timeStr}];
+    }
+    [super datePickerBtnClick:button];
 }
 
 - (void)didReceiveMemoryWarning {

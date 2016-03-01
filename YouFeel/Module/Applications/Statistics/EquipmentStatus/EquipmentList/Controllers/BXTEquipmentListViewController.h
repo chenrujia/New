@@ -10,4 +10,6 @@
 
 @interface BXTEquipmentListViewController : BXTBaseViewController
 
+@property (nonatomic, copy) NSString *state;
+
 @end

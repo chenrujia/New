@@ -10,7 +10,7 @@
 #import "BXTEPFilterCell.h"
 #import "BXTEPLocationViewController.h"
 
-@interface BXTEPFilterViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface BXTEPFilterViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 {
     UIView *bgView;
     UIView *selectBgView;
@@ -29,6 +29,11 @@
 @property (nonatomic, assign) int selectRow;
 @property (nonatomic, assign) int showSelectedRow;
 
+@property (nonatomic, strong) NSArray *transLocatArray;
+
+@property (nonatomic, strong) NSMutableArray *deviceArray;
+@property (nonatomic, strong) NSMutableArray *deviceIDArray;
+
 @end
 
 @implementation BXTEPFilterViewController
@@ -42,10 +47,18 @@
     self.titleArray = @[@"日期", @"安装位置", @"设备类型", @"设备状态"];
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", @"待完善", nil];
     self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", nil];
+    self.deviceArray = [[NSMutableArray alloc] init];
+    self.deviceIDArray = [[NSMutableArray alloc] init];
+    
     
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    /**专业分组**/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request deviceTypeList];
     
     
     [self createUI];
@@ -208,8 +221,18 @@
         @weakify(self);
         [locationVC.delegateSignal subscribeNext:^(NSArray *array) {
             @strongify(self);
-            NSString *finalStr = [array componentsJoinedByString:@"-"];
+            
+            NSString *finalStr = array[1];
+            if (![BXTGlobal isBlankString:array[3]]) {
+                finalStr = [NSString stringWithFormat:@"%@-%@", array[1], array[3]];
+                
+                if (![BXTGlobal isBlankString:array[5]]) {
+                    finalStr = [NSString stringWithFormat:@"%@-%@-%@", array[1], array[3], array[5]];
+                }
+            }
+            
             [self.dataArray replaceObjectAtIndex:1 withObject:finalStr];
+            [self.transArray replaceObjectAtIndex:1 withObject:array];
             
             [self.tableView reloadData];
         }];
@@ -229,11 +252,11 @@
 {
     self.showSelectedRow = 0;
     if (index == 2) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"消防系统", @"空调系统", @"弱电系统", @"AAA系统", nil];
+        self.selectArray = self.deviceArray;
         self.showSelectedRow = 2;
     }
     else if (index == 3) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"故障", @"正常", nil];
+        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"正常", @"故障", @"报废", nil];
     }
     
     selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -266,14 +289,26 @@
         @strongify(self);
         
         NSString *finalStr =@"";
+        NSString *finalNumStr = @"";
         for (id object in self.mulitSelectArray) {
             finalStr = [finalStr stringByAppendingString:[NSString stringWithFormat:@" %@", self.selectArray[[object intValue]]]];
+            
+            if (index == 2) {
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.deviceIDArray[[object intValue]]]];
+            }
+            else if (index == 3) {
+                finalNumStr = object;
+            }
+        }
+        if (index == 2 && finalNumStr.length >= 1) {
+            finalNumStr = [finalNumStr substringToIndex:finalNumStr.length - 1];
         }
         
         // 赋值
         if (![BXTGlobal isBlankString:finalStr])
         {
             [self.dataArray replaceObjectAtIndex:index withObject:finalStr];
+            [self.transArray replaceObjectAtIndex:index withObject:finalNumStr];
             [self.tableView reloadData];
         }
         
@@ -407,6 +442,31 @@
         }
         [view removeFromSuperview];
     }
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == Statistics_DeviceTypeList && data.count > 0)
+    {
+        for (NSDictionary *dataDict in data)
+        {
+            [self.deviceArray addObject:dataDict[@"type_name"]];
+            [self.deviceIDArray addObject:dataDict[@"id"]];
+        }
+    }
+    
+    [self.selectTableView reloadData];
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

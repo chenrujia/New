@@ -27,6 +27,9 @@
     
     self.NumberView.text = [NSString stringWithFormat:@"设备编号：%@", epList.code_number];
     self.statusView.text = [NSString stringWithFormat:@"%@", epList.state_name];
+    if ([epList.state_name isEqualToString:@"正常"]) {
+        self.statusView.textColor = [UIColor grayColor];
+    }
     self.systemView.text = [NSString stringWithFormat:@"系统：%@", epList.type_name];
     self.nameView.text = [NSString stringWithFormat:@"设备名称：%@", epList.name];
     self.locationView.text = [NSString stringWithFormat:@"位置：%@", epList.place];

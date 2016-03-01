@@ -11,6 +11,8 @@
 #import "BXTHeaderFile.h"
 #import "BXTDataRequest.h"
 #import "AksStraightPieChart.h"
+#import "BXTEPSystemRate.h"
+#import "BXTEPSystemRateCell.h"
 
 #define Margin 5
 
@@ -54,11 +56,19 @@
     self.dataArray = [[NSMutableArray alloc] init];
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
     
-    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsWorkloadWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
+    [request deviceTypeStaticsWithDate:@""];
     
     
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTEPSummaryViewAndBXTEPSystemRateView" object:nil] subscribeNext:^(NSNotification *notify) {
+        NSDictionary *dict = [notify userInfo];
+        
+        /**条形图**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request deviceTypeStaticsWithDate:dict[@"timeStr"]];
+    }];
+    
+    [self createUI];
 }
 
 #pragma mark -
@@ -71,75 +81,26 @@
     [self addSubview:self.tableView];
 }
 
-- (void)createWorkIoadViewOfIndex:(NSInteger)index WithTableViewCell:(BXTWorkloadCell *)newCell
+- (void)createWorkIoadViewOfIndex:(NSInteger)index WithTableViewCell:(BXTEPSystemRateCell *)newCell
 {
-    
-    NSDictionary *dataDict = self.dataArray[index];
-    NSArray *workloadArray = dataDict[@"workload"];
-    NSMutableArray *sumArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *dict in workloadArray)
-    {
-        [sumArray addObject:[NSString stringWithFormat:@"%@", dict[@"sum_number"]]];
-    }
-    NSNumber *maxNum = [sumArray valueForKeyPath:@"@max.floatValue"];
-    double maxDouble = [maxNum doubleValue];
-    if (maxDouble == 0)
-    {
-        maxDouble = 1;
-    }
-    
-    CGFloat bgViewY = 20;
-    
-    
-    UILabel *lineY = [[UILabel alloc] initWithFrame:CGRectMake(85, 10, SCREEN_WIDTH-120, 1)];
-    lineY.backgroundColor = colorWithHexString(@"#d9d9d9");
-    [newCell.contentView addSubview:lineY];
-    UILabel *lineYMax = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-33, 5, 33, 15)];
-    lineYMax.text = [NSString stringWithFormat:@"%@", maxNum];
-    lineYMax.textColor = colorWithHexString(@"#666666");
-    lineYMax.font = [UIFont systemFontOfSize:12];
-    [newCell addSubview:lineYMax];
-    UILabel *lineX = [[UILabel alloc] initWithFrame:CGRectMake(84, 10, 1, workloadArray.count*(bgViewH+Margin)+15)];
-    lineX.backgroundColor = colorWithHexString(@"#d9d9d9");
-    [newCell.contentView addSubview:lineX];
-    
-    
-    for (int i=0; i<workloadArray.count; i++)
-    {
-        NSDictionary *dict = workloadArray[i];
-        int count = [[NSString stringWithFormat:@"%@", dict[@"sum_number"]] doubleValue];
+    AksStraightPieChart *straightPieChart = [[AksStraightPieChart alloc] initWithFrame:CGRectMake(15, 15, SCREEN_WIDTH - 30, bgViewH)];
+    straightPieChart.transPieClick = ^(void) {
         
-        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(15, bgViewY+(bgViewH+Margin)*i, SCREEN_WIDTH-15, bgViewH)];
-        bgView.backgroundColor = [UIColor clearColor];
-        [newCell.contentView addSubview:bgView];
-        
-        // name
-        UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 70, 30)];
-        nameLabel.text = dict[@"name"];
-        nameLabel.textColor = colorWithHexString(@"#666666");
-        nameLabel.font = [UIFont systemFontOfSize:14];
-        [bgView addSubview:nameLabel];
-        
-        // chart
-        if (count == 0)
-        {
-            count = maxDouble;
-        }
-        AksStraightPieChart *straightPieChart = [[AksStraightPieChart alloc] initWithFrame:CGRectMake(70, 0, (bgView.frame.size.width-105)*(count/maxDouble), bgViewH)];
-        straightPieChart.transPieClick = ^(void) {
-            newCell.nameView.text = [NSString stringWithFormat:@"%@", dict[@"name"]];
-            newCell.downView.text = [NSString stringWithFormat:@"已完成:%@", dict[@"yes_number"]];
-            newCell.specialView.text = [NSString stringWithFormat:@"特殊工单:%@", dict[@"collection_number"]];
-            newCell.undownView.text = [NSString stringWithFormat:@"未完成:%@", dict[@"no_number"]];
-        };
-        [bgView addSubview:straightPieChart];
-        
-        [straightPieChart clearChart];
-        straightPieChart.isVertical = NO;
-        [straightPieChart addDataToRepresent:[dict[@"yes_number"] intValue] WithColor:colorWithHexString(@"#0FCCC0")];
-        [straightPieChart addDataToRepresent:[dict[@"collection_number"] intValue] WithColor:colorWithHexString(@"#F9D063")];
-        [straightPieChart addDataToRepresent:[dict[@"no_number"] intValue] WithColor:colorWithHexString(@"#FD7070")];
-    }
+    };
+    [newCell.contentView addSubview:straightPieChart];
+    
+    BXTEPSystemRate *model = self.dataArray[index];
+    
+    [straightPieChart clearChart];
+    straightPieChart.isVertical = NO;
+    [straightPieChart addDataToRepresent:[model.working_per intValue] WithColor:colorWithHexString(@"#34B47E")];
+    [straightPieChart addDataToRepresent:[model.stop_per intValue] WithColor:colorWithHexString(@"#D6AD5B")];
+    
+    UILabel *rateLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, 50, bgViewH)];
+    rateLabel.text = [NSString stringWithFormat:@"%@%%", model.working_per];
+    rateLabel.textColor = [UIColor whiteColor];
+    [straightPieChart addSubview:rateLabel];
+    
 }
 
 #pragma mark -
@@ -160,22 +121,15 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID = @"Cell";
-    BXTWorkloadCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    BXTEPSystemRateCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil)
     {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTWorkloadCell" owner:nil options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEPSystemRateCell" owner:nil options:nil] lastObject];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     bgViewH = 40;
-    NSDictionary *dataDict = self.dataArray[indexPath.section];
-    NSArray *workloadArray = dataDict[@"workload"];
-    
-    NSDictionary *dict = workloadArray[0];
-    cell.nameView.text = [NSString stringWithFormat:@"%@", dict[@"name"]];
-    cell.downView.text = [NSString stringWithFormat:@"已完成:%@", dict[@"yes_number"]];
-    cell.specialView.text = [NSString stringWithFormat:@"特殊工单:%@", dict[@"collection_number"]];
-    cell.undownView.text = [NSString stringWithFormat:@"未完成:%@", dict[@"no_number"]];
+    cell.epList = self.dataArray[indexPath.section];
     
     [self createWorkIoadViewOfIndex:indexPath.section WithTableViewCell:cell];
     
@@ -184,10 +138,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dataDict = self.dataArray[indexPath.section];
-    NSArray *workloadArray = dataDict[@"workload"];
-    CGFloat viViewH = (workloadArray.count-1) * (bgViewH+Margin) + 150;
-    return viViewH;
+    return 130;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -203,10 +154,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 95;
-    }
     return 45;
 }
 
@@ -217,7 +164,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    NSDictionary *dict = self.dataArray[section];
+    BXTEPSystemRate *model = self.dataArray[section];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(0, 0, SCREEN_WIDTH, 45);
@@ -229,7 +176,7 @@
     
     
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 100, 21)];
-    title.text = dict[@"subgroup"];
+    title.text = model.type_name;
     title.textColor = colorWithHexString(@"#666666");
     title.textAlignment = NSTextAlignmentLeft;
     title.font = [UIFont systemFontOfSize:15];
@@ -243,23 +190,6 @@
     }
     [btn addSubview:arrow];
     
-    if (section == 0)
-    {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 95)];
-        view.backgroundColor = [UIColor whiteColor];
-        
-        UILabel *titlteLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, SCREEN_WIDTH-120, 30)];
-        titlteLabel.text = @"员工工作量统计";
-        titlteLabel.textColor = colorWithHexString(@"#666666");
-        titlteLabel.textAlignment = NSTextAlignmentCenter;
-        titlteLabel.font = [UIFont systemFontOfSize:16];
-        [view addSubview:titlteLabel];
-        
-        btn.frame = CGRectMake(0, 50, SCREEN_WIDTH, 45);
-        [view addSubview:btn];
-        
-        return view;
-    }
     
     return btn;
 }
@@ -291,15 +221,23 @@
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == Statistics_Workload && data.count > 0) {
-        self.dataArray = dic[@"data"];
+    if (type == Device_AvailableType && data.count > 0) {
+        for (NSDictionary *dict in data) {
+            BXTEPSystemRate *rateModel = [BXTEPSystemRate modelWithDict:dict];
+            [self.dataArray addObject:rateModel];
+        }
+        
         for (int i=0; i<self.dataArray.count-1; i++)
         {
             [self.isShowArray addObject:@"0"];
         }
-        
-        [self createUI];
     }
+    
+    if (data.count == 0) {
+        [self.dataArray removeAllObjects];
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (void)requestError:(NSError *)error

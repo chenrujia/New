@@ -701,6 +701,22 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:nil];
 }
 
+- (void)deviceAvailableStaticsWithDate:(NSString *)date
+{
+    self.requestType = Device_AvailableStatics;
+    NSDictionary *dic = @{@"date":date};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=device_state",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)deviceTypeStaticsWithDate:(NSString *)date
+{
+    self.requestType = Device_AvailableType;
+    NSDictionary *dic = @{@"date":date};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=device_type",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)statisticsMTPlanListWithTimeStart:(NSString *)startTime
                                   TimeEnd:(NSString *)endTime
                               SubgroupIDs:(NSString *)subgroupIDs
@@ -725,6 +741,7 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)statisticsEPListWithTime:(NSString *)date
                            State:(NSString *)state
+                           Order:(NSString *)order
                           TypeID:(NSString *)typeID
                           AreaID:(NSString *)areaID
                          PlaceID:(NSString *)placeID
@@ -735,6 +752,7 @@ andRepairerIsReacive:(NSString *)reacive
     self.requestType = Statistics_EPList;
     NSDictionary *dic = @{@"date": date,
                           @"state": state,
+                          @"order": order,
                           @"type_id": typeID,
                           @"area_id": areaID,
                           @"place_id": placeID,
@@ -743,6 +761,13 @@ andRepairerIsReacive:(NSString *)reacive
                           @"page": page};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=device_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
+}
+
+- (void)deviceTypeList
+{
+    self.requestType = Statistics_DeviceTypeList;
+    NSString *url = [NSString stringWithFormat:@"%@&module=Device&opt=device_type_list&attribute=0",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
 }
 
 - (void)statisticsMTCompleteWithTimeStart:(NSString *)startTime
