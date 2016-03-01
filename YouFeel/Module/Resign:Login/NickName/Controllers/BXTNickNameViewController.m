@@ -28,6 +28,11 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 @implementation BXTNickNameViewController
 
+- (void)isLoginByWeiXin:(BOOL)loginType
+{
+    self.isLoginByWX = loginType;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -112,15 +117,33 @@ static NSString *cellIndentify = @"resignCellIndentify";
             
             NSString *userName = [BXTGlobal getUserProperty:U_USERNAME];
             NSString *passWord = [BXTGlobal getUserProperty:U_PASSWORD];
-            
             NSString *cid = [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"] ? [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"] : @"";
-            NSDictionary *userInfoDic = @{@"name":nickName,
-                                          @"password":passWord,
-                                          @"username":userName,
-                                          @"gender":sex,
-                                          @"mailmatch":@"123",
-                                          @"roletype":@"1",
-                                          @"cid":cid};
+            NSString *openID = [BXTGlobal getUserProperty:U_OPENID];
+            
+            NSDictionary *userInfoDic;
+            if (_isLoginByWX)
+            {
+                userInfoDic = @{@"name":nickName,
+                                @"password":passWord,
+                                @"username":userName,
+                                @"gender":sex,
+                                @"mailmatch":@"123",
+                                @"roletype":@"1",
+                                @"cid":cid,
+                                @"type":@"3",
+                                @"only_code":openID,
+                                @"flat_id":@"1"};
+            }
+            else
+            {
+                userInfoDic = @{@"name":nickName,
+                                @"password":passWord,
+                                @"username":userName,
+                                @"gender":sex,
+                                @"mailmatch":@"123",
+                                @"roletype":@"1",
+                                @"cid":cid};
+            }
             
             BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
             [dataRequest resignUser:userInfoDic];

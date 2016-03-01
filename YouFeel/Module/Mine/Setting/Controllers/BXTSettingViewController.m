@@ -211,18 +211,22 @@
 
 - (void)vertifyPassword:(NSString *)textStr
 {
-    NSLog(@"textStr ---- %@", textStr);
-    
     [self showLoadingMBP:@"正在验证中..."];
     
     NSDictionary *userInfoDic;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
     {
-        userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME], @"password":textStr, @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+        userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
+                        @"password":textStr,
+                        @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
+                        @"type":@"1"};
     }
     else
     {
-        userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME], @"password":textStr, @"cid":@""};
+        userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
+                        @"password":textStr,
+                        @"cid":@"",
+                        @"type":@"1"};
     }
     
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];

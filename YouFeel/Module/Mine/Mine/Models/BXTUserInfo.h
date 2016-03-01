@@ -39,6 +39,7 @@
 #define U_USERSARRAY   @"usersArray"
 #define U_TOKEN        @"token"
 #define U_IS_VERIFY    @"is_verify"
+#define U_OPENID       @"openID"
 
 @interface BXTUserInfo : NSObject
 
@@ -65,5 +66,6 @@
 @property (nonatomic ,strong) NSMutableArray      *usersArray;
 @property (nonatomic, strong) NSString            *token;
 @property (nonatomic, strong) NSString            *is_verify;
+@property (nonatomic, strong) NSString            *openID;
 
 @end

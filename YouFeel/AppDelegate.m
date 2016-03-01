@@ -51,6 +51,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //自动键盘
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     
+    //注册APP_ID
+    [WXApi registerApp:APP_ID];
+    
     // token验证失败 - 退出登录
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"VERIFY_TOKEN_FAIL" object:nil] subscribeNext:^(id x) {
@@ -64,7 +67,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         //默认自动登录
         if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
         {
-            NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"password":[BXTGlobal getUserProperty:U_PASSWORD],@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
+            NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
+                                          @"password":[BXTGlobal getUserProperty:U_PASSWORD],
+                                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
+                                          @"type":@"1"};
             
             BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
             [dataRequest loginUser:userInfoDic];
@@ -253,10 +259,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    _deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    LogRed(@"deviceToken:%@",_deviceToken);
-    [GeTuiSdk registerDeviceToken:_deviceToken];
-    [[RCIMClient sharedRCIMClient] setDeviceToken:_deviceToken];
+    device_token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    LogRed(@"deviceToken:%@",device_token);
+    [GeTuiSdk registerDeviceToken:device_token];
+    [[RCIMClient sharedRCIMClient] setDeviceToken:device_token];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
@@ -294,9 +300,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 {
     LogRed(@"clientId:%@",clientId);
     [[NSUserDefaults standardUserDefaults] setObject:clientId forKey:@"clientId"];
-    if (_deviceToken)
+    if (device_token)
     {
-        [GeTuiSdk registerDeviceToken:_deviceToken];
+        [GeTuiSdk registerDeviceToken:device_token];
     }
 }
 
@@ -571,6 +577,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     {
         [self loadingLoginVC];
     }
+    else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"002"] && isLoginByWX)
+    {
+        isLoginByWX = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"GotoResignVC" object:nil];
+    }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
         NSArray *data = [dic objectForKey:@"data"];
@@ -663,6 +674,140 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [GeTuiSdk runBackgroundEnable:YES];
 }
 
+#pragma mark -
+#pragma mark 微信api相关
+// openURL
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+// handleURL
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+/**
+ * onReq微信终端向第三方程序发起请求，要求第三方程序响应。第三方程序响应完后必须调用
+ * sendRsp返回。在调用sendRsp返回时，会切回到微信终端程序界面。
+ */
+- (void)onReq:(BaseReq *)req
+{
+    
+}
+
+/**
+ *  如果第三方程序向微信发送了sendReq的请求，那么onResp会被回调。sendReq请求调用后，
+ *  会切到微信终端程序界面。
+ */
+- (void)onResp:(BaseResp *)resp
+{
+    SendAuthResp *aresp = (SendAuthResp *)resp;
+    if (aresp.errCode == 0)
+    { // 用户同意
+        NSLog(@"errCode = %d", aresp.errCode);
+        NSLog(@"code = %@", aresp.code);
+        
+        // 获取access_token
+        //      格式：https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+        NSString *url =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code", APP_ID, APP_SECRET, aresp.code];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSURL *zoneUrl = [NSURL URLWithString:url];
+            NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
+            NSData *data = [zoneStr dataUsingEncoding:NSUTF8StringEncoding];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (data) {
+                    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                    _openid = [dic objectForKey:@"openid"]; // 初始化
+                    _access_token = [dic objectForKey:@"access_token"];
+                    //                    NSLog(@"openid = %@", _openid);
+                    //                    NSLog(@"access = %@", [dic objectForKey:@"access_token"]);
+                    NSLog(@"dic = %@", dic);
+                    [self getUserInfo]; // 获取用户信息
+                }
+            });
+        });
+    }
+    else if (aresp.errCode == -2)
+    {
+        NSLog(@"用户取消登录");
+    }
+    else if (aresp.errCode == -4)
+    {
+        NSLog(@"用户拒绝登录");
+    }
+    else
+    {
+        NSLog(@"errCode = %d", aresp.errCode);
+        NSLog(@"code = %@", aresp.code);
+    }
+}
+
+// 获取用户信息
+- (void)getUserInfo
+{
+    NSString *url = [NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@", self.access_token, self.openid];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURL *zoneUrl = [NSURL URLWithString:url];
+        NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
+        NSData *data = [zoneStr dataUsingEncoding:NSUTF8StringEncoding];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (data)
+            {
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                NSString *openID = [dic objectForKey:@"openid"];
+                [BXTGlobal setUserProperty:openID withKey:U_OPENID];
+                NSLog(@"openid = %@", openID);
+                NSLog(@"nickname = %@", [dic objectForKey:@"nickname"]);
+                NSLog(@"sex = %@", [dic objectForKey:@"sex"]);
+                NSLog(@"country = %@", [dic objectForKey:@"country"]);
+                NSLog(@"province = %@", [dic objectForKey:@"province"]);
+                NSLog(@"city = %@", [dic objectForKey:@"city"]);
+                NSLog(@"headimgurl = %@", [dic objectForKey:@"headimgurl"]);
+                NSLog(@"unionid = %@", [dic objectForKey:@"unionid"]);
+                NSLog(@"privilege = %@", [dic objectForKey:@"privilege"]);
+                
+                AppDelegate *appdelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                appdelegate.headimgurl = [dic objectForKey:@"headimgurl"]; // 传递头像地址
+                appdelegate.nickname = [dic objectForKey:@"nickname"]; // 传递昵称
+
+                isLoginByWX = YES;
+                NSDictionary *userInfoDic = @{@"username":@"",
+                                              @"password":@"",
+                                              @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
+                                              @"type":@"2",
+                                              @"flat_id":@"1",
+                                              @"only_code":openID};
+                
+                NSString *open_ID = [BXTGlobal getUserProperty:U_OPENID];
+                
+                BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+                [dataRequest loginUser:userInfoDic];
+            }
+        });
+    });
+}
+
+//    刷新access_token有效期。获取第一步的code后，请求以下链接进行refresh_token https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN
+- (void)refresh
+{
+    //    NSString *url =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=%@&grant_type=refresh_token&refresh_token=%@", APP_ID, [dic objectForKey:@"access_token"]];
+    //
+    //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    //        NSURL *zoneUrl = [NSURL URLWithString:url];
+    //        NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
+    //        NSData *data = [zoneStr dataUsingEncoding:NSUTF8StringEncoding];
+    //        dispatch_async(dispatch_get_main_queue(), ^{
+    //            if (data) {
+    //                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    //                NSLog(@"dic = %@", dic);
+    //            }
+    //        });
+    //    });
+}
+
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
@@ -671,11 +816,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

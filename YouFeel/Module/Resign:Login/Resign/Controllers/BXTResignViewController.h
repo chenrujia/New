@@ -10,4 +10,8 @@
 
 @interface BXTResignViewController : BXTBaseViewController
 
+@property (nonatomic, assign) BOOL isLoginByWX;
+
+- (void)isLoginByWeiXin:(BOOL)loginType;
+
 @end
