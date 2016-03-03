@@ -25,18 +25,20 @@
 
 @interface BXTGlobal : NSObject
 
-@property (nonatomic ,assign) NSInteger      maxPics;
-@property (nonatomic ,strong) NSString       *baseURL;
-@property (nonatomic ,strong) NSString       *BranchURL;
-@property (nonatomic ,strong) NSMutableArray *newsOrderIDs;
-@property (nonatomic ,strong) NSMutableArray *assignOrderIDs;
-@property (nonatomic ,strong) NSString       *newsShopID;
-@property (nonatomic ,assign) BOOL           isRepair;//Yes是维修员，No是报修者
-@property (nonatomic ,assign) NSString       *longTime;
+@property (nonatomic ,assign) NSInteger              maxPics;
+@property (nonatomic ,strong) NSString               *baseURL;
+@property (nonatomic ,strong) NSString               *BranchURL;
+@property (nonatomic ,strong) NSMutableArray         *newsOrderIDs;
+@property (nonatomic ,strong) NSMutableArray         *assignOrderIDs;
+@property (nonatomic ,strong) NSString               *newsShopID;
+@property (nonatomic ,assign) BOOL                   isRepair;//Yes是维修员，No是报修者
+@property (nonatomic ,assign) NSString               *longTime;
+@property (nonatomic, strong) NSString               *openID;
+@property (nonatomic, strong) NSString               *wxHeadImage;
+@property (nonatomic, assign) NSInteger              numOfPresented;
+@property (nonatomic, assign) NSInteger              assignNumber;
 @property (nonatomic, strong) UINavigationController *presentNav;
 
-@property (nonatomic, assign) NSInteger numOfPresented;
-@property (nonatomic, assign) NSInteger assignNumber;
 
 + (BXTGlobal *)shareGlobal;
 

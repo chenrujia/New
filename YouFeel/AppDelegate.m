@@ -64,7 +64,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
     if (isLoaded)
     {
-        //默认自动登录
+        //默认自动登录（普通登录）
         if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
         {
             NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
@@ -72,6 +72,19 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                                           @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
                                           @"type":@"1"};
             
+            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+            [dataRequest loginUser:userInfoDic];
+        }
+        //第三方登录
+        else if ([BXTGlobal getUserProperty:U_OPENID] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+        {
+            isLoginByWX = YES;
+            NSDictionary *userInfoDic = @{@"username":@"",
+                                          @"password":@"",
+                                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
+                                          @"type":@"2",
+                                          @"flat_id":@"1",
+                                          @"only_code":[BXTGlobal getUserProperty:U_OPENID]};
             BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
             [dataRequest loginUser:userInfoDic];
         }
@@ -535,6 +548,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         NSArray *dataArray = [dic objectForKey:@"data"];
         NSDictionary *userInfoDic = [dataArray objectAtIndex:0];
         
+        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"username"] withKey:U_USERNAME];
         [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"gender"] withKey:U_SEX];
         [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"name"] withKey:U_NAME];
         [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"pic"] withKey:U_HEADERIMAGE];
@@ -759,6 +773,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 NSString *openID = [dic objectForKey:@"openid"];
                 [BXTGlobal setUserProperty:openID withKey:U_OPENID];
+                [BXTGlobal shareGlobal].openID = openID;
                 NSLog(@"openid = %@", openID);
                 NSLog(@"nickname = %@", [dic objectForKey:@"nickname"]);
                 NSLog(@"sex = %@", [dic objectForKey:@"sex"]);
@@ -766,6 +781,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 NSLog(@"province = %@", [dic objectForKey:@"province"]);
                 NSLog(@"city = %@", [dic objectForKey:@"city"]);
                 NSLog(@"headimgurl = %@", [dic objectForKey:@"headimgurl"]);
+                [BXTGlobal shareGlobal].wxHeadImage = [dic objectForKey:@"headimgurl"];
                 NSLog(@"unionid = %@", [dic objectForKey:@"unionid"]);
                 NSLog(@"privilege = %@", [dic objectForKey:@"privilege"]);
                 
@@ -780,9 +796,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                                               @"type":@"2",
                                               @"flat_id":@"1",
                                               @"only_code":openID};
-                
-                NSString *open_ID = [BXTGlobal getUserProperty:U_OPENID];
-                
                 BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
                 [dataRequest loginUser:userInfoDic];
             }

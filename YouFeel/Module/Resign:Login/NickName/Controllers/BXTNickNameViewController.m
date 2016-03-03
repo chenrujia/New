@@ -118,7 +118,6 @@ static NSString *cellIndentify = @"resignCellIndentify";
             NSString *userName = [BXTGlobal getUserProperty:U_USERNAME];
             NSString *passWord = [BXTGlobal getUserProperty:U_PASSWORD];
             NSString *cid = [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"] ? [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"] : @"";
-            NSString *openID = [BXTGlobal getUserProperty:U_OPENID];
             
             NSDictionary *userInfoDic;
             if (_isLoginByWX)
@@ -131,8 +130,9 @@ static NSString *cellIndentify = @"resignCellIndentify";
                                 @"roletype":@"1",
                                 @"cid":cid,
                                 @"type":@"3",
-                                @"only_code":openID,
-                                @"flat_id":@"1"};
+                                @"only_code":[BXTGlobal shareGlobal].openID,
+                                @"flat_id":@"1",
+                                @"headMedium":[BXTGlobal shareGlobal].wxHeadImage};
             }
             else
             {
@@ -247,7 +247,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

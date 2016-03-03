@@ -26,5 +26,6 @@
 @property (nonatomic, strong) NSArray  *pic;
 @property (nonatomic, strong) NSString *stores_id;
 @property (nonatomic, strong) NSString *take_over_time;
+@property (nonatomic, strong) NSString *state_name;
 
 @end

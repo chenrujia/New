@@ -551,7 +551,8 @@ andRepairerIsReacive:(NSString *)reacive;
                    andState:(NSString *)state
                   andImages:(NSArray *)images
                andLongitude:(CGFloat)longitude
-                andLatitude:(CGFloat)latitude;
+                andLatitude:(CGFloat)latitude
+                    andDesc:(NSString *)desc;
 
 /**
  *  修改设备维护记录
@@ -564,7 +565,8 @@ andRepairerIsReacive:(NSString *)reacive;
                         andState:(NSString *)state
                        andImages:(NSArray *)images
                     andLongitude:(CGFloat)longitude
-                     andLatitude:(CGFloat)latitude;
+                     andLatitude:(CGFloat)latitude
+                         andDesc:(NSString *)desc;
 
 /**
  *  设备维护记录详情

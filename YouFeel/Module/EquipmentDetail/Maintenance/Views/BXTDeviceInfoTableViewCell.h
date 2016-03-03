@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *maintenanceProject;
 @property (weak, nonatomic) IBOutlet UILabel *maintenancePlane;
 @property (weak, nonatomic) IBOutlet UILabel *orderState;
+@property (weak, nonatomic) IBOutlet UILabel *deviceState;
 
 @end

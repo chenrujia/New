@@ -160,6 +160,7 @@
         NSArray *dataArray = [dic objectForKey:@"data"];
         NSDictionary *userInfoDic = [dataArray objectAtIndex:0];
         
+        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"username"] withKey:U_USERNAME];
         [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"gender"] withKey:U_SEX];
         [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"name"] withKey:U_NAME];
         [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"pic"] withKey:U_HEADERIMAGE];

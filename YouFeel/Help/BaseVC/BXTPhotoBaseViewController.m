@@ -525,12 +525,13 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSLog(@"response:%@",dic);
 }
 
 - (void)requestError:(NSError *)error
 {
-    
+    NSLog(@"error:%@",[error localizedDescription]);
 }
 
 - (void)didReceiveMemoryWarning

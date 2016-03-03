@@ -160,7 +160,7 @@
 {
     if (indexPath.section == 0)
     {
-        return 160.f;
+        return 190.f;
     }
     else if (indexPath.section == 1)
     {
@@ -200,19 +200,27 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
-        BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
-        cell.deviceName.text = [NSString stringWithFormat:@"设备名称：%@",deviceInfo.name];
-        cell.deviceNumber.text = [NSString stringWithFormat:@"设备编号：%@",deviceInfo.code_number];
-        cell.deviceSystem.text = [NSString stringWithFormat:@"系统：%@",_maintenceInfo.faulttype_type_name];
-        cell.maintenanceProject.text = [NSString stringWithFormat:@"维保项目：%@",_maintenceInfo.inspection_item_name];
-        cell.maintenancePlane.text = [NSString stringWithFormat:@"维保计划：%@",_maintenceInfo.inspection_time];
-        if ([_maintenceInfo.state integerValue] == 1)
+        if (_maintenceInfo)
         {
-            cell.orderState.text = @"维修中";
-        }
-        else
-        {
-            cell.orderState.text = @"已完成";
+            BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
+            cell.deviceName.text = [NSString stringWithFormat:@"设备名称：%@",deviceInfo.name];
+            cell.deviceNumber.text = [NSString stringWithFormat:@"设备编号：%@",deviceInfo.code_number];
+            cell.deviceSystem.text = [NSString stringWithFormat:@"系统：%@",_maintenceInfo.faulttype_type_name];
+            cell.maintenanceProject.text = [NSString stringWithFormat:@"维保项目：%@",_maintenceInfo.inspection_item_name];
+            cell.maintenancePlane.text = [NSString stringWithFormat:@"维保计划：%@",_maintenceInfo.inspection_time];
+            NSString *str = [NSString stringWithFormat:@"设备当前状态：%@",self.maintenceInfo.device_state_name];
+            NSRange range = [str rangeOfString:self.maintenceInfo.device_state_name];
+            NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+            [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"2FAEFF") range:range];
+            cell.deviceState.attributedText = attributeStr;
+            if ([_maintenceInfo.state integerValue] == 1)
+            {
+                cell.orderState.text = @"维修中";
+            }
+            else
+            {
+                cell.orderState.text = @"已完成";
+            }
         }
         
         return cell;

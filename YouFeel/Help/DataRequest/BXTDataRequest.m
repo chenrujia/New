@@ -988,6 +988,7 @@ andRepairerIsReacive:(NSString *)reacive
                   andImages:(NSArray *)images
                andLongitude:(CGFloat)longitude
                 andLatitude:(CGFloat)latitude
+                    andDesc:(NSString *)desc
 {
     self.requestType = Add_Inspection;
     NSDictionary *dic = @{@"workorder_id":workorderID,
@@ -996,6 +997,7 @@ andRepairerIsReacive:(NSString *)reacive
                           @"inspection_info":inspectionData,
                           @"device_state":state,
                           @"notes":notes,
+                          @"desc":desc,
                           @"longitude":[NSString stringWithFormat:@"%f",longitude],
                           @"latitude":[NSString stringWithFormat:@"%f",latitude]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=add_inspection_record",[BXTGlobal shareGlobal].baseURL];
@@ -1018,6 +1020,7 @@ andRepairerIsReacive:(NSString *)reacive
                        andImages:(NSArray *)images
                     andLongitude:(CGFloat)longitude
                      andLatitude:(CGFloat)latitude
+                         andDesc:(NSString *)desc
 {
     self.requestType = Update_Inspection;
     NSDictionary *dic = @{@"id":recordID,
@@ -1026,6 +1029,7 @@ andRepairerIsReacive:(NSString *)reacive
                           @"inspection_info":inspectionData,
                           @"device_state":state,
                           @"notes":notes,
+                          @"desc":desc,
                           @"longitude":[NSString stringWithFormat:@"%f",longitude],
                           @"latitude":[NSString stringWithFormat:@"%f",latitude]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=update_inspection_record",[BXTGlobal shareGlobal].baseURL];
@@ -1103,8 +1107,10 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {
-    url = [self encryptTheURL:url dict:parameters];
-    
+    if ([url hasPrefix:@"http://api"])
+    {
+        url = [self encryptTheURL:url dict:parameters];
+    }
     LogRed(@"url......\n%@", url);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
@@ -1133,7 +1139,10 @@ andRepairerIsReacive:(NSString *)reacive
             withParameters:(NSDictionary *)parameters
                 withImages:(NSArray *)images
 {
-    url = [self encryptTheURL:url dict:parameters];
+    if ([url hasPrefix:@"http://api"])
+    {
+        url = [self encryptTheURL:url dict:parameters];
+    }
     
     LogRed(@"url......%@",url);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
