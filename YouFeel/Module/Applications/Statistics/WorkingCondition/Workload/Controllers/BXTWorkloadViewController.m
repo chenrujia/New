@@ -8,10 +8,11 @@
 
 #import "BXTWorkloadViewController.h"
 #import "BXTWorkloadCell.h"
+#import "DOPDropDownMenu.h"
 
 #define Margin 5
 
-@interface BXTWorkloadViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
+@interface BXTWorkloadViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, DOPDropDownMenuDataSource, DOPDropDownMenuDelegate>
 {
     CGFloat bgViewH;
     UIImageView *arrow;
@@ -20,6 +21,9 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSMutableArray *isShowArray;
+
+@property (nonatomic, strong) NSArray *typeArray;
+@property (nonatomic, copy) NSString *typeStr;
 
 @end
 
@@ -32,12 +36,16 @@
     
     self.dataArray = [[NSMutableArray alloc] init];
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
+    self.typeArray = @[@"员工全部工作量统计", @"员工日常工作量统计", @"员工维保工作量统计"];
+    self.typeStr = @"0";
     
-    [self showLoadingMBP:@"数据加载中..."];
     
-    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsWorkloadWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
+    // 添加下拉菜单
+    DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
+    menu.delegate = self;
+    menu.dataSource = self;
+    [self.rootScrollView addSubview:menu];
+    [menu selectDefalutIndexPath];
     
 }
 
@@ -47,10 +55,11 @@
 {
     [self.tableView removeFromSuperview];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-100) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 54, SCREEN_WIDTH, SCREEN_HEIGHT-100-54) style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.rootScrollView addSubview:self.tableView];
+    
 }
 
 - (void)createWorkIoadViewOfIndex:(NSInteger)index WithTableViewCell:(BXTWorkloadCell *)newCell
@@ -125,6 +134,35 @@
 }
 
 #pragma mark -
+#pragma mark DOPDropDownMenuDataSource && DOPDropDownMenuDelegate
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
+{
+    return self.typeArray.count;
+}
+
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    return self.typeArray[indexPath.row];
+}
+
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    switch (indexPath.row) {
+        case 0: self.typeStr = @"0"; break;
+        case 1: self.typeStr = @"1"; break;
+        case 2: self.typeStr = @"2"; break;
+        default: break;
+    }
+    
+    self.rootSegmentedCtr.selectedSegmentIndex = 2;
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statisticsWorkloadWithTimeStart:dateArray[0] timeEnd:dateArray[1] Type:self.typeStr];
+}
+
+#pragma mark -
 #pragma mark - tableView代理方法
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -185,10 +223,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 95;
-    }
     return 45;
 }
 
@@ -224,24 +258,6 @@
         arrow.image = [UIImage imageNamed:@"up_arrow_gray"];
     }
     [btn addSubview:arrow];
-    
-    if (section == 0)
-    {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 95)];
-        view.backgroundColor = [UIColor whiteColor];
-        
-        UILabel *titlteLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, SCREEN_WIDTH-120, 30)];
-        titlteLabel.text = @"员工工作量统计";
-        titlteLabel.textColor = colorWithHexString(@"#666666");
-        titlteLabel.textAlignment = NSTextAlignmentCenter;
-        titlteLabel.font = [UIFont systemFontOfSize:16];
-        [view addSubview:titlteLabel];
-        
-        btn.frame = CGRectMake(0, 50, SCREEN_WIDTH, 45);
-        [view addSubview:btn];
-        
-        return view;
-    }
     
     return btn;
 }
@@ -284,7 +300,7 @@
     
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsWorkloadWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
+    [request statisticsWorkloadWithTimeStart:dateArray[0] timeEnd:dateArray[1] Type:self.typeStr];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button
@@ -303,7 +319,7 @@
         
         NSString *todayStr = [self transTimeWithDate:selectedDate];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statisticsWorkloadWithTimeStart:todayStr timeEnd:todayStr];
+        [request statisticsWorkloadWithTimeStart:todayStr timeEnd:todayStr Type:self.typeStr];
     }
     [super datePickerBtnClick:button];
 }

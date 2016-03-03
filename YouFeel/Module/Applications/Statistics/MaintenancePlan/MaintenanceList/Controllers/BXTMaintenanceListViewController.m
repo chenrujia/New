@@ -12,6 +12,7 @@
 #import "BXTMTPlanListCell.h"
 #import "BXTMTPlanList.h"
 #import <MJRefresh.h>
+#import "BXTMaintenanceBookViewController.h"
 
 @interface BXTMaintenanceListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -24,10 +25,6 @@
 
 @property (nonatomic, copy) NSString *order;
 @property (nonatomic, copy) NSString *startTime;
-@property (nonatomic, copy) NSString *endTime;
-@property (nonatomic, copy) NSString *subgroupIDs;
-@property (nonatomic, copy) NSString *faulttypeIDs;
-@property (nonatomic, copy) NSString *stateStr;
 
 @end
 
@@ -44,11 +41,19 @@
     self.currentPage = 1;
     self.order = @"desc";
     self.startTime = @"";
-    self.endTime = @"";
-    self.subgroupIDs = @"";
-    self.faulttypeIDs = @"";
-    self.stateStr = @"";
+    if (!self.endTime) {
+        self.endTime = @"";
+    }
     
+    if (!self.subgroupIDs) {
+        self.subgroupIDs = @"";
+    }
+    if (!self.faulttypeIDs) {
+        self.faulttypeIDs = @"";
+    }
+    if (!self.stateStr) {
+        self.stateStr = @"";
+    }
     
     [self createUI];
 }
@@ -169,6 +174,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BXTMTPlanList *list = self.dataArray[indexPath.section];
+    NSLog(@"%@", list.PlanID);
+    
+    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:list.PlanID workOrderID:nil];
+    [self.navigationController pushViewController:bookVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

@@ -770,12 +770,14 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:nil];
 }
 
-- (void)statisticsMTCompleteWithTimeStart:(NSString *)startTime
-                                  timeEnd:(NSString *)endTime
+- (void)statisticsMTCompleteWithDate:(NSString *)date
+                            Subgroup:(NSString *)subgroup
+                       FaulttypeType:(NSString *)faulttypeType
 {
     self.requestType = Statistics_MTComplete;
-    NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime};
+    NSDictionary *dic = @{@"date":date,
+                          @"subgroup":subgroup,
+                          @"faulttype_type":faulttypeType};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=inspection_plan",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -830,10 +832,12 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)statisticsWorkloadWithTimeStart:(NSString *)startTime
                                 timeEnd:(NSString *)endTime
+                                   Type:(NSString *)type
 {
     self.requestType = Statistics_Workload;
     NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime};
+                          @"time_end":endTime,
+                          @"task_type":type};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_workload",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -958,7 +962,7 @@ andRepairerIsReacive:(NSString *)reacive
     SaveValueTUD(@"shopID_Special", shopID);
     
     NSDictionary *dic = @{@"id": userID};
-    NSString *baseURL = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *baseURL = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_con", baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -1066,7 +1070,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
+    NSString *url = [NSString stringWithFormat:@"http://admin.hellouf.com/?r=port/Get_Android_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
     [self getRequest:url];
 }
 
@@ -1076,7 +1080,7 @@ andRepairerIsReacive:(NSString *)reacive
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", shopID];
+    NSString *url = [NSString stringWithFormat:@"http://admin.hellouf.com/?r=port/Get_Android_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", shopID];
     [self getRequest:url];
 }
 

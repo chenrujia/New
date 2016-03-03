@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="BXTMTProfessionTopView" id="iN0-l3-epB" customClass="BXTMTProfessionTopView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="101"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d7V-Li-5zV" userLabel="View0">
+                    <rect key="frame" x="0.0" y="50" width="375" height="1"/>
+                    <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="0.5" id="Y1h-wJ-apC"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jf7-ly-vcT" userLabel="View0">
+                    <rect key="frame" x="0.0" y="100" width="375" height="1"/>
+                    <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="0.5" id="YjJ-Pe-yXf"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="维保完成率统计" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Awe-Kl-LrL">
+                    <rect key="frame" x="87.5" y="16" width="200" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="200" id="AJT-lD-bZ4"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Jf7-ly-vcT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="AIc-pJ-1Ja"/>
+                <constraint firstItem="Awe-Kl-LrL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="Dq7-Fd-4Nu"/>
+                <constraint firstItem="d7V-Li-5zV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GDp-om-Ici"/>
+                <constraint firstItem="d7V-Li-5zV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="49.5" id="GGi-g6-HLO"/>
+                <constraint firstItem="Awe-Kl-LrL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Jeh-EQ-MJJ"/>
+                <constraint firstItem="Jf7-ly-vcT" firstAttribute="top" secondItem="d7V-Li-5zV" secondAttribute="bottom" constant="49.5" id="KEx-dQ-5Ar"/>
+                <constraint firstAttribute="trailing" secondItem="Jf7-ly-vcT" secondAttribute="trailing" id="Ud2-mU-fh9"/>
+                <constraint firstItem="d7V-Li-5zV" firstAttribute="top" secondItem="Awe-Kl-LrL" secondAttribute="bottom" constant="16" id="gwQ-5u-tDO"/>
+                <constraint firstAttribute="trailing" secondItem="d7V-Li-5zV" secondAttribute="trailing" id="kJv-1t-hOZ"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="titleView" destination="Awe-Kl-LrL" id="uVE-Vh-rfn"/>
+            </connections>
+            <point key="canvasLocation" x="303.5" y="182.5"/>
+        </view>
+    </objects>
+</document>

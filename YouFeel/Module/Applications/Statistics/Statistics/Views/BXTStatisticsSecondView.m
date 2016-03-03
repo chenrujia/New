@@ -26,7 +26,7 @@
 {
     [super initial];
     
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"维保完成率统计", @"维保分专业统计", @"维保分统计", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"维保完成率统计", @"维保分专业统计", @"维保分系统统计", nil];
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@"项目总体完成情况", @"专业分组完成情况", @"各系统完成情况", nil];
     
     BXTMTPlanHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTPlanHeaderView" owner:nil options:nil] lastObject];
@@ -69,12 +69,17 @@
 {
     BXTMTCompletionViewController *clvc = [[BXTMTCompletionViewController alloc] init];
     BXTMTProfessionViewController *pfvc = [[BXTMTProfessionViewController alloc] init];
-    BXTMTSystemViewController *stvc = [[BXTMTSystemViewController alloc] init];
     
     switch (indexPath.section) {
         case 0: [[self navigation] pushViewController:clvc animated:YES]; break;
-        case 1: [[self navigation] pushViewController:pfvc animated:YES]; break;
-        case 2: [[self navigation] pushViewController:stvc animated:YES]; break;
+        case 1: {
+            pfvc.isSystemPush = NO;
+            [[self navigation] pushViewController:pfvc animated:YES];
+        } break;
+        case 2: {
+            pfvc.isSystemPush = YES;
+            [[self navigation] pushViewController:pfvc animated:YES];
+        } break;
         default: break;
     }
     

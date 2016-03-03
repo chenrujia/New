@@ -10,4 +10,9 @@
 
 @interface BXTMaintenanceListViewController : BXTBaseViewController
 
+@property (nonatomic, copy) NSString *stateStr;
+@property (nonatomic, copy) NSString *subgroupIDs;
+@property (nonatomic, copy) NSString *faulttypeIDs;
+@property (nonatomic, copy) NSString *endTime;
+
 @end

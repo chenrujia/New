@@ -96,7 +96,7 @@
     [straightPieChart addDataToRepresent:[model.working_per intValue] WithColor:colorWithHexString(@"#34B47E")];
     [straightPieChart addDataToRepresent:[model.stop_per intValue] WithColor:colorWithHexString(@"#D6AD5B")];
     
-    UILabel *rateLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, 50, bgViewH)];
+    UILabel *rateLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, 80, bgViewH)];
     rateLabel.text = [NSString stringWithFormat:@"%@%%", model.working_per];
     rateLabel.textColor = [UIColor whiteColor];
     [straightPieChart addSubview:rateLabel];

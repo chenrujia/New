@@ -35,7 +35,7 @@
     webView.delegate = self;
     [self.view addSubview:webView];
     
-    NSLog(@"%@", self.urlStr);
+    NSLog(@"----%@-----", urlStr);
 }
 
 - (void)navigationLeftButton

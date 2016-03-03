@@ -24,6 +24,5 @@
 @property (weak, nonatomic) IBOutlet UIView *roundView3;
 
 - (IBAction)btnClick:(UIButton *)sender;
-@property (weak, nonatomic) IBOutlet UIView *footerVIew;
 
 @end

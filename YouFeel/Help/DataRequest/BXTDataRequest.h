@@ -425,8 +425,9 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  统计-维保完成率统计
  */
-- (void)statisticsMTCompleteWithTimeStart:(NSString *)startTime
-                                  timeEnd:(NSString *)endTime;
+- (void)statisticsMTCompleteWithDate:(NSString *)date
+                            Subgroup:(NSString *)subgroup
+                            FaulttypeType:(NSString *)faulttypeType;
 
 /**
  *  统计-完成率统计
@@ -461,7 +462,8 @@ andRepairerIsReacive:(NSString *)reacive;
  *  统计-按分组统计维修量
  */
 - (void)statisticsWorkloadWithTimeStart:(NSString *)startTime
-                                timeEnd:(NSString *)endTime;
+                                timeEnd:(NSString *)endTime
+                                   Type:(NSString *)type;
 
 /**
  *  统计-按分组好评

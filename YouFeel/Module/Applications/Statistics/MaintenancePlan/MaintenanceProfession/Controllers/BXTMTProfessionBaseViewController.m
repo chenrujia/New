@@ -1,48 +1,73 @@
 //
-//  BXTMTCompletionViewController.m
+//  BXTMTProfessionBaseViewController.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/2/22.
+//  Created by 满孝意 on 16/3/1.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTMTCompletionViewController.h"
-#import "BXTMTCompletionHeader.h"
+#import "BXTMTProfessionBaseViewController.h"
+#import "BXTMTProfessionHeader.h"
 #import "BXTMTCompletionFooter.h"
+#import "BXTDataRequest.h"
+#import "BXTGlobal.h"
+#import "BXTHeaderFile.h"
+#import "MYPieElement.h"
 #import "BXTMaintenanceListViewController.h"
 
-@interface BXTMTCompletionViewController () <BXTDataResponseDelegate>
+@interface BXTMTProfessionBaseViewController () <BXTDataResponseDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary *percentDict;
 
-@property (nonatomic, strong) BXTMTCompletionHeader *headerView;
+@property (nonatomic, strong) UIScrollView *rootScrollView;
+@property (nonatomic, strong) BXTMTProfessionHeader *headerView;
 @property (nonatomic, strong) BXTMTCompletionFooter *footerView;
+
+@property (nonatomic, copy) NSString *dateStr;
 
 @end
 
-@implementation BXTMTCompletionViewController
+@implementation BXTMTProfessionBaseViewController
 
 - (void)viewDidLoad {
-    // 隐藏年月日选择项
-    self.hideDatePicker = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     
-    [self showLoadingMBP:@"数据加载中..."];
+    if (!self.transSubgroupID) {
+        self.transSubgroupID = @"";
+    }
+    if (!self.transFaulttypeTypeID) {
+        self.transFaulttypeTypeID = @"";
+    }
     
     /**饼状图**/
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsMTCompleteWithDate:@"" Subgroup:@"" FaulttypeType:@""];
+    [request statisticsMTCompleteWithDate:@"" Subgroup:self.transSubgroupID FaulttypeType:self.transFaulttypeTypeID];
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTMTProfessionBaseViewController" object:nil] subscribeNext:^(NSNotification *notification) {
+        NSDictionary *dict = [notification userInfo];
+        
+        self.dateStr = dict[@"date"];
+        
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request statisticsMTCompleteWithDate:dict[@"date"] Subgroup:self.transSubgroupID FaulttypeType:self.transFaulttypeTypeID];
+    }];
 }
 
 #pragma mark -
 #pragma mark - createUI
 - (void)createPieView
 {
+    // self.rootScrollView
+    self.rootScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 7, SCREEN_WIDTH, SCREEN_HEIGHT-164)];
+    [self.view addSubview:self.rootScrollView];
+    
+    
     //  ---------- 饼状图 ----------
     // CompletionHeader
-    self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTCompletionHeader" owner:nil options:nil] lastObject];
+    self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTProfessionHeader" owner:nil options:nil] lastObject];
     self.headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 450);
     [self.rootScrollView addSubview:self.headerView];
     
@@ -146,6 +171,12 @@
         
         BXTMaintenanceListViewController *listVC = [[BXTMaintenanceListViewController alloc] init];
         listVC.stateStr = @"0";
+        listVC.endTime = self.dateStr;
+        if (!self.isSystemPush) {
+            listVC.subgroupIDs = self.transSubgroupID;
+        } else {
+            listVC.faulttypeIDs = self.transFaulttypeTypeID;
+        }
         [self.navigationController pushViewController:listVC animated:YES];
     }];
     [[self.footerView.btn2 rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *button) {
@@ -154,6 +185,12 @@
         
         BXTMaintenanceListViewController *listVC = [[BXTMaintenanceListViewController alloc] init];
         listVC.stateStr = @"2";
+        listVC.endTime = self.dateStr;
+        if (!self.isSystemPush) {
+            listVC.subgroupIDs = self.transSubgroupID;
+        } else {
+            listVC.faulttypeIDs = self.transFaulttypeTypeID;
+        }
         [self.navigationController pushViewController:listVC animated:YES];
     }];
     [[self.footerView.btn3 rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *button) {
@@ -162,40 +199,25 @@
         
         BXTMaintenanceListViewController *listVC = [[BXTMaintenanceListViewController alloc] init];
         listVC.stateStr = @"1";
+        listVC.endTime = self.dateStr;
+        if (!self.isSystemPush) {
+            listVC.subgroupIDs = self.transSubgroupID;
+        } else {
+            listVC.faulttypeIDs = self.transFaulttypeTypeID;
+        }
         [self.navigationController pushViewController:listVC animated:YES];
     }];
-    
-}
-
-#pragma mark -
-#pragma mark - 父类点击事件
-- (void)datePickerBtnClick:(UIButton *)button
-{
-    if (button.tag == 10001)
-    {
-        [self.headerView.pieView removeFromSuperview];
-        
-        /**饼状图**/
-        if (!selectedDate)
-        {
-            selectedDate = [NSDate date];
-        }
-        [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
-        
-        
-        [self showLoadingMBP:@"数据加载中..."];
-        /**饼状图**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statisticsMTCompleteWithDate:[self transTimeWithDate:selectedDate] Subgroup:@"" FaulttypeType:@""];
-    }
-    [super datePickerBtnClick:button];
 }
 
 #pragma mark -
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
+    
+    [self.headerView removeFromSuperview];
+    [self.footerView removeFromSuperview];
+    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = dic[@"data"];
     if (type == Statistics_MTComplete && data.count > 0)
@@ -209,7 +231,7 @@
 
 - (void)requestError:(NSError *)error
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {
