@@ -148,13 +148,12 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dict = response;
+    NSLog(@"response:%@",dict);
     if ([dict[@"returncode"] intValue] == 0 && type == UploadHeadImage)
     {
         [BXTGlobal setUserProperty:dict[@"pic"] withKey:U_HEADERIMAGE];
     }
-    
     [currentTableView reloadData];
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HEADERIMAGE" object:nil];
 }
 

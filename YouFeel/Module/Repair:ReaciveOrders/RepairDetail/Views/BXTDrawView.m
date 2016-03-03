@@ -48,6 +48,7 @@
     [orangeColor setStroke];
     [orangeColor setFill];
     
+    if (_progress.count == 0) return;
     NSDictionary *dicOne = _progress[0];
     NSDictionary *dicTwo = _progress[1];
     NSDictionary *dicThree = _progress[2];

@@ -92,9 +92,7 @@
         nextTapBtn.layer.masksToBounds = YES;
         nextTapBtn.layer.cornerRadius = 4.f;
         @weakify(self);
-        [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {            
-            NSString *open_ID = [BXTGlobal getUserProperty:U_OPENID];
-            
+        [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
             if (![BXTGlobal validateMobile:self.userName])
             {

@@ -15,11 +15,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (nonatomic, strong) BXTMaintenceInfo *maintenceInfo;
 @property (nonatomic, strong) NSString         *notes;
+@property (nonatomic, strong) NSString         *instruction;//状态说明
 @property (nonatomic, assign) BOOL             isUpdate;//更新还是添加接口
 @property (nonatomic, strong) NSString         *deviceID;
 @property (nonatomic, strong) NSString         *state;
+@property (nonatomic, strong) NSString         *name;
 @property (nonatomic, strong) NSArray          *deviceStates;
-@property (nonatomic, assign) BOOL             isFirst;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil
                          bundle:(NSBundle *)nibBundleOrNil

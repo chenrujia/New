@@ -131,6 +131,25 @@
                             </mask>
                         </variation>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备当前状态" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52O-lA-GY1">
+                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="YdK-pt-M3z"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="YdK-pt-M3z"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="YdK-pt-M3z"/>
+                            </mask>
+                        </variation>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="tAV-Xn-VWr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="DrM-tl-qtz"/>
@@ -141,6 +160,7 @@
                         <variation key="heightClass=regular-widthClass=compact" constant="104"/>
                     </constraint>
                     <constraint firstAttribute="trailing" secondItem="tAV-Xn-VWr" secondAttribute="trailing" constant="15" id="RyW-ec-38o"/>
+                    <constraint firstItem="52O-lA-GY1" firstAttribute="top" secondItem="gBY-mp-T3N" secondAttribute="bottom" constant="10" id="TJE-AF-0Q7"/>
                     <constraint firstItem="E0k-0P-UFN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="YNg-PF-7Tb"/>
                     <constraint firstItem="TEB-M2-fg3" firstAttribute="top" secondItem="aYX-r1-VTL" secondAttribute="bottom" constant="10" id="a8i-Ak-VVB"/>
                     <constraint firstItem="TEB-M2-fg3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="amg-Ya-IZK"/>
@@ -151,7 +171,9 @@
                     <constraint firstItem="gBY-mp-T3N" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="jWQ-WJ-lEK"/>
                     <constraint firstAttribute="trailing" secondItem="aYX-r1-VTL" secondAttribute="trailing" constant="15" id="k64-Vs-3dB"/>
                     <constraint firstItem="aYX-r1-VTL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="mzF-Jp-6gY"/>
+                    <constraint firstItem="52O-lA-GY1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="ovH-Ms-YJP"/>
                     <constraint firstItem="E0k-0P-UFN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="utk-XW-9uy"/>
+                    <constraint firstAttribute="trailing" secondItem="52O-lA-GY1" secondAttribute="trailing" constant="15" id="zgy-ib-jGq"/>
                 </constraints>
                 <variation key="default">
                     <mask key="subviews">
@@ -161,25 +183,29 @@
                         <exclude reference="TEB-M2-fg3"/>
                         <exclude reference="gBY-mp-T3N"/>
                         <exclude reference="Mot-kE-b4v"/>
+                        <exclude reference="52O-lA-GY1"/>
                     </mask>
                     <mask key="constraints">
                         <exclude reference="Q0k-w3-sjh"/>
                         <exclude reference="YNg-PF-7Tb"/>
                         <exclude reference="utk-XW-9uy"/>
-                        <exclude reference="Pih-QB-PpV"/>
-                        <exclude reference="cI8-nj-OAq"/>
-                        <exclude reference="a8i-Ak-VVB"/>
-                        <exclude reference="amg-Ya-IZK"/>
-                        <exclude reference="gHw-AZ-hGi"/>
-                        <exclude reference="bpu-WT-wdF"/>
-                        <exclude reference="k64-Vs-3dB"/>
-                        <exclude reference="mzF-Jp-6gY"/>
-                        <exclude reference="LON-a6-yOr"/>
-                        <exclude reference="LfW-rw-B0X"/>
-                        <exclude reference="jWQ-WJ-lEK"/>
                         <exclude reference="DrM-tl-qtz"/>
                         <exclude reference="RyW-ec-38o"/>
                         <exclude reference="bM1-f6-iwf"/>
+                        <exclude reference="bpu-WT-wdF"/>
+                        <exclude reference="k64-Vs-3dB"/>
+                        <exclude reference="mzF-Jp-6gY"/>
+                        <exclude reference="a8i-Ak-VVB"/>
+                        <exclude reference="amg-Ya-IZK"/>
+                        <exclude reference="gHw-AZ-hGi"/>
+                        <exclude reference="LON-a6-yOr"/>
+                        <exclude reference="LfW-rw-B0X"/>
+                        <exclude reference="jWQ-WJ-lEK"/>
+                        <exclude reference="TJE-AF-0Q7"/>
+                        <exclude reference="ovH-Ms-YJP"/>
+                        <exclude reference="zgy-ib-jGq"/>
+                        <exclude reference="Pih-QB-PpV"/>
+                        <exclude reference="cI8-nj-OAq"/>
                     </mask>
                 </variation>
                 <variation key="heightClass=regular-widthClass=compact">
@@ -190,37 +216,42 @@
                         <include reference="TEB-M2-fg3"/>
                         <include reference="gBY-mp-T3N"/>
                         <include reference="Mot-kE-b4v"/>
+                        <include reference="52O-lA-GY1"/>
                     </mask>
                     <mask key="constraints">
                         <include reference="Q0k-w3-sjh"/>
                         <include reference="YNg-PF-7Tb"/>
                         <include reference="utk-XW-9uy"/>
-                        <include reference="Pih-QB-PpV"/>
-                        <include reference="cI8-nj-OAq"/>
-                        <include reference="a8i-Ak-VVB"/>
-                        <include reference="amg-Ya-IZK"/>
-                        <include reference="gHw-AZ-hGi"/>
-                        <include reference="bpu-WT-wdF"/>
-                        <include reference="k64-Vs-3dB"/>
-                        <include reference="mzF-Jp-6gY"/>
-                        <include reference="LON-a6-yOr"/>
-                        <include reference="LfW-rw-B0X"/>
-                        <include reference="jWQ-WJ-lEK"/>
                         <include reference="DrM-tl-qtz"/>
                         <include reference="RyW-ec-38o"/>
                         <include reference="bM1-f6-iwf"/>
+                        <include reference="bpu-WT-wdF"/>
+                        <include reference="k64-Vs-3dB"/>
+                        <include reference="mzF-Jp-6gY"/>
+                        <include reference="a8i-Ak-VVB"/>
+                        <include reference="amg-Ya-IZK"/>
+                        <include reference="gHw-AZ-hGi"/>
+                        <include reference="LON-a6-yOr"/>
+                        <include reference="LfW-rw-B0X"/>
+                        <include reference="jWQ-WJ-lEK"/>
+                        <include reference="TJE-AF-0Q7"/>
+                        <include reference="ovH-Ms-YJP"/>
+                        <include reference="zgy-ib-jGq"/>
+                        <include reference="Pih-QB-PpV"/>
+                        <include reference="cI8-nj-OAq"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="deviceName" destination="E0k-0P-UFN" id="p9a-C9-gjY"/>
                 <outlet property="deviceNumber" destination="tAV-Xn-VWr" id="Ryi-Tw-hNQ"/>
+                <outlet property="deviceState" destination="52O-lA-GY1" id="ZIi-xN-OKf"/>
                 <outlet property="deviceSystem" destination="aYX-r1-VTL" id="Rae-dw-6cE"/>
                 <outlet property="maintenancePlane" destination="gBY-mp-T3N" id="eab-5R-g1h"/>
                 <outlet property="maintenanceProject" destination="TEB-M2-fg3" id="K3c-MQ-UIF"/>
                 <outlet property="orderState" destination="Mot-kE-b4v" id="46a-Ty-jT0"/>
             </connections>
-            <point key="canvasLocation" x="618" y="442.5"/>
+            <point key="canvasLocation" x="318" y="418.5"/>
         </tableViewCell>
     </objects>
 </document>

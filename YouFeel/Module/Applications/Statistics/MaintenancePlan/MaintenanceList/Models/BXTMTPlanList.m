@@ -26,7 +26,8 @@
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
-    if ([key isEqualToString:@"id"]) {
+    if ([key isEqualToString:@"id"])
+    {
         self.PlanID = value;
     }
 }
