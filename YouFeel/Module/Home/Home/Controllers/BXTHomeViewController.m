@@ -180,13 +180,9 @@
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         // 商铺列表
-//        BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
-//        alVC.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:alVC animated:YES];
-        
-        BXTMTProfessionViewController *cpvc = [[BXTMTProfessionViewController alloc] init];
-        cpvc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:cpvc animated:YES];
+        BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
+        alVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:alVC animated:YES];
         
     }];
     [logoImgView addSubview:branchBtn];

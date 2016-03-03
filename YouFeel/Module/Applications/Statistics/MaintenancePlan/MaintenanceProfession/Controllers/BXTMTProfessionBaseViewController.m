@@ -23,6 +23,8 @@
 @property (nonatomic, strong) BXTMTProfessionHeader *headerView;
 @property (nonatomic, strong) BXTMTCompletionFooter *footerView;
 
+@property (nonatomic, copy) NSString *dateStr;
+
 @end
 
 @implementation BXTMTProfessionBaseViewController
@@ -46,6 +48,8 @@
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTMTProfessionBaseViewController" object:nil] subscribeNext:^(NSNotification *notification) {
         NSDictionary *dict = [notification userInfo];
+        
+        self.dateStr = dict[@"date"];
         
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statisticsMTCompleteWithDate:dict[@"date"] Subgroup:self.transSubgroupID FaulttypeType:self.transFaulttypeTypeID];
@@ -167,6 +171,7 @@
         
         BXTMaintenanceListViewController *listVC = [[BXTMaintenanceListViewController alloc] init];
         listVC.stateStr = @"0";
+        listVC.endTime = self.dateStr;
         if (!self.isSystemPush) {
             listVC.subgroupIDs = self.transSubgroupID;
         } else {
@@ -180,6 +185,7 @@
         
         BXTMaintenanceListViewController *listVC = [[BXTMaintenanceListViewController alloc] init];
         listVC.stateStr = @"2";
+        listVC.endTime = self.dateStr;
         if (!self.isSystemPush) {
             listVC.subgroupIDs = self.transSubgroupID;
         } else {
@@ -193,6 +199,7 @@
         
         BXTMaintenanceListViewController *listVC = [[BXTMaintenanceListViewController alloc] init];
         listVC.stateStr = @"1";
+        listVC.endTime = self.dateStr;
         if (!self.isSystemPush) {
             listVC.subgroupIDs = self.transSubgroupID;
         } else {

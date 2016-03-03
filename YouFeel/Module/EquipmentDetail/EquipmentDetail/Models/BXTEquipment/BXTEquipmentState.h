@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSString *create_time;
 @property (nonatomic, strong) NSString *state;
 @property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSString *create_date;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

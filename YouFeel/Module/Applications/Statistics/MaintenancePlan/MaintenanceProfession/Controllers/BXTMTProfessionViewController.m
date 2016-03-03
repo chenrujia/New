@@ -29,6 +29,7 @@ static CGFloat const maxTitleScale = 1.3;
 @property (nonatomic, weak) UIButton *selTitleButton;
 
 @property (nonatomic, strong) NSMutableArray *buttons;
+@property (nonatomic, assign) BOOL isFirst;
 
 @end
 
@@ -51,6 +52,7 @@ static CGFloat const maxTitleScale = 1.3;
     
     self.subgroupArray = [[NSMutableArray alloc] init];
     self.subgroupIDArray = [[NSMutableArray alloc] init];
+    self.isFirst = YES;
     
     [self showLoadingMBP:@"数据加载中..."];
     
@@ -172,7 +174,6 @@ static CGFloat const maxTitleScale = 1.3;
     
     [self setUpOneChildViewController:i];
     self.contentScrollView.contentOffset = CGPointMake(x, 0);
-    
 }
 
 // 选中按钮
@@ -212,7 +213,11 @@ static CGFloat const maxTitleScale = 1.3;
         offset = maxOffset;
     }
     
-    [self.titleScrollView setContentOffset:CGPointMake(offset, 0) animated:YES];
+    
+    if (!self.isFirst) {
+        [self.titleScrollView setContentOffset:CGPointMake(offset, 0) animated:YES];
+    }
+    self.isFirst = NO;
 }
 
 #pragma mark -
