@@ -175,7 +175,7 @@
     [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 100, 21)];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 250, 21)];
     title.text = model.type_name;
     title.textColor = colorWithHexString(@"#666666");
     title.textAlignment = NSTextAlignmentLeft;

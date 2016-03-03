@@ -92,7 +92,8 @@
         for(int i=0; i<pieArray.count; i++)
         {
             MYPieElement *elem = [MYPieElement pieElementWithValue:[pieArray[i] floatValue] color:colorWithHexString(colorArray[i])];
-            elem.title = [NSString stringWithFormat:@"%@%%", pieArray[i]];
+            NSString *persentStr = [NSString stringWithFormat:@"%@", pieArray[i]];
+            elem.title = [NSString stringWithFormat:@"%.1f%%", [persentStr floatValue]];
             [self.headerView.pieView.layer addValues:@[elem] animated:NO];
         }
     }

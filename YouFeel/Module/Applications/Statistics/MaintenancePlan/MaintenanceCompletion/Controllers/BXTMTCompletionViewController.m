@@ -67,7 +67,8 @@
         for(int i=0; i<pieArray.count; i++)
         {
             MYPieElement *elem = [MYPieElement pieElementWithValue:[pieArray[i] floatValue] color:colorWithHexString(colorArray[i])];
-            elem.title = [NSString stringWithFormat:@"%@%%", pieArray[i]];
+            NSString *persentStr = [NSString stringWithFormat:@"%@", pieArray[i]];
+            elem.title = [NSString stringWithFormat:@"%.1f%%", [persentStr floatValue]];
             [self.headerView.pieView.layer addValues:@[elem] animated:NO];
         }
     }
@@ -113,9 +114,9 @@
     NSDictionary *dataDict = self.percentDict[@"now"];
     
     [self.footerView.pieView clearChart];
-    [self.footerView.pieView addDataToRepresent:[dataDict[@"over"] intValue] WithColor:colorWithHexString(@"#0C88CC")];
-    [self.footerView.pieView addDataToRepresent:[dataDict[@"working"] intValue] WithColor:colorWithHexString(@"#FD7070")];
-    [self.footerView.pieView addDataToRepresent:[dataDict[@"unover"] intValue] WithColor:colorWithHexString(@"#DEE7E8")];
+    [self.footerView.pieView addDataToRepresent:[dataDict[@"over"] intValue] WithColor:colorWithHexString(@"#0FCCC0")];
+    [self.footerView.pieView addDataToRepresent:[dataDict[@"working"] intValue] WithColor:colorWithHexString(@"#0989CD")];
+    [self.footerView.pieView addDataToRepresent:[dataDict[@"unover"] intValue] WithColor:colorWithHexString(@"#FD7070")];
     self.footerView.pieView.userInteractionEnabled = NO;
     self.footerView.pieView.backgroundColor = colorWithHexString(@"#d9d9d9");
     
