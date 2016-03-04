@@ -47,12 +47,14 @@
     [cell.pieChartView clearChart];
     [cell.pieChartView addDataToRepresent:[dataDict[@"working_per"] doubleValue] WithColor:colorWithHexString(@"#34B47E")];
     [cell.pieChartView addDataToRepresent:[dataDict[@"stop_per"] doubleValue] WithColor:colorWithHexString(@"#D6AD5B")];
-
+    
     if ([dataDict[@"working_per"] doubleValue] == 0 && [dataDict[@"stop_per"] doubleValue] == 0) {
         [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#d9d9d9")];
     }
     
     cell.pieChartView.userInteractionEnabled = NO;
+    
+    cell.persentView.text = [NSString stringWithFormat:@"%@%%", dataDict[@"working_per"]];
     
     return cell;
 }

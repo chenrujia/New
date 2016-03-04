@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSDictionary *percentDict;
 @property (nonatomic, strong) MYPieView *pieView;
 
+@property (nonatomic, copy) NSString *timeStr;
 
 @end
 
@@ -45,6 +46,8 @@
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTEPSummaryViewAndBXTEPSystemRateView" object:nil] subscribeNext:^(NSNotification *notify) {
         NSDictionary *dict = [notify userInfo];
+        
+        self.timeStr = dict[@"timeStr"];
         
         /**饼状图**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -108,6 +111,7 @@
 {
     NSLog(@"----------------- %ld", sender.tag);
     BXTEquipmentListViewController *listVC = [[BXTEquipmentListViewController alloc] init];
+    listVC.date = self.timeStr;
     
     switch (sender.tag) {
         case 111: listVC.state = @"0"; break;

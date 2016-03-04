@@ -23,7 +23,6 @@
 
 @property (nonatomic, assign) CGFloat cellHeight;
 
-@property (nonatomic, copy) NSString *date;
 @property (nonatomic, copy) NSString *order;
 @property (nonatomic, copy) NSString *typeID;
 @property (nonatomic, copy) NSString *areaID;
@@ -43,7 +42,9 @@
     self.typeArray = [[NSArray alloc] initWithObjects:@"设备编号逆序", @"设备编号正序", nil];
     self.dataArray = [[NSMutableArray alloc] init];
     self.currentPage = 1;
-    self.date = @"";
+    if (!self.date) {
+        self.date = @"";
+    }
     if (!self.state) {
         self.state = @"";
     }
@@ -64,10 +65,13 @@
         NSLog(@"transArray -= ---------- %@", transArray);
         self.date = transArray[0];
         
-        NSArray *placeArray = transArray[1];
-        self.areaID = placeArray[0];
-        self.placeID = placeArray[2];
-        self.storesID = placeArray[4];
+        if ([transArray[1] isKindOfClass:[NSArray class]]) {
+            NSArray *placeArray = transArray[1];
+            self.areaID = placeArray[0];
+            self.placeID = placeArray[2];
+            self.storesID = placeArray[4];
+        }
+        
         
         self.typeID = transArray[2];
         self.state = transArray[3];

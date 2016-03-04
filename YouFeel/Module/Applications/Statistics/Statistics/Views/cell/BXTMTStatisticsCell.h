@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *detailView;
 @property (weak, nonatomic) IBOutlet AksStraightPieChart *pieChartView;
+@property (weak, nonatomic) IBOutlet UILabel *persentView;
 
 @end
