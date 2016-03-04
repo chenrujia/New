@@ -415,19 +415,19 @@
     
     [cell refreshSubViewsFrame:repairInfo];
     
-    if (repairInfo.order_type == 1)
+    if ([repairInfo.order_type integerValue] == 1)
     {
         cell.orderType.text = @"";
     }
-    else if (repairInfo.order_type == 2)
+    else if ([repairInfo.order_type integerValue] == 2)
     {
         cell.orderType.text = @"协作工单";
     }
-    else if (repairInfo.order_type == 3)
+    else if ([repairInfo.order_type integerValue] == 3)
     {
         cell.orderType.text = @"特殊工单";
     }
-    else if (repairInfo.order_type == 4)
+    else if ([repairInfo.order_type integerValue] == 4)
     {
         cell.orderType.text = @"超时工单";
     }
@@ -445,12 +445,12 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
-    if (_orderType == OutTimeType && [repairInfo.state integerValue] == 1 && repairInfo.order_type != 3)
+    if (_orderType == OutTimeType && [repairInfo.state integerValue] == 1 && [repairInfo.order_type integerValue] != 3)
     {
         BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
         [[self navigation] pushViewController:assignOrderVC animated:YES];
     }
-    else if (_orderType == OutTimeType && repairInfo.order_type == 3)
+    else if (_orderType == OutTimeType && [repairInfo.order_type integerValue] == 3)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];

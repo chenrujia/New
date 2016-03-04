@@ -18,5 +18,6 @@
 #import "DCArrayMapping.h"
 #import "BXTDataRequest.h"
 #import "MYAlertAction.h"
+#import "MJExtension.h"
 
 #endif

@@ -11,7 +11,9 @@
 @interface BXTMaintenceProjectTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *maintenceProject;
-@property (weak, nonatomic) IBOutlet UILabel *projectName;
-@property (weak, nonatomic) IBOutlet UILabel *projectState;
+@property (weak, nonatomic) IBOutlet UILabel *nowState;
+@property (weak, nonatomic) IBOutlet UILabel *repairNotes;
+@property (weak, nonatomic) IBOutlet UILabel *repairResult;
+@property (weak, nonatomic) IBOutlet UILabel *workInstuction;
 
 @end

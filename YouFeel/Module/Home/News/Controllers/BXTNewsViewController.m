@@ -159,7 +159,7 @@
     {
         //工单详情
         BXTRepairInfo *repairInfo = [[BXTRepairInfo alloc] init];
-        repairInfo.repairID = [dic[@"about_id"] integerValue];
+        repairInfo.repairID = dic[@"about_id"];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
         [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];

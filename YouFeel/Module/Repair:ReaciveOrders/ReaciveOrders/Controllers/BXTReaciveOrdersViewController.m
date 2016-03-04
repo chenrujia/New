@@ -342,10 +342,10 @@
     cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
     cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
     cell.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
-    NSString *time = [self transTimeStampToTime:repairInfo.long_time];
+    NSString *time = [self transTimeStampToTime:[NSString stringWithFormat:@"%ld",(long)repairInfo.long_time]];
     cell.longTime.text = [NSString stringWithFormat:@"截止时间:%@",time];
     
-    if (repairInfo.urgent == 2)
+    if ([repairInfo.urgent integerValue] == 2)
     {
         cell.level.text = @"等级:一般";
     }
