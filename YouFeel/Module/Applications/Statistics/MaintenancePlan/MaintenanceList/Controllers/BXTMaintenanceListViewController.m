@@ -44,7 +44,6 @@
     if (!self.endTime) {
         self.endTime = @"";
     }
-    
     if (!self.subgroupIDs) {
         self.subgroupIDs = @"";
     }

@@ -36,7 +36,21 @@
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bSH-pf-xXT" customClass="AksStraightPieChart">
                         <rect key="frame" x="155" y="35" width="210" height="39.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ho3-e2-OFi">
+                                <rect key="frame" x="15" y="9" width="180" height="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ho3-e2-OFi" secondAttribute="bottom" constant="9" id="CuV-CD-XAu"/>
+                            <constraint firstAttribute="trailing" secondItem="ho3-e2-OFi" secondAttribute="trailing" constant="15" id="Ejr-7j-CSj"/>
+                            <constraint firstItem="ho3-e2-OFi" firstAttribute="top" secondItem="bSH-pf-xXT" secondAttribute="top" constant="9" id="bqg-L1-Q9Y"/>
+                            <constraint firstItem="ho3-e2-OFi" firstAttribute="leading" secondItem="bSH-pf-xXT" secondAttribute="leading" constant="15" id="kiS-oA-bBJ"/>
+                        </constraints>
                     </view>
                 </subviews>
                 <constraints>
@@ -52,6 +66,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="detailView" destination="ZKx-9i-gue" id="y4m-kG-Lfd"/>
+                <outlet property="persentView" destination="ho3-e2-OFi" id="xE6-Wc-qA2"/>
                 <outlet property="pieChartView" destination="bSH-pf-xXT" id="i3r-f0-dtR"/>
                 <outlet property="titleView" destination="6IV-kf-YYo" id="zRM-m0-qLK"/>
             </connections>

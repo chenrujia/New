@@ -11,5 +11,6 @@
 @interface BXTEquipmentListViewController : BXTBaseViewController
 
 @property (nonatomic, copy) NSString *state;
+@property (nonatomic, copy) NSString *date;
 
 @end

@@ -97,8 +97,16 @@
     @weakify(self);
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if ([self.dataArray containsObject:@"待完善"]) {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写完全筛选条件" chooseBlock:^(NSInteger buttonIdx) {
+        
+        int count = 0;
+        for (NSString *titleStr in self.dataArray) {
+            if ([titleStr isEqualToString:@"待完善"]) {
+                count++;
+            }
+        }
+        
+        if (count == self.dataArray.count) {
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
                 
             } buttonsStatement:@"确定", nil];
         }
@@ -295,7 +303,7 @@
         if (finalNumStr.length >= 1) {
             finalNumStr = [finalNumStr substringToIndex:finalNumStr.length - 1];
         }
-
+        
         // 赋值
         if (![BXTGlobal isBlankString:finalStr])
         {
@@ -355,7 +363,7 @@
     self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
     self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     self.datePicker.backgroundColor = colorWithHexString(@"ffffff");
-    self.datePicker.minimumDate = [NSDate date];
+    //    self.datePicker.minimumDate = [NSDate date];
     self.datePicker.datePickerMode = UIDatePickerModeDate;
     [[self.datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
         // 显示时间

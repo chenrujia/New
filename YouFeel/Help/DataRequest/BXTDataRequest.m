@@ -727,8 +727,8 @@ andRepairerIsReacive:(NSString *)reacive
                                      Page:(NSString *)page
 {
     self.requestType = Statistics_MTPlanList;
-    NSDictionary *dic = @{@"time_start": startTime,
-                          @"time_end": endTime,
+    NSDictionary *dic = @{@"start_time": startTime,
+                          @"end_time": endTime,
                           @"subgroup_ids": subgroupIDs,
                           @"faulttype_type_ids": faulttypeTypeIDs,
                           @"state": state,

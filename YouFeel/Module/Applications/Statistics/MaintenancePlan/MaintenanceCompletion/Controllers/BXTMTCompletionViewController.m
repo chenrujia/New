@@ -18,6 +18,8 @@
 @property (nonatomic, strong) BXTMTCompletionHeader *headerView;
 @property (nonatomic, strong) BXTMTCompletionFooter *footerView;
 
+@property (nonatomic, copy) NSString *dateStr;
+
 @end
 
 @implementation BXTMTCompletionViewController
@@ -29,8 +31,9 @@
     // Do any additional setup after loading the view.
     
     
-    [self showLoadingMBP:@"数据加载中..."];
+    self.dateStr = @"";
     
+    [self showLoadingMBP:@"数据加载中..."];
     /**饼状图**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statisticsMTCompleteWithDate:@"" Subgroup:@"" FaulttypeType:@""];
@@ -147,6 +150,7 @@
         
         BXTMaintenanceListViewController *listVC = [[BXTMaintenanceListViewController alloc] init];
         listVC.stateStr = @"0";
+        listVC.endTime = self.dateStr;
         [self.navigationController pushViewController:listVC animated:YES];
     }];
     [[self.footerView.btn2 rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *button) {
@@ -155,6 +159,7 @@
         
         BXTMaintenanceListViewController *listVC = [[BXTMaintenanceListViewController alloc] init];
         listVC.stateStr = @"2";
+        listVC.endTime = self.dateStr;
         [self.navigationController pushViewController:listVC animated:YES];
     }];
     [[self.footerView.btn3 rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *button) {
@@ -163,6 +168,7 @@
         
         BXTMaintenanceListViewController *listVC = [[BXTMaintenanceListViewController alloc] init];
         listVC.stateStr = @"1";
+        listVC.endTime = self.dateStr;
         [self.navigationController pushViewController:listVC animated:YES];
     }];
     
@@ -183,6 +189,8 @@
         }
         [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
         
+        
+        self.dateStr = [self transTimeWithDate:selectedDate];
         
         [self showLoadingMBP:@"数据加载中..."];
         /**饼状图**/

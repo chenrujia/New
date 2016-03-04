@@ -88,8 +88,16 @@
     @weakify(self);
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if ([self.dataArray containsObject:@"待完善"]) {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写完全筛选条件" chooseBlock:^(NSInteger buttonIdx) {
+        
+        int count = 0;
+        for (NSString *titleStr in self.dataArray) {
+            if ([titleStr isEqualToString:@"待完善"]) {
+                count++;
+            }
+        }
+        
+        if (count == self.dataArray.count) {
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
                 
             } buttonsStatement:@"确定", nil];
         }
