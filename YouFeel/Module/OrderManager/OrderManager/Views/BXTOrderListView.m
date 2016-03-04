@@ -222,7 +222,7 @@
         self.cellHeight_nobtn = CGRectGetMaxY(cell.repairState.frame) + 8 - 64;
         cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
         cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
-        if (repairInfo.urgent == 2)
+        if ([repairInfo.urgent integerValue] == 2)
         {
             cell.level.text = @"等级:一般";
         }
@@ -242,12 +242,12 @@
         
         // TODO: -----------------  调试 维修状态  -----------------
         cell.repairState.text = repairInfo.receive_state;
-        if (repairInfo.repairstate == 1 || [repairInfo.is_repairing intValue] == 1)
+        if ([repairInfo.repairstate integerValue] == 1 || [repairInfo.is_repairing intValue] == 1)
         {
             cell.state.hidden = YES;
             cell.repairState.hidden = YES;
         }
-        else if (repairInfo.repairstate == 3)
+        else if ([repairInfo.repairstate integerValue] == 3)
         {
             cell.evaButton.hidden = NO;
             
@@ -266,7 +266,7 @@
                 }];
             }
         }
-        else if (repairInfo.repairstate == 5)
+        else if ([repairInfo.repairstate integerValue] == 5)
         {
             cell.evaButton.hidden = YES;
         }
@@ -301,7 +301,7 @@
         self.cellHeight_nobtn = CGRectGetMaxY(cell.reaciveBtn.frame) + 8 - 58;
         cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
         
-        if (repairInfo.order_type == 3)
+        if ([repairInfo.order_type integerValue] == 3)
         {
             cell.maintenanceProcess.hidden = YES;
             cell.orderType.hidden = NO;
@@ -326,7 +326,7 @@
             }
         }
         
-        if (repairInfo.urgent == 2)
+        if ([repairInfo.urgent integerValue] == 2)
         {
             cell.level.text = @"等级:一般";
         }
@@ -347,13 +347,13 @@
             cell.reaciveBtn.tag = indexPath.section;
             [cell.reaciveBtn addTarget:self action:@selector(startRepairAction:) forControlEvents:UIControlEventTouchUpInside];
         }
-        else if (repairInfo.repairstate == 2)
+        else if ([repairInfo.repairstate integerValue] == 2)
         {
             [cell.maintenanceProcess setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             cell.maintenanceProcess.userInteractionEnabled = YES;
             
             cell.reaciveBtn.hidden = YES;
-            if (repairInfo.order_type == 3)
+            if ([repairInfo.order_type integerValue] == 3)
             {
                 cell.maintenanceProcess.hidden = YES;
             }
@@ -376,7 +376,7 @@
             {
                 if (self.pushIndex == 1) {
                     self.pushIndex++;
-                    BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:repairInfo.fault_id andRepairID:repairInfo.repairID andReaciveTime:repairInfo.start_time];
+                    BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:[repairInfo.fault_id integerValue] andRepairID:[repairInfo.repairID integerValue] andReaciveTime:repairInfo.start_time];
                     maintenanceProcossVC.delegateSignal = [RACSubject subject];
                     [maintenanceProcossVC.delegateSignal subscribeNext:^(id x) {
                         self.pushIndex = 1;
@@ -392,7 +392,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
-    if ([BXTGlobal shareGlobal].isRepair && repairInfo.order_type == 3)
+    if ([BXTGlobal shareGlobal].isRepair && [repairInfo.order_type integerValue] == 3)
     {
         [self showAlertView:@"特殊工单不可点击"];
     }
@@ -400,7 +400,7 @@
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-        [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        [repairDetailVC dataWithRepairID:repairInfo.repairID];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
 }
@@ -450,18 +450,13 @@
     {
         if (data.count > 0)
         {
+            [BXTRepairInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"repairID":@"id"};
+            }];
             NSMutableArray *tempArray = [NSMutableArray array];
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairInfo class]];
-                [config addObjectMapping:map];
-                
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairInfo class] andConfiguration:config];
-                BXTRepairInfo *repairInfo = [parser parseDictionary:dictionary];
-                
-                [tempArray addObject:repairInfo];
-            }
+            NSArray *repairs = [BXTRepairInfo mj_objectArrayWithKeyValuesArray:data];
+            [tempArray addObjectsFromArray:repairs];
+            
             if (refreshType == Down)
             {
                 [_repairListArray removeAllObjects];

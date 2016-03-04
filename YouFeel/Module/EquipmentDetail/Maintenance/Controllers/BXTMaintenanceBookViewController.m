@@ -20,10 +20,7 @@
 #import "UIImageView+WebCache.h"
 
 @interface BXTMaintenanceBookViewController ()<BXTDataResponseDelegate>
-{
-    NSMutableArray *checkProjectArray;
-    NSMutableArray *cpHeightArray;
-}
+
 @property (nonatomic, strong) BXTMaintenceInfo *maintenceInfo;
 
 @end
@@ -37,8 +34,6 @@
     {
         self.deviceID = devID;
         self.workID = work_id;
-        checkProjectArray = [NSMutableArray array];
-        cpHeightArray = [NSMutableArray array];
     }
     return self;
 }
@@ -151,7 +146,7 @@
 {
     if (section == 1)
     {
-        return checkProjectArray.count;
+        return self.maintenceInfo.inspection_info.count;
     }
     return 1;
 }
@@ -164,11 +159,7 @@
     }
     else if (indexPath.section == 1)
     {
-        if (cpHeightArray.count >= indexPath.row + 1)
-        {
-            return [[cpHeightArray objectAtIndex:indexPath.row] floatValue];
-        }
-        return 100.f;
+        return 118.f;
     }
     else if (indexPath.section == 2 || indexPath.section == 3)
     {
@@ -235,22 +226,15 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
-        BXTCheckProjectInfo *checkInfo = checkProjectArray[indexPath.row];
-        cell.maintenceProject.text = checkInfo.project_name;
-        cell.projectName.text = checkInfo.check_con;
-        cell.projectState.text = checkInfo.default_description;
-        
-        [cell setNeedsUpdateConstraints];
-        [cell updateConstraintsIfNeeded];
-        CGFloat checkProjectRH = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
-        if (indexPath.row + 1 <= cpHeightArray.count)
-        {
-            [cpHeightArray replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithFloat:checkProjectRH]];
-        }
-        else
-        {
-            [cpHeightArray addObject:[NSNumber numberWithFloat:checkProjectRH]];
-        }
+        cell.workInstuction.text = [NSString stringWithFormat:@"作业指示%ld",indexPath.row + 1];
+        BXTInspectionInfo *inspectionInfo = self.maintenceInfo.inspection_info[indexPath.row];
+        cell.maintenceProject.text = inspectionInfo.check_item;
+        BXTCheckProjectInfo *checkProOne = inspectionInfo.check_arr[0];
+        cell.nowState.text = checkProOne.default_description;
+        BXTCheckProjectInfo *checkProTwo = inspectionInfo.check_arr[1];
+        cell.repairNotes.text = checkProTwo.default_description;
+        BXTCheckProjectInfo *checkProThree = inspectionInfo.check_arr[2];
+        cell.repairResult.text = checkProThree.default_description;
         
         return cell;
     }
@@ -382,17 +366,6 @@
         UIView *navView = [self.view viewWithTag:KNavViewTag];
         [navView removeFromSuperview];
         [self navigationSetting:@"维保作业书" andRightTitle:@"修改" andRightImage:nil];
-    }
-    
-    //单独过滤出检查项目
-    [checkProjectArray removeAllObjects];
-    for (BXTInspectionInfo *inspection_info in maintence.inspection_info)
-    {
-        for (BXTCheckProjectInfo *check_info in inspection_info.check_arr)
-        {
-            check_info.project_name = inspection_info.check_item;
-            [checkProjectArray addObject:check_info];
-        }
     }
     
     //维修员

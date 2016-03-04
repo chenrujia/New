@@ -178,7 +178,7 @@
 {
     selectIndex = btn.tag;
     BXTRepairInfo *repairInfo = repairListArray[selectIndex];
-    if (repairInfo.repairstate == 1)
+    if ([repairInfo.repairstate integerValue] == 1)
     {
         if (IS_IOS_8)
         {
@@ -284,7 +284,7 @@
     cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
     cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
     cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
-    if (repairInfo.urgent == 2)
+    if ([repairInfo.urgent integerValue] == 2)
     {
         cell.level.text = @"等级:一般";
     }
@@ -303,7 +303,7 @@
     cell.repairState.text = repairInfo.receive_state;
     
     cell.tag = indexPath.section;
-    if (repairInfo.repairstate != 1)
+    if ([repairInfo.repairstate integerValue] != 1)
     {
         cell.cancelRepair.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
         [cell.cancelRepair setTitleColor:colorWithHexString(@"e2e6e8") forState:UIControlStateNormal];
