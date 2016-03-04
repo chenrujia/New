@@ -372,6 +372,7 @@
     [bgView addSubview:self.datePicker];
     
     
+    
     // toolView
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
     toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
