@@ -9,7 +9,6 @@
 #import "BXTStatisticsSecondView.h"
 #import "BXTMTCompletionViewController.h"
 #import "BXTMTProfessionViewController.h"
-#import "BXTMTSystemViewController.h"
 #import "BXTMTPlanHeaderView.h"
 #import "BXTMTStatisticsCell.h"
 #import "UIView+Nav.h"

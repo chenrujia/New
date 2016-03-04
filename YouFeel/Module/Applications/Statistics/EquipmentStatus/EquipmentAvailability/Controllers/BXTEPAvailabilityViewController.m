@@ -72,10 +72,10 @@
     // Views
     CGFloat scrollViewH = currentScrollView.frame.size.height;
     BXTEPSummaryView *firstView = [[[NSBundle mainBundle] loadNibNamed:@"BXTEPSummaryView" owner:nil options:nil] lastObject];
-    firstView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 475);
+    firstView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 512);
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, scrollViewH)];
-    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, firstView.frame.size.height+ 70);
+    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, firstView.frame.size.height + 30);
     [scrollView addSubview:firstView];
     [currentScrollView addSubview:scrollView];
     

@@ -572,8 +572,8 @@ andRepairerIsReacive:(NSString *)reacive
         andWithLongitude:(NSString *)longitude
 {
     self.requestType = LocationShop;
-    NSDictionary *dic = @{@"Latitude":latitude,
-                          @"Longitude":longitude};
+    NSDictionary *dic = @{@"latitude":latitude,
+                          @"longitude":longitude};
     NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops",KURLREQUEST];
     [self postRequest:url withParameters:dic];
 }
@@ -962,7 +962,7 @@ andRepairerIsReacive:(NSString *)reacive
     SaveValueTUD(@"shopID_Special", shopID);
     
     NSDictionary *dic = @{@"id": userID};
-    NSString *baseURL = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *baseURL = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_con", baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -1070,7 +1070,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"http://admin.hellouf.com/?r=port/Get_Android_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
+    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
     [self getRequest:url];
 }
 
@@ -1080,7 +1080,7 @@ andRepairerIsReacive:(NSString *)reacive
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"http://admin.hellouf.com/?r=port/Get_Android_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", shopID];
+    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", shopID];
     [self getRequest:url];
 }
 
