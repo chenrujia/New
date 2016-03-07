@@ -43,6 +43,7 @@
 {
     [super viewDidLoad];
     
+    
     UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(80, 5, SCREEN_WIDTH-160, 30)];
     label.font = [UIFont systemFontOfSize:18.0f];
     label.backgroundColor = [UIColor clearColor];
