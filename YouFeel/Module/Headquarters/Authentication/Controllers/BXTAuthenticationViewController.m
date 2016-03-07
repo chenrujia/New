@@ -114,36 +114,21 @@
 {
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     departmentInfo.department = @"";
-    //departmentInfo.dep_id = @"";
     [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
     
     BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
     positionInfo.department = @"";
-    //positionInfo.role_id = @"";
     positionInfo.role = @"";
-    //positionInfo.is_repair = @"";
     [BXTGlobal setUserProperty:positionInfo withKey:U_POSITION];
     
     BXTGroupingInfo *groupingInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
     groupingInfo.subgroup = @"";
-    //groupingInfo.group_id = @"";
     [BXTGlobal setUserProperty:groupingInfo withKey:U_GROUPINGINFO];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

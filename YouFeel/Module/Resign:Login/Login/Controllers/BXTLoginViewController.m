@@ -44,6 +44,7 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"ffffff");
+    self.wxLogin.hidden = YES;
     
     if (IS_IPHONE4)
     {

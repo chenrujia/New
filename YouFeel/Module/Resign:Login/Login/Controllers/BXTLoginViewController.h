@@ -10,4 +10,6 @@
 
 @interface BXTLoginViewController : BXTBaseViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *wxLogin;
+
 @end

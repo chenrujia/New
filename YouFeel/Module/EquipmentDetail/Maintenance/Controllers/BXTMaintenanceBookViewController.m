@@ -13,15 +13,12 @@
 #import "BXTMaintenanceViewController.h"
 #import "BXTControlUserTableViewCell.h"
 #import "BXTHeaderForVC.h"
-#import "BXTMaintenceInfo.h"
-#import "BXTInspectionInfo.h"
-#import "BXTCheckProjectInfo.h"
-#import "BXTDeviceConfigInfo.h"
+#import "BXTDeviceMaintenceInfo.h"
 #import "UIImageView+WebCache.h"
 
 @interface BXTMaintenanceBookViewController ()<BXTDataResponseDelegate>
 
-@property (nonatomic, strong) BXTMaintenceInfo *maintenceInfo;
+@property (nonatomic, strong) BXTDeviceMaintenceInfo *maintenceInfo;
 
 @end
 
@@ -226,14 +223,15 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
-        cell.workInstuction.text = [NSString stringWithFormat:@"作业指示%ld",indexPath.row + 1];
-        BXTInspectionInfo *inspectionInfo = self.maintenceInfo.inspection_info[indexPath.row];
+        NSInteger number = indexPath.row + 1;
+        cell.workInstuction.text = [NSString stringWithFormat:@"作业指示%ld",(long)number];
+        BXTDeviceInspectionInfo *inspectionInfo = self.maintenceInfo.inspection_info[indexPath.row];
         cell.maintenceProject.text = inspectionInfo.check_item;
-        BXTCheckProjectInfo *checkProOne = inspectionInfo.check_arr[0];
+        BXTDeviceCheckInfo *checkProOne = inspectionInfo.check_arr[0];
         cell.nowState.text = checkProOne.default_description;
-        BXTCheckProjectInfo *checkProTwo = inspectionInfo.check_arr[1];
+        BXTDeviceCheckInfo *checkProTwo = inspectionInfo.check_arr[1];
         cell.repairNotes.text = checkProTwo.default_description;
-        BXTCheckProjectInfo *checkProThree = inspectionInfo.check_arr[2];
+        BXTDeviceCheckInfo *checkProThree = inspectionInfo.check_arr[2];
         cell.repairResult.text = checkProThree.default_description;
         
         return cell;
@@ -340,27 +338,11 @@
     self.deviceStates = states;
     
     NSDictionary *dictionary = data[0];
-    DCObjectMapping *maintenceID = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"maintenceID" onClass:[BXTMaintenceInfo class]];
-    DCArrayMapping *deviceConMapper = [DCArrayMapping mapperForClassElements:[BXTDeviceConfigInfo class] forAttribute:@"device_con" onClass:[BXTMaintenceInfo class]];
-    DCParserConfiguration *maintenceConfig = [DCParserConfiguration configuration];
-    [maintenceConfig addObjectMapping:maintenceID];
-    [maintenceConfig addArrayMapper:deviceConMapper];
-    DCKeyValueObjectMapping *maintenceParser = [DCKeyValueObjectMapping mapperForClass:[BXTMaintenceInfo class]  andConfiguration:maintenceConfig];
-    BXTMaintenceInfo *maintence = [maintenceParser parseDictionary:dictionary];
+    [BXTDeviceMaintenceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"maintenceID":@"id"};
+    }];
+    BXTDeviceMaintenceInfo *maintence = [BXTDeviceMaintenceInfo mj_objectWithKeyValues:dictionary];
     
-    //维保项目
-    NSMutableArray *inspectionArray = [NSMutableArray array];
-    NSArray *inspections = [dictionary objectForKey:@"inspection_info"];
-    for (NSDictionary *placeDic in inspections)
-    {
-        DCArrayMapping *inspectionMapper = [DCArrayMapping mapperForClassElements:[BXTCheckProjectInfo class] forAttribute:@"check_arr" onClass:[BXTInspectionInfo class]];
-        DCParserConfiguration *inspectionConfig = [DCParserConfiguration configuration];
-        [inspectionConfig addArrayMapper:inspectionMapper];
-        DCKeyValueObjectMapping *inspectionParser = [DCKeyValueObjectMapping mapperForClass:[BXTInspectionInfo class]  andConfiguration:inspectionConfig];
-        BXTInspectionInfo *inspection = [inspectionParser parseDictionary:placeDic];
-        [inspectionArray addObject:inspection];
-    }
-    maintence.inspection_info = inspectionArray;
     if ([maintence.is_update integerValue] == 2)
     {
         UIView *navView = [self.view viewWithTag:KNavViewTag];

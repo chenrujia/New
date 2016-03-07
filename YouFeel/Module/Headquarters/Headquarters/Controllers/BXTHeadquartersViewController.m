@@ -342,17 +342,23 @@
     
     if (indexPath.section == 0)
     {
-        if (indexPath.row == 0) {
+        if (indexPath.row == 0)
+        {
             cell.nameLabel.text = @"附近项目";
             cell.switchbtn.hidden = NO;
             [cell.switchbtn addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
-        } else {
-            if (locationShopsArray.count == 0) {
+        }
+        else
+        {
+            if (locationShopsArray.count == 0)
+            {
                 cell.nameLabel.text = @"未能获取您的位置，请开启定位";
                 cell.nameLabel.textColor = colorWithHexString(@"#666666");
                 cell.nameLabel.frame = CGRectMake(15., 10., SCREEN_WIDTH-30, 30);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            } else {
+            }
+            else
+            {
                 BXTHeadquartersInfo *company = locationShopsArray[indexPath.row-1];
                 cell.nameLabel.textColor = colorWithHexString(@"#000000");
                 cell.nameLabel.text = company.name;
@@ -376,7 +382,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.tableView_Search) {
+    if (tableView == self.tableView_Search)
+    {
         BXTHeadquartersInfo *company = [BXTHeadquartersInfo modelObjectWithDictionary:self.searchArray[indexPath.row]];
         BXTBranchViewController *branchVC = [[BXTBranchViewController alloc] initWithHeadquarters:company];
         branchVC.hidesBottomBarWhenPushed = YES;
@@ -386,8 +393,10 @@
         return;
     }
     
-    if (indexPath.section == 0 && indexPath.row != 0) {
-        if (locationShopsArray.count == 0) {
+    if (indexPath.section == 0 && indexPath.row != 0)
+    {
+        if (locationShopsArray.count == 0)
+        {
             NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
             if([[UIApplication sharedApplication] canOpenURL:url]) {
                 NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
@@ -511,10 +520,13 @@
 // 列表和搜索列表显示类
 - (void)showTableViewAndHideSearchTableView:(BOOL)isRight
 {
-    if (isRight) {
+    if (isRight)
+    {
         self.tableView_Search.hidden = YES;
         currentTableView.hidden = NO;
-    } else {
+    }
+    else
+    {
         self.tableView_Search.hidden = NO;
         currentTableView.hidden = YES;
     }

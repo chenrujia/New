@@ -292,7 +292,6 @@
 		9634156F1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9634156D1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m */; };
 		963415701C44F03500B28C53 /* BXTDeviceInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9634156E1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.xib */; };
 		963415731C44FFAE00B28C53 /* BXTControlUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 963415721C44FFAE00B28C53 /* BXTControlUserInfo.m */; };
-		963415761C45009A00B28C53 /* BXTDeviceConfigInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 963415751C45009A00B28C53 /* BXTDeviceConfigInfo.m */; };
 		964C4AC21C157C0800E6C8C4 /* ImageResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 964C4AC11C157C0800E6C8C4 /* ImageResources.bundle */; };
 		964C4AC41C157C7B00E6C8C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 964C4AC31C157C7B00E6C8C4 /* Assets.xcassets */; };
 		964E6F0A1C3276300081DEBB /* LoginAndResign.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 964E6F091C3276300081DEBB /* LoginAndResign.storyboard */; };
@@ -332,9 +331,6 @@
 		9662659A1C3A6E8A001113FF /* AboutOrder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 966265991C3A6E8A001113FF /* AboutOrder.storyboard */; };
 		9671BB501C1ED29F00D90BFF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AABA331BE0765A0071B6FA /* libc++.tbd */; };
 		9671BB521C1ED3AB00D90BFF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 960223111BC922DB00010072 /* libsqlite3.tbd */; };
-		967C3D3F1C45FBB70078F1D6 /* BXTCheckProjectInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D3A1C45FBB70078F1D6 /* BXTCheckProjectInfo.m */; };
-		967C3D401C45FBB70078F1D6 /* BXTInspectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D3C1C45FBB70078F1D6 /* BXTInspectionInfo.m */; };
-		967C3D411C45FBB70078F1D6 /* BXTMaintenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D3E1C45FBB70078F1D6 /* BXTMaintenceInfo.m */; };
 		967C3D451C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D431C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.m */; };
 		967C3D461C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C3D441C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib */; };
 		967C3D4A1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D481C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.m */; };
@@ -359,6 +355,7 @@
 		96C7F4261C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F4251C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m */; };
 		96C7F4291C2BCBC500AD4C71 /* BXTRepairButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C7F4281C2BCBC500AD4C71 /* BXTRepairButton.m */; };
 		96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CEFB7E1C293EFA005E3091 /* BXTPhotoBaseViewController.m */; };
+		96D850C31C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D850C21C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m */; };
 		96F8C5F21C439A450035F187 /* BXTChangeStateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F8C5F01C439A450035F187 /* BXTChangeStateViewController.m */; };
 		96F8C5F31C439A450035F187 /* BXTChangeStateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F8C5F11C439A450035F187 /* BXTChangeStateViewController.xib */; };
 		AE0F09ADE5FBE74A74BFEBC5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A888DE73728378A7408BFC /* libPods.a */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -922,8 +919,6 @@
 		9634156E1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTDeviceInfoTableViewCell.xib; sourceTree = "<group>"; };
 		963415711C44FFAE00B28C53 /* BXTControlUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTControlUserInfo.h; sourceTree = "<group>"; };
 		963415721C44FFAE00B28C53 /* BXTControlUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTControlUserInfo.m; sourceTree = "<group>"; };
-		963415741C45009A00B28C53 /* BXTDeviceConfigInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceConfigInfo.h; sourceTree = "<group>"; };
-		963415751C45009A00B28C53 /* BXTDeviceConfigInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceConfigInfo.m; sourceTree = "<group>"; };
 		964C4AC11C157C0800E6C8C4 /* ImageResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ImageResources.bundle; sourceTree = "<group>"; };
 		964C4AC31C157C7B00E6C8C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		964E6F091C3276300081DEBB /* LoginAndResign.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginAndResign.storyboard; sourceTree = "<group>"; };
@@ -993,12 +988,6 @@
 		9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenanceViewController.m; sourceTree = "<group>"; };
 		9660CEE01C437E2E00176DDE /* BXTMaintenanceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMaintenanceViewController.xib; sourceTree = "<group>"; };
 		966265991C3A6E8A001113FF /* AboutOrder.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutOrder.storyboard; sourceTree = "<group>"; };
-		967C3D391C45FBB70078F1D6 /* BXTCheckProjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCheckProjectInfo.h; sourceTree = "<group>"; };
-		967C3D3A1C45FBB70078F1D6 /* BXTCheckProjectInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCheckProjectInfo.m; sourceTree = "<group>"; };
-		967C3D3B1C45FBB70078F1D6 /* BXTInspectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTInspectionInfo.h; sourceTree = "<group>"; };
-		967C3D3C1C45FBB70078F1D6 /* BXTInspectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTInspectionInfo.m; sourceTree = "<group>"; };
-		967C3D3D1C45FBB70078F1D6 /* BXTMaintenceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenceInfo.h; sourceTree = "<group>"; };
-		967C3D3E1C45FBB70078F1D6 /* BXTMaintenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenceInfo.m; sourceTree = "<group>"; };
 		967C3D421C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenceProjectTableViewCell.h; sourceTree = "<group>"; };
 		967C3D431C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenceProjectTableViewCell.m; sourceTree = "<group>"; };
 		967C3D441C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMaintenceProjectTableViewCell.xib; sourceTree = "<group>"; };
@@ -1043,6 +1032,8 @@
 		96C7F4281C2BCBC500AD4C71 /* BXTRepairButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairButton.m; sourceTree = "<group>"; };
 		96CEFB7D1C293EFA005E3091 /* BXTPhotoBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPhotoBaseViewController.h; sourceTree = "<group>"; };
 		96CEFB7E1C293EFA005E3091 /* BXTPhotoBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPhotoBaseViewController.m; sourceTree = "<group>"; };
+		96D850C11C8D76C7007B9666 /* BXTDeviceMaintenceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceMaintenceInfo.h; sourceTree = "<group>"; };
+		96D850C21C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceMaintenceInfo.m; sourceTree = "<group>"; };
 		96F8C5EF1C439A450035F187 /* BXTChangeStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTChangeStateViewController.h; sourceTree = "<group>"; };
 		96F8C5F01C439A450035F187 /* BXTChangeStateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChangeStateViewController.m; sourceTree = "<group>"; };
 		96F8C5F11C439A450035F187 /* BXTChangeStateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTChangeStateViewController.xib; sourceTree = "<group>"; };
@@ -1398,16 +1389,10 @@
 		781EF1F91C3D382C0027FE72 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				963415741C45009A00B28C53 /* BXTDeviceConfigInfo.h */,
-				963415751C45009A00B28C53 /* BXTDeviceConfigInfo.m */,
 				963415711C44FFAE00B28C53 /* BXTControlUserInfo.h */,
 				963415721C44FFAE00B28C53 /* BXTControlUserInfo.m */,
-				967C3D391C45FBB70078F1D6 /* BXTCheckProjectInfo.h */,
-				967C3D3A1C45FBB70078F1D6 /* BXTCheckProjectInfo.m */,
-				967C3D3B1C45FBB70078F1D6 /* BXTInspectionInfo.h */,
-				967C3D3C1C45FBB70078F1D6 /* BXTInspectionInfo.m */,
-				967C3D3D1C45FBB70078F1D6 /* BXTMaintenceInfo.h */,
-				967C3D3E1C45FBB70078F1D6 /* BXTMaintenceInfo.m */,
+				96D850C11C8D76C7007B9666 /* BXTDeviceMaintenceInfo.h */,
+				96D850C21C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4182,14 +4167,12 @@
 				7867DD291C4CBE4F000749F1 /* CCLocationManager.m in Sources */,
 				7867DD821C4CBEA1000749F1 /* BXTOrderManagerViewController.m in Sources */,
 				963415731C44FFAE00B28C53 /* BXTControlUserInfo.m in Sources */,
-				967C3D3F1C45FBB70078F1D6 /* BXTCheckProjectInfo.m in Sources */,
 				7867DC2A1C4CBA5B000749F1 /* BXTRepairHomeViewController.m in Sources */,
 				786B571D1C3A06C400F48402 /* BXTPersonInfromViewController.m in Sources */,
 				7867DDA91C4CBEE9000749F1 /* BXTReaciveOrderTableViewCell.m in Sources */,
 				7867DD801C4CBEA1000749F1 /* BXTNewOrderViewController.m in Sources */,
 				7867DD1E1C4CBE4F000749F1 /* BXTAuthenticationViewController.m in Sources */,
 				78644F6B1C575D5600D2C4C5 /* BXTDeviceList.m in Sources */,
-				967C3D411C45FBB70078F1D6 /* BXTMaintenceInfo.m in Sources */,
 				7867DD791C4CBEA1000749F1 /* BXTMaintenanceProcessTableViewCell.m in Sources */,
 				7867DC2B1C4CBA5B000749F1 /* BXTShopsHomeViewController.m in Sources */,
 				78C55A671C47339700FFEB37 /* BXTEquipmentControlUserArr.m in Sources */,
@@ -4270,7 +4253,6 @@
 				781C76041C55C1EA00E091D2 /* BXTNewRepairMtOrderViewController.m in Sources */,
 				7867DD701C4CBEA1000749F1 /* BXTAddOtherManInfo.m in Sources */,
 				7867DD7E1C4CBEA1000749F1 /* BXTManagerOMView.m in Sources */,
-				967C3D401C45FBB70078F1D6 /* BXTInspectionInfo.m in Sources */,
 				7893D89E1C7AA8C000F042D5 /* BXTStatisticsThirdView.m in Sources */,
 				783DDA4D1C3FB4A50035B927 /* PinyinFormatter.m in Sources */,
 				7867DC3C1C4CBAE8000749F1 /* BXTMessageListViewController.m in Sources */,
@@ -4343,6 +4325,7 @@
 				7818DBDA1C0824D800DC22C6 /* PieLayer.m in Sources */,
 				7867DD281C4CBE4F000749F1 /* BXTHeadquartersInfo.m in Sources */,
 				7867DD7A1C4CBEA1000749F1 /* BXTMMLogTableViewCell.m in Sources */,
+				96D850C31C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m in Sources */,
 				7867DCB31C4CBC09000749F1 /* BXTArchievementsTableViewCell.m in Sources */,
 				783E6C841C52033500DC13FB /* BXTFaultType.m in Sources */,
 				782D6BC11C0D6CFC00E1828F /* SPBar.m in Sources */,
@@ -4358,7 +4341,6 @@
 				78090B291C7DAF47003E1565 /* BXTEPFilterCell.m in Sources */,
 				7827D0451C85734F00E9E29E /* BXTMTProfessionHeader.m in Sources */,
 				7867DD231C4CBE4F000749F1 /* BXTRepairerView.m in Sources */,
-				963415761C45009A00B28C53 /* BXTDeviceConfigInfo.m in Sources */,
 				7829859B1C40B53B00D0837C /* BXTUserInformViewController.m in Sources */,
 				7867DCCE1C4CBCAC000749F1 /* BXTNickNameViewController.m in Sources */,
 				9652AB411BC9070E009A666D /* BXTSelectBoxView.m in Sources */,
@@ -4447,8 +4429,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = YES;
@@ -4472,7 +4454,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "f4a8b0ae-94ae-4b82-929c-1cd60b43ac0e";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wno-objc-designated-initializers";
@@ -4496,8 +4478,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing PMSmart Technology Trade & Service Co.,Ltd. (7SDSXP3F43)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -4513,7 +4495,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
+				PROVISIONING_PROFILE = "f4a8b0ae-94ae-4b82-929c-1cd60b43ac0e";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4545,7 +4527,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
+				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -4574,7 +4556,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be2016e3-b07d-405c-a87d-fdf5f743bfde";
+				PROVISIONING_PROFILE = "3f3ed58a-42fb-48f0-868f-fdefe0651d56";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};

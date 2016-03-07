@@ -9,9 +9,7 @@
 #import "BXTMaintenanceViewController.h"
 #import "BXTRemarksTableViewCell.h"
 #import "BXTSettingTableViewCell.h"
-#import "BXTInspectionInfo.h"
 #import <objc/runtime.h>
-#import "BXTCheckProjectInfo.h"
 #import "BXTHeaderForVC.h"
 #import "BXTStandardViewController.h"
 #import "BXTChangeStateViewController.h"
@@ -39,7 +37,7 @@
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil
                          bundle:(NSBundle *)nibBundleOrNil
-                      maintence:(BXTMaintenceInfo *)maintence
+                      maintence:(BXTDeviceMaintenceInfo *)maintence
                        deviceID:(NSString *)devID
                 deviceStateList:(NSArray *)states
 {
@@ -51,7 +49,7 @@
         self.maintenceInfo = maintence;
         self.maintenanceProes = [NSMutableArray array];
         //过滤check_arr空的情况
-        for (BXTInspectionInfo *inspection in self.maintenceInfo.inspection_info)
+        for (BXTDeviceInspectionInfo *inspection in self.maintenceInfo.inspection_info)
         {
             if (inspection.check_arr.count)
             {
@@ -97,9 +95,9 @@
     [[_commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-        for (BXTInspectionInfo *inspectionInfo in self.maintenanceProes)
+        for (BXTDeviceInspectionInfo *inspectionInfo in self.maintenanceProes)
         {
-            for (BXTCheckProjectInfo *checkProjectInfo in inspectionInfo.check_arr)
+            for (BXTDeviceCheckInfo *checkProjectInfo in inspectionInfo.check_arr)
             {
                 NSString *key = checkProjectInfo.check_key;
                 NSString *value = checkProjectInfo.default_description;
@@ -215,7 +213,7 @@
     }
     else
     {
-        BXTInspectionInfo *inspectionInfo = self.maintenanceProes[section - 1];
+        BXTDeviceInspectionInfo *inspectionInfo = self.maintenanceProes[section - 1];
         titleLabel.text = inspectionInfo.check_item;
     }
     [view addSubview:titleLabel];
@@ -246,7 +244,7 @@
     {
         return 1;
     }
-    BXTInspectionInfo *inspection = self.maintenanceProes[section - 2];
+    BXTDeviceInspectionInfo *inspection = self.maintenanceProes[section - 2];
     return inspection.check_arr.count;
 }
 
@@ -333,8 +331,8 @@
         {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.checkImgView.hidden = YES;
-            BXTInspectionInfo *inspection = self.maintenanceProes[indexPath.section - 2];
-            BXTCheckProjectInfo *checkProject = inspection.check_arr[indexPath.row];
+            BXTDeviceInspectionInfo *inspection = self.maintenanceProes[indexPath.section - 2];
+            BXTDeviceCheckInfo *checkProject = inspection.check_arr[indexPath.row];
             cell.titleLabel.text = checkProject.check_con;
             cell.detailLable.hidden = NO;
             cell.detailLable.text = checkProject.default_description;
@@ -369,8 +367,8 @@
         //维保项目
         if (indexPath.row != self.maintenanceProes.count + 2)
         {
-            BXTInspectionInfo *inspectionInfo = self.maintenanceProes[indexPath.section - 2];
-            BXTCheckProjectInfo *checkProject = inspectionInfo.check_arr[indexPath.row];
+            BXTDeviceInspectionInfo *inspectionInfo = self.maintenanceProes[indexPath.section - 2];
+            BXTDeviceCheckInfo *checkProject = inspectionInfo.check_arr[indexPath.row];
             BXTChangeStateViewController *changeStateVC = [[BXTChangeStateViewController alloc] initWithNibName:@"BXTChangeStateViewController" bundle:nil withNotes:checkProject.default_description withTitle:inspectionInfo.check_item withDetail:checkProject.check_con];
             @weakify(self);
             [changeStateVC valueChanged:^(NSString *text) {

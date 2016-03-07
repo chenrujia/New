@@ -455,7 +455,7 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
         repairDetailVC.isRejectVC = YES;
-        [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        [repairDetailVC dataWithRepairID:repairInfo.repairID];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
     else if (_orderType == AllType || _orderType == CloseType)
@@ -463,14 +463,14 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
         repairDetailVC.isAllOrderType = YES;
-        [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        [repairDetailVC dataWithRepairID:repairInfo.repairID];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
     else
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-        [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        [repairDetailVC dataWithRepairID:repairInfo.repairID];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
 }
