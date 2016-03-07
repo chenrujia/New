@@ -347,7 +347,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSString *dicStr = [record substringWithRange:NSMakeRange(startRange.location, endRange.location - startRange.location + 1)];
     NSDictionary *taskInfo = [dicStr JSONValue];
     LogRed(@"通知:%@",taskInfo);
-    NSString *shop_id = [taskInfo objectForKey:@"shop_id"];
+    NSString *shop_id = [NSString stringWithFormat:@"%@", [taskInfo objectForKey:@"shop_id"]];
     [BXTGlobal shareGlobal].newsShopID = shop_id;
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     //如果该条消息不是该项目的
@@ -358,7 +358,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         BOOL isHave = NO;
         for (NSDictionary *dic in my_shops)
         {
-            if ([[dic objectForKey:@"id"] isEqualToString:shop_id])
+            if ([[NSString stringWithFormat:@"%@", [dic objectForKey:@"id"]] isEqualToString:shop_id])
             {
                 isHave = YES;
                 shop_name = [dic objectForKey:@"shop_name"];
@@ -788,7 +788,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 AppDelegate *appdelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                 appdelegate.headimgurl = [dic objectForKey:@"headimgurl"]; // 传递头像地址
                 appdelegate.nickname = [dic objectForKey:@"nickname"]; // 传递昵称
-
+                
                 isLoginByWX = YES;
                 NSDictionary *userInfoDic = @{@"username":@"",
                                               @"password":@"",
