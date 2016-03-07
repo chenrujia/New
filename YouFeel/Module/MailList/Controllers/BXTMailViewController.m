@@ -26,7 +26,7 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
     @weakify(self);
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ReloadMailList" object:nil] subscribeNext:^(id x) {
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@" " object:nil] subscribeNext:^(id x) {
         @strongify(self);
         [self.conversationListTableView reloadData];
     }];
