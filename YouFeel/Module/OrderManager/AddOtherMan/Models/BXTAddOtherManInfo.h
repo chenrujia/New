@@ -10,7 +10,7 @@
 
 @interface BXTAddOtherManInfo : NSObject
 
-@property (nonatomic ,assign) NSInteger manID;
+@property (nonatomic ,strong) NSString  *manID;
 @property (nonatomic ,strong) NSString  *name;
 @property (nonatomic ,strong) NSString  *sex_name;
 @property (nonatomic ,strong) NSString  *department;

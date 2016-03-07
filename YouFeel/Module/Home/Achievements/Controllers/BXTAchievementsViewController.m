@@ -56,14 +56,7 @@
 {
     NSDictionary *dictionary = response;
     NSArray *array = [dictionary objectForKey:@"data"];
-    for (NSDictionary *dictionary in array)
-    {
-        DCParserConfiguration *config = [DCParserConfiguration configuration];
-        DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTAchievementsInfo class] andConfiguration:config];
-        BXTAchievementsInfo *achievementsInfo = [parser parseDictionary:dictionary];
-        
-        [datasource addObject:achievementsInfo];
-    }
+    [datasource addObjectsFromArray:[BXTAchievementsInfo mj_objectArrayWithKeyValuesArray:array]];
     [currentTableView reloadData];
     [self hideMBP];
 }
@@ -179,17 +172,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

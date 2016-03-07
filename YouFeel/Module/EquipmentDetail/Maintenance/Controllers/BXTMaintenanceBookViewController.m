@@ -226,7 +226,8 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
-        cell.workInstuction.text = [NSString stringWithFormat:@"作业指示%ld",indexPath.row + 1];
+        NSInteger number = indexPath.row + 1;
+        cell.workInstuction.text = [NSString stringWithFormat:@"作业指示%ld",(long)number];
         BXTInspectionInfo *inspectionInfo = self.maintenceInfo.inspection_info[indexPath.row];
         cell.maintenceProject.text = inspectionInfo.check_item;
         BXTCheckProjectInfo *checkProOne = inspectionInfo.check_arr[0];

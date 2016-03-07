@@ -106,7 +106,7 @@
     BXTAddOtherManInfo *manInfo = dataSource[btn.tag];
     if ([selectMans containsObject:manInfo])
     {
-        if (manInfo.manID == [[BXTGlobal getUserProperty:U_BRANCHUSERID] integerValue])
+        if ([manInfo.manID integerValue] == [[BXTGlobal getUserProperty:U_BRANCHUSERID] integerValue])
         {
             return;
         }
@@ -338,47 +338,37 @@
     if (type == PropertyGrouping)
     {
         if (data.count == 0) return;
-        for (NSDictionary *dictionary in data)
-        {
-            DCParserConfiguration *config = [DCParserConfiguration configuration];
-            DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"group_id" onClass:[BXTGroupingInfo class]];
-            [config addObjectMapping:text];
-            
-            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTGroupingInfo class] andConfiguration:config];
-            BXTGroupingInfo *groupInfo = [parser parseDictionary:dictionary];
-            
-            [departmentsArray addObject:groupInfo];
-        }
+        [BXTGroupingInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"id":@"group_id"};
+        }];
+        [departmentsArray addObjectsFromArray:[BXTGroupingInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     else if (type == ManList)
     {
         [dataSource removeAllObjects];
         if (data.count > 0)
         {
-            for (NSDictionary *dictionary in data)
+            [BXTAddOtherManInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"id":@"manID"};
+            }];
+            [dataSource addObjectsFromArray:[BXTAddOtherManInfo mj_objectArrayWithKeyValuesArray:data]];
+            
+            for (BXTAddOtherManInfo *manInfo in dataSource)
             {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"manID" onClass:[BXTAddOtherManInfo class]];
-                [config addObjectMapping:text];
-                
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTAddOtherManInfo class] andConfiguration:config];
-                BXTAddOtherManInfo *otherManInfo = [parser parseDictionary:dictionary];
-                
-                if (otherManInfo.manID == [[BXTGlobal getUserProperty:U_BRANCHUSERID] integerValue])
+                if ([manInfo.manID integerValue] == [[BXTGlobal getUserProperty:U_BRANCHUSERID] integerValue])
                 {
                     if (vcType != AssignType)
                     {
                         number = 1;
-                        [selectMans addObject:otherManInfo];
+                        [selectMans addObject:manInfo];
                     }
                     isHave = YES;
                 }
-                else if ([self.manIDArray containsObject:[NSString stringWithFormat:@"%ld",(long)otherManInfo.manID]])
+                else if ([self.manIDArray containsObject:[NSString stringWithFormat:@"%ld",(long)manInfo.manID]])
                 {
                     ++number;
-                    [selectMans addObject:otherManInfo];
+                    [selectMans addObject:manInfo];
                 }
-                [dataSource addObject:otherManInfo];
             }
         }
         [currentTableView reloadData];

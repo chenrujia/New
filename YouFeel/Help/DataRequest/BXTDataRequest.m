@@ -1197,7 +1197,7 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 #pragma mark -
-#pragma mark - 字典转成JSon
+#pragma mark 字典转成JSon
 - (NSString *)dictionaryToJson:(NSDictionary *)dic
 {
     if (dic) {

@@ -109,7 +109,7 @@
 
 - (IBAction)btnClick:(UIButton *)sender
 {
-    NSLog(@"----------------- %ld", sender.tag);
+    NSLog(@"----------------- %ld", (long)sender.tag);
     BXTEquipmentListViewController *listVC = [[BXTEquipmentListViewController alloc] init];
     listVC.date = self.timeStr;
     
