@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BXTMaintenceInfo.h"
+#import "BXTDeviceMaintenceInfo.h"
 
 @interface BXTMaintenceNotesTableViewCell : UITableViewCell
 
@@ -16,6 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageTwo;
 @property (weak, nonatomic) IBOutlet UIImageView *imageThree;
 
-- (void)handleImages:(BXTMaintenceInfo *)maintenceInfo;
+- (void)handleImages:(BXTDeviceMaintenceInfo *)maintenceInfo;
 
 @end

@@ -368,7 +368,7 @@
     BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:indexPath.section];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-    [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+    [repairDetailVC dataWithRepairID:repairInfo.repairID];
     [self.navigationController pushViewController:repairDetailVC animated:YES];
 }
 
@@ -579,17 +579,11 @@
         [ordersArray removeAllObjects];
         if (data.count)
         {
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairInfo class]];
-                [config addObjectMapping:map];
-                
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairInfo class] andConfiguration:config];
-                BXTRepairInfo *repairInfo = [parser parseDictionary:dictionary];
-                
-                [ordersArray addObject:repairInfo];
-            }
+            [BXTRepairInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"repairID":@"id"};
+            }];
+            NSArray *repairs = [BXTRepairInfo mj_objectArrayWithKeyValuesArray:data];
+            [ordersArray addObjectsFromArray:repairs];
         }
         [currentTableView reloadData];
         [self hideMBP];

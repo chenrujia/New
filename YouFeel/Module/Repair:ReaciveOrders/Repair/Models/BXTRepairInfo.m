@@ -12,13 +12,4 @@
 
 @end
 
-@implementation BXTData
-
-+ (NSDictionary *)objectClassInArray
-{
-    return @{@"data" : [BXTRepairInfo class]};
-}
-
-@end
-
 

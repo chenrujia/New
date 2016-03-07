@@ -339,7 +339,7 @@
     {
         if (data.count == 0) return;
         [BXTGroupingInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"id":@"group_id"};
+            return @{@"group_id":@"id"};
         }];
         [departmentsArray addObjectsFromArray:[BXTGroupingInfo mj_objectArrayWithKeyValuesArray:data]];
     }
@@ -349,7 +349,7 @@
         if (data.count > 0)
         {
             [BXTAddOtherManInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-                return @{@"id":@"manID"};
+                return @{@"manID":@"id"};
             }];
             [dataSource addObjectsFromArray:[BXTAddOtherManInfo mj_objectArrayWithKeyValuesArray:data]];
             

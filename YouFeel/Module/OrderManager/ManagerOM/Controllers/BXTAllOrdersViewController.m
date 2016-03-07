@@ -423,18 +423,11 @@
         [groupArray removeAllObjects];
         if (data.count)
         {
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"group_id" onClass:[BXTGroupingInfo class]];
-                [config addObjectMapping:text];
-                
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTGroupingInfo class] andConfiguration:config];
-                BXTGroupingInfo *groupInfo = [parser parseDictionary:dictionary];
-                
-                [groupArray addObject:groupInfo];
-            }
-            
+            [BXTGroupingInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"group_id":@"id"};
+            }];
+            [groupArray addObjectsFromArray:[BXTGroupingInfo mj_objectArrayWithKeyValuesArray:data]];
+
             NSInteger row = floor(groupArray.count/4.f);
             alertHeight = alertHeight + row * 40;
         }

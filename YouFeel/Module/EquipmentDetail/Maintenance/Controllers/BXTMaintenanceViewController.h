@@ -7,13 +7,13 @@
 //
 
 #import "BXTDetailBaseViewController.h"
-#import "BXTMaintenceInfo.h"
+#import "BXTDeviceMaintenceInfo.h"
 
 @interface BXTMaintenanceViewController : BXTDetailBaseViewController  <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
-@property (nonatomic, strong) BXTMaintenceInfo *maintenceInfo;
+@property (nonatomic, strong) BXTDeviceMaintenceInfo *maintenceInfo;
 @property (nonatomic, strong) NSString         *notes;
 @property (nonatomic, strong) NSString         *instruction;//状态说明
 @property (nonatomic, assign) BOOL             isUpdate;//更新还是添加接口
@@ -24,7 +24,7 @@
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil
                          bundle:(NSBundle *)nibBundleOrNil
-                      maintence:(BXTMaintenceInfo *)maintence
+                      maintence:(BXTDeviceMaintenceInfo *)maintence
                        deviceID:(NSString *)devID
                 deviceStateList:(NSArray *)states;
 

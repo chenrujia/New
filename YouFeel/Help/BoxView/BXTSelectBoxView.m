@@ -15,7 +15,7 @@
 #import "BXTShopInfo.h"
 #import "BXTFaultTypeInfo.h"
 #import "BXTGroupingInfo.h"
-#import "BXTMaintenceInfo.h"
+#import "BXTDeviceMaintenceInfo.h"
 
 @implementation BXTSelectBoxView
 
@@ -151,7 +151,7 @@
     }
     else if (_boxType == CheckProjectsView)
     {
-        BXTMaintenceInfo *maintence = _dataArray[indexPath.row];
+        BXTDeviceMaintenceInfo *maintence = _dataArray[indexPath.row];
         cell.titleLabel.text = [NSString stringWithFormat:@"%@ %@",maintence.time_name,maintence.inspection_title];
     }
     else if (_boxType == Other)
@@ -228,7 +228,7 @@
     }
     else if (_boxType == CheckProjectsView)
     {
-        BXTMaintenceInfo *maintence = _dataArray[indexPath.row];
+        BXTDeviceMaintenceInfo *maintence = _dataArray[indexPath.row];
         [_delegate boxSelectedObj:maintence selectedType:_boxType];
     }
     else if (_boxType == Other)

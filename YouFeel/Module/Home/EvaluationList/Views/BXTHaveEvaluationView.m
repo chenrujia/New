@@ -125,7 +125,7 @@
     repairInfo.repairID = evaInfo.evaID;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-    [repairDetailVC dataWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+    [repairDetailVC dataWithRepairID:repairInfo.repairID];
     [[self navigation] pushViewController:repairDetailVC animated:YES];}
 
 #pragma mark -

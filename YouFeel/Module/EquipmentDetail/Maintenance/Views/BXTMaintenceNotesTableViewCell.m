@@ -19,7 +19,7 @@
     self.imageThree.layer.masksToBounds = YES;
 }
 
-- (void)handleImages:(BXTMaintenceInfo *)maintenceInfo
+- (void)handleImages:(BXTDeviceMaintenceInfo *)maintenceInfo
 {
     if (maintenceInfo.pic.count == 0)
     {

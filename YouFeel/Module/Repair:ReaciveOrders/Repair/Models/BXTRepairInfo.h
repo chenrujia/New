@@ -8,23 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class BXTRepairInfo;
-@interface BXTData : NSObject
-
-@property (nonatomic, copy  ) NSString      *page;
-
-@property (nonatomic, assign) NSInteger     number;
-
-@property (nonatomic, assign) NSInteger     pages;
-
-@property (nonatomic, copy  ) NSString      *returncode;
-
-@property (nonatomic, strong) NSArray<BXTRepairInfo *> *data;
-
-@property (nonatomic, assign) NSInteger     total_number;
-
-@end
-
 @interface BXTRepairInfo : NSObject
 
 @property (nonatomic, copy  ) NSString  *integral_grab;

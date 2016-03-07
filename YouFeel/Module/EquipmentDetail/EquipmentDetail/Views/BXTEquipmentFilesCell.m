@@ -22,7 +22,7 @@
     return cell;
 }
 
-- (void)setInspectionList:(BXTMaintenceInfo *)inspectionList
+- (void)setInspectionList:(BXTDeviceMaintenceInfo *)inspectionList
 {
     _inspectionList = inspectionList;
     

@@ -136,17 +136,10 @@
     }
     else
     {
-        for (NSDictionary *dictionary in array)
-        {
-            DCParserConfiguration *config = [DCParserConfiguration configuration];
-            DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"company_id" onClass:[BXTHeadquartersInfo class]];
-            [config addObjectMapping:text];
-            
-            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTHeadquartersInfo class] andConfiguration:config];
-            BXTHeadquartersInfo *company = [parser parseDictionary:dictionary];
-            
-            [shopsArray addObject:company];
-        }
+        [BXTHeadquartersInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"company_id":@"id"};
+        }];
+        [shopsArray addObjectsFromArray:[BXTHeadquartersInfo mj_objectArrayWithKeyValuesArray:array]];
         
         for (NSInteger i = 0; i < shopsArray.count; i++)
         {

@@ -13,11 +13,10 @@
 #import <MJRefresh.h>
 #import "BXTMaintenanceViewController.h"
 #import "BXTMaintenanceBookViewController.h"
-#import "BXTMaintenceInfo.h"
-#import "BXTInspectionInfo.h"
-#import "BXTCheckProjectInfo.h"
+#import "BXTDeviceMaintenceInfo.h"
 #import "BXTSelectBoxView.h"
 #import "UIView+Nav.h"
+#import "BXTDeviceMaintenceInfo.h"
 
 @interface BXTEquipmentFilesView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 {
@@ -147,7 +146,7 @@
         {
             if (self.maintencesArray.count == 1)
             {
-                BXTMaintenceInfo *maintenceInfo = self.maintencesArray[0];
+                BXTDeviceMaintenceInfo *maintenceInfo = self.maintencesArray[0];
                 //已在维保中，不需要再次新建维保作业
                 if ([maintenceInfo.inspection_state integerValue] > 0)
                 {
@@ -226,7 +225,7 @@
 {
     [self.bgView removeFromSuperview];
     [self.boxView removeFromSuperview];
-    BXTMaintenceInfo *maintenceInfo = obj;
+    BXTDeviceMaintenceInfo *maintenceInfo = obj;
     //已在维保中，不需要再次新建维保作业
     if ([maintenceInfo.inspection_state integerValue] > 0)
     {
@@ -335,7 +334,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTMaintenceInfo *mainInfo = _dataArray[indexPath.section];
+    BXTDeviceMaintenceInfo *mainInfo = _dataArray[indexPath.section];
     BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:mainInfo.maintenceID workOrderID:nil];
     [[self navigation] pushViewController:bookVC animated:YES];
     
@@ -373,36 +372,23 @@
         LogBlue(@"开始作业接口.....%@",dic);
     }
     
-    for (NSDictionary *dictionary in data)
+    [BXTDeviceMaintenceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"maintenceID":@"id"};
+    }];
+    
+    for (NSDictionary *dic in data)
     {
-        DCObjectMapping *maintenceID = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"maintenceID" onClass:[BXTMaintenceInfo class]];
-        DCParserConfiguration *maintenceConfig = [DCParserConfiguration configuration];
-        [maintenceConfig addObjectMapping:maintenceID];
-        DCKeyValueObjectMapping *maintenceParser = [DCKeyValueObjectMapping mapperForClass:[BXTMaintenceInfo class]  andConfiguration:maintenceConfig];
-        BXTMaintenceInfo *maintence = [maintenceParser parseDictionary:dictionary];
-        
-        NSMutableArray *inspectionArray = [NSMutableArray array];
-        NSArray *inspections = [dictionary objectForKey:@"inspection_info"];
-        for (NSDictionary *placeDic in inspections)
-        {
-            DCArrayMapping *inspectionMapper = [DCArrayMapping mapperForClassElements:[BXTCheckProjectInfo class] forAttribute:@"check_arr" onClass:[BXTInspectionInfo class]];
-            DCParserConfiguration *inspectionConfig = [DCParserConfiguration configuration];
-            [inspectionConfig addArrayMapper:inspectionMapper];
-            DCKeyValueObjectMapping *inspectionParser = [DCKeyValueObjectMapping mapperForClass:[BXTInspectionInfo class]  andConfiguration:inspectionConfig];
-            BXTInspectionInfo *inspection = [inspectionParser parseDictionary:placeDic];
-            [inspectionArray addObject:inspection];
-        }
-        maintence.inspection_info = inspectionArray;
-        
+        BXTDeviceMaintenceInfo *dmInfo = [BXTDeviceMaintenceInfo mj_objectWithKeyValues:dic];
         if (type == MaintenanceEquipmentList)
         {
-            [_maintencesArray addObject:maintence];
+            [_maintencesArray addObject:dmInfo];
         }
         else if (type == Inspection_Record_List)
         {
-            [_dataArray addObject:maintence];
+            [_dataArray addObject:dmInfo];
         }
     }
+    
     if (type == Inspection_Record_List)
     {
         [_tableView reloadData];
