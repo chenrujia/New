@@ -71,6 +71,7 @@
     }];
     [logoImgView addSubview:backBtn];
     
+    
     // title
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, valueForDevice(35.f, 35.f, 30.f, 25.f), SCREEN_WIDTH-130, 20.f)];
     titleLabel.center = CGPointMake(SCREEN_WIDTH/2.f, titleLabel.center.y);
@@ -80,12 +81,14 @@
     [titleLabel setTextColor:colorWithHexString(@"ffffff")];
     [logoImgView addSubview:titleLabel];
     
+    
     // 头像
     iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(titleLabel.frame) + valueForDevice(25, 20, 12, 10), valueForDevice(90, 90, 80, 65), valueForDevice(90, 90, 80, 65))];
     iconView.center = CGPointMake(SCREEN_WIDTH/2.f, iconView.center.y);
     iconView.layer.cornerRadius = valueForDevice(90, 90, 80, 65)/2;
     iconView.layer.masksToBounds = YES;
     [logoImgView addSubview:iconView];
+    
     
     // 姓名
     nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(iconView.frame) + (IS_IPHONE6 ? 12 : 8), 130.f, 20.f)];
