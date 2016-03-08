@@ -11,7 +11,6 @@
 #import "BXTRepairInfo.h"
 #import "DOPDropDownMenu.h"
 #import "BXTFaultInfo.h"
-#import "BXTFaultTypeInfo.h"
 #import "BXTSelectBoxView.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "BXTReaciveOrderTableViewCell.h"
@@ -239,7 +238,7 @@
 {
     selectTag = btn.tag;
     BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:btn.tag];
-    _orderID = [NSString stringWithFormat:@"%ld",(long)repairInfo.repairID];
+    _orderID = repairInfo.repairID;
     UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
     backView.backgroundColor = [UIColor blackColor];
     backView.alpha = 0.6f;
@@ -590,59 +589,27 @@
     }
     else if (type == ShopType)
     {
-        for (NSDictionary *dictionary in data)
-        {
-            DCArrayMapping *floorMapper = [DCArrayMapping mapperForClassElements:[BXTAreaInfo class] forAttribute:@"place" onClass:[BXTFloorInfo class]];
-            DCParserConfiguration *floorConfig = [DCParserConfiguration configuration];
-            [floorConfig addArrayMapper:floorMapper];
-            DCKeyValueObjectMapping *floorParser = [DCKeyValueObjectMapping mapperForClass:[BXTFloorInfo class]  andConfiguration:floorConfig];
-            BXTFloorInfo *floor = [floorParser parseDictionary:dictionary];
-            
-            [areasArray addObject:floor];
-        }
+        [areasArray addObjectsFromArray:[BXTFloorInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     else if (type == DepartmentType)
     {
         if (data.count)
         {
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"dep_id" onClass:[BXTDepartmentInfo class]];
-                [config addObjectMapping:text];
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTDepartmentInfo class] andConfiguration:config];
-                BXTDepartmentInfo *departmentInfo = [parser parseDictionary:dictionary];
-                
-                [departmentsArray addObject:departmentInfo];
-            }
+            [BXTDepartmentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"dep_id":@"id"};
+            }];
+            [departmentsArray addObjectsFromArray:[BXTDepartmentInfo mj_objectArrayWithKeyValuesArray:data]];
         }
     }
     else if (type == FaultType)
     {
-        for (NSDictionary *dictionary in data)
-        {
-            DCParserConfiguration *config = [DCParserConfiguration configuration];
-            DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"fault_id" onClass:[BXTFaultInfo class]];
-            [config addObjectMapping:text];
-            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTFaultInfo class] andConfiguration:config];
-            BXTFaultInfo *faultObj = [parser parseDictionary:dictionary];
-            
-            NSMutableArray *fault_subs = [NSMutableArray array];
-            NSArray *places = [dictionary objectForKey:@"sub_data"];
-            
-            for (NSDictionary *placeDic in places)
-            {
-                DCParserConfiguration *fault_type_config = [DCParserConfiguration configuration];
-                DCObjectMapping *fault_type_map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"fau_id" onClass:[BXTFaultTypeInfo class]];
-                [fault_type_config addObjectMapping:fault_type_map];
-                DCKeyValueObjectMapping *fault_type_parser = [DCKeyValueObjectMapping mapperForClass:[BXTFaultTypeInfo class] andConfiguration:fault_type_config];
-                BXTFaultInfo *faultTypeObj = [fault_type_parser parseDictionary:placeDic];
-                [fault_subs addObject:faultTypeObj];
-            }
-            
-            faultObj.sub_data = fault_subs;
-            [repairTypesArray addObject:faultObj];
-        }
+        [BXTFaultInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"fault_id":@"id"};
+        }];
+        [BXTFaultTypeInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"fau_id":@"id"};
+        }];
+        [repairTypesArray addObjectsFromArray:[BXTFaultInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     else if (type == ReaciveOrder)
     {
@@ -676,7 +643,9 @@
             [_datePicker removeFromSuperview];
             _datePicker = nil;
             [currentTableView reloadData];
-        } else {
+        }
+        else
+        {
             [UIView animateWithDuration:0.3f animations:^{
                 [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
             }];

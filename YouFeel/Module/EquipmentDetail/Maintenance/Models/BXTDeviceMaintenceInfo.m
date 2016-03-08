@@ -12,7 +12,8 @@
 
 + (NSDictionary *)objectClassInArray
 {
-    return @{@"inspection_info" : [BXTDeviceInspectionInfo class],
+    return @{@"inspection_info":[BXTDeviceInspectionInfo class],
+             @"repair_arr":[BXTControlUserInfo class],
              @"device_con":[BXTDeviceConfigInfo class]};
 }
 
@@ -32,6 +33,10 @@
 @end
 
 @implementation BXTDeviceConfigInfo
+
+@end
+
+@implementation BXTControlUserInfo
 
 @end
 

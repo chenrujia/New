@@ -21,8 +21,6 @@
     if (self)
     {
         self.backgroundColor = colorWithHexString(@"ffffff");
-        //self.layer.cornerRadius = 10.f;
-        //self.layer.masksToBounds = YES;
         
         CGFloat space = IS_IPHONE6 ? 15.f : 10.f;
         CGFloat height = IS_IPHONE6 ? 263.f : 175;
@@ -140,34 +138,6 @@
             label;
             
         });
-        
-        //        self.backView = ({
-        //
-        //            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - 140.f + 4.f, CGRectGetMinY(_level.frame) + 15.f, 140.f, 42.f)];
-        //            view.backgroundColor = colorWithHexString(@"9bba30");
-        //            view.layer.cornerRadius = 5;
-        //            [self addSubview:view];
-        //            view;
-        //
-        //        });
-        //
-        //
-        //        UIImageView *coinImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10.f, 10.f, 22.f, 22.f)];
-        //        coinImgView.image = [UIImage imageNamed:@"Coin_icon"];
-        //        [_backView addSubview:coinImgView];
-        //
-        //        self.coinLabel = ({
-        //
-        //            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(coinImgView.frame), 10.f, CGRectGetWidth(_backView.frame) - CGRectGetMaxX(coinImgView.frame), 22)];
-        //            label.textColor = colorWithHexString(@"ffffff");
-        //            label.textAlignment = NSTextAlignmentCenter;
-        //            label.font = [UIFont systemFontOfSize:14.f];
-        //            label.text = @"可获得25金币";
-        //            [_backView addSubview:label];
-        //            label;
-        //
-        //        });
-        
     }
     return self;
 }
@@ -193,13 +163,25 @@
         [self hideTheMBP];
         NSDictionary *dictionary = data[0];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"SUBGROUP_NOTIFICATION" object:dictionary[@"faulttype_type_name"]];
-        
-        DCParserConfiguration *config = [DCParserConfiguration configuration];
-        DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairDetailInfo class]];
-        [config addObjectMapping:map];
-        
-        DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairDetailInfo class] andConfiguration:config];
-        BXTRepairDetailInfo *repairDetail = [parser parseDictionary:dictionary];
+        [BXTRepairDetailInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"orderID":@"id"};
+        }];
+        [BXTMaintenanceManInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"mmID":@"id"};
+        }];
+        [BXTDeviceMMListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"deviceMMID":@"id"};
+        }];
+        [BXTAdsNameInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"adsNameID":@"id"};
+        }];
+        [BXTRepairPersonInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"rpID":@"id"};
+        }];
+        [BXTFaultPicInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"picID":@"id"};
+        }];
+        BXTRepairDetailInfo *repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
         
         NSArray *imgArray = repairDetail.fault_pic;
         UIImage *placeImage;
@@ -255,7 +237,7 @@
         _level.frame = CGRectMake(15.f, CGRectGetMaxY(_notes.frame) + 10.f, CGRectGetWidth(_notes.frame), 20);
         _notes.text = contents;
         
-        if (repairDetail.urgent == 2)
+        if ([repairDetail.urgent integerValue] == 2)
         {
             _level.text = @"等级:一般";
         }

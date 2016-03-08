@@ -76,35 +76,21 @@
         if (data.count)
         {
             [departmentArray removeAllObjects];
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"dep_id" onClass:[BXTDepartmentInfo class]];
-                [config addObjectMapping:text];
-                
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTDepartmentInfo class] andConfiguration:config];
-                BXTDepartmentInfo *departmentInfo = [parser parseDictionary:dictionary];
-                
-                [departmentArray addObject:departmentInfo];
-            }
+            [BXTDepartmentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"dep_id":@"id"};
+            }];
+            [departmentArray addObjectsFromArray:[BXTDepartmentInfo mj_objectArrayWithKeyValuesArray:data]];
         }
     }
     else if (type == PositionType)
     {
-        [positionArray removeAllObjects];
         if (data.count)
         {
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"role_id" onClass:[BXTPostionInfo class]];
-                [config addObjectMapping:text];
-                
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTPostionInfo class] andConfiguration:config];
-                BXTPostionInfo *positionInfo = [parser parseDictionary:dictionary];
-                
-                [positionArray addObject:positionInfo];
-            }
+            [positionArray removeAllObjects];
+            [BXTPostionInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"role_id":@"id"};
+            }];
+            [positionArray addObjectsFromArray:[BXTPostionInfo mj_objectArrayWithKeyValuesArray:data]];
         }
     }
     else if (type == BranchResign)
@@ -151,20 +137,13 @@
     }
     else if (type == PropertyGrouping)
     {
-        [groupArray removeAllObjects];
         if (data.count)
         {
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"group_id" onClass:[BXTGroupingInfo class]];
-                [config addObjectMapping:text];
-                
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTGroupingInfo class] andConfiguration:config];
-                BXTGroupingInfo *groupInfo = [parser parseDictionary:dictionary];
-                
-                [groupArray addObject:groupInfo];
-            }
+            [groupArray removeAllObjects];
+            [BXTGroupingInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"group_id":@"id"};
+            }];
+            [groupArray addObjectsFromArray:[BXTGroupingInfo mj_objectArrayWithKeyValuesArray:data]];
         }
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])

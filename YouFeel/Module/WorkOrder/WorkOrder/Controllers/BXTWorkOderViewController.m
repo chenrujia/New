@@ -11,7 +11,6 @@
 #import "BXTSettingTableViewCell.h"
 #import "UIImage+SubImage.h"
 #import "BXTFaultInfo.h"
-#import "BXTFaultTypeInfo.h"
 #import "BXTShopLocationViewController.h"
 #import "BXTChooseFaultViewController.h"
 #define MOBILE 11

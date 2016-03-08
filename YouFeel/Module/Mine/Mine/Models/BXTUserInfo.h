@@ -7,8 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BXTShopInfo.h"
-#import "BXTAreaInfo.h"
 #import "BXTFloorInfo.h"
 #import "BXTGroupInfo.h"
 #import "BXTPostionInfo.h"

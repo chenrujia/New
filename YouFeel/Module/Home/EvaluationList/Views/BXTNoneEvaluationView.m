@@ -171,17 +171,10 @@
     [self hideTheMBP];
     NSDictionary *dic = response;    
     NSArray *array = [dic objectForKey:@"data"];
-    for (NSDictionary *dictionary in array)
-    {
-        DCParserConfiguration *config = [DCParserConfiguration configuration];
-        DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"evaID" onClass:[BXTNoneEVInfo class]];
-        [config addObjectMapping:text];
-        
-        DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTNoneEVInfo class] andConfiguration:config];
-        BXTNoneEVInfo *noneEvaInfo = [parser parseDictionary:dictionary];
-        
-        [_datasource addObject:noneEvaInfo];
-    }
+    [BXTNoneEVInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"evaID":@"id"};
+    }];
+    [_datasource addObjectsFromArray:[BXTNoneEVInfo mj_objectArrayWithKeyValuesArray:array]];
     [currentTable reloadData];
 }
 

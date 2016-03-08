@@ -11,9 +11,7 @@
 #import "BXTSettingTableViewCell.h"
 #import "BXTDepartmentInfo.h"
 #import "BXTFloorInfo.h"
-#import "BXTAreaInfo.h"
-#import "BXTShopInfo.h"
-#import "BXTFaultTypeInfo.h"
+#import "BXTFaultInfo.h"
 #import "BXTGroupingInfo.h"
 #import "BXTDeviceMaintenceInfo.h"
 

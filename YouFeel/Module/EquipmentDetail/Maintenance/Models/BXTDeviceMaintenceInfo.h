@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class BXTDeviceInspectionInfo,BXTDeviceCheckInfo,BXTDeviceConfigInfo;
+@class BXTDeviceInspectionInfo,BXTDeviceCheckInfo,BXTDeviceConfigInfo,BXTControlUserInfo;
 
 @interface BXTDeviceMaintenceInfo : NSObject
 
@@ -36,7 +36,7 @@
 @property (nonatomic, copy) NSString *inspection_state;
 
 //+设备维护记录详情相关
-@property (nonatomic, copy) NSArray  *repair_arr;
+@property (nonatomic, strong) NSArray<BXTControlUserInfo *>  *repair_arr;
 @property (nonatomic, strong) NSArray<BXTDeviceConfigInfo *> *device_con;
 @property (nonatomic, copy) NSString *device_id;
 @property (nonatomic, copy) NSString *device_state;
@@ -77,6 +77,18 @@
 @property (nonatomic, copy) NSString *stores_id;
 @property (nonatomic, copy) NSString *take_over_time;
 @property (nonatomic, copy) NSString *state_name;
+
+@end
+
+@interface BXTControlUserInfo : NSObject
+
+@property (nonatomic, strong) NSString *department;
+@property (nonatomic, strong) NSString *head_pic;
+@property (nonatomic, strong) NSString *userID;
+@property (nonatomic, strong) NSString *mobile;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *out_userid;
+@property (nonatomic, strong) NSString *role;
 
 @end
 

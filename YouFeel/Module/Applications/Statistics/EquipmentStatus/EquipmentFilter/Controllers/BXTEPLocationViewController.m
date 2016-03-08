@@ -9,7 +9,7 @@
 #import "BXTEPLocationViewController.h"
 #import "BXTEPLocationCell.h"
 #import "BXTHeaderForVC.h"
-#import "BXTShopInfo.h"
+#import "BXTFloorInfo.h"
 #import "ANKeyValueTable.h"
 #import "BXTDeviceList.h"
 

@@ -12,8 +12,6 @@
 #import "BXTDepartmentInfo.h"
 #import "BXTPostionInfo.h"
 #import "BXTFloorInfo.h"
-#import "BXTAreaInfo.h"
-#import "BXTShopInfo.h"
 #import "BXTHeadquartersInfo.h"
 
 /** ---- 背景色 ---- */

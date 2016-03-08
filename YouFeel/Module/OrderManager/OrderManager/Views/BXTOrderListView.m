@@ -257,7 +257,7 @@
                 [[cell.evaButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                     @strongify(self);
                     BXTRepairInfo *repairInfo = [self.repairListArray objectAtIndex:indexPath.section];
-                    BXTEvaluationViewController *evaluateVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+                    BXTEvaluationViewController *evaluateVC = [[BXTEvaluationViewController alloc] initWithRepairID:repairInfo.repairID];
                     evaluateVC.delegateSignal = [RACSubject subject];
                     [evaluateVC.delegateSignal subscribeNext:^(id x) {
                         self.pushIndex = 1;
@@ -411,7 +411,7 @@
     BXTRepairInfo *repairInfo = _repairListArray[selectTag];
     [self showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request startRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+    [request startRepair:repairInfo.repairID];
 }
 
 #pragma mark -

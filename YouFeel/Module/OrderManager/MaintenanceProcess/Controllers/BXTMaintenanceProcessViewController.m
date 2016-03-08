@@ -11,7 +11,6 @@
 #import "BXTSettingTableViewCell.h"
 #import "BXTSelectBoxView.h"
 #import "BXTFaultInfo.h"
-#import "BXTFaultTypeInfo.h"
 #import "BXTMaintenanceProcessTableViewCell.h"
 #import "BXTMMLogTableViewCell.h"
 
@@ -640,37 +639,13 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == FaultType)
     {
-        for (NSDictionary *dictionary in data)
-        {
-            DCParserConfiguration *config = [DCParserConfiguration configuration];
-            DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"fault_id" onClass:[BXTFaultInfo class]];
-            [config addObjectMapping:text];
-            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTFaultInfo class] andConfiguration:config];
-            BXTFaultInfo *faultObj = [parser parseDictionary:dictionary];
-            
-            NSMutableArray *fault_subs = [NSMutableArray array];
-            NSArray *places = [dictionary objectForKey:@"sub_data"];
-            
-            for (NSDictionary *placeDic in places)
-            {
-                DCParserConfiguration *fault_type_config = [DCParserConfiguration configuration];
-                DCObjectMapping *fault_type_map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"fau_id" onClass:[BXTFaultTypeInfo class]];
-                [fault_type_config addObjectMapping:fault_type_map];
-                DCKeyValueObjectMapping *fault_type_parser = [DCKeyValueObjectMapping mapperForClass:[BXTFaultTypeInfo class] andConfiguration:fault_type_config];
-                BXTFaultTypeInfo *faultTypeObj = [fault_type_parser parseDictionary:placeDic];
-                
-                if (faultTypeObj.fau_id == _currentFaultID)
-                {
-                    selectFaultInfo = faultObj;
-                    selectFaultTypeInfo = faultTypeObj;
-                }
-                
-                [fault_subs addObject:faultTypeObj];
-            }
-            
-            faultObj.sub_data = fault_subs;
-            [fau_dataSource addObject:faultObj];
-        }
+        [BXTFaultInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"fault_id":@"id"};
+        }];
+        [BXTFaultTypeInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"fau_id":@"id"};
+        }];
+        [fau_dataSource addObjectsFromArray:[BXTFaultInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     else if (type == MaintenanceProcess)
     {
@@ -710,17 +685,10 @@
     {
         if (data.count)
         {
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"group_id" onClass:[BXTGroupingInfo class]];
-                [config addObjectMapping:text];
-                
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTGroupingInfo class] andConfiguration:config];
-                BXTGroupingInfo *groupInfo = [parser parseDictionary:dictionary];
-                
-                [groupArray addObject:groupInfo];
-            }
+            [BXTGroupingInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"group_id":@"id"};
+            }];
+            [groupArray addObjectsFromArray:[BXTGroupingInfo mj_objectArrayWithKeyValuesArray:data]];
         }
     }
 }
@@ -733,7 +701,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-
 }
 
 @end

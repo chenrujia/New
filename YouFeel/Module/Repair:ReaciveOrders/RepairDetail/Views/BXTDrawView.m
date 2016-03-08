@@ -8,6 +8,7 @@
 
 #import "BXTDrawView.h"
 #import "BXTHeaderFile.h"
+#import "BXTRepairDetailInfo.h"
 #import "UIView+ZXQuartz.h"
 
 @implementation BXTDrawView
@@ -49,14 +50,14 @@
     [orangeColor setFill];
     
     if (_progress.count == 0) return;
-    NSDictionary *dicOne = _progress[0];
-    NSDictionary *dicTwo = _progress[1];
-    NSDictionary *dicThree = _progress[2];
-    NSDictionary *dicFour = _progress[3];
-    NSDictionary *dicFive = _progress[4];
+    BXTProgressInfo *progressOne = _progress[0];
+    BXTProgressInfo *progressTwo = _progress[1];
+    BXTProgressInfo *progressThree = _progress[2];
+    BXTProgressInfo *progressFour = _progress[3];
+    BXTProgressInfo *progressFive = _progress[4];
     CGFloat space = (SCREEN_WIDTH - x*2.f)/4.f;
     
-    if ([dicOne[@"state"] integerValue] && ![dicTwo[@"state"] integerValue])
+    if (progressOne.state && !progressTwo.state)
     {
         [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
         [grayColor setStroke];
@@ -66,7 +67,7 @@
         [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
     }
-    else if ([dicTwo[@"state"] integerValue] && ![dicThree[@"state"] integerValue])
+    else if (progressTwo.state && !progressThree.state)
     {
         [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
         [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
@@ -77,7 +78,7 @@
         [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
     }
-    else if ([dicThree[@"state"] integerValue] && ![dicFour[@"state"] integerValue])
+    else if (progressThree.state && !progressFour.state)
     {
         [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
         [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
@@ -89,7 +90,7 @@
         [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
     }
-    else if ([dicFour[@"state"] integerValue] && ![dicFive[@"state"] integerValue])
+    else if (progressFour.state && !progressFive.state)
     {
         [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
         [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
@@ -102,7 +103,7 @@
         [grayColor setFill];
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
     }
-    else if ([dicFive[@"state"] integerValue])
+    else if (progressFive.state)
     {
         [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
         [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
@@ -115,11 +116,11 @@
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
     }
 
-    [self drawTextInRect:CGRectMake(6.f, 62, 60.f, 20.f) Contents:[dicOne objectForKey:@"word"] contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space - 26.f, 62, 60.f, 20.f) Contents:[dicTwo objectForKey:@"word"] contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 2 - 23.f, 62, 60.f, 20.f) Contents:[dicThree objectForKey:@"word"] contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 3 - 26.f, 62, 60.f, 20.f) Contents:[dicFour objectForKey:@"word"] contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 4 - 26.f, 62, 60.f, 20.f) Contents:[dicFive objectForKey:@"word"] contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(6.f, 62, 60.f, 20.f) Contents:progressOne.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space - 26.f, 62, 60.f, 20.f) Contents:progressTwo.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 2 - 23.f, 62, 60.f, 20.f) Contents:progressThree.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 3 - 26.f, 62, 60.f, 20.f) Contents:progressFour.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 4 - 26.f, 62, 60.f, 20.f) Contents:progressFive.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
 }
 
 @end

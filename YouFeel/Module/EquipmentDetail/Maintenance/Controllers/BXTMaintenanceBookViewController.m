@@ -342,29 +342,13 @@
         return @{@"maintenceID":@"id"};
     }];
     BXTDeviceMaintenceInfo *maintence = [BXTDeviceMaintenceInfo mj_objectWithKeyValues:dictionary];
-    
+    self.maintenceInfo = maintence;
     if ([maintence.is_update integerValue] == 2)
     {
         UIView *navView = [self.view viewWithTag:KNavViewTag];
         [navView removeFromSuperview];
         [self navigationSetting:@"维保作业书" andRightTitle:@"修改" andRightImage:nil];
     }
-    
-    //维修员
-    NSMutableArray *usersArray = [NSMutableArray array];
-    NSArray *repairArray = [dictionary objectForKey:@"repair_arr"];
-    for (NSDictionary *userDic in repairArray)
-    {
-        DCObjectMapping *userID = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"userID" onClass:[BXTControlUserInfo class]];
-        DCParserConfiguration *userConfig = [DCParserConfiguration configuration];
-        [userConfig addMapper:userID];
-        DCKeyValueObjectMapping *userParser = [DCKeyValueObjectMapping mapperForClass:[BXTControlUserInfo class]  andConfiguration:userConfig];
-        BXTControlUserInfo *user = [userParser parseDictionary:userDic];
-        [usersArray addObject:user];
-    }
-    maintence.repair_arr = usersArray;
-    
-    self.maintenceInfo = maintence;
     [_currentTable reloadData];
 }
 

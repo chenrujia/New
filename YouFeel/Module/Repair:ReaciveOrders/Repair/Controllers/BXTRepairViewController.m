@@ -190,7 +190,7 @@
                 @strongify(self);
                 /**删除工单**/
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+                [request deleteRepair:repairInfo.repairID];
             }];
             [alertCtr addAction:doneAction];
             [self presentViewController:alertCtr animated:YES completion:nil];
@@ -208,7 +208,7 @@
                 if ([x integerValue] == 1)
                 {
                     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                    [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+                    [request deleteRepair:repairInfo.repairID];
                 }
             }];
             [alert show];
@@ -336,7 +336,7 @@
         BXTRepairInfo *repairInfo = repairListArray[selectIndex];
         /**删除工单**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        [request deleteRepair:repairInfo.repairID];
     }
 }
 
@@ -357,18 +357,10 @@
     if (type == RepairList)
     {
         NSMutableArray *tempArray = [NSMutableArray array];
-        for (NSDictionary *dictionary in data)
-        {
-            DCParserConfiguration *config = [DCParserConfiguration configuration];
-            DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairInfo class]];
-            [config addObjectMapping:map];
-            
-            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairInfo class] andConfiguration:config];
-            BXTRepairInfo *repairInfo = [parser parseDictionary:dictionary];
-            
-            [tempArray addObject:repairInfo];
-        }
-        
+        [BXTRepairInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"repairID":@"id"};
+        }];
+        [tempArray addObjectsFromArray:[BXTRepairInfo mj_objectArrayWithKeyValuesArray:data]];
         if (refreshType == RefreshDown)
         {
             [repairListArray removeAllObjects];

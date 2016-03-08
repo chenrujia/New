@@ -439,35 +439,19 @@
     {
         [locationShopsArray removeAllObjects];
         [self.allPersonArray removeAllObjects];
-        
-        for (NSDictionary *dictionary in array)
-        {
-            DCParserConfiguration *config = [DCParserConfiguration configuration];
-            DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"company_id" onClass:[BXTHeadquartersInfo class]];
-            [config addObjectMapping:text];
-            
-            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTHeadquartersInfo class] andConfiguration:config];
-            BXTHeadquartersInfo *company = [parser parseDictionary:dictionary];
-            
-            [locationShopsArray addObject:company];
-            
-            [self.allPersonArray addObject:dictionary];
-        }
+        [BXTHeadquartersInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"company_id":@"id"};
+        }];
+        [locationShopsArray addObjectsFromArray:[BXTHeadquartersInfo mj_objectArrayWithKeyValuesArray:array]];
+        [self.allPersonArray addObjectsFromArray:array];
     }
     else
     {
         [shopsArray removeAllObjects];
-        for (NSDictionary *dictionary in array)
-        {
-            DCParserConfiguration *config = [DCParserConfiguration configuration];
-            DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"company_id" onClass:[BXTHeadquartersInfo class]];
-            [config addObjectMapping:text];
-            
-            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTHeadquartersInfo class] andConfiguration:config];
-            BXTHeadquartersInfo *company = [parser parseDictionary:dictionary];
-            
-            [shopsArray addObject:company];
-        }
+        [BXTHeadquartersInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"company_id":@"id"};
+        }];
+        [shopsArray addObjectsFromArray:[BXTHeadquartersInfo mj_objectArrayWithKeyValuesArray:array]];
     }
     
     [currentTableView reloadData];
