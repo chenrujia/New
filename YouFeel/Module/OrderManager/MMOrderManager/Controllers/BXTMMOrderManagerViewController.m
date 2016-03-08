@@ -164,7 +164,7 @@
                 /**删除工单**/
                 [self showLoadingMBP:@"请稍候..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+                [request deleteRepair:[NSString stringWithFormat:@"%@",repairInfo.repairID]];
             }];
             [alertCtr addAction:doneAction];
             [self presentViewController:alertCtr animated:YES completion:nil];

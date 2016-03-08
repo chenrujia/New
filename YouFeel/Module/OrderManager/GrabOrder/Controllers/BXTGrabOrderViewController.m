@@ -491,7 +491,7 @@
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"002"])
         {
-            [self showMBP:@"工单已取消！" withBlock:^(BOOL hidden) {
+            [self showMBP:@"抢单失败，工单已取消！" withBlock:^(BOOL hidden) {
                 [self navigationLeftButton];
             }];
         }
