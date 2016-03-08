@@ -65,16 +65,16 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
-- (void)handleUserInfo:(NSDictionary *)dictionary
+- (void)handleUserInfo:(NSDictionary *)dic
 {
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
-    userInfo.userId = [dictionary objectForKey:@"out_userid"];
+    userInfo.userId = [dic objectForKey:@"UserID"];
     
     NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
     if ([userInfo.userId isEqualToString:my_userID]) return;
     
-    userInfo.name = [dictionary objectForKey:@"name"];
-    userInfo.portraitUri = [dictionary objectForKey:@"head_pic"];
+    userInfo.name = [dic objectForKey:@"UserName"];
+    userInfo.portraitUri = [dic objectForKey:@"HeadPic"];
     
     NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (usersArray)
@@ -112,27 +112,27 @@
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in _repairDetail.fault_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.fault_pic)
     {
-        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        if (picInfo.photo_file)
         {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:picInfo.photo_file]];
             [photos addObject:photo];
         }
     }
-    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.fixed_pic)
     {
-        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        if (picInfo.photo_file)
         {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:picInfo.photo_file]];
             [photos addObject:photo];
         }
     }
-    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.evaluation_pic)
     {
-        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        if (picInfo.photo_file)
         {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:picInfo.photo_file]];
             [photos addObject:photo];
         }
     }
@@ -156,28 +156,28 @@
 - (NSMutableArray *)containAllArray
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in _repairDetail.fault_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.fault_pic)
     {
-        [photos addObject:dictionary];
+        [photos addObject:picInfo];
     }
-    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.fixed_pic)
     {
-        [photos addObject:dictionary];
+        [photos addObject:picInfo];
     }
-    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.evaluation_pic)
     {
-        [photos addObject:dictionary];
+        [photos addObject:picInfo];
     }
     return photos;
 }
 
-- (UIImageView *)imageViewWith:(NSInteger)i andDictionary:(NSDictionary *)dictionary
+- (UIImageView *)imageViewWith:(NSInteger)i andDictionary:(BXTFaultPicInfo *)picInfo
 {
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(25.f * (i + 1) + ImageWidth * i, 0, ImageWidth, ImageHeight)];
     imgView.userInteractionEnabled = YES;
     imgView.layer.masksToBounds = YES;
     imgView.contentMode = UIViewContentModeScaleAspectFill;
-    [imgView sd_setImageWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+    [imgView sd_setImageWithURL:[NSURL URLWithString:picInfo.photo_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
     [imgView addGestureRecognizer:tapGR];
     @weakify(self);
@@ -193,8 +193,8 @@
 - (UIView *)viewForUser:(NSInteger)i andMaintenanceMaxY:(CGFloat)mainMaxY andLevelWidth:(CGFloat)levelWidth
 {
     NSInteger count = self.repairDetail.repair_user_arr.count;
-    NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
-    NSString *content = [userDic objectForKey:@"log_content"];
+    BXTMaintenanceManInfo *mmInfo = self.repairDetail.repair_user_arr[i];
+    NSString *content = mmInfo.log_content;
     CGFloat height = RepairHeight;
     CGSize size = CGSizeZero;
     if (content.length > 0)
@@ -206,7 +206,7 @@
     
     UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, mainMaxY + i * RepairHeight + log_height, SCREEN_WIDTH, height)];
     UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
-    [userImgView sd_setImageWithURL:[NSURL URLWithString:[userDic objectForKey:@"head_pic"]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+    [userImgView sd_setImageWithURL:[NSURL URLWithString:mmInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     userImgView.userInteractionEnabled = YES;
     [userBack addSubview:userImgView];
     
@@ -215,7 +215,7 @@
     [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
         BXTPersonInfromViewController *piVC = [[BXTPersonInfromViewController alloc] init];
-        piVC.userID = [userDic objectForKey:@"id"];
+        piVC.userID = mmInfo.mmID;
         NSArray *shopArray = [BXTGlobal getUserProperty:U_SHOPIDS];
         piVC.shopID = shopArray[0];
         [self.navigationController pushViewController:piVC animated:YES];
@@ -237,7 +237,7 @@
     userName.numberOfLines = 0;
     userName.lineBreakMode = NSLineBreakByWordWrapping;
     userName.font = [UIFont systemFontOfSize:16.f];
-    userName.text = [userDic objectForKey:@"name"];
+    userName.text = mmInfo.name;
     [userBack addSubview:userName];
     
     UILabel *role = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 28.f, levelWidth, 20)];
@@ -245,7 +245,7 @@
     role.numberOfLines = 0;
     role.lineBreakMode = NSLineBreakByWordWrapping;
     role.font = [UIFont systemFontOfSize:14.f];
-    role.text = [NSString stringWithFormat:@"%@-%@",[userDic objectForKey:@"department"],[userDic objectForKey:@"role"]];
+    role.text = [NSString stringWithFormat:@"%@-%@",mmInfo.department,mmInfo.role];
     [userBack addSubview:role];
     
     UILabel *phone = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 50.f, levelWidth, 20)];
@@ -254,7 +254,7 @@
     phone.lineBreakMode = NSLineBreakByWordWrapping;
     phone.userInteractionEnabled = YES;
     phone.font = [UIFont systemFontOfSize:14.f];
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[userDic objectForKey:@"mobile"]];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:mmInfo.mobile];
     [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
     [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
     phone.attributedText = attributedString;
@@ -262,8 +262,8 @@
     [phone addGestureRecognizer:moblieTap];
     [[moblieTap rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
-        NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
-        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", [userDic objectForKey:@"mobile"]];
+        BXTMaintenanceManInfo *mainManInfo = self.repairDetail.repair_user_arr[i];
+        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", mainManInfo.mobile];
         UIWebView *callWeb = [[UIWebView alloc] init];
         [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
         [self.view addSubview:callWeb];
@@ -282,9 +282,9 @@
         [userBack addSubview:log];
     }
     
-    if ([[userDic objectForKey:@"id"] isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]] &&
-        _repairDetail.repairstate == 2 &&
-        _repairDetail.isRepairing == 1)
+    if ([mmInfo.mmID isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]] &&
+        [_repairDetail.repairstate integerValue] == 2 &&
+        [_repairDetail.isRepairing integerValue] == 1)
     {
         UIButton *repairNow = [UIButton buttonWithType:UIButtonTypeCustom];
         repairNow.layer.cornerRadius = 4.f;
@@ -297,7 +297,7 @@
             @strongify(self);
             [self showLoadingMBP:@"请稍候..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request startRepair:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]];
+            [request startRepair:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.orderID]];
         }];
         [userBack addSubview:repairNow];
     }
@@ -318,8 +318,10 @@
         @weakify(self);
         [[contact rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
-            [self handleUserInfo:userDic];
+            BXTMaintenanceManInfo *mainManInfo = self.repairDetail.repair_user_arr[i];
+            [self handleUserInfo:@{@"UserID":mainManInfo.mmID,
+                                   @"UserName":mainManInfo.name,
+                                   @"HeadPic":mainManInfo.head_pic}];
         }];
         [userBack addSubview:contact];
     }
@@ -336,7 +338,7 @@
 
 - (UIView *)deviceLists:(NSInteger)i comingFromDeviceInfo:(BOOL)isComing
 {
-    NSDictionary *deviceDic = _repairDetail.device_list[i];
+    BXTDeviceMMListInfo *deviceMMInfo = _repairDetail.device_list[i];
     CGFloat height = 63.f;
     //以设备列表下面那条线为基准
     CGFloat y = 46.f;
@@ -347,7 +349,7 @@
     deviceName.numberOfLines = 0;
     deviceName.lineBreakMode = NSLineBreakByWordWrapping;
     deviceName.font = [UIFont systemFontOfSize:16.f];
-    deviceName.text = [deviceDic objectForKey:@"name"];
+    deviceName.text = deviceMMInfo.name;
     [deviceBackView addSubview:deviceName];
     
     UILabel *deviceNumber = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(deviceName.frame) + 8.f, SCREEN_WIDTH - 108.f, 20)];
@@ -355,7 +357,7 @@
     deviceNumber.numberOfLines = 0;
     deviceNumber.lineBreakMode = NSLineBreakByWordWrapping;
     deviceNumber.font = [UIFont systemFontOfSize:16.f];
-    deviceNumber.text = [deviceDic objectForKey:@"code_number"];
+    deviceNumber.text = deviceMMInfo.code_number;
     [deviceBackView addSubview:deviceNumber];
     
     if (!isComing)
@@ -373,19 +375,19 @@
         }
 
         //如果是报修者身份，或者是维修员还没有到达现场（点击开始维修），或者是正常工单，则只提供查看权限
-        if (((self.repairDetail.repairstate == 1 || self.repairDetail.repairstate == 2) && self.repairDetail.isRepairing == 1) || ![BXTGlobal shareGlobal].isRepair || self.repairDetail.task_type == 1)
+        if ((([self.repairDetail.repairstate integerValue] == 1 || [self.repairDetail.repairstate integerValue] == 2) && [self.repairDetail.isRepairing integerValue] == 1) || ![BXTGlobal shareGlobal].isRepair || [self.repairDetail.task_type integerValue] == 1)
         {
             [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
         }
-        else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 0)
+        else if ([deviceMMInfo.inspection_state integerValue] == 0)
         {
             [maintenaceBtn setTitle:@"开始保养" forState:UIControlStateNormal];
         }
-        else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 1)
+        else if ([deviceMMInfo.inspection_state integerValue] == 1)
         {
             [maintenaceBtn setTitle:@"维保中" forState:UIControlStateNormal];
         }
-        else if ([[deviceDic objectForKey:@"inspection_state"] integerValue] == 2)
+        else if ([deviceMMInfo.inspection_state integerValue] == 2)
         {
             [maintenaceBtn setTitle:@"已完成" forState:UIControlStateNormal];
         }
@@ -394,8 +396,8 @@
         @weakify(self);
         [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            NSDictionary *deviceDic = self.repairDetail.device_list[i];
-            BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:[deviceDic objectForKey:@"id"]];
+            BXTDeviceMMListInfo *dmInfo = self.repairDetail.device_list[i];
+            BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dmInfo.deviceMMID];
             epvc.pushType = PushType_StartMaintain;
             epvc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:epvc animated:YES];

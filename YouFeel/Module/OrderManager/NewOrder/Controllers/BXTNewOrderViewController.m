@@ -372,7 +372,7 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
         NSArray *users = @[userID];
-        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]
+        [request reaciveOrderID:self.repairDetail.orderID
                     arrivalTime:timeStr
                       andUserID:userID
                        andUsers:users
@@ -451,15 +451,15 @@
 
 - (void)connectTa
 {
-    NSDictionary *repaier_fault_dic = _repairDetail.repair_fault_arr[0];
+    BXTRepairPersonInfo *repairPerson = _repairDetail.repair_fault_arr[0];
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
-    userInfo.userId = [repaier_fault_dic objectForKey:@"out_userid"];
+    userInfo.userId = repairPerson.out_userid;
     
     NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
     if ([userInfo.userId isEqualToString:my_userID]) return;
     
-    userInfo.name = [repaier_fault_dic objectForKey:@"name"];
-    userInfo.portraitUri = [repaier_fault_dic objectForKey:@"head_pic"];
+    userInfo.name = repairPerson.name;
+    userInfo.portraitUri = repairPerson.head_pic;
     
     NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (usersArray)
@@ -528,19 +528,31 @@
     if (type == RepairDetail && data.count > 0)
     {
         NSDictionary *dictionary = data[0];
+        [BXTRepairDetailInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"orderID":@"id"};
+        }];
+        [BXTMaintenanceManInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"mmID":@"id"};
+        }];
+        [BXTDeviceMMListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"deviceMMID":@"id"};
+        }];
+        [BXTAdsNameInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"adsNameID":@"id"};
+        }];
+        [BXTRepairPersonInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"rpID":@"id"};
+        }];
+        [BXTFaultPicInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"picID":@"id"};
+        }];
+        self.repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
         
-        DCParserConfiguration *config = [DCParserConfiguration configuration];
-        DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairDetailInfo class]];
-        [config addObjectMapping:map];
-        
-        DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairDetailInfo class] andConfiguration:config];
-        self.repairDetail = [parser parseDictionary:dictionary];
-        
-        NSDictionary *repaier_fault_dic = _repairDetail.repair_fault_arr[0];
-        NSString *headURL = [repaier_fault_dic objectForKey:@"head_pic"];
+        BXTRepairPersonInfo *repairPerson = _repairDetail.repair_fault_arr[0];
+        NSString *headURL = repairPerson.head_pic;
         [headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-        repairerName.text = [repaier_fault_dic objectForKey:@"name"];
-        repairerDetail.text = [repaier_fault_dic objectForKey:@"role"];
+        repairerName.text = repairPerson.name;
+        repairerDetail.text = repairPerson.role;
         
         repairID.text = [NSString stringWithFormat:@"工单号:%@",_repairDetail.orderid];
         
@@ -553,10 +565,12 @@
         NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
         time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
         
-        if (_repairDetail.visitmobile.length != 11) {
+        if (_repairDetail.visitmobile.length != 11)
+        {
             mobile.text = @"暂无";
         }
-        else {
+        else
+        {
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_repairDetail.visitmobile];
             [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
             [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
@@ -570,23 +584,22 @@
         groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(groupName.frame), group_size.width, group_size.height);
         groupName.text = group_name;
         
-        if (_repairDetail.order_type == 1)
+        if ([_repairDetail.order_type integerValue] == 1)
         {
             orderType.text = @"";
         }
-        else if (_repairDetail.order_type == 2)
+        else if ([_repairDetail.order_type integerValue] == 2)
         {
             orderType.text = @"协作工单";
         }
-        else if (_repairDetail.order_type == 3)
+        else if ([_repairDetail.order_type integerValue] == 3)
         {
             orderType.text = @"特殊工单";
         }
-        else if (_repairDetail.order_type == 4)
+        else if ([_repairDetail.order_type integerValue] == 4)
         {
             orderType.text = @"超时工单";
         }
-        
         
         place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
         
@@ -597,11 +610,10 @@
         cause.frame = CGRectMake(15.f, CGRectGetMaxY(faultType.frame) + 10.f, CGRectGetWidth(faultType.frame), 20);
         level.frame = CGRectMake(15.f, CGRectGetMaxY(cause.frame) + 10.f, CGRectGetWidth(cause.frame), 20);
         
-        
         faultType.text = [NSString stringWithFormat:@"故障类型:%@",_repairDetail.faulttype_name];
         cause.text = [NSString stringWithFormat:@"故障描述:%@",_repairDetail.cause];
         
-        if (_repairDetail.urgent == 2)
+        if ([_repairDetail.urgent integerValue] == 2)
         {
             level.text = @"等级:一般";
         }
@@ -626,15 +638,15 @@
             UIScrollView *imagesScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(notes.frame) + 20.f, SCREEN_WIDTH, ImageHeight)];
             imagesScrollView.contentSize = CGSizeMake((ImageWidth + 25) * imgArray.count + 25.f, ImageHeight);
             [imagesScrollView setShowsHorizontalScrollIndicator:NO];
-            for (NSDictionary *dictionary in imgArray)
+            for (BXTFaultPicInfo *picInfo in imgArray)
             {
-                if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+                if (picInfo.photo_file)
                 {
                     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(25.f * (i + 1) + ImageWidth * i, 0, ImageWidth, ImageHeight)];
                     imgView.userInteractionEnabled = YES;
                     imgView.layer.masksToBounds = YES;
                     imgView.contentMode = UIViewContentModeScaleAspectFill;
-                    [imgView sd_setImageWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+                    [imgView sd_setImageWithURL:[NSURL URLWithString:picInfo.photo_file]];
                     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
                     @weakify(self);
                     [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
@@ -695,7 +707,7 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
         NSArray *users = @[userID];
-        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]
+        [request reaciveOrderID:self.repairDetail.orderID
                     arrivalTime:timeStr
                       andUserID:userID
                        andUsers:users
@@ -730,17 +742,17 @@
 - (NSMutableArray *)containAllArray
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in _repairDetail.fault_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.fault_pic)
     {
-        [photos addObject:dictionary];
+        [photos addObject:picInfo];
     }
-    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.fixed_pic)
     {
-        [photos addObject:dictionary];
+        [photos addObject:picInfo];
     }
-    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.evaluation_pic)
     {
-        [photos addObject:dictionary];
+        [photos addObject:picInfo];
     }
     return photos;
 }
@@ -748,29 +760,29 @@
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in _repairDetail.fault_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.fault_pic)
     {
-        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        if (picInfo.photo_file)
         {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:picInfo.photo_file]];
             [photos addObject:photo];
         }
     }
     
-    for (NSDictionary *dictionary in _repairDetail.fixed_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.fixed_pic)
     {
-        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        if (picInfo.photo_file)
         {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:picInfo.photo_file]];
             [photos addObject:photo];
         }
     }
     
-    for (NSDictionary *dictionary in _repairDetail.evaluation_pic)
+    for (BXTFaultPicInfo *picInfo in _repairDetail.evaluation_pic)
     {
-        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        if (picInfo.photo_file)
         {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:picInfo.photo_file]];
             [photos addObject:photo];
         }
     }
@@ -781,17 +793,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

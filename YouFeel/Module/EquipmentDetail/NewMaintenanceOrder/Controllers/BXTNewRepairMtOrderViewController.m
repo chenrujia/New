@@ -11,7 +11,6 @@
 #import "BXTSettingTableViewCell.h"
 #import "UIImage+SubImage.h"
 #import "BXTFaultInfo.h"
-#import "BXTFaultTypeInfo.h"
 #import "BXTAddOtherManViewController.h"
 #import "BXTAddOtherManInfo.h"
 #import "BXTChooseFaultViewController.h"
@@ -452,16 +451,10 @@
     {
         if (data.count)
         {
-            for (NSDictionary *dictionary in data)
-            {
-                DCParserConfiguration *config = [DCParserConfiguration configuration];
-                DCObjectMapping *text = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"dep_id" onClass:[BXTDepartmentInfo class]];
-                [config addObjectMapping:text];
-                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTDepartmentInfo class] andConfiguration:config];
-                BXTDepartmentInfo *departmentInfo = [parser parseDictionary:dictionary];
-                
-                [dep_dataSource addObject:departmentInfo];
-            }
+            [BXTDepartmentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"dep_id":@"id"};
+            }];
+            [dep_dataSource addObjectsFromArray:[BXTDepartmentInfo mj_objectArrayWithKeyValuesArray:data]];
         }
     }
     

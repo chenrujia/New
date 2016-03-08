@@ -7,9 +7,10 @@
 //
 
 #import "BXTPhotoBaseViewController.h"
-#import "BXTRepairDetailInfo.h"
-#import "BXTControlUserInfo.h"
+#import "BXTDeviceMaintenceInfo.h"
 #import <RongIMKit/RongIMKit.h>
+#import "BXTRepairDetailInfo.h"
+
 
 #define ImageWidth      73.3f
 #define ImageHeight     73.3f
@@ -23,11 +24,11 @@
 @property (nonatomic ,strong) BXTRepairDetailInfo *repairDetail;
 
 - (void)handleUserInfoWithUser:(BXTControlUserInfo *)user;
-- (void)handleUserInfo:(NSDictionary *)dictionary;
+- (void)handleUserInfo:(NSDictionary *)dic;
 - (NSMutableArray *)containAllPhotos:(NSArray *)picArray;
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser;
 - (NSMutableArray *)containAllArray;
-- (UIImageView *)imageViewWith:(NSInteger)i andDictionary:(NSDictionary *)dictionary;
+- (UIImageView *)imageViewWith:(NSInteger)i andDictionary:(BXTFaultPicInfo *)dictionary;
 - (UIView *)viewForUser:(NSInteger)i andMaintenanceMaxY:(CGFloat)mainMaxY andLevelWidth:(CGFloat)levelWidth;
 - (UIView *)deviceLists:(NSInteger)i comingFromDeviceInfo:(BOOL)isComing;
 

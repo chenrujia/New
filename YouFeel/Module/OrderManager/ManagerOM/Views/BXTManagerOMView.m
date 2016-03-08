@@ -447,7 +447,7 @@
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
     if (_orderType == OutTimeType && [repairInfo.state integerValue] == 1 && [repairInfo.order_type integerValue] != 3)
     {
-        BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:[NSString stringWithFormat:@"%ld",(long)repairInfo.repairID]];
+        BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:repairInfo.repairID];
         [[self navigation] pushViewController:assignOrderVC animated:YES];
     }
     else if (_orderType == OutTimeType && [repairInfo.order_type integerValue] == 3)
@@ -496,16 +496,10 @@
     if (data.count > 0)
     {
         NSMutableArray *tempArray = [NSMutableArray array];
-        for (NSDictionary *dictionary in data)
-        {
-            DCParserConfiguration *config = [DCParserConfiguration configuration];
-            DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairInfo class]];
-            [config addObjectMapping:map];
-            
-            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairInfo class] andConfiguration:config];
-            BXTRepairInfo *repairInfo = [parser parseDictionary:dictionary];
-            [tempArray addObject:repairInfo];
-        }
+        [BXTRepairInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"repairID":@"id"};
+        }];
+        [tempArray addObjectsFromArray:[BXTRepairInfo mj_objectArrayWithKeyValuesArray:data]];
         if (refreshType == Down)
         {
             [repairListArray removeAllObjects];

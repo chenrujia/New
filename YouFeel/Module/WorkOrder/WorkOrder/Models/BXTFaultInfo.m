@@ -10,4 +10,13 @@
 
 @implementation BXTFaultInfo
 
++ (NSDictionary *)objectClassInArray
+{
+    return @{@"sub_data":[BXTFaultTypeInfo class]};
+}
+
+@end
+
+@implementation BXTFaultTypeInfo
+
 @end

@@ -61,8 +61,10 @@
     @weakify(self);
     [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        NSDictionary *repaier_fault_dic = self.repairDetail.repair_fault_arr[0];
-        [self handleUserInfo:repaier_fault_dic];
+        BXTRepairPersonInfo *rpInfo = self.repairDetail.repair_fault_arr[0];
+        [self handleUserInfo:@{@"UserID":rpInfo.rpID,
+                               @"UserName":rpInfo.name,
+                               @"HeadPic":rpInfo.head_pic}];
     }];
     _maintenance.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _maintenance.layer.borderWidth = 1.f;
@@ -77,9 +79,9 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
     [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
-        NSDictionary *repaier_fault_dic = self.repairDetail.repair_fault_arr[0];
+        BXTRepairPersonInfo *repairPerson = self.repairDetail.repair_fault_arr[0];
         BXTPersonInfromViewController *personVC = [[BXTPersonInfromViewController alloc] init];
-        personVC.userID = [repaier_fault_dic objectForKey:@"id"];
+        personVC.userID = repairPerson.rpID;
         NSArray *shopArray = [BXTGlobal getUserProperty:U_SHOPIDS];
         personVC.shopID = shopArray[0];
         [self.navigationController pushViewController:personVC animated:YES];
@@ -190,7 +192,7 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
         NSArray *users = @[userID];
-        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]
+        [request reaciveOrderID:self.repairDetail.orderID
                     arrivalTime:timeStr
                       andUserID:userID
                        andUsers:users
@@ -234,7 +236,7 @@
 #pragma mark 取消报修
 - (IBAction)cancelTheRepair:(id)sender
 {
-    if (self.repairDetail.repairstate == 1)
+    if ([self.repairDetail.repairstate integerValue] == 1)
     {
         if (IS_IOS_8)
         {
@@ -246,7 +248,7 @@
                 @strongify(self);
                 /**删除工单**/
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]];
+                [request deleteRepair:self.repairDetail.orderID];
             }];
             [alertCtr addAction:doneAction];
             [self presentViewController:alertCtr animated:YES completion:nil];
@@ -264,7 +266,7 @@
                 if ([x integerValue] == 1)
                 {
                     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                    [request deleteRepair:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]];
+                    [request deleteRepair:self.repairDetail.orderID];
                 }
             }];
             [alert show];
@@ -343,7 +345,7 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
         NSArray *users = @[userID];
-        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]
+        [request reaciveOrderID:self.repairDetail.orderID
                     arrivalTime:timeStr
                       andUserID:userID
                        andUsers:users
@@ -364,13 +366,13 @@
     else if (item.tag == 2)
     {
         //如果还有设备在维保中，则不让修改维保过程
-        if (self.repairDetail.all_inspection_state.integerValue == 1)
+        if (self.repairDetail.all_inspection_state == 1)
         {
             [self showMBP:@"设备正在维保中，此刻不能更改维修过程！" withBlock:nil];
         }
         else
         {
-            BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:self.repairDetail.faulttype_name andCurrentFaultID:self.repairDetail.faulttype andRepairID:self.repairDetail.repairID andReaciveTime:self.repairDetail.start_time];
+            BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:self.repairDetail.faulttype_name andCurrentFaultID:[self.repairDetail.faulttype integerValue] andRepairID:[self.repairDetail.orderID integerValue] andReaciveTime:self.repairDetail.start_time];
             @weakify(self);
             maintenanceProcossVC.BlockRefresh = ^() {
                 @strongify(self);
@@ -392,18 +394,32 @@
     if (type == RepairDetail && data.count > 0)
     {
         NSDictionary *dictionary = data[0];
-        DCParserConfiguration *config = [DCParserConfiguration configuration];
-        DCObjectMapping *map = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"repairID" onClass:[BXTRepairDetailInfo class]];
-        [config addObjectMapping:map];
-        DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[BXTRepairDetailInfo class] andConfiguration:config];
-        self.repairDetail = [parser parseDictionary:dictionary];
+        [BXTRepairDetailInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"orderID":@"id"};
+        }];
+        [BXTMaintenanceManInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"mmID":@"id"};
+        }];
+        [BXTDeviceMMListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"deviceMMID":@"id"};
+        }];
+        [BXTAdsNameInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"adsNameID":@"id"};
+        }];
+        [BXTRepairPersonInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"rpID":@"id"};
+        }];
+        [BXTFaultPicInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"picID":@"id"};
+        }];
+        self.repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
         
         //各种赋值
-        NSDictionary *repaier_fault_dic = self.repairDetail.repair_fault_arr[0];
-        NSString *headURL = [repaier_fault_dic objectForKey:@"head_pic"];
+        BXTRepairPersonInfo *repairPerson = self.repairDetail.repair_fault_arr[0];
+        NSString *headURL = repairPerson.head_pic;
         [_headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-        _repairerName.text = [repaier_fault_dic objectForKey:@"name"];
-        _repairerDetail.text = [repaier_fault_dic objectForKey:@"role"];
+        _repairerName.text = repairPerson.name;
+        _repairerDetail.text = repairPerson.role;
         _repairID.text = [NSString stringWithFormat:@"工单号:%@",self.repairDetail.orderid];
         NSString *repairTimeStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.repair_time];
         _repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairTimeStr];
@@ -432,7 +448,7 @@
         }
         
         //是否显示维保
-        if (self.repairDetail.task_type == 2)
+        if ([self.repairDetail.task_type integerValue] == 2)
         {
             _maintenance.hidden = NO;
         }
@@ -458,7 +474,7 @@
         _faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
         _cause.text = [NSString stringWithFormat:@"故障描述:%@",self.repairDetail.cause];
         
-        if (self.repairDetail.urgent == 2)
+        if ([self.repairDetail.urgent integerValue] == 2)
         {
             _level.text = @"等级:一般";
         }
@@ -478,11 +494,11 @@
         {
             NSInteger i = 0;
             _images_scrollview.contentSize = CGSizeMake((ImageWidth + 25) * imgArray.count + 25.f, ImageHeight);
-            for (NSDictionary *dictionary in imgArray)
+            for (BXTFaultPicInfo *picInfo in imgArray)
             {
-                if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+                if (picInfo.photo_file)
                 {
-                    UIImageView *imgView = [self imageViewWith:i andDictionary:dictionary];
+                    UIImageView *imgView = [self imageViewWith:i andDictionary:picInfo];
                     [_images_scrollview addSubview:imgView];
                     i++;
                 }
@@ -530,7 +546,7 @@
         BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, StateViewHeight) withProgress:self.repairDetail.progress isShowState:NO];
         [_thirdBV addSubview:drawView];
         
-        if (self.repairDetail.repairstate == 1)
+        if ([self.repairDetail.repairstate integerValue] == 1)
         {
             _third_bv_height.constant = CGRectGetMaxY(_arrangeTime.frame) - 32.f;
             _arrangeTime.hidden = YES;
@@ -566,12 +582,12 @@
         CGFloat reacive_height = 0.f;
         _reaciveOrder.hidden = YES;
         _bottomTabBar.hidden = YES;
-        if (self.repairDetail.repairstate == 1 && !_isAllOrderType && [BXTGlobal shareGlobal].isRepair)
+        if ([self.repairDetail.repairstate integerValue] == 1 && !_isAllOrderType && [BXTGlobal shareGlobal].isRepair)
         {
             reacive_height = 90.f;
             _reaciveOrder.hidden = NO;
         }
-        else if (self.repairDetail.repairstate == 2 && self.repairDetail.isRepairing == 2 && !_isAllOrderType && [BXTGlobal shareGlobal].isRepair && !self.isComingFromDeviceInfo)
+        else if ([self.repairDetail.repairstate integerValue] == 2 && [self.repairDetail.isRepairing integerValue] == 2 && !_isAllOrderType && [BXTGlobal shareGlobal].isRepair && !self.isComingFromDeviceInfo)
         {
             if (!self.isRejectVC && [BXTGlobal shareGlobal].isRepair)
             {
@@ -601,15 +617,15 @@
             CGFloat log_content_height = 0.f;
             for (NSInteger i = 0; i < usersCount; i++)
             {
-                NSDictionary *userDic = self.repairDetail.repair_user_arr[i];
-                NSString *content = [userDic objectForKey:@"log_content"];
+                BXTMaintenanceManInfo *mmInfo = self.repairDetail.repair_user_arr[i];
+                NSString *content = mmInfo.log_content;
                 if (content.length > 0)
                 {
                     NSString *log = [NSString stringWithFormat:@"维修日志：%@",content];
                     CGSize size = MB_MULTILINE_TEXTSIZE(log, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30, 1000.f), NSLineBreakByWordWrapping);
                     log_content_height = size.height + 20.f;
                 }
-                [self.manIDArray addObject:userDic[@"id"]];
+                [self.manIDArray addObject:mmInfo.mmID];
                 UIView *userBack = [self viewForUser:i andMaintenanceMaxY:CGRectGetMaxY(_maintenanceMan.frame) + 20 andLevelWidth:CGRectGetWidth(_level.frame)];
                 [_fouthBV addSubview:userBack];
             }
@@ -626,20 +642,19 @@
         
         //取消报修按钮
         _cancelRepair.hidden = YES;
-        if (![BXTGlobal shareGlobal].isRepair && self.repairDetail.repairstate == 1)
+        if (![BXTGlobal shareGlobal].isRepair && [self.repairDetail.repairstate integerValue] == 1)
         {
             _sco_content_height.constant += 80.f;
             _cancelRepair.hidden = NO;
         }
         
         //评价按钮
-        NSDictionary *repairUserDic = self.repairDetail.repair_fault_arr[0];
         BOOL isSelf = NO;
-        if ([[BXTGlobal getUserProperty:U_BRANCHUSERID] isEqualToString:[repairUserDic objectForKey:@"id"]])
+        if ([[BXTGlobal getUserProperty:U_BRANCHUSERID] isEqualToString:repairPerson.rpID])
         {
             isSelf = YES;
         }
-        if (isSelf && self.repairDetail.repairstate == 3 && !_isComingFromDeviceInfo && !_isAllOrderType)
+        if (isSelf && [self.repairDetail.repairstate integerValue] == 3 && !_isComingFromDeviceInfo && !_isAllOrderType)
         {
             self.evaBackView = [[UIView alloc] initWithFrame:CGRectMake(0.f, SCREEN_HEIGHT - 200.f/3.f, SCREEN_WIDTH, 200.f/3.f)];
             _evaBackView.backgroundColor = [UIColor blackColor];
@@ -657,7 +672,7 @@
             @weakify(self);
             [[_evaluationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 @strongify(self);
-                BXTEvaluationViewController *evaluationVC = [[BXTEvaluationViewController alloc] initWithRepairID:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.repairID]];
+                BXTEvaluationViewController *evaluationVC = [[BXTEvaluationViewController alloc] initWithRepairID:self.repairDetail.orderID];
                 [self.navigationController pushViewController:evaluationVC animated:YES];
             }];
             [self.view addSubview:_evaluationBtn];
