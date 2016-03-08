@@ -136,7 +136,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         [self.delegateSignal sendNext:@[firstModel.area_id, firstModel.area_name, @"", @"", @"", @""]];
         
         // 二级位置
-        if (![self.secondText isEqualToString:@"请输入(非必填项)"]) {
+        if (![self.secondText isEqualToString:@"请输入(非必填项)"])
+        {
             BXTAreaInfo *secondModel = self.addressSecondArray[self.indexOfRow1][self.indexOfRow2];
             [self.delegateSignal sendNext:@[firstModel.area_id, firstModel.area_name, secondModel.place_id, secondModel.place_name, @"", @""]];
         }
@@ -175,7 +176,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (tableView == self.tableView_address) {
+    if (tableView == self.tableView_address)
+    {
         return 1;
     }
     
@@ -184,7 +186,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == self.tableView_address) {
+    if (tableView == self.tableView_address)
+    {
         return self.addressArray.count;
     }
     return 1;
@@ -192,23 +195,27 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.tableView_address) {
+    if (tableView == self.tableView_address)
+    {
         static NSString *cellID = @"cellFault";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        if (cell == nil) {
+        if (cell == nil)
+        {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
         }
         
-        if (self.typeOfRow == SelectedType_First) {
+        if (self.typeOfRow == SelectedType_First)
+        {
             BXTFloorInfo *model = self.addressArray[indexPath.row];
             cell.textLabel.text = model.area_name;
         }
-        else if (self.typeOfRow == SelectedType_Second) {
+        else if (self.typeOfRow == SelectedType_Second)
+        {
             BXTAreaInfo *model = self.addressArray[indexPath.row];
             cell.textLabel.text = model.place_name;
         }
-        
-        if (self.typeOfRow == SelectedType_Third) {
+        if (self.typeOfRow == SelectedType_Third)
+        {
             BXTShopInfo *model = self.addressArray[indexPath.row];
             cell.textLabel.text = model.stores_name;
         }
@@ -221,23 +228,22 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         return cell;
     }
     
-    
     BXTEPLocationCell *cell = [BXTEPLocationCell cellWithTableView:tableView];
-    
-    
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         cell.titleView.text = @"一级位置";
         cell.descView.text = self.firstText;
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 1)
+    {
         cell.titleView.text = @"二级位置";
         cell.descView.text = self.secondText;
     }
-    else if (indexPath.section == 2) {
+    else if (indexPath.section == 2)
+    {
         cell.titleView.text = @"三级位置";
         cell.descView.text = self.thirdText;
     }
-    
     
     return cell;
 }
@@ -246,7 +252,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (tableView == self.tableView_address) {
+    if (tableView == self.tableView_address)
+    {
         self.isBgBtnExist = NO;
         [UIView animateWithDuration:0.5 animations:^{
             self.bgBtn.alpha = 0.0;
@@ -254,28 +261,31 @@ typedef NS_ENUM(NSInteger, SelectedType) {
             [self.bgBtn removeFromSuperview];
         }];
         
-        if (self.typeOfRow == SelectedType_First) {
+        if (self.typeOfRow == SelectedType_First)
+        {
             BXTFloorInfo *model = self.addressArray[indexPath.row];
             self.firstText = model.area_name;
             self.indexOfRow1 = indexPath.row;
             self.secondText = @"请输入(非必填项)";
             self.thirdText = @"请输入(非必填项)";
         }
-        else if (self.typeOfRow == SelectedType_Second) {
+        else if (self.typeOfRow == SelectedType_Second)
+        {
             BXTAreaInfo *model = self.addressArray[indexPath.row];
             self.secondText = model.place_name;
             self.indexOfRow2 = indexPath.row;
             self.thirdText = @"请输入(非必填项)";
         }
-        else if (self.typeOfRow == SelectedType_Third) {
+        else if (self.typeOfRow == SelectedType_Third)
+        {
             BXTShopInfo *model = self.addressArray[indexPath.row];
             self.thirdText = model.stores_name;
             self.indexOfRow3 = indexPath.row;
         }
-        
         [self.currentTableView reloadData];
     }
-    else {
+    else
+    {
         [self createChooseAddressWithType:indexPath.section];
     }
 }
@@ -284,28 +294,32 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 #pragma mark - createChooseAddress
 - (void)createChooseAddressWithType:(SelectedType)typeSelected
 {
-    if (typeSelected == 0) {
+    if (typeSelected == 0)
+    {
         self.addressArray = self.addressFirstArray;
         self.typeOfRow = SelectedType_First;
     }
-    else if (typeSelected == 1) {
-        if ([self.firstText isEqualToString:@"请输入(必填项)"]) {
+    else if (typeSelected == 1)
+    {
+        if ([self.firstText isEqualToString:@"请输入(必填项)"])
+        {
             [BXTGlobal showText:@"请选择一级位置信息" view:self.view completionBlock:nil];
             return;
         }
         self.addressArray = self.addressSecondArray[self.indexOfRow1];
         self.typeOfRow = SelectedType_Second;
     }
-    else if (typeSelected == 2) {
-        if ([self.secondText isEqualToString:@"请输入(非必填项)"]) {
+    else if (typeSelected == 2)
+    {
+        if ([self.secondText isEqualToString:@"请输入(非必填项)"])
+        {
             [BXTGlobal showText:@"请选择二级位置信息" view:self.view completionBlock:nil];
             return;
         }
         self.addressArray = self.addressThirdArray[self.indexOfRow1][self.indexOfRow2];
         self.typeOfRow = SelectedType_Third;
     }
-    
-    
+
     self.isBgBtnExist = YES;
     self.bgBtn = [[UIButton alloc] initWithFrame:self.view.frame];
     self.bgBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
@@ -329,7 +343,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     self.tableView_address.dataSource = self;
     [self.bgBtn addSubview:self.tableView_address];
     
-    if (self.addressArray.count <= 6) {
+    if (self.addressArray.count <= 6)
+    {
         self.tableView_address.frame = CGRectMake(20, 80, bgSize.width-40, bgSize.height-160);
     }
     [UIView animateWithDuration:0.5 animations:^{
@@ -352,20 +367,20 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
         for (NSDictionary *firstDict in array) {
             // 第一层
-            BXTFloorInfo *firstModel = [BXTFloorInfo modelWithDict:firstDict];
+            BXTFloorInfo *firstModel = [BXTFloorInfo mj_objectWithKeyValues:firstDict];
             [firstArray addObject:firstModel];
             
             // 第二层
             NSMutableArray *subSecondArray = [[NSMutableArray alloc] init];
             NSMutableArray *subThirdArray = [[NSMutableArray alloc] init];
             for (NSDictionary *secondDict in firstDict[@"place"]) {
-                BXTAreaInfo *secondModel = [BXTAreaInfo modelWithDict:secondDict];
+                BXTAreaInfo *secondModel = [BXTAreaInfo mj_objectWithKeyValues:secondDict];
                 [subSecondArray addObject:secondModel];
                 
                 // 第三层
                 NSMutableArray *subSubThirdArray = [[NSMutableArray alloc] init];
                 for (NSDictionary *thirdDict in secondDict[@"stores"]) {
-                    BXTShopInfo *thirdModel = [BXTShopInfo modelWithDict:thirdDict];
+                    BXTShopInfo *thirdModel = [BXTShopInfo mj_objectWithKeyValues:thirdDict];
                     [subSubThirdArray addObject:thirdModel];
                 }
                 [subThirdArray addObject:subSubThirdArray];
@@ -394,7 +409,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     
 }
 
-- (void)createForthUI {
+- (void)createForthUI
+{
     self.isBgBtnExist = YES;
     self.bgBtn = [[UIButton alloc] initWithFrame:self.view.frame];
     self.bgBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
@@ -418,7 +434,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     self.tableView_address.dataSource = self;
     [self.bgBtn addSubview:self.tableView_address];
     
-    if (self.addressArray.count <= 6) {
+    if (self.addressArray.count <= 6)
+    {
         self.tableView_address.frame = CGRectMake(20, 80, bgSize.width-40, bgSize.height-160);
     }
     [UIView animateWithDuration:0.5 animations:^{

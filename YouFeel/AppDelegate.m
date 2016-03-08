@@ -548,25 +548,24 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     {
         NSArray *dataArray = [dic objectForKey:@"data"];
         NSDictionary *userInfoDic = [dataArray objectAtIndex:0];
+        [BXTAbroadUserInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"userID":@"id"};
+        }];
+        BXTAbroadUserInfo *abUserInfo = [BXTAbroadUserInfo mj_objectWithKeyValues:userInfoDic];
         
-        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"username"] withKey:U_USERNAME];
-        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"gender"] withKey:U_SEX];
-        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"name"] withKey:U_NAME];
-        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"pic"] withKey:U_HEADERIMAGE];
-        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"im_token"] withKey:U_IMTOKEN];
-        [BXTGlobal setUserProperty:[userInfoDic objectForKey:@"token"] withKey:U_TOKEN];
+        [BXTGlobal setUserProperty:abUserInfo.username withKey:U_USERNAME];
+        [BXTGlobal setUserProperty:abUserInfo.gender withKey:U_SEX];
+        [BXTGlobal setUserProperty:abUserInfo.name withKey:U_NAME];
+        [BXTGlobal setUserProperty:abUserInfo.pic withKey:U_HEADERIMAGE];
+        [BXTGlobal setUserProperty:abUserInfo.im_token withKey:U_IMTOKEN];
+        [BXTGlobal setUserProperty:abUserInfo.token withKey:U_TOKEN];
+        [BXTGlobal setUserProperty:abUserInfo.shop_ids withKey:U_SHOPIDS];
+        [BXTGlobal setUserProperty:abUserInfo.userID withKey:U_USERID];
+        [BXTGlobal setUserProperty:abUserInfo.my_shop withKey:U_MYSHOP];
         
-        NSArray *shopids = [userInfoDic objectForKey:@"shop_ids"];
-        [BXTGlobal setUserProperty:shopids withKey:U_SHOPIDS];
-        
-        NSString *userID = [NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
-        [BXTGlobal setUserProperty:userID withKey:U_USERID];
-        
-        NSArray *my_shop = [userInfoDic objectForKey:@"my_shop"];
-        [BXTGlobal setUserProperty:my_shop withKey:U_MYSHOP];
-        if (my_shop && my_shop.count > 0)
+        if (abUserInfo.my_shop && abUserInfo.my_shop.count > 0)
         {
-            NSDictionary *shopsDic = my_shop[0];
+            NSDictionary *shopsDic = abUserInfo.my_shop[0];
             NSString *shopID = [shopsDic objectForKey:@"id"];
             NSString *shopName = [shopsDic objectForKey:@"shop_name"];
             BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
@@ -577,7 +576,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             [BXTGlobal shareGlobal].baseURL = url;
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [pic_request updateHeadPic:[userInfoDic objectForKey:@"pic"]];
+            [pic_request updateHeadPic:abUserInfo.pic];
             
             /**分店登录**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];

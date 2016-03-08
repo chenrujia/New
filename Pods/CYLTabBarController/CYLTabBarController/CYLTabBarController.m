@@ -2,7 +2,7 @@
 //  CYLTabBarController.m
 //  CYLCustomTabBarDemo
 //
-//  Created by 微博@iOS程序犭袁 (http://weibo.com/luohanchenyilong/) on 10/20/15.
+//  Created by 微博@iOS程序犭袁 ( http://weibo.com/luohanchenyilong/ ) on 10/20/15.
 //  Copyright © 2015 https://github.com/ChenYilong . All rights reserved.
 //
 
@@ -18,16 +18,14 @@ NSUInteger CYLTabbarItemsCount = 0;
 
 @end
 
-@interface CYLTabBarController ()
-
-@end
 @implementation CYLTabBarController
+
 @synthesize viewControllers = _viewControllers;
 
 #pragma mark -
 #pragma mark - Life Cycle
 
--(void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // 处理tabBar，使用自定义 tabBar 添加 发布按钮
     [self setUpTabBar];
@@ -37,7 +35,7 @@ NSUInteger CYLTabbarItemsCount = 0;
 #pragma mark - Private Methods
 
 /**
- *  利用 KVC 把 系统的 tabBar 类型改为自定义类型。
+ *  利用 KVC 把系统的 tabBar 类型改为自定义类型。
  */
 - (void)setUpTabBar {
     [self setValue:[[CYLTabBar alloc] init] forKey:@"tabBar"];
@@ -51,7 +49,6 @@ NSUInteger CYLTabbarItemsCount = 0;
             [viewController removeFromParentViewController];
         }
     }
-    
     if (viewControllers && [viewControllers isKindOfClass:[NSArray class]]) {
         _viewControllers = [viewControllers copy];
         if (_tabBarItemsAttributes) {
@@ -90,16 +87,15 @@ NSUInteger CYLTabbarItemsCount = 0;
                   normalImageName:(NSString *)normalImageName
                 selectedImageName:(NSString *)selectedImageName {
     
-    viewController.tabBarItem.title         = title;
+    viewController.tabBarItem.title = title;
     UIImage *normalImage = [UIImage imageNamed:normalImageName];
     normalImage = [normalImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    viewController.tabBarItem.image         = normalImage;
+    viewController.tabBarItem.image = normalImage;
     UIImage *selectedImage = [UIImage imageNamed:selectedImageName];
     selectedImage = [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     viewController.tabBarItem.selectedImage = selectedImage;
     
     [self addChildViewController:viewController];
-    
 }
 
 @end
@@ -118,11 +114,9 @@ NSUInteger CYLTabbarItemsCount = 0;
 
 - (CYLTabBarController *)cyl_tabBarController {
     CYLTabBarController *tabBarController = objc_getAssociatedObject(self, @selector(cyl_tabBarController));
-    
     if (!tabBarController && self.parentViewController) {
         tabBarController = [self.parentViewController cyl_tabBarController];
     }
-    
     return tabBarController;
 }
 

@@ -499,22 +499,25 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         NSMutableArray *firstArray = [[NSMutableArray alloc] init];
         NSMutableArray *secondArray = [[NSMutableArray alloc] init];
         NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *firstDict in array) {
+        for (NSDictionary *firstDict in array)
+        {
             // 第一层
-            BXTFloorInfo *firstModel = [BXTFloorInfo modelWithDict:firstDict];
+            BXTFloorInfo *firstModel = [BXTFloorInfo mj_objectWithKeyValues:firstDict];
             [firstArray addObject:firstModel];
             
             // 第二层
             NSMutableArray *subSecondArray = [[NSMutableArray alloc] init];
             NSMutableArray *subThirdArray = [[NSMutableArray alloc] init];
-            for (NSDictionary *secondDict in firstDict[@"place"]) {
-                BXTAreaInfo *secondModel = [BXTAreaInfo modelWithDict:secondDict];
+            for (NSDictionary *secondDict in firstDict[@"place"])
+            {
+                BXTAreaInfo *secondModel = [BXTAreaInfo mj_objectWithKeyValues:secondDict];
                 [subSecondArray addObject:secondModel];
                 
                 // 第三层
                 NSMutableArray *subSubThirdArray = [[NSMutableArray alloc] init];
-                for (NSDictionary *thirdDict in secondDict[@"stores"]) {
-                    BXTShopInfo *thirdModel = [BXTShopInfo modelWithDict:thirdDict];
+                for (NSDictionary *thirdDict in secondDict[@"stores"])
+                {
+                    BXTShopInfo *thirdModel = [BXTShopInfo mj_objectWithKeyValues:thirdDict];
                     [subSubThirdArray addObject:thirdModel];
                 }
                 [subThirdArray addObject:subSubThirdArray];
