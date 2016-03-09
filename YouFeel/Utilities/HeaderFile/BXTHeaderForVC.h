@@ -12,10 +12,6 @@
 
 #import "BXTPublicSetting.h"
 #import "BXTGlobal.h"
-#import "DCParserConfiguration.h"
-#import "DCObjectMapping.h"
-#import "DCKeyValueObjectMapping.h"
-#import "DCArrayMapping.h"
 #import "BXTDataRequest.h"
 #import "MYAlertAction.h"
 #import "MJExtension.h"

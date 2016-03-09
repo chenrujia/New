@@ -69,12 +69,15 @@
 
 - (void)reLoginWithDic:(NSDictionary *)dic
 {
-    NSArray *bindingAds = [dic objectForKey:@"binding_ads"];
-    [BXTGlobal setUserProperty:bindingAds withKey:U_BINDINGADS];
+    [BXTBranchUserInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"userID":@"id"};
+    }];
+    BXTBranchUserInfo *branchUser = [BXTBranchUserInfo mj_objectWithKeyValues:dic];
+    [BXTGlobal setUserProperty:branchUser.binding_ads withKey:U_BINDINGADS];
     
-    if (bindingAds.count)
+    if (branchUser.binding_ads.count)
     {
-        NSDictionary *areaDic = bindingAds[0];
+        NSDictionary *areaDic = branchUser.binding_ads[0];
         BXTFloorInfo *floor = [[BXTFloorInfo alloc] init];
         floor.area_id = [areaDic objectForKey:@"area_id"];
         floor.area_name = [areaDic objectForKey:@"area_name"];
@@ -93,37 +96,36 @@
     }
     
     BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
-    departmentInfo.dep_id = [dic objectForKey:@"department"];
-    departmentInfo.department = [dic objectForKey:@"department_name"];
+    departmentInfo.dep_id = branchUser.department;
+    departmentInfo.department = branchUser.department_name;
     [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
     
     BXTGroupingInfo *groupInfo = [[BXTGroupingInfo alloc] init];
-    groupInfo.group_id = [dic objectForKey:@"subgroup"];
-    groupInfo.subgroup = [dic objectForKey:@"subgroup_name"];
+    groupInfo.group_id = branchUser.subgroup;
+    groupInfo.subgroup = branchUser.subgroup_name;
     [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
     
-    [BXTGlobal shareGlobal].longTime = [dic objectForKey:@"long_time"];
-    [[NSUserDefaults standardUserDefaults] setObject:[dic objectForKey:@"long_time"] forKey:@"LongTime"];
+    [BXTGlobal shareGlobal].longTime = branchUser.long_time;
+    [[NSUserDefaults standardUserDefaults] setObject:branchUser.long_time forKey:@"LongTime"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
-    [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
+    [BXTGlobal setUserProperty:branchUser.userID withKey:U_BRANCHUSERID];
     
     BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
-    roleInfo.role_id = [dic objectForKey:@"role_id"];
-    roleInfo.role = [dic objectForKey:@"role"];
+    roleInfo.role_id = branchUser.role_id;
+    roleInfo.role = branchUser.role;
     [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
     
-    [BXTGlobal setUserProperty:[dic objectForKey:@"username"] withKey:U_USERNAME];
-    [BXTGlobal setUserProperty:[dic objectForKey:@"role_con"] withKey:U_ROLEARRAY];
-    [BXTGlobal setUserProperty:[dic objectForKey:@"mobile"] withKey:U_MOBILE];
-    [BXTGlobal setUserProperty:[dic objectForKey:@"is_verify"] withKey:U_IS_VERIFY];
+    [BXTGlobal setUserProperty:branchUser.username withKey:U_USERNAME];
+    [BXTGlobal setUserProperty:branchUser.role_con withKey:U_ROLEARRAY];
+    [BXTGlobal setUserProperty:branchUser.mobile withKey:U_MOBILE];
+    [BXTGlobal setUserProperty:branchUser.is_verify withKey:U_IS_VERIFY];
     
-    if ([[dic objectForKey:@"is_repair"] integerValue] == 1)
+    if ([branchUser.is_repair integerValue] == 1)
     {
         [BXTGlobal shareGlobal].isRepair = NO;
     }
-    else if ([[dic objectForKey:@"is_repair"] integerValue] == 2)
+    else if ([branchUser.is_repair integerValue] == 2)
     {
         [BXTGlobal shareGlobal].isRepair = YES;
     }

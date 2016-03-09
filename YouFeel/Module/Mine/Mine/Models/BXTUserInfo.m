@@ -12,4 +12,13 @@
 
 @end
 
+@implementation BXTAbroadUserInfo
+
+@end
+
+@implementation BXTBranchUserInfo
+
+@end
+
+
 
