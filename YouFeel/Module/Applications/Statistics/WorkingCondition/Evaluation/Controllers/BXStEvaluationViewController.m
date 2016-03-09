@@ -9,13 +9,17 @@
 #import "BXStEvaluationViewController.h"
 #import "BXTStEvaluationHeader.h"
 #import "BXTStEvaluationFooter.h"
+#import "DOPDropDownMenu.h"
 
-@interface BXStEvaluationViewController () <PNChartDelegate, BXTDataResponseDelegate>
+@interface BXStEvaluationViewController () <PNChartDelegate, BXTDataResponseDelegate, DOPDropDownMenuDataSource, DOPDropDownMenuDelegate>
 
 @property (nonatomic, strong) NSDictionary *dataDict;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) PNBarChart * barChart;
 @property (nonatomic, strong) BXTStEvaluationFooter *footerView;
+
+@property (nonatomic, strong) NSArray *typeArray;
+@property (nonatomic, copy) NSString *typeStr;
 
 @end
 
@@ -26,13 +30,16 @@
     [super viewDidLoad];
     
     self.dataArray = [[NSMutableArray alloc] init];
+    self.typeArray = @[@"全部维修评价统计", @"日常维修评价统计", @"维保维修评价统计"];
+    self.typeStr = @"0";
     
-    [self showLoadingMBP:@"数据加载中..."];
     
-    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsPraiseWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
-    
+    // 添加下拉菜单
+    DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
+    menu.delegate = self;
+    menu.dataSource = self;
+    [self.rootScrollView addSubview:menu];
+    [menu selectDefalutIndexPath];
 }
 
 #pragma mark -
@@ -41,7 +48,7 @@
 {
     // EvaluationHeader
     BXTStEvaluationHeader *headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTStEvaluationHeader" owner:nil options:nil] lastObject];
-    headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 210);
+    headerView.frame = CGRectMake(0, 54, SCREEN_WIDTH, 160);
     [self.rootScrollView addSubview:headerView];
     
     // 好评率
@@ -125,6 +132,37 @@
     self.footerView.doneView.text = [NSString stringWithFormat:@"共完成:%@", dict[@"sum_number"]];
     self.footerView.praiseView.text = [NSString stringWithFormat:@"好评:%@", dict[@"praise_number"]];
     self.footerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%@%@", dict[@"percent"], @"%"];
+}
+
+#pragma mark -
+#pragma mark DOPDropDownMenuDataSource && DOPDropDownMenuDelegate
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
+{
+    return self.typeArray.count;
+}
+
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    return self.typeArray[indexPath.row];
+}
+
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    switch (indexPath.row) {
+        case 0: self.typeStr = @"0"; break;
+        case 1: self.typeStr = @"1"; break;
+        case 2: self.typeStr = @"2"; break;
+        default: break;
+    }
+    
+    self.rootSegmentedCtr.selectedSegmentIndex = 2;
+    
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
+    
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statisticsPraiseWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
 }
 
 #pragma mark -
