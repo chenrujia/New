@@ -844,10 +844,12 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)statisticsPraiseWithTimeStart:(NSString *)startTime
                               timeEnd:(NSString *)endTime
+                                 Type:(NSString *)type
 {
     self.requestType = Statistics_Praise;
     NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime};
+                          @"time_end":endTime,
+                          @"task_type":type};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_praise",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

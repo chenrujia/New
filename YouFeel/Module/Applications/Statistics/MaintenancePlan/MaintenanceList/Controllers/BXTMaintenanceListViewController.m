@@ -26,6 +26,7 @@
 @property (nonatomic, copy) NSString *order;
 @property (nonatomic, copy) NSString *startTime;
 
+
 @end
 
 @implementation BXTMaintenanceListViewController
@@ -240,3 +241,5 @@
  */
 
 @end
+
+
