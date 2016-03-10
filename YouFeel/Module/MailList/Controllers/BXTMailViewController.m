@@ -51,8 +51,10 @@
     label.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = label;
     
+    
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
     [self setDisplayConversationTypes:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION)]];
+    
     
     UIButton * nav_rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     nav_rightButton.frame = CGRectMake(SCREEN_WIDTH - 60, 20, 60, 44);

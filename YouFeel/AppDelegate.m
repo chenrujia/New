@@ -351,6 +351,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSString *shop_id = [NSString stringWithFormat:@"%@", [taskInfo objectForKey:@"shop_id"]];
     [BXTGlobal shareGlobal].newsShopID = shop_id;
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    
     //如果该条消息不是该项目的
     if (![shop_id isEqualToString:companyInfo.company_id])
     {

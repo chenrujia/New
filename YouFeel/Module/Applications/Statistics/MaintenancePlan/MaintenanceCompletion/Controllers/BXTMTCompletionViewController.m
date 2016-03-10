@@ -130,12 +130,12 @@
     
     
     UILabel *persentLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 12.5, 60, 20)];
-    persentLabel.text = [NSString stringWithFormat:@"%@%%", dataDict[@"over_per"]];
+    persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"over_per"] floatValue]];
     if ([dataDict[@"over"] intValue] == 0) {
-        persentLabel.text = [NSString stringWithFormat:@"%@%%", dataDict[@"working_per"]];
+        persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"working_per"] floatValue]];
         
         if ([dataDict[@"working"] intValue] == 0) {
-            persentLabel.text = [NSString stringWithFormat:@"%@%%", dataDict[@"unover_per"]];
+            persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"unover_per"] floatValue]];
         }
     }
     persentLabel.textColor = [UIColor whiteColor];

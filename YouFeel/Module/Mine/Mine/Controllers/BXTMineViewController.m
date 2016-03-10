@@ -132,7 +132,6 @@
         return cell;
     }
     
-    
     BXTMineCell *mineCell = [BXTMineCell cellWithTableView:tableView];
     
     mineCell.iconView.image = [UIImage imageNamed:self.iconArray[indexPath.section-1]];

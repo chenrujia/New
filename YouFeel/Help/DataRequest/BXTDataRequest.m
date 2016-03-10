@@ -859,10 +859,12 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)statisticsPraiseWithTimeStart:(NSString *)startTime
                               timeEnd:(NSString *)endTime
+                                 Type:(NSString *)type
 {
     self.requestType = Statistics_Praise;
     NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime};
+                          @"time_end":endTime,
+                          @"task_type":type};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_praise",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -1131,6 +1133,7 @@ andRepairerIsReacive:(NSString *)reacive
         url = [self encryptTheURL:url dict:parameters];
     }
     LogRed(@"url......\n%@", url);
+    LogRed(@"dic......\n%@", [self dictionaryToJson:parameters]);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -1141,7 +1144,7 @@ andRepairerIsReacive:(NSString *)reacive
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [response JSONValue];
-        NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
+        LogBlue(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
         [_delegate requestResponseData:dictionary requeseType:_requestType];
         // token验证失败
         if ([[NSString stringWithFormat:@"%@", dictionary[@"returncode"]] isEqualToString:@"037"])
