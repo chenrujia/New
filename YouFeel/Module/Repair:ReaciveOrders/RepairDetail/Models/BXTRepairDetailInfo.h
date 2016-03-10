@@ -76,7 +76,6 @@
 @property (nonatomic, strong) NSArray<BXTDeviceMMListInfo   *> *device_list;
 @property (nonatomic, copy  ) NSString              *dispatching_time;
 @property (nonatomic, copy  ) NSString              *repairstate;
-@property (nonatomic, copy  ) NSString              *isRepairing;
 @property (nonatomic, copy  ) NSString              *is_gadget;
 @property (nonatomic, copy  ) NSString              *is_dispatch;
 @property (nonatomic, copy  ) NSString              *task_type;

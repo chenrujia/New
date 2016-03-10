@@ -284,7 +284,7 @@
     
     if ([mmInfo.mmID isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]] &&
         [_repairDetail.repairstate integerValue] == 2 &&
-        [_repairDetail.isRepairing integerValue] == 1)
+        [_repairDetail.is_repairing integerValue] == 1)
     {
         UIButton *repairNow = [UIButton buttonWithType:UIButtonTypeCustom];
         repairNow.layer.cornerRadius = 4.f;
@@ -375,7 +375,7 @@
         }
 
         //如果是报修者身份，或者是维修员还没有到达现场（点击开始维修），或者是正常工单，则只提供查看权限
-        if ((([self.repairDetail.repairstate integerValue] == 1 || [self.repairDetail.repairstate integerValue] == 2) && [self.repairDetail.isRepairing integerValue] == 1) || ![BXTGlobal shareGlobal].isRepair || [self.repairDetail.task_type integerValue] == 1)
+        if ((([self.repairDetail.repairstate integerValue] == 1 || [self.repairDetail.repairstate integerValue] == 2) && [self.repairDetail.is_repairing integerValue] == 1) || ![BXTGlobal shareGlobal].isRepair || [self.repairDetail.task_type integerValue] == 1)
         {
             [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
         }

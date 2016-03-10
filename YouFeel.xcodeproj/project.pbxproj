@@ -333,6 +333,11 @@
 		967C3D4B1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C3D491C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.xib */; };
 		967C3D4F1C4620E00078F1D6 /* BXTControlUserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D4D1C4620E00078F1D6 /* BXTControlUserTableViewCell.m */; };
 		967C3D501C4620E00078F1D6 /* BXTControlUserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C3D4E1C4620E00078F1D6 /* BXTControlUserTableViewCell.xib */; };
+		9696B7251C8FFE9100272076 /* BXTFeebackInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696B7241C8FFE9100272076 /* BXTFeebackInfo.m */; };
+		9696B7291C90043100272076 /* BXTCommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696B7271C90043100272076 /* BXTCommentListViewController.m */; };
+		9696B72A1C90043100272076 /* BXTCommentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9696B7281C90043100272076 /* BXTCommentListViewController.xib */; };
+		9696B72F1C900BE500272076 /* BXTCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696B72D1C900BE500272076 /* BXTCommentTableViewCell.m */; };
+		9696B7301C900BE500272076 /* BXTCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9696B72E1C900BE500272076 /* BXTCommentTableViewCell.xib */; };
 		969701F21C88109D0048391F /* BXTDeviceStateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969701F11C88109D0048391F /* BXTDeviceStateViewController.m */; };
 		969701F61C881C590048391F /* BXTInfoNotesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969701F41C881C590048391F /* BXTInfoNotesTableViewCell.m */; };
 		969701F71C881C590048391F /* BXTInfoNotesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969701F51C881C590048391F /* BXTInfoNotesTableViewCell.xib */; };
@@ -985,6 +990,14 @@
 		967C3D4C1C4620E00078F1D6 /* BXTControlUserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTControlUserTableViewCell.h; sourceTree = "<group>"; };
 		967C3D4D1C4620E00078F1D6 /* BXTControlUserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTControlUserTableViewCell.m; sourceTree = "<group>"; };
 		967C3D4E1C4620E00078F1D6 /* BXTControlUserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTControlUserTableViewCell.xib; sourceTree = "<group>"; };
+		9696B7231C8FFE9100272076 /* BXTFeebackInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFeebackInfo.h; sourceTree = "<group>"; };
+		9696B7241C8FFE9100272076 /* BXTFeebackInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFeebackInfo.m; sourceTree = "<group>"; };
+		9696B7261C90043100272076 /* BXTCommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCommentListViewController.h; sourceTree = "<group>"; };
+		9696B7271C90043100272076 /* BXTCommentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCommentListViewController.m; sourceTree = "<group>"; };
+		9696B7281C90043100272076 /* BXTCommentListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTCommentListViewController.xib; sourceTree = "<group>"; };
+		9696B72C1C900BE500272076 /* BXTCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCommentTableViewCell.h; sourceTree = "<group>"; };
+		9696B72D1C900BE500272076 /* BXTCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCommentTableViewCell.m; sourceTree = "<group>"; };
+		9696B72E1C900BE500272076 /* BXTCommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTCommentTableViewCell.xib; sourceTree = "<group>"; };
 		969701F01C88109D0048391F /* BXTDeviceStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceStateViewController.h; sourceTree = "<group>"; };
 		969701F11C88109D0048391F /* BXTDeviceStateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceStateViewController.m; sourceTree = "<group>"; };
 		969701F31C881C590048391F /* BXTInfoNotesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTInfoNotesTableViewCell.h; sourceTree = "<group>"; };
@@ -1497,6 +1510,8 @@
 			children = (
 				7829856E1C40A5B200D0837C /* BXTUserInfo.h */,
 				7829856F1C40A5B200D0837C /* BXTUserInfo.m */,
+				9696B7231C8FFE9100272076 /* BXTFeebackInfo.h */,
+				9696B7241C8FFE9100272076 /* BXTFeebackInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1624,6 +1639,7 @@
 			isa = PBXGroup;
 			children = (
 				782985A01C40B6A100D0837C /* Controllers */,
+				9696B72B1C900BBC00272076 /* Views */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -1633,6 +1649,9 @@
 			children = (
 				782985A11C40B6A100D0837C /* BXTFeedbackViewController.h */,
 				782985A21C40B6A100D0837C /* BXTFeedbackViewController.m */,
+				9696B7261C90043100272076 /* BXTCommentListViewController.h */,
+				9696B7271C90043100272076 /* BXTCommentListViewController.m */,
+				9696B7281C90043100272076 /* BXTCommentListViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3680,6 +3699,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9696B72B1C900BBC00272076 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9696B72C1C900BE500272076 /* BXTCommentTableViewCell.h */,
+				9696B72D1C900BE500272076 /* BXTCommentTableViewCell.m */,
+				9696B72E1C900BE500272076 /* BXTCommentTableViewCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		96AABA4E1BE0BB220071B6FA /* en.lproj */ = {
 			isa = PBXGroup;
 			children = (
@@ -3923,6 +3952,7 @@
 				7893D8E41C7ADA8000F042D5 /* BXTProfessionFooter.xib in Resources */,
 				781EF20B1C3D382C0027FE72 /* BXTEquipmentFilesCell.xib in Resources */,
 				7867DCA61C4CBBB7000749F1 /* BXTAuthorityListCell.xib in Resources */,
+				9696B72A1C90043100272076 /* BXTCommentListViewController.xib in Resources */,
 				78213FC21C3E3977003290A8 /* BXTEquipmentInform_PersonCell.xib in Resources */,
 				963415701C44F03500B28C53 /* BXTDeviceInfoTableViewCell.xib in Resources */,
 				9652AB0C1BC902DF009A666D /* LaunchScreen.storyboard in Resources */,
@@ -3947,6 +3977,7 @@
 				967C3D461C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib in Resources */,
 				78426B571C7C406400BAE0F4 /* BXTMTPlanHeaderView.xib in Resources */,
 				78090B2A1C7DAF47003E1565 /* BXTEPFilterCell.xib in Resources */,
+				9696B7301C900BE500272076 /* BXTCommentTableViewCell.xib in Resources */,
 				9660CEE21C437E2E00176DDE /* BXTMaintenanceViewController.xib in Resources */,
 				9652AC311BC90EC9009A666D /* LocalAlbumCell.xib in Resources */,
 				7893D8921C7AA70D00F042D5 /* BXTStatisticsCell.xib in Resources */,
@@ -4084,6 +4115,7 @@
 				7867DC2F1C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m in Sources */,
 				96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */,
 				7867DD271C4CBE4F000749F1 /* BXTHeadquartersViewController.m in Sources */,
+				9696B7251C8FFE9100272076 /* BXTFeebackInfo.m in Sources */,
 				7893D8DE1C7ADA8000F042D5 /* BXTCompletionHeader.m in Sources */,
 				9652AB361BC9069B009A666D /* BXTGlobal.m in Sources */,
 				7867DC281C4CBA5B000749F1 /* BXTHomeViewController.m in Sources */,
@@ -4125,6 +4157,7 @@
 				96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */,
 				7867DCE91C4CBD42000749F1 /* BXTEvaluationViewController.m in Sources */,
 				78090B121C7DA8C3003E1565 /* BXTMaintenanceListViewController.m in Sources */,
+				9696B7291C90043100272076 /* BXTCommentListViewController.m in Sources */,
 				7867DD7D1C4CBEA1000749F1 /* BXTManagerOMTableViewCell.m in Sources */,
 				7893D8911C7AA70D00F042D5 /* BXTStatisticsCell.m in Sources */,
 				9602214C1BC9201400010072 /* UIViewController+DismissKeyboard.m in Sources */,
@@ -4206,6 +4239,7 @@
 				7867DCEF1C4CBD42000749F1 /* BXTNoneEvaluationView.m in Sources */,
 				783DDA5D1C3FD45C0035B927 /* BXTQRBaseViewController.m in Sources */,
 				7867DDA81C4CBEE9000749F1 /* BXTReaciveOrdersViewController.m in Sources */,
+				9696B72F1C900BE500272076 /* BXTCommentTableViewCell.m in Sources */,
 				7867DCED1C4CBD42000749F1 /* BXTHaveEvaluationView.m in Sources */,
 				7867DD811C4CBEA1000749F1 /* BXTRejectOrderViewController.m in Sources */,
 				7818DBD81C0824D800DC22C6 /* NSMutableArray+pieEx.m in Sources */,

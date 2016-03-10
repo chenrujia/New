@@ -150,6 +150,7 @@
     self.line.frame = CGRectMake(15, CGRectGetMaxY(_cause.frame) + 10.f, SCREEN_WIDTH - 30, 1.f);
     self.orderType.frame = CGRectMake(15.f, CGRectGetMaxY(_line.frame) + 10.f, CGRectGetWidth(_cause.frame), 20);
     self.repairTime.frame = CGRectMake(15.f, CGRectGetMaxY(_line.frame) + 10.f, CGRectGetWidth(_cause.frame), 20);
+    
     self.cellHeight = CGRectGetMaxY(_repairTime.frame) + 8;
 }
 

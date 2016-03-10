@@ -394,16 +394,23 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="back_top" destination="a5H-Pw-Vxg" id="Oi2-B8-xUe"/>
+                        <outlet property="loginBackView" destination="yU8-CE-RjG" id="SN8-7W-ryp"/>
+                        <outlet property="login_back_y" destination="a5H-Pw-Vxg" id="j3s-jp-zzq"/>
+                        <outlet property="logoView" destination="f9P-FV-sj4" id="PwB-66-7iZ"/>
                         <outlet property="logo_top" destination="Z5z-eX-zu1" id="LoY-Bk-GYb"/>
+                        <outlet property="logo_y" destination="Z5z-eX-zu1" id="brN-AG-hxI"/>
                         <outlet property="nameTF" destination="nnK-Wu-FVo" id="XBp-ca-p4T"/>
                         <outlet property="passwordTF" destination="ZxQ-b8-mBw" id="HHE-nK-6Ln"/>
                         <outlet property="resign_bottom" destination="tzy-Jm-dmX" id="8yB-b5-eex"/>
                         <outlet property="wxLogin" destination="7Ar-HK-NkQ" id="XBe-x5-Ees"/>
+                        <outlet property="wx_bottom" destination="ISd-u5-z3N" id="uUI-nh-HhU"/>
+                        <outlet property="wx_height" destination="oe7-g2-2E4" id="GJm-Te-Hs7"/>
+                        <outlet property="wx_width" destination="h0y-mR-dGJ" id="f90-AS-u3F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qqW-R8-tLh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="213" y="27.75"/>
+            <point key="canvasLocation" x="-103.5" y="21.75"/>
         </scene>
         <!--Resign View Controller-->
         <scene sceneID="nbT-dF-OfL">

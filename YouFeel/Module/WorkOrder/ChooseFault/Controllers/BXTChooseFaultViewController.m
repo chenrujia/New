@@ -401,7 +401,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (tableView == self.tableView_Search) {
+    if (tableView == self.tableView_Search)
+    {
         [BXTGlobal showText:@"故障选择成功" view:self.view completionBlock:^{
             if (self.delegateSignal) {
                 BXTFaultTypeList *listModel = [BXTFaultTypeList modelWithDict: self.searchArray[indexPath.row]];
@@ -412,7 +413,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         }];
     }
     
-    if (tableView == self.tableView_fault) {
+    if (tableView == self.tableView_fault)
+    {
         self.isBgBtnExist = NO;
         [UIView animateWithDuration:0.5 animations:^{
             self.bgBtn.alpha = 0.0;
@@ -420,20 +422,24 @@ typedef NS_ENUM(NSInteger, SelectedType) {
             [self.bgBtn removeFromSuperview];
         }];
         
-        if (self.typeOfRow == SelectedType_First) {
+        if (self.typeOfRow == SelectedType_First)
+        {
             BXTFaultTypeGroup *model = self.faultArray[indexPath.row];
             self.groupView.faultTypeView.text = model.faulttype_type;
             self.indexOfRow = indexPath.row;
             
             self.typeView.faultTypeView.text = @"请选择故障类别";
         }
-        else {
-            if (indexPath.row <= self.faultArray.count - 1) {
+        else
+        {
+            if (indexPath.row <= self.faultArray.count - 1)
+            {
                 BXTFaultType *model = self.faultArray[indexPath.row];
                 self.typeView.faultTypeView.text = model.faulttype;
                 self.transFaulttypeID = model.faultID;
             }
-            else {
+            else
+            {
                 self.typeView.faultTypeView.text = @"其他";
                 self.transFaulttypeID = @"";
             }

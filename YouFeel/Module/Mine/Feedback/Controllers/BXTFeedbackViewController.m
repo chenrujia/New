@@ -95,8 +95,9 @@
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestFeeback" object:nil];
         [self showMBP:@"感谢您宝贵的意见！" withBlock:^(BOOL hidden) {
-            [self.navigationController popViewControllerAnimated:YES];
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }];
     }
 }

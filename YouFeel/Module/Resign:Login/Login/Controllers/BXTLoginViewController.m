@@ -44,7 +44,6 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"ffffff");
-    self.wxLogin.hidden = YES;
     
     if (IS_IPHONE4)
     {
@@ -76,6 +75,39 @@
         @strongify(self);
         self.passWord = x;
     }];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    if (IS_IPHONE6P)
+    {
+        
+    }
+    else if (IS_IPHONE6)
+    {
+        self.wx_bottom.constant = 40.f;
+        [self.wxLogin layoutIfNeeded];
+    }
+    else if (IS_IPHONE5)
+    {
+        self.wx_width.constant = 60.f;
+        self.wx_height.constant = 60.f;
+        self.wx_bottom.constant = 15.f;
+        [self.wxLogin layoutIfNeeded];
+    }
+    else if (IS_IPHONE4)
+    {
+        self.logo_y.constant = 30.f;
+        [self.logoView layoutIfNeeded];
+        self.login_back_y.constant = 130.f;
+        [self.loginBackView layoutIfNeeded];
+        self.wx_width.constant = 60.f;
+        self.wx_height.constant = 60.f;
+        self.wx_bottom.constant = 15.f;
+        [self.wxLogin layoutIfNeeded];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -243,19 +275,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
-
 
 @end

@@ -20,10 +20,13 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 @interface BXTNickNameViewController ()<MBProgressHUDDelegate,BXTDataResponseDelegate,UITableViewDataSource,UITableViewDelegate>
 {
-    NSString *nickName;
-    NSString *sex;
     UITableView *currentTableView;
 }
+
+@property (nonatomic, strong) NSString *nickName;
+@property (nonatomic ,strong) NSString *passWord;
+@property (nonatomic, strong) NSString *sex;
+
 @end
 
 @implementation BXTNickNameViewController
@@ -36,7 +39,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    sex = @"1";
+    self.sex = @"1";
     [self navigationSetting:@"完善个人资料" andRightTitle:nil andRightImage:nil];
     [self initContentViews];
     [self setupForDismissKeyboard];
@@ -55,16 +58,15 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
-//section头部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
     {
-        return 16.f;//section头部高度
+        return 16.f;
     }
-    return 10.f;//section头部高度
+    return 10.f;
 }
-//section头部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view;
@@ -79,7 +81,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
-//section底部间距
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 2)
@@ -88,7 +90,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
     }
     return 5.f;
 }
-//section底部视图
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 2)
@@ -102,30 +104,45 @@ static NSString *cellIndentify = @"resignCellIndentify";
         [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
         doneBtn.layer.masksToBounds = YES;
         doneBtn.layer.cornerRadius = 4.f;
+        @weakify(self);
         [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
             [self resignFirstResponder];
-            if (![BXTGlobal validateUserName:nickName])
+            if (![BXTGlobal validateUserName:self.nickName])
             {
                 [self showMBP:@"请输入您的真实姓名" withBlock:nil];
+                return;
+            }
+            else if (_isLoginByWX && ![BXTGlobal validatePassword:self.passWord])
+            {
+                [self showMBP:@"请输入至少6位密码，仅限英文、数字" withBlock:nil];
                 return;
             }
             
             [BXTGlobal setUserProperty:@[] withKey:U_MYSHOP];
             [self showLoadingMBP:@"注册中..."];
-            [BXTGlobal setUserProperty:nickName withKey:U_NAME];
-            [BXTGlobal setUserProperty:sex withKey:U_SEX];
+            [BXTGlobal setUserProperty:self.nickName withKey:U_NAME];
+            [BXTGlobal setUserProperty:self.sex withKey:U_SEX];
             
             NSString *userName = [BXTGlobal getUserProperty:U_USERNAME];
-            NSString *passWord = [BXTGlobal getUserProperty:U_PASSWORD];
+            NSString *passWord;
+            if (_isLoginByWX)
+            {
+                passWord = self.passWord;
+            }
+            else
+            {
+                passWord = [BXTGlobal getUserProperty:U_PASSWORD];
+            }
             NSString *cid = [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"] ? [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"] : @"";
             
             NSDictionary *userInfoDic;
             if (_isLoginByWX)
             {
-                userInfoDic = @{@"name":nickName,
+                userInfoDic = @{@"name":self.nickName,
                                 @"password":passWord,
                                 @"username":userName,
-                                @"gender":sex,
+                                @"gender":self.sex,
                                 @"mailmatch":@"123",
                                 @"roletype":@"1",
                                 @"cid":cid,
@@ -136,10 +153,10 @@ static NSString *cellIndentify = @"resignCellIndentify";
             }
             else
             {
-                userInfoDic = @{@"name":nickName,
+                userInfoDic = @{@"name":self.nickName,
                                 @"password":passWord,
                                 @"username":userName,
-                                @"gender":sex,
+                                @"gender":self.sex,
                                 @"mailmatch":@"123",
                                 @"roletype":@"1",
                                 @"cid":cid};
@@ -195,25 +212,42 @@ static NSString *cellIndentify = @"resignCellIndentify";
         cell.boyBtn.hidden = YES;
         cell.girlBtn.hidden = YES;
         cell.textField.hidden = NO;
+        @weakify(self);
         [cell.textField.rac_textSignal subscribeNext:^(id x) {
-            nickName = x;
+            @strongify(self);
+            self.nickName = x;
         }];
     }
-    else
+    else if (indexPath.section == 2)
     {
         cell.nameLabel.text = @"性   别";
         cell.boyBtn.hidden = NO;
         cell.girlBtn.hidden = NO;
         cell.textField.hidden = YES;
+        @weakify(self);
         [[cell.boyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            sex = @"1";
+            @strongify(self);
+            self.sex = @"1";
             cell.boyBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
             cell.girlBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
         }];
         [[cell.girlBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            sex = @"2";
+            @strongify(self);
+            self.sex = @"2";
             cell.boyBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
             cell.girlBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+        }];
+    }
+    else
+    {
+        cell.nameLabel.text = @"密   码";
+        cell.textField.placeholder = @"请输入登录密码，至少6位";
+        cell.textField.keyboardType = UIKeyboardTypeASCIICapable;
+        cell.codeButton.hidden = YES;
+        @weakify(self);
+        [cell.textField.rac_textSignal subscribeNext:^(id x) {
+            @strongify(self);
+            self.passWord = x;
         }];
     }
     
@@ -253,17 +287,6 @@ static NSString *cellIndentify = @"resignCellIndentify";
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

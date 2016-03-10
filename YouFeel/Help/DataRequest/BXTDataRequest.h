@@ -11,6 +11,8 @@
 
 typedef NS_ENUM(NSInteger, RequestType) {
     LoginType,
+    BindingUser,
+    GetVerificationCode,
     DepartmentType,
     ShopType,
     PositionType,
@@ -88,15 +90,16 @@ typedef NS_ENUM(NSInteger, RequestType) {
 
 /**
  *  注册
- *
- *  @param parameters 注册时需要传的参数
  */
 - (void)resignUser:(NSDictionary *)parameters;
 
 /**
+ *  绑定
+ */
+- (void)bindingUser:(NSDictionary *)parameters;
+
+/**
  *  登录
- *
- *  @param parameters 登录时需要传的参数
  */
 - (void)loginUser:(NSDictionary *)parameters;
 
@@ -333,6 +336,11 @@ andRepairerIsReacive:(NSString *)reacive;
  *  意见反馈
  */
 - (void)feedback:(NSString *)notes;
+
+/**
+ *  意见反馈列表
+ */
+- (void)feedbackCommentList;
 
 /**
  *  关于我们

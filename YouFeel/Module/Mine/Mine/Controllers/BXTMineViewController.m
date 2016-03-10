@@ -11,19 +11,20 @@
 #import "BXTSettingTableViewCell.h"
 #import "BXTMineCell.h"
 #import "BXTMineIconCell.h"
+#import "BXTFeebackInfo.h"
 #import "UIImageView+WebCache.h"
-
 #import "BXTUserInformViewController.h"
 #import "BXTProjectInfromViewController.h"
 #import "BXTFeedbackViewController.h"
 #import "BXTSettingViewController.h"
+#import "BXTCommentListViewController.h"
 
-@interface BXTMineViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface BXTMineViewController () <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *currentTableView;
-
 @property (nonatomic, strong) NSArray *iconArray;
 @property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, strong) NSMutableArray *feebackSource;
 
 @end
 
@@ -32,7 +33,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
 }
 
@@ -42,13 +42,26 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"我的" andRightTitle:nil andRightImage:nil];
-    
     [self initContentViews];
+    
+    self.feebackSource = [NSMutableArray array];
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestFeeback" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        [self loadDataSoure];
+    }];
+    [self loadDataSoure];
+}
+
+- (void)loadDataSoure
+{
+    [self showLoadingMBP:@"请稍等..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request feedbackCommentList];
 }
 
 #pragma mark -
@@ -131,40 +144,74 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTUserInformViewController *uivc = [[BXTUserInformViewController alloc] init];
-    BXTProjectInfromViewController *pivc = [[BXTProjectInfromViewController alloc] init];
-    BXTFeedbackViewController *fbvc = [[BXTFeedbackViewController alloc] init];
-    BXTSettingViewController *stvc = [[BXTSettingViewController alloc] init];
-    uivc.hidesBottomBarWhenPushed = YES;
-    pivc.hidesBottomBarWhenPushed = YES;
-    fbvc.hidesBottomBarWhenPushed = YES;
-    stvc.hidesBottomBarWhenPushed = YES;
-    
     switch (indexPath.section)
     {
-        case 0: [self.navigationController pushViewController:uivc animated:YES]; break;
-        case 1: [self.navigationController pushViewController:pivc animated:YES]; break;
-        case 2: [self.navigationController pushViewController:fbvc animated:YES]; break;
-        case 3: [self.navigationController pushViewController:stvc animated:YES]; break;
+        case 0:
+        {
+            BXTUserInformViewController *uivc = [[BXTUserInformViewController alloc] init];
+            uivc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:uivc animated:YES];
+            break;
+        }
+        case 1:
+        {
+            BXTProjectInfromViewController *pivc = [[BXTProjectInfromViewController alloc] init];
+            pivc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:pivc animated:YES];
+            break;
+        }
+        case 2:
+        {
+            if (_feebackSource.count > 0)
+            {
+                BXTCommentListViewController *fbvc = [[BXTCommentListViewController alloc] initWithNibName:@"BXTCommentListViewController" bundle:nil dataSource:_feebackSource];
+                fbvc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:fbvc animated:YES];
+            }
+            else
+            {
+                BXTFeedbackViewController *fbvc = [[BXTFeedbackViewController alloc] init];
+                fbvc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:fbvc animated:YES];
+            }
+            break;
+        }
+        case 3:
+        {
+            BXTSettingViewController *stvc = [[BXTSettingViewController alloc] init];
+            stvc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:stvc animated:YES];
+            break;
+        }
         default: break;
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    NSDictionary *dic = response;
+    LogRed(@"dic......%@",dic);
+    NSArray *data = [dic objectForKey:@"data"];
+    [BXTFeebackInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"feebackID":@"id"};
+    }];
+    [BXTCommentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"commentID":@"id"};
+    }];
+    [_feebackSource addObjectsFromArray:[BXTFeebackInfo mj_objectArrayWithKeyValuesArray:data]];
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
 
 @end

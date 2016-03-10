@@ -587,13 +587,15 @@
             reacive_height = 90.f;
             _reaciveOrder.hidden = NO;
         }
-        else if ([self.repairDetail.repairstate integerValue] == 2 && [self.repairDetail.isRepairing integerValue] == 2 && !_isAllOrderType && [BXTGlobal shareGlobal].isRepair && !self.isComingFromDeviceInfo)
+        else if ([self.repairDetail.repairstate integerValue] == 2 &&
+                 [self.repairDetail.is_repairing integerValue] == 2 &&
+                 !_isAllOrderType &&
+                 [BXTGlobal shareGlobal].isRepair &&
+                 !self.isComingFromDeviceInfo &&
+                 !self.isRejectVC)
         {
-            if (!self.isRejectVC && [BXTGlobal shareGlobal].isRepair)
-            {
-                reacive_height = 70.f;
-                _bottomTabBar.hidden = NO;
-            }
+            reacive_height = 70.f;
+            _bottomTabBar.hidden = NO;
         }
         
         //维修员相关
