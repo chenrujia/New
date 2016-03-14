@@ -297,7 +297,7 @@
             @strongify(self);
             [self showLoadingMBP:@"请稍候..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request startRepair:[NSString stringWithFormat:@"%ld",(long)self.repairDetail.orderID]];
+            [request startRepair:self.repairDetail.orderID];
         }];
         [userBack addSubview:repairNow];
     }

@@ -220,7 +220,7 @@
     // 现在加入人员ID
     for (BXTAddOtherManInfo *otherManInfo in selectMans)
     {
-        [selectManIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherManInfo.manID]];
+        [selectManIDs addObject:otherManInfo.manID];
     }
     
     // 去重
@@ -267,7 +267,7 @@
     cell.addBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     for (BXTAddOtherManInfo *manInfo in selectMans)
     {
-        if (manInfo.manID == otherManInfo.manID)
+        if ([manInfo.manID isEqualToString:otherManInfo.manID])
         {
             cell.addBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
             break;
@@ -364,7 +364,7 @@
                     }
                     isHave = YES;
                 }
-                else if ([self.manIDArray containsObject:[NSString stringWithFormat:@"%ld",(long)manInfo.manID]])
+                else if ([self.manIDArray containsObject:manInfo.manID])
                 {
                     ++number;
                     [selectMans addObject:manInfo];
