@@ -8,7 +8,7 @@
 
 #import "BarChatItemView.h"
 
-#define view_width  18
+#define view_width  30
 #define Max_Height  250
 
 #define BAR_SPACES_DEFAULT 10
@@ -132,7 +132,7 @@
         valueLabel = [[UILabel alloc]init];
         valueLabel.font = [UIFont systemFontOfSize:10.0f];
         valueLabel.textAlignment = NSTextAlignmentCenter;
-        valueLabel.text = [NSString stringWithFormat:@"%d",[[ItemArray objectAtIndex:i] intValue]];
+        valueLabel.text = [NSString stringWithFormat:@"%d%%",[[ItemArray objectAtIndex:i] intValue]];
         if ([[ItemArray objectAtIndex:i] intValue] == 0) {
             valueLabel.hidden = YES;
         }

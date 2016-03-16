@@ -12,6 +12,8 @@
 #import "BXTMMOrderManagerViewController.h"
 #import "BXTRepairViewController.h"
 #import "UINavigationController+YRBackGesture.h"
+#import "BXTProjectInfromViewController.h"
+#import "CYLTabBarController.h"
 
 @implementation BXTRepairButton
 
@@ -45,25 +47,45 @@
     [button setImage:[UIImage imageNamed:@"Tab_Repair_Select"] forState:UIControlStateHighlighted];
     [button sizeToFit];
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        UINavigationController *nav;
-        if ([BXTGlobal shareGlobal].isRepair)
+        NSString *is_verify = [BXTGlobal getUserProperty:U_IS_VERIFY];
+        if ([is_verify integerValue] != 1)
         {
-            BXTMMOrderManagerViewController *newOrderVC = [[BXTMMOrderManagerViewController alloc] init];
-            newOrderVC.isRepairList = YES;
-            nav = [[UINavigationController alloc] initWithRootViewController:newOrderVC];
+            [BXTGlobal showText:@"您尚未验证，现在去验证" view:[AppDelegate appdelegete].window.rootViewController.view completionBlock:^{
+                id rootVC = [AppDelegate appdelegete].window.rootViewController;
+                CYLTabBarController *tempVC = (CYLTabBarController *)rootVC;
+                UINavigationController *nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
+                
+                BXTProjectInfromViewController *pivc = [[BXTProjectInfromViewController alloc] init];
+                pivc.hidesBottomBarWhenPushed = YES;
+                
+                [nav pushViewController:pivc animated:YES];
+            }];
         }
         else
         {
-            BXTRepairViewController *repairVC = [[BXTRepairViewController alloc] initWithVCType:ShopsVCType];
-            repairVC.isRepairList = YES;
-            nav = [[UINavigationController alloc] initWithRootViewController:repairVC];
+            UINavigationController *nav;
+            if ([BXTGlobal shareGlobal].isRepair)
+            {
+                BXTMMOrderManagerViewController *newOrderVC = [[BXTMMOrderManagerViewController alloc] init];
+                newOrderVC.isRepairList = YES;
+                nav = [[UINavigationController alloc] initWithRootViewController:newOrderVC];
+            }
+            else
+            {
+                BXTRepairViewController *repairVC = [[BXTRepairViewController alloc] initWithVCType:ShopsVCType];
+                repairVC.isRepairList = YES;
+                nav = [[UINavigationController alloc] initWithRootViewController:repairVC];
+                
+            }
             
+            [BXTGlobal shareGlobal].presentNav = nav;
+            [nav setEnableBackGesture:YES];
+            nav.navigationBarHidden = YES;
+            [[AppDelegate appdelegete].window.rootViewController presentViewController:nav animated:YES completion:nil];
         }
         
-        [BXTGlobal shareGlobal].presentNav = nav;
-        [nav setEnableBackGesture:YES];
-        nav.navigationBarHidden = YES;
-        [[AppDelegate appdelegete].window.rootViewController presentViewController:nav animated:YES completion:nil];
+        
+        
     }];
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTRepairButton" object:nil] subscribeNext:^(id x) {

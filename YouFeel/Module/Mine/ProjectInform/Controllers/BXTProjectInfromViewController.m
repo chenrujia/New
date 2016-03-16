@@ -53,6 +53,8 @@
     [self initContentViews];
     
     //获取用户信息
+    NSArray *shopIDsArray =  [BXTGlobal getUserProperty:U_SHOPIDS];
+    SaveValueTUD(@"shopID_Special", shopIDsArray[0]);
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request userInfo];
 }
