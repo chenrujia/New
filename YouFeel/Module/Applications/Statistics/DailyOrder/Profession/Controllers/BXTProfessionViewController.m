@@ -98,7 +98,11 @@
     self.pieView.transSelected = ^(NSInteger index) {
         //NSLog(@"index -- %ld", index);
         NSDictionary *selectedDict = weakSelf.dataArray[index];
-        weakSelf.headerView.roundView.backgroundColor = colorWithHexString(colorArray[index]);
+        if (index < 4) {
+            weakSelf.headerView.roundView.backgroundColor = colorWithHexString(colorArray[index]);
+        } else {
+            weakSelf.headerView.roundView.backgroundColor = [BXTGlobal randomColor];
+        }
         weakSelf.headerView.groupView.text = [NSString stringWithFormat:@"%@", selectedDict[@"subgroup"]];
         weakSelf.headerView.percentView.text = [NSString stringWithFormat:@"%@%%", selectedDict[@"sum_percent"]];
         weakSelf.headerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selectedDict[@"sum_number"]];

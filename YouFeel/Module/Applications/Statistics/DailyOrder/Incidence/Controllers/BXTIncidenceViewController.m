@@ -59,7 +59,7 @@
     for (NSDictionary *dict in self.dataArray)
     {
         [xArray addObject:[NSString stringWithFormat:@"%d", count++]];
-        [yArray addObject:[NSString stringWithFormat:@"%@", dict[@"percent"]]];
+        [yArray addObject:[NSString stringWithFormat:@"%@%%", dict[@"percent"]]];
     }
     
     // 无参数处理
@@ -68,7 +68,7 @@
         for (int i=0; i<30; i++)
         {
             [xArray addObject:[NSString stringWithFormat:@"%d", count++]];
-            [yArray addObject:[NSString stringWithFormat:@"%@", @"0"]];
+            [yArray addObject:[NSString stringWithFormat:@"%@%%", @"0"]];
         }
     }
     

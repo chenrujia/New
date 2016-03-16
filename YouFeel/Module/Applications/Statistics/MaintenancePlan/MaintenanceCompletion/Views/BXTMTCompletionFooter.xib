@@ -182,7 +182,7 @@
                                 <constraint firstAttribute="height" constant="10" id="neQ-W5-I3q"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未接单维保量" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ago-jn-Ojf">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未接项维保量" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ago-jn-Ojf">
                             <rect key="frame" x="35" y="150" width="150" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="nqQ-ea-WMv"/>

@@ -14,6 +14,7 @@
 #import "BXTNoticeInformViewController.h"
 #import "BXTStatisticsViewController.h"
 #import "BXTRemindNum.h"
+#import "BXTProjectInfromViewController.h"
 
 @interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -142,7 +143,11 @@
                 
                 [self.navigationController pushViewController:nlvc animated:YES];
             } break;
-            case 1: [self.navigationController pushViewController:epvc animated:YES]; break;
+            case 1: {
+                if ([self is_verify]) {
+                    [self.navigationController pushViewController:epvc animated:YES];
+                }
+            } break;
             default: break;
         }
     }

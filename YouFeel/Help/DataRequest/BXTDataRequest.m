@@ -787,7 +787,8 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = Statistics_Complete;
     NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime};
+                          @"time_end":endTime,
+                          @"task_type":@"1"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_complete",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -1255,8 +1256,8 @@ andRepairerIsReacive:(NSString *)reacive
         }
         // 随机取值
         int random = arc4random() % keyArray.count;
-        NSString *randomKey = keyArray[random];
-        id randomValue = parameters[randomKey];
+        randomKey = keyArray[random];
+        randomValue = parameters[randomKey];
         // 只有字符串可以向下进行
         if (![randomValue isKindOfClass:[NSString class]])
         {

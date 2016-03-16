@@ -10,6 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTMailListViewController.h"
 #import "UINavigationController+YRBackGesture.h"
+#import "BXTProjectInfromViewController.h"
 
 @interface BXTMailViewController ()
 
@@ -64,9 +65,11 @@
     @weakify(self);
     [[nav_rightButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTMailListViewController *mlvc = [[BXTMailListViewController alloc] init];
-        mlvc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:mlvc animated:YES];
+        if ([self is_verify]) {
+            BXTMailListViewController *mlvc = [[BXTMailListViewController alloc] init];
+            mlvc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:mlvc animated:YES];
+        }
     }];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:nav_rightButton];
     
@@ -92,6 +95,21 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (BOOL)is_verify
+{
+    NSString *is_verify = [BXTGlobal getUserProperty:U_IS_VERIFY];
+    if ([is_verify integerValue] != 1)
+    {
+        [BXTGlobal showText:@"您尚未验证，现在去验证" view:self.view completionBlock:^{
+            BXTProjectInfromViewController *pivc = [[BXTProjectInfromViewController alloc] init];
+            pivc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:pivc animated:YES];
+        }];
+        return NO;
+    }
+    return YES;
 }
 
 @end
