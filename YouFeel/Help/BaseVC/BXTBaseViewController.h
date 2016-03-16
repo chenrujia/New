@@ -33,7 +33,9 @@ typedef void (^HaveHidden)(BOOL hidden);
 
 - (void)hideMBP;
 
-- (NSString*)dataTOjsonString:(id)object;
+- (NSString*)dataToJsonString:(id)object;
+
+- (id)toArrayOrNSDictionary:(NSData *)jsonData;
 
 - (BOOL)is_verify;
 

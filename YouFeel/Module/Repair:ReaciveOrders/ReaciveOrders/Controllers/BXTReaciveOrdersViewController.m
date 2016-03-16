@@ -575,6 +575,7 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairList)
     {
+        LogRed(@"dic.....%@",dic);
         [ordersArray removeAllObjects];
         if (data.count)
         {
@@ -589,10 +590,12 @@
     }
     else if (type == ShopType)
     {
+        LogBlue(@"dic.....%@",dic);
         [areasArray addObjectsFromArray:[BXTFloorInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     else if (type == DepartmentType)
     {
+        NSLog(@"dic.....%@",dic);
         if (data.count)
         {
             [BXTDepartmentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
@@ -603,6 +606,7 @@
     }
     else if (type == FaultType)
     {
+        NSLog(@"dic.....%@",dic);
         [BXTFaultInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"fault_id":@"id"};
         }];

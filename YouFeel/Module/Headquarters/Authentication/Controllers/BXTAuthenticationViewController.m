@@ -29,14 +29,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self navigationSetting:@"身份验证" andRightTitle:nil andRightImage:nil];
-    
     propertyView = [[BXTPropertyView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT- 64) andViewType:PropertyType];
     [self.view addSubview:propertyView];
-    
-    //    [self navigationSetting];
-    //    [self scrollerViewSetting];
 }
 
 #pragma mark -
@@ -44,9 +39,7 @@
 - (void)navigationSetting
 {
     UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, NavBarHeight)];
-    
     naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    
     naviView.userInteractionEnabled = YES;
     [self.view addSubview:naviView];
     

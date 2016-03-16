@@ -31,6 +31,13 @@
     [self postRequest:url withParameters:parameters];
 }
 
+- (void)bindingUser:(NSDictionary *)parameters
+{
+    self.requestType = BindingUser;
+    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/third_bind_mobile",KURLREQUEST];
+    [self postRequest:url withParameters:parameters];
+}
+
 - (void)loginUser:(NSDictionary *)parameters
 {
     self.requestType = LoginType;
@@ -539,6 +546,7 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)mobileVerCode:(NSString *)mobile
 {
+    self.requestType = GetVerificationCode;
     NSDictionary *dic = @{@"mobile":mobile};
     NSString *url = [NSString stringWithFormat:@"%@/opt/get_verification_code/module/Means",KURLREQUEST];
     [self postRequest:url withParameters:dic];
@@ -615,10 +623,17 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)feedback:(NSString *)notes
 {
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
+    NSDictionary *dic = @{@"send_user":[BXTGlobal getUserProperty:U_USERID],
                           @"type":@"1",
                           @"content":notes};
-    NSString *url = [NSString stringWithFormat:@"%@/module/comment/opt/add_comment/type/1/send_user/1/content/asdasdsadasd",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/comment/opt/add_comment",KURLREQUEST];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)feedbackCommentList
+{
+    NSDictionary *dic = @{@"send_user":[BXTGlobal getUserProperty:U_USERID]};
+    NSString *url = [NSString stringWithFormat:@"%@/module/Comment/opt/comment_list",KURLREQUEST];
     [self postRequest:url withParameters:dic];
 }
 

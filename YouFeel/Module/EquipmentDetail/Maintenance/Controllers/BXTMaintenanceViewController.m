@@ -104,7 +104,7 @@
                 [dictionary setObject:value forKey:key];
             }
         }
-        NSString *jsonStr = [self dataTOjsonString:dictionary];
+        NSString *jsonStr = [self dataToJsonString:dictionary];
         [self showLoadingMBP:@"正在上传..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         if (self.isUpdate)

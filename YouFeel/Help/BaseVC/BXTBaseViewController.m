@@ -131,7 +131,7 @@
     [hud removeFromSuperview];
 }
 
-- (NSString*)dataTOjsonString:(id)object
+- (NSString *)dataToJsonString:(id)object
 {
     NSString *jsonString = nil;
     NSError *error;
@@ -145,6 +145,24 @@
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     return jsonString;
+}
+
+- (id)toArrayOrNSDictionary:(NSData *)jsonData
+{
+    NSError *error = nil;
+    id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                    options:NSJSONReadingAllowFragments
+                                                      error:&error];
+    
+    if (jsonObject != nil && error == nil)
+    {
+        return jsonObject;
+    }
+    else
+    {
+        // 解析错误
+        return nil;
+    }
 }
 
 - (void)didReceiveMemoryWarning

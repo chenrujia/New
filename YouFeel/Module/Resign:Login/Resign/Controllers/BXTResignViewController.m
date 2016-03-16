@@ -13,6 +13,7 @@
 #import "BXTResignTableViewCell.h"
 #import "BXTDataRequest.h"
 #import "ANKeyValueTable.h"
+#import "BXTHeadquartersViewController.h"
 
 @interface BXTResignViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 
@@ -71,7 +72,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 2)
+    if ((_isLoginByWX && section == 1) || (!_isLoginByWX && section == 2))
     {
         return 80.f;
     }
@@ -80,7 +81,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 2)
+    if ((_isLoginByWX && section == 1) || (!_isLoginByWX && section == 2))
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -106,18 +107,30 @@
             {
                 [self showMBP:@"验证码不正确" withBlock:nil];
             }
-            else if (![BXTGlobal validatePassword:self.passWord])
+            else if (!_isLoginByWX && ![BXTGlobal validatePassword:self.passWord])
             {
                 [self showMBP:@"请输入至少6位密码，仅限英文、数字" withBlock:nil];
             }
             else
             {
                 [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
-                [BXTGlobal setUserProperty:self.passWord withKey:U_PASSWORD];
-                
-                BXTNickNameViewController *nickNameVC = [[BXTNickNameViewController alloc] init];
-                [nickNameVC isLoginByWeiXin:self.isLoginByWX];
-                [self.navigationController pushViewController:nickNameVC animated:YES];
+                if (_isLoginByWX)
+                {
+                    [self showLoadingMBP:@"请稍后..."];
+                    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                    NSDictionary *dic = @{@"only_code":[BXTGlobal shareGlobal].openID,
+                                          @"mobile":self.userName,
+                                          @"flat_id":@"1"};
+                    [request bindingUser:dic];
+                }
+                else
+                {
+                    [BXTGlobal setUserProperty:self.passWord withKey:U_PASSWORD];
+                    
+                    BXTNickNameViewController *nickNameVC = [[BXTNickNameViewController alloc] init];
+                    [nickNameVC isLoginByWeiXin:self.isLoginByWX];
+                    [self.navigationController pushViewController:nickNameVC animated:YES];
+                }
             }
         }];
         [view addSubview:nextTapBtn];
@@ -138,6 +151,10 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (_isLoginByWX)
+    {
+        return 2;
+    }
     return 3;
 }
 
@@ -221,7 +238,82 @@
 {
     [self hideMBP];
     NSDictionary *dic = response;
-    if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+    LogRed(@"%@",dic);
+    if (type == BindingUser && [[dic objectForKey:@"returncode"] integerValue] == 0)
+    {
+        NSDictionary *userInfoDic = @{@"username":@"",
+                                      @"password":@"",
+                                      @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
+                                      @"type":@"2",
+                                      @"flat_id":@"1",
+                                      @"only_code":[BXTGlobal shareGlobal].openID};
+        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dataRequest loginUser:userInfoDic];
+    }
+    else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
+    {
+        BXTNickNameViewController *nickNameVC = [[BXTNickNameViewController alloc] init];
+        [nickNameVC isLoginByWeiXin:self.isLoginByWX];
+        [self.navigationController pushViewController:nickNameVC animated:YES];
+    }
+    else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"004"])
+    {
+        [self showMBP:@"该手机已经绑定了其他微信号，请更换手机号" withBlock:nil];
+    }
+    else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        NSArray *dataArray = [dic objectForKey:@"data"];
+        NSDictionary *userInfoDic = [dataArray objectAtIndex:0];
+        [BXTAbroadUserInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"userID":@"id"};
+        }];
+        BXTAbroadUserInfo *abUserInfo = [BXTAbroadUserInfo mj_objectWithKeyValues:userInfoDic];
+        
+        [BXTGlobal setUserProperty:abUserInfo.username withKey:U_USERNAME];
+        [BXTGlobal setUserProperty:abUserInfo.gender withKey:U_SEX];
+        [BXTGlobal setUserProperty:abUserInfo.name withKey:U_NAME];
+        [BXTGlobal setUserProperty:abUserInfo.pic withKey:U_HEADERIMAGE];
+        [BXTGlobal setUserProperty:abUserInfo.im_token withKey:U_IMTOKEN];
+        [BXTGlobal setUserProperty:abUserInfo.token withKey:U_TOKEN];
+        [BXTGlobal setUserProperty:abUserInfo.shop_ids withKey:U_SHOPIDS];
+        [BXTGlobal setUserProperty:abUserInfo.userID withKey:U_USERID];
+        [BXTGlobal setUserProperty:abUserInfo.my_shop withKey:U_MYSHOP];
+        
+        if (abUserInfo.my_shop && abUserInfo.my_shop.count > 0)
+        {
+            NSDictionary *shopsDic = abUserInfo.my_shop[0];
+            NSString *shopID = [shopsDic objectForKey:@"id"];
+            NSString *shopName = [shopsDic objectForKey:@"shop_name"];
+            BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
+            companyInfo.company_id = shopID;
+            companyInfo.name = shopName;
+            [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
+            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+            [BXTGlobal shareGlobal].baseURL = url;
+            
+            BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [pic_request updateHeadPic:abUserInfo.pic];
+            
+            /**分店登录**/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request branchLogin];
+        }
+        else
+        {
+            BXTHeadquartersViewController *authenticationVC = [[BXTHeadquartersViewController alloc] init];
+            [self.navigationController pushViewController:authenticationVC animated:YES];
+        }
+    }
+    else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        NSArray *data = [dic objectForKey:@"data"];
+        if (data.count > 0)
+        {
+            NSDictionary *userInfo = data[0];
+            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
+        }
+    }
+    else if (type == GetVerificationCode && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         self.returncode = [NSString stringWithFormat:@"%@", [dic objectForKey:@"verification_code"]];
         [self updateTime];

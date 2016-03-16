@@ -409,7 +409,7 @@
                 for (BXTAddOtherManInfo *otherMan in _mans)
                 {
                     [manNames addObject:otherMan.name];
-                    [manIDs addObject:[NSString stringWithFormat:@"%ld",(long)otherMan.manID]];
+                    [manIDs addObject:otherMan.manID];
                 }
             }
             else
