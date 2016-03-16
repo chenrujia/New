@@ -841,16 +841,12 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         [array addObject:userInfo];
         [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
     }
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
-    
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
     conversationVC.conversationType =ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
     conversationVC.title = userInfo.name;
-    // 删除位置功能
-    //[conversationVC.pluginBoardView removeItemAtIndex:2];
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
 

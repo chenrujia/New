@@ -53,10 +53,8 @@
         [array addObject:userInfo];
         [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
     }
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
-    
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
     conversationVC.conversationType =ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
@@ -96,11 +94,9 @@
         NSMutableArray *array = [NSMutableArray array];
         [array addObject:userInfo];
         [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
-    }
-    
+    }    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
-    
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
     conversationVC.conversationType =ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
@@ -248,27 +244,31 @@
     role.text = [NSString stringWithFormat:@"%@-%@",mmInfo.department,mmInfo.role];
     [userBack addSubview:role];
     
-    UILabel *phone = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 50.f, levelWidth, 20)];
-    phone.textColor = colorWithHexString(@"909497");
-    phone.numberOfLines = 0;
-    phone.lineBreakMode = NSLineBreakByWordWrapping;
-    phone.userInteractionEnabled = YES;
-    phone.font = [UIFont systemFontOfSize:14.f];
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:mmInfo.mobile];
-    [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
-    [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
-    phone.attributedText = attributedString;
-    UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] init];
-    [phone addGestureRecognizer:moblieTap];
-    [[moblieTap rac_gestureSignal] subscribeNext:^(id x) {
-        @strongify(self);
-        BXTMaintenanceManInfo *mainManInfo = self.repairDetail.repair_user_arr[i];
-        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", mainManInfo.mobile];
-        UIWebView *callWeb = [[UIWebView alloc] init];
-        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-        [self.view addSubview:callWeb];
-    }];
-    [userBack addSubview:phone];
+    if (mmInfo.mobile.length > 0)
+    {
+        UILabel *phone = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 50.f, levelWidth, 20)];
+        phone.textColor = colorWithHexString(@"909497");
+        phone.numberOfLines = 0;
+        phone.lineBreakMode = NSLineBreakByWordWrapping;
+        phone.userInteractionEnabled = YES;
+        phone.font = [UIFont systemFontOfSize:14.f];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:mmInfo.mobile];
+        
+        [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
+        [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
+        phone.attributedText = attributedString;
+        UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] init];
+        [phone addGestureRecognizer:moblieTap];
+        [[moblieTap rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            BXTMaintenanceManInfo *mainManInfo = self.repairDetail.repair_user_arr[i];
+            NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", mainManInfo.mobile];
+            UIWebView *callWeb = [[UIWebView alloc] init];
+            [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+            [self.view addSubview:callWeb];
+        }];
+        [userBack addSubview:phone];
+    }
     
     //维修日志
     if (height > RepairHeight)

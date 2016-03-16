@@ -14,8 +14,8 @@
 #import <RongIMKit/RongIMKit.h>
 
 //Fir.im的APIToken       b703686f3cecef10acb16da566571d99
-#define APP_ID           @"wx5c34402c24a80d9d"
-#define APP_SECRET       @"2113239052ce9a78d75d20e90efa937e"
+#define APP_ID           @"wx45e56bc2563438f5"
+#define APP_SECRET       @"5c89faa2d7ed1a1767cb86c267aeb61e"
 #define kAppId           @"Et6F23PyhQ8gisEobno7u2"
 #define kAppKey          @"wSY82iAJR77E8eTlTGxWx1"
 #define kAppSecret       @"XfCZ5grnZmAN0jOd9rBWM2"

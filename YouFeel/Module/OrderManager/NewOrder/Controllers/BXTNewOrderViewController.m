@@ -107,7 +107,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     self.navigationController.navigationBar.hidden = YES;
 }
@@ -119,6 +118,8 @@
     {
         player = nil;
     }
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -169,7 +170,7 @@
     [connetBtn setTitle:@"联系Ta" forState:UIControlStateNormal];
     connetBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [connetBtn setTitleColor:colorWithHexString(@"3bafff") forState:UIControlStateNormal];
-    connetBtn.layer.borderColor = colorWithHexString(@"e2e6e8").CGColor;
+    connetBtn.layer.borderColor = colorWithHexString(@"3bafff").CGColor;
     connetBtn.layer.borderWidth = 1.f;
     connetBtn.layer.cornerRadius = 4.f;
     [connetBtn addTarget:self action:@selector(connectTa) forControlEvents:UIControlEventTouchUpInside];
@@ -482,18 +483,14 @@
         [array addObject:userInfo];
         [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
     }
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
-    
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
     conversationVC.conversationType =ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
     conversationVC.title = userInfo.name;
-    // 删除位置功能
-    //[conversationVC.pluginBoardView removeItemAtIndex:2];
-    [self.navigationController pushViewController:conversationVC animated:YES];
     self.navigationController.navigationBar.hidden = NO;
+    [self.navigationController pushViewController:conversationVC animated:YES];
 }
 
 #pragma mark -

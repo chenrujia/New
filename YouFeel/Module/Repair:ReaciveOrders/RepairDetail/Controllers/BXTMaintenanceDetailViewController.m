@@ -123,8 +123,8 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    
-    if (!IS_IPHONE6) {
+    if (!IS_IPHONE6)
+    {
         _connectTaW.constant = 70;
         _connectTaH.constant = 35;
         [_connectTa setNeedsUpdateConstraints];

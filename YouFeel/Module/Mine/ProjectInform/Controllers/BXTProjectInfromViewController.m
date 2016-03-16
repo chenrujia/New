@@ -115,11 +115,8 @@
         [array addObject:userInfo];
         [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
     }
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
-    
-    
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
     conversationVC.conversationType =ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
