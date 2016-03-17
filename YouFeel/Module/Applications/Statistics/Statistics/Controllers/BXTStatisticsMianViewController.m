@@ -22,11 +22,13 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self createNavigationBar];
     
-    if (!self.hideDatePicker) {
+    if (!self.hideDatePicker)
+    {
         self.rootScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 110.f, SCREEN_WIDTH, SCREEN_HEIGHT-110.f)];
         self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT-110);
     }
-    else {
+    else
+    {
         self.rootScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT)];
         self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT);
     }
@@ -273,7 +275,15 @@
 - (NSArray *)timeTypeOf_YearAndMonth:(NSString *)dateStr
 {
     NSString *yearStr = [dateStr substringToIndex:4];
-    NSString *monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
+    NSString *monthStr;
+    if (dateStr.length >= 7)
+    {
+        monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
+    }
+    else
+    {
+        monthStr = @"";
+    }
     
     return [NSArray arrayWithObjects:yearStr, monthStr, nil];
 }
@@ -281,7 +291,15 @@
 - (NSArray *)timeTypeOf_MonthStartAndEnd:(NSString *)dateStr
 {
     NSString *yearStr = [dateStr substringToIndex:4];
-    NSString *monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
+    NSString *monthStr;
+    if (dateStr.length >= 7)
+    {
+        monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
+    }
+    else
+    {
+        monthStr = @"";
+    }
     
     int monthDays = [self howManyDaysInThisMonth:[yearStr intValue] month:[monthStr intValue]];
     NSString *startTime = [NSString stringWithFormat:@"%@-%@-1", yearStr, monthStr];
@@ -293,8 +311,24 @@
 - (NSArray *)timeTypeOf_DayStartAndEnd:(NSString *)dateStr
 {
     NSString *yearStr = [dateStr substringToIndex:4];
-    NSString *monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
-    NSString *dayStr = [dateStr substringWithRange:NSMakeRange(8, 2)];
+    NSString *monthStr;
+    NSString *dayStr;
+    if (dateStr.length >= 7)
+    {
+        monthStr = [dateStr substringWithRange:NSMakeRange(5, 2)];
+    }
+    else
+    {
+        monthStr = @"";
+    }
+    if (dateStr.length >= 10)
+    {
+        dayStr = [dateStr substringWithRange:NSMakeRange(8, 2)];
+    }
+    else
+    {
+        dayStr = @"";
+    }
     
     NSString *startTime = [NSString stringWithFormat:@"%@-%@-%@", yearStr, monthStr, dayStr];
     NSString *endTime = [NSString stringWithFormat:@"%@-%@-%@",yearStr, monthStr, dayStr];
@@ -330,17 +364,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

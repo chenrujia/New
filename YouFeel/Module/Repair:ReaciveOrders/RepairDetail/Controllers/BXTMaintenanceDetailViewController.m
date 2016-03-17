@@ -429,7 +429,7 @@
         {
             _mobile.text = @"暂无";
         }
-        else
+        else if (self.repairDetail.visitmobile.length == 11)
         {
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.repairDetail.visitmobile];
             [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];

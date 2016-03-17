@@ -138,7 +138,8 @@
     }
 }
 
-- (void)requestError:(NSError *)error {
+- (void)requestError:(NSError *)error
+{
     //    [self hideMBP];
 }
 
@@ -154,7 +155,7 @@
     {
         nav = rootVC;
     }
-    else
+    else if ([rootVC isKindOfClass:[CYLTabBarController class]])
     {
         CYLTabBarController *tempVC = (CYLTabBarController *)rootVC;
         nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];

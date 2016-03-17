@@ -309,7 +309,7 @@
             {
                 cell.userMoblie.text = @"暂无";
             }
-            else
+            else if (userInfo.mobile.length == 11)
             {
                 NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:userInfo.mobile];
                 [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];

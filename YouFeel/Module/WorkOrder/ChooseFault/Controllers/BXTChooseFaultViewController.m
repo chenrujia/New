@@ -173,8 +173,10 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         self.typeOfRow = SelectedType_First;
         self.faultArray = self.faultGroup;
     }
-    else {
-        if ([self.groupView.faultTypeView.text isEqualToString:@"请选择故障类型"]) {
+    else
+    {
+        if ([self.groupView.faultTypeView.text isEqualToString:@"请选择故障类型"])
+        {
             [BXTGlobal showText:@"请选择故障类型" view:self.view completionBlock:nil];
             return;
         }

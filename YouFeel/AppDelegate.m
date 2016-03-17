@@ -413,6 +413,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     {
                         [[BXTGlobal shareGlobal].presentNav pushViewController:grabOrderVC animated:YES];
                     }
+                    else if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
+                    {
+                        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+                        [nav pushViewController:grabOrderVC animated:YES];
+                    }
                     else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
                     {
                         CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
@@ -432,6 +437,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     if ([BXTGlobal shareGlobal].presentNav)
                     {
                         [[BXTGlobal shareGlobal].presentNav pushViewController:newOrderVC animated:YES];
+                    }
+                    else if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
+                    {
+                        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+                        [nav pushViewController:newOrderVC animated:YES];
                     }
                     else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
                     {

@@ -49,7 +49,7 @@
         for (NSInteger i = 0; i < self.datasource.count; i++)
         {
             NSDictionary *dic = self.datasource[i];
-            if ([[dic objectForKey:@"id"] isEqualToString:self.state])
+            if ([[dic objectForKey:@"id"] integerValue] == [self.state integerValue])
             {
                 [markArray addObject:@"1"];
             }
