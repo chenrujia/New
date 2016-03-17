@@ -137,7 +137,7 @@
             valueLabel.hidden = YES;
         }
         valueLabel.bounds = CGRectMake(0, 0, view_width*2, view_width*2);
-        valueLabel.center = CGPointMake(center.x+view.frame.size.width/2+view_width, center.y);
+        valueLabel.center = CGPointMake(center.x+view.frame.size.width/2+view_width-15, center.y);
         valueLabel.textColor = [UIColor darkGrayColor];
         valueLabel.backgroundColor = [UIColor clearColor];
         //valueLabel.transform = CGAffineTransformRotate(valueLabel.transform,M_PI/2);
@@ -155,7 +155,7 @@
     //添加最值
     UILabel *maxLabel = [[UILabel alloc]init];
     maxLabel.bounds = CGRectMake(0, 0, view_width, view_width);
-    maxLabel.center = CGPointMake(35+Max_Height+view_width, self.frame.origin.y+view_width/2-VERTICALE_DATA_SPACES/2);
+    maxLabel.center = CGPointMake(25+Max_Height+view_width, self.frame.origin.y+view_width/2-VERTICALE_DATA_SPACES/2-5);
     maxLabel.font = [UIFont systemFontOfSize:10.0f];
     maxLabel.textAlignment = NSTextAlignmentCenter;
     maxLabel.text = [ItemArray objectAtIndex:maxIndex];

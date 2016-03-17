@@ -94,6 +94,7 @@
     
     self.headerView.roundTitleView.text = [NSString stringWithFormat:@"总计：%@", dataDict[@"total"]];
     // Button
+    self.headerView.allNumLabelView.text = [NSString stringWithFormat:@"全年维保总量为：%@", dataDict[@"total"]];
     NSString *downNumStr = [NSString stringWithFormat:@"已完成：%@", dataDict[@"over"]];
     NSString *doingNumStr = [NSString stringWithFormat:@"进行中：%@", dataDict[@"working"]];
     NSString *undownNumStr = [NSString stringWithFormat:@"未完成：%@", dataDict[@"unover"]];
@@ -109,8 +110,8 @@
     //  ---------- 条形图 ----------
     // CompletionFooter
     self.footerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTCompletionFooter" owner:nil options:nil] lastObject];
-    self.footerView.frame = CGRectMake(0, 460, SCREEN_WIDTH, 320+20);
-    self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 800+15);
+    self.footerView.frame = CGRectMake(0, 460, SCREEN_WIDTH, 280+20);
+    self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 760+15);
     [self.rootScrollView addSubview:self.footerView];
     
     
@@ -128,8 +129,10 @@
     self.footerView.doingView.text = [NSString stringWithFormat:@"%@", dataDict[@"working"]];
     self.footerView.undownView.text = [NSString stringWithFormat:@"%@", dataDict[@"unover"]];
     
-    
-    UILabel *persentLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 12.5, 60, 20)];
+   
+    CGFloat rate = [dataDict[@"over"] intValue] / [dataDict[@"total"] intValue];
+    CGFloat labelX = rate < 0.2 ? 0 : ((SCREEN_WIDTH-30) * rate - 60) / 2;
+    UILabel *persentLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, 12.5, 60, 20)];
     persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"over_per"] floatValue]];
     if ([dataDict[@"over"] intValue] == 0) {
         persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"working_per"] floatValue]];
@@ -139,6 +142,7 @@
         }
     }
     persentLabel.textColor = [UIColor whiteColor];
+    persentLabel.textAlignment = NSTextAlignmentCenter;
     persentLabel.font = [UIFont systemFontOfSize:14];
     [self.footerView.pieView addSubview:persentLabel];
     

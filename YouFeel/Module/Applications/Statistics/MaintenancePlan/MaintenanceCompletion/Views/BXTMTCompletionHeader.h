@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIView *roundView3;
 @property (weak, nonatomic) IBOutlet UIView *roundView4;
 
+@property (weak, nonatomic) IBOutlet UILabel *allNumLabelView;
 @property (weak, nonatomic) IBOutlet UILabel *downLabelView;
 @property (weak, nonatomic) IBOutlet UILabel *undownLabelView;
 @property (weak, nonatomic) IBOutlet UILabel *doingLabelView;

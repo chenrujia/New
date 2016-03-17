@@ -92,12 +92,12 @@
 }
 
 - (void)branchResign:(NSInteger)is_repair
+           andShopID:(NSString *)shopID
 {
     self.requestType = BranchResign;
     
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-    BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
     
     NSString *subGroup = @"";
     BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
@@ -115,9 +115,13 @@
                           @"gender":[BXTGlobal getUserProperty:U_SEX],
                           @"out_userid":[BXTGlobal getUserProperty:U_USERID],
                           @"stores_id": @"",
-                          @"shops_id":company.company_id,
+                          @"shops_id": shopID,
                           @"subgroup":subGroup};
-    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",[BXTGlobal shareGlobal].baseURL];
+    
+    SaveValueTUD(@"BranchResign_shopID", shopID);
+    
+    NSString *urlLast = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",urlLast];
     
     [self postRequest:url withParameters:dic];
 }
@@ -1286,6 +1290,9 @@ andRepairerIsReacive:(NSString *)reacive
     if (self.requestType == UserInfo)
     {
         str1 = [NSString stringWithFormat:@"%@%@hello%@", ValueFUD(@"shopID_Special"), randomValue, @"uf.com"];
+    }
+    if (self.requestType == BranchResign) {
+        str1 = [NSString stringWithFormat:@"%@%@hello%@", ValueFUD(@"BranchResign_shopID"), randomValue, @"uf.com"];
     }
     NSString *md5Str = [BXTGlobal md5:str1];
     

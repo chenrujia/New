@@ -27,24 +27,15 @@
                         <constraint firstAttribute="height" constant="0.5" id="H1d-lF-OjQ"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="以当前应维保量为基础" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u0r-1u-BJJ">
-                    <rect key="frame" x="15" y="49" width="345" height="22"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="22" id="vaJ-Mz-wlJ"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m6e-Sb-Yuk" customClass="AksStraightPieChart">
-                    <rect key="frame" x="15" y="81" width="345" height="45"/>
+                    <rect key="frame" x="15" y="56" width="345" height="45"/>
                     <color key="backgroundColor" red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="T78-ic-X7U"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vvx-cB-Mq4">
-                    <rect key="frame" x="0.0" y="156" width="375" height="180"/>
+                    <rect key="frame" x="0.0" y="121" width="375" height="180"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="mr5-xp-w5r">
                             <rect key="frame" x="15" y="17" width="12" height="12"/>
@@ -274,21 +265,18 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="u0r-1u-BJJ" firstAttribute="leading" secondItem="IQs-VX-bYC" secondAttribute="leading" constant="15" id="19S-5W-6i0"/>
-                <constraint firstAttribute="trailing" secondItem="u0r-1u-BJJ" secondAttribute="trailing" constant="15" id="2LO-iQ-xdS"/>
                 <constraint firstItem="vvx-cB-Mq4" firstAttribute="leading" secondItem="IQs-VX-bYC" secondAttribute="leading" id="CAe-jT-lgj"/>
-                <constraint firstItem="u0r-1u-BJJ" firstAttribute="top" secondItem="4yN-NZ-5rq" secondAttribute="bottom" constant="8" id="D0d-0J-6t4"/>
                 <constraint firstItem="4yN-NZ-5rq" firstAttribute="top" secondItem="lGh-z6-XyY" secondAttribute="bottom" constant="9" id="K3i-nT-jDJ"/>
                 <constraint firstItem="m6e-Sb-Yuk" firstAttribute="leading" secondItem="IQs-VX-bYC" secondAttribute="leading" constant="15" id="PS8-4i-nY1"/>
                 <constraint firstItem="lGh-z6-XyY" firstAttribute="leading" secondItem="IQs-VX-bYC" secondAttribute="leading" constant="15" id="Q6D-7Z-lvx"/>
-                <constraint firstItem="vvx-cB-Mq4" firstAttribute="top" secondItem="m6e-Sb-Yuk" secondAttribute="bottom" constant="30" id="VzN-8T-eEZ"/>
+                <constraint firstItem="vvx-cB-Mq4" firstAttribute="top" secondItem="m6e-Sb-Yuk" secondAttribute="bottom" constant="20" id="VzN-8T-eEZ"/>
                 <constraint firstAttribute="trailing" secondItem="vvx-cB-Mq4" secondAttribute="trailing" id="ctU-8H-Qsk"/>
                 <constraint firstItem="4yN-NZ-5rq" firstAttribute="top" secondItem="IQs-VX-bYC" secondAttribute="top" constant="40" id="dxh-31-38z"/>
+                <constraint firstItem="m6e-Sb-Yuk" firstAttribute="top" secondItem="4yN-NZ-5rq" secondAttribute="bottom" constant="15" id="gL7-A5-azP"/>
                 <constraint firstItem="4yN-NZ-5rq" firstAttribute="leading" secondItem="IQs-VX-bYC" secondAttribute="leading" constant="15" id="gUf-yt-UdO"/>
                 <constraint firstAttribute="trailing" secondItem="4yN-NZ-5rq" secondAttribute="trailing" constant="15" id="lsN-mN-afB"/>
                 <constraint firstAttribute="trailing" secondItem="m6e-Sb-Yuk" secondAttribute="trailing" constant="15" id="qRw-ez-m2C"/>
                 <constraint firstItem="lGh-z6-XyY" firstAttribute="top" secondItem="IQs-VX-bYC" secondAttribute="top" constant="9" id="vzA-WX-sE2"/>
-                <constraint firstItem="m6e-Sb-Yuk" firstAttribute="top" secondItem="u0r-1u-BJJ" secondAttribute="bottom" constant="10" id="xDd-NF-e63"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

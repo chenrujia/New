@@ -131,7 +131,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  分店注册
  */
-- (void)branchResign:(NSInteger)is_repair;
+- (void)branchResign:(NSInteger)is_repair
+           andShopID:(NSString *)shopID;
 
 /**
  *  分店登录

@@ -10,7 +10,7 @@
 
 @implementation BXTResignBaseView
 
-- (instancetype)initWithFrame:(CGRect)frame andViewType:(ViewType)type
+- (instancetype)initWithFrame:(CGRect)frame andViewType:(ViewType)type andShopID:(NSString *)shopID andShopAddress:(NSString *)shopAddress
 {
     self = [super initWithFrame:frame];
     if (self)

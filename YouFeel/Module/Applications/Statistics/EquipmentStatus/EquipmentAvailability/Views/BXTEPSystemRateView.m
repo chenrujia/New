@@ -83,7 +83,8 @@
 
 - (void)createWorkIoadViewOfIndex:(NSInteger)index WithTableViewCell:(BXTEPSystemRateCell *)newCell
 {
-    AksStraightPieChart *straightPieChart = [[AksStraightPieChart alloc] initWithFrame:CGRectMake(15, 15, SCREEN_WIDTH - 30, bgViewH)];
+    CGFloat straightPieChartW = SCREEN_WIDTH - 30;
+    AksStraightPieChart *straightPieChart = [[AksStraightPieChart alloc] initWithFrame:CGRectMake(15, 15, straightPieChartW, bgViewH)];
     straightPieChart.transPieClick = ^(void) {
         
     };
@@ -96,9 +97,12 @@
     [straightPieChart addDataToRepresent:[model.working_per intValue] WithColor:colorWithHexString(@"#34B47E")];
     [straightPieChart addDataToRepresent:[model.stop_per intValue] WithColor:colorWithHexString(@"#D6AD5B")];
     
-    UILabel *rateLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, 80, bgViewH)];
+    CGFloat rate = [model.working_per intValue] / ([model.working_per intValue] + [model.stop_per intValue]);
+    CGFloat labelX = rate < 0.2 ? 0 : (straightPieChartW * rate - 60) / 2;
+    UILabel *rateLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, 0, 60, bgViewH)];
     rateLabel.text = [NSString stringWithFormat:@"%@%%", model.working_per];
     rateLabel.textColor = [UIColor whiteColor];
+    rateLabel.textAlignment = NSTextAlignmentCenter;
     [straightPieChart addSubview:rateLabel];
     
 }
@@ -219,6 +223,7 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     //    [self hideMBP];
+    [self.dataArray removeAllObjects];
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
