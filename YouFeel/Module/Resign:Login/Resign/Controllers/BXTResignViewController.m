@@ -260,6 +260,10 @@
     {
         [self showMBP:@"该手机已经绑定了其他微信号，请更换手机号" withBlock:nil];
     }
+    else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"014"])
+    {
+        [self showMBP:@"该手机号已绑定其他微信账户" withBlock:nil];
+    }
     else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
         NSArray *dataArray = [dic objectForKey:@"data"];

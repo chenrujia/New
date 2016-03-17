@@ -24,11 +24,11 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.yfbx.youfeel</string>
+			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>wx45e56bc2563438f5</string>
 				<string>hellouf</string>
-				<string>wx5c34402c24a80d9d</string>
 			</array>
 		</dict>
 	</array>
