@@ -44,6 +44,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        self.state = @"1";
+        self.name = @"正常";
         self.notes = @"";
         self.instruction = @"";
         self.maintenceInfo = maintence;
@@ -58,8 +60,11 @@
         }
         self.deviceID = devID;
         self.deviceStates = states;
-        self.state = maintence.device_state;
-        self.name = maintence.device_state_name;
+        if (maintence.device_state)
+        {
+            self.state = maintence.device_state;
+            self.name = maintence.device_state_name;
+        }
     }
     return self;
 }

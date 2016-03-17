@@ -41,9 +41,4 @@ typedef NS_ENUM(NSInteger, HiddenType) {
 - (void)pushAchievements;
 - (void)projectPhone;
 
-/**
- *  是否已验证
- */
-- (BOOL)is_verify;
-
 @end

@@ -260,6 +260,10 @@
     {
         [self showMBP:@"该手机已经绑定了其他微信号，请更换手机号" withBlock:nil];
     }
+    else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"014"])
+    {
+        [self showMBP:@"该手机号已绑定其他微信账户" withBlock:nil];
+    }
     else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
         NSArray *dataArray = [dic objectForKey:@"data"];
@@ -288,7 +292,7 @@
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+            NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
             [BXTGlobal shareGlobal].baseURL = url;
             
             BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
