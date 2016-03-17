@@ -90,8 +90,10 @@
         @strongify(self);
         
         int count = 0;
-        for (NSString *titleStr in self.dataArray) {
-            if ([titleStr isEqualToString:@"待完善"]) {
+        for (NSString *titleStr in self.dataArray)
+        {
+            if ([titleStr isEqualToString:@"待完善"])
+            {
                 count++;
             }
         }

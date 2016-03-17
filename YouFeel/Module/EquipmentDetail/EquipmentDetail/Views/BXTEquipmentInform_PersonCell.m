@@ -29,14 +29,14 @@
     NSString *head_pic = userList.head_pic;
     NSString *iconPic = [head_pic stringByReplacingOccurrencesOfString:@"\\" withString:@""];
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:iconPic] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
-    
     self.nameView.text = [NSString stringWithFormat:@"负责人：%@", userList.name];
-    
-    
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"电话：%@", userList.mobile]];
-    [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(3, 11)];
-    [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(3, 11)];
-    self.phoneView.attributedText = attributedString;
+    if (userList.mobile.length == 11)
+    {
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"电话：%@", userList.mobile]];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(3, 11)];
+        [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(3, 11)];
+        self.phoneView.attributedText = attributedString;
+    }
     
     UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] init];
     [self addGestureRecognizer:moblieTap];
@@ -48,7 +48,6 @@
         [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
         [self addSubview:callWeb];
     }];
-    
 }
 
 - (void)awakeFromNib {

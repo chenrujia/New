@@ -112,7 +112,8 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.isShowArray[section] isEqualToString:@"1"]) {
+    if ([self.isShowArray[section] isEqualToString:@"1"])
+    {
         return  1;
     }
     return  0;

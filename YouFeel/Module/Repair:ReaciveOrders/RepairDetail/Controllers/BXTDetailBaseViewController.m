@@ -244,7 +244,7 @@
     role.text = [NSString stringWithFormat:@"%@-%@",mmInfo.department,mmInfo.role];
     [userBack addSubview:role];
     
-    if (mmInfo.mobile.length > 0)
+    if (mmInfo.mobile.length == 11)
     {
         UILabel *phone = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 50.f, levelWidth, 20)];
         phone.textColor = colorWithHexString(@"909497");

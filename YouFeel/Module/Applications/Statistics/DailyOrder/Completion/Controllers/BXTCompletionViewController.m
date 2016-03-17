@@ -437,7 +437,7 @@ typedef enum {
     NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc] initWithString:originStr];
     [AttributedStr addAttribute:NSForegroundColorAttributeName
                           value:colorWithHexString(@"#3AB0FF")
-                          range:NSMakeRange(index, originStr.length-index)];
+                          range:NSMakeRange(index, originStr.length - index)];
     return AttributedStr;
 }
 
