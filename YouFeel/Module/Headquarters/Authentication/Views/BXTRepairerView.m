@@ -8,13 +8,21 @@
 
 #import "BXTRepairerView.h"
 
+@interface BXTRepairerView ()
+
+@property (nonatomic, copy) NSString *shopID;
+
+@end
+
 @implementation BXTRepairerView
 
-- (instancetype)initWithFrame:(CGRect)frame andViewType:(ViewType)type
+- (instancetype)initWithFrame:(CGRect)frame andViewType:(ViewType)type andShopID:(NSString *)shopID andShopAddress:(NSString *)shopAddress
 {
-    self = [super initWithFrame:frame andViewType:type];
+    self = [super initWithFrame:frame andViewType:type andShopID:shopID andShopAddress:shopAddress];
     if (self)
     {
+        self.shopID = shopID;
+        
         /**请求部门列表**/
         BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
         [dep_request departmentsList:@"1"];
@@ -207,7 +215,7 @@
     
     [self showLoadingMBP:@"注册中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request branchResign:1];
+    [request branchResign:1 andShopID:self.shopID];
 }
 
 - (void)showAlertView:(NSString *)title

@@ -94,6 +94,7 @@
     
     self.headerView.roundTitleView.text = [NSString stringWithFormat:@"总计：%@", dataDict[@"total"]];
     // Button
+    self.headerView.allNumLabelView.text = [NSString stringWithFormat:@"全年维保总量为：%@", dataDict[@"total"]];
     NSString *downNumStr = [NSString stringWithFormat:@"已完成：%@", dataDict[@"over"]];
     NSString *doingNumStr = [NSString stringWithFormat:@"进行中：%@", dataDict[@"working"]];
     NSString *undownNumStr = [NSString stringWithFormat:@"未完成：%@", dataDict[@"unover"]];
@@ -109,8 +110,8 @@
     //  ---------- 条形图 ----------
     // CompletionFooter
     self.footerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTCompletionFooter" owner:nil options:nil] lastObject];
-    self.footerView.frame = CGRectMake(0, 460, SCREEN_WIDTH, 320+20);
-    self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 800+15);
+    self.footerView.frame = CGRectMake(0, 460, SCREEN_WIDTH, 280+20);
+    self.rootScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 760+15);
     [self.rootScrollView addSubview:self.footerView];
     
     

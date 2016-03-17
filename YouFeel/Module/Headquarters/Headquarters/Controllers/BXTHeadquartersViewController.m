@@ -13,6 +13,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTHeadquartersInfo.h"
 #import "PinYinForObjc.h"
+#import "BXTAuthenticationViewController.h"
 
 #define NavBarHeight 120.f
 
@@ -384,10 +385,26 @@
 {
     if (tableView == self.tableView_Search)
     {
-        BXTHeadquartersInfo *company = [BXTHeadquartersInfo modelObjectWithDictionary:self.searchArray[indexPath.row]];
-        BXTBranchViewController *branchVC = [[BXTBranchViewController alloc] initWithHeadquarters:company];
-        branchVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:branchVC animated:YES];
+        NSDictionary *dict = self.searchArray[indexPath.row];
+        BXTHeadquartersInfo *infoModel = [BXTHeadquartersInfo modelObjectWithDictionary:dict];
+        
+        
+        NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
+        if ([shopsIDArray containsObject:infoModel.company_id])
+        {
+            [self refreshAllInformWithShopID:infoModel.company_id shopAddress:infoModel.name];
+            
+            /**请求分店位置**/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request branchLogin];
+        }
+        else
+        {
+            BXTAuthenticationViewController *authenticationVC = [[BXTAuthenticationViewController alloc] init];
+            authenticationVC.shopID = infoModel.company_id;
+            authenticationVC.shopAddress = infoModel.name;
+            [self.navigationController pushViewController:authenticationVC animated:YES];
+        }
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
@@ -404,9 +421,24 @@
             }
         } else {
             BXTHeadquartersInfo *company = locationShopsArray[indexPath.row-1];
-            BXTBranchViewController *branchVC = [[BXTBranchViewController alloc] initWithHeadquarters:company];
-            branchVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:branchVC animated:YES];
+            
+            NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
+            if ([shopsIDArray containsObject:company.company_id])
+            {
+                [self refreshAllInformWithShopID:company.company_id shopAddress:company.name];
+                
+                /**请求分店位置**/
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request branchLogin];
+            }
+            else
+            {
+                BXTAuthenticationViewController *authenticationVC = [[BXTAuthenticationViewController alloc] init];
+                authenticationVC.shopID = company.company_id;
+                authenticationVC.shopAddress = company.name;
+                [self.navigationController pushViewController:authenticationVC animated:YES];
+            }
+            
         }
     }
     else if (indexPath.section == 1 && indexPath.row != 0) {
@@ -417,6 +449,17 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)refreshAllInformWithShopID:(NSString *)shopID shopAddress:(NSString *)shopAddress {
+    BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
+    companyInfo.company_id = shopID;
+    companyInfo.name = shopAddress;
+    [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
+    
+    
+    NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    [BXTGlobal shareGlobal].baseURL = url;
 }
 
 #pragma mark -

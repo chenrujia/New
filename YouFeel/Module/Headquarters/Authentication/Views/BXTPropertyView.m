@@ -8,13 +8,35 @@
 
 #import "BXTPropertyView.h"
 
+@interface BXTPropertyView ()
+
+@property (nonatomic, copy) NSString *shopID;
+@property (nonatomic, copy) NSString *shopAddress;
+
+@end
+
 @implementation BXTPropertyView
 
-- (instancetype)initWithFrame:(CGRect)frame andViewType:(ViewType)type
+- (instancetype)initWithFrame:(CGRect)frame andViewType:(ViewType)type andShopID:(NSString *)shopID andShopAddress:(NSString *)shopAddress
 {
-    self = [super initWithFrame:frame andViewType:type];
+    self = [super initWithFrame:frame andViewType:type andShopID:shopID andShopAddress:shopAddress];
     if (self)
     {
+        self.shopID = shopID;
+        self.shopAddress = shopAddress;
+        
+        BXTHeadquartersInfo *model = [BXTGlobal getUserProperty:U_COMPANY];
+        NSLog(@"%@", model.company_id);
+        if ([BXTGlobal isBlankString:model.company_id]) {
+            BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
+            companyInfo.company_id = self.shopID;
+            companyInfo.name = self.shopAddress;
+            [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
+            
+            [self transUrl];
+        }
+        
+        
         /**请求部门列表**/
         BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
         [dep_request departmentsList:@"2"];
@@ -34,6 +56,12 @@
         }
     }
     return self;
+}
+
+- (void)transUrl
+{
+    NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", self.shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    [BXTGlobal shareGlobal].baseURL = url;;
 }
 
 #pragma mark -
@@ -135,8 +163,7 @@
     else if (indexPath.section == 3)
     {
         cell.titleLabel.text = @"位   置";
-        BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
-        cell.detailLable.text = company.name;
+        cell.detailLable.text = self.shopAddress;
         cell.checkImgView.hidden = NO;
     }
     else if (indexPath.section == 4)
@@ -238,6 +265,18 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    // 更换参数 & URL
+    if (type == BranchResign) {
+        BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
+        companyInfo.company_id = self.shopID;
+        companyInfo.name = self.shopAddress;
+        [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
+        
+        
+        [self transUrl];
+    }
+    
+    
     [super requestResponseData:response requeseType:type];
 }
 
@@ -288,7 +327,7 @@
     
     [self showLoadingMBP:@"注册中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request branchResign:2];
+    [request branchResign:2 andShopID:self.shopID];
 }
 
 - (void)showAlertView:(NSString *)title

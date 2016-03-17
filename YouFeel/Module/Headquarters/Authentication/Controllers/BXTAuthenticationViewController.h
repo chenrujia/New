@@ -10,4 +10,7 @@
 
 @interface BXTAuthenticationViewController : BXTBaseViewController
 
+@property (nonatomic, copy) NSString *shopID;
+@property (nonatomic, copy) NSString *shopAddress;
+
 @end

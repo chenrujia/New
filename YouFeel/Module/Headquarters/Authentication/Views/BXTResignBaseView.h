@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, ViewType) {
 @property (nonatomic, strong) UITableView *currentTableView;
 @property (nonatomic, assign) ViewType    viewType;
 
-- (instancetype)initWithFrame:(CGRect)frame andViewType:(ViewType)type;
+- (instancetype)initWithFrame:(CGRect)frame andViewType:(ViewType)type  andShopID:(NSString *)shopID andShopAddress:(NSString *)shopAddress;
 
 - (void)createBoxView:(NSInteger)section;
 

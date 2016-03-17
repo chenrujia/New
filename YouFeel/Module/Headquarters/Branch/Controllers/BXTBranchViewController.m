@@ -18,6 +18,10 @@
     BXTHeadquartersInfo *headquarters;
     UITableView         *currentTableView;
 }
+
+@property (nonatomic, copy) NSString *shopID;
+@property (nonatomic, copy) NSString *shopAddress;
+
 @end
 
 @implementation BXTBranchViewController
@@ -58,12 +62,9 @@
 #pragma mark 事件处理
 - (void)navigationRightButton
 {
-    [BXTGlobal setUserProperty:headquarters withKey:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", headquarters.company_id, [BXTGlobal getUserProperty:U_TOKEN]];
-    [BXTGlobal shareGlobal].baseURL = url;
     
     NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
-    if ([shopsIDArray containsObject:headquarters.company_id])
+    if ([shopsIDArray containsObject:self.shopID])
     {
         /**请求分店位置**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -72,6 +73,8 @@
     else
     {
         BXTAuthenticationViewController *authenticationVC = [[BXTAuthenticationViewController alloc] init];
+        authenticationVC.shopID = self.shopID;
+        authenticationVC.shopAddress = self.shopAddress;
         [self.navigationController pushViewController:authenticationVC animated:YES];
     }
 }
@@ -110,7 +113,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTHeadquartersInfo *company = shopsArray[indexPath.row];
-    headquarters = company;
+//    headquarters = company;
+    self.shopID = company.company_id;
+    self.shopAddress = company.name;
     [markArray removeAllObjects];
     for (NSInteger i = 0; i < shopsArray.count; i++)
     {

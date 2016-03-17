@@ -67,7 +67,7 @@
                         <constraint firstAttribute="height" constant="0.5" id="RQo-BT-Hmg"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="以全年维保总量为基础，全年维保总量为：1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RCy-nM-UH9">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="全年维保总量为：1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RCy-nM-UH9">
                     <rect key="frame" x="15" y="391" width="345" height="22"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="A76-VQ-aDC"/>
@@ -194,6 +194,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="allNumLabelView" destination="RCy-nM-UH9" id="gCH-BM-Wh5"/>
                 <outlet property="doingLabelView" destination="Yed-hF-511" id="tm2-Qv-0Z5"/>
                 <outlet property="downLabelView" destination="0rS-32-E3a" id="ds6-hE-fXK"/>
                 <outlet property="pieView" destination="m34-gu-FvI" id="rdD-iz-vqG"/>

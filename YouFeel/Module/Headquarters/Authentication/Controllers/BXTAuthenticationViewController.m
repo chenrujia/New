@@ -30,7 +30,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"身份验证" andRightTitle:nil andRightImage:nil];
-    propertyView = [[BXTPropertyView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT- 64) andViewType:PropertyType];
+    propertyView = [[BXTPropertyView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT- 64) andViewType:PropertyType  andShopID:self.shopID andShopAddress:self.shopAddress];
     [self.view addSubview:propertyView];
 }
 
@@ -73,10 +73,10 @@
     currentScrollView.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:currentScrollView];
     
-    repairerView = [[BXTRepairerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.frame)) andViewType:RepairType];
+    repairerView = [[BXTRepairerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.frame)) andViewType:RepairType andShopID:self.shopID andShopAddress:self.shopAddress];
     [currentScrollView addSubview:repairerView];
     
-    propertyView = [[BXTPropertyView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.frame)) andViewType:PropertyType];
+    propertyView = [[BXTPropertyView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.frame)) andViewType:PropertyType andShopID:@"" andShopAddress:self.shopAddress];
     [currentScrollView addSubview:propertyView];
 }
 
