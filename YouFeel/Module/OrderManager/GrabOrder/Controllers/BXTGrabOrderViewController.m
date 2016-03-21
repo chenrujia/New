@@ -133,11 +133,14 @@
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ShowError" object:nil] subscribeNext:^(id x) {
         @strongify(self);
         [self showMBP:@"数据出错了！！" withBlock:^(BOOL hidden) {
-            [[BXTGlobal shareGlobal].newsOrderIDs removeObjectAtIndex:[BXTGlobal shareGlobal].numOfPresented-1];
-            --[BXTGlobal shareGlobal].numOfPresented;
-            if ([BXTGlobal shareGlobal].numOfPresented < 1)
+            if ([BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented-1)
             {
-                [[BXTGlobal shareGlobal].newsOrderIDs removeAllObjects];
+                [[BXTGlobal shareGlobal].newsOrderIDs removeObjectAtIndex:[BXTGlobal shareGlobal].numOfPresented-1];
+                --[BXTGlobal shareGlobal].numOfPresented;
+                if ([BXTGlobal shareGlobal].numOfPresented < 1)
+                {
+                    [[BXTGlobal shareGlobal].newsOrderIDs removeAllObjects];
+                }
             }
             [self.navigationController popViewControllerAnimated:YES];
         }];
