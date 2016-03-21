@@ -20,7 +20,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.backgroundColor = colorWithHexString(@"ffffff");
+        self.backgroundColor = [UIColor whiteColor];
         self.isShow = show;
         self.progress = progresses;
     }
@@ -41,11 +41,11 @@
     [grayColor setStroke];
     [grayColor setFill];
     CGFloat x = 40.f;
-    CGFloat y = 45.f;
+    CGFloat y = 20.f;
     //最下面那个灰色长条
     [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(rect.size.width - x, y) withLineWidth:10.f];
     
-    UIColor *orangeColor = colorWithHexString(@"febd2d");
+    UIColor *orangeColor = colorWithHexString(@"3cafff");
     [orangeColor setStroke];
     [orangeColor setFill];
     
@@ -116,11 +116,11 @@
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
     }
 
-    [self drawTextInRect:CGRectMake(6.f, 62, 60.f, 20.f) Contents:progressOne.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space - 26.f, 62, 60.f, 20.f) Contents:progressTwo.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 2 - 23.f, 62, 60.f, 20.f) Contents:progressThree.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 3 - 26.f, 62, 60.f, 20.f) Contents:progressFour.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 4 - 26.f, 62, 60.f, 20.f) Contents:progressFive.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(6.f, y + 20.f, 60.f, 20.f) Contents:progressOne.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space - 26.f, y + 20.f, 60.f, 20.f) Contents:progressTwo.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 2 - 23.f, y + 20.f, 60.f, 20.f) Contents:progressThree.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 3 - 26.f, y + 20.f, 60.f, 20.f) Contents:progressFour.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 4 - 26.f, y + 20.f, 60.f, 20.f) Contents:progressFive.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
 }
 
 @end

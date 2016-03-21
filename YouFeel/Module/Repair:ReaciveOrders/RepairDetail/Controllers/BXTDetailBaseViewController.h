@@ -14,7 +14,7 @@
 
 #define ImageWidth      73.3f
 #define ImageHeight     73.3f
-#define StateViewHeight 90.f
+#define StateViewHeight 70.f
 #define RepairHeight    95.f
 
 @interface BXTDetailBaseViewController : BXTPhotoBaseViewController

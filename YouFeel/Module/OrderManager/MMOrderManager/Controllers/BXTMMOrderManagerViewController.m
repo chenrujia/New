@@ -33,7 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"工单管理" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"hhhhhh" andRightTitle:nil andRightImage:nil];
     
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestRepairList" object:nil] subscribeNext:^(id x) {

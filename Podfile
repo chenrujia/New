@@ -14,5 +14,6 @@ pod 'CYLTabBarController', '~> 1.0.5'
 pod 'MJExtension', '~> 3.0.8'
 platform :ios, ‘7.0’
 pod 'LBXScan',:git=>'https://github.com/MxABC/LBXScan.git'
+pod 'dyci', :git => 'https://github.com/DyCI/dyci-main.git'
 pod 'SDCycleScrollView', '~> 1.3'
 pod 'SKSTableView', '~> 0.0.2'
