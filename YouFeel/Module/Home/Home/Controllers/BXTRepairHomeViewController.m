@@ -27,40 +27,39 @@
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
     title_label.text = @"我的工单";
     
-    self.imgNameArray = [NSMutableArray arrayWithObjects:@"My_Orders",
-                         @[@"Day_Order",@"Maintenance_Orders"],
-                         @"Special_Orders",
-                         @"Business_Statistics",
-                         @"My_Achievements",
-                         @"Project_Phone",nil];
-    self.titleNameArray = [NSMutableArray arrayWithObjects:@"我的工单",
-                           @[@"日常工单",@"维保工单"],
-                           @"特殊工单",
-                           @"业务统计",
-                           @"我的绩效",
-                           @"项目热线",nil];
+    self.imgNameArray = [NSMutableArray arrayWithObjects:@[@"Day_Order",@"Maintenance_Orders"],
+                         @[@"My_Orders", @"Business_Statistics"],
+                         @[@"Special_Orders", @"My_Achievements"],
+                         @[@"Business_Statistics"],
+                         @[@"Project_Phone"] ,nil];
+    self.titleNameArray = [NSMutableArray arrayWithObjects:@[@"日常工单",@"维保工单"],
+                           @[@"我的维修工单", @"我的报修工单"],
+                           @[@"待处理事项", @"我的积分"],
+                           @[@"业务统计"],
+                           @[@"项目热线"], nil];
     
-    NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
-    if (![roleArray containsObject:@"116"] && ![roleArray containsObject:@"114"])
-    {
-        [self.titleNameArray removeObject:@"特殊工单"];
-        [self.imgNameArray removeObject:@"Special_Orders"];
-        [self.titleNameArray removeObject:@"业务统计"];
-        [self.imgNameArray removeObject:@"Business_Statistics"];
-        self.whichHidden = HiddenType_Both;
-    }
-    else if (![roleArray containsObject:@"116"])
-    {
-        [self.titleNameArray removeObject:@"特殊工单"];
-        [self.imgNameArray removeObject:@"Special_Orders"];
-        self.whichHidden = HiddenType_SpecialOrders;
-    }
-    else if (![roleArray containsObject:@"114"])
-    {
-        [self.titleNameArray removeObject:@"业务统计"];
-        [self.imgNameArray removeObject:@"Business_Statistics"];
-        self.whichHidden = HiddenType_BusinessStatistics;
-    }
+    
+    //    NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
+    //    if (![roleArray containsObject:@"116"] && ![roleArray containsObject:@"114"])
+    //    {
+    //        [self.titleNameArray removeObject:@"特殊工单"];
+    //        [self.imgNameArray removeObject:@"Special_Orders"];
+    //        [self.titleNameArray removeObject:@"业务统计"];
+    //        [self.imgNameArray removeObject:@"Business_Statistics"];
+    //        self.whichHidden = HiddenType_Both;
+    //    }
+    //    else if (![roleArray containsObject:@"116"])
+    //    {
+    //        [self.titleNameArray removeObject:@"特殊工单"];
+    //        [self.imgNameArray removeObject:@"Special_Orders"];
+    //        self.whichHidden = HiddenType_SpecialOrders;
+    //    }
+    //    else if (![roleArray containsObject:@"114"])
+    //    {
+    //        [self.titleNameArray removeObject:@"业务统计"];
+    //        [self.imgNameArray removeObject:@"Business_Statistics"];
+    //        self.whichHidden = HiddenType_BusinessStatistics;
+    //    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -111,126 +110,33 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (self.whichHidden == HiddenType_Both)
-    {
-        switch (indexPath.section)
-        {
-            case 0:
-                [self pushMyOrders];
-                break;
-            case 1:
-                if (indexPath.row == 0)
-                {
-                    [self pushNormalOrders];
-                }
-                else
-                {
-                    [self pushMaintenceOrders];
-                }
-                break;
-            case 2:
-                [self pushAchievements];
-                break;
-            case 3:
-                [self projectPhone];
-                break;
-            default:
-                break;
-        }
+    switch (indexPath.section) {
+        case 0: {
+            switch (indexPath.row) {
+                case 0: [self pushNormalOrders]; break;
+                case 1: [self pushMaintenceOrders]; break;
+                default: break;
+            }
+        } break;
+        case 1: {
+            switch (indexPath.row) {
+                case 0: [self pushMyOrders]; break;
+                case 1: [self pushMyOrders]; break;
+                default: break;
+            }
+        } break;
+        case 2: {
+            switch (indexPath.row) {
+                case 0: [self pushSpecialOrders]; break;
+                case 1: [self pushAchievements]; break;
+                default: break;
+            }
+        } break;
+        case 3:  [self pushStatistics]; break;
+        case 4: [self projectPhone]; break;
+        default: break;
     }
-    else if (self.whichHidden == HiddenType_SpecialOrders)
-    {
-        switch (indexPath.section)
-        {
-            case 0:
-                [self pushMyOrders];
-                break;
-            case 1:
-                if (indexPath.row == 0)
-                {
-                    [self pushNormalOrders];
-                }
-                else
-                {
-                    [self pushMaintenceOrders];
-                }
-                break;
-            case 2:
-                [self pushStatistics];
-                break;
-            case 3:
-                [self pushAchievements];
-                break;
-            case 4:
-                [self projectPhone];
-                break;
-            default:
-                break;
-        }
-    }
-    else if (self.whichHidden == HiddenType_BusinessStatistics)
-    {
-        switch (indexPath.section)
-        {
-            case 0:
-                [self pushMyOrders];
-                break;
-            case 1:
-                if (indexPath.row == 0)
-                {
-                    [self pushNormalOrders];
-                }
-                else
-                {
-                    [self pushMaintenceOrders];
-                }
-                break;
-            case 2:
-                [self pushSpecialOrders];
-                break;
-            case 3:
-                [self pushAchievements];
-                break;
-            case 4:
-                [self projectPhone];
-                break;
-            default:
-                break;
-        }
-    }
-    else
-    {
-        switch (indexPath.section)
-        {
-            case 0:
-                [self pushMyOrders];
-                break;
-            case 1:
-                if (indexPath.row == 0)
-                {
-                    [self pushNormalOrders];
-                }
-                else
-                {
-                    [self pushMaintenceOrders];
-                }
-                break;
-            case 2:
-                [self pushSpecialOrders];
-                break;
-            case 3:
-                [self pushStatistics];
-                break;
-            case 4:
-                [self pushAchievements];
-                break;
-            case 5:
-                [self projectPhone];
-                break;
-            default:
-                break;
-        }
-    }
+    
 }
 
 - (void)didReceiveMemoryWarning

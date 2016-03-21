@@ -369,7 +369,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     showHud.labelText = text;
     showHud.mode = MBProgressHUDModeText;
     [showHud showAnimated:YES whileExecutingBlock:^{
-        sleep(1.5);
+        sleep(2.0);
     } completionBlock:^{
         [showHud removeFromSuperview];
         if (completion) {

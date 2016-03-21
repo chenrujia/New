@@ -250,6 +250,9 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == self.tableView_address) {
+        if (self.typeOfRow == SelectedType_Forth) {
+            return self.addressArray.count + 1;
+        }
         return self.addressArray.count;
     }
     return 1;
@@ -279,14 +282,24 @@ typedef NS_ENUM(NSInteger, SelectedType) {
                 cell.textLabel.text = model.stores_name;
             }
             else if (self.typeOfRow == SelectedType_Forth) {
-                BXTDeviceList *model = self.addressArray[indexPath.row];
-                cell.textLabel.text = model.name;
+                if (indexPath.row < self.addressArray.count) {
+                    BXTDeviceList *model = self.addressArray[indexPath.row];
+                    cell.textLabel.text = model.name;
+                }
+                else {
+                    cell.textLabel.text = @"暂无所选设备";
+                }
             }
         }
         else {
             if (self.typeOfRow == SelectedType_Forth) {
-                BXTDeviceList *model = self.addressArray[indexPath.row];
-                cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", model.name, model.code_number];
+                if (indexPath.row < self.addressArray.count) {
+                    BXTDeviceList *model = self.addressArray[indexPath.row];
+                    cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", model.name, model.code_number];
+                }
+                else {
+                    cell.textLabel.text = @"暂无所选设备";
+                }
             }
         }
         
@@ -338,6 +351,7 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (tableView == self.tableView_address) {
+        
         self.isBgBtnExist = NO;
         [UIView animateWithDuration:0.5 animations:^{
             self.bgBtn.alpha = 0.0;
@@ -372,9 +386,11 @@ typedef NS_ENUM(NSInteger, SelectedType) {
             self.forthText = @"请选择设备信息";
         }
         else if (self.typeOfRow == SelectedType_Forth) {
-            BXTDeviceList *model = self.addressArray[indexPath.row];
-            self.forthText = model.name;
-            self.indexOfRow4 = indexPath.row;
+            if (indexPath.row < self.addressArray.count) {
+                BXTDeviceList *model = self.addressArray[indexPath.row];
+                self.forthText = model.name;
+                self.indexOfRow4 = indexPath.row;
+            }
         }
         
         [self.currentTableView reloadData];
@@ -555,7 +571,12 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         self.addressArray = forthArray;
         self.typeOfRow = SelectedType_Forth;
         
-        [self createForthUI];
+        if (self.addressArray.count == 0) {
+            [BXTGlobal showText:@"此位置暂无设备" view:self.view completionBlock:nil];
+        }
+        else {
+            [self createForthUI];
+        }
     }
 }
 
