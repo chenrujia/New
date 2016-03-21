@@ -144,7 +144,7 @@
     for (NSDictionary *dict in self.dataArray)
     {
         NSString *downStr = [NSString stringWithFormat:@"%@", dict[@"yes_number"] ];
-        NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"collection_number"] ];
+        NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"complete_number"]];
         NSString *undownStr = [NSString stringWithFormat:@"%@", dict[@"no_number"] ];
         NSNumber *downNum = [NSNumber numberWithInteger:[downStr integerValue]];
         NSNumber *specialNum = [NSNumber numberWithInteger:[specialStr integerValue]];
