@@ -4545,8 +4545,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GetuiSDK",
 					"$(PROJECT_DIR)/YouFeel/Library/WeiXin",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
@@ -4574,8 +4578,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GetuiSDK",
 					"$(PROJECT_DIR)/YouFeel/Library/WeiXin",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
