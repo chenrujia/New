@@ -14,6 +14,8 @@
 		78090B2A1C7DAF47003E1565 /* BXTEPFilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78090B271C7DAF47003E1565 /* BXTEPFilterCell.xib */; };
 		78090B301C7DC67A003E1565 /* BXTEPHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78090B2F1C7DC67A003E1565 /* BXTEPHeaderView.m */; };
 		78090B321C7DC68F003E1565 /* BXTEPHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78090B311C7DC68F003E1565 /* BXTEPHeaderView.xib */; };
+		78122F471C9FC02B00CAEF93 /* BXTMainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78122F451C9FC02B00CAEF93 /* BXTMainTableViewCell.m */; };
+		78122F481C9FC02B00CAEF93 /* BXTMainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78122F461C9FC02B00CAEF93 /* BXTMainTableViewCell.xib */; };
 		7818DBD31C0824D800DC22C6 /* AksStraightPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DB9D1C0824D800DC22C6 /* AksStraightPieChart.m */; };
 		7818DBD41C0824D800DC22C6 /* BarChatItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DB9F1C0824D800DC22C6 /* BarChatItemView.m */; };
 		7818DBD71C0824D800DC22C6 /* MYPieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DBA71C0824D800DC22C6 /* MYPieView.m */; };
@@ -214,7 +216,6 @@
 		7867DD841C4CBEA1000749F1 /* BXTOrderListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD6C1C4CBEA1000749F1 /* BXTOrderListView.m */; };
 		7867DD851C4CBEA1000749F1 /* SegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD6E1C4CBEA1000749F1 /* SegmentView.m */; };
 		7867DDA81C4CBEE9000749F1 /* BXTReaciveOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD8A1C4CBEE9000749F1 /* BXTReaciveOrdersViewController.m */; };
-		7867DDA91C4CBEE9000749F1 /* BXTReaciveOrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD8D1C4CBEE9000749F1 /* BXTReaciveOrderTableViewCell.m */; };
 		7867DDAA1C4CBEE9000749F1 /* BXTRepairViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD911C4CBEE9000749F1 /* BXTRepairViewController.m */; };
 		7867DDAB1C4CBEE9000749F1 /* BXTRepairInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD941C4CBEE9000749F1 /* BXTRepairInfo.m */; };
 		7867DDAC1C4CBEE9000749F1 /* BXTRepairTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD971C4CBEE9000749F1 /* BXTRepairTableViewCell.m */; };
@@ -392,6 +393,9 @@
 		78090B2E1C7DC67A003E1565 /* BXTEPHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPHeaderView.h; sourceTree = "<group>"; };
 		78090B2F1C7DC67A003E1565 /* BXTEPHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPHeaderView.m; sourceTree = "<group>"; };
 		78090B311C7DC68F003E1565 /* BXTEPHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPHeaderView.xib; sourceTree = "<group>"; };
+		78122F441C9FC02B00CAEF93 /* BXTMainTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMainTableViewCell.h; sourceTree = "<group>"; };
+		78122F451C9FC02B00CAEF93 /* BXTMainTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMainTableViewCell.m; sourceTree = "<group>"; };
+		78122F461C9FC02B00CAEF93 /* BXTMainTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMainTableViewCell.xib; sourceTree = "<group>"; };
 		7818DB9C1C0824D800DC22C6 /* AksStraightPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AksStraightPieChart.h; sourceTree = "<group>"; };
 		7818DB9D1C0824D800DC22C6 /* AksStraightPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AksStraightPieChart.m; sourceTree = "<group>"; };
 		7818DB9E1C0824D800DC22C6 /* BarChatItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarChatItemView.h; sourceTree = "<group>"; };
@@ -776,8 +780,6 @@
 		7867DD6E1C4CBEA1000749F1 /* SegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentView.m; sourceTree = "<group>"; };
 		7867DD891C4CBEE9000749F1 /* BXTReaciveOrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTReaciveOrdersViewController.h; sourceTree = "<group>"; };
 		7867DD8A1C4CBEE9000749F1 /* BXTReaciveOrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTReaciveOrdersViewController.m; sourceTree = "<group>"; };
-		7867DD8C1C4CBEE9000749F1 /* BXTReaciveOrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTReaciveOrderTableViewCell.h; sourceTree = "<group>"; };
-		7867DD8D1C4CBEE9000749F1 /* BXTReaciveOrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTReaciveOrderTableViewCell.m; sourceTree = "<group>"; };
 		7867DD901C4CBEE9000749F1 /* BXTRepairViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairViewController.h; sourceTree = "<group>"; };
 		7867DD911C4CBEE9000749F1 /* BXTRepairViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairViewController.m; sourceTree = "<group>"; };
 		7867DD931C4CBEE9000749F1 /* BXTRepairInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairInfo.h; sourceTree = "<group>"; };
@@ -1192,6 +1194,16 @@
 				7823C88B1C7E92A800E2858B /* BXTEPLocationCell.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		78122F431C9FC02B00CAEF93 /* MainCell&Model */ = {
+			isa = PBXGroup;
+			children = (
+				78122F441C9FC02B00CAEF93 /* BXTMainTableViewCell.h */,
+				78122F451C9FC02B00CAEF93 /* BXTMainTableViewCell.m */,
+				78122F461C9FC02B00CAEF93 /* BXTMainTableViewCell.xib */,
+			);
+			path = "MainCell&Model";
 			sourceTree = "<group>";
 		};
 		7818DB9A1C0824D800DC22C6 /* StatisticsChart */ = {
@@ -2689,8 +2701,6 @@
 		7867DD8B1C4CBEE9000749F1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7867DD8C1C4CBEE9000749F1 /* BXTReaciveOrderTableViewCell.h */,
-				7867DD8D1C4CBEE9000749F1 /* BXTReaciveOrderTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3523,6 +3533,7 @@
 		9652AB341BC9069B009A666D /* Module */ = {
 			isa = PBXGroup;
 			children = (
+				78122F431C9FC02B00CAEF93 /* MainCell&Model */,
 				783E6C051C51BFF400DC13FB /* WorkOrder */,
 				7867DCB41C4CBCAB000749F1 /* Resign/Login */,
 				7867DCF61C4CBE4F000749F1 /* Headquarters */,
@@ -3964,6 +3975,7 @@
 				781EF20E1C3D382C0027FE72 /* BXTEquipmentInformCell.xib in Resources */,
 				96AABA551BE0BB220071B6FA /* RongCloudKit.strings in Resources */,
 				7893D8EE1C7ADA8000F042D5 /* BXTWorkloadCell.xib in Resources */,
+				78122F481C9FC02B00CAEF93 /* BXTMainTableViewCell.xib in Resources */,
 				7893D8E61C7ADA8000F042D5 /* BXTProfessionHeader.xib in Resources */,
 				7867DCD11C4CBCAC000749F1 /* BXTResignTableViewCell.xib in Resources */,
 				964E6F0A1C3276300081DEBB /* LoginAndResign.storyboard in Resources */,
@@ -4081,6 +4093,7 @@
 				9652ABEE1BC90DCC009A666D /* ANKeyValueCache.m in Sources */,
 				9652ABEF1BC90DCC009A666D /* ANKeyValueData.m in Sources */,
 				7893D8DC1C7ADA8000F042D5 /* BXTCompletionFooter.m in Sources */,
+				78122F471C9FC02B00CAEF93 /* BXTMainTableViewCell.m in Sources */,
 				7893D8981C7AA8A000F042D5 /* BXTStatisticsFirstView.m in Sources */,
 				7867DD761C4CBEA1000749F1 /* RGCollectionViewCell.m in Sources */,
 				783E6C2D1C51BFF400DC13FB /* BXTCustomImageView.m in Sources */,
@@ -4180,7 +4193,6 @@
 				7867DD821C4CBEA1000749F1 /* BXTOrderManagerViewController.m in Sources */,
 				7867DC2A1C4CBA5B000749F1 /* BXTRepairHomeViewController.m in Sources */,
 				786B571D1C3A06C400F48402 /* BXTPersonInfromViewController.m in Sources */,
-				7867DDA91C4CBEE9000749F1 /* BXTReaciveOrderTableViewCell.m in Sources */,
 				7867DD801C4CBEA1000749F1 /* BXTNewOrderViewController.m in Sources */,
 				7867DD1E1C4CBE4F000749F1 /* BXTAuthenticationViewController.m in Sources */,
 				78644F6B1C575D5600D2C4C5 /* BXTDeviceList.m in Sources */,

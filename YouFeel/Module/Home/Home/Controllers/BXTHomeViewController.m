@@ -365,15 +365,20 @@
 {
     if (section == 0)
     {
-        return valueForDevice(240, 145, 123, 123);;//section头部高度
+        return valueForDevice(240, 145, 123, 123) + 37;//section头部高度
     }
-    return 8.f;//section头部高度
+    return 0.1f;//section头部高度
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
     {
+        // bgView
+        CGFloat bgViewH = valueForDevice(240, 145, 123, 123) + 37;
+        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, bgViewH)];
+        
+        // cycleScrollView
         CGFloat adsViewH = valueForDevice(240, 145, 123, 123);
         if (!cycleScrollView)
         {
@@ -383,15 +388,27 @@
         {
             cycleScrollView.imageURLStringsGroup = self.logosArray;
         }
+        [bgView addSubview:cycleScrollView];
         
-        return cycleScrollView;
+        // introduce
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(0, adsViewH, SCREEN_WIDTH, 37);
+        [button setTitle:@"现处于虚拟项目中,如有真实报修请选具体项目  >>" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:13];
+        [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            NSLog(@"哈哈哈哈哈哈");
+        }];
+        [bgView addSubview:button];
+        
+        return bgView;
     }
     return [UIView new];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.1f;
+    return 10.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -405,16 +422,13 @@
     {
         return [_titleNameArray count] - 1;
     }
-    return [_titleNameArray count];
+    
+    return _titleNameArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([BXTGlobal shareGlobal].isRepair && section == 1)
-    {
-        return 2;
-    }
-    return 1;
+    return [_titleNameArray[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -423,13 +437,11 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.numberLabel.hidden = YES;
     
-    if ([BXTGlobal shareGlobal].isRepair && indexPath.section == 1)
+    cell.logoImgView.image = [UIImage imageNamed:_imgNameArray[indexPath.section][indexPath.row]];
+    cell.titleLabel.text = _titleNameArray[indexPath.section][indexPath.row];
+    
+    if ([BXTGlobal shareGlobal].isRepair && indexPath.section == 0)
     {
-        NSArray *images = _imgNameArray[indexPath.section];
-        NSArray *titles = _titleNameArray[indexPath.section];
-        cell.logoImgView.image = [UIImage imageNamed:images[indexPath.row]];
-        cell.titleLabel.text = [titles objectAtIndex:indexPath.row];
-        
         if (indexPath.row == 0 && [[BXTRemindNum sharedManager].dailyNum integerValue] != 0) {
             cell.numberLabel.hidden = NO;
             cell.numberLabel.text = [BXTRemindNum sharedManager].dailyNum;
@@ -438,11 +450,6 @@
             cell.numberLabel.hidden = NO;
             cell.numberLabel.text = [BXTRemindNum sharedManager].inspectioNum;
         }
-    }
-    else
-    {
-        cell.logoImgView.image = [UIImage imageNamed:_imgNameArray[indexPath.section]];
-        cell.titleLabel.text = [_titleNameArray objectAtIndex:indexPath.section];
     }
     
     return cell;

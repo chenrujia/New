@@ -13,8 +13,9 @@
 #import "BXTFaultInfo.h"
 #import "BXTSelectBoxView.h"
 #import "UIScrollView+EmptyDataSet.h"
-#import "BXTReaciveOrderTableViewCell.h"
 #import "BXTMaintenanceDetailViewController.h"
+
+#import "BXTMainTableViewCell.h"
 
 @interface BXTReaciveOrdersViewController ()<DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,BXTBoxSelectedTitleDelegate,UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 {
@@ -85,10 +86,11 @@
 #pragma mark 初始化视图
 - (void)createDOP
 {
-    areasArray = [NSMutableArray arrayWithObjects:@"地区", nil];
-    departmentsArray = [NSMutableArray arrayWithObjects:@"部门", nil];
+    repairTypesArray = [NSMutableArray arrayWithObjects:@"分组", nil];
+    departmentsArray = [NSMutableArray arrayWithObjects:@"状态", nil];
+    areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
     timesArray = [NSMutableArray arrayWithObjects:@"时间",@"1天",@"2天",@"3天",@"1周",@"1个月",@"3个月", nil];
-    repairTypesArray = [NSMutableArray arrayWithObjects:@"故障", nil];
+    
     
     // 添加下拉菜单
     DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
@@ -102,7 +104,6 @@
     ordersArray = [[NSMutableArray alloc] init];
     
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 108, SCREEN_WIDTH, SCREEN_HEIGHT - 108) style:UITableViewStyleGrouped];
-    [currentTableView registerClass:[BXTReaciveOrderTableViewCell class] forCellReuseIdentifier:@"ReaciveOrderCell"];
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     currentTableView.emptyDataSetDelegate = self;
@@ -273,43 +274,17 @@
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 16.f;//section头部高度
-    }
-    return 10.f;//section头部高度
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *view;
-    if (section == 0)
-    {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 16.f)];
-    }
-    else
-    {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
-    }
-    view.backgroundColor = [UIColor clearColor];
-    return view;
+    return 0.1f;//section头部高度
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 5.f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5.f)];
-    view.backgroundColor = [UIColor clearColor];
-    return view;
+    return 10.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 265.f;
+    return 140.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -324,46 +299,38 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTReaciveOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ReaciveOrderCell" forIndexPath:indexPath];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    BXTMainTableViewCell *cell = [BXTMainTableViewCell cellWithTableView:tableView];
     
     BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:indexPath.section];
-    cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
-    //自适应分组名
-    NSString *group_name = repairInfo.subgroup_name.length > 0 ? repairInfo.subgroup_name : @"其他";
-    CGSize group_size = MB_MULTILINE_TEXTSIZE(group_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
-    group_size.width += 10.f;
-    group_size.height = CGRectGetHeight(cell.groupName.frame);
-    cell.groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(cell.groupName.frame), group_size.width, group_size.height);
-    cell.groupName.text = group_name;
     
-    cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
-    cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
-    cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
-    cell.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
-    NSString *time = [self transTimeStampToTime:[NSString stringWithFormat:@"%ld",(long)repairInfo.long_time]];
-    cell.longTime.text = [NSString stringWithFormat:@"截止时间:%@",time];
+    cell.orderNumView.text = [NSString stringWithFormat:@"编号:%@", repairInfo.orderid];
+    cell.orderGroupView.text = [NSString stringWithFormat:@"%@  ", repairInfo.subgroup_name];
+    cell.orderStateView.text = [NSString stringWithFormat:@"%@", repairInfo.receive_state];
     
-    if ([repairInfo.urgent integerValue] == 2)
+    // 日常工单
+    if ([_taskType integerValue] == 1)
     {
-        cell.level.text = @"等级:一般";
+        cell.orderTypeView.text = @"日常";
+        cell.orderTitleView.text = [NSString stringWithFormat:@"维保项目：%@", repairInfo.cause];
+        cell.orderPositionView.text = [NSString stringWithFormat:@"报修位置：%@", repairInfo.area];
+        cell.orderContentView.text = [NSString stringWithFormat:@"报修内容：%@", repairInfo.cause];
+        cell.orderTimeView.text = [NSString stringWithFormat:@"时间范围：%ld", repairInfo.long_time];
     }
     else
     {
-        NSString *str = @"等级:紧急";
-        NSRange range = [str rangeOfString:@"紧急"];
-        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-        cell.level.attributedText = attributeStr;
+        cell.orderTypeView.text = @"维保";
+        cell.orderTitleView.text = [NSString stringWithFormat:@"报修位置：%@", repairInfo.area];
+        cell.orderPositionView.text = [NSString stringWithFormat:@"报修内容：%@", repairInfo.cause];
+        cell.orderContentView.text = [NSString stringWithFormat:@"时间范围：%ld", repairInfo.long_time];
     }
-    cell.reaciveBtn.tag = indexPath.section;
-    [cell.reaciveBtn addTarget:self action:@selector(reaciveOrder:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:indexPath.section];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
@@ -393,7 +360,7 @@
 {
     if (column == 0)
     {
-        return areasArray.count;
+        return repairTypesArray.count;
     }
     else if (column == 1)
     {
@@ -401,11 +368,11 @@
     }
     else if (column == 2)
     {
-        return timesArray.count;
+        return areasArray.count;
     }
     else
     {
-        return repairTypesArray.count;
+        return timesArray.count;
     }
 }
 
@@ -413,9 +380,9 @@
 {
     if (indexPath.column == 0)
     {
-        if (indexPath.row == 0) return areasArray[0];
-        BXTFloorInfo *floor = areasArray[indexPath.row];
-        return floor.area_name;
+        if (indexPath.row == 0) return repairTypesArray[0];
+        BXTFaultInfo *fault = repairTypesArray[indexPath.row];
+        return fault.faulttype_type;
     }
     else if (indexPath.column == 1)
     {
@@ -425,25 +392,25 @@
     }
     else if (indexPath.column == 2)
     {
-        return timesArray[indexPath.row];
+        if (indexPath.row == 0) return areasArray[0];
+        BXTFloorInfo *floor = areasArray[indexPath.row];
+        return floor.area_name;
     }
     else
     {
-        if (indexPath.row == 0) return repairTypesArray[0];
-        BXTFaultInfo *fault = repairTypesArray[indexPath.row];
-        return fault.faulttype_type;
+        return timesArray[indexPath.row];
     }
 }
 
 - (NSInteger)menu:(DOPDropDownMenu *)menu numberOfItemsInRow:(NSInteger)row column:(NSInteger)column
 {
-    if (column == 0)
+    if (column == 2)
     {
         if (row == 0  || row > areasArray.count - 1) return 0;
         BXTFloorInfo *floor = areasArray[row];
         return floor.place.count;
     }
-    else if (column == 3)
+    else if (column == 0)
     {
         if (row == 0 || row > repairTypesArray.count - 1) return 0;
         BXTFaultInfo *fault = repairTypesArray[row];
@@ -454,14 +421,14 @@
 
 - (NSString *)menu:(DOPDropDownMenu *)menu titleForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath
 {
-    if (indexPath.column == 0)
+    if (indexPath.column == 2)
     {
         if (indexPath.row == 0 || indexPath.row > areasArray.count - 1) return nil;
         BXTFloorInfo *floor = areasArray[indexPath.row];
         BXTAreaInfo *area = floor.place[indexPath.item];
         return area.place_name;
     }
-    else if (indexPath.column == 3)
+    else if (indexPath.column == 0)
     {
         if (indexPath.row == 0 || indexPath.row > areasArray.count - 1) return nil;
         BXTFaultInfo *fault = repairTypesArray[indexPath.row];
@@ -477,14 +444,14 @@
     if (indexPath.item >= 0)
     {
         //地区
-        if (indexPath.column == 0)
+        if (indexPath.column == 2)
         {
             BXTFloorInfo *floor = areasArray[indexPath.row];
             BXTAreaInfo *area = floor.place[indexPath.item];
             selectArea = area;
         }
         //故障类型
-        else if (indexPath.column == 3)
+        else if (indexPath.column == 1)
         {
             BXTFaultInfo *fault = repairTypesArray[indexPath.row];
             BXTFaultTypeInfo *faultType = fault.sub_data[indexPath.item];
@@ -510,13 +477,13 @@
             return;
         }
         //部门
-        else if (indexPath.column == 1)
+        else if (indexPath.column == 0)
         {
             BXTDepartmentInfo *department = departmentsArray[indexPath.row];
             selectDepartment = department;
         }
         //时间
-        else if (indexPath.column == 2)
+        else if (indexPath.column == 3)
         {
             NSString *time = timesArray[indexPath.row];
             NSTimeInterval endTime = [NSDate date].timeIntervalSince1970;
@@ -575,7 +542,6 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairList)
     {
-        LogRed(@"dic.....%@",dic);
         [ordersArray removeAllObjects];
         if (data.count)
         {
@@ -590,12 +556,10 @@
     }
     else if (type == ShopType)
     {
-        LogBlue(@"dic.....%@",dic);
         [areasArray addObjectsFromArray:[BXTFloorInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     else if (type == DepartmentType)
     {
-        NSLog(@"dic.....%@",dic);
         if (data.count)
         {
             [BXTDepartmentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
@@ -606,7 +570,6 @@
     }
     else if (type == FaultType)
     {
-        NSLog(@"dic.....%@",dic);
         [BXTFaultInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"fault_id":@"id"};
         }];
