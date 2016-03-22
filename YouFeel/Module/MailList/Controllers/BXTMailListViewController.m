@@ -427,7 +427,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         }
         
         UILabel *textView = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 150, 30)];
-        textView.text = [NSString stringWithFormat:@"%@ (%@)", self.titleArray[indexPath.row], self.titleNumArray[indexPath.row]];
+        textView.text = [NSString stringWithFormat:@"%@", self.titleArray[indexPath.row]];
         textView.font = [UIFont systemFontOfSize:16];
         [cell.contentView addSubview:textView];
     }

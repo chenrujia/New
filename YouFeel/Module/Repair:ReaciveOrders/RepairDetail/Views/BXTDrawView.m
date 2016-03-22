@@ -66,6 +66,12 @@
         [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
         [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
+        
+        [self drawTextInRect:CGRectMake(x - 4, y - 8, 12, 12) Contents:@"1" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space - 4, y - 8, 12, 12) Contents:@"2" contentFont:[UIFont systemFontOfSize:12.f] contentColor:colorWithHexString(@"AFB3BC")];
+        [self drawTextInRect:CGRectMake(x + space * 2 - 4, y - 8, 12, 12) Contents:@"3" contentFont:[UIFont systemFontOfSize:12.f] contentColor:colorWithHexString(@"AFB3BC")];
+        [self drawTextInRect:CGRectMake(x + space * 3 - 4, y - 8, 12, 12) Contents:@"4" contentFont:[UIFont systemFontOfSize:12.f] contentColor:colorWithHexString(@"AFB3BC")];
+        [self drawTextInRect:CGRectMake(x + space * 4 - 4, y - 8, 12, 12) Contents:@"5" contentFont:[UIFont systemFontOfSize:12.f] contentColor:colorWithHexString(@"AFB3BC")];
     }
     else if (progressTwo.state && !progressThree.state)
     {
@@ -77,6 +83,12 @@
         [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
         [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
+        
+        [self drawTextInRect:CGRectMake(x - 4, y - 8, 12, 12) Contents:@"1" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space - 4, y - 8, 12, 12) Contents:@"2" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space * 2 - 4, y - 8, 12, 12) Contents:@"3" contentFont:[UIFont systemFontOfSize:12.f] contentColor:colorWithHexString(@"AFB3BC")];
+        [self drawTextInRect:CGRectMake(x + space * 3 - 4, y - 8, 12, 12) Contents:@"4" contentFont:[UIFont systemFontOfSize:12.f] contentColor:colorWithHexString(@"AFB3BC")];
+        [self drawTextInRect:CGRectMake(x + space * 4 - 4, y - 8, 12, 12) Contents:@"5" contentFont:[UIFont systemFontOfSize:12.f] contentColor:colorWithHexString(@"AFB3BC")];
     }
     else if (progressThree.state && !progressFour.state)
     {
@@ -89,6 +101,12 @@
         [grayColor setFill];
         [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
+        
+        [self drawTextInRect:CGRectMake(x - 4, y - 8, 12, 12) Contents:@"1" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space - 4, y - 8, 12, 12) Contents:@"2" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space * 2 - 4, y - 8, 12, 12) Contents:@"3" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space * 3 - 4, y - 8, 12, 12) Contents:@"4" contentFont:[UIFont systemFontOfSize:12.f] contentColor:colorWithHexString(@"AFB3BC")];
+        [self drawTextInRect:CGRectMake(x + space * 4 - 4, y - 8, 12, 12) Contents:@"5" contentFont:[UIFont systemFontOfSize:12.f] contentColor:colorWithHexString(@"AFB3BC")];
     }
     else if (progressFour.state && !progressFive.state)
     {
@@ -102,6 +120,12 @@
         [grayColor setStroke];
         [grayColor setFill];
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
+        
+        [self drawTextInRect:CGRectMake(x - 4, y - 8, 12, 12) Contents:@"1" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space - 4, y - 8, 12, 12) Contents:@"2" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space * 2 - 4, y - 8, 12, 12) Contents:@"3" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space * 3 - 4, y - 8, 12, 12) Contents:@"4" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space * 4 - 4, y - 8, 12, 12) Contents:@"5" contentFont:[UIFont systemFontOfSize:12.f] contentColor:colorWithHexString(@"AFB3BC")];
     }
     else if (progressFive.state)
     {
@@ -114,13 +138,28 @@
         [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
         [self drawLineFrom:CGPointMake(x + space * 3, y) to:CGPointMake(x + space * 4, y) withLineWidth:10.f];
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:10.f];
+        
+        [self drawTextInRect:CGRectMake(x - 4, y - 8, 12, 12) Contents:@"1" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space - 4, y - 8, 12, 12) Contents:@"2" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space * 2 - 4, y - 8, 12, 12) Contents:@"3" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space * 3 - 4, y - 8, 12, 12) Contents:@"4" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
+        [self drawTextInRect:CGRectMake(x + space * 4 - 4, y - 8, 12, 12) Contents:@"5" contentFont:[UIFont systemFontOfSize:12.f] contentColor:[UIColor whiteColor]];
     }
 
-    [self drawTextInRect:CGRectMake(6.f, y + 20.f, 60.f, 20.f) Contents:progressOne.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space - 26.f, y + 20.f, 60.f, 20.f) Contents:progressTwo.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 2 - 23.f, y + 20.f, 60.f, 20.f) Contents:progressThree.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 3 - 26.f, y + 20.f, 60.f, 20.f) Contents:progressFour.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
-    [self drawTextInRect:CGRectMake(x + space * 4 - 26.f, y + 20.f, 60.f, 20.f) Contents:progressFive.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    CGSize oneSize = MB_MULTILINE_TEXTSIZE(progressOne.word, [UIFont systemFontOfSize:15.f], CGSizeMake(1000, 100), NSLineBreakByWordWrapping);
+    [self drawTextInRect:CGRectMake(x - oneSize.width/2.f, y + 20.f, oneSize.width, oneSize.height) Contents:progressOne.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    
+    CGSize twoSize = MB_MULTILINE_TEXTSIZE(progressTwo.word, [UIFont systemFontOfSize:15.f], CGSizeMake(1000, 100), NSLineBreakByWordWrapping);
+    [self drawTextInRect:CGRectMake(x + space - twoSize.width/2.f, y + 20.f, twoSize.width, twoSize.height) Contents:progressTwo.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    
+    CGSize threeSize = MB_MULTILINE_TEXTSIZE(progressThree.word, [UIFont systemFontOfSize:15.f], CGSizeMake(1000, 100), NSLineBreakByWordWrapping);
+    [self drawTextInRect:CGRectMake(x + space * 2 - threeSize.width/2.f, y + 20.f, threeSize.width, threeSize.height) Contents:progressThree.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    
+    CGSize fourSize = MB_MULTILINE_TEXTSIZE(progressFour.word, [UIFont systemFontOfSize:15.f], CGSizeMake(1000, 100), NSLineBreakByWordWrapping);
+    [self drawTextInRect:CGRectMake(x + space * 3 - fourSize.width/2.f, y + 20.f, fourSize.width, fourSize.height) Contents:progressFour.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    
+    CGSize fiveSize = MB_MULTILINE_TEXTSIZE(progressFive.word, [UIFont systemFontOfSize:15.f], CGSizeMake(1000, 100), NSLineBreakByWordWrapping);
+    [self drawTextInRect:CGRectMake(x + space * 4 - fiveSize.width/2.f, y + 20.f, fiveSize.width, fiveSize.height) Contents:progressFive.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
 }
 
 @end

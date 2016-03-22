@@ -147,7 +147,6 @@
     [self addGestureRecognizer:tapGR];
     //self addGestureRecognizer:
     
-    // TODO: -----------------  调试-去掉黑边  -----------------
     //[self addInnerShadowEffect];
 }
 

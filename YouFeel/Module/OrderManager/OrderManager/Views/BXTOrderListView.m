@@ -239,8 +239,6 @@
         cell.tag = indexPath.section;
         cell.cancelRepair.hidden = YES;
         
-        
-        // TODO: -----------------  调试 维修状态  -----------------
         cell.repairState.text = repairInfo.receive_state;
         if ([repairInfo.repairstate integerValue] == 1 || [repairInfo.is_repairing intValue] == 1)
         {

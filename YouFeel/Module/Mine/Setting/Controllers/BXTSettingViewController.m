@@ -40,13 +40,11 @@
 {
     self.dataArray = @[@[@"修改密码"], @[@"清除缓存", @"清除聊天记录"], @[@"关于我们"]];
     
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableView];
-    
     
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
     footerView.backgroundColor = [UIColor clearColor];
@@ -61,12 +59,14 @@
     [[quitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         [MYAlertAction showActionSheetWithTitle:@"您确定退出登录" message:nil chooseBlock:^(NSInteger buttonIdx) {
-            if (buttonIdx == 1) {
+            if (buttonIdx == 1)
+            {
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request exitLoginWithClientID:[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]];
                 [[RCIM sharedRCIM] disconnect];
                 [[ANKeyValueTable userDefaultTable] clear];
                 [BXTGlobal shareGlobal].isRepair = NO;
+                SaveValueTUD(@"shop_tel", nil);
                 [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
                 UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTLoginViewController"];

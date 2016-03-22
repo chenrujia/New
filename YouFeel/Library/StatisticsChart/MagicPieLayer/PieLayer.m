@@ -528,7 +528,6 @@ static NSString * const _animationValuesKey = @"animationValues";
             percent = 100.0 * elem.val / sum;
         NSString* text = self.transformTitleBlock? self.transformTitleBlock(elem, percent) : [NSString stringWithFormat:@"%.2f", elem.val];
         float maxRadius = elem.maxRadius ? elem.maxRadius.floatValue : self.maxRadius;
-        // TODO: ---------- 调试字体 ----------
         float radius = maxRadius + elem.centrOffset;
         [self drawText:text angle:-angle radius:radius color:[UIColor whiteColor] context:ctx];
         

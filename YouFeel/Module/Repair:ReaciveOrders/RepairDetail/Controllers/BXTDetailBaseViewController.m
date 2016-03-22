@@ -186,162 +186,56 @@
     return imgView;
 }
 
-- (UIView *)viewForUser:(NSInteger)i andMaintenanceMaxY:(CGFloat)mainMaxY andLevelWidth:(CGFloat)levelWidth
+- (UIView *)viewForUser:(NSInteger)i andMaintenance:(BXTMaintenanceManInfo *)userInfo
 {
-    NSInteger count = self.repairDetail.repair_user_arr.count;
-    BXTMaintenanceManInfo *mmInfo = self.repairDetail.repair_user_arr[i];
-    NSString *content = mmInfo.log_content;
-    CGFloat height = RepairHeight;
-    CGSize size = CGSizeZero;
-    if (content.length > 0)
-    {
-        NSString *log = [NSString stringWithFormat:@"维修日志：%@",content];
-        size = MB_MULTILINE_TEXTSIZE(log, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30, 1000.f), NSLineBreakByWordWrapping);
-        height = RepairHeight + size.height + 20.f;
-    }
+    CGFloat mmBackWidth = 113.f;
+    CGFloat mmBackHeight = 128.f;
+    UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(i * mmBackWidth , 0, SCREEN_WIDTH, mmBackHeight)];
     
-    UIView *userBack = [[UIView alloc] initWithFrame:CGRectMake(0.f, mainMaxY + i * RepairHeight + log_height, SCREEN_WIDTH, height)];
-    UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 73.3f, 73.3f)];
-    [userImgView sd_setImageWithURL:[NSURL URLWithString:mmInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+    //头像
+    UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 64, 64)];
+    userImgView.center = CGPointMake(mmBackWidth/2.f, 32.f);
+    [userImgView sd_setImageWithURL:[NSURL URLWithString:userInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     userImgView.userInteractionEnabled = YES;
     [userBack addSubview:userImgView];
     
-    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
-    @weakify(self);
-    [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
-        @strongify(self);
-        BXTPersonInfromViewController *piVC = [[BXTPersonInfromViewController alloc] init];
-        piVC.userID = mmInfo.mmID;
-        NSArray *shopArray = [BXTGlobal getUserProperty:U_SHOPIDS];
-        piVC.shopID = shopArray[0];
-        [self.navigationController pushViewController:piVC animated:YES];
-    }];
-    [userImgView addGestureRecognizer:tapGR];
-    
-    //log_height：维修日志的高度
-    if (size.height > 0)
-    {
-        log_height = size.height + 20.f;
-    }
-    else
-    {
-        log_height = 0.f;
-    }
-    
-    UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 8.f, levelWidth, 20)];
+    //姓名
+    UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(userImgView.frame) + 8.f, mmBackWidth, 20)];
     userName.textColor = colorWithHexString(@"000000");
-    userName.numberOfLines = 0;
-    userName.lineBreakMode = NSLineBreakByWordWrapping;
+    userName.textAlignment = NSTextAlignmentCenter;
     userName.font = [UIFont systemFontOfSize:16.f];
-    userName.text = mmInfo.name;
+    userName.text = userInfo.name;
     [userBack addSubview:userName];
     
-    UILabel *role = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 28.f, levelWidth, 20)];
-    role.textColor = colorWithHexString(@"909497");
-    role.numberOfLines = 0;
-    role.lineBreakMode = NSLineBreakByWordWrapping;
-    role.font = [UIFont systemFontOfSize:14.f];
-    role.text = [NSString stringWithFormat:@"%@-%@",mmInfo.department,mmInfo.role];
-    [userBack addSubview:role];
-    
-    if (mmInfo.mobile.length == 11)
-    {
-        UILabel *phone = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userImgView.frame) + 15.f, CGRectGetMinY(userImgView.frame) + 50.f, levelWidth, 20)];
-        phone.textColor = colorWithHexString(@"909497");
-        phone.numberOfLines = 0;
-        phone.lineBreakMode = NSLineBreakByWordWrapping;
-        phone.userInteractionEnabled = YES;
-        phone.font = [UIFont systemFontOfSize:14.f];
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:mmInfo.mobile];
-        
-        [attributedString addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:NSMakeRange(0, 11)];
-        [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
-        phone.attributedText = attributedString;
-        UITapGestureRecognizer *moblieTap = [[UITapGestureRecognizer alloc] init];
-        [phone addGestureRecognizer:moblieTap];
-        [[moblieTap rac_gestureSignal] subscribeNext:^(id x) {
-            @strongify(self);
-            BXTMaintenanceManInfo *mainManInfo = self.repairDetail.repair_user_arr[i];
-            NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", mainManInfo.mobile];
-            UIWebView *callWeb = [[UIWebView alloc] init];
-            [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-            [self.view addSubview:callWeb];
-        }];
-        [userBack addSubview:phone];
-    }
-    
-    //维修日志
-    if (height > RepairHeight)
-    {
-        UILabel *log = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(userImgView.frame), CGRectGetMaxY(userImgView.frame) + 12.f, SCREEN_WIDTH - 30.f, size.height)];
-        log.textColor = colorWithHexString(@"000000");
-        log.numberOfLines = 0;
-        log.lineBreakMode = NSLineBreakByWordWrapping;
-        log.font = [UIFont systemFontOfSize:16.f];
-        log.text = [NSString stringWithFormat:@"维修备注：%@",content];
-        [userBack addSubview:log];
-    }
-    
-    if ([mmInfo.mmID isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]] &&
-        [_repairDetail.repairstate integerValue] == 2 &&
-        [_repairDetail.is_repairing integerValue] == 1)
-    {
-        UIButton *repairNow = [UIButton buttonWithType:UIButtonTypeCustom];
-        repairNow.layer.cornerRadius = 4.f;
-        repairNow.backgroundColor = colorWithHexString(@"3cafff");
-        [repairNow setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
-        [repairNow setTitle:@"开始维修" forState:UIControlStateNormal];
-        [repairNow setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-        repairNow.titleLabel.font = [UIFont systemFontOfSize:15];
-        [[repairNow rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            @strongify(self);
-            [self showLoadingMBP:@"请稍候..."];
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request startRepair:self.repairDetail.orderID];
-        }];
-        [userBack addSubview:repairNow];
-    }
-    else
-    {
-        UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
-        contact.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-        contact.layer.borderWidth = 1.f;
-        contact.layer.cornerRadius = 4.f;
-        [contact setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 22.5f + 10.f, 83.f, 40.f)];
-        [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
-        contact.titleLabel.font = [UIFont systemFontOfSize:16];
-        if (!IS_IPHONE6) {
-            [contact setFrame:CGRectMake(SCREEN_WIDTH - 70.f - 15.f, 22.5f + 10.f, 70.f, 35.f)];
-            contact.titleLabel.font = [UIFont systemFontOfSize:15];
-        }
-        [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-        @weakify(self);
-        [[contact rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            @strongify(self);
-            BXTMaintenanceManInfo *mainManInfo = self.repairDetail.repair_user_arr[i];
-            [self handleUserInfo:@{@"UserID":mainManInfo.mmID,
-                                   @"UserName":mainManInfo.name,
-                                   @"HeadPic":mainManInfo.head_pic}];
-        }];
-        [userBack addSubview:contact];
-    }
-    
-    if (i != count - 1)
-    {
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, userBack.bounds.size.height - 1.f, SCREEN_WIDTH - 30.f, 1.f)];
-        line.backgroundColor = colorWithHexString(@"e2e6e8");
-        [userBack addSubview:line];
-    }
+    //联系Ta
+    UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
+    contact.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+    contact.layer.borderWidth = 1.f;
+    contact.layer.cornerRadius = 4.f;
+    [contact setFrame:CGRectMake(0, CGRectGetMaxY(userName.frame) + 8, 76.f, 30.f)];
+    [contact setCenter:CGPointMake(mmBackWidth/2.f, contact.center.y)];
+    [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
+    contact.titleLabel.font = [UIFont systemFontOfSize:16];
+    [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+    @weakify(self);
+    [[contact rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTMaintenanceManInfo *mainManInfo = self.repairDetail.repair_user_arr[i];
+        [self handleUserInfo:@{@"UserID":mainManInfo.mmID,
+                               @"UserName":mainManInfo.name,
+                               @"HeadPic":mainManInfo.head_pic}];
+    }];
+    [userBack addSubview:contact];
     
     return userBack;
 }
 
-- (UIView *)deviceLists:(NSInteger)i comingFromDeviceInfo:(BOOL)isComing
+- (UIView *)deviceLists:(NSInteger)i comingFromDeviceInfo:(BOOL)isComing isLast:(BOOL)last
 {
     BXTDeviceMMListInfo *deviceMMInfo = _repairDetail.device_list[i];
     CGFloat height = 63.f;
     //以设备列表下面那条线为基准
-    CGFloat y = 46.f;
+    CGFloat y = 30.f;
     UIView *deviceBackView = [[UIView alloc] initWithFrame:CGRectMake(0, y + i * height, SCREEN_WIDTH, height)];
     
     UILabel *deviceName = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 8.f, SCREEN_WIDTH - 108.f, 20)];
@@ -405,12 +299,16 @@
         [deviceBackView addSubview:maintenaceBtn];
     }
     
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(deviceNumber.frame) + 10.f - 1, SCREEN_WIDTH - 30.f, 1.f)];
-    line.backgroundColor = colorWithHexString(@"e2e6e8");
-    [deviceBackView addSubview:line];
+    if (!last)
+    {
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(deviceNumber.frame) + 10.f - 1, SCREEN_WIDTH - 30.f, 1.f)];
+        line.backgroundColor = colorWithHexString(@"e2e6e8");
+        [deviceBackView addSubview:line];
+    }
     
     return deviceBackView;
 }
+
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {

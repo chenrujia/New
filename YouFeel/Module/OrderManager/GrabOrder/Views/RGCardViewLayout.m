@@ -139,7 +139,6 @@
     CGFloat baseOffsetForCurrentView = [self baseOffsetForView:view];
     CGFloat currentOffset = self.collectionView.contentOffset.x;
     CGFloat scrollViewWidth = self.collectionView.bounds.size.width;
-    //TODO:make this constant a certain proportion of the collection view
     height = 120 * (currentOffset - baseOffsetForCurrentView)/scrollViewWidth;
     if(height < 0 )
     {

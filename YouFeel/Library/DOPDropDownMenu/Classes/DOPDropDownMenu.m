@@ -845,9 +845,10 @@
             
             [self.delegate menu:self didSelectRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:indexPath.row]];
             
-        } else {
+        }
+        else
+        {
             
-            //TODO: delegate is nil
             
         }
         
@@ -860,7 +861,6 @@
             
         } else {
             
-            //TODO: delegate is nil
             
         }
         
