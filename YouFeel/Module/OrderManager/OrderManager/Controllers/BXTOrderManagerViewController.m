@@ -38,14 +38,7 @@
     [backView setBackgroundColor:colorWithHexString(@"ffffff")];
     [self.view addSubview:backView];
     
-    if (![BXTGlobal shareGlobal].isRepair)
-    {
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"等待中",@"维修中",@"已完成"] isWhiteBGColor:1];
-    }
-    else
-    {
-        segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"待维修",@"维修中",@"维修完成"] isWhiteBGColor:1];
-    }
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"进行中",@"已完成"] isWhiteBGColor:1];
     
     segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     segment.layer.masksToBounds = YES;
@@ -57,51 +50,24 @@
     
     currentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 40.f, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 40.f)];
     currentScrollView.delegate = self;
-    currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
+    currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 2, 0);
     currentScrollView.pagingEnabled = YES;
     [self.view addSubview:currentScrollView];
     
-    if (![BXTGlobal shareGlobal].isRepair)
+    for (NSInteger i = 1; i < 3; i++)
     {
-        for (NSInteger i = 1; i < 4; i++)
+        NSString *repairState;
+        if (i == 1)
         {
-            NSString *repairState;
-            if (i == 1)
-            {
-                repairState = @"1";
-            }
-            else if (i == 2)
-            {
-                repairState = @"2";
-            }
-            else
-            {
-                repairState = @"";
-            }
-            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andRepairerIsReacive:@""];
-            [currentScrollView addSubview:orderList];
+            repairState = @"1";
         }
-    }
-    else
-    {
-        for (NSInteger i = 1; i < 4; i++)
+        else
         {
-            NSString *repairState;
-            if (i == 1)
-            {
-                repairState = @"1";
-            }
-            else if (i == 2)
-            {
-                repairState = @"2";
-            }
-            else
-            {
-                repairState = @"";
-            }
-            BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andRepairerIsReacive:i == 1 ? @"1" : repairState];
-            [currentScrollView addSubview:orderList];
+            repairState = @"";
         }
+        
+        BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andRepairerIsReacive:@""];
+        [currentScrollView addSubview:orderList];
     }
 }
 

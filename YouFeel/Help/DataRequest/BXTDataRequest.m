@@ -268,7 +268,7 @@ andRepairerIsReacive:(NSString *)reacive
                 @"faulttype":faultType,
                 @"task_type":taskType};
     }
-    LogBlue(@"dic --- %@", dic);
+
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

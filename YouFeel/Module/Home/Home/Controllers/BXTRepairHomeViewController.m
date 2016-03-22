@@ -27,11 +27,11 @@
     [logo_Btn setImage:[UIImage imageNamed:@"New_Ticket_icon"] forState:UIControlStateNormal];
     title_label.text = @"我的工单";
     
-    self.imgNameArray = [NSMutableArray arrayWithObjects:@[@"Day_Order",@"Maintenance_Orders"],
-                         @[@"My_Orders", @"Business_Statistics"],
-                         @[@"Special_Orders", @"My_Achievements"],
-                         @[@"Business_Statistics"],
-                         @[@"Project_Phone"] ,nil];
+    self.imgNameArray = [NSMutableArray arrayWithObjects:@[@"home_calendar_add",@"home_Work_Order"],
+                         @[@"home_my", @"home_lights"],
+                         @[@"home_notepad_ok", @"home_integral"],
+                         @[@"home_statistics"],
+                         @[@"home_phone"] ,nil];
     self.titleNameArray = [NSMutableArray arrayWithObjects:@[@"日常工单",@"维保工单"],
                            @[@"我的维修工单", @"我的报修工单"],
                            @[@"待处理事项", @"我的积分"],

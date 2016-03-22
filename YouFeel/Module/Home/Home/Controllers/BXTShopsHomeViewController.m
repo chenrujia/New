@@ -27,11 +27,11 @@
     [logo_Btn setImage:[UIImage imageNamed:@"WarrantyIcon"] forState:UIControlStateNormal];
     title_label.text = @"我要报修";
     
-    self.imgNameArray = [NSMutableArray arrayWithObjects:@[@"My_Orders"],
-                         @[@"My_Evaluation"],
-                         @[@"Special_Orders"],
-                         @[@"Business_Statistics"],
-                        @[@"Project_Phone"], nil];
+    self.imgNameArray = [NSMutableArray arrayWithObjects:@[@"home_calendar_add"],
+                         @[@"home_my"],
+                         @[@"home_lights"],
+                         @[@"home_statistics"],
+                        @[@"home_phone"], nil];
     self.titleNameArray = [NSMutableArray arrayWithObjects:@[@"我的工单" ],
                            @[@"我的评价" ],
                            @[@"特殊工单" ],
