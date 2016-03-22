@@ -274,7 +274,7 @@
                 [self showMBP:@"特殊类型不能为空！" withBlock:nil];
                 return;
             }
-            
+            [self showLoadingMBP:@"请稍后..."];
             NSTimeInterval currentTime = [NSDate date].timeIntervalSince1970;
             NSString *finishTime = [NSString stringWithFormat:@"%.0f",currentTime];
             NSString *manHours = [NSString stringWithFormat:@"%.1f",(float)([finishTime integerValue] - [self.reaciveTime integerValue])/60/60];
@@ -635,6 +635,7 @@
 #pragma mark 请求返回代理
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == FaultType)

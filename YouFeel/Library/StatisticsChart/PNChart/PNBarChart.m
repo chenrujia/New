@@ -119,7 +119,6 @@
       labelText= _yLabelFormatter(yAsixValue);
     } else {
       //labelText = _yLabelFormatter((float)_yValueMax * ( (_yLabelSum - i) / (float)_yLabelSum ));
-        // TODO: -----------------  调试  -----------------
         labelText = [NSString stringWithFormat:@"%.0f%@", (float)_yValueMax * ( (_yLabelSum - i) / (float)_yLabelSum ), @"%"];
     }
 
@@ -255,7 +254,6 @@
             }
             
             if (self.labelTextColor) {
-                // TODO: -----------------  调试柱子中间字体  -----------------
                 //bar.labelTextColor = self.labelTextColor;
                 bar.labelTextColor = [UIColor whiteColor];
             }

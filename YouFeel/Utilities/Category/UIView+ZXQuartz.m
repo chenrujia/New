@@ -12,6 +12,7 @@
 
 @implementation UIView (ZXQuartz)
 
+//写字
 - (void)drawTextInRect:(CGRect)rect Contents:(NSString *)content contentFont:(UIFont *)font contentColor:(UIColor *)color
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -31,6 +32,7 @@
 
     CGPathRelease(pathRef);
 }
+
 //圆角矩形
 -(void)drawRectangle:(CGRect)rect withRadius:(float)radius
 {
@@ -43,6 +45,7 @@
     
     CGPathRelease(pathRef);
 }
+
 //多边形
 -(void)drawPolygon:(NSArray *)pointArray
 {
@@ -65,6 +68,7 @@
     
     CGContextDrawPath(context, kCGPathFillStroke);
 }
+
 //圆形
 -(void)drawCircleWithCenter:(CGPoint)center
                      radius:(float)radius
@@ -89,6 +93,7 @@
     CGPathRelease(pathRef);
 
 }
+
 //曲线
 -(void)drawCurveFrom:(CGPoint)startPoint
                   to:(CGPoint)endPoint
@@ -108,6 +113,7 @@
     
     CGContextDrawPath(context,kCGPathStroke);
 }
+
 //弧线
 -(void)drawArcFromCenter:(CGPoint)center
                   radius:(float)radius
@@ -127,6 +133,7 @@
     
     CGContextStrokePath(context);
 }
+
 //扇形
 -(void)drawSectorFromCenter:(CGPoint)center
                      radius:(float)radius
@@ -150,7 +157,6 @@
     CGContextDrawPath(context,kCGPathFillStroke);
 }
 
-
 //直线
 -(void)drawLineFrom:(CGPoint)startPoint
                  to:(CGPoint)endPoint
@@ -163,6 +169,7 @@
     
     CGContextStrokePath(context);
 }
+
 -(void)drawLines:(NSArray *)pointArray
 {
     NSAssert(pointArray.count>=2,@"数组长度必须大于等于2");
@@ -241,4 +248,5 @@
     
     return pathRef;
 }
+
 @end

@@ -14,7 +14,7 @@
 
 #define ImageWidth      73.3f
 #define ImageHeight     73.3f
-#define StateViewHeight 70.f
+#define StateViewHeight 60.f
 #define RepairHeight    95.f
 
 @interface BXTDetailBaseViewController : BXTPhotoBaseViewController
@@ -29,7 +29,7 @@
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser;
 - (NSMutableArray *)containAllArray;
 - (UIImageView *)imageViewWith:(NSInteger)i andDictionary:(BXTFaultPicInfo *)dictionary;
-- (UIView *)viewForUser:(NSInteger)i andMaintenanceMaxY:(CGFloat)mainMaxY andLevelWidth:(CGFloat)levelWidth;
-- (UIView *)deviceLists:(NSInteger)i comingFromDeviceInfo:(BOOL)isComing;
+- (UIView *)viewForUser:(NSInteger)i andMaintenance:(BXTMaintenanceManInfo *)userInfo;
+- (UIView *)deviceLists:(NSInteger)i comingFromDeviceInfo:(BOOL)isComing isLast:(BOOL)last;
 
 @end

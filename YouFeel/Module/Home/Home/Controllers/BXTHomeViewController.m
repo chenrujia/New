@@ -327,7 +327,8 @@
 
 - (void)pushAchievements
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         // 我的绩效
         BXTAchievementsViewController *achievementVC = [[BXTAchievementsViewController alloc] init];
         achievementVC.hidesBottomBarWhenPushed = YES;
@@ -337,7 +338,8 @@
 
 - (void)projectPhone
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
         UIWebView *callWeb = [[UIWebView alloc] init];
         [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
@@ -416,7 +418,8 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([BXTGlobal isBlankString:ValueFUD(@"shop_tel")] || [ValueFUD(@"shop_tel") integerValue] == 0) {
+    if ([BXTGlobal isBlankString:ValueFUD(@"shop_tel")] || [ValueFUD(@"shop_tel") integerValue] == 0)
+    {
         return [_titleNameArray count] - 1;
     }
     
@@ -570,9 +573,12 @@
     else
     {
         unreadNumber = [[dic objectForKey:@"unread_number"] integerValue];
-        if (unreadNumber > 0) {
+        if (unreadNumber > 0)
+        {
             [messageBtn setBackgroundImage:[UIImage imageNamed:@"news_unread"] forState:UIControlStateNormal];
-        } else {
+        }
+        else
+        {
             [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
         }
         

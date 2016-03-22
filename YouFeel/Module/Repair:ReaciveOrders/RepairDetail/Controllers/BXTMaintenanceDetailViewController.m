@@ -16,6 +16,7 @@
 #import "BXTAddOtherManViewController.h"
 #import "BXTRejectOrderViewController.h"
 #import "BXTEvaluationViewController.h"
+#import "AMRatingControl.h"
 
 @interface BXTMaintenanceDetailViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
 
@@ -48,7 +49,7 @@
     }
     else
     {
-        [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
+        [self navigationSetting:@"工单管理" andRightTitle:nil andRightImage:nil];
     }
     isFirst = YES;
     _sco_content_width.constant = SCREEN_WIDTH;
@@ -74,6 +75,8 @@
     _groupName.layer.cornerRadius = 4.f;
     _reaciveOrder.layer.masksToBounds = YES;
     _reaciveOrder.layer.cornerRadius = 4.f;
+    _orderType.layer.masksToBounds = YES;
+    _orderType.layer.cornerRadius = 3.f;
     self.manIDArray = [[NSMutableArray alloc] init];
     //点击头像
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
@@ -415,10 +418,231 @@
         self.repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
         
         //状态相关
-        BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, StateViewHeight) withProgress:self.repairDetail.progress isShowState:NO];
+        self.orderState.text = self.repairDetail.repairstate_name;
+        BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 34, SCREEN_WIDTH, StateViewHeight) withProgress:self.repairDetail.progress isShowState:NO];
         [_firstBV addSubview:drawView];
+        
+        //各种赋值
+        BXTRepairPersonInfo *repairPerson = self.repairDetail.repair_fault_arr[0];
+        NSString *headURL = repairPerson.head_pic;
+        [_headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+        _repairerName.text = repairPerson.name;
+        _departmentName.text = repairPerson.department;
+        _positionName.text = repairPerson.role;
+        _repairID.text = [NSString stringWithFormat:@"工单编号:%@",self.repairDetail.orderid];
+        NSString *repairTimeStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.repair_time];
+        _repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairTimeStr];
+        if (self.repairDetail.stores_name.length)
+        {
+            _place.text = [NSString stringWithFormat:@"报修位置:%@-%@-%@",self.repairDetail.area_name,self.repairDetail.place_name,self.repairDetail.stores_name];
+        }
+        else
+        {
+            _place.text = [NSString stringWithFormat:@"报修位置:%@-%@",self.repairDetail.area_name,self.repairDetail.place_name];
+        }
+        _faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
+        _cause.text = [NSString stringWithFormat:@"故障描述:%@",self.repairDetail.cause];
+        [_contentView layoutIfNeeded];
+        _first_bv_height.constant = CGRectGetMaxY(_cause.frame) + 10.f;
+        [_firstBV layoutIfNeeded];
+        
+        //故障图相关
+        switch (self.repairDetail.fault_pic.count)
+        {
+            case 1:
+            {
+                BXTFaultPicInfo *faultPic = self.repairDetail.fault_pic[0];
+                _faultPicOne.hidden = NO;
+                [_faultPicOne sd_setImageWithURL:[NSURL URLWithString:faultPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            }
+                break;
+            case 2:
+            {
+                BXTFaultPicInfo *faultPicOne = self.repairDetail.fault_pic[0];
+                _faultPicOne.hidden = NO;
+                [_faultPicOne sd_setImageWithURL:[NSURL URLWithString:faultPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                BXTFaultPicInfo *faultPicTwo = self.repairDetail.fault_pic[1];
+                _faultPicTwo.hidden = NO;
+                [_faultPicTwo sd_setImageWithURL:[NSURL URLWithString:faultPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            }
+                break;
+            case 3:
+            {
+                BXTFaultPicInfo *faultPicOne = self.repairDetail.fault_pic[0];
+                _faultPicOne.hidden = NO;
+                [_faultPicOne sd_setImageWithURL:[NSURL URLWithString:faultPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                BXTFaultPicInfo *faultPicTwo = self.repairDetail.fault_pic[1];
+                _faultPicTwo.hidden = NO;
+                [_faultPicTwo sd_setImageWithURL:[NSURL URLWithString:faultPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                BXTFaultPicInfo *faultPicThree = self.repairDetail.fault_pic[2];
+                _faultPicThree.hidden = NO;
+                [_faultPicThree sd_setImageWithURL:[NSURL URLWithString:faultPicThree.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            }
+                break;
+            default:
+                break;
+        }
+        
+        //设备列表相关
+        NSInteger deviceCount = self.repairDetail.device_list.count;
+        CGFloat secondHeight = 32.f + 63.f * deviceCount;
+        if (deviceCount)
+        {
+            //先清除，后添加
+            for (UIView *subview in _fifthBV.subviews)
+            {
+                //设备列表（label）以及其下面的线（view）
+                if (subview.tag == 1)
+                {
+                    continue;
+                }
+                [subview removeFromSuperview];
+            }
+            _fifth_bv_height.constant = secondHeight;
+            [_fifthBV layoutIfNeeded];
+            for (NSInteger i = 0; i < deviceCount; i++)
+            {
+                BOOL isLast = deviceCount == i + 1 ? YES : NO;
+                UIView *deviceView = [self deviceLists:i comingFromDeviceInfo:self.isComingFromDeviceInfo isLast:isLast];
+                [_fifthBV addSubview:deviceView];
+            }
+        }
+        else
+        {
+            _fifthBV.hidden = YES;
+        }
+        
+        //维修员相关
+        NSInteger usersCount = self.repairDetail.repair_user_arr.count;
+        if (usersCount)
+        {
+            _mmScroller.contentSize = CGSizeMake(113.f * usersCount, 0);
+            //先清除，后添加
+            for (UIView *subview in _mmScroller.subviews)
+            {
+                [subview removeFromSuperview];
+            }
+            
+            [self.manIDArray removeAllObjects];
+            for (NSInteger i = 0; i < usersCount; i++)
+            {
+                BXTMaintenanceManInfo *mmInfo = self.repairDetail.repair_user_arr[i];
+                [self.manIDArray addObject:mmInfo.mmID];
+                UIView *userBack = [self viewForUser:i andMaintenance:mmInfo];
+                [_mmScroller addSubview:userBack];
+            }
+        }
+        else
+        {
+            _sixthBV.hidden = YES;
+        }
+        
+        //维修报告相关
+        //TODO: 服务器还没有完好，缺少字段
+        _endTime.text = [NSString stringWithFormat:@"结束时间：%@",@"2016.3.22 18:20:39"];
+        _maintencePlace.text = [NSString stringWithFormat:@"维修位置：%@",@"铁建广场603"];
+        _doneFaultType.text = [NSString stringWithFormat:@"故障类型：%@",@"生活水泵"];
+        _doneState.text = [NSString stringWithFormat:@"维修状态：%@",@"已修好"];
+        _doneNotes.text = [NSString stringWithFormat:@"维修记录：%@",self.repairDetail.workprocess];
+        [_contentView layoutIfNeeded];
+        _seventh_bv_height.constant = CGRectGetMaxY(_doneNotes.frame) + 10.f;
+        [_seventhBV layoutIfNeeded];
+        
+        //维修后图片相关
+        switch (self.repairDetail.fixed_pic.count)
+        {
+            case 1:
+            {
+                BXTFaultPicInfo *fixPic = self.repairDetail.fixed_pic[0];
+                _fixPicOne.hidden = NO;
+                [_fixPicOne sd_setImageWithURL:[NSURL URLWithString:fixPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            }
+                break;
+            case 2:
+            {
+                BXTFaultPicInfo *fixPicOne = self.repairDetail.fixed_pic[0];
+                _fixPicOne.hidden = NO;
+                [_fixPicOne sd_setImageWithURL:[NSURL URLWithString:fixPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                BXTFaultPicInfo *fixPicTwo = self.repairDetail.fixed_pic[1];
+                _fixPicTwo.hidden = NO;
+                [_fixPicTwo sd_setImageWithURL:[NSURL URLWithString:fixPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            }
+                break;
+            case 3:
+            {
+                BXTFaultPicInfo *fixPicOne = self.repairDetail.fixed_pic[0];
+                _fixPicOne.hidden = NO;
+                [_fixPicOne sd_setImageWithURL:[NSURL URLWithString:fixPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                BXTFaultPicInfo *fixPicTwo = self.repairDetail.fixed_pic[1];
+                _fixPicTwo.hidden = NO;
+                [_fixPicTwo sd_setImageWithURL:[NSURL URLWithString:fixPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                BXTFaultPicInfo *fixPicThree = self.repairDetail.fixed_pic[2];
+                _fixPicThree.hidden = NO;
+                [_fixPicThree sd_setImageWithURL:[NSURL URLWithString:fixPicThree.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            }
+                break;
+            default:
+                break;
+        }
+        
+        //评价相关
+        for (NSInteger i = 0; i < 3; i++)
+        {
+            UIImage *dot = [UIImage imageNamed:@"star_selected"];
+            UIImage *star = [UIImage imageNamed:@"star"];
+            AMRatingControl *imagesRatingControl = [[AMRatingControl alloc] initWithLocation:CGPointMake(130, 44 + 40 * i)
+                                                                                  emptyImage:dot
+                                                                                  solidImage:star
+                                                                                andMaxRating:5];
+            imagesRatingControl.tag = i;
+            imagesRatingControl.rating = 5;
+            [_ninthBV addSubview:imagesRatingControl];
+        }
+        _evaluateNotes.text = self.repairDetail.evaluation_notes;
+        [_contentView layoutIfNeeded];
+        _ninth_bv_height.constant = CGRectGetMaxY(_evaluateNotes.frame) + 10.f;
+        [_ninthBV layoutIfNeeded];
+        
+        //评价图片相关
+        switch (self.repairDetail.fixed_pic.count)
+        {
+            case 1:
+            {
+                BXTFaultPicInfo *evaluationPic = self.repairDetail.evaluation_pic[0];
+                _evaluatePicOne.hidden = NO;
+                [_evaluatePicOne sd_setImageWithURL:[NSURL URLWithString:evaluationPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            }
+                break;
+            case 2:
+            {
+                BXTFaultPicInfo *evaluationPic = self.repairDetail.evaluation_pic[0];
+                _evaluatePicOne.hidden = NO;
+                [_evaluatePicOne sd_setImageWithURL:[NSURL URLWithString:evaluationPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                BXTFaultPicInfo *evaluationPicTwo = self.repairDetail.evaluation_pic[1];
+                _evaluatePicTwo.hidden = NO;
+                [_evaluatePicTwo sd_setImageWithURL:[NSURL URLWithString:evaluationPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            }
+                break;
+            case 3:
+            {
+                BXTFaultPicInfo *evaluationPic = self.repairDetail.evaluation_pic[0];
+                _evaluatePicOne.hidden = NO;
+                [_evaluatePicOne sd_setImageWithURL:[NSURL URLWithString:evaluationPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                BXTFaultPicInfo *evaluationPicTwo = self.repairDetail.evaluation_pic[1];
+                _evaluatePicTwo.hidden = NO;
+                [_evaluatePicTwo sd_setImageWithURL:[NSURL URLWithString:evaluationPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                BXTFaultPicInfo *evaluationPicThree = self.repairDetail.evaluation_pic[2];
+                _evaluatePicThree.hidden = NO;
+                [_evaluatePicThree sd_setImageWithURL:[NSURL URLWithString:evaluationPicThree.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            }
+                break;
+            default:
+                break;
+        }
+        
+        _content_height.constant = CGRectGetMaxY(_tenthBV.frame)+ 10.f;
+        [_contentView layoutIfNeeded];
     }
-    
     
 //    if (type == RepairDetail && data.count > 0)
 //    {
@@ -443,11 +667,7 @@
 //        }];
 //        self.repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
 //        
-//        //各种赋值
-//        BXTRepairPersonInfo *repairPerson = self.repairDetail.repair_fault_arr[0];
-//        NSString *headURL = repairPerson.head_pic;
-//        [_headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-//        _repairerName.text = repairPerson.name;
+//
 //        _repairerDetail.text = repairPerson.role;
 //        _repairID.text = [NSString stringWithFormat:@"工单号:%@",self.repairDetail.orderid];
 //        NSString *repairTimeStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.repair_time];
@@ -541,35 +761,7 @@
 //            [_firstBV layoutIfNeeded];
 //        }
 //        
-//        //设备列表相关
-//        NSInteger deviceCount = self.repairDetail.device_list.count;
-//        CGFloat secondHeight = 48.f + 63.f * deviceCount;
-//        if (deviceCount)
-//        {
-//            //先清除，后添加
-//            for (UIView *subview in _secondBV.subviews)
-//            {
-//                //设备列表（label）以及其下面的线（view）
-//                if (subview.tag == 1 || subview.tag == 2)
-//                {
-//                    continue;
-//                }
-//                [subview removeFromSuperview];
-//            }
-//            _second_bv_height.constant = secondHeight;
-//            [_secondBV layoutIfNeeded];
-//            _third_bv_top.constant = 12.f + secondHeight + 12.f;
-//            for (NSInteger i = 0; i < deviceCount; i++)
-//            {
-//                UIView *deviceView = [self deviceLists:i comingFromDeviceInfo:self.isComingFromDeviceInfo];
-//                [_secondBV addSubview:deviceView];
-//            }
-//        }
-//        else
-//        {
-//            _secondBV.hidden = YES;
-//            _third_bv_top.constant = 12.f;
-//        }
+//
 //        
 //
 //        
