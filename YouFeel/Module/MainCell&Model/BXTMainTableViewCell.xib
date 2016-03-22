@@ -92,11 +92,20 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_Has_timed" translatesAutoresizingMaskIntoConstraints="NO" id="xzd-ku-U7O">
+                        <rect key="frame" x="306" y="53.5" width="69" height="84"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="84" id="6be-ob-cKh"/>
+                            <constraint firstAttribute="width" constant="69" id="rfF-K0-Ms4"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="xzd-ku-U7O" secondAttribute="bottom" constant="2" id="0tV-ns-6C3"/>
                     <constraint firstItem="nCe-ep-EBA" firstAttribute="top" secondItem="RN9-1t-xIZ" secondAttribute="bottom" constant="4" id="28U-4M-W5y"/>
                     <constraint firstItem="q8I-7C-h0G" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="4fH-fd-H6N"/>
                     <constraint firstItem="vPd-0X-EFP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="5Lh-IF-B6b"/>
+                    <constraint firstAttribute="trailing" secondItem="xzd-ku-U7O" secondAttribute="trailing" id="CE2-mf-BMY"/>
                     <constraint firstItem="RN9-1t-xIZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="DHm-bs-4ZW"/>
                     <constraint firstItem="pAq-v6-ARU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="E5b-la-A7v"/>
                     <constraint firstItem="RN9-1t-xIZ" firstAttribute="top" secondItem="v3D-r2-FhE" secondAttribute="bottom" constant="5" id="EXl-w6-7ce"/>
@@ -136,4 +145,7 @@
             <point key="canvasLocation" x="288.5" y="427"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="list_Has_timed" width="69" height="83"/>
+    </resources>
 </document>

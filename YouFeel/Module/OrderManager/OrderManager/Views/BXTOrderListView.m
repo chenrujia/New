@@ -12,24 +12,28 @@
 #import "BXTRepairInfo.h"
 #import "MJRefresh.h"
 #import "UIView+Nav.h"
-#import "BXTMaintenanceManTableViewCell.h"
 #import "BXTMaintenanceDetailViewController.h"
 #import "BXTMaintenanceProcessViewController.h"
 #import "AppDelegate.h"
 #import "BXTEvaluationViewController.h"
+#import "DOPDropDownMenu.h"
+#import "BXTMainTableViewCell.h"
 
-@interface BXTOrderListView ()
+@interface BXTOrderListView () <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
+{
+    NSMutableArray    *typeArray;
+    NSMutableArray    *stateArray;
+    NSMutableArray    *areasArray;
+    NSMutableArray    *timesArray;
+    
+    BXTAreaInfo       *selectArea;
+    NSInteger  selectFaultType;
+    NSInteger  selectDepartment;
+    NSString          *repairBeginTime;
+    NSString          *repairEndTime;
+}
 
 @property (nonatomic, assign) NSInteger pushIndex;
-
-/**
- *  cell 高度
- */
-@property (nonatomic, assign) CGFloat cellHeight;
-/**
- *  cell 高度没有 - 开始维修 - 按钮
- */
-@property (nonatomic, assign) CGFloat cellHeight_nobtn;
 
 @end
 
@@ -55,69 +59,80 @@
         self.isReacive = reacive;
         self.repairListArray = [NSMutableArray array];
         
-        self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStyleGrouped];
-        // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
-        _currentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-            @strongify(self);
-            [self loadNewData];
-        }];
-        // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
-        _currentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-        // 设置了底部inset
-        _currentTableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
-        // 忽略掉底部inset
-        _currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
-        _currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 40.f;
-        _currentTableView.emptyDataSetSource = self;
-        _currentTableView.emptyDataSetDelegate = self;
-        if (![BXTGlobal shareGlobal].isRepair)
-        {
-            [_currentTableView registerClass:[BXTRepairTableViewCell class] forCellReuseIdentifier:@"OrderListCell"];
-        }
-        else
-        {
-            [_currentTableView registerClass:[BXTMaintenanceManTableViewCell class] forCellReuseIdentifier:@"MaintenanceManCell"];
-        }
-        _currentTableView.delegate = self;
-        _currentTableView.dataSource = self;
-        [self addSubview:_currentTableView];
+        [self createUIWithFrame:frame];
+        
         //请求
         [self loadNewData];
     }
     return self;
 }
 
-- (void)showAlertView:(NSString *)title
+#pragma mark -
+#pragma mark - createUI
+- (void)createUIWithFrame:(CGRect)frame
 {
-    if (IS_IOS_8)
-    {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            
-        }];
-        [alertCtr addAction:doneAction];
-        [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
-    }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
-    }
+    repairBeginTime = @"";
+    repairEndTime = @"";
+    typeArray = [NSMutableArray arrayWithObjects:@"类型", @"日常工单", @"维保工单", nil];
+    stateArray = [NSMutableArray arrayWithObjects:@"状态", @"全部", @"已接单", @"维修中", @"待确认", @"待评价", @"已完成", @"未修好", nil];
+    areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
+    timesArray = [NSMutableArray arrayWithObjects:@"时间",@"1天",@"2天",@"3天",@"1周",@"1个月",@"3个月", nil];
+    
+    // 添加下拉菜单
+    DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
+    menu.delegate = self;
+    menu.dataSource = self;
+    menu.layer.borderWidth = 0.5;
+    menu.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    [self addSubview:menu];
+    
+    
+    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, frame.size.width, frame.size.height-44) style:UITableViewStyleGrouped];
+    // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
+    @weakify(self);
+    _currentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        @strongify(self);
+        [self loadNewData];
+    }];
+    // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
+    _currentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    // 设置了底部inset
+    _currentTableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+    // 忽略掉底部inset
+    _currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+    _currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 40.f;
+    _currentTableView.emptyDataSetSource = self;
+    _currentTableView.emptyDataSetDelegate = self;
+    _currentTableView.delegate = self;
+    _currentTableView.dataSource = self;
+    [self addSubview:_currentTableView];
 }
 
+#pragma mark -
+#pragma mark - loadData
 - (void)loadNewData
 {
     if (_isRequesting) return;
     refreshType = Down;
     currentPage = 1;
+    
     [self showLoadingMBP:@"努力加载中..."];
-    /**获取报修列表**/
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairsList:_repairState
-                 andPage:1
-     andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO
-    andRepairerIsReacive:_repairState];
-    _isRequesting = YES;
+    
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**获取报修列表**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request repairsList:_repairState
+                     andPage:1
+         andIsMaintenanceMan:[BXTGlobal shareGlobal].isRepair ? YES : NO
+        andRepairerIsReacive:_repairState];
+        _isRequesting = YES;
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**请求位置**/
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request shopLocation];
+    });
 }
 
 - (void)loadMoreData
@@ -134,50 +149,182 @@
 }
 
 #pragma mark -
-#pragma mark UITableViewDelegate & UITableViewDatasource
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+#pragma mark DOPDropDownMenuDataSource & DOPDropDownMenuDelegate
+- (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu
 {
-    if (section == 0)
-    {
-        return 0.1f;//section头部高度
-    }
-    return 10.f;//section头部高度
+    return 4;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
 {
-    UIView *view;
-    if (section == 0)
+    if (column == 0)
     {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
+        return typeArray.count;
+    }
+    else if (column == 1)
+    {
+        return stateArray.count;
+    }
+    else if (column == 2)
+    {
+        return areasArray.count;
     }
     else
     {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
+        return timesArray.count;
     }
-    view.backgroundColor = [UIColor clearColor];
-    return view;
+}
+
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    if (indexPath.column == 0)
+    {
+        return typeArray[indexPath.row];
+    }
+    else if (indexPath.column == 1)
+    {
+        return stateArray[indexPath.row];
+    }
+    else if (indexPath.column == 2)
+    {
+        if (indexPath.row == 0) return areasArray[0];
+        BXTFloorInfo *floor = areasArray[indexPath.row];
+        return floor.area_name;
+    }
+    else
+    {
+        return timesArray[indexPath.row];
+    }
+}
+
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfItemsInRow:(NSInteger)row column:(NSInteger)column
+{
+    if (column == 2)
+    {
+        if (row == 0  || row > areasArray.count - 1) return 0;
+        BXTFloorInfo *floor = areasArray[row];
+        return floor.place.count;
+    }
+    
+    return 0;
+}
+
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    if (indexPath.column == 2)
+    {
+        if (indexPath.row == 0 || indexPath.row > areasArray.count - 1) return nil;
+        BXTFloorInfo *floor = areasArray[indexPath.row];
+        BXTAreaInfo *area = floor.place[indexPath.item];
+        return area.place_name;
+    }
+    
+    return nil;
+}
+
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    //判断有无二级菜单
+    if (indexPath.item >= 0)
+    {
+        //地区
+        if (indexPath.column == 2)
+        {
+            BXTFloorInfo *floor = areasArray[indexPath.row];
+            BXTAreaInfo *area = floor.place[indexPath.item];
+            selectArea = area;
+        }
+    }
+    else
+    {
+        //选择四个栏目中的第一个都要重新请求所有数据
+        if (indexPath.row == 0)
+        {
+            [self showLoadingMBP:@"努力加载中..."];
+            /**获取报修列表**/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request repairerList:@"1"
+                          andPage:1
+                         andPlace:@"0"
+                    andDepartment:@"0"
+                     andBeginTime:@"0"
+                       andEndTime:@"0"
+                     andFaultType:@"0"
+                      andTaskType:self.repairState];
+            return;
+        }
+        //工单状态
+        else if (indexPath.column == 0)
+        {
+            selectDepartment = indexPath.row;
+        }
+        //时间
+        else if (indexPath.column == 3)
+        {
+            NSString *time = timesArray[indexPath.row];
+            NSTimeInterval endTime = [NSDate date].timeIntervalSince1970;
+            NSTimeInterval beginTime;
+            if ([time isEqualToString:@"1天"])
+            {
+                beginTime = endTime - 86400;
+            }
+            else if ([time isEqualToString:@"2天"])
+            {
+                beginTime = endTime - 172800;
+            }
+            else if ([time isEqualToString:@"3天"])
+            {
+                beginTime = endTime - 259200;
+            }
+            else if ([time isEqualToString:@"1周"])
+            {
+                beginTime = endTime - 604800;
+            }
+            else if ([time isEqualToString:@"1个月"])
+            {
+                beginTime = endTime - 2592000;
+            }
+            else if ([time isEqualToString:@"3个月"])
+            {
+                beginTime = endTime - 7776000;
+            }
+            
+            repairBeginTime = [NSString stringWithFormat:@"%.0f",beginTime];
+            repairEndTime = [NSString stringWithFormat:@"%.0f",endTime];
+        }
+    }
+    
+    NSString *place_id = selectArea ? selectArea.place_id : @"";
+    NSString *department_id = [NSString stringWithFormat:@"%ld", selectDepartment];
+    NSString *fault_type_id = [NSString stringWithFormat:@"%ld", selectFaultType];
+    
+    [self showLoadingMBP:@"努力加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request repairerList:@"1"
+                  andPage:1
+                 andPlace:place_id
+            andDepartment:department_id
+             andBeginTime:repairBeginTime
+               andEndTime:repairEndTime
+             andFaultType:fault_type_id
+              andTaskType:self.repairState];
+}
+
+#pragma mark -
+#pragma mark UITableViewDelegate & UITableViewDatasource
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.1f;//section头部高度
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 5.f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5.f)];
-    view.backgroundColor = [UIColor clearColor];
-    return view;
+    return 10.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (([BXTGlobal shareGlobal].isRepair && [_isReacive integerValue] != 1) || (![BXTGlobal shareGlobal].isRepair && [_repairState integerValue] == 1))
-    {
-        return self.cellHeight_nobtn;
-    }
-    return self.cellHeight;
+    return 140;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -192,199 +339,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![BXTGlobal shareGlobal].isRepair)
-    {
-        BXTRepairTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OrderListCell" forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
-        cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
-        cell.time.text = repairInfo.repair_time;
-        
-        NSString *placeStr = [NSString stringWithFormat:@"位置:%@-%@-%@",repairInfo.area, repairInfo.place, repairInfo.stores_name];
-        if ([BXTGlobal isBlankString:repairInfo.stores_name]) {
-            placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
-        }
-        CGSize cause_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
-        cell.place.text = placeStr;
-        // 更新所有控件位置
-        cell.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, cause_size.height);
-        cell.faultType.frame = CGRectMake(15.f, CGRectGetMaxY(cell.place.frame) + 10.f, CGRectGetWidth(cell.place.frame), 20);
-        cell.cause.frame = CGRectMake(15.f, CGRectGetMaxY(cell.faultType.frame) + 10.f, CGRectGetWidth(cell.faultType.frame), 20);
-        cell.level.frame = CGRectMake(15.f, CGRectGetMaxY(cell.cause.frame) + 8.f, CGRectGetWidth(cell.cause.frame), 20);
-        cell.lineViewTwo.frame = CGRectMake(10, CGRectGetMaxY(cell.level.frame) + 8.f, SCREEN_WIDTH - 20, 1.f);
-        cell.state.frame = CGRectMake(15.f, CGRectGetMaxY(cell.lineViewTwo.frame) + 8.f, CGRectGetWidth(cell.cause.frame), 20);
-        cell.repairState.frame = CGRectMake(15.f, CGRectGetMaxY(cell.state.frame) + 8.f, CGRectGetWidth(cell.cause.frame), 20);
-        CGFloat width = IS_IPHONE6 ? 84.f : 56.f;
-        cell.evaButton.frame = CGRectMake(SCREEN_WIDTH - width - 15.f, CGRectGetMaxY(cell.lineViewTwo.frame) + 15.f, width, 30.f);
-        cell.cancelRepair.frame = CGRectMake(SCREEN_WIDTH - 114.f - 15.f, CGRectGetMaxY(cell.lineViewTwo.frame) + 10.f, 114.f, 40.f);
-        self.cellHeight = CGRectGetMaxY(cell.repairState.frame) + 12;
-        self.cellHeight_nobtn = CGRectGetMaxY(cell.repairState.frame) + 8 - 64;
-        cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
-        cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
-        if ([repairInfo.urgent integerValue] == 2)
-        {
-            cell.level.text = @"等级:一般";
-        }
-        else
-        {
-            NSString *str = @"等级:紧急";
-            NSRange range = [str rangeOfString:@"紧急"];
-            NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-            [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-            cell.level.attributedText = attributeStr;
-        }
-        
-        cell.state.text = repairInfo.repair_user_name;
-        cell.tag = indexPath.section;
-        cell.cancelRepair.hidden = YES;
-        
-        cell.repairState.text = repairInfo.receive_state;
-        if ([repairInfo.repairstate integerValue] == 1 || [repairInfo.is_repairing intValue] == 1)
-        {
-            cell.state.hidden = YES;
-            cell.repairState.hidden = YES;
-        }
-        else if ([repairInfo.repairstate integerValue] == 3)
-        {
-            cell.evaButton.hidden = NO;
-            
-            if (self.pushIndex == 1) {
-                @weakify(self);
-                self.pushIndex++;
-                [[cell.evaButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                    @strongify(self);
-                    BXTRepairInfo *repairInfo = [self.repairListArray objectAtIndex:indexPath.section];
-                    BXTEvaluationViewController *evaluateVC = [[BXTEvaluationViewController alloc] initWithRepairID:repairInfo.repairID];
-                    evaluateVC.delegateSignal = [RACSubject subject];
-                    [evaluateVC.delegateSignal subscribeNext:^(id x) {
-                        self.pushIndex = 1;
-                    }];
-                    [[self navigation] pushViewController:evaluateVC animated:YES];
-                }];
-            }
-        }
-        else if ([repairInfo.repairstate integerValue] == 5)
-        {
-            cell.evaButton.hidden = YES;
-        }
-        
-        return cell;
+    BXTMainTableViewCell *cell = [BXTMainTableViewCell cellWithTableView:tableView];
+    
+    BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
+    
+    cell.orderNumView.text = [NSString stringWithFormat:@"编号:%@", repairInfo.orderid];
+    cell.orderTypeView.text = @"日常";
+    cell.orderGroupView.text = [NSString stringWithFormat:@"%@  ", repairInfo.subgroup_name];
+    cell.orderStateView.text = [NSString stringWithFormat:@"%@", repairInfo.state];
+    
+    cell.orderTitleView.text = [NSString stringWithFormat:@"维保项目：%@", repairInfo.faulttype_name];
+    cell.orderPositionView.text = [NSString stringWithFormat:@"报修位置：%@-%@-%@", repairInfo.area, repairInfo.place, repairInfo.stores_name];
+    if ([BXTGlobal isBlankString:repairInfo.stores_name]) {
+        cell.orderPositionView.text = [NSString stringWithFormat:@"报修位置：%@-%@", repairInfo.area, repairInfo.place];
     }
-    else
-    {
-        BXTMaintenanceManTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MaintenanceManCell" forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
-        cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
-        cell.time.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
-        
-        // 位置自适应
-        NSString *placeStr = [NSString stringWithFormat:@"位置:%@-%@-%@",repairInfo.area, repairInfo.place, repairInfo.stores_name];
-        if ([BXTGlobal isBlankString:repairInfo.stores_name]) {
-            placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
-        }
-        CGSize cause_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
-        cell.place.text = placeStr;
-        // 更新所有控件位置
-        cell.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, cause_size.height);
-        cell.cause.frame = CGRectMake(15.f, CGRectGetMaxY(cell.place.frame) + 10.f, CGRectGetWidth(cell.place.frame), 20);
-        cell.level.frame = CGRectMake(15.f, CGRectGetMaxY(cell.cause.frame) + 10.f, CGRectGetWidth(cell.cause.frame), 20);
-        cell.time.frame = CGRectMake(15.f, CGRectGetMaxY(cell.level.frame) + 8.f, CGRectGetWidth(cell.level.frame), 20);
-        cell.lineViewTwo.frame = CGRectMake(10, CGRectGetMaxY(cell.time.frame) + 8.f, SCREEN_WIDTH - 20, 1.f);
-        cell.reaciveBtn.frame = CGRectMake(0, CGRectGetMaxY(cell.lineViewTwo.frame) + 10.f, 230.f, 40.f);
-        cell.reaciveBtn.center = CGPointMake(SCREEN_WIDTH/2.f, cell.reaciveBtn.center.y);
-        self.cellHeight = CGRectGetMaxY(cell.reaciveBtn.frame) + 8;
-        self.cellHeight_nobtn = CGRectGetMaxY(cell.reaciveBtn.frame) + 8 - 58;
-        cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
-        
-        if ([repairInfo.order_type integerValue] == 3)
-        {
-            cell.maintenanceProcess.hidden = YES;
-            cell.orderType.hidden = NO;
-            cell.orderType.text = @"特殊工单";
-        }
-        else
-        {
-            //1:正常工单、2:维保工单
-            if (repairInfo.task_type.integerValue == 2)
-            {
-                cell.orderType.hidden = YES;
-                cell.maintenanceProcess.hidden = NO;
-                [cell.maintenanceProcess setTitle:@"维保" forState:UIControlStateNormal];
-                [cell.maintenanceProcess setFrame:CGRectMake(SCREEN_WIDTH - 40.f - 15.f, 12.f, 40.f, 26.f)];
-            }
-            else
-            {
-                cell.orderType.hidden = YES;
-                cell.maintenanceProcess.hidden = NO;
-                [cell.maintenanceProcess setTitle:@"维修过程" forState:UIControlStateNormal];
-                [cell.maintenanceProcess setFrame:CGRectMake(SCREEN_WIDTH - 75.f - 15.f, 12.f, 75.f, 26.f)];
-            }
-        }
-        
-        if ([repairInfo.urgent integerValue] == 2)
-        {
-            cell.level.text = @"等级:一般";
-        }
-        else
-        {
-            NSString *str = @"等级:紧急";
-            NSRange range = [str rangeOfString:@"紧急"];
-            NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-            [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-            cell.level.attributedText = attributeStr;
-        }
-        cell.tag = indexPath.section;
-        
-        if ([_isReacive integerValue] == 1)
-        {
-            cell.reaciveBtn.hidden = NO;
-            cell.maintenanceProcess.hidden = YES;
-            cell.reaciveBtn.tag = indexPath.section;
-            [cell.reaciveBtn addTarget:self action:@selector(startRepairAction:) forControlEvents:UIControlEventTouchUpInside];
-        }
-        else if ([repairInfo.repairstate integerValue] == 2)
-        {
-            [cell.maintenanceProcess setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-            cell.maintenanceProcess.userInteractionEnabled = YES;
-            
-            cell.reaciveBtn.hidden = YES;
-            if ([repairInfo.order_type integerValue] == 3)
-            {
-                cell.maintenanceProcess.hidden = YES;
-            }
-            else
-            {
-                cell.maintenanceProcess.hidden = NO;
-            }
-        }
-        else
-        {
-            cell.reaciveBtn.hidden = YES;
-            cell.maintenanceProcess.hidden = YES;
-        }
-        
-        @weakify(self);
-        [[cell.maintenanceProcess rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            @strongify(self);
-            BXTRepairInfo *repairInfo = [self.repairListArray objectAtIndex:indexPath.section];
-            if (repairInfo.task_type.integerValue == 1)
-            {
-                if (self.pushIndex == 1) {
-                    self.pushIndex++;
-                    BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:repairInfo.faulttype_name andCurrentFaultID:[repairInfo.fault_id integerValue] andRepairID:[repairInfo.repairID integerValue] andReaciveTime:repairInfo.start_time];
-                    maintenanceProcossVC.delegateSignal = [RACSubject subject];
-                    [maintenanceProcossVC.delegateSignal subscribeNext:^(id x) {
-                        self.pushIndex = 1;
-                    }];
-                    [self.navigation pushViewController:maintenanceProcossVC animated:YES];
-                }
-            }
-        }];
-        return cell;
-    }
+    cell.orderContentView.text = [NSString stringWithFormat:@"报修内容：%@", repairInfo.cause];
+    cell.orderTimeView.text = [NSString stringWithFormat:@"时间范围：%ld", repairInfo.long_time];
+    
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -392,7 +364,7 @@
     BXTRepairInfo *repairInfo = [_repairListArray objectAtIndex:indexPath.section];
     if ([BXTGlobal shareGlobal].isRepair && [repairInfo.order_type integerValue] == 3)
     {
-        [self showAlertView:@"特殊工单不可点击"];
+        [BXTGlobal showText:@"特殊工单不可点击" view:self completionBlock:nil];
     }
     else
     {
@@ -401,15 +373,8 @@
         [repairDetailVC dataWithRepairID:repairInfo.repairID];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
-}
-
-- (void)startRepairAction:(UIButton *)btn
-{
-    selectTag = btn.tag;
-    BXTRepairInfo *repairInfo = _repairListArray[selectTag];
-    [self showLoadingMBP:@"请稍候..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request startRepair:repairInfo.repairID];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
@@ -430,21 +395,12 @@
     [self hideTheMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
-    NSLog(@"dic..%@",dic);
-    if (type == StartRepair)
+    
+    if (type == ShopType)
     {
-        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
-        {
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"维修已开始！";
-            hud.margin = 10.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2.f];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-        }
+        [areasArray addObjectsFromArray:[BXTFloorInfo mj_objectArrayWithKeyValuesArray:data]];
     }
-    else
+    else if (type == RepairList)
     {
         if (data.count > 0)
         {
