@@ -268,7 +268,7 @@ andRepairerIsReacive:(NSString *)reacive
                 @"faulttype":faultType,
                 @"task_type":taskType};
     }
-
+    
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -338,6 +338,22 @@ andRepairerIsReacive:(NSString *)reacive
                           @"close_state":@"all",
                           @"task_type":@"1"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)ListOfRepairOrderWithTaskType:(NSString *)task_type
+                              FaultID:(NSString *)fault_id
+                             RepairID:(NSString *)repair_id
+                                 Page:(NSInteger)page
+{
+    self.requestType = RepairList;
+    NSDictionary *dic = @{@"task_type":task_type,
+                          @"fault_id":fault_id,
+                          @"repair_id":repair_id,
+                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                          @"pagesize":@"5"};
+    
+    NSString *url = @"http://api.hellouf.com/?module=Repair&opt=repair_list&shop_id=11";
     [self postRequest:url withParameters:dic];
 }
 
@@ -1211,7 +1227,7 @@ andRepairerIsReacive:(NSString *)reacive
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
+        LogBlue(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

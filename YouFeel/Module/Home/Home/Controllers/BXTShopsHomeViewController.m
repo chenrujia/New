@@ -138,10 +138,11 @@
     else {
         switch (indexPath.section) {
             case 0:
-                [self pushMyOrders];
+                [self pushNormalOrders];
                 break;
             case 1:
-                [self pushEvaluationList];
+                [self pushMaintenceOrders];
+//                [self pushEvaluationList];
                 break;
             case 2:
                 [self pushSpecialOrders];

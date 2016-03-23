@@ -28,6 +28,7 @@
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTAchievementsViewController.h"
 #import "BXTMTProfessionViewController.h"
+#import "BXTMTReportsViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -71,7 +72,9 @@
     {
         self.usersArray = [NSMutableArray array];
     }
-    
+
+#pragma mark -
+#pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
     [self showLoadingMBP:@"数据加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
@@ -92,21 +95,23 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /** 消息列表 **/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request messageList];
-    });
-    dispatch_async(concurrentQueue, ^{
-        dispatch_async(concurrentQueue, ^{
-            /** 提醒数字 **/
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request remindNumberWithDailyTimeStart:[BXTRemindNum sharedManager].timeStart_Daily InspectioTimeStart:[BXTRemindNum sharedManager].timeStart_Inspectio];
-        });
-    });
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButton" object:nil];
+#pragma mark -
+#pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+//    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_async(concurrentQueue, ^{
+//        /** 消息列表 **/
+//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//        [request messageList];
+//    });
+//    dispatch_async(concurrentQueue, ^{
+//        dispatch_async(concurrentQueue, ^{
+//            /** 提醒数字 **/
+//            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//            [request remindNumberWithDailyTimeStart:[BXTRemindNum sharedManager].timeStart_Daily InspectioTimeStart:[BXTRemindNum sharedManager].timeStart_Inspectio];
+//        });
+//    });
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButton" object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -255,9 +260,13 @@
 {
     if ([self is_verify]) {
         // 我的工单
-        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-        orderManagerVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:orderManagerVC animated:YES];
+//        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
+//        orderManagerVC.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:orderManagerVC animated:YES];
+        
+        BXTMTReportsViewController *reportVC = [[BXTMTReportsViewController alloc] init];
+        reportVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:reportVC animated:YES];
     }
 }
 

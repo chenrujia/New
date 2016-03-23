@@ -376,33 +376,33 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //蛋疼的IOS7
-    if (!IS_IOS_8)
-    {
-        //place的y
-        CGFloat height = 58.f;
-        //place到cause的间距
-        CGFloat spaceOne = 40.f;
-        //cause到底部的间距
-        CGFloat spaceTwo = 50.f;
-        
-        //计算位置的高度
-        BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
-        NSString *placeStr = [NSString stringWithFormat:@"位置:%@-%@-%@",repairInfo.area, repairInfo.place, repairInfo.stores_name];
-        if ([BXTGlobal isBlankString:repairInfo.stores_name])
-        {
-            placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
-        }
-        CGSize place_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
-        height = height + spaceOne + place_size.height;
-        
-        //计算故障描述的高度
-        NSString *causeStr = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
-        CGSize cause_size = MB_MULTILINE_TEXTSIZE(causeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
-        height = height + cause_size.height + spaceTwo;
-        
-        return height;
-    }
+//    //蛋疼的IOS7
+//    if (!IS_IOS_8)
+//    {
+//        //place的y
+//        CGFloat height = 58.f;
+//        //place到cause的间距
+//        CGFloat spaceOne = 40.f;
+//        //cause到底部的间距
+//        CGFloat spaceTwo = 50.f;
+//        
+//        //计算位置的高度
+//        BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
+//        NSString *placeStr = [NSString stringWithFormat:@"位置:%@-%@-%@",repairInfo.area, repairInfo.place, repairInfo.stores_name];
+//        if ([BXTGlobal isBlankString:repairInfo.stores_name])
+//        {
+//            placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
+//        }
+//        CGSize place_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+//        height = height + spaceOne + place_size.height;
+//        
+//        //计算故障描述的高度
+//        NSString *causeStr = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
+//        CGSize cause_size = MB_MULTILINE_TEXTSIZE(causeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+//        height = height + cause_size.height + spaceTwo;
+//        
+//        return height;
+//    }
     return self.cellHeight;
 }
 
@@ -415,24 +415,24 @@
     
     [cell refreshSubViewsFrame:repairInfo];
     
-    if ([repairInfo.order_type integerValue] == 1)
-    {
-        cell.orderType.text = @"";
-    }
-    else if ([repairInfo.order_type integerValue] == 2)
-    {
-        cell.orderType.text = @"协作工单";
-    }
-    else if ([repairInfo.order_type integerValue] == 3)
-    {
-        cell.orderType.text = @"特殊工单";
-    }
-    else if ([repairInfo.order_type integerValue] == 4)
-    {
-        cell.orderType.text = @"超时工单";
-    }
-    
-    cell.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
+//    if ([repairInfo.order_type integerValue] == 1)
+//    {
+//        cell.orderType.text = @"";
+//    }
+//    else if ([repairInfo.order_type integerValue] == 2)
+//    {
+//        cell.orderType.text = @"协作工单";
+//    }
+//    else if ([repairInfo.order_type integerValue] == 3)
+//    {
+//        cell.orderType.text = @"特殊工单";
+//    }
+//    else if ([repairInfo.order_type integerValue] == 4)
+//    {
+//        cell.orderType.text = @"超时工单";
+//    }
+//    
+//    cell.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairInfo.repair_time];
     if (IS_IOS_8)
     {
         self.cellHeight = cell.cellHeight;
@@ -444,35 +444,35 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
-    if (_orderType == OutTimeType && [repairInfo.state integerValue] == 1 && [repairInfo.order_type integerValue] != 3)
-    {
-        BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:repairInfo.repairID];
-        [[self navigation] pushViewController:assignOrderVC animated:YES];
-    }
-    else if (_orderType == OutTimeType && [repairInfo.order_type integerValue] == 3)
-    {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-        repairDetailVC.isRejectVC = YES;
-        [repairDetailVC dataWithRepairID:repairInfo.repairID];
-        [[self navigation] pushViewController:repairDetailVC animated:YES];
-    }
-    else if (_orderType == AllType || _orderType == CloseType)
-    {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-        repairDetailVC.isAllOrderType = YES;
-        [repairDetailVC dataWithRepairID:repairInfo.repairID];
-        [[self navigation] pushViewController:repairDetailVC animated:YES];
-    }
-    else
-    {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-        [repairDetailVC dataWithRepairID:repairInfo.repairID];
-        [[self navigation] pushViewController:repairDetailVC animated:YES];
-    }
+//    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
+//    if (_orderType == OutTimeType && [repairInfo.state integerValue] == 1 && [repairInfo.order_type integerValue] != 3)
+//    {
+//        BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:repairInfo.repairID];
+//        [[self navigation] pushViewController:assignOrderVC animated:YES];
+//    }
+//    else if (_orderType == OutTimeType && [repairInfo.order_type integerValue] == 3)
+//    {
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+//        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+//        repairDetailVC.isRejectVC = YES;
+//        [repairDetailVC dataWithRepairID:repairInfo.repairID];
+//        [[self navigation] pushViewController:repairDetailVC animated:YES];
+//    }
+//    else if (_orderType == AllType || _orderType == CloseType)
+//    {
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+//        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+//        repairDetailVC.isAllOrderType = YES;
+//        [repairDetailVC dataWithRepairID:repairInfo.repairID];
+//        [[self navigation] pushViewController:repairDetailVC animated:YES];
+//    }
+//    else
+//    {
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+//        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+//        [repairDetailVC dataWithRepairID:repairInfo.repairID];
+//        [[self navigation] pushViewController:repairDetailVC animated:YES];
+//    }
 }
 
 #pragma mark -

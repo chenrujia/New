@@ -126,17 +126,17 @@
     self.groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(self.groupName.frame), group_size.width, group_size.height);
     self.groupName.text = group_name;
     
-    NSString *placeStr = [NSString stringWithFormat:@"位置:%@-%@-%@",repairInfo.area, repairInfo.place, repairInfo.stores_name];
-    if ([BXTGlobal isBlankString:repairInfo.stores_name])
-    {
-        placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
-    }
-    
-    CGSize place_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
-    self.place.text = placeStr;
+//    NSString *placeStr = [NSString stringWithFormat:@"位置:%@-%@-%@",repairInfo.area, repairInfo.place, repairInfo.stores_name];
+//    if ([BXTGlobal isBlankString:repairInfo.stores_name])
+//    {
+//        placeStr = [NSString stringWithFormat:@"位置:%@-%@",repairInfo.area, repairInfo.place];
+//    }
+//    
+//    CGSize place_size = MB_MULTILINE_TEXTSIZE(placeStr, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+    self.place.text = repairInfo.place_name;
     
     //更新所有控件位置1
-    self.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, place_size.height + 3);
+//    self.place.frame = CGRectMake(15.f, 50.f + 8.f, SCREEN_WIDTH - 30.f, place_size.height + 3);
     self.faultType.frame = CGRectMake(15.f, CGRectGetMaxY(_place.frame) + 10.f, CGRectGetWidth(_place.frame), 20);
     self.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
     

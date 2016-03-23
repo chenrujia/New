@@ -20,6 +20,8 @@
 #import "BXTGrabOrderViewController.h"
 #import "BXTRemindNum.h"
 
+#import "CYLTabBarControllerConfig.h"
+
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
 NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
@@ -61,6 +63,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [self loadingLoginVC];
     }];
     
+    
+//    CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
+//    [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];
+#pragma mark -
+#pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
     BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
     if (isLoaded)
     {
@@ -97,6 +104,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     {
         [self loadingGuideView];
     }
+    
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -20,7 +20,7 @@
                             <constraint firstAttribute="width" constant="135" id="xmy-4P-vre"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v3D-r2-FhE">
@@ -36,7 +36,7 @@
                             <constraint firstAttribute="height" constant="21" id="muk-Id-gOR"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vPd-0X-EFP">
@@ -45,7 +45,7 @@
                             <constraint firstAttribute="height" constant="21" id="i16-1F-geg"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OvA-Sj-WEw">
@@ -54,7 +54,7 @@
                             <constraint firstAttribute="height" constant="21" id="rgJ-fn-dJK"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="日常" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yiV-SR-szX">
@@ -82,7 +82,7 @@
                             <constraint firstAttribute="height" constant="21" id="hfv-2G-fWP"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="电气组" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q8I-7C-h0G">
@@ -92,11 +92,11 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_Has_timed" translatesAutoresizingMaskIntoConstraints="NO" id="xzd-ku-U7O">
-                        <rect key="frame" x="306" y="53.5" width="69" height="84"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_expired" translatesAutoresizingMaskIntoConstraints="NO" id="xzd-ku-U7O">
+                        <rect key="frame" x="291" y="53.5" width="84" height="84"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="84" id="6be-ob-cKh"/>
-                            <constraint firstAttribute="width" constant="69" id="rfF-K0-Ms4"/>
+                            <constraint firstAttribute="width" constant="84" id="rfF-K0-Ms4"/>
                         </constraints>
                     </imageView>
                 </subviews>
@@ -133,19 +133,19 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="orderContentView" destination="vPd-0X-EFP" id="w7E-g7-wyw"/>
+                <outlet property="firstView" destination="RN9-1t-xIZ" id="nAf-tf-jnd"/>
+                <outlet property="forthView" destination="OvA-Sj-WEw" id="qTY-B7-jcN"/>
                 <outlet property="orderGroupView" destination="q8I-7C-h0G" id="rNq-fJ-hKI"/>
                 <outlet property="orderNumView" destination="hdu-5c-5Cp" id="E2S-tX-l1s"/>
-                <outlet property="orderPositionView" destination="nCe-ep-EBA" id="a17-OX-NWG"/>
                 <outlet property="orderStateView" destination="pAq-v6-ARU" id="p9O-dN-RWD"/>
-                <outlet property="orderTimeView" destination="OvA-Sj-WEw" id="d64-Ij-jvu"/>
-                <outlet property="orderTitleView" destination="RN9-1t-xIZ" id="4vG-DU-gp5"/>
                 <outlet property="orderTypeView" destination="yiV-SR-szX" id="KnE-sb-Zua"/>
+                <outlet property="secondView" destination="nCe-ep-EBA" id="f8S-wZ-wpt"/>
+                <outlet property="thirdView" destination="vPd-0X-EFP" id="b87-0G-cGs"/>
             </connections>
             <point key="canvasLocation" x="288.5" y="427"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="list_Has_timed" width="69" height="83"/>
+        <image name="list_expired" width="83" height="83"/>
     </resources>
 </document>
