@@ -18,6 +18,7 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTReportsCell" owner:nil options:nil] lastObject];
     }
     
+    
     return cell;
 }
 

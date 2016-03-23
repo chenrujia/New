@@ -154,7 +154,6 @@
         faulttype_type = 1;
     }
     
-    
     [self showLoadingMBP:@"新工单创建中..."];
     
     BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
