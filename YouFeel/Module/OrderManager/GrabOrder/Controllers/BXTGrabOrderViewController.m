@@ -244,12 +244,16 @@
 
 - (void)navigationLeftButton
 {
-    [[BXTGlobal shareGlobal].newsOrderIDs removeObjectAtIndex:[BXTGlobal shareGlobal].numOfPresented-1];
-    --[BXTGlobal shareGlobal].numOfPresented;
-    if ([BXTGlobal shareGlobal].numOfPresented < 1)
+    if ([BXTGlobal shareGlobal].newsOrderIDs.count >= [BXTGlobal shareGlobal].numOfPresented)
     {
-        [[BXTGlobal shareGlobal].newsOrderIDs removeAllObjects];
+        [[BXTGlobal shareGlobal].newsOrderIDs removeObjectAtIndex:[BXTGlobal shareGlobal].numOfPresented-1];
+        --[BXTGlobal shareGlobal].numOfPresented;
+        if ([BXTGlobal shareGlobal].numOfPresented < 1)
+        {
+            [[BXTGlobal shareGlobal].newsOrderIDs removeAllObjects];
+        }
     }
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
