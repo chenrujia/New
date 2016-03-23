@@ -15,10 +15,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *orderGroupView;
 @property (weak, nonatomic) IBOutlet UILabel *orderStateView;
 
-@property (weak, nonatomic) IBOutlet UILabel *orderTitleView;
-@property (weak, nonatomic) IBOutlet UILabel *orderPositionView;
-@property (weak, nonatomic) IBOutlet UILabel *orderContentView;
-@property (weak, nonatomic) IBOutlet UILabel *orderTimeView;
+@property (weak, nonatomic) IBOutlet UILabel *firstView;
+@property (weak, nonatomic) IBOutlet UILabel *secondView;
+@property (weak, nonatomic) IBOutlet UILabel *thirdView;
+@property (weak, nonatomic) IBOutlet UILabel *forthView;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

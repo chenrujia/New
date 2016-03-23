@@ -280,27 +280,27 @@
     
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
     cell.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairInfo.orderid];
-    cell.time.text = repairInfo.repair_time;
-    cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
-    cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
-    cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
-    if ([repairInfo.urgent integerValue] == 2)
-    {
-        cell.level.text = @"等级:一般";
-    }
-    else
-    {
-        NSString *str = @"等级:紧急";
-        NSRange range = [str rangeOfString:@"紧急"];
-        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-        cell.level.attributedText = attributeStr;
-    }
-    
-    NSArray *usersArray = repairInfo.repair_user;
-    NSString *components = [usersArray componentsJoinedByString:@","];
-    cell.state.text = components;
-    cell.repairState.text = repairInfo.receive_state;
+//    cell.time.text = repairInfo.repair_time;
+//    cell.place.text = [NSString stringWithFormat:@"位置:%@",repairInfo.area];
+//    cell.faultType.text = [NSString stringWithFormat:@"故障类型:%@",repairInfo.faulttype_name];
+//    cell.cause.text = [NSString stringWithFormat:@"故障描述:%@",repairInfo.cause];
+//    if ([repairInfo.urgent integerValue] == 2)
+//    {
+//        cell.level.text = @"等级:一般";
+//    }
+//    else
+//    {
+//        NSString *str = @"等级:紧急";
+//        NSRange range = [str rangeOfString:@"紧急"];
+//        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+//        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
+//        cell.level.attributedText = attributeStr;
+//    }
+//    
+//    NSArray *usersArray = repairInfo.repair_user;
+//    NSString *components = [usersArray componentsJoinedByString:@","];
+//    cell.state.text = components;
+//    cell.repairState.text = repairInfo.receive_state;
     
     cell.tag = indexPath.section;
     if ([repairInfo.repairstate integerValue] != 1)

@@ -190,6 +190,14 @@ andRepairerIsReacive:(NSString *)reacive;
            andPage:(NSInteger)page;
 
 /**
+ *  获取工单列表
+ */
+- (void)ListOfRepairOrderWithTaskType:(NSString *)task_type
+                              FaultID:(NSString *)fault_id
+                             RepairID:(NSString *)repair_id
+                                 Page:(NSInteger)page;
+
+/**
  *  设备添加报修
  */
 - (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID

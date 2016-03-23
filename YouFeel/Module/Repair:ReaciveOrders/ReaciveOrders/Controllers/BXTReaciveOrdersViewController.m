@@ -134,6 +134,12 @@
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**获取报修列表**/
+//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//        [request ListOfRepairOrderWithTaskType:self.taskType
+//                                       FaultID:@""
+//                                      RepairID:@""
+//                                          Page:1];
+        
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request repairerList:@"1"
                       andPage:1
@@ -144,16 +150,18 @@
                  andFaultType:@"0"
                   andTaskType:self.taskType];
     });
-    dispatch_async(concurrentQueue, ^{
-        /**请求位置**/
-        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request shopLocation];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**请求故障类型列表**/
-        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request faultTypeListWithRTaskType:@"all"];
-    });
+#pragma mark -
+#pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+//    dispatch_async(concurrentQueue, ^{
+//        /**请求位置**/
+//        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+//        [location_request shopLocation];
+//    });
+//    dispatch_async(concurrentQueue, ^{
+//        /**请求故障类型列表**/
+//        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+//        [fau_request faultTypeListWithRTaskType:@"all"];
+//    });
     
     
     self.currentPage = 1;
@@ -211,23 +219,23 @@
     
     cell.orderNumView.text = [NSString stringWithFormat:@"编号:%@", repairInfo.orderid];
     cell.orderGroupView.text = [NSString stringWithFormat:@"%@  ", repairInfo.subgroup_name];
-    cell.orderStateView.text = [NSString stringWithFormat:@"%@", repairInfo.receive_state];
+    cell.orderStateView.text = [NSString stringWithFormat:@"%@", repairInfo.repairstate_name];
     
-    // 日常工单
+    // 日常工单 - 时间、位置、内容
     if ([_taskType integerValue] == 1)
     {
         cell.orderTypeView.text = @"日常";
-        cell.orderTitleView.text = [NSString stringWithFormat:@"维保项目：%@", repairInfo.cause];
-        cell.orderPositionView.text = [NSString stringWithFormat:@"报修位置：%@", repairInfo.area];
-        cell.orderContentView.text = [NSString stringWithFormat:@"报修内容：%@", repairInfo.cause];
-        cell.orderTimeView.text = [NSString stringWithFormat:@"时间范围：%ld", repairInfo.long_time];
+        cell.firstView.text = [NSString stringWithFormat:@"时间：%@", repairInfo.fault_time_name];
+        cell.secondView.text = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
+        cell.thirdView.text = [NSString stringWithFormat:@"内容：%@", repairInfo.cause];
     }
-    else
+    else // 维保工单 - 时间、项目、位置、内容
     {
         cell.orderTypeView.text = @"维保";
-        cell.orderTitleView.text = [NSString stringWithFormat:@"报修位置：%@", repairInfo.area];
-        cell.orderPositionView.text = [NSString stringWithFormat:@"报修内容：%@", repairInfo.cause];
-        cell.orderContentView.text = [NSString stringWithFormat:@"时间范围：%ld", repairInfo.long_time];
+        cell.firstView.text = [NSString stringWithFormat:@"时间：%@", repairInfo.fault_time_name];
+        cell.secondView.text = [NSString stringWithFormat:@"项目：%@", repairInfo.faulttype_name];
+        cell.thirdView.text = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
+        cell.forthView.text = [NSString stringWithFormat:@"内容：%@", repairInfo.cause];
     }  
     
     return cell;
