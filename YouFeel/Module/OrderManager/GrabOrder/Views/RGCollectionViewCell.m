@@ -203,8 +203,8 @@
         }
         if (imgArray.count > 0)
         {
-            NSDictionary *image_dic = imgArray[0];
-            [_imageView sd_setImageWithURL:[NSURL URLWithString:[image_dic objectForKey:@"photo_file"]] placeholderImage:placeImage];
+            BXTFaultPicInfo *picInfo = imgArray[0];
+            [_imageView sd_setImageWithURL:[NSURL URLWithString:picInfo.photo_file] placeholderImage:placeImage];
         }
         else
         {
