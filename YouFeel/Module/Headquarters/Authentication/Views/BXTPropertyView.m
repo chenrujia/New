@@ -60,7 +60,7 @@
 
 - (void)transUrl
 {
-    NSString *url = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", self.shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", self.shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     [BXTGlobal shareGlobal].baseURL = url;;
 }
 

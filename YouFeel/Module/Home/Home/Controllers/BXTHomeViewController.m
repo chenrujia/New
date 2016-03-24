@@ -79,11 +79,8 @@
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /** 获取配置参数 **/
-        if ([BXTGlobal shareGlobal].isRepair)
-        {
-            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-            [dataRequest configInfo];
-        }
+        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dataRequest configInfo];
     });
     dispatch_async(concurrentQueue, ^{
         /** 广告页 **/
@@ -535,7 +532,10 @@
         [BXTGlobal writeFileWithfileName:@"arriveArray" Array:arriveArray];
         [BXTGlobal writeFileWithfileName:@"hoursArray" Array:hoursArray];
         
-        SaveValueTUD(@"shop_tel", dataDict[@"shop_tel"]);
+        if (dataDict[@"shop_tel"])
+        {
+            SaveValueTUD(@"shop_tel", dataDict[@"shop_tel"]);
+        }
     }
     else if (type == Ads_Pics)
     {
