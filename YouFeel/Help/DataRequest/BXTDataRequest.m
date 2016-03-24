@@ -120,7 +120,7 @@
     
     SaveValueTUD(@"BranchResign_shopID", shopID);
     
-    NSString *urlLast = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *urlLast = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",urlLast];
     
     [self postRequest:url withParameters:dic];
@@ -344,16 +344,34 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)ListOfRepairOrderWithTaskType:(NSString *)task_type
                               FaultID:(NSString *)fault_id
                              RepairID:(NSString *)repair_id
+                          FaulttypeID:(NSString *)faulttype_id
+                                Order:(NSString *)order
+                          DispatchUid:(NSString *)dispatch_uid
+                            RepairUid:(NSString *)repair_uid
+                         DailyTimeout:(NSString *)daily_timeout
+                    InspectionTimeout:(NSString *)inspection_timeout
+                             TimeName:(NSString *)timename
+                             TmeStart:(NSString *)timestart
+                             TimeOver:(NSString *)timeover
                                  Page:(NSInteger)page
 {
     self.requestType = RepairList;
-    NSDictionary *dic = @{@"task_type":task_type,
-                          @"fault_id":fault_id,
-                          @"repair_id":repair_id,
+    NSDictionary *dic = @{@"task_type": task_type,
+                          @"fault_id": fault_id,
+                          @"repair_id": repair_id,
+                          @"faulttype_id": faulttype_id,
+                          @"order": order,
+                          @"dispatch_uid": dispatch_uid,
+                          @"repair_uid": repair_uid,
+                          @"daily_timeout": daily_timeout,
+                          @"inspection_timeout": inspection_timeout,
+                          @"timename": timename,
+                          @"timestart": timestart,
+                          @"timeover": timeover,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
     
-    NSString *url = @"http://api.hellouf.com/?module=Repair&opt=repair_list&shop_id=11";
+    NSString *url = @"http://api.51bxt.com/?module=Repair&opt=repair_lists&shop_id=11";
     [self postRequest:url withParameters:dic];
 }
 
@@ -1000,7 +1018,7 @@ andRepairerIsReacive:(NSString *)reacive
     SaveValueTUD(@"shopID_Special", shopID);
     
     NSDictionary *dic = @{@"id": userID};
-    NSString *baseURL = [NSString stringWithFormat:@"http://api.hellouf.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *baseURL = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_con", baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -1108,7 +1126,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"http://admin.hellouf.com/?r=port/Get_Android_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
+    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
     [self getRequest:url];
 }
 
@@ -1118,7 +1136,7 @@ andRepairerIsReacive:(NSString *)reacive
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"http://admin.hellouf.com/?r=port/Get_Android_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", shopID];
+    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", shopID];
     [self getRequest:url];
 }
 

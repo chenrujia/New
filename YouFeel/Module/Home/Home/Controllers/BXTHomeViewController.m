@@ -75,21 +75,21 @@
 
 #pragma mark -
 #pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-    [self showLoadingMBP:@"数据加载中..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /** 获取配置参数 **/
-        if ([BXTGlobal shareGlobal].isRepair)
-        {
-            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-            [dataRequest configInfo];
-        }
-    });
-    dispatch_async(concurrentQueue, ^{
-        /** 广告页 **/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request advertisementPages];
-    });
+//    [self showLoadingMBP:@"数据加载中..."];
+//    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_async(concurrentQueue, ^{
+//        /** 获取配置参数 **/
+//        if ([BXTGlobal shareGlobal].isRepair)
+//        {
+//            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+//            [dataRequest configInfo];
+//        }
+//    });
+//    dispatch_async(concurrentQueue, ^{
+//        /** 广告页 **/
+//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//        [request advertisementPages];
+//    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
