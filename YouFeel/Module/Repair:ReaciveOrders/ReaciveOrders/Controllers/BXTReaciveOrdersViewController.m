@@ -35,8 +35,13 @@
     NSString          *repairEndTime;
 }
 
-@property (nonatomic, strong) NSString       *taskType;
+@property (nonatomic, copy) NSString       *taskType;
 @property (nonatomic, assign) NSInteger       currentPage;
+
+@property (nonatomic, copy) NSString *filterOfGroup;
+@property (nonatomic, copy) NSString *filterOfState;
+@property (nonatomic, copy) NSString *filterOfAreas;
+@property (nonatomic, copy) NSString *filterOfTime;
 
 @end
 
@@ -57,6 +62,10 @@
     [super viewDidLoad];
     repairBeginTime = @"";
     repairEndTime = @"";
+    self.filterOfGroup = @"";
+    self.filterOfState = @"";
+    self.filterOfAreas = @"";
+    self.filterOfTime = @"";
     
     [self resignNotifacation];
     
@@ -80,14 +89,19 @@
     [self showLoadingMBP:@"努力加载中..."];
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairerList:@"1"
-                  andPage:self.currentPage
-                 andPlace:@"0"
-            andDepartment:@"0"
-             andBeginTime:@"0"
-               andEndTime:@"0"
-             andFaultType:@"0"
-              andTaskType:self.taskType];
+    [request ListOfRepairOrderWithTaskType:self.taskType
+                                   FaultID:@""
+                                  RepairID:@""
+                               FaulttypeID:@""
+                                     Order:@""
+                               DispatchUid:@""
+                                 RepairUid:@""
+                              DailyTimeout:self.filterOfState
+                         InspectionTimeout:@""
+                                  TimeName:@""
+                                  TmeStart:@""
+                                  TimeOver:@""
+                                      Page:1];
 }
 
 #pragma mark -
@@ -97,7 +111,7 @@
     groupArray = [NSMutableArray arrayWithObjects:@"分组", nil];
     stateArray = [NSMutableArray arrayWithObjects:@"状态", @"正常工单", @"超时工单", nil];
     areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
-    timesArray = [NSMutableArray arrayWithObjects:@"时间",@"1天",@"2天",@"3天",@"1周",@"1个月",@"3个月", nil];
+    timesArray = [NSMutableArray arrayWithObjects:@"时间",@"今天",@"3天内",@"7天内",@"本月",@"本年", nil];
     
     
     // 添加下拉菜单
@@ -134,34 +148,33 @@
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**获取报修列表**/
-//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [request ListOfRepairOrderWithTaskType:self.taskType
-//                                       FaultID:@""
-//                                      RepairID:@""
-//                                          Page:1];
-        
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request repairerList:@"1"
-                      andPage:1
-                     andPlace:@"0"
-                andDepartment:@"0"
-                 andBeginTime:@"0"
-                   andEndTime:@"0"
-                 andFaultType:@"0"
-                  andTaskType:self.taskType];
+        [request ListOfRepairOrderWithTaskType:self.taskType
+                                       FaultID:@""
+                                      RepairID:@""
+                                   FaulttypeID:@""
+                                         Order:@""
+                                   DispatchUid:@""
+                                     RepairUid:@""
+                                  DailyTimeout:@""
+                             InspectionTimeout:@""
+                                      TimeName:@""
+                                      TmeStart:@""
+                                      TimeOver:@""
+                                          Page:1];
     });
 #pragma mark -
 #pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-//    dispatch_async(concurrentQueue, ^{
-//        /**请求位置**/
-//        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [location_request shopLocation];
-//    });
-//    dispatch_async(concurrentQueue, ^{
-//        /**请求故障类型列表**/
-//        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [fau_request faultTypeListWithRTaskType:@"all"];
-//    });
+    //    dispatch_async(concurrentQueue, ^{
+    //        /**请求位置**/
+    //        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+    //        [location_request shopLocation];
+    //    });
+    //    dispatch_async(concurrentQueue, ^{
+    //        /**请求故障类型列表**/
+    //        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+    //        [fau_request faultTypeListWithRTaskType:@"all"];
+    //    });
     
     
     self.currentPage = 1;
@@ -236,7 +249,7 @@
         cell.secondView.text = [NSString stringWithFormat:@"项目：%@", repairInfo.faulttype_name];
         cell.thirdView.text = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
         cell.forthView.text = [NSString stringWithFormat:@"内容：%@", repairInfo.cause];
-    }  
+    }
     
     return cell;
 }
@@ -388,29 +401,25 @@
             NSString *time = timesArray[indexPath.row];
             NSTimeInterval endTime = [NSDate date].timeIntervalSince1970;
             NSTimeInterval beginTime;
-            if ([time isEqualToString:@"1天"])
+            if ([time isEqualToString:@"今天"])
             {
                 beginTime = endTime - 86400;
             }
-            else if ([time isEqualToString:@"2天"])
-            {
-                beginTime = endTime - 172800;
-            }
-            else if ([time isEqualToString:@"3天"])
+            else if ([time isEqualToString:@"3天内"])
             {
                 beginTime = endTime - 259200;
             }
-            else if ([time isEqualToString:@"1周"])
+            else if ([time isEqualToString:@"7天内"])
             {
                 beginTime = endTime - 604800;
             }
-            else if ([time isEqualToString:@"1个月"])
+            else if ([time isEqualToString:@"本月"])
             {
                 beginTime = endTime - 2592000;
             }
-            else if ([time isEqualToString:@"3个月"])
+            else if ([time isEqualToString:@"今年"])
             {
-                beginTime = endTime - 7776000;
+                beginTime = endTime - 31536000;
             }
             
             repairBeginTime = [NSString stringWithFormat:@"%.0f",beginTime];

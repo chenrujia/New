@@ -344,12 +344,30 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)ListOfRepairOrderWithTaskType:(NSString *)task_type
                               FaultID:(NSString *)fault_id
                              RepairID:(NSString *)repair_id
+                          FaulttypeID:(NSString *)faulttype_id
+                                Order:(NSString *)order
+                          DispatchUid:(NSString *)dispatch_uid
+                            RepairUid:(NSString *)repair_uid
+                         DailyTimeout:(NSString *)daily_timeout
+                    InspectionTimeout:(NSString *)inspection_timeout
+                             TimeName:(NSString *)timename
+                             TmeStart:(NSString *)timestart
+                             TimeOver:(NSString *)timeover
                                  Page:(NSInteger)page
 {
     self.requestType = RepairList;
-    NSDictionary *dic = @{@"task_type":task_type,
-                          @"fault_id":fault_id,
-                          @"repair_id":repair_id,
+    NSDictionary *dic = @{@"task_type": task_type,
+                          @"fault_id": fault_id,
+                          @"repair_id": repair_id,
+                          @"faulttype_id": faulttype_id,
+                          @"order": order,
+                          @"dispatch_uid": dispatch_uid,
+                          @"repair_uid": repair_uid,
+                          @"daily_timeout": daily_timeout,
+                          @"inspection_timeout": inspection_timeout,
+                          @"timename": timename,
+                          @"timestart": timestart,
+                          @"timeover": timeover,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
     

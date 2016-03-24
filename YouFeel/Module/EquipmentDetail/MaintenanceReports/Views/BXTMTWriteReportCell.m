@@ -1,21 +1,21 @@
 //
-//  BXTMTReportsCell.m
+//  BXTMTWriteReportCell.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/3/23.
+//  Created by 满孝意 on 16/3/24.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTMTReportsCell.h"
+#import "BXTMTWriteReportCell.h"
 
-@implementation BXTMTReportsCell
+@implementation BXTMTWriteReportCell
 
 + (instancetype)cellWithTableViewCell:(UITableView *)tableView
 {
-    static NSString *cellID = @"ReportsCell";
-    BXTMTReportsCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    static NSString *cellID = @"WriteReportCell";
+    BXTMTWriteReportCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTReportsCell" owner:nil options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTWriteReportCell" owner:nil options:nil] lastObject];
     }
     
     

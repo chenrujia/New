@@ -192,9 +192,18 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  获取工单列表
  */
-- (void)ListOfRepairOrderWithTaskType:(NSString *)task_type
-                              FaultID:(NSString *)fault_id
-                             RepairID:(NSString *)repair_id
+- (void)ListOfRepairOrderWithTaskType:(NSString *)task_type // 工单任务类型 1正常工单 2维保工单
+                              FaultID:(NSString *)fault_id // 报修人的用户id
+                             RepairID:(NSString *)repair_id // 维修人的用户id
+                          FaulttypeID:(NSString *)faulttype_id // 故障类型id
+                                Order:(NSString *)order // 排序 1按排序顺序排序
+                          DispatchUid:(NSString *)dispatch_uid // 维修员的用户id（维修员获取被指派的任务）
+                            RepairUid:(NSString *)repair_uid // 维修员的用户id（维修员获取自己的工单列表）
+                         DailyTimeout:(NSString *)daily_timeout // 正常工单筛选是否超时 1超时 2正常
+                    InspectionTimeout:(NSString *)inspection_timeout // 维保工单过期查询 1超时 2将要超时
+                             TimeName:(NSString *)timename
+                            TmeStart:(NSString *)timestart
+                             TimeOver:(NSString *)timeover
                                  Page:(NSInteger)page;
 
 /**

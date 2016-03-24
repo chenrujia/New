@@ -16,6 +16,7 @@
 #import "BXTAddOtherManInfo.h"
 #import "BXTChooseFaultViewController.h"
 #import "BXTMTAddImageCell.h"
+#import "BXTMTWriteReportCell.h"
 
 #define MOBILE 11
 #define CAUSE 12
@@ -101,7 +102,9 @@
 #pragma mark 初始化视图
 - (void)createUI
 {
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 70.f)];
+    CGFloat bgViewH = 60;
+    
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - bgViewH)];
     self.currentTableView = [[UITableView alloc] initWithFrame:backView.bounds style:UITableViewStyleGrouped];
     self.currentTableView.delegate = self;
     self.currentTableView.dataSource = self;
@@ -109,12 +112,12 @@
     [self.view addSubview:backView];
     
     
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 70.f, SCREEN_WIDTH, 70.f)];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - bgViewH, SCREEN_WIDTH, bgViewH)];
     footerView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:footerView];
     
     UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    doneBtn.frame = CGRectMake((SCREEN_WIDTH-200)/2, 10, 200, 50.f);
+    doneBtn.frame = CGRectMake((SCREEN_WIDTH-200)/2, 10, 200, bgViewH-20);
     [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
     [doneBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
@@ -126,11 +129,6 @@
         [self sureBtnClick];
     }];
     [footerView addSubview:doneBtn];
-}
-
-- (void)createMTReports
-{
-    
 }
 
 - (void)sureBtnClick
@@ -206,6 +204,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 3) {
+        return 140;
+    }
     if (indexPath.section == 4)
     {
         return 130;
@@ -225,8 +226,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 3) {
-        [self createMTReports];
+    if (indexPath.section == 3)
+    {
+        BXTMTWriteReportCell *cell = [BXTMTWriteReportCell cellWithTableViewCell:tableView];
+        
+        cell.textView.text = @"请填写维修记录";
+        cell.textView.delegate = self;
+        
+        return cell;
     }
     else if (indexPath.section == 4)
     {
@@ -329,7 +336,7 @@
 #pragma mark UITextViewDelegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:@"请输入报修内容"])
+    if ([textView.text isEqualToString:@"请填写维修记录"])
     {
         textView.text = @"";
     }
@@ -341,7 +348,7 @@
     cause = textView.text;
     if (textView.text.length < 1)
     {
-        textView.text = @"请输入报修内容";
+        textView.text = @"请填写维修记录";
     }
 }
 
