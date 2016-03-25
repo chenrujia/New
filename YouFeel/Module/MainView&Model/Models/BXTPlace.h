@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class Lists;
+@class BXTLists;
 @interface BXTPlace : NSObject
 
 
@@ -18,33 +18,9 @@
 
 @property (nonatomic, copy) NSString *del_state;
 
-@property (nonatomic, copy) NSString *PlaceID;
+@property (nonatomic, copy) NSString *placeID;
 
-@property (nonatomic, strong) NSArray<Lists *> *lists;
-
-@property (nonatomic, copy) NSString *level;
-
-@property (nonatomic, copy) NSString *lng;
-
-@property (nonatomic, copy) NSString *lat;
-
-@property (nonatomic, copy) NSString *place;
-
-@property (nonatomic, copy) NSString *ppath;
-
-
-@end
-@interface Lists : NSObject
-
-@property (nonatomic, copy) NSString *pid;
-
-@property (nonatomic, copy) NSString *sort;
-
-@property (nonatomic, copy) NSString *del_state;
-
-@property (nonatomic, copy) NSString *subPlaceID;
-
-@property (nonatomic, strong) NSArray *lists;
+@property (nonatomic, strong) NSArray<BXTPlace *> *lists;
 
 @property (nonatomic, copy) NSString *level;
 
@@ -55,6 +31,7 @@
 @property (nonatomic, copy) NSString *place;
 
 @property (nonatomic, copy) NSString *ppath;
+
 
 @end
 

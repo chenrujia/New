@@ -10,13 +10,8 @@
 
 @implementation BXTPlace
 
-
 + (NSDictionary *)objectClassInArray{
-    return @{@"lists" : [Lists class]};
+    return @{@"lists" : [BXTPlace class]};
 }
 @end
-@implementation Lists
-
-@end
-
 
