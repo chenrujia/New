@@ -286,7 +286,7 @@
     {
         if (indexPath.row == 0 || indexPath.row > areasArray.count - 1) return nil;
         BXTPlace *place = areasArray[indexPath.row];
-        Lists *lists = place.lists[indexPath.item];
+        BXTPlace *lists = place.lists[indexPath.item];
         return lists.place;
     }
     
@@ -302,8 +302,8 @@
         if (indexPath.column == 2)
         {
             BXTPlace *place = areasArray[indexPath.row];
-            Lists *lists = place.lists[indexPath.item];
-            self.filterOfAreasID = lists.subPlaceID;
+            BXTPlace *lists = place.lists[indexPath.item];
+            self.filterOfAreasID = lists.placeID;
         }
     }
     else
@@ -527,9 +527,6 @@
     {
         [BXTPlace mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"placeID": @"id"};
-        }];
-        [Lists mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"subPlaceID": @"id"};
         }];
         [areasArray addObjectsFromArray:[BXTPlace mj_objectArrayWithKeyValuesArray:data]];
     }
