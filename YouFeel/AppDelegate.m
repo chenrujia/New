@@ -19,6 +19,7 @@
 #import "BXTNewOrderViewController.h"
 #import "BXTGrabOrderViewController.h"
 #import "BXTRemindNum.h"
+#import "BXTPlace.h"
 
 #import "CYLTabBarControllerConfig.h"
 
@@ -107,7 +108,12 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 //    {
 //        [self loadingGuideView];
 //    }
-//    
+//
+    
+    /**请求位置**/
+    BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [location_request listOFPlace];
+    
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
@@ -564,7 +570,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)requestResponseData:(id)response
                 requeseType:(RequestType)type
 {
-    NSLog(@"%@", response);
     NSDictionary *dic = response;
     if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
@@ -630,6 +635,16 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     else if (type == UpdateHeadPic)
     {
         NSLog(@"Update success");
+    }
+    else if (type == PlaceLists)
+    {
+        NSArray *data = [dic objectForKey:@"data"];
+
+        // 存数组
+        [BXTGlobal writeFileWithfileName:@"SaveAreasArray" Array:(NSMutableArray *)data];
+        
+        // 取数组        
+        NSLog(@"------------------------%@", [BXTGlobal readFileWithfileName:@"SaveAreasArray"]);
     }
     else
     {
