@@ -639,10 +639,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     else if (type == PlaceLists)
     {
         NSArray *data = [dic objectForKey:@"data"];
-        
         // 存数组
         [BXTGlobal writeFileWithfileName:@"SaveAreasArray" Array:(NSMutableArray *)data];
-        
         // 取数组
         NSArray *hhhArray = [BXTGlobal readFileWithfileName:@"SaveAreasArray"];
         
