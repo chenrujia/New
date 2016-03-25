@@ -9,46 +9,14 @@
 #import "BXTMTReportsViewController.h"
 #import "BXTHeaderForVC.h"
 #import "BXTMTReportsCell.h"
-#import "UIImage+SubImage.h"
-#import "BXTFaultInfo.h"
-#import "BXTShopLocationViewController.h"
-#import "BXTAddOtherManViewController.h"
-#import "BXTAddOtherManInfo.h"
-#import "BXTChooseFaultViewController.h"
 #import "BXTMTAddImageCell.h"
 #import "BXTMTWriteReportCell.h"
-
-#define MOBILE 11
-#define CAUSE 12
+#import "UIImage+SubImage.h"
 
 @interface BXTMTReportsViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,BXTDataResponseDelegate>
 {
-    BXTFaultTypeInfo *fault_type_info;
-    BXTFaultInfo     *selectFaultInfo;
-    BXTFaultTypeInfo *selectFaultTypeInfo;
-    NSMutableArray   *dep_dataSource;
-    NSMutableArray   *fau_dataSource;
-    NSString         *cause;
-    
-    
-    NSMutableArray   *manIDs;
-    NSInteger        faulttype_type;
-    NSString         *address;
+    UIView *bgView;
 }
-
-@property (nonatomic ,strong) NSMutableArray *mans;
-@property (nonatomic ,strong) NSString       *faultType;
-@property (nonatomic, strong) NSString       *repairState;
-
-@property (nonatomic, copy) NSString *faulttypeID;
-@property (nonatomic, copy) NSString *faulttype_typeID;
-@property (nonatomic, copy) NSString *faultStr;
-/**  0  area_id        1  area_name
- *    2  place_id       3  place_name
- *    4  stores_id      5  stores_name
- *    6  device_ids   7  name
- */
-@property (nonatomic, strong) NSArray *addressIDArray;
 
 @property (nonatomic, strong) NSMutableArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -69,14 +37,8 @@
     //侦听删除事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
     
-    manIDs = [NSMutableArray array];
-    self.mans = [NSMutableArray array];
     [BXTGlobal shareGlobal].maxPics = 4;
-    self.repairState = @"2";
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
-    dep_dataSource = [[NSMutableArray alloc] init];
-    fau_dataSource = [[NSMutableArray alloc] init];
-    address = @"请选择位置";
     
     self.titleArray = [[NSMutableArray alloc] initWithObjects:@"维修结果", @"维修位置", @"故障类型", @"", @"", @"结束时间", nil];
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"请选择", @"请选择", @"请选择", @"", @"", @"请选择", nil];
@@ -133,61 +95,17 @@
 
 - (void)sureBtnClick
 {
-    if ([address isEqualToString:@"请选择位置"]) {
-        [self showAlertView:@"请选择商铺所在位置"];
-        return;
-    }
-    if ([self.faultType isEqualToString:@"请选择故障类型"])
-    {
-        [self showAlertView:@"请选择故障类型"];
-        return;
-    }
-    if ([BXTGlobal isBlankString:cause])
-    {
-        [self showAlertView:@"请输入故障原因"];
-        return;
-    }
-    if (faulttype_type == 0)
-    {
-        faulttype_type = 1;
-    }
     
-    [self showLoadingMBP:@"新工单创建中..."];
-    
-    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-    /**请求新建工单**/
-    BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [rep_request createRepair:self.faulttypeID
-               faultType_type:self.faulttype_typeID
-                    deviceIDs:self.addressIDArray[6]
-                   faultCause:cause
-                   faultLevel:self.repairState
-                  depatmentID:departmentInfo.dep_id
-                  floorInfoID:self.addressIDArray[0]
-                   areaInfoId:self.addressIDArray[2]
-                   shopInfoID:self.addressIDArray[4]
-                    equipment:@"0"
-                   faultNotes:@""
-                   imageArray:self.resultPhotos
-              repairUserArray:manIDs];
 }
 
-- (void)showAlertView:(NSString *)title
+- (void)createSelectedView
 {
-    if (IS_IOS_8)
-    {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            
-        }];
-        [alertCtr addAction:doneAction];
-        [self.navigationController presentViewController:alertCtr animated:YES completion:nil];
-    }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
-    }
+    bgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    bgView.tag = 101;
+    [self.view addSubview:bgView];
+    
+    
 }
 
 #pragma mark -
@@ -281,55 +199,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
-    {
-        @weakify(self);
-        BXTShopLocationViewController *shopLocationVC = [[BXTShopLocationViewController alloc] initWithIsResign:NO andBlock:^{
-            @strongify(self);
-            [self.currentTableView reloadData];
-        }];
-        shopLocationVC.delegateSignal = [RACSubject subject];
-        [shopLocationVC.delegateSignal subscribeNext:^(NSArray *array) {
-            self.addressIDArray = [[NSArray alloc] initWithArray:array];
-            if ([BXTGlobal isBlankString:self.addressIDArray[5]]) {
-                address = [NSString stringWithFormat:@"%@-%@", self.addressIDArray[1], self.addressIDArray[3]];
-            }
-            else {
-                address = [NSString stringWithFormat:@"%@-%@-%@", self.addressIDArray[1], self.addressIDArray[3], self.addressIDArray[5]];
-            }
-            NSLog(@"--------------- %@", array);
-            [self.currentTableView reloadData];
-        }];
-        [self.navigationController pushViewController:shopLocationVC animated:YES];
-    }
-    if (indexPath.section == 1)
-    {
-        BXTChooseFaultViewController *cfvc = [[BXTChooseFaultViewController alloc] init];
-        cfvc.delegateSignal = [RACSubject subject];
-        [cfvc.delegateSignal subscribeNext:^(NSArray *transArray) {
-            NSString *transID = transArray[0];
-            NSLog(@"---------- %@", transID);
-            
-            self.faultStr = transArray[1];
-            if ([transID isEqualToString:@"other"]) {
-                self.faulttypeID = @"";
-                self.faulttype_typeID = @"1";
-            }
-            else {
-                self.faulttypeID = transID;
-                self.faulttype_typeID = @"";
-            }
-            [self.currentTableView reloadData];
-        }];
-        [self.navigationController pushViewController:cfvc animated:YES];
+    if (indexPath.section == 0) {
+        [self createSelectedView];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self.view endEditing:YES];
 }
 
 #pragma mark -
@@ -345,7 +219,6 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    cause = textView.text;
     if (textView.text.length < 1)
     {
         textView.text = @"请填写维修记录";
@@ -358,21 +231,39 @@
 {
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == DepartmentType)
-    {
-        if (data.count)
-        {
-            [BXTDepartmentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-                return @{@"dep_id":@"id"};
-            }];
-            [dep_dataSource addObjectsFromArray:[BXTDepartmentInfo mj_objectArrayWithKeyValuesArray:data]];
-        }
-    }
+    
 }
 
 - (void)requestError:(NSError *)error
 {
     [self hideMBP];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+    
+    
+    UITouch *touch = [touches anyObject];
+    UIView *view = touch.view;
+    if (view.tag == 101)
+    {
+//        if (_datePicker)
+//        {
+//            [_datePicker removeFromSuperview];
+//            _datePicker = nil;
+//        }
+        [view removeFromSuperview];
+    }
+    else if (view.tag == 102)
+    {
+//        if (_selectTableView) {
+//            [self.mulitSelectArray removeAllObjects];
+//            [_selectTableView removeFromSuperview];
+//            _selectTableView = nil;
+//        }
+        [view removeFromSuperview];
+    }
 }
 
 - (void)didReceiveMemoryWarning

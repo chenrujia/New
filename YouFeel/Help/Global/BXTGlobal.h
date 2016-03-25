@@ -128,6 +128,11 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
 + (NSArray *)dayStartAndEnd;
 
 /**
+ *  获取几天前及今天的数组
+ */
++ (NSArray *)dayOfCountStartAndEnd:(NSInteger)count;
+
+/**
  * 获取年月日数组
  */
 + (NSArray *)yearAndmonthAndDay;

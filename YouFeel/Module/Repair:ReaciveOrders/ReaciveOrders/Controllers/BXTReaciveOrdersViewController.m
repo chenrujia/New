@@ -8,9 +8,10 @@
 
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTHeaderForVC.h"
-#import "BXTRepairInfo.h"
 #import "DOPDropDownMenu.h"
-#import "BXTFaultInfo.h"
+#import "BXTRepairInfo.h"
+#import "BXTSubgroup.h"
+#import "BXTPlace.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "BXTMaintenanceDetailViewController.h"
 #import <MJRefresh.h>
@@ -19,29 +20,27 @@
 
 @interface BXTReaciveOrdersViewController ()<DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 {
-    NSMutableArray    *ordersArray;
-    
-    NSMutableArray    *groupArray;
-    NSMutableArray    *stateArray;
-    NSMutableArray    *areasArray;
-    NSMutableArray    *timesArray;
-    
-    UITableView       *currentTableView;
-    
-    BXTAreaInfo       *selectArea;
-    BXTFaultTypeInfo  *selectFaultType;
-    NSInteger selectDepartment;
-    NSString          *repairBeginTime;
-    NSString          *repairEndTime;
+    // 筛选数组
+    NSMutableArray *groupArray;
+    NSMutableArray *stateArray;
+    NSMutableArray *areasArray;
+    NSMutableArray *timesArray;
 }
 
-@property (nonatomic, copy) NSString       *taskType;
-@property (nonatomic, assign) NSInteger       currentPage;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *ordersArray;
 
-@property (nonatomic, copy) NSString *filterOfGroup;
-@property (nonatomic, copy) NSString *filterOfState;
-@property (nonatomic, copy) NSString *filterOfAreas;
-@property (nonatomic, copy) NSString *filterOfTime;
+@property (nonatomic, copy) NSString *taskType;
+@property (nonatomic, assign) NSInteger currentPage;
+
+@property (nonatomic, copy) NSString *filterOfGroupID;
+@property (nonatomic, copy) NSString *filterOfStateDaily;
+@property (nonatomic, copy) NSString *filterOfAreasID;
+@property (nonatomic, copy) NSString *filterOfTimeBegain;
+@property (nonatomic, copy) NSString *filterOfTimeEnd;
+
+// 维保
+@property (nonatomic, copy) NSString *filterOfStateInspection;
 
 @end
 
@@ -60,14 +59,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    repairBeginTime = @"";
-    repairEndTime = @"";
-    self.filterOfGroup = @"";
-    self.filterOfState = @"";
-    self.filterOfAreas = @"";
-    self.filterOfTime = @"";
-    
-    [self resignNotifacation];
     
     if ([_taskType integerValue] == 1)
     {
@@ -78,10 +69,20 @@
         [self navigationSetting:@"维保工单" andRightTitle:nil andRightImage:nil];
     }
     
+    
+    self.filterOfGroupID = @"";
+    self.filterOfStateDaily = @"";
+    self.filterOfAreasID = @"";
+    self.filterOfTimeBegain = @"";
+    self.filterOfTimeEnd = @"";
+    
+    self.filterOfStateInspection = @"";
+    
+    
+    [self resignNotifacation];
     [self createDOP];
     [self createTableView];
     [self requestData];
-    
 }
 
 - (void)getResource
@@ -91,17 +92,20 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOfRepairOrderWithTaskType:self.taskType
                                    FaultID:@""
-                                  RepairID:@""
                                FaulttypeID:@""
                                      Order:@""
                                DispatchUid:@""
                                  RepairUid:@""
-                              DailyTimeout:self.filterOfState
-                         InspectionTimeout:@""
-                                  TimeName:@""
-                                  TmeStart:@""
-                                  TimeOver:@""
-                                      Page:1];
+                              DailyTimeout:self.filterOfStateDaily
+                         InspectionTimeout:self.filterOfStateInspection
+                                  TimeName:@"fault_time"
+                                  TmeStart:self.filterOfTimeBegain
+                                  TimeOver:self.filterOfTimeEnd
+                                SubgroupID:self.filterOfGroupID
+                                   PlaceID:self.filterOfAreasID
+                               RepairState:@""
+                                     State:@""
+                                      Page:self.currentPage];
 }
 
 #pragma mark -
@@ -109,7 +113,12 @@
 - (void)createDOP
 {
     groupArray = [NSMutableArray arrayWithObjects:@"分组", nil];
-    stateArray = [NSMutableArray arrayWithObjects:@"状态", @"正常工单", @"超时工单", nil];
+    if ([_taskType integerValue] == 1) {
+        stateArray = [NSMutableArray arrayWithObjects:@"状态", @"正常工单", @"超时工单", nil];
+    }
+    else {
+     stateArray = [NSMutableArray arrayWithObjects:@"状态", @"未到期", @"即将到期", @"已过期", nil];
+    }
     areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
     timesArray = [NSMutableArray arrayWithObjects:@"时间",@"今天",@"3天内",@"7天内",@"本月",@"本年", nil];
     
@@ -123,22 +132,24 @@
 
 - (void)createTableView
 {
-    ordersArray = [[NSMutableArray alloc] init];
+    self.ordersArray = [[NSMutableArray alloc] init];
     
-    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 108, SCREEN_WIDTH, SCREEN_HEIGHT - 108) style:UITableViewStyleGrouped];
-    currentTableView.delegate = self;
-    currentTableView.dataSource = self;
-    currentTableView.emptyDataSetDelegate = self;
-    currentTableView.emptyDataSetSource = self;
-    [self.view addSubview:currentTableView];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 108, SCREEN_WIDTH, SCREEN_HEIGHT - 108) style:UITableViewStyleGrouped];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.emptyDataSetSource = self;
+    [self.view addSubview:self.tableView];
 }
 
 #pragma mark -
 #pragma mark 事件处理
 - (void)resignNotifacation
 {
+    @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ReaciveOrderSuccess" object:nil] subscribeNext:^(id x) {
-        [currentTableView reloadData];
+        @strongify(self);
+        [self.tableView reloadData];
     }];
 }
 
@@ -151,129 +162,43 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request listOfRepairOrderWithTaskType:self.taskType
                                        FaultID:@""
-                                      RepairID:@""
                                    FaulttypeID:@""
                                          Order:@""
                                    DispatchUid:@""
                                      RepairUid:@""
                                   DailyTimeout:@""
                              InspectionTimeout:@""
-                                      TimeName:@""
+                                      TimeName:@"fault_time"
                                       TmeStart:@""
                                       TimeOver:@""
+                                    SubgroupID:@""
+                                       PlaceID:@""
+                                   RepairState:@""
+                                         State:@""
                                           Page:1];
     });
-#pragma mark -
-#pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-    //    dispatch_async(concurrentQueue, ^{
-    //        /**请求位置**/
-    //        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    //        [location_request shopLocation];
-    //    });
-    //    dispatch_async(concurrentQueue, ^{
-    //        /**请求故障类型列表**/
-    //        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    //        [fau_request faultTypeListWithRTaskType:@"all"];
-    //    });
+    dispatch_async(concurrentQueue, ^{
+        /**请求位置**/
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlace];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**请求故障类型列表**/
+        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [fau_request listOFSubgroup];
+    });
     
     
     self.currentPage = 1;
     __block __typeof(self) weakSelf = self;
-    currentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
         [weakSelf getResource];
     }];
-    currentTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         weakSelf.currentPage++;
         [weakSelf getResource];
     }];
-}
-
-- (NSString *)transTimeStampToTime:(NSString *)timeStr
-{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
-    NSString *dateTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[timeStr doubleValue]]];
-    return dateTime;
-}
-
-#pragma mark -
-#pragma mark UITableViewDelegate & UITableViewDatasource
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 0.1f;//section头部高度
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 10.f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 140.f;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return [ordersArray count];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    BXTMainTableViewCell *cell = [BXTMainTableViewCell cellWithTableView:tableView];
-    
-    BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:indexPath.section];
-    
-    cell.orderNumView.text = [NSString stringWithFormat:@"编号:%@", repairInfo.orderid];
-    cell.orderGroupView.text = [NSString stringWithFormat:@"%@  ", repairInfo.subgroup_name];
-    cell.orderStateView.text = [NSString stringWithFormat:@"%@", repairInfo.repairstate_name];
-    
-    // 日常工单 - 时间、位置、内容
-    if ([_taskType integerValue] == 1)
-    {
-        cell.orderTypeView.text = @"日常";
-        cell.firstView.text = [NSString stringWithFormat:@"时间：%@", repairInfo.fault_time_name];
-        cell.secondView.text = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
-        cell.thirdView.text = [NSString stringWithFormat:@"内容：%@", repairInfo.cause];
-    }
-    else // 维保工单 - 时间、项目、位置、内容
-    {
-        cell.orderTypeView.text = @"维保";
-        cell.firstView.text = [NSString stringWithFormat:@"时间：%@", repairInfo.fault_time_name];
-        cell.secondView.text = [NSString stringWithFormat:@"项目：%@", repairInfo.faulttype_name];
-        cell.thirdView.text = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
-        cell.forthView.text = [NSString stringWithFormat:@"内容：%@", repairInfo.cause];
-    }
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    BXTRepairInfo *repairInfo = [ordersArray objectAtIndex:indexPath.section];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-    [repairDetailVC dataWithRepairID:repairInfo.repairID];
-    [self.navigationController pushViewController:repairDetailVC animated:YES];
-}
-
-#pragma mark -
-#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
-{
-    NSString *text = @"没有符合条件的工单";
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
-                                 NSForegroundColorAttributeName:[UIColor blackColor]};
-    
-    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 #pragma mark -
@@ -308,8 +233,8 @@
     if (indexPath.column == 0)
     {
         if (indexPath.row == 0) return groupArray[0];
-        BXTFaultInfo *fault = groupArray[indexPath.row];
-        return fault.faulttype_type;
+        BXTSubgroup *subgroup = groupArray[indexPath.row];
+        return subgroup.subgroup;
     }
     else if (indexPath.column == 1)
     {
@@ -318,8 +243,8 @@
     else if (indexPath.column == 2)
     {
         if (indexPath.row == 0) return areasArray[0];
-        BXTFloorInfo *floor = areasArray[indexPath.row];
-        return floor.area_name;
+        BXTPlace *place = areasArray[indexPath.row];
+        return place.place;
     }
     else
     {
@@ -332,8 +257,8 @@
     if (column == 2)
     {
         if (row == 0  || row > areasArray.count - 1) return 0;
-        BXTFloorInfo *floor = areasArray[row];
-        return floor.place.count;
+        BXTPlace *place = areasArray[row];
+        return place.lists.count;
     }
     
     return 0;
@@ -344,9 +269,9 @@
     if (indexPath.column == 2)
     {
         if (indexPath.row == 0 || indexPath.row > areasArray.count - 1) return nil;
-        BXTFloorInfo *floor = areasArray[indexPath.row];
-        BXTAreaInfo *area = floor.place[indexPath.item];
-        return area.place_name;
+        BXTPlace *place = areasArray[indexPath.row];
+        Lists *lists = place.lists[indexPath.item];
+        return lists.place;
     }
     
     return nil;
@@ -357,92 +282,160 @@
     //判断有无二级菜单
     if (indexPath.item >= 0)
     {
-        //地区
+        // 位置
         if (indexPath.column == 2)
         {
-            BXTFloorInfo *floor = areasArray[indexPath.row];
-            BXTAreaInfo *area = floor.place[indexPath.item];
-            selectArea = area;
-        }
-        //故障类型
-        else if (indexPath.column == 1)
-        {
-            BXTFaultInfo *fault = groupArray[indexPath.row];
-            BXTFaultTypeInfo *faultType = fault.sub_data[indexPath.item];
-            selectFaultType = faultType;
+            BXTPlace *place = areasArray[indexPath.row];
+            Lists *lists = place.lists[indexPath.item];
+            self.filterOfAreasID = lists.subPlaceID;
         }
     }
     else
     {
-        //选择四个栏目中的第一个都要重新请求所有数据
-        if (indexPath.row == 0)
+        // 分组
+        if (indexPath.column == 0)
         {
-            [self showLoadingMBP:@"努力加载中..."];
-            /**获取报修列表**/
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request repairerList:@"1"
-                          andPage:1
-                         andPlace:@"0"
-                    andDepartment:@"0"
-                     andBeginTime:@"0"
-                       andEndTime:@"0"
-                     andFaultType:@"0"
-                      andTaskType:self.taskType];
-            return;
+            if (indexPath.row == 0) {
+                self.filterOfGroupID = @"";
+            }
+            else {
+                BXTSubgroup *subgroup = groupArray[indexPath.row];
+                self.filterOfGroupID = subgroup.subgroupID;
+            }
         }
-        //工单状态
-        else if (indexPath.column == 0)
+        // 状态
+        else if (indexPath.column == 1)
         {
-            selectDepartment = indexPath.row;
+            if ([_taskType integerValue] == 1)
+            {
+                switch (indexPath.row) {
+                    case 0: self.filterOfStateDaily = @""; break;
+                    case 1: self.filterOfStateDaily = @"2"; break;
+                    case 2: self.filterOfStateDaily = @"1"; break;
+                    default: break;
+                }
+            }
+            else
+            {
+                switch (indexPath.row) {
+                    case 0: self.filterOfStateInspection = @""; break;
+                    case 1: self.filterOfStateInspection = @"3"; break;
+                    case 2: self.filterOfStateInspection = @"2"; break;
+                    case 3: self.filterOfStateInspection = @"1"; break;
+                    default: break;
+                }
+            }
+        }
+        else if (indexPath.column == 2)
+        {
+            if (!indexPath.row) {
+                self.filterOfAreasID = @"";
+            }
+            
         }
         //时间
         else if (indexPath.column == 3)
         {
-            NSString *time = timesArray[indexPath.row];
-            NSTimeInterval endTime = [NSDate date].timeIntervalSince1970;
-            NSTimeInterval beginTime;
-            if ([time isEqualToString:@"今天"])
-            {
-                beginTime = endTime - 86400;
+            switch (indexPath.row) {
+                case 0: {
+                    self.filterOfTimeBegain = @"";
+                    self.filterOfTimeEnd = @"";
+                } break;
+                case 1: {
+                    [self transTimeToWhatWeNeed:[BXTGlobal dayStartAndEnd]];
+                } break;
+                case 2: {
+                    [self transTimeToWhatWeNeed:[BXTGlobal dayOfCountStartAndEnd:3]];
+                } break;
+                case 3: {
+                    [self transTimeToWhatWeNeed:[BXTGlobal dayOfCountStartAndEnd:7]];
+                } break;
+                case 4: {
+                    [self transTimeToWhatWeNeed:[BXTGlobal monthStartAndEnd]];
+                } break;
+                case 5: {
+                    [self transTimeToWhatWeNeed:[BXTGlobal yearStartAndEnd]];
+                } break;
+                default: break;
             }
-            else if ([time isEqualToString:@"3天内"])
-            {
-                beginTime = endTime - 259200;
-            }
-            else if ([time isEqualToString:@"7天内"])
-            {
-                beginTime = endTime - 604800;
-            }
-            else if ([time isEqualToString:@"本月"])
-            {
-                beginTime = endTime - 2592000;
-            }
-            else if ([time isEqualToString:@"今年"])
-            {
-                beginTime = endTime - 31536000;
-            }
-            
-            repairBeginTime = [NSString stringWithFormat:@"%.0f",beginTime];
-            repairEndTime = [NSString stringWithFormat:@"%.0f",endTime];
         }
     }
     
-    NSString *place_id = selectArea ? selectArea.place_id : @"";
-    NSString *department_id = [NSString stringWithFormat:@"%ld", selectDepartment];
-    NSString *fault_type_id = selectFaultType ? [NSString stringWithFormat:@"%ld",(long)selectFaultType.fau_id] : @"";
-    
     
     self.currentPage = 1;
-    [self showLoadingMBP:@"努力加载中..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairerList:@"1"
-                  andPage:1
-                 andPlace:place_id
-            andDepartment:department_id
-             andBeginTime:repairBeginTime
-               andEndTime:repairEndTime
-             andFaultType:fault_type_id
-              andTaskType:self.taskType];
+    [self getResource];
+}
+
+- (void)transTimeToWhatWeNeed:(NSArray *)timeArray
+{
+    NSString *begainTime = [NSString stringWithFormat:@"%@ 00:00:00", timeArray[0]];
+    NSString *endTime = [NSString stringWithFormat:@"%@ 23:59:59", timeArray[1]];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    NSDate *begainDate = [dateFormatter dateFromString:begainTime];
+    self.filterOfTimeBegain = [NSString stringWithFormat:@"%ld", (long)[begainDate timeIntervalSince1970]];
+    NSDate *endDate = [dateFormatter dateFromString:endTime];
+    self.filterOfTimeEnd = [NSString stringWithFormat:@"%ld", (long)[endDate timeIntervalSince1970]];
+}
+
+#pragma mark -
+#pragma mark UITableViewDelegate & UITableViewDatasource
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.1f;//section头部高度
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 10.f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 140.f;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.ordersArray.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    BXTMainTableViewCell *cell = [BXTMainTableViewCell cellWithTableView:tableView];
+    
+    cell.repairInfo = self.ordersArray[indexPath.section];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    BXTRepairInfo *repairInfo = [self.ordersArray objectAtIndex:indexPath.section];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+    [repairDetailVC dataWithRepairID:repairInfo.repairID];
+    [self.navigationController pushViewController:repairDetailVC animated:YES];
+}
+
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"没有符合条件的工单";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName:[UIColor blackColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 #pragma mark -
@@ -450,8 +443,8 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
-    [currentTableView.mj_header endRefreshing];
-    [currentTableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
     
     
     NSDictionary *dic = response;
@@ -459,9 +452,9 @@
     
     if (type == RepairList)
     {
-        if (self.currentPage == 1 && ordersArray.count != 0)
+        if (self.currentPage == 1 && self.ordersArray.count != 0)
         {
-            [ordersArray removeAllObjects];
+            [self.ordersArray removeAllObjects];
         }
         
         if (data.count)
@@ -470,24 +463,27 @@
                 return @{@"repairID":@"id"};
             }];
             NSArray *repairs = [BXTRepairInfo mj_objectArrayWithKeyValuesArray:data];
-            [ordersArray addObjectsFromArray:repairs];
+            [self.ordersArray addObjectsFromArray:repairs];
         }
-        [currentTableView reloadData];
+        [self.tableView reloadData];
         
     }
-    else if (type == ShopType)
+    else if (type == PlaceLists)
     {
-        [areasArray addObjectsFromArray:[BXTFloorInfo mj_objectArrayWithKeyValuesArray:data]];
+        [BXTPlace mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"placeID": @"id"};
+        }];
+        [Lists mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"subPlaceID": @"id"};
+        }];
+        [areasArray addObjectsFromArray:[BXTPlace mj_objectArrayWithKeyValuesArray:data]];
     }
-    else if (type == FaultType)
+    else if (type == SubgroupLists)
     {
-        [BXTFaultInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"fault_id":@"id"};
+        [BXTSubgroup mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"subgroupID":@"id"};
         }];
-        [BXTFaultTypeInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"fau_id":@"id"};
-        }];
-        [groupArray addObjectsFromArray:[BXTFaultInfo mj_objectArrayWithKeyValuesArray:data]];
+        [groupArray addObjectsFromArray:[BXTSubgroup mj_objectArrayWithKeyValuesArray:data]];
     }
     
 }
@@ -495,8 +491,8 @@
 - (void)requestError:(NSError *)error
 {
     [self hideMBP];
-    [currentTableView.mj_header endRefreshing];
-    [currentTableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning

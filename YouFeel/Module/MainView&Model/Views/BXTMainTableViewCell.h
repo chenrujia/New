@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class BXTRepairInfo;
+
 @interface BXTMainTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *orderNumView;
@@ -19,7 +21,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *secondView;
 @property (weak, nonatomic) IBOutlet UILabel *thirdView;
 @property (weak, nonatomic) IBOutlet UILabel *forthView;
+@property (weak, nonatomic) IBOutlet UIImageView *stateImageView;
 
+@property (nonatomic, strong) BXTRepairInfo *repairInfo;
+
+/**
+ *  只赋值差异项即可
+ */
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @end

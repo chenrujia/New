@@ -7,28 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BXTDataRequest.h"
-#import "UIScrollView+EmptyDataSet.h"
 
-typedef NS_ENUM(NSInteger, RefreshType) {
-    Down,
-    Up
-};
+@interface BXTOrderListView : UIView 
 
-@interface BXTOrderListView : UIView <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
-{
-    NSInteger        currentPage;
-    NSInteger        selectTag;
-    RefreshType      refreshType;
-}
-
-@property (nonatomic, strong) NSMutableArray *repairListArray;
-@property (nonatomic, strong) UITableView    *currentTableView;
-@property (nonatomic ,strong) NSString       *isReacive;
-@property (nonatomic ,strong) NSString       *repairState;
-@property (nonatomic ,assign) CGFloat        startPointY;
-@property (nonatomic ,assign) BOOL           isRequesting;
-
-- (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andRepairerIsReacive:(NSString *)reacive;
+- (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andIsRepair:(BOOL)isRepair;
 
 @end

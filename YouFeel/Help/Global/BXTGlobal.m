@@ -339,6 +339,22 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     return [NSArray arrayWithObjects:dateStr, dateStr, nil];
 }
 
++ (NSArray *)dayOfCountStartAndEnd:(NSInteger)count
+{
+    NSInteger timeInterval = (count - 1) * 24 * 60 * 60;
+    NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
+    NSInteger newTime = now - timeInterval;
+    NSDate *newDate = [NSDate dateWithTimeIntervalSince1970:newTime];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *beforeDateStr = [formatter stringFromDate:newDate];
+    
+    NSString *dateStr = [formatter stringFromDate:[NSDate date]];
+    
+    return [NSArray arrayWithObjects:beforeDateStr, dateStr, nil];
+}
+
 + (NSArray *)yearAndmonthAndDay
 {
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];

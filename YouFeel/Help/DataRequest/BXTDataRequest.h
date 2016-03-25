@@ -26,6 +26,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     CreateMaintenanceOrder,
     CreateRepair,
     RepairList,
+    SubgroupLists,
+    PlaceLists,
     DeleteRepair,
     RepairDetail,
     DeviceList,
@@ -196,21 +198,34 @@ andRepairerIsReacive:(NSString *)reacive;
            andPage:(NSInteger)page;
 
 /**
- *  获取工单列表
+ *  获取工单列表 - 新
  */
 - (void)listOfRepairOrderWithTaskType:(NSString *)task_type // 工单任务类型 1正常工单 2维保工单
                               FaultID:(NSString *)fault_id // 报修人的用户id
-                             RepairID:(NSString *)repair_id // 维修人的用户id
                           FaulttypeID:(NSString *)faulttype_id // 故障类型id
                                 Order:(NSString *)order // 排序 1按排序顺序排序
                           DispatchUid:(NSString *)dispatch_uid // 维修员的用户id（维修员获取被指派的任务）
                             RepairUid:(NSString *)repair_uid // 维修员的用户id（维修员获取自己的工单列表）
                          DailyTimeout:(NSString *)daily_timeout // 正常工单筛选是否超时 1超时 2正常
                     InspectionTimeout:(NSString *)inspection_timeout // 维保工单过期查询 1超时 2将要超时
-                             TimeName:(NSString *)timename
-                            TmeStart:(NSString *)timestart
-                             TimeOver:(NSString *)timeover
+                             TimeName:(NSString *)timename // 要排序的字段名称（此处填写 fault_time）
+                             TmeStart:(NSString *)timestart // 时间戳的开始时间
+                             TimeOver:(NSString *)timeover // 时间戳的结束时间
+                           SubgroupID:(NSString *)subgroup_id // 获取专业分组的工单列表
+                              PlaceID:(NSString *)place_id // 获取此位置下面的所有位置的工单
+                          RepairState:(NSString *)repairstate // 工单状态
+                                State:(NSString *)state // 维修状态 1已修好 2 未修好
                                  Page:(NSInteger)page;
+
+/**
+ *  获取故障类型列表 - 新
+ */
+- (void)listOFSubgroup;
+
+/**
+ *  获取位置数组 - 新
+ */
+- (void)listOFPlace;
 
 /**
  *  设备添加报修

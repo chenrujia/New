@@ -90,7 +90,7 @@
     {
         return;
     }
-    [self pushMyOrders];
+//    [self pushMyOrders];
 }
 
 - (void)comingNewRepairs
@@ -120,8 +120,8 @@
         } break;
         case 1: {
             switch (indexPath.row) {
-                case 0: [self pushMyOrders]; break;
-                case 1: [self pushMyOrders]; break;
+                case 0: [self pushMyOrdersIsRepair:YES]; break;
+                case 1: [self pushMyOrdersIsRepair:NO]; break;
                 default: break;
             }
         } break;

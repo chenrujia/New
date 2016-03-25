@@ -72,7 +72,7 @@
     {
         self.usersArray = [NSMutableArray array];
     }
-
+    
 #pragma mark -
 #pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 //    [self showLoadingMBP:@"数据加载中..."];
@@ -94,21 +94,21 @@
     [super viewWillAppear:animated];
 #pragma mark -
 #pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-//    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-//    dispatch_async(concurrentQueue, ^{
-//        /** 消息列表 **/
-//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [request messageList];
-//    });
-//    dispatch_async(concurrentQueue, ^{
-//        dispatch_async(concurrentQueue, ^{
-//            /** 提醒数字 **/
-//            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//            [request remindNumberWithDailyTimeStart:[BXTRemindNum sharedManager].timeStart_Daily InspectioTimeStart:[BXTRemindNum sharedManager].timeStart_Inspectio];
-//        });
-//    });
-//    
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButton" object:nil];
+    //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    //    dispatch_async(concurrentQueue, ^{
+    //        /** 消息列表 **/
+    //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    //        [request messageList];
+    //    });
+    //    dispatch_async(concurrentQueue, ^{
+    //        dispatch_async(concurrentQueue, ^{
+    //            /** 提醒数字 **/
+    //            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    //            [request remindNumberWithDailyTimeStart:[BXTRemindNum sharedManager].timeStart_Daily InspectioTimeStart:[BXTRemindNum sharedManager].timeStart_Inspectio];
+    //        });
+    //    });
+    //
+    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButton" object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -253,17 +253,14 @@
     
 }
 
-- (void)pushMyOrders
+- (void)pushMyOrdersIsRepair:(BOOL)isRepair
 {
     if ([self is_verify]) {
         // 我的工单
-//        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-//        orderManagerVC.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:orderManagerVC animated:YES];
-        
-        BXTMTReportsViewController *reportVC = [[BXTMTReportsViewController alloc] init];
-        reportVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:reportVC animated:YES];
+        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
+        orderManagerVC.hidesBottomBarWhenPushed = YES;
+        orderManagerVC.isRepair = isRepair;
+        [self.navigationController pushViewController:orderManagerVC animated:YES];
     }
 }
 
@@ -279,12 +276,16 @@
 
 - (void)pushSpecialOrders
 {
-    if ([self is_verify]) {
-        // 特殊工单
-        BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
-        serviceVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:serviceVC animated:YES];
-    }
+    //    if ([self is_verify]) {
+    //        // 特殊工单
+    //        BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
+    //        serviceVC.hidesBottomBarWhenPushed = YES;
+    //        [self.navigationController pushViewController:serviceVC animated:YES];
+    //    }
+    
+    BXTMTReportsViewController *reportVC = [[BXTMTReportsViewController alloc] init];
+    reportVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:reportVC animated:YES];
 }
 
 - (void)pushStatistics
