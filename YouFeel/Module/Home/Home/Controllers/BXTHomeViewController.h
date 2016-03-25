@@ -31,7 +31,10 @@ typedef NS_ENUM(NSInteger, HiddenType) {
 - (void)createLogoView;
 - (void)repairClick;
 
-- (void)pushMyOrders;
+/**
+ *  我的维修工单
+ */
+- (void)pushMyOrdersIsRepair:(BOOL)isRepair;
 - (void)pushEvaluationList;
 - (void)pushSpecialOrders;
 - (void)pushStatistics;

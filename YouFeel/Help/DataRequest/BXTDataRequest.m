@@ -341,9 +341,8 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)ListOfRepairOrderWithTaskType:(NSString *)task_type
+- (void)listOfRepairOrderWithTaskType:(NSString *)task_type
                               FaultID:(NSString *)fault_id
-                             RepairID:(NSString *)repair_id
                           FaulttypeID:(NSString *)faulttype_id
                                 Order:(NSString *)order
                           DispatchUid:(NSString *)dispatch_uid
@@ -353,12 +352,15 @@ andRepairerIsReacive:(NSString *)reacive
                              TimeName:(NSString *)timename
                              TmeStart:(NSString *)timestart
                              TimeOver:(NSString *)timeover
+                           SubgroupID:(NSString *)subgroup_id
+                              PlaceID:(NSString *)place_id
+                          RepairState:(NSString *)repairstate
+                                State:(NSString *)state
                                  Page:(NSInteger)page
 {
     self.requestType = RepairList;
     NSDictionary *dic = @{@"task_type": task_type,
                           @"fault_id": fault_id,
-                          @"repair_id": repair_id,
                           @"faulttype_id": faulttype_id,
                           @"order": order,
                           @"dispatch_uid": dispatch_uid,
@@ -368,11 +370,31 @@ andRepairerIsReacive:(NSString *)reacive
                           @"timename": timename,
                           @"timestart": timestart,
                           @"timeover": timeover,
+                          @"subgroup_id": subgroup_id,
+                          @"place_id": place_id,
+                          @"repairstate": repairstate,
+                          @"state": state,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
     
     NSString *url = @"http://api.51bxt.com/?module=Repair&opt=repair_lists&shop_id=11";
     [self postRequest:url withParameters:dic];
+}
+
+- (void)listOFSubgroup
+{
+    self.requestType = SubgroupLists;
+    
+    NSString *url = @"http://api.51bxt.com/?module=Hqdb&opt=subgroup_lists&shop_id=11";
+    [self postRequest:url withParameters:nil];
+}
+
+- (void)listOFPlace
+{
+    self.requestType = PlaceLists;
+    
+    NSString *url = @"http://api.51bxt.com/?c=Port&m=actionGet_Web_v2_Port&shop_id=4&module=Mydb&opt=place_lists&shop_id=11";
+    [self postRequest:url withParameters:nil];
 }
 
 - (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID

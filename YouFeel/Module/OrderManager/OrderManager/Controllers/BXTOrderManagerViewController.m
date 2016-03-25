@@ -32,7 +32,13 @@
 #pragma mark 初始化视图
 - (void)navigationSetting
 {
-    [self navigationSetting:@"我的报修工单" andRightTitle:nil andRightImage:nil];
+    if (self.isRepair) {
+        [self navigationSetting:@"我的维修工单" andRightTitle:nil andRightImage:nil];
+    }
+    else {
+        [self navigationSetting:@"我的报修工单" andRightTitle:nil andRightImage:nil];
+    }
+    
     
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, KNAVIVIEWHEIGHT, SCREEN_WIDTH, 40.f)];
     [backView setBackgroundColor:colorWithHexString(@"ffffff")];
@@ -59,14 +65,14 @@
         NSString *repairState;
         if (i == 1)
         {
-            repairState = @"1";
+            repairState = @"2";
         }
         else
         {
-            repairState = @"";
+            repairState = @"1";
         }
         
-        BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andRepairerIsReacive:@""];
+        BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andIsRepair:self.isRepair];
         [currentScrollView addSubview:orderList];
     }
 }

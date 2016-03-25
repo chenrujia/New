@@ -10,4 +10,9 @@
 
 @interface BXTOrderManagerViewController : BXTBaseViewController
 
+/**
+ *  我的维修工单
+ */
+@property (nonatomic, assign) BOOL isRepair;
+
 @end

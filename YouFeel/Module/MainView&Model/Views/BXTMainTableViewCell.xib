@@ -92,7 +92,7 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_expired" translatesAutoresizingMaskIntoConstraints="NO" id="xzd-ku-U7O">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xzd-ku-U7O">
                         <rect key="frame" x="291" y="53.5" width="84" height="84"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="84" id="6be-ob-cKh"/>
@@ -140,12 +140,10 @@
                 <outlet property="orderStateView" destination="pAq-v6-ARU" id="p9O-dN-RWD"/>
                 <outlet property="orderTypeView" destination="yiV-SR-szX" id="KnE-sb-Zua"/>
                 <outlet property="secondView" destination="nCe-ep-EBA" id="f8S-wZ-wpt"/>
+                <outlet property="stateImageView" destination="xzd-ku-U7O" id="7cB-Gq-WPL"/>
                 <outlet property="thirdView" destination="vPd-0X-EFP" id="b87-0G-cGs"/>
             </connections>
             <point key="canvasLocation" x="288.5" y="427"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="list_expired" width="83" height="83"/>
-    </resources>
 </document>

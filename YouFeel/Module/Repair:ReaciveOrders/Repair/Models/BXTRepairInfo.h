@@ -33,6 +33,7 @@
 
 @property (nonatomic, copy) NSString *is_appointment;
 
+@property (nonatomic, copy) NSString *timeout_state;
 
 @end
 
