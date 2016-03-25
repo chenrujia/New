@@ -162,10 +162,19 @@
 {
     self.requestType = FaultType;
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_faulttype_type",[BXTGlobal shareGlobal].baseURL];
-    if ([taskType isEqualToString:@"2"]) {
+    if ([taskType isEqualToString:@"2"])
+    {
         url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_faulttype_type&task_type=%@",[BXTGlobal shareGlobal].baseURL, taskType];
     }
     [self postRequest:url withParameters:nil];
+}
+
+- (void)orderTypeList
+{
+    self.requestType = OrderFaultType;
+    NSDictionary *dic = @{@"task_type": @"1"};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=faulttype_type_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)allFaultTypeListWith:(NSString *)taskType
@@ -341,7 +350,7 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)ListOfRepairOrderWithTaskType:(NSString *)task_type
+- (void)listOfRepairOrderWithTaskType:(NSString *)task_type
                               FaultID:(NSString *)fault_id
                              RepairID:(NSString *)repair_id
                           FaulttypeID:(NSString *)faulttype_id

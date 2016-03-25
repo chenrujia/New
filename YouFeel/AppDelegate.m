@@ -63,6 +63,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [self loadingLoginVC];
     }];
     
+    //???:临时的，事后会删除
+    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", @11, [BXTGlobal getUserProperty:U_TOKEN]];
+    [BXTGlobal shareGlobal].baseURL = url;
     
     CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
     [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];

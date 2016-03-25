@@ -89,7 +89,7 @@
     [self showLoadingMBP:@"努力加载中..."];
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request ListOfRepairOrderWithTaskType:self.taskType
+    [request listOfRepairOrderWithTaskType:self.taskType
                                    FaultID:@""
                                   RepairID:@""
                                FaulttypeID:@""
@@ -149,7 +149,7 @@
     dispatch_async(concurrentQueue, ^{
         /**获取报修列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request ListOfRepairOrderWithTaskType:self.taskType
+        [request listOfRepairOrderWithTaskType:self.taskType
                                        FaultID:@""
                                       RepairID:@""
                                    FaulttypeID:@""

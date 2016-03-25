@@ -15,6 +15,7 @@ typedef void (^HaveHidden)(BOOL hidden);
 
 @interface BXTBaseViewController : UIViewController
 
+@property (nonatomic, assign) BOOL       isNewWorkOrder;//我要报修
 @property (nonatomic ,assign) BOOL       isRepairList;//报修列表
 @property (nonatomic ,copy  ) HaveHidden havedHidden;
 
