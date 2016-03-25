@@ -2152,6 +2152,7 @@
                         <viewControllerLayoutGuide type="bottom" id="kId-d8-fja"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Mvh-S5-kVg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OHn-zL-7Uk">
@@ -2269,16 +2270,16 @@
                                 <exclude reference="S5T-30-vTj"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="DSu-xi-yrH"/>
                                 <exclude reference="5zq-FM-ZpS"/>
                                 <exclude reference="hIq-5Q-dfs"/>
                                 <exclude reference="x5n-Ou-FVq"/>
-                                <exclude reference="6vd-3I-yPi"/>
-                                <exclude reference="EHv-yY-E0S"/>
-                                <exclude reference="cYj-MB-mwk"/>
                                 <exclude reference="Cds-Oe-IAv"/>
                                 <exclude reference="Eyx-GN-yo8"/>
                                 <exclude reference="fzL-H7-NZ3"/>
-                                <exclude reference="DSu-xi-yrH"/>
+                                <exclude reference="6vd-3I-yPi"/>
+                                <exclude reference="EHv-yY-E0S"/>
+                                <exclude reference="cYj-MB-mwk"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -2288,16 +2289,16 @@
                                 <include reference="S5T-30-vTj"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="DSu-xi-yrH"/>
                                 <include reference="5zq-FM-ZpS"/>
                                 <include reference="hIq-5Q-dfs"/>
                                 <include reference="x5n-Ou-FVq"/>
-                                <include reference="6vd-3I-yPi"/>
-                                <include reference="EHv-yY-E0S"/>
-                                <include reference="cYj-MB-mwk"/>
                                 <include reference="Cds-Oe-IAv"/>
                                 <include reference="Eyx-GN-yo8"/>
                                 <include reference="fzL-H7-NZ3"/>
-                                <include reference="DSu-xi-yrH"/>
+                                <include reference="6vd-3I-yPi"/>
+                                <include reference="EHv-yY-E0S"/>
+                                <include reference="cYj-MB-mwk"/>
                             </mask>
                         </variation>
                     </view>
