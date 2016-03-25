@@ -52,6 +52,11 @@
         _resign_bottom.constant = 20;
     }
     
+    if (![WXApi isWXAppInstalled])
+    {
+        _wxLogin.hidden = YES;
+    }
+    
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"GotoResignVC" object:nil] subscribeNext:^(id x) {
         @strongify(self);

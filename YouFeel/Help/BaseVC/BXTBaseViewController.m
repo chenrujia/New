@@ -51,7 +51,7 @@
     [naviView addSubview:navi_titleLabel];
     
     UINavigationController *navigation = self.navigationController;
-    if (navigation.viewControllers.count > 1 || _isRepairList)
+    if (navigation.viewControllers.count > 1 || _isRepairList || _isNewWorkOrder)
     {
         UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
         navi_leftButton.frame = CGRectMake(0, 20, 44, 44);

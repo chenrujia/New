@@ -14,6 +14,7 @@
 #import "UINavigationController+YRBackGesture.h"
 #import "BXTProjectInfromViewController.h"
 #import "CYLTabBarController.h"
+#import "BXTNewWorkOrderViewController.h"
 
 @implementation BXTRepairButton
 
@@ -64,19 +65,23 @@
         else
         {
             UINavigationController *nav;
-            if ([BXTGlobal shareGlobal].isRepair)
-            {
-                BXTMMOrderManagerViewController *newOrderVC = [[BXTMMOrderManagerViewController alloc] init];
-                newOrderVC.isRepairList = YES;
-                nav = [[UINavigationController alloc] initWithRootViewController:newOrderVC];
-            }
-            else
-            {
-                BXTRepairViewController *repairVC = [[BXTRepairViewController alloc] initWithVCType:ShopsVCType];
-                repairVC.isRepairList = YES;
-                nav = [[UINavigationController alloc] initWithRootViewController:repairVC];
-                
-            }
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+            BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
+            newVC.isNewWorkOrder = YES;
+            nav = [[UINavigationController alloc] initWithRootViewController:newVC];
+            
+//            if ([BXTGlobal shareGlobal].isRepair)
+//            {
+//                BXTMMOrderManagerViewController *newOrderVC = [[BXTMMOrderManagerViewController alloc] init];
+//                newOrderVC.isRepairList = YES;
+//                nav = [[UINavigationController alloc] initWithRootViewController:newOrderVC];
+//            }
+//            else
+//            {
+//                BXTRepairViewController *repairVC = [[BXTRepairViewController alloc] initWithVCType:ShopsVCType];
+//                repairVC.isRepairList = YES;
+//                nav = [[UINavigationController alloc] initWithRootViewController:repairVC];
+//            }
             
             [BXTGlobal shareGlobal].presentNav = nav;
             [nav setEnableBackGesture:YES];

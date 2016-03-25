@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     BranchLogin,
     CommitShop,
     FaultType,
+    OrderFaultType,
     AllFaultType,
     CreateMaintenanceOrder,
     CreateRepair,
@@ -150,6 +151,11 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  故障类型
  */
 - (void)faultTypeListWithRTaskType:(NSString *)taskType;
+
+/**
+ *  工单类型
+ */
+- (void)orderTypeList;
 
 /**
  *  全部故障类型

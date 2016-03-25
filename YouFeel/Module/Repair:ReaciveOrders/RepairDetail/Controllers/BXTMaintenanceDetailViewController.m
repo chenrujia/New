@@ -61,11 +61,9 @@
     _leftBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _leftBtn.layer.borderWidth = 1.f;
     _leftBtn.layer.cornerRadius = 4.f;
-    _leftBtn.layer.cornerRadius = 4.f;
     [_leftBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
     _rightBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _rightBtn.layer.borderWidth = 1.f;
-    _rightBtn.layer.cornerRadius = 4.f;
     _rightBtn.layer.cornerRadius = 4.f;
     _rightBtn.backgroundColor = colorWithHexString(@"3cafff");
     [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
