@@ -117,7 +117,7 @@
         stateArray = [NSMutableArray arrayWithObjects:@"状态", @"正常工单", @"超时工单", nil];
     }
     else {
-     stateArray = [NSMutableArray arrayWithObjects:@"状态", @"未到期", @"即将到期", @"已过期", nil];
+        stateArray = [NSMutableArray arrayWithObjects:@"状态", @"未到期", @"即将到期", @"已过期", nil];
     }
     areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
     timesArray = [NSMutableArray arrayWithObjects:@"时间",@"今天",@"3天内",@"7天内",@"本月",@"本年", nil];
@@ -180,7 +180,7 @@
     dispatch_async(concurrentQueue, ^{
         /**请求位置**/
         BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlace];
+        [location_request listOFPlaceIsAllPlace:NO];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求故障类型列表**/

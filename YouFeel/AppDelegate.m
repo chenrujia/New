@@ -112,7 +112,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     /**请求位置**/
     BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [location_request listOFPlace];
+    [location_request listOFPlaceIsAllPlace:YES];
     
     
     self.window.backgroundColor = [UIColor whiteColor];
@@ -639,12 +639,14 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     else if (type == PlaceLists)
     {
         NSArray *data = [dic objectForKey:@"data"];
-
+        
         // 存数组
         [BXTGlobal writeFileWithfileName:@"SaveAreasArray" Array:(NSMutableArray *)data];
         
-        // 取数组        
-        NSLog(@"------------------------%@", [BXTGlobal readFileWithfileName:@"SaveAreasArray"]);
+        // 取数组
+        NSArray *hhhArray = [BXTGlobal readFileWithfileName:@"SaveAreasArray"];
+        
+        NSLog(@"------------------------%@", hhhArray);
     }
     else
     {

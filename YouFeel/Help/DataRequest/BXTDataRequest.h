@@ -224,8 +224,9 @@ andRepairerIsReacive:(NSString *)reacive;
 
 /**
  *  获取位置数组 - 新
+ *  isAllPlace - YES获取全部位置
  */
-- (void)listOFPlace;
+- (void)listOFPlaceIsAllPlace:(BOOL)isAllPlace;
 
 /**
  *  设备添加报修

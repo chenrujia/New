@@ -180,7 +180,7 @@
     dispatch_async(concurrentQueue, ^{
         /**请求位置**/
         BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlace];
+        [location_request listOFPlaceIsAllPlace:NO];
     });
     
     

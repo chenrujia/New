@@ -398,12 +398,17 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:nil];
 }
 
-- (void)listOFPlace
+- (void)listOFPlaceIsAllPlace:(BOOL)isAllPlace
 {
     self.requestType = PlaceLists;
     
+    NSString *isMore = @"";
+    if (isAllPlace) {
+        isMore = @"1";
+    }
+    NSDictionary *dic = @{@"more": isMore};
     NSString *url = @"http://api.51bxt.com/?c=Port&m=actionGet_Web_v2_Port&shop_id=4&module=Mydb&opt=place_lists&shop_id=11";
-    [self postRequest:url withParameters:nil];
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
