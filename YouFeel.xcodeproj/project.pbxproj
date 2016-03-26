@@ -371,6 +371,8 @@
 		96D3D5051CA4DE74009F91EB /* BXTCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D3D5021CA4DE74009F91EB /* BXTCustomButton.m */; };
 		96D3D5081CA51618009F91EB /* BXTOrderTypeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D3D5071CA51618009F91EB /* BXTOrderTypeInfo.m */; };
 		96D850C31C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D850C21C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m */; };
+		96EBFCD11CA63C3700F93AB0 /* BXTPlaceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EBFCCF1CA63C3700F93AB0 /* BXTPlaceTableViewCell.m */; };
+		96EBFCD21CA63C3700F93AB0 /* BXTPlaceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EBFCD01CA63C3700F93AB0 /* BXTPlaceTableViewCell.xib */; };
 		96F8C5F21C439A450035F187 /* BXTChangeStateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F8C5F01C439A450035F187 /* BXTChangeStateViewController.m */; };
 		96F8C5F31C439A450035F187 /* BXTChangeStateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F8C5F11C439A450035F187 /* BXTChangeStateViewController.xib */; };
 		AE0F09ADE5FBE74A74BFEBC5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A888DE73728378A7408BFC /* libPods.a */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -1074,6 +1076,9 @@
 		96D3D5071CA51618009F91EB /* BXTOrderTypeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOrderTypeInfo.m; sourceTree = "<group>"; };
 		96D850C11C8D76C7007B9666 /* BXTDeviceMaintenceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceMaintenceInfo.h; sourceTree = "<group>"; };
 		96D850C21C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceMaintenceInfo.m; sourceTree = "<group>"; };
+		96EBFCCE1CA63C3700F93AB0 /* BXTPlaceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPlaceTableViewCell.h; sourceTree = "<group>"; };
+		96EBFCCF1CA63C3700F93AB0 /* BXTPlaceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPlaceTableViewCell.m; sourceTree = "<group>"; };
+		96EBFCD01CA63C3700F93AB0 /* BXTPlaceTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTPlaceTableViewCell.xib; sourceTree = "<group>"; };
 		96F8C5EF1C439A450035F187 /* BXTChangeStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTChangeStateViewController.h; sourceTree = "<group>"; };
 		96F8C5F01C439A450035F187 /* BXTChangeStateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChangeStateViewController.m; sourceTree = "<group>"; };
 		96F8C5F11C439A450035F187 /* BXTChangeStateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTChangeStateViewController.xib; sourceTree = "<group>"; };
@@ -1943,6 +1948,9 @@
 				783E6C221C51BFF400DC13FB /* BXTCustomImageView.m */,
 				783E6C231C51BFF400DC13FB /* BXTRemarksTableViewCell.h */,
 				783E6C241C51BFF400DC13FB /* BXTRemarksTableViewCell.m */,
+				96EBFCCE1CA63C3700F93AB0 /* BXTPlaceTableViewCell.h */,
+				96EBFCCF1CA63C3700F93AB0 /* BXTPlaceTableViewCell.m */,
+				96EBFCD01CA63C3700F93AB0 /* BXTPlaceTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4097,6 +4105,7 @@
 				967C3D4B1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.xib in Resources */,
 				967C3D461C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib in Resources */,
 				78426B571C7C406400BAE0F4 /* BXTMTPlanHeaderView.xib in Resources */,
+				96EBFCD21CA63C3700F93AB0 /* BXTPlaceTableViewCell.xib in Resources */,
 				78090B2A1C7DAF47003E1565 /* BXTEPFilterCell.xib in Resources */,
 				9696B7301C900BE500272076 /* BXTCommentTableViewCell.xib in Resources */,
 				9660CEE21C437E2E00176DDE /* BXTMaintenanceViewController.xib in Resources */,
@@ -4198,6 +4207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96EBFCD11CA63C3700F93AB0 /* BXTPlaceTableViewCell.m in Sources */,
 				7867DD261C4CBE4F000749F1 /* BXTShopsTableViewCell.m in Sources */,
 				783710181C4503CA00A8D5EE /* BXTPersonInform.m in Sources */,
 				782D6BC31C0D6CFC00E1828F /* SPBarChartData.m in Sources */,

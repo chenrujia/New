@@ -8,7 +8,11 @@
 
 #import "BXTBaseViewController.h"
 
-@interface BXTSearchPlaceViewController : BXTBaseViewController
+@interface BXTSearchPlaceViewController : BXTBaseViewController<UITableViewDataSource,UITableViewDelegate>
+
+
+@property (weak, nonatomic) IBOutlet UIButton *commitBtn;
+@property (weak, nonatomic) IBOutlet UITableView *currentTable;
 
 - (IBAction)commitClick:(id)sender;
 
