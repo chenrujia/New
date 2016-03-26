@@ -21,6 +21,20 @@
 @property (nonatomic, strong) NSMutableArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
+@property (nonatomic, strong) UITableView *selectTableView;
+@property (nonatomic, strong) NSMutableArray *selectArray;
+@property (nonatomic, strong) NSMutableArray *mulitSelectArray;
+
+@property (nonatomic, strong) NSMutableArray *resultArray;
+@property (nonatomic, strong) NSMutableArray *resultIDArray;
+@property (nonatomic, strong) NSMutableArray *badCauseArray;
+@property (nonatomic, strong) NSMutableArray *badCauseIDArray;
+// 选择的Row
+@property (nonatomic, assign) NSInteger selectedRow;
+@property (nonatomic, assign) BOOL isShowCause;
+
+@property (nonatomic, strong) UIDatePicker *datePicker;
+
 @end
 
 @implementation BXTMTReportsViewController
@@ -40,8 +54,16 @@
     [BXTGlobal shareGlobal].maxPics = 4;
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
     
+    
+    self.mulitSelectArray = [[NSMutableArray alloc] init];
+    self.resultArray = [[NSMutableArray alloc] initWithObjects:@"未修好", @"已修好", nil];
+    self.resultIDArray = [[NSMutableArray alloc] init];
+    self.badCauseArray = [[NSMutableArray alloc] initWithObjects:@"待件维修", @"客户取消", @"无法维修", @"第三方维修", nil];
+    self.badCauseIDArray = [[NSMutableArray alloc] init];
+    self.selectedRow = -1;
+    
     self.titleArray = [[NSMutableArray alloc] initWithObjects:@"维修结果", @"维修位置", @"故障类型", @"", @"", @"结束时间", nil];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"请选择", @"请选择", @"请选择", @"", @"", @"请选择", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"请选择", @"请选择", @"请选择", @"请选择", @"", @"请选择", nil];
     
     [self navigationSetting:@"维修报告" andRightTitle:nil andRightImage:nil];
     [self createUI];
@@ -89,6 +111,8 @@
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         [self sureBtnClick];
+        
+        NSLog(@"---------------\n %@", self.dataArray);
     }];
     [footerView addSubview:doneBtn];
 }
@@ -98,34 +122,245 @@
     
 }
 
-- (void)createSelectedView
+- (void)createTableViewWithIndex:(NSInteger)index AndTitle:(NSString *)titleStr
 {
+    if (index == 0) {
+        self.selectArray = self.resultArray;
+    }
+    else if (index == 1) {
+        self.selectArray = self.badCauseArray;
+    }
+    
+    bgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    bgView.tag = 102;
+    [self.view addSubview:bgView];
+    
+    bgView.alpha = 0.0;
+    [UIView animateWithDuration:0.25 animations:^{
+        bgView.alpha = 1;
+    }];
+    
+    
+    CGFloat tableViewH = self.selectArray.count * 50 + 60;
+    
+    // headerView
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-tableViewH-50, SCREEN_WIDTH, 50)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    [bgView addSubview:headerView];
+    
+    // titleLabel
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, SCREEN_WIDTH-100, 30)];
+    titleLabel.text = titleStr;
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [headerView addSubview:titleLabel];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49, SCREEN_WIDTH, 1)];
+    line.backgroundColor = colorWithHexString(@"e2e6e8");
+    [headerView addSubview:line];
+    
+    // selectTableView
+    self.selectTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - tableViewH, SCREEN_WIDTH, tableViewH) style:UITableViewStylePlain];
+    self.selectTableView.delegate = self;
+    self.selectTableView.dataSource = self;
+    self.selectTableView.scrollEnabled = NO;
+    [bgView addSubview:self.selectTableView];
+    
+    
+    // toolView
+    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
+    toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
+    self.selectTableView.tableFooterView = toolView;
+    
+    // cancel
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH/2-0.5, 50)];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    cancelBtn.backgroundColor = [UIColor whiteColor];
+    @weakify(self);
+    [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            bgView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            // 清除
+            [self.mulitSelectArray removeAllObjects];
+            [_selectTableView removeFromSuperview];
+            _selectTableView = nil;
+            [bgView removeFromSuperview];
+        }];
+        
+    }];
+    [toolView addSubview:cancelBtn];
+    
+    // line
+    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2-0.5, 10, 1, 50)];
+    line2.backgroundColor = colorWithHexString(@"#d9d9d9");
+    [toolView addSubview:line2];
+    
+    // sure
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2+0.5, 10, SCREEN_WIDTH/2-0.5, 50)];
+    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [sureBtn setTitleColor:colorWithHexString(@"#77BBF8") forState:UIControlStateNormal];
+    sureBtn.backgroundColor = [UIColor whiteColor];
+    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        if (index == 0) {
+            self.isShowCause = self.selectedRow == 0 ? YES : NO;
+            if (self.selectedRow == 0) {
+                if ( ![self.titleArray[1] isEqualToString:@"未修好原因"]) {
+                    [self.titleArray insertObject:@"未修好原因" atIndex:1];
+                    [self.dataArray insertObject:@"请选择" atIndex:1];
+                }
+            } else {
+                if ([self.titleArray[1] isEqualToString:@"未修好原因"]) {
+                    [self.titleArray removeObjectAtIndex:1];
+                    [self.dataArray removeObjectAtIndex:1];
+                }
+            }
+            
+            [self.dataArray replaceObjectAtIndex:0 withObject:self.resultArray[self.selectedRow]];
+        }
+        else if (index == 1) {
+            [self.dataArray replaceObjectAtIndex:1 withObject:self.badCauseArray[self.selectedRow]];
+        }
+        NSLog(@"---------------------- %ld", self.selectedRow);
+        
+        [self.currentTableView reloadData];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            bgView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            // 清除
+            [self.mulitSelectArray removeAllObjects];
+            [_selectTableView removeFromSuperview];
+            _selectTableView = nil;
+            [bgView removeFromSuperview];
+        }];
+    }];
+    [toolView addSubview:sureBtn];
+}
+
+- (void)createDatePicker
+{
+    // bgView
     bgView = [[UIView alloc] initWithFrame:self.view.bounds];
     bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
     bgView.tag = 101;
     [self.view addSubview:bgView];
     
+    bgView.alpha = 0.0;
+    [UIView animateWithDuration:0.25 animations:^{
+        bgView.alpha = 1;
+    }];
     
+    // headerView
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-50, SCREEN_WIDTH, 50)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    [bgView addSubview:headerView];
+    
+    // titleLabel
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, SCREEN_WIDTH-100, 30)];
+    titleLabel.text = @"选择预约时间";
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [headerView addSubview:titleLabel];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49, SCREEN_WIDTH, 1)];
+    line.backgroundColor = colorWithHexString(@"e2e6e8");
+    [headerView addSubview:line];
+    
+    
+    // datePicker
+    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
+    self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    self.datePicker.backgroundColor = colorWithHexString(@"ffffff");
+    //    self.datePicker.minimumDate = [NSDate date];
+    self.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    [[self.datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+        // 显示时间
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+        NSString *timeStr = [formatter stringFromDate:self.datePicker.date];
+        NSLog(@"timeStr-------%@", timeStr);
+        [self.dataArray replaceObjectAtIndex:5+self.isShowCause withObject:timeStr];
+        [self.currentTableView reloadData];
+        
+    }];
+    [bgView addSubview:self.datePicker];
+    
+    
+    // toolView
+    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
+    toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
+    [bgView addSubview:toolView];
+    
+    // cancel
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH/2-0.5, 50)];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    cancelBtn.backgroundColor = [UIColor whiteColor];
+    @weakify(self);
+    [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            bgView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            self.datePicker = nil;
+            [bgView removeFromSuperview];
+        }];
+        
+    }];
+    [toolView addSubview:cancelBtn];
+    
+    // line
+    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2-0.5, 10, 1, 50)];
+    line2.backgroundColor = colorWithHexString(@"#d9d9d9");
+    [toolView addSubview:line2];
+    
+    // sure
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2+0.5, 10, SCREEN_WIDTH/2-0.5, 50)];
+    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [sureBtn setTitleColor:colorWithHexString(@"#77BBF8") forState:UIControlStateNormal];
+    sureBtn.backgroundColor = [UIColor whiteColor];
+    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            bgView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            self.datePicker = nil;
+            [bgView removeFromSuperview];
+        }];
+        
+    }];
+    [toolView addSubview:sureBtn];
 }
 
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.1f;//section头部高度
+    if (tableView == self.selectTableView) {
+        return 0.1;
+    }
+    return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 10.f;
+    return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 3) {
+    if (indexPath.section == 3 + self.isShowCause) {
         return 140;
     }
-    if (indexPath.section == 4)
+    if (indexPath.section == 4 + self.isShowCause)
     {
         return 130;
     }
@@ -134,17 +369,47 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (tableView == self.selectTableView) {
+        return 1;
+    }
     return self.titleArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (tableView == self.selectTableView) {
+        return self.selectArray.count;
+    }
     return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 3)
+    if (tableView == self.selectTableView) {
+        static NSString *cellID = @"cellSelect";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+        }
+        
+        //字符串
+        NSString *selectRow = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+        
+        //数组中包含当前行号，设置对号
+        if ([self.mulitSelectArray containsObject:selectRow]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        
+        cell.textLabel.text = self.selectArray[indexPath.row];
+        
+        return cell;
+    }
+    
+    
+    if (indexPath.section == 3 + self.isShowCause)
     {
         BXTMTWriteReportCell *cell = [BXTMTWriteReportCell cellWithTableViewCell:tableView];
         
@@ -153,7 +418,7 @@
         
         return cell;
     }
-    else if (indexPath.section == 4)
+    else if (indexPath.section == 4 + self.isShowCause)
     {
         BXTMTAddImageCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarkCell"];
         if (!cell)
@@ -199,8 +464,37 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.selectTableView) {
+        NSString *selectRow  = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+        // 选择row 传值
+        self.selectedRow = indexPath.row;
+        
+        //判断数组中有没有被选中行的行号,
+        if ([self.mulitSelectArray containsObject:selectRow]) {
+            [self.mulitSelectArray removeObject:selectRow];
+        }
+        else {
+            if (self.mulitSelectArray.count == 1) {
+                [self.mulitSelectArray replaceObjectAtIndex:0 withObject:selectRow];
+            } else {
+                [self.mulitSelectArray addObject:selectRow];
+            }
+        }
+        
+        [tableView reloadData];
+        return;
+    }
+    
+    
+    if (self.isShowCause && indexPath.section == 1) {
+        [self createTableViewWithIndex:indexPath.section AndTitle:@"未修好原因"];
+    }
+    
     if (indexPath.section == 0) {
-        [self createSelectedView];
+        [self createTableViewWithIndex:indexPath.section AndTitle:@"选择维修结果"];
+    }
+    else if (indexPath.section == 5 + self.isShowCause) {
+        [self createDatePicker];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -219,6 +513,8 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
+    [self.dataArray replaceObjectAtIndex:3+self.isShowCause withObject:textView.text];
+    
     if (textView.text.length < 1)
     {
         textView.text = @"请填写维修记录";
@@ -248,21 +544,30 @@
     UIView *view = touch.view;
     if (view.tag == 101)
     {
-//        if (_datePicker)
-//        {
-//            [_datePicker removeFromSuperview];
-//            _datePicker = nil;
-//        }
-        [view removeFromSuperview];
+        [UIView animateWithDuration:0.25 animations:^{
+            bgView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            if (_datePicker)
+            {
+                [_datePicker removeFromSuperview];
+                _datePicker = nil;
+            }
+            [view removeFromSuperview];
+        }];
+        
     }
     else if (view.tag == 102)
     {
-//        if (_selectTableView) {
-//            [self.mulitSelectArray removeAllObjects];
-//            [_selectTableView removeFromSuperview];
-//            _selectTableView = nil;
-//        }
-        [view removeFromSuperview];
+        [UIView animateWithDuration:0.25 animations:^{
+            bgView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            if (_selectTableView) {
+                [self.mulitSelectArray removeAllObjects];
+                [_selectTableView removeFromSuperview];
+                _selectTableView = nil;
+            }
+            [view removeFromSuperview];
+        }];
     }
 }
 
