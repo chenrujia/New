@@ -361,7 +361,6 @@
         }
     }
     
-    
     self.currentPage = 1;
     [self getResource];
 }
