@@ -36,6 +36,11 @@
     });
 }
 
+- (void)navigationLeftButton
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (IBAction)commitOrder:(id)sender
 {
     
