@@ -20,7 +20,7 @@
 
 //资源数据
 @property (nonatomic, strong) NSArray *dataSource;
-//盛放变动的数据
+//变动的数据
 @property (nonatomic, strong) NSMutableArray *mutableArray;
 //标记数组
 @property (nonatomic, strong) NSMutableArray *marksArray;
