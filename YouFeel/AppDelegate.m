@@ -10,6 +10,9 @@
 #import "BXTHeaderFile.h"
 #import "NSString+URL.h"
 #import "MobClick.h"
+#import "BXTPlace.h"
+#import "BXTRemindNum.h"
+#import "ANKeyValueTable.h"
 #import "CYLTabBarController.h"
 #import "BXTLoadingViewController.h"
 #import "BXTHeadquartersViewController.h"
@@ -18,10 +21,8 @@
 #import "BXTNoticeListViewController.h"
 #import "BXTNewOrderViewController.h"
 #import "BXTGrabOrderViewController.h"
-#import "BXTRemindNum.h"
-#import "BXTPlace.h"
-#import "ANKeyValueTable.h"
 #import "CYLTabBarControllerConfig.h"
+#import "UIViewController+Swizzled.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -42,6 +43,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    SWIZZ_IT;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     //新的SDK不允许在设置rootViewController之前做过于复杂的操作,So.....坑

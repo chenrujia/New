@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6B5737D06C3D9AA9C0D1C280"
+               BlueprintIdentifier = "8EA78639352546FD31D79DA3"
                BuildableName = "libLBXScan.a"
                BlueprintName = "LBXScan"
                ReferencedContainer = "container:Pods.xcodeproj">
