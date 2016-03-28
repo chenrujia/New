@@ -105,6 +105,8 @@
                                    PlaceID:self.filterOfAreasID
                                RepairState:@""
                                      State:@""
+                         FaultCarriedState:@""
+                        RepairCarriedState:@""
                                       Page:self.currentPage];
 }
 
@@ -175,6 +177,8 @@
                                        PlaceID:@""
                                    RepairState:@""
                                          State:@""
+                             FaultCarriedState:@""
+                            RepairCarriedState:@""
                                           Page:1];
     });
     dispatch_async(concurrentQueue, ^{
@@ -360,6 +364,7 @@
             }
         }
     }
+    
     
     self.currentPage = 1;
     [self getResource];
