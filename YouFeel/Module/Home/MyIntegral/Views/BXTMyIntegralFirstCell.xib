@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="BXTMyIntegralFirstCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCf-Pv-cOB">
+                        <rect key="frame" x="15" y="10" width="50" height="29.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="mxp-A6-uCc"/>
+                        </constraints>
+                        <state key="normal" title="上个月"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xmp-9k-jZS">
+                        <rect key="frame" x="132" y="10" width="110" height="29"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="110" id="Ugg-wc-D53"/>
+                        </constraints>
+                        <state key="normal" title="2016年03月">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="swa-wy-rBl">
+                        <rect key="frame" x="310" y="10" width="50" height="29.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="3QN-a6-fvz"/>
+                        </constraints>
+                        <state key="normal" title="下个月">
+                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="swa-wy-rBl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="80g-NN-OTW"/>
+                    <constraint firstAttribute="bottom" secondItem="swa-wy-rBl" secondAttribute="bottom" constant="10" id="8xq-9n-js5"/>
+                    <constraint firstAttribute="bottom" secondItem="CCf-Pv-cOB" secondAttribute="bottom" constant="10" id="9C5-zh-apa"/>
+                    <constraint firstAttribute="bottom" secondItem="Xmp-9k-jZS" secondAttribute="bottom" constant="10" id="AN1-kw-09O"/>
+                    <constraint firstItem="Xmp-9k-jZS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="MTw-Of-NMV"/>
+                    <constraint firstItem="CCf-Pv-cOB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="X7e-Rm-x1D"/>
+                    <constraint firstAttribute="trailing" secondItem="swa-wy-rBl" secondAttribute="trailing" constant="15" id="XvN-xI-2ty"/>
+                    <constraint firstItem="CCf-Pv-cOB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Yif-GS-6Yb"/>
+                    <constraint firstItem="Xmp-9k-jZS" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="lfJ-Z8-aXG"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lastMonthBtn" destination="CCf-Pv-cOB" id="DBf-mE-a2z"/>
+                <outlet property="nextMonthBtn" destination="swa-wy-rBl" id="acT-1Z-jvo"/>
+                <outlet property="sameMonthBtn" destination="Xmp-9k-jZS" id="Pes-c9-Zdq"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
