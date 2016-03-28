@@ -48,8 +48,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    
     //侦听删除事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
+    
     
     [BXTGlobal shareGlobal].maxPics = 4;
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
