@@ -26,7 +26,7 @@
 #import "BXTStatisticsViewController.h"
 #import "BXTExaminationViewController.h"
 #import "BXTReaciveOrdersViewController.h"
-#import "BXTAchievementsViewController.h"
+#import "BXTMyIntegralViewController.h"
 #import "BXTMTProfessionViewController.h"
 #import "BXTMTReportsViewController.h"
 
@@ -336,10 +336,10 @@
 {
     if ([self is_verify])
     {
-        // 我的绩效
-        BXTAchievementsViewController *achievementVC = [[BXTAchievementsViewController alloc] init];
-        achievementVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:achievementVC animated:YES];
+        // 我的积分
+        BXTMyIntegralViewController *myIntegralVC = [[BXTMyIntegralViewController alloc] init];
+        myIntegralVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:myIntegralVC animated:YES];
     }
 }
 

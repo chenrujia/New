@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="BXTRankingCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="排名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDj-ll-XX3">
+                        <rect key="frame" x="10" y="14" width="172.5" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="e9Y-Py-rft"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="积分" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K4l-2b-MP4">
+                        <rect key="frame" x="192.5" y="14" width="172" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Yb2-pj-KM9"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="K4l-2b-MP4" firstAttribute="leading" secondItem="fDj-ll-XX3" secondAttribute="trailing" constant="10" id="Gu3-r5-4nA"/>
+                    <constraint firstItem="fDj-ll-XX3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="XyF-7f-0SH"/>
+                    <constraint firstAttribute="trailing" secondItem="K4l-2b-MP4" secondAttribute="trailing" constant="10" id="aX2-eC-nmW"/>
+                    <constraint firstItem="K4l-2b-MP4" firstAttribute="width" secondItem="fDj-ll-XX3" secondAttribute="width" id="ffS-RT-JJg"/>
+                    <constraint firstItem="K4l-2b-MP4" firstAttribute="height" secondItem="fDj-ll-XX3" secondAttribute="height" id="oyw-ZA-R8c"/>
+                    <constraint firstItem="fDj-ll-XX3" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="v9m-M2-LkC"/>
+                    <constraint firstItem="K4l-2b-MP4" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="y99-w0-hWs"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="integralView" destination="K4l-2b-MP4" id="hqg-1N-49T"/>
+                <outlet property="rankingView" destination="fDj-ll-XX3" id="eH8-7E-Uid"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
