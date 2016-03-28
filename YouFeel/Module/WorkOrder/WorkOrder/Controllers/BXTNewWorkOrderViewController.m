@@ -50,7 +50,8 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    BXTSearchPlaceViewController *searchVC = [[BXTSearchPlaceViewController alloc] init];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
     [self.navigationController pushViewController:searchVC animated:YES];
     return NO;
 }

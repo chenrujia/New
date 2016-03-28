@@ -20,7 +20,7 @@
 #import "BXTGrabOrderViewController.h"
 #import "BXTRemindNum.h"
 #import "BXTPlace.h"
-
+#import "ANKeyValueTable.h"
 #import "CYLTabBarControllerConfig.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
@@ -109,12 +109,18 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 //        [self loadingGuideView];
 //    }
 //
-    
-    /**请求位置**/
-    BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [location_request listOFPlaceIsAllPlace:YES];
-    
-    
+    if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
+    {
+        /**请求位置**/
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace:YES];
+    }
+    else
+    {
+        NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
+        LogBlue(@"dataSource:%@",dataSource);
+    }
+
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
@@ -639,14 +645,19 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     else if (type == PlaceLists)
     {
         NSArray *data = [dic objectForKey:@"data"];
+//        // 存数组
+//        [BXTGlobal writeFileWithfileName:@"SaveAreasArray" Array:(NSMutableArray *)data];
+//        // 取数组
+//        NSArray *hhhArray = [BXTGlobal readFileWithfileName:@"SaveAreasArray"];
         
-        // 存数组
-        [BXTGlobal writeFileWithfileName:@"SaveAreasArray" Array:(NSMutableArray *)data];
+//        NSLog(@"------------------------%@", hhhArray);
         
-        // 取数组
-        NSArray *hhhArray = [BXTGlobal readFileWithfileName:@"SaveAreasArray"];
-        
-        NSLog(@"------------------------%@", hhhArray);
+        [BXTPlace mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"placeID":@"id"};
+        }];
+        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+        [dataSource addObjectsFromArray:[BXTPlace mj_objectArrayWithKeyValuesArray:data]];
+        [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
     }
     else
     {
