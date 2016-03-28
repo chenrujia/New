@@ -72,43 +72,43 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];
 #pragma mark -
 #pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-//    BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
-//    if (isLoaded)
-//    {
-//        //默认自动登录（普通登录）
-//        if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
-//        {
-//            NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
-//                                          @"password":[BXTGlobal getUserProperty:U_PASSWORD],
-//                                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
-//                                          @"type":@"1"};
-//            
-//            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-//            [dataRequest loginUser:userInfoDic];
-//        }
-//        //第三方登录
-//        else if ([BXTGlobal getUserProperty:U_OPENID] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
-//        {
-//            isLoginByWX = YES;
-//            NSDictionary *userInfoDic = @{@"username":@"",
-//                                          @"password":@"",
-//                                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
-//                                          @"type":@"2",
-//                                          @"flat_id":@"1",
-//                                          @"only_code":[BXTGlobal getUserProperty:U_OPENID]};
-//            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-//            [dataRequest loginUser:userInfoDic];
-//        }
-//        else
-//        {
-//            [self loadingLoginVC];
-//        }
-//    }
-//    else
-//    {
-//        [self loadingGuideView];
-//    }
-//
+    //    BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
+    //    if (isLoaded)
+    //    {
+    //        //默认自动登录（普通登录）
+    //        if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+    //        {
+    //            NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
+    //                                          @"password":[BXTGlobal getUserProperty:U_PASSWORD],
+    //                                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
+    //                                          @"type":@"1"};
+    //
+    //            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+    //            [dataRequest loginUser:userInfoDic];
+    //        }
+    //        //第三方登录
+    //        else if ([BXTGlobal getUserProperty:U_OPENID] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+    //        {
+    //            isLoginByWX = YES;
+    //            NSDictionary *userInfoDic = @{@"username":@"",
+    //                                          @"password":@"",
+    //                                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
+    //                                          @"type":@"2",
+    //                                          @"flat_id":@"1",
+    //                                          @"only_code":[BXTGlobal getUserProperty:U_OPENID]};
+    //            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+    //            [dataRequest loginUser:userInfoDic];
+    //        }
+    //        else
+    //        {
+    //            [self loadingLoginVC];
+    //        }
+    //    }
+    //    else
+    //    {
+    //        [self loadingGuideView];
+    //    }
+    
     if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
     {
         /**请求位置**/
@@ -120,7 +120,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
         LogBlue(@"dataSource:%@",dataSource);
     }
-
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
@@ -645,12 +645,12 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     else if (type == PlaceLists)
     {
         NSArray *data = [dic objectForKey:@"data"];
-//        // 存数组
-//        [BXTGlobal writeFileWithfileName:@"SaveAreasArray" Array:(NSMutableArray *)data];
-//        // 取数组
-//        NSArray *hhhArray = [BXTGlobal readFileWithfileName:@"SaveAreasArray"];
+        //        // 存数组
+        //        [BXTGlobal writeFileWithfileName:@"SaveAreasArray" Array:(NSMutableArray *)data];
+        //        // 取数组
+        //        NSArray *hhhArray = [BXTGlobal readFileWithfileName:@"SaveAreasArray"];
         
-//        NSLog(@"------------------------%@", hhhArray);
+        //        NSLog(@"------------------------%@", hhhArray);
         
         [BXTPlace mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"placeID":@"id"};

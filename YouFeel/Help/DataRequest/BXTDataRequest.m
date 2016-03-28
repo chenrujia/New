@@ -129,16 +129,16 @@
 - (void)branchLogin
 {
     self.requestType = BranchLogin;
-    NSDictionary *dic;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
-    {
-        dic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"clientid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]};
-    }
-    else
-    {
-        dic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],@"clientid":@""};
-    }
-    NSString *url = [NSString stringWithFormat:@"%@&module=login&opt=login",[BXTGlobal shareGlobal].baseURL];
+    
+    NSArray *array = [BXTGlobal getUserProperty:U_SHOPIDS];
+    NSString *shopID = [NSString stringWithFormat:@"%@", array[0]];
+    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID],
+                          @"shop_id":shopID};
+
+//    NSDictionary *dic = @{@"out_userid":@"11",
+//                          @"shop_id":@"11"};
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=shop_login",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -365,6 +365,8 @@ andRepairerIsReacive:(NSString *)reacive
                               PlaceID:(NSString *)place_id
                           RepairState:(NSString *)repairstate
                                 State:(NSString *)state
+                    FaultCarriedState:(NSString *)fault_carried_state
+                   RepairCarriedState:(NSString *)repair_carried_state
                                  Page:(NSInteger)page
 {
     self.requestType = RepairList;
@@ -383,10 +385,12 @@ andRepairerIsReacive:(NSString *)reacive
                           @"place_id": place_id,
                           @"repairstate": repairstate,
                           @"state": state,
+                          @"fault_carried_state": fault_carried_state,
+                          @"repair_carried_state": repair_carried_state,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
     
-    NSString *url = @"http://api.51bxt.com/?module=Repair&opt=repair_list&shop_id=11";
+    NSString *url = @"http://api.51bxt.com/?module=Repair&opt=repair_lists&shop_id=11";
     [self postRequest:url withParameters:dic];
 }
 

@@ -34,13 +34,9 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *ordersArray;
 
-/**
- *  工单状态 - stateStr  2进行中  1已完成
- */
+/** ---- 工单状态 - stateStr  2进行中  1已完成 ---- */
 @property (nonatomic, copy) NSString *stateStr;
-/**
- *  我的维修工单 - isRepair == YES
- */
+/** ---- 我的维修工单 - isRepair == YES ---- */
 @property (nonatomic, assign) BOOL isRepair;
 @property (nonatomic, assign) NSInteger currentPage;
 
@@ -58,6 +54,10 @@
 // 我的报修列表
 @property (nonatomic, copy) NSString *filterOfFaultID;
 
+/** ---- 报修者的列表进度状态 1进行中 2 已完成 ---- */
+@property (nonatomic, copy) NSString *faultCarriedState;
+/** ---- 维修者的列表进度状态 1进行中 2 已完成 ---- */
+@property (nonatomic, copy) NSString *repairCarriedState;
 
 @end
 
@@ -79,6 +79,15 @@
         self.stateStr = state;
         self.isRepair = isRepair;
         NSLog(@"%@ ----- %d", state, isRepair);
+        
+        self.repairCarriedState = @"";
+        self.faultCarriedState = @"";
+        if (self.isRepair) {
+            self.repairCarriedState = [self.stateStr isEqualToString:@"2"] ? @"1" : @"2" ;
+        }
+        else {
+            self.faultCarriedState = [self.stateStr isEqualToString:@"2"] ? @"1" : @"2" ;
+        }
         
         [self createUIWithFrame:frame];
         
@@ -175,6 +184,8 @@
                                        PlaceID:@""
                                    RepairState:@""
                                          State:@""
+                             FaultCarriedState:self.faultCarriedState
+                            RepairCarriedState:self.repairCarriedState
                                           Page:1];
     });
     dispatch_async(concurrentQueue, ^{
@@ -216,6 +227,8 @@
                                    PlaceID:self.filterOfAreasID
                                RepairState:self.filterOfRepairState
                                      State:self.filterOfState
+                         FaultCarriedState:self.faultCarriedState
+                        RepairCarriedState:self.repairCarriedState
                                       Page:self.currentPage];
 }
 

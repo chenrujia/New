@@ -215,6 +215,8 @@ andRepairerIsReacive:(NSString *)reacive;
                               PlaceID:(NSString *)place_id // 获取此位置下面的所有位置的工单
                           RepairState:(NSString *)repairstate // 工单状态
                                 State:(NSString *)state // 维修状态 1已修好 2 未修好
+                    FaultCarriedState:(NSString *)fault_carried_state // 报修者的列表进度状态
+                   RepairCarriedState:(NSString *)repair_carried_state // 维修者的列表进度状态
                                  Page:(NSInteger)page;
 
 /**
