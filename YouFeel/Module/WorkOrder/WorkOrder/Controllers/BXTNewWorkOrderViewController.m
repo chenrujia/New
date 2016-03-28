@@ -57,6 +57,9 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+    [searchVC userChoosePlaceInfo:^(BXTPlace *placeInfo) {
+        MJExtensionLog(@"placeInfo:%@",placeInfo);
+    }];
     [self.navigationController pushViewController:searchVC animated:YES];
     return NO;
 }
