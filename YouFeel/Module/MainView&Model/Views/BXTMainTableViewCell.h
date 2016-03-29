@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *orderGroupView;
 @property (weak, nonatomic) IBOutlet UILabel *orderStateView;
 
+@property (weak, nonatomic) IBOutlet UIImageView *alertView;
 @property (weak, nonatomic) IBOutlet UILabel *firstView;
 @property (weak, nonatomic) IBOutlet UILabel *secondView;
 @property (weak, nonatomic) IBOutlet UILabel *thirdView;

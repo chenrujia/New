@@ -36,12 +36,12 @@ typedef NS_ENUM(NSInteger, HiddenType) {
  */
 - (void)pushMyOrdersIsRepair:(BOOL)isRepair;
 - (void)pushEvaluationList;
-- (void)pushSpecialOrders;
+- (void)pushOtherAffair;
 - (void)pushStatistics;
 - (void)pushExamination;
 - (void)pushNormalOrders;
 - (void)pushMaintenceOrders;
-- (void)pushAchievements;
+- (void)pushMyIntegral;
 - (void)projectPhone;
 
 @end

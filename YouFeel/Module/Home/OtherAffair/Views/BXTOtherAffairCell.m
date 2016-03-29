@@ -1,26 +1,23 @@
 //
-//  BXTMyIntegralFirstCell.m
+//  BXTOtherAffairCell.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/3/28.
+//  Created by 满孝意 on 16/3/29.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTMyIntegralFirstCell.h"
+#import "BXTOtherAffairCell.h"
 
-@implementation BXTMyIntegralFirstCell
+@implementation BXTOtherAffairCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
     static NSString *cellID = @"cell";
-    BXTMyIntegralFirstCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    BXTOtherAffairCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMyIntegralFirstCell" owner:nil options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTOtherAffairCell" owner:nil options:nil] lastObject];
     }
     
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    cell.nextMonthBtn.enabled = NO;
     
     return cell;
 }

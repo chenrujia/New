@@ -12,6 +12,7 @@
 #import "BXTMTAddImageCell.h"
 #import "BXTMTWriteReportCell.h"
 #import "UIImage+SubImage.h"
+#import "BXTSearchPlaceViewController.h"
 
 @interface BXTMTReportsViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,BXTDataResponseDelegate>
 {
@@ -68,8 +69,8 @@
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"请选择", @"请选择", @"请选择", @"请选择", @"", @"请选择", nil];
     
     [self navigationSetting:@"维修报告" andRightTitle:nil andRightImage:nil];
-    [self createUI];
     
+    [self createUI];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -492,8 +493,22 @@
         [self createTableViewWithIndex:indexPath.section AndTitle:@"未修好原因"];
     }
     
+    
     if (indexPath.section == 0) {
         [self createTableViewWithIndex:indexPath.section AndTitle:@"选择维修结果"];
+    }
+    else if (indexPath.section == 1 + self.isShowCause) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+        @weakify(self);
+        [searchVC userChoosePlaceInfo:^(BXTPlace *placeInfo) {
+            @strongify(self);
+            
+            MJExtensionLog(@"placeInfo:%@", placeInfo.place);
+            [self.dataArray replaceObjectAtIndex:indexPath.section withObject:placeInfo.place];
+            [self.currentTableView reloadData];
+        }];
+        [self.navigationController pushViewController:searchVC animated:YES];
     }
     else if (indexPath.section == 5 + self.isShowCause) {
         [self createDatePicker];

@@ -446,7 +446,6 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
     
@@ -456,6 +455,8 @@
     
     if (type == RepairList)
     {
+        [self hideMBP];
+        
         if (self.currentPage == 1 && self.ordersArray.count != 0)
         {
             [self.ordersArray removeAllObjects];

@@ -35,7 +35,7 @@
 #pragma mark 初始化视图
 - (void)createSubviews
 {
-    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f,KNAVIVIEWHEIGHT + 7.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"待处理",@"已指派",@"已关闭"] isWhiteBGColor:1];
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f,KNAVIVIEWHEIGHT + 7.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"待处理",@"已处理"] isWhiteBGColor:1];
     segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
@@ -49,11 +49,11 @@
     
     currentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(lineView.frame))];
     currentScrollView.delegate = self;
-    currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
+    currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 2, 0);
     currentScrollView.pagingEnabled = YES;
     [self.view addSubview:currentScrollView];
     
-    for (NSInteger i = 1; i < 4; i++)
+    for (NSInteger i = 1; i < 3; i++)
     {
         BXTManagerOMView *omView = [[BXTManagerOMView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andOrderType:i - 1 WithArray:nil];
         [currentScrollView addSubview:omView];

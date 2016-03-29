@@ -1,45 +1,40 @@
 //
-//  BXTOrderManagerViewController.m
-//  BXT
+//  BXTOtherAffairViewController.m
+//  YouFeel
 //
-//  Created by Jason on 15/9/14.
-//  Copyright (c) 2015年 Jason. All rights reserved.
+//  Created by 满孝意 on 16/3/29.
+//  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTOrderManagerViewController.h"
-#import "BXTHeaderFile.h"
+#import "BXTOtherAffairViewController.h"
+#import "BXTHeaderForVC.h"
 #import "SegmentView.h"
-#import "BXTOrderListView.h"
-#import "UIImageView+WebCache.h"
+#import "BXTOtherAffairView.h"
 
-@interface BXTOrderManagerViewController ()<SegmentViewDelegate,UIScrollViewDelegate>
+@interface BXTOtherAffairViewController () <SegmentViewDelegate,UIScrollViewDelegate>
 {
     UIScrollView *currentScrollView;
-    SegmentView *segment;
-    NSInteger currentPage;
+    NSInteger    currentPage;
+    SegmentView  *segment;
 }
+
 @end
 
-@implementation BXTOrderManagerViewController
+@implementation BXTOtherAffairViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    [self navigationSetting];
+    // Do any additional setup after loading the view.
+    
+    [self navigationSetting:@"其他事务" andRightTitle:nil andRightImage:nil];
+    
+    [self createSubviews];
 }
 
 #pragma mark -
 #pragma mark 初始化视图
-- (void)navigationSetting
+- (void)createSubviews
 {
-    if (self.isRepair) {
-        [self navigationSetting:@"我的维修工单" andRightTitle:nil andRightImage:nil];
-    }
-    else {
-        [self navigationSetting:@"我的报修工单" andRightTitle:nil andRightImage:nil];
-    }
-    
-    
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0.f, KNAVIVIEWHEIGHT, SCREEN_WIDTH, 40.f)];
     [backView setBackgroundColor:colorWithHexString(@"ffffff")];
     [self.view addSubview:backView];
@@ -61,18 +56,8 @@
     
     for (NSInteger i = 1; i < 3; i++)
     {
-        NSString *repairState;
-        if (i == 1)
-        {
-            repairState = @"2";
-        }
-        else
-        {
-            repairState = @"1";
-        }
-        
-        BXTOrderListView *orderList = [[BXTOrderListView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) andState:repairState andIsRepair:self.isRepair];
-        [currentScrollView addSubview:orderList];
+        BXTOtherAffairView *oaView = [[BXTOtherAffairView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds))];
+        [currentScrollView addSubview:oaView];
     }
 }
 
@@ -84,8 +69,6 @@
     [currentScrollView setContentOffset:CGPointMake(currentPage * SCREEN_WIDTH, 0) animated:YES];
 }
 
-#pragma mark -
-#pragma mark SegmentViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     // 得到每页宽度
@@ -99,20 +82,19 @@
     [segment segemtBtnChange:currentPage];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 /*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end

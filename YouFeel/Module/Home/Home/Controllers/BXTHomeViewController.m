@@ -22,7 +22,7 @@
 #import "BXTNoticeInformViewController.h"
 #import "BXTOrderManagerViewController.h"
 #import "BXTEvaluationListViewController.h"
-#import "BXTManagerOMViewController.h"
+#import "BXTOtherAffairViewController.h"
 #import "BXTStatisticsViewController.h"
 #import "BXTExaminationViewController.h"
 #import "BXTReaciveOrdersViewController.h"
@@ -75,18 +75,18 @@
     
 #pragma mark -
 #pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-//    [self showLoadingMBP:@"数据加载中..."];
-//    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-//    dispatch_async(concurrentQueue, ^{
-//        /** 获取配置参数 **/
-//        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [dataRequest configInfo];
-//    });
-//    dispatch_async(concurrentQueue, ^{
-//        /** 广告页 **/
-//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [request advertisementPages];
-//    });
+    //    [self showLoadingMBP:@"数据加载中..."];
+    //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    //    dispatch_async(concurrentQueue, ^{
+    //        /** 获取配置参数 **/
+    //        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+    //        [dataRequest configInfo];
+    //    });
+    //    dispatch_async(concurrentQueue, ^{
+    //        /** 广告页 **/
+    //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    //        [request advertisementPages];
+    //    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -274,18 +274,14 @@
     }
 }
 
-- (void)pushSpecialOrders
+- (void)pushOtherAffair
 {
-    //    if ([self is_verify]) {
-    //        // 特殊工单
-    //        BXTManagerOMViewController *serviceVC = [[BXTManagerOMViewController alloc] init];
-    //        serviceVC.hidesBottomBarWhenPushed = YES;
-    //        [self.navigationController pushViewController:serviceVC animated:YES];
-    //    }
-    
-    BXTMTReportsViewController *reportVC = [[BXTMTReportsViewController alloc] init];
-    reportVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:reportVC animated:YES];
+    if ([self is_verify]) {
+        // 其他事务
+        BXTOtherAffairViewController *affairVC = [[BXTOtherAffairViewController alloc] init];
+        affairVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:affairVC animated:YES];
+    }
 }
 
 - (void)pushStatistics
@@ -332,7 +328,7 @@
     }
 }
 
-- (void)pushAchievements
+- (void)pushMyIntegral
 {
     if ([self is_verify])
     {
@@ -345,13 +341,17 @@
 
 - (void)projectPhone
 {
-    if ([self is_verify])
-    {
-        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
-        UIWebView *callWeb = [[UIWebView alloc] init];
-        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-        [self.view addSubview:callWeb];
-    }
+    //    if ([self is_verify])
+    //    {
+    //        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
+    //        UIWebView *callWeb = [[UIWebView alloc] init];
+    //        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+    //        [self.view addSubview:callWeb];
+    //    }
+    
+    BXTMTReportsViewController *reportVC = [[BXTMTReportsViewController alloc] init];
+    reportVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:reportVC animated:YES];
 }
 
 #pragma mark - SDCycleScrollViewDelegate

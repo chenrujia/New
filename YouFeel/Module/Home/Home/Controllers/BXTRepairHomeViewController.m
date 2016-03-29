@@ -29,12 +29,14 @@
     
     self.imgNameArray = [NSMutableArray arrayWithObjects:@[@"home_calendar_add",@"home_Work_Order"],
                          @[@"home_my", @"home_lights"],
-                         @[@"home_notepad_ok", @"home_integral"],
+                         @[@"home_notepad_ok"],
+                         @[@"home_integral"],
                          @[@"home_statistics"],
                          @[@"home_phone"] ,nil];
     self.titleNameArray = [NSMutableArray arrayWithObjects:@[@"日常工单",@"维保工单"],
                            @[@"我的维修工单", @"我的报修工单"],
-                           @[@"待处理事项", @"我的积分"],
+                           @[@"其他事务"],
+                           @[@"我的积分"],
                            @[@"业务统计"],
                            @[@"项目热线"], nil];
     
@@ -125,15 +127,10 @@
                 default: break;
             }
         } break;
-        case 2: {
-            switch (indexPath.row) {
-                case 0: [self pushSpecialOrders]; break;
-                case 1: [self pushAchievements]; break;
-                default: break;
-            }
-        } break;
-        case 3:  [self pushStatistics]; break;
-        case 4: [self projectPhone]; break;
+        case 2: [self pushOtherAffair]; break;
+        case 3: [self pushMyIntegral]; break;
+        case 4: [self pushStatistics]; break;
+        case 5: [self projectPhone]; break;
         default: break;
     }
     
