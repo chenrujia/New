@@ -49,7 +49,7 @@
     [button sizeToFit];
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         NSString *is_verify = [BXTGlobal getUserProperty:U_IS_VERIFY];
-        if ([is_verify integerValue] == 1)
+        if ([is_verify integerValue] != 1)
         {
             [BXTGlobal showText:@"您尚未验证，现在去验证" view:[AppDelegate appdelegete].window.rootViewController.view completionBlock:^{
                 id rootVC = [AppDelegate appdelegete].window.rootViewController;

@@ -9,12 +9,12 @@
 
 @interface BXTEquipmentFactoryInfo : NSObject
 
-@property (nonatomic, strong) NSString *address;
-@property (nonatomic, strong) NSString *factoryInfoIdentifier;
-@property (nonatomic, strong) NSString *bread;
-@property (nonatomic, strong) NSString *mobile;
-@property (nonatomic, strong) NSString *linkman;
-@property (nonatomic, strong) NSString *factory_name;
+@property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *factoryInfoIdentifier;
+@property (nonatomic, copy) NSString *bread;
+@property (nonatomic, copy) NSString *mobile;
+@property (nonatomic, copy) NSString *linkman;
+@property (nonatomic, copy) NSString *factory_name;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

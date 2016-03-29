@@ -76,6 +76,15 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)devicesWithPlaceID:(NSString *)placeID
+{
+    self.requestType = DeviceList;
+    //!!!: 默认值1，切记要改！
+    NSDictionary *dic = @{@"place_id": @"1"};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Device&opt=device_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)shopLists:(NSString *)departmentID
 {
     self.requestType = ShopLists;

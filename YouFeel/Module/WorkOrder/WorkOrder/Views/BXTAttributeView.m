@@ -27,12 +27,12 @@
 {
     int count = 0;
     float btnW = 0;
-    BXTAttributeView *view = [[BXTAttributeView alloc]init];
+    BXTAttributeView *view = [[BXTAttributeView alloc] init];
     view.dataSource = texts;
     
     for (int i = 0; i < texts.count; i++)
     {
-        BXTCustomButton *btn = [[BXTCustomButton alloc]init];
+        BXTCustomButton *btn = [[BXTCustomButton alloc] initWithType:FaultTypeType];
         btn.tag = i;
         [btn addTarget:view action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         btn.titleLabel.font = [UIFont boldSystemFontOfSize:13];

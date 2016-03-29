@@ -15,6 +15,7 @@
 #import "BXTAddOtherManViewController.h"
 #import "BXTAddOtherManInfo.h"
 #import "BXTChooseFaultViewController.h"
+#import "BXTRemarksTableViewCell.h"
 
 #define MOBILE 11
 #define CAUSE 12

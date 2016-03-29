@@ -10,7 +10,7 @@
 
 @interface BXTDepartmentInfo : NSObject
 
-@property (nonatomic ,strong) NSString *department;
-@property (nonatomic ,strong) NSString *dep_id;
+@property (nonatomic ,copy) NSString *department;
+@property (nonatomic ,copy) NSString *dep_id;
 
 @end

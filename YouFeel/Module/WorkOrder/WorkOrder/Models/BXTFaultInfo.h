@@ -12,8 +12,8 @@
 
 @interface BXTFaultInfo : NSObject
 
-@property (nonatomic ,strong) NSString *fault_id;
-@property (nonatomic ,strong) NSString *faulttype_type;
+@property (nonatomic ,copy) NSString *fault_id;
+@property (nonatomic ,copy) NSString *faulttype_type;
 @property (nonatomic, strong) NSArray<BXTFaultTypeInfo *> *sub_data;
 
 @end
@@ -22,8 +22,8 @@
 
 @property (nonatomic ,assign) NSInteger fau_id;
 @property (nonatomic ,assign) NSInteger subgroup;
-@property (nonatomic ,strong) NSString  *subgroup_name;
-@property (nonatomic ,strong) NSString  *faulttype;
+@property (nonatomic ,copy  ) NSString  *subgroup_name;
+@property (nonatomic ,copy  ) NSString  *faulttype;
 @property (nonatomic ,assign) NSInteger faulttype_type;
 @property (nonatomic ,assign) NSInteger faultintegral;
 

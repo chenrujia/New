@@ -14,6 +14,7 @@
 #import "BXTAddOtherManViewController.h"
 #import "BXTAddOtherManInfo.h"
 #import "BXTChooseFaultViewController.h"
+#import "BXTRemarksTableViewCell.h"
 
 #define MOBILE 11
 #define CAUSE 12
@@ -26,11 +27,9 @@
     NSMutableArray   *dep_dataSource;
     NSMutableArray   *fau_dataSource;
     NSString         *cause;
-    
     NSInteger        indexSection;
     NSMutableArray   *manIDs;
     NSInteger        faulttype_type;
-    
 }
 
 @property (nonatomic ,strong) NSMutableArray *mans;

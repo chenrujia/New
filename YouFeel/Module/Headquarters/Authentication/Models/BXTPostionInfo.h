@@ -10,10 +10,10 @@
 
 @interface BXTPostionInfo : NSObject
 
-@property (nonatomic ,strong) NSString *department;
-@property (nonatomic ,strong) NSString *role_id;
-@property (nonatomic ,strong) NSString *role;
-@property (nonatomic ,strong) NSString *is_repair;
+@property (nonatomic ,copy) NSString *department;
+@property (nonatomic ,copy) NSString *role_id;
+@property (nonatomic ,copy) NSString *role;
+@property (nonatomic ,copy) NSString *is_repair;
 
 @end
 

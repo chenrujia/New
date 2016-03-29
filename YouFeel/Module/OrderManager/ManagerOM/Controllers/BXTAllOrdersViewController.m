@@ -28,12 +28,12 @@
     CGFloat          alertHeight;
 }
 
-@property (nonatomic, assign) BOOL             isStart;
-@property (nonatomic, strong) UIDatePicker     *datePicker;
-@property (nonatomic, strong) UIButton         *startTime;
-@property (nonatomic, strong) UIButton         *endTime;
-@property (nonatomic, strong) NSString         *startStr;//开始时间戳
-@property (nonatomic, strong) NSString         *endStr;//结束时间戳
+@property (nonatomic, assign) BOOL         isStart;
+@property (nonatomic, strong) UIDatePicker *datePicker;
+@property (nonatomic, strong) UIButton     *startTime;
+@property (nonatomic, strong) UIButton     *endTime;
+@property (nonatomic, copy  ) NSString     *startStr;//开始时间戳
+@property (nonatomic, copy  ) NSString     *endStr;//结束时间戳
 
 
 @end

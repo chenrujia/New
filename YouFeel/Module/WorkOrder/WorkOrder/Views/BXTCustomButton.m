@@ -7,25 +7,63 @@
 //
 
 #import "BXTCustomButton.h"
+#import "BXTPublicSetting.h"
 
 @implementation BXTCustomButton
+
+- (instancetype)initWithType:(CustomButtonType)btnType
+{
+    self = [super init];
+    if (self)
+    {
+        self.customBtnType = btnType;
+    }
+    return self;
+}
 
 - (CGRect)titleRectForContentRect:(CGRect)contentRect
 {
     CGFloat titleX = 8;
     CGFloat titleY = 0;
-    CGFloat titleW = contentRect.size.width;
-    CGFloat titleH = contentRect.size.height - titleY;
+    CGFloat titleW;
+    CGFloat titleH;
+    if (_customBtnType == FaultTypeType)
+    {
+        titleW = contentRect.size.width;
+        titleH = contentRect.size.height - titleY;
+    }
+    else if (_customBtnType == SelectBtnType)
+    {
+        titleW = SCREEN_WIDTH - 40 - 30 - 10 - 8;
+        titleH = contentRect.size.height - titleY;
+    }
     
     return CGRectMake(titleX, titleY, titleW, titleH);
 }
 
 - (CGRect)imageRectForContentRect:(CGRect)contentRect
 {
-    CGFloat imageW = 17.f;
-    CGFloat imageH = 17.f;
+    CGFloat imageX;
+    CGFloat imageY;
+    CGFloat imageW;
+    CGFloat imageH;
     
-    return CGRectMake(5, 6, imageW, imageH);
+    if (_customBtnType == FaultTypeType)
+    {
+        imageX = 5;
+        imageY = 6;
+        imageW = 17.f;
+        imageH = 17.f;
+    }
+    else if (_customBtnType == SelectBtnType)
+    {
+        imageX = SCREEN_WIDTH - 40 - 30;
+        imageY = 18;
+        imageW = 15.f;
+        imageH = 9.f;
+    }
+    
+    return CGRectMake(imageX, imageY, imageW, imageH);
 }
 
 @end

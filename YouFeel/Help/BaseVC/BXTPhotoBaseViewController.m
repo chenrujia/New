@@ -32,16 +32,6 @@
 
 - (void)removeImage:(NSInteger)index
 {
-    BXTRemarksTableViewCell *cell;
-    if (self.remarkCell)
-    {
-        cell = self.remarkCell;
-    }
-    else
-    {
-        cell = (BXTRemarksTableViewCell *)[self.currentTableView cellForRowAtIndexPath:self.indexPath];
-    }
-
     if (index == 0)
     {
         [self.selectPhotos removeObjectAtIndex:index];
@@ -49,7 +39,7 @@
     }
     else if (index == 1)
     {
-        if (cell.imgViewOne.isGetBack)
+        if (self.photosView.imgViewOne.isGetBack)
         {
             [self.selectPhotos removeObjectAtIndex:0];
             [self.resultPhotos removeObjectAtIndex:0];
@@ -62,12 +52,13 @@
     }
     else if (index == 2)
     {
-        if (cell.imgViewOne.isGetBack && cell.imgViewTwo.isGetBack)
+        if (self.photosView.imgViewOne.isGetBack && self.photosView.imgViewTwo.isGetBack)
         {
             [self.selectPhotos removeObjectAtIndex:0];
             [self.resultPhotos removeObjectAtIndex:0];
         }
-        else if ((cell.imgViewOne.isGetBack && !cell.imgViewTwo.isGetBack) || (!cell.imgViewOne.isGetBack && cell.imgViewTwo.isGetBack))
+        else if ((self.photosView.imgViewOne.isGetBack && !self.photosView.imgViewTwo.isGetBack) ||
+                 (!self.photosView.imgViewOne.isGetBack && self.photosView.imgViewTwo.isGetBack))
         {
             [self.selectPhotos removeObjectAtIndex:1];
             [self.resultPhotos removeObjectAtIndex:1];
@@ -194,54 +185,45 @@
 
 - (void)selectImages
 {
-    BXTRemarksTableViewCell *cell;
-    if (self.remarkCell)
-    {
-        cell = self.remarkCell;
-    }
-    else
-    {
-        cell = (BXTRemarksTableViewCell *)[self.currentTableView cellForRowAtIndexPath:self.indexPath];
-    }
     if (self.selectPhotos.count == 1)
     {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
+        [self refreshPhotosView];
+        [self refreshDatasourceWithIndex:0];
         
         @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
             @strongify(self);
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
+            [self refreshFrameWithIndex:0 withValue:GImageHeight + 10.f];
             
         } completion:nil];
     }
     else if (self.selectPhotos.count == 2)
     {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
-        [self resetDatasource:cell arrayWithIndex:1];
+        [self refreshPhotosView];
+        [self refreshDatasourceWithIndex:0];
+        [self refreshDatasourceWithIndex:1];
         
         @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
             @strongify(self);
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
+            [self refreshFrameWithIndex:0 withValue:GImageHeight + 10.f];
+            [self refreshFrameWithIndex:1 withValue:(GImageHeight + 10.f) * 2];
             
         } completion:nil];
     }
     else if (self.selectPhotos.count == 3)
     {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
-        [self resetDatasource:cell arrayWithIndex:1];
-        [self resetDatasource:cell arrayWithIndex:2];
+        [self refreshPhotosView];
+        [self refreshDatasourceWithIndex:0];
+        [self refreshDatasourceWithIndex:1];
+        [self refreshDatasourceWithIndex:2];
         
         @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
             @strongify(self);
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
-            [self resetFrame:cell arrayWithIndex:2 withValue:(IMAGEWIDTH + 10.f) * 3];
+            [self refreshFrameWithIndex:0 withValue:GImageHeight + 10.f];
+            [self refreshFrameWithIndex:1 withValue:(GImageHeight + 10.f) * 2];
+            [self refreshFrameWithIndex:2 withValue:(GImageHeight + 10.f) * 3];
             
         } completion:nil];
     }
@@ -322,68 +304,60 @@
         return;
     }
     self.selectPhotos = photos;
-    BXTRemarksTableViewCell *cell;
-    if (_remarkCell)
-    {
-        cell = _remarkCell;
-    }
-    else
-    {
-        cell = (BXTRemarksTableViewCell *)[_currentTableView cellForRowAtIndexPath:_indexPath];
-    }
     if (photos.count == 1)
     {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
+        [self refreshPhotosView];
+        [self refreshDatasourceWithIndex:0];
+        
         @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
             @strongify(self);
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
+            [self refreshFrameWithIndex:0 withValue:GImageHeight + 10.f];
             
         } completion:nil];
     }
     else if (photos.count == 2)
     {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
-        [self resetDatasource:cell arrayWithIndex:1];
+        [self refreshPhotosView];
+        [self refreshDatasourceWithIndex:0];
+        [self refreshDatasourceWithIndex:1];
         @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
             @strongify(self);
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
+            [self refreshFrameWithIndex:0 withValue:GImageHeight + 10.f];
+            [self refreshFrameWithIndex:1 withValue:(GImageHeight + 10.f) * 2];
             
         } completion:nil];
     }
     else if (photos.count == 3)
     {
-        [self resetCell:cell];
-        [self resetDatasource:cell arrayWithIndex:0];
-        [self resetDatasource:cell arrayWithIndex:1];
-        [self resetDatasource:cell arrayWithIndex:2];
+        [self refreshPhotosView];
+        [self refreshDatasourceWithIndex:0];
+        [self refreshDatasourceWithIndex:1];
+        [self refreshDatasourceWithIndex:2];
         @weakify(self);
         [UIView animateWithDuration:1.f animations:^{
             @strongify(self);
-            [self resetFrame:cell arrayWithIndex:0 withValue:IMAGEWIDTH + 10.f];
-            [self resetFrame:cell arrayWithIndex:1 withValue:(IMAGEWIDTH + 10.f) * 2];
-            [self resetFrame:cell arrayWithIndex:2 withValue:(IMAGEWIDTH + 10.f) * 3];
+            [self refreshFrameWithIndex:0 withValue:GImageHeight + 10.f];
+            [self refreshFrameWithIndex:1 withValue:(GImageHeight + 10.f) * 2];
+            [self refreshFrameWithIndex:2 withValue:(GImageHeight + 10.f) * 3];
             
         } completion:nil];
     }
 }
 
-- (void)resetCell:(BXTRemarksTableViewCell *)cell
+- (void)refreshPhotosView
 {
-    [cell.imgViewOne setFrame:cell.addBtn.frame];
-    [cell.imgViewTwo setFrame:cell.addBtn.frame];
-    [cell.imgViewThree setFrame:cell.addBtn.frame];
+    [self.photosView.imgViewOne setFrame:self.photosView.addBtn.frame];
+    [self.photosView.imgViewTwo setFrame:self.photosView.addBtn.frame];
+    [self.photosView.imgViewThree setFrame:self.photosView.addBtn.frame];
     
-    cell.imgViewOne.image = nil;
-    cell.imgViewTwo.image = nil;
-    cell.imgViewThree.image = nil;
+    self.photosView.imgViewOne.image = nil;
+    self.photosView.imgViewTwo.image = nil;
+    self.photosView.imgViewThree.image = nil;
 }
 
-- (void)resetDatasource:(BXTRemarksTableViewCell *)cell arrayWithIndex:(NSInteger)index
+- (void)refreshDatasourceWithIndex:(NSInteger)index
 {
     id obj = [_selectPhotos objectAtIndex:index];
     UIImage *newImage = nil;
@@ -404,37 +378,37 @@
     
     if (index == 0)
     {
-        cell.imgViewOne.image = newImage;
+        self.photosView.imgViewOne.image = newImage;
     }
     else if (index == 1)
     {
-        cell.imgViewTwo.image = newImage;
+        self.photosView.imgViewTwo.image = newImage;
     }
     else if (index == 2)
     {
-        cell.imgViewThree.image = newImage;
+        self.photosView.imgViewThree.image = newImage;
     }
 }
 
-- (void)resetFrame:(BXTRemarksTableViewCell *)cell arrayWithIndex:(NSInteger)index withValue:(CGFloat)space
+- (void)refreshFrameWithIndex:(NSInteger)index withValue:(CGFloat)space
 {
-    CGRect rect = cell.imgViewOne.frame;
-    rect.origin.x = CGRectGetMinX(cell.addBtn.frame) + space;
+    CGRect rect = self.photosView.imgViewOne.frame;
+    rect.origin.x = CGRectGetMinX(self.photosView.addBtn.frame) + space;
     
     if (index == 0)
     {
-        cell.imgViewOne.isGetBack = NO;
-        cell.imgViewOne.frame = rect;
+        self.photosView.imgViewOne.isGetBack = NO;
+        self.photosView.imgViewOne.frame = rect;
     }
     else if (index == 1)
     {
-        cell.imgViewTwo.isGetBack = NO;
-        cell.imgViewTwo.frame = rect;
+        self.photosView.imgViewTwo.isGetBack = NO;
+        self.photosView.imgViewTwo.frame = rect;
     }
     else if (index == 2)
     {
-        cell.imgViewThree.isGetBack = NO;
-        cell.imgViewThree.frame = rect;
+        self.photosView.imgViewThree.isGetBack = NO;
+        self.photosView.imgViewThree.frame = rect;
     }
 }
 
@@ -537,17 +511,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

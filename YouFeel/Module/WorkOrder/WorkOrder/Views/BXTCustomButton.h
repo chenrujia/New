@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, CustomButtonType) {
+    FaultTypeType,//故障类型
+    SelectBtnType//选择按钮（例如：设备列表选择按钮）
+};
+
 @interface BXTCustomButton : UIButton
+
+@property (nonatomic, assign) CustomButtonType customBtnType;
+
+- (instancetype)initWithType:(CustomButtonType)btnType;
 
 @end

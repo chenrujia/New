@@ -9,9 +9,9 @@
 
 @interface BXTEquipmentParams : NSObject
 
-@property (nonatomic, strong) NSString *paramsIdentifier;
-@property (nonatomic, strong) NSString *param_value;
-@property (nonatomic, strong) NSString *param_key;
+@property (nonatomic, copy) NSString *paramsIdentifier;
+@property (nonatomic, copy) NSString *param_value;
+@property (nonatomic, copy) NSString *param_key;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
