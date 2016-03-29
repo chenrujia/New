@@ -10,15 +10,15 @@
 
 @interface BXTEquipmentState : NSObject
 
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *mobile;
-@property (nonatomic, strong) NSString *device_id;
-@property (nonatomic, strong) NSString *state_name;
-@property (nonatomic, strong) NSString *user_id;
-@property (nonatomic, strong) NSString *create_time;
-@property (nonatomic, strong) NSString *state;
-@property (nonatomic, strong) NSString *desc;
-@property (nonatomic, strong) NSString *create_date;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *mobile;
+@property (nonatomic, copy) NSString *device_id;
+@property (nonatomic, copy) NSString *state_name;
+@property (nonatomic, copy) NSString *user_id;
+@property (nonatomic, copy) NSString *create_time;
+@property (nonatomic, copy) NSString *state;
+@property (nonatomic, copy) NSString *desc;
+@property (nonatomic, copy) NSString *create_date;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

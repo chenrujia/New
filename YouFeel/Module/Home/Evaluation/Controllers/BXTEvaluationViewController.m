@@ -113,64 +113,65 @@
     lineViewOne.backgroundColor = colorWithHexString(@"909497");
     [backView addSubview:lineViewOne];
     
-    self.remarkCell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ReCell"];
-    self.remarkCell.frame = CGRectMake(0, CGRectGetMaxY(lineViewOne.frame), SCREEN_WIDTH, 170);
-    self.remarkCell.remarkTV.delegate = self;
-    self.remarkCell.titleLabel.text = @"备   注";
-    
-    @weakify(self);
-    UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
-    [self.remarkCell.imgViewOne addGestureRecognizer:tapGROne];
-    [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
-        @strongify(self);
-        [self loadMWPhotoBrowser:self.remarkCell.imgViewOne.tag];
-    }];
-    
-    UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
-    [self.remarkCell.imgViewTwo addGestureRecognizer:tapGRTwo];
-    [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
-        @strongify(self);
-        [self loadMWPhotoBrowser:self.remarkCell.imgViewTwo.tag];
-    }];
-    
-    UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
-    [self.remarkCell.imgViewThree addGestureRecognizer:tapGRThree];
-    [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
-        @strongify(self);
-        [self loadMWPhotoBrowser:self.remarkCell.imgViewThree.tag];
-    }];
-    
-    [self.remarkCell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:self.remarkCell];
-    
-    UIView *lineViewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.remarkCell.frame), SCREEN_WIDTH, 0.5f)];
-    lineViewTwo.backgroundColor = colorWithHexString(@"909497");
-    [backView addSubview:lineViewTwo];
-    
-    UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 40.f, SCREEN_WIDTH - 40, 50.f);
-    if (IS_IPHONE4)
-    {
-        commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
-    }
-    [commitBtn setTitle:@"提交" forState:UIControlStateNormal];
-    commitBtn.titleLabel.font = [UIFont systemFontOfSize:20];
-    [commitBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
-    [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
-    commitBtn.layer.masksToBounds = YES;
-    commitBtn.layer.cornerRadius = 4.f;
-    [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self showLoadingMBP:@"正在提交..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request evaluateRepair:self.rateArray
-                evaluationNotes:self.notes
-                       repairID:self.repairID
-                     imageArray:self.resultPhotos];
-    }];
-    [backView addSubview:commitBtn];
-    
-    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(commitBtn.frame)+70);
+    //TODO: 记得改回来！！！
+//    self.remarkCell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ReCell"];
+//    self.remarkCell.frame = CGRectMake(0, CGRectGetMaxY(lineViewOne.frame), SCREEN_WIDTH, 170);
+//    self.remarkCell.remarkTV.delegate = self;
+//    self.remarkCell.titleLabel.text = @"备   注";
+//    
+//    @weakify(self);
+//    UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
+//    [self.remarkCell.imgViewOne addGestureRecognizer:tapGROne];
+//    [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
+//        @strongify(self);
+//        [self loadMWPhotoBrowser:self.remarkCell.imgViewOne.tag];
+//    }];
+//    
+//    UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
+//    [self.remarkCell.imgViewTwo addGestureRecognizer:tapGRTwo];
+//    [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
+//        @strongify(self);
+//        [self loadMWPhotoBrowser:self.remarkCell.imgViewTwo.tag];
+//    }];
+//    
+//    UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
+//    [self.remarkCell.imgViewThree addGestureRecognizer:tapGRThree];
+//    [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
+//        @strongify(self);
+//        [self loadMWPhotoBrowser:self.remarkCell.imgViewThree.tag];
+//    }];
+//    
+//    [self.remarkCell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
+//    [backView addSubview:self.remarkCell];
+//    
+//    UIView *lineViewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.remarkCell.frame), SCREEN_WIDTH, 0.5f)];
+//    lineViewTwo.backgroundColor = colorWithHexString(@"909497");
+//    [backView addSubview:lineViewTwo];
+//    
+//    UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 40.f, SCREEN_WIDTH - 40, 50.f);
+//    if (IS_IPHONE4)
+//    {
+//        commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
+//    }
+//    [commitBtn setTitle:@"提交" forState:UIControlStateNormal];
+//    commitBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+//    [commitBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+//    [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
+//    commitBtn.layer.masksToBounds = YES;
+//    commitBtn.layer.cornerRadius = 4.f;
+//    [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+//        @strongify(self);
+//        [self showLoadingMBP:@"正在提交..."];
+//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//        [request evaluateRepair:self.rateArray
+//                evaluationNotes:self.notes
+//                       repairID:self.repairID
+//                     imageArray:self.resultPhotos];
+//    }];
+//    [backView addSubview:commitBtn];
+//    
+//    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(commitBtn.frame)+70);
 }
 
 #pragma mark -

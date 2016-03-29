@@ -9,13 +9,13 @@
 
 @interface BXTEquipmentControlUserArr : NSObject
 
-@property (nonatomic, strong) NSString *mobile;
-@property (nonatomic, strong) NSString *controlUserArrIdentifier;
-@property (nonatomic, strong) NSString *role;
-@property (nonatomic, strong) NSString *head_pic;
-@property (nonatomic, strong) NSString *out_userid;
-@property (nonatomic, strong) NSString *department;
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, copy) NSString *mobile;
+@property (nonatomic, copy) NSString *controlUserArrIdentifier;
+@property (nonatomic, copy) NSString *role;
+@property (nonatomic, copy) NSString *head_pic;
+@property (nonatomic, copy) NSString *out_userid;
+@property (nonatomic, copy) NSString *department;
+@property (nonatomic, copy) NSString *name;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

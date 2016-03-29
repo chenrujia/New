@@ -9,15 +9,15 @@
 
 @interface BXTCurrentOrderData : NSObject
 
-@property (nonatomic, strong) NSString *orderid;
-@property (nonatomic, strong) NSString *subgroup_name;
-@property (nonatomic, strong) NSString *place;
-@property (nonatomic, strong) NSString *fault;
-@property (nonatomic, strong) NSString *faulttype_name;
-@property (nonatomic, strong) NSString *cause;
-@property (nonatomic, strong) NSString *repair_time;
-@property (nonatomic, strong) NSString *is_receive;
-@property (nonatomic, strong) NSString *dataIdentifier;
+@property (nonatomic, copy) NSString *orderid;
+@property (nonatomic, copy) NSString *subgroup_name;
+@property (nonatomic, copy) NSString *place;
+@property (nonatomic, copy) NSString *fault;
+@property (nonatomic, copy) NSString *faulttype_name;
+@property (nonatomic, copy) NSString *cause;
+@property (nonatomic, copy) NSString *repair_time;
+@property (nonatomic, copy) NSString *is_receive;
+@property (nonatomic, copy) NSString *dataIdentifier;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

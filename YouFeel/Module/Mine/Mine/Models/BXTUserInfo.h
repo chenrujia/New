@@ -48,24 +48,24 @@
 @property (nonatomic ,strong) BXTFloorInfo        *floorInfo;
 @property (nonatomic ,strong) BXTAreaInfo         *areaInfo;
 @property (nonatomic ,strong) BXTGroupingInfo     *groupingInfo;
-@property (nonatomic ,strong) id <NSCopying>      shopInfo;
-@property (nonatomic ,strong) NSString            *userName;
-@property (nonatomic ,strong) NSString            *passWord;
-@property (nonatomic ,strong) NSString            *name;
-@property (nonatomic ,strong) NSString            *sex;
+@property (nonatomic ,strong) id <NSCopying          > shopInfo;
+@property (nonatomic ,copy  ) NSString            *userName;
+@property (nonatomic ,copy  ) NSString            *passWord;
+@property (nonatomic ,copy  ) NSString            *name;
+@property (nonatomic ,copy  ) NSString            *sex;
 @property (nonatomic ,strong) NSArray             *binding_ads;
-@property (nonatomic ,strong) NSString            *userID;
-@property (nonatomic ,strong) NSString            *branchUserID;
+@property (nonatomic ,copy  ) NSString            *userID;
+@property (nonatomic ,copy  ) NSString            *branchUserID;
 @property (nonatomic ,strong) NSArray             *roleArray;
 @property (nonatomic ,strong) NSArray             *shopIdsArray;
-@property (nonatomic ,strong) NSString            *mobileNumber;
-@property (nonatomic ,strong) NSString            *headerImage;
+@property (nonatomic ,copy  ) NSString            *mobileNumber;
+@property (nonatomic ,copy  ) NSString            *headerImage;
 @property (nonatomic ,strong) NSArray             *my_shop;
-@property (nonatomic ,strong) NSString            *im_token;
+@property (nonatomic ,copy  ) NSString            *im_token;
 @property (nonatomic ,strong) NSMutableArray      *usersArray;
-@property (nonatomic, strong) NSString            *token;
-@property (nonatomic, strong) NSString            *is_verify;
-@property (nonatomic, strong) NSString            *openID;
+@property (nonatomic, copy  ) NSString            *token;
+@property (nonatomic, copy  ) NSString            *is_verify;
+@property (nonatomic, copy  ) NSString            *openID;
 
 @end
 

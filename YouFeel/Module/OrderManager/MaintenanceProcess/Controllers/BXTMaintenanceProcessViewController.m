@@ -13,6 +13,7 @@
 #import "BXTFaultInfo.h"
 #import "BXTMaintenanceProcessTableViewCell.h"
 #import "BXTMMLogTableViewCell.h"
+#import "BXTRemarksTableViewCell.h"
 
 #define kMMLOG 12
 #define kNOTE 11
@@ -34,14 +35,14 @@
     UIView           *toolView;
 }
 
-@property (nonatomic, strong) NSString     *mmLog;
-@property (nonatomic, strong) NSString     *groupID;
-@property (nonatomic, strong) NSString     *state;
-@property (nonatomic, strong) NSString     *notes;
-@property (nonatomic ,strong) NSString     *cause;
+@property (nonatomic, copy  ) NSString     *mmLog;
+@property (nonatomic, copy  ) NSString     *groupID;
+@property (nonatomic, copy  ) NSString     *state;
+@property (nonatomic, copy  ) NSString     *notes;
+@property (nonatomic ,copy  ) NSString     *cause;
 @property (nonatomic ,assign) NSInteger    repairID;
-@property (nonatomic ,strong) NSString     *reaciveTime;
-@property (nonatomic, strong) NSString     *specialOID;
+@property (nonatomic ,copy  ) NSString     *reaciveTime;
+@property (nonatomic, copy  ) NSString     *specialOID;
 @property (nonatomic ,assign) NSInteger    currentFaultID;
 @property (nonatomic, strong) UIView       *pickerbackView;
 @property (nonatomic, strong) UIPickerView *faultPickView;

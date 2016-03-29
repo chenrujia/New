@@ -11,8 +11,8 @@
 @interface BXTAllOrdersViewController : BXTBaseViewController
 
 @property (nonatomic, assign) BOOL     isSpecialPush;
-@property (nonatomic, strong) NSString *transStartTime;
-@property (nonatomic, strong) NSString *transEndTime;
-@property (nonatomic, strong) NSString *transType;
+@property (nonatomic, copy) NSString *transStartTime;
+@property (nonatomic, copy) NSString *transEndTime;
+@property (nonatomic, copy) NSString *transType;
 
 @end

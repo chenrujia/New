@@ -14,10 +14,10 @@
 @interface BXTChangePassWordViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
-@property (nonatomic ,strong) NSString *pwStr;
-@property (nonatomic ,strong) NSString *pwAgainStr;
-@property (nonatomic ,strong) NSString *pw_ID;
-@property (nonatomic ,strong) NSString *pw_Key;
+@property (nonatomic ,copy) NSString *pwStr;
+@property (nonatomic ,copy) NSString *pwAgainStr;
+@property (nonatomic ,copy) NSString *pw_ID;
+@property (nonatomic ,copy) NSString *pw_Key;
 
 @end
 

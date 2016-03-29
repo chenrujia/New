@@ -11,21 +11,21 @@
 #import "MLImageCrop.h"
 #import "MWPhotoBrowser.h"
 #import "BXTBaseViewController.h"
-#import "BXTRemarksTableViewCell.h"
 #import "LocalPhotoViewController.h"
+#import "BXTPhotosView.h"
 @import AssetsLibrary;
 @import AVFoundation;
 @import MobileCoreServices;
 
 @interface BXTPhotoBaseViewController : BXTBaseViewController<SelectPhotoDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,MLImageCropDelegate>
 
-@property (nonatomic ,strong) BXTRemarksTableViewCell *remarkCell;
-@property (nonatomic ,strong) NSMutableArray          *mwPhotosArray;
-@property (nonatomic ,strong) NSMutableArray          *selectPhotos;
-@property (nonatomic ,strong) NSMutableArray          *resultPhotos;
-@property (nonatomic ,strong) NSIndexPath             *indexPath;
-@property (nonatomic ,strong) UITableView             *currentTableView;
-@property (nonatomic, assign) BOOL                    isSettingVC;
+@property (nonatomic ,strong) BXTPhotosView  *photosView;
+@property (nonatomic ,strong) NSMutableArray *mwPhotosArray;
+@property (nonatomic ,strong) NSMutableArray *selectPhotos;
+@property (nonatomic ,strong) NSMutableArray *resultPhotos;
+@property (nonatomic ,strong) NSIndexPath    *indexPath;
+@property (nonatomic ,strong) UITableView    *currentTableView;
+@property (nonatomic, assign) BOOL           isSettingVC;
 
 - (void)addImages;
 - (void)loadMWPhotoBrowser:(NSInteger)index;

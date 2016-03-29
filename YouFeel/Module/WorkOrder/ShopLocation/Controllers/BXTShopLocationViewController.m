@@ -561,20 +561,18 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     }
     else if (type == DeviceList)
     {
-        NSMutableArray *forthArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *deviceDict in array) {
-            BXTDeviceList *listModel = [BXTDeviceList modelWithDict:deviceDict];
-            [forthArray addObject:listModel];
-        }
-        self.addressForthArray = forthArray;
-        
-        self.addressArray = forthArray;
+        [BXTDeviceList mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"deviceID":@"id"};
+        }];
+        [self.addressForthArray addObjectsFromArray:[BXTDeviceList mj_objectArrayWithKeyValuesArray:array]];
+        [self.addressArray addObjectsFromArray:[BXTDeviceList mj_objectArrayWithKeyValuesArray:array]];
         self.typeOfRow = SelectedType_Forth;
-        
-        if (self.addressArray.count == 0) {
+        if (self.addressArray.count == 0)
+        {
             [BXTGlobal showText:@"此位置暂无设备" view:self.view completionBlock:nil];
         }
-        else {
+        else
+        {
             [self createForthUI];
         }
     }

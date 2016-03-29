@@ -9,13 +9,13 @@
 
 @interface BXTEquipmentAdsName : NSObject
 
-@property (nonatomic, strong) NSString *area_id;
-@property (nonatomic, strong) NSString *adsNameIdentifier;
-@property (nonatomic, strong) NSString *stores_id;
-@property (nonatomic, strong) NSString *stores_name;
-@property (nonatomic, strong) NSString *area_name;
-@property (nonatomic, strong) NSString *place_name;
-@property (nonatomic, strong) NSString *place_id;
+@property (nonatomic, copy) NSString *area_id;
+@property (nonatomic, copy) NSString *adsNameIdentifier;
+@property (nonatomic, copy) NSString *stores_id;
+@property (nonatomic, copy) NSString *stores_name;
+@property (nonatomic, copy) NSString *area_name;
+@property (nonatomic, copy) NSString *place_name;
+@property (nonatomic, copy) NSString *place_id;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

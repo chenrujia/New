@@ -13,6 +13,8 @@
 #import "BXTFaultInfo.h"
 #import "BXTShopLocationViewController.h"
 #import "BXTChooseFaultViewController.h"
+#import "BXTRemarksTableViewCell.h"
+
 #define MOBILE 11
 #define CAUSE 12
 

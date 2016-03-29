@@ -125,6 +125,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  设备列表
  */
 - (void)deviceListWithPlaceID:(NSString *)placeID;
+- (void)devicesWithPlaceID:(NSString *)placeID;
 
 /**
  *  店铺信息

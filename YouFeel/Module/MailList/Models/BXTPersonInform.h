@@ -12,25 +12,25 @@
 @interface BXTPersonInform : NSObject
 
 @property (nonatomic, strong) BXTPersonChecks *storesChecks;
-@property (nonatomic, strong) NSString *stores;
-@property (nonatomic, strong) NSString *clientid;
-@property (nonatomic, strong) NSString *stores_id;
-@property (nonatomic, strong) NSString *sex_name;
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *out_userid;
-@property (nonatomic, strong) NSString *department_id;
-@property (nonatomic, strong) NSString *StrID;
-@property (nonatomic, strong) NSString *head_pic;
-@property (nonatomic, strong) NSString *verify_state;
-@property (nonatomic, strong) NSString *gender;
-@property (nonatomic, strong) NSString *department;
-@property (nonatomic, strong) NSString *mobile;
-@property (nonatomic, strong) NSString *head;
-@property (nonatomic, strong) NSString *subgroup_name;
-@property (nonatomic, strong) NSString *role;
-@property (nonatomic, strong) NSString *subgroup;
-@property (nonatomic, strong) NSString *is_verify;
-@property (nonatomic, strong) NSString *role_id;
+@property (nonatomic, copy) NSString *stores;
+@property (nonatomic, copy) NSString *clientid;
+@property (nonatomic, copy) NSString *stores_id;
+@property (nonatomic, copy) NSString *sex_name;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *out_userid;
+@property (nonatomic, copy) NSString *department_id;
+@property (nonatomic, copy) NSString *StrID;
+@property (nonatomic, copy) NSString *head_pic;
+@property (nonatomic, copy) NSString *verify_state;
+@property (nonatomic, copy) NSString *gender;
+@property (nonatomic, copy) NSString *department;
+@property (nonatomic, copy) NSString *mobile;
+@property (nonatomic, copy) NSString *head;
+@property (nonatomic, copy) NSString *subgroup_name;
+@property (nonatomic, copy) NSString *role;
+@property (nonatomic, copy) NSString *subgroup;
+@property (nonatomic, copy) NSString *is_verify;
+@property (nonatomic, copy) NSString *role_id;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
