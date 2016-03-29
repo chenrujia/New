@@ -17,6 +17,9 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
 
+@property (copy, nonatomic) NSString *nowTimeStr;
+@property (copy, nonatomic) NSString *timeStr;
+
 @end
 
 @implementation BXTMyIntegralViewController
@@ -32,6 +35,8 @@
                         @[@"完成率", @"日常工单", @"维保工单", @"总计"],
                         @[@"好评率", @"响应速度", @"服务态度", @"维修质量", @"总计"]
                         ];
+    self.nowTimeStr = @"2016年3月";
+    self.timeStr = @"2016年3月";
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
@@ -56,24 +61,51 @@
     if (indexPath.section == 0) {
         BXTMyIntegralFirstCell *firstCell = [BXTMyIntegralFirstCell cellWithTableView:tableView];
         
+        [firstCell.sameMonthBtn setTitle:self.timeStr forState:UIControlStateNormal];
         
+        [[firstCell.lastMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [firstCell.sameMonthBtn setTitle:[self transTime:self.timeStr isAdd:NO] forState:UIControlStateNormal];
+            firstCell.nextMonthBtn.enabled = YES;
+        }];
+        
+        [[firstCell.nextMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            NSString *timeStr = [self transTime:self.timeStr isAdd:YES];
+            [firstCell.sameMonthBtn setTitle:timeStr forState:UIControlStateNormal];
+            
+            if ([timeStr isEqualToString:self.nowTimeStr]) {
+                firstCell.nextMonthBtn.enabled = NO;
+            }
+        }];
         
         return firstCell;
     }
     else if (indexPath.section == 1) {
-        BXTMyIntegralSecondCell *SecondCell = [BXTMyIntegralSecondCell cellWithTableView:tableView];
+        BXTMyIntegralSecondCell *secondCell = [BXTMyIntegralSecondCell cellWithTableView:tableView];
         
         
-        
-        return SecondCell;
+        return secondCell;
     }
     
     
-    BXTMyIntegralThirdCell *ThirdCell = [BXTMyIntegralThirdCell cellWithTableView:tableView];
+    BXTMyIntegralThirdCell *thirdCell = [BXTMyIntegralThirdCell cellWithTableView:tableView];
     
-    ThirdCell.titleView.text = self.titleArray[indexPath.section][indexPath.row];
+    if (indexPath.row == 0) {
+        if (indexPath.section == 2) {
+            thirdCell.backgroundColor = colorWithHexString(@"#76e3c7");
+        } else if (indexPath.section == 3) {
+            thirdCell.backgroundColor = colorWithHexString(@"#f99e8c");
+        }
+        
+        thirdCell.titleView.textColor = [UIColor whiteColor];
+        thirdCell.orderView.textColor = [UIColor whiteColor];
+        thirdCell.percentView.textColor = [UIColor whiteColor];
+        thirdCell.rankingView.textColor = [UIColor whiteColor];
+    }
     
-    return ThirdCell;
+    
+    thirdCell.titleView.text = self.titleArray[indexPath.section][indexPath.row];
+    
+    return thirdCell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -99,6 +131,33 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark - 处理时间
+- (NSString *)transTime:(NSString *)time isAdd:(BOOL)add
+{
+    NSInteger year = [[self.timeStr substringToIndex:4] integerValue];
+    NSInteger month = [[self.timeStr substringWithRange:NSMakeRange(5, self.timeStr.length-6)] integerValue];
+    
+    if (!add) { // 减法
+        month -= 1;
+        if (month <= 0) {
+            year -= 1;
+            month = 12;
+        }
+    }
+    else {
+        month += 1;
+        if (month >= 12) {
+            year += 1;
+            month = 1;
+        }
+    }
+    
+    self.timeStr = [NSString stringWithFormat:@"%ld年%ld月", year, month];
+    
+    return self.timeStr;
 }
 
 - (void)didReceiveMemoryWarning {

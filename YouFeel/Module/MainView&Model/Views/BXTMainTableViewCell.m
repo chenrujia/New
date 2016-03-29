@@ -30,10 +30,14 @@
     self.orderGroupView.text = [NSString stringWithFormat:@"%@  ", repairInfo.subgroup_name];
     self.orderStateView.text = [NSString stringWithFormat:@"%@", repairInfo.repairstate_name];
     self.firstView.text = [NSString stringWithFormat:@"时间：%@", repairInfo.fault_time_name];
+    self.alertView.hidden = YES;
     
     // 日常工单 - 时间、位置、内容
     if ([repairInfo.task_type integerValue] == 1)
     {
+        if ([repairInfo.is_appointment isEqualToString:@"2"]) {
+            self.alertView.hidden = NO;
+        }
         self.secondView.text = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
         self.thirdView.text = [NSString stringWithFormat:@"内容：%@", repairInfo.cause];
     }

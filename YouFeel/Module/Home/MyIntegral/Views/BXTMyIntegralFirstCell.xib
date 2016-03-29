@@ -35,9 +35,7 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="3QN-a6-fvz"/>
                         </constraints>
-                        <state key="normal" title="下个月">
-                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                        </state>
+                        <state key="normal" title="下个月"/>
                     </button>
                 </subviews>
                 <constraints>

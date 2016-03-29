@@ -77,7 +77,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RN9-1t-xIZ">
-                        <rect key="frame" x="15" y="38" width="345" height="21"/>
+                        <rect key="frame" x="15" y="38" width="0.0" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="hfv-2G-fWP"/>
                         </constraints>
@@ -93,18 +93,27 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xzd-ku-U7O">
-                        <rect key="frame" x="291" y="53.5" width="84" height="84"/>
+                        <rect key="frame" x="291" y="53" width="84" height="84"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="84" id="6be-ob-cKh"/>
                             <constraint firstAttribute="width" constant="84" id="rfF-K0-Ms4"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_alarm" translatesAutoresizingMaskIntoConstraints="NO" id="ywe-Mg-5Fm">
+                        <rect key="frame" x="20" y="40" width="17" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="QbY-8p-b5J"/>
+                            <constraint firstAttribute="width" constant="17" id="Xj0-wO-C5c"/>
                         </constraints>
                     </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="xzd-ku-U7O" secondAttribute="bottom" constant="2" id="0tV-ns-6C3"/>
                     <constraint firstItem="nCe-ep-EBA" firstAttribute="top" secondItem="RN9-1t-xIZ" secondAttribute="bottom" constant="4" id="28U-4M-W5y"/>
+                    <constraint firstItem="ywe-Mg-5Fm" firstAttribute="top" secondItem="v3D-r2-FhE" secondAttribute="bottom" constant="7.5" id="3zV-Tu-qFB"/>
                     <constraint firstItem="q8I-7C-h0G" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="4fH-fd-H6N"/>
                     <constraint firstItem="vPd-0X-EFP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="5Lh-IF-B6b"/>
+                    <constraint firstItem="ywe-Mg-5Fm" firstAttribute="leading" secondItem="RN9-1t-xIZ" secondAttribute="trailing" constant="5" id="6Mz-RX-FOC"/>
                     <constraint firstAttribute="trailing" secondItem="xzd-ku-U7O" secondAttribute="trailing" id="CE2-mf-BMY"/>
                     <constraint firstItem="RN9-1t-xIZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="DHm-bs-4ZW"/>
                     <constraint firstItem="pAq-v6-ARU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="E5b-la-A7v"/>
@@ -131,8 +140,14 @@
                     <constraint firstItem="v3D-r2-FhE" firstAttribute="top" secondItem="hdu-5c-5Cp" secondAttribute="bottom" constant="2" id="xEg-J1-znV"/>
                     <constraint firstItem="hdu-5c-5Cp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="zjz-TI-Z5Z"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="FHw-Jw-GsI"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
+                <outlet property="alertView" destination="ywe-Mg-5Fm" id="0rU-1m-LK4"/>
                 <outlet property="firstView" destination="RN9-1t-xIZ" id="nAf-tf-jnd"/>
                 <outlet property="forthView" destination="OvA-Sj-WEw" id="qTY-B7-jcN"/>
                 <outlet property="orderGroupView" destination="q8I-7C-h0G" id="rNq-fJ-hKI"/>
@@ -146,4 +161,7 @@
             <point key="canvasLocation" x="288.5" y="427"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="list_alarm" width="16" height="15"/>
+    </resources>
 </document>

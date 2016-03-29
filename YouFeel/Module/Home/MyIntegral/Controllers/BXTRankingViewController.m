@@ -25,9 +25,12 @@
     
     [self navigationSetting:@"排名" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray = @[@"好评率", @"响应速度", @"服务态度", @"维修质量", @"总计"];
+    self.titleArray = @[@[@""],
+                        @[@""],
+                        @[@"好评率", @"响应速度", @"服务态度", @"维修质量", @"总计", @"好评率", @"响应速度", @"服务态度", @"维修质量", @"总计"]
+                        ];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -37,17 +40,17 @@
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.titleArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.titleArray.count;
+    return [self.titleArray[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    if (indexPath.section == 0) {
         BXTMyIntegralFirstCell *firstCell = [BXTMyIntegralFirstCell cellWithTableView:tableView];
         
         
@@ -58,7 +61,12 @@
     
     BXTRankingCell *cell = [BXTRankingCell cellWithTableView:tableView];
     
-    
+    if (indexPath.section == 1) {
+        cell.backgroundColor = colorWithHexString(@"#E2E6E8");
+    }
+    else {
+        cell.rankingView.text = [NSString stringWithFormat:@"%ld", indexPath.row+1];
+    }
     
     return cell;
 }
@@ -70,12 +78,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.1;
+    return 0.01;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 10;
+    return 0.01;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
