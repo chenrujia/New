@@ -263,19 +263,45 @@ static NSString *cellIndentify = @"resignCellIndentify";
 {
     [self hideMBP];
     NSDictionary *dic = response;
-    if ([[dic objectForKey:@"state"] integerValue] == 1)
+    if (type == BranchResign)
     {
-        NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
-        [BXTGlobal setUserProperty:userID withKey:U_USERID];
-        
-        BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:NO];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:headVC];
-        nav.navigationBar.hidden = YES;
-        [AppDelegate appdelegete].window.rootViewController = nav;
+        LogBlue(@"dic:%@",dic);
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+        {
+            NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
+            [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
+            [self showMBP:@"注册成功！" withBlock:^(BOOL hidden) {
+                [self showLoadingMBP:@"登录中..."];
+                /**分店登录**/
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request branchLogin];
+            }];
+        }
     }
-    else if ([[dic objectForKey:@"returncode"] integerValue] == 6)
+    else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
-        [self showMBP:@"该手机号已注册，请直接登陆" withBlock:nil];
+        NSArray *data = [dic objectForKey:@"data"];
+        if (data.count > 0)
+        {
+            NSDictionary *userInfo = data[0];
+            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
+        }
+    }
+    else
+    {
+        if ([[dic objectForKey:@"state"] integerValue] == 1)
+        {
+            NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
+            [BXTGlobal setUserProperty:userID withKey:U_USERID];
+            //执行分店注册
+            [self showLoadingMBP:@"请稍候..."];
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request branchResign];
+        }
+        else if ([[dic objectForKey:@"returncode"] integerValue] == 6)
+        {
+            [self showMBP:@"该手机号已注册，请直接登陆" withBlock:nil];
+        }
     }
 }
 

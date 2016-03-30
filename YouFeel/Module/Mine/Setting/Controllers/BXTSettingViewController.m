@@ -62,7 +62,7 @@
             if (buttonIdx == 1)
             {
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request exitLoginWithClientID:[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"]];
+                [request exitLogin];
                 [[RCIM sharedRCIM] disconnect];
                 [[ANKeyValueTable userDefaultTable] clear];
                 [BXTGlobal shareGlobal].isRepair = NO;

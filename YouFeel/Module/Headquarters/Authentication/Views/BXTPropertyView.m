@@ -266,17 +266,16 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     // 更换参数 & URL
-    if (type == BranchResign) {
+    if (type == BranchResign)
+    {
         BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
         companyInfo.company_id = self.shopID;
         companyInfo.name = self.shopAddress;
         [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-        
-        
+
         [self transUrl];
     }
-    
-    
+
     [super requestResponseData:response requeseType:type];
 }
 

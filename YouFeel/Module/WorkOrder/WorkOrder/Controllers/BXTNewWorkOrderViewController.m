@@ -29,6 +29,10 @@ static CGFloat const ChooseViewHeight  = 328.f;
 @property (nonatomic, strong) UIView            *blackBV;
 @property (nonatomic, strong) BXTChooseItemView *chooseView;
 @property (nonatomic, strong) NSMutableArray    *devicesArray;
+@property (nonatomic, strong) BXTDeviceList     *selectDeviceInfo;
+@property (nonatomic, strong) NSDictionary      *selectTimeDic;
+@property (nonatomic, strong) BXTOrderTypeInfo  *selectFaultInfo;
+@property (nonatomic, strong) NSString          *txt;
 
 @end
 
@@ -37,28 +41,15 @@ static CGFloat const ChooseViewHeight  = 328.f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self navigationSetting:@"我要报修" andRightTitle:nil andRightImage:nil];
     _commitBtn.layer.cornerRadius = 4.f;
     [_placeTF setValue:colorWithHexString(@"#3cafff") forKeyPath:@"_placeholderLabel.textColor"];
     _placeTF.layer.cornerRadius = 3.f;
     _placeTF.delegate = self;
     self.devicesArray = [NSMutableArray array];
+    self.txt = @"";
     
-    //设备选择按钮
-    self.deviceBtn = [[BXTCustomButton alloc] initWithType:SelectBtnType];
-    self.deviceBtn.tag = DeviceButtonTag;
-    [self.deviceBtn setFrame:CGRectMake(20.f, 0, SCREEN_WIDTH - 40.f, 46.f)];
-    self.deviceBtn.layer.borderColor = colorWithHexString(@"#CCCCCC").CGColor;
-    self.deviceBtn.layer.borderWidth = 0.6f;
-    self.deviceBtn.layer.cornerRadius = 3.f;
-    [self.deviceBtn addTarget:self action:@selector(showSelectedView:) forControlEvents:UIControlEventTouchUpInside];
-    self.deviceBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-    [self.deviceBtn setTitle:@"选择设备" forState:UIControlStateNormal];
-    [self.deviceBtn setTitleColor:colorWithHexString(@"#6E6E6E") forState:UIControlStateNormal];
-    [self.deviceBtn setImage:[UIImage imageNamed:@"wo_down_arrow"] forState:UIControlStateNormal];
-    [self.deviceSelectBtnBV addSubview:self.deviceBtn];
-    
+    //图片视图
     BXTPhotosView *photoView = [[BXTPhotosView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
     [photoView.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
     [self.photosBV addSubview:photoView];
@@ -86,7 +77,10 @@ static CGFloat const ChooseViewHeight  = 328.f;
     self.photosView = photoView;
     
     //报修内容
-    BXTRepairDetailView *repairDetail = [[BXTRepairDetailView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90)];
+    BXTRepairDetailView *repairDetail = [[BXTRepairDetailView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90) block:^(NSString *notes) {
+        @strongify(self);
+        self.notes = notes;
+    }];
     [self.notesBV addSubview:repairDetail];
     
     if (CGRectGetMaxY(self.openSwitch.frame) + 20.f + 68 > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
@@ -99,22 +93,59 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }
     [_contentView layoutIfNeeded];
     
+    [self showLoadingMBP:@"请稍候..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /** 工单类型 **/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request orderTypeList];
     });
-    dispatch_async(concurrentQueue, ^{
-        /** 设备列表 **/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request devicesWithPlaceID:@"1"];
-    });
 }
 
 - (void)navigationLeftButton
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)showDevicesList
+{
+    if (self.devicesArray.count > 0)
+    {
+        self.deviceSelectBtnBV.hidden = NO;
+        if (!self.deviceBtn)
+        {
+            //设备选择按钮
+            self.deviceBtn = [[BXTCustomButton alloc] initWithType:SelectBtnType];
+            self.deviceBtn.tag = DeviceButtonTag;
+            [self.deviceBtn setFrame:CGRectMake(20.f, 0, SCREEN_WIDTH - 40.f, 46.f)];
+            self.deviceBtn.layer.borderColor = colorWithHexString(@"#CCCCCC").CGColor;
+            self.deviceBtn.layer.borderWidth = 0.6f;
+            self.deviceBtn.layer.cornerRadius = 3.f;
+            [self.deviceBtn addTarget:self action:@selector(showSelectedView:) forControlEvents:UIControlEventTouchUpInside];
+            self.deviceBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+            [self.deviceBtn setTitle:@"选择设备" forState:UIControlStateNormal];
+            [self.deviceBtn setTitleColor:colorWithHexString(@"#6E6E6E") forState:UIControlStateNormal];
+            [self.deviceBtn setImage:[UIImage imageNamed:@"wo_down_arrow"] forState:UIControlStateNormal];
+            [self.deviceSelectBtnBV addSubview:self.deviceBtn];
+        }
+        self.notes_image_top.constant = 76.f;
+    }
+    else
+    {
+        self.deviceSelectBtnBV.hidden = YES;
+        self.notes_image_top.constant = 20.f;
+    }
+    
+    [self.notes_image layoutIfNeeded];
+    if (CGRectGetMaxY(self.openSwitch.frame) + 20.f + 68 > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
+    {
+        _content_height.constant = CGRectGetMaxY(self.openSwitch.frame) + 20.f;
+    }
+    else
+    {
+        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
+    }
+    [_contentView layoutIfNeeded];
 }
 
 - (void)showSelectedView:(UIButton *)btn
@@ -125,30 +156,65 @@ static CGFloat const ChooseViewHeight  = 328.f;
     self.blackBV.tag = 101;
     [self.view addSubview:self.blackBV];
     
+    ChooseViewType viewType = DeviceListType;
+    if (btn.tag == DateButtonTag)
+    {
+        viewType = DatePickerType;
+    }
     if (!self.chooseView)
     {
-        self.chooseView = [[BXTChooseItemView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, ChooseViewHeight)];
+        @weakify(self);
+        self.chooseView = [[BXTChooseItemView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, ChooseViewHeight) type:viewType array:self.devicesArray block:^(id item, ChooseViewType chooseType, BOOL isDone) {
+            @strongify(self);
+            if (item && chooseType == DeviceListType && isDone)
+            {
+                self.selectDeviceInfo = item;
+                [self.deviceBtn setTitle:self.selectDeviceInfo.name forState:UIControlStateNormal];
+            }
+            else if (item && chooseType == DatePickerType && isDone)
+            {
+                self.selectTimeDic = item;
+                [self.dateBtn setTitle:[self.selectTimeDic objectForKey:@"time"] forState:UIControlStateNormal];
+            }
+            [self.blackBV removeFromSuperview];
+            [UIView animateWithDuration:0.3f animations:^{
+                [self.chooseView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, ChooseViewHeight)];
+            } completion:nil];
+        }];
         [self.view addSubview:self.chooseView];
+    }
+    else
+    {
+        [self.chooseView refreshChooseView:viewType array:self.devicesArray];
     }
     [self.view bringSubviewToFront:self.chooseView];
     
     [UIView animateWithDuration:0.3f animations:^{
         [self.chooseView setFrame:CGRectMake(0, SCREEN_HEIGHT - ChooseViewHeight, SCREEN_WIDTH, ChooseViewHeight)];
     }];
-    
-    if (btn.tag == DeviceButtonTag)
-    {
-        
-    }
-    else if (btn.tag == DateButtonTag)
-    {
-        
-    }
 }
 
 - (IBAction)commitOrder:(id)sender
 {
-    
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    NSString *appointmentTime = @"";
+    NSString *deviceID = @"";
+    if (self.selectTimeDic)
+    {
+        appointmentTime = [self.selectTimeDic objectForKey:@"timeInterval"];
+    }
+    if (self.selectDeviceInfo)
+    {
+        deviceID = self.selectDeviceInfo.deviceID;
+    }
+    [request createRepair:appointmentTime
+              faultTypeID:self.selectFaultInfo.faulttype
+               faultCause:self.notes
+                  placeID:self.placeInfo.placeID
+                deviceIDs:deviceID
+                   adsTxt:self.txt
+               imageArray:self.resultPhotos
+          repairUserArray:[NSArray array]];
 }
 
 - (IBAction)switchValueChanged:(id)sender
@@ -173,30 +239,21 @@ static CGFloat const ChooseViewHeight  = 328.f;
             [self.dateBtn setImage:[UIImage imageNamed:@"wo_down_arrow"] forState:UIControlStateNormal];
             [self.dateSelectBtnBV addSubview:self.dateBtn];
         }
-        
-        if (CGRectGetMaxY(self.dateSelectBtnBV.frame) + 20.f + 68 > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
-        {
-            _content_height.constant = CGRectGetMaxY(self.dateSelectBtnBV.frame) + 20.f;
-        }
-        else
-        {
-            _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
-        }
-        [_contentView layoutIfNeeded];
     }
     else
     {
         self.dateSelectBtnBV.hidden = YES;
-        if (CGRectGetMaxY(self.openSwitch.frame) + 20.f + 68 > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
-        {
-            _content_height.constant = CGRectGetMaxY(self.openSwitch.frame) + 20.f;
-        }
-        else
-        {
-            _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
-        }
-        [_contentView layoutIfNeeded];
     }
+    
+    if (CGRectGetMaxY(self.openSwitch.frame) + 20.f + 68 > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
+    {
+        _content_height.constant = CGRectGetMaxY(self.openSwitch.frame) + 20.f;
+    }
+    else
+    {
+        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
+    }
+    [_contentView layoutIfNeeded];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -216,7 +273,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
 #pragma mark AttributeViewDelegate
 - (void)attributeViewSelectType:(BXTOrderTypeInfo *)selectType
 {
-    NSLog(@"title:.....%@",selectType.faulttype);
+    self.selectFaultInfo = selectType;
 }
 
 #pragma mark -
@@ -230,6 +287,11 @@ static CGFloat const ChooseViewHeight  = 328.f;
         @strongify(self);
         self.placeTF.text = placeInfo.place;
         self.placeInfo = placeInfo;
+        LogBlue(@"placeID:%@",placeInfo.placeID);
+        [self showLoadingMBP:@"请稍候..."];
+        /** 设备列表 **/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request devicesWithPlaceID:self.placeInfo.placeID];
     }];
     [self.navigationController pushViewController:searchVC animated:YES];
     return NO;
@@ -237,8 +299,8 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
-    LogRed(@"dic......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == OrderFaultType)
     {
@@ -257,16 +319,28 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }
     else if (type == DeviceList)
     {
+        [self.devicesArray removeAllObjects];
         [BXTDeviceList mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"deviceID":@"id"};
         }];
         [self.devicesArray addObjectsFromArray:[BXTDeviceList mj_objectArrayWithKeyValuesArray:data]];
+        [self showDevicesList];
+    }
+    else if (type == CreateRepair)
+    {
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestRepairList" object:nil];
+            [self showMBP:@"新工单已创建！" withBlock:^(BOOL hidden) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }
     }
 }
 
 - (void)requestError:(NSError *)error
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

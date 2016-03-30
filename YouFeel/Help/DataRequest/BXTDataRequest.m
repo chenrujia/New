@@ -79,8 +79,7 @@
 - (void)devicesWithPlaceID:(NSString *)placeID
 {
     self.requestType = DeviceList;
-    //!!!: 默认值1，切记要改！
-    NSDictionary *dic = @{@"place_id": @"1"};
+    NSDictionary *dic = @{@"place_id": placeID};
     NSString *url = [NSString stringWithFormat:@"%@&module=Device&opt=device_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -132,6 +131,14 @@
     NSString *urlLast = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",urlLast];
     
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)branchResign
+{
+    self.requestType = BranchResign;
+    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -464,48 +471,24 @@ andRepairerIsReacive:(NSString *)reacive
     [self uploadImageRequest:url withParameters:dic withImages:images];
 }
 
-- (void)createRepair:(NSString *)faultType
-      faultType_type:(NSString *)faulttype_type
-           deviceIDs:(NSString *)deviceID
+- (void)createRepair:(NSString *)reserveTime
+         faultTypeID:(NSString *)faultTypeID
           faultCause:(NSString *)cause
-          faultLevel:(NSString *)level
-         depatmentID:(NSString *)depID
-         floorInfoID:(NSString *)floorID
-          areaInfoId:(NSString *)areaID
-          shopInfoID:(NSString *)shopID
-           equipment:(NSString *)eqID
-          faultNotes:(NSString *)notes
+             placeID:(NSString *)placeID
+           deviceIDs:(NSString *)deviceID
+              adsTxt:(NSString *)adsTxt
           imageArray:(NSArray *)images
      repairUserArray:(NSArray *)userArray
 {
     self.requestType = CreateRepair;
-    
-    if (!notes)
-    {
-        notes = @"";
-    }
-    
-    NSString *fault = [BXTGlobal getUserProperty:U_NAME];
     NSString *faultID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-    NSString *moblie = [BXTGlobal getUserProperty:U_MOBILE];
-    NSDictionary *dic = @{@"type":@"add",
-                          @"faulttype":faultType,
-                          @"faulttype_type":faulttype_type,
-                          @"device_ids": deviceID,
+    NSDictionary *dic = @{@"fault_id":faultID,
+                          @"fault_appointment_time":reserveTime,
+                          @"faulttype_id":faultTypeID,
                           @"cause":cause,
-                          @"urgent":level,
-                          @"department":depID,
-                          @"area":floorID,
-                          @"place":areaID,
-                          @"stores_id":shopID,
-                          @"equipment":eqID,
-                          @"fault":fault,
-                          @"fault_id":faultID,
-                          @"visitmobile":moblie,
-                          @"notes":notes,
-                          @"collection":@"",
-                          @"collection_note":@"",
-                          @"repair_user_arr":userArray};
+                          @"place_id":placeID,
+                          @"device_ids":deviceID,
+                          @"ads_txt":adsTxt};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_fault",[BXTGlobal shareGlobal].baseURL];
     [self uploadImageRequest:url withParameters:dic withImages:images];
 }
@@ -984,11 +967,11 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)exitLoginWithClientID:(NSString *)clientid
+- (void)exitLogin
 {
     self.requestType = Exit_Login;
-    NSDictionary *dic = @{@"clientid": clientid};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Login&opt=exit_login",[BXTGlobal shareGlobal].baseURL];
+    NSDictionary *dic = @{@"out_userid": [BXTGlobal getUserProperty:U_USERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=exit_login",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
