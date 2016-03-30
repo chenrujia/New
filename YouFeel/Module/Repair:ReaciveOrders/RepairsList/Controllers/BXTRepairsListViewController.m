@@ -27,7 +27,6 @@
     
     [self navigationSetting:@"人员列表" andRightTitle:nil andRightImage:nil];
     
-    
     self.dataArray = [[NSMutableArray alloc] init];
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
     
@@ -61,6 +60,7 @@
     }
     
 //    cell.textLabel.text = self.dataArray[indexPath.section];
+    
     
     return cell;
 }

@@ -10,5 +10,4 @@
 
 @interface BXTRepairsListViewController : BXTBaseViewController
 
-
 @end
