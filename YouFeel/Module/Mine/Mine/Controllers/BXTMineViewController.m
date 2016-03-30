@@ -8,9 +8,9 @@
 
 #import "BXTMineViewController.h"
 #import "BXTHeaderFile.h"
+#import "BXTMineDownView.h"
 #import "BXTSettingTableViewCell.h"
 #import "BXTMineCell.h"
-#import "BXTMineIconCell.h"
 #import "BXTFeebackInfo.h"
 #import "UIImageView+WebCache.h"
 #import "BXTUserInformViewController.h"
@@ -18,6 +18,7 @@
 #import "BXTFeedbackViewController.h"
 #import "BXTSettingViewController.h"
 #import "BXTCommentListViewController.h"
+#import "BXTAboutUsViewController.h"
 
 @interface BXTMineViewController () <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 
@@ -45,7 +46,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"我的" andRightTitle:nil andRightImage:nil];
+    //    [self navigationSetting:@"我的" andRightTitle:nil andRightImage:nil];
     [self initContentViews];
     
     self.feebackSource = [NSMutableArray array];
@@ -59,19 +60,24 @@
 
 - (void)loadDataSoure
 {
-    [self showLoadingMBP:@"请稍等..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request feedbackCommentList];
+    //    [self showLoadingMBP:@"请稍等..."];
+    //    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    //    [request feedbackCommentList];
 }
 
 #pragma mark -
 #pragma mark 初始化视图
 - (void)initContentViews
 {
-    self.iconArray = [[NSArray alloc] initWithObjects:@"mine_tools", @"mine_pen", @"mine_cog", nil];
-    self.titleArray = [[NSArray alloc] initWithObjects:@"项目信息", @"意见反馈", @"设置", nil];
+    self.iconArray = [[NSArray alloc] initWithObjects:@"mine_personal", @"mine_tools", @"mine_pen", @"mine_cog", @"mine_about_us", nil];
+    self.titleArray = [[NSArray alloc] initWithObjects:@"个人信息", @"项目管理", @"意见反馈", @"设置", @"关于我们", nil];
     
-    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - KTABBARHEIGHT) style:UITableViewStyleGrouped];
+    // BXTMineHeaderView
+    [self createLogoView];
+    
+    // currentTableView
+    CGFloat height = valueForDevice(236, 215, 193, 193);
+    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, height, SCREEN_WIDTH, SCREEN_HEIGHT - height - KTABBARHEIGHT) style:UITableViewStyleGrouped];
     self.currentTableView.delegate = self;
     self.currentTableView.dataSource = self;
     self.currentTableView.showsVerticalScrollIndicator = NO;
@@ -84,15 +90,40 @@
     }];
 }
 
+- (void)createLogoView
+{
+    UIView *logoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, valueForDevice(236, 215, 193, 193))];
+    logoView.userInteractionEnabled = YES;
+    logoView.backgroundColor = colorWithHexString(@"#5DAFF9");
+    [self.view addSubview:logoView];
+    
+    CGFloat width = valueForDevice(84, 76, 65, 65);
+    UIImageView *headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, valueForDevice(53, 48, 40.8, 40.8), width, width)];
+    headImgView.center = CGPointMake(SCREEN_WIDTH/2.f, headImgView.center.y);
+    headImgView.contentMode = UIViewContentModeScaleAspectFill;
+    headImgView.layer.masksToBounds = YES;
+    headImgView.layer.cornerRadius = width/2.f;
+    [headImgView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+    [logoView addSubview:headImgView];
+    
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(headImgView.frame) + valueForDevice(12, 11, 8, 8), 200.f, 20.f)];
+    nameLabel.center = CGPointMake(SCREEN_WIDTH/2.f, nameLabel.center.y);
+    nameLabel.textAlignment = NSTextAlignmentCenter;
+    nameLabel.textColor = colorWithHexString(@"ffffff");
+    nameLabel.font = [UIFont boldSystemFontOfSize:IS_IPHONE4 ? 15.f : 17.f];
+    nameLabel.text = [BXTGlobal getUserProperty:U_NAME];
+    [logoView addSubview:nameLabel];
+    
+    BXTMineDownView *downView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMineDownView" owner:nil options:nil] lastObject];
+    downView.frame = CGRectMake((SCREEN_WIDTH-240)/2, CGRectGetMaxY(nameLabel.frame) + valueForDevice(12, 11, 8, 8), 240, 40);
+    [logoView addSubview:downView];
+}
+
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 0.1;
-    }
-    return 8.f;
+    return 10.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -102,16 +133,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
-    {
-        return 100.f;
-    }
     return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return self.titleArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -121,21 +148,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
-    {
-        BXTMineIconCell *cell = [BXTMineIconCell cellWithTableView:tableView];
-        
-        [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-        cell.nameView.text = [BXTGlobal getUserProperty:U_NAME];
-        cell.phoneView.text = [BXTGlobal getUserProperty:U_MOBILE];
-        
-        return cell;
-    }
-    
     BXTMineCell *mineCell = [BXTMineCell cellWithTableView:tableView];
     
-    mineCell.iconView.image = [UIImage imageNamed:self.iconArray[indexPath.section-1]];
-    mineCell.titleView.text =  self.titleArray[indexPath.section-1];
+    mineCell.iconView.image = [UIImage imageNamed:self.iconArray[indexPath.section]];
+    mineCell.titleView.text =  self.titleArray[indexPath.section];
     mineCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return mineCell;
@@ -180,6 +196,13 @@
             BXTSettingViewController *stvc = [[BXTSettingViewController alloc] init];
             stvc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:stvc animated:YES];
+            break;
+        }
+        case 4:
+        {
+            BXTAboutUsViewController *auvc = [[BXTAboutUsViewController alloc] init];
+            auvc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:auvc animated:YES];
             break;
         }
         default: break;

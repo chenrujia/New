@@ -54,9 +54,10 @@
 #pragma mark 初始化视图
 - (void)initContentViews
 {
-    self.titleArray = [[NSArray alloc] initWithObjects:@"姓   名", @"手机号", @"性   别", nil];
+    self.titleArray = @[@[@"", @"姓   名", @"手机号", @"性   别"], @[@"手机号", @"微信号"]];
     NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
-    self.detailArray = [[NSArray alloc] initWithObjects:[BXTGlobal getUserProperty:U_NAME], [BXTGlobal getUserProperty:U_USERNAME], sexStr, nil];
+    self.detailArray = @[@[@"", [BXTGlobal getUserProperty:U_NAME], [BXTGlobal getUserProperty:U_USERNAME], sexStr], @[[BXTGlobal getUserProperty:U_USERNAME], @"cccc"]];
+    
     
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     currentTableView.delegate = self;
@@ -69,21 +70,17 @@
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 0.1;
-    }
-    return 10.f;
+    return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.1f;
+    return 10.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    if (indexPath.section == 0 && indexPath.row == 0)
     {
         return 100.f;
     }
@@ -92,17 +89,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return self.titleArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return [self.titleArray[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    if (indexPath.section == 0 && indexPath.row == 0)
     {
         BXTSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingCell"];
         if (!cell)
@@ -128,15 +125,15 @@
     
     BXTUserInformCell *cell = [BXTUserInformCell cellWithTableView:tableView];
     
-    cell.titleView.text = self.titleArray[indexPath.section-1];
-    cell.detailView.text = self.detailArray[indexPath.section-1];
+    cell.titleView.text = self.titleArray[indexPath.section][indexPath.row];
+    cell.detailView.text = self.detailArray[indexPath.section][indexPath.row];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    if (indexPath.section == 0 && indexPath.row == 0)
     {
         [self addImages];
     }

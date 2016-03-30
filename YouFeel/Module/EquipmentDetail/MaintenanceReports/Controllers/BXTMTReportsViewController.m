@@ -229,7 +229,7 @@
         else if (index == 1) {
             [self.dataArray replaceObjectAtIndex:1 withObject:self.badCauseArray[self.selectedRow]];
         }
-        NSLog(@"---------------------- %ld", self.selectedRow);
+        NSLog(@"---------------------- %ld", (long)self.selectedRow);
         
         [self.currentTableView reloadData];
         

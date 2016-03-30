@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class BXTOtherAffair;
+
 @interface BXTOtherAffairCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *timeView;
 @property (weak, nonatomic) IBOutlet UILabel *introView;
+
+@property (strong, nonatomic) BXTOtherAffair *affairModel;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

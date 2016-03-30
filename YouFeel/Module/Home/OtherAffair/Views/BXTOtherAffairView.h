@@ -10,4 +10,6 @@
 
 @interface BXTOtherAffairView : UIView
 
+- (instancetype)initWithFrame:(CGRect)frame HandleState:(NSString *)handle_state;
+
 @end

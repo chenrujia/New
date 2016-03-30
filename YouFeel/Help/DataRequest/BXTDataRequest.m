@@ -424,6 +424,19 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)listOFOtherAffairWithHandleState:(NSString *)handle_state
+                                    page:(NSInteger)page
+{
+    self.requestType = OtherAffairLists;
+    
+    NSDictionary *dic = @{@"handle_state": handle_state,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"page": [NSString stringWithFormat:@"%ld",(long)page],
+                          @"pagesize": @"5",};
+    NSString *url = @"http://api.51bxt.com/?module=Affairs&opt=affairs_lists&shop_id=11";
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
                                     faulttype:(NSString *)faulttype
                                faultType_type:(NSString *)faulttype_type

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -25,7 +25,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="手机号" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILc-wL-OpP">
-                        <rect key="frame" x="210" y="14" width="150" height="21"/>
+                        <rect key="frame" x="191" y="14" width="150" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="3wr-KH-yyr"/>
                             <constraint firstAttribute="width" constant="150" id="hhK-Ab-7yQ"/>
@@ -34,11 +34,20 @@
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow-right" translatesAutoresizingMaskIntoConstraints="NO" id="9JN-Xl-2hP">
+                        <rect key="frame" x="351" y="17" width="9" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="bwf-h3-Sf4"/>
+                            <constraint firstAttribute="width" constant="9" id="jXo-ib-h1S"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="9JN-Xl-2hP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="7QK-Wt-w6G"/>
+                    <constraint firstAttribute="trailing" secondItem="9JN-Xl-2hP" secondAttribute="trailing" constant="15" id="9FY-XM-oVD"/>
                     <constraint firstItem="ILc-wL-OpP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Ebl-fM-5M9"/>
                     <constraint firstItem="3NM-5O-LvD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="amE-Rb-UBa"/>
-                    <constraint firstAttribute="trailing" secondItem="ILc-wL-OpP" secondAttribute="trailing" constant="15" id="dEI-vz-EGw"/>
+                    <constraint firstItem="9JN-Xl-2hP" firstAttribute="leading" secondItem="ILc-wL-OpP" secondAttribute="trailing" constant="10" id="oVb-wB-C36"/>
                     <constraint firstItem="3NM-5O-LvD" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uJn-74-8NL"/>
                 </constraints>
             </tableViewCellContentView>
@@ -48,4 +57,7 @@
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="Arrow-right" width="8" height="14"/>
+    </resources>
 </document>

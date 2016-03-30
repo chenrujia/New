@@ -8,31 +8,65 @@
 
 #import "BXTOtherAffairView.h"
 #import "BXTOtherAffairCell.h"
+#import "BXTOtherAffair.h"
+#import "UIScrollView+EmptyDataSet.h"
+#import "BXTHeaderForVC.h"
+#import <MJRefresh.h>
+#import "UIView+Nav.h"
+#import "AppDelegate.h"
 
-@interface BXTOtherAffairView () <UITableViewDataSource, UITableViewDelegate>
+@interface BXTOtherAffairView () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSArray *dataArray;
+@property (strong, nonatomic) NSMutableArray *dataArray;
+
+@property (nonatomic, assign) NSInteger currentPage;
+
+@property (copy, nonatomic) NSString *stateStr;
 
 @end
 
 @implementation BXTOtherAffairView
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame HandleState:(NSString *)handle_state
 {
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.dataArray = @[@"111", @"222", @"333"];
+        self.dataArray = [[NSMutableArray alloc] init];
+        self.stateStr = handle_state;
         
         self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
+        self.tableView.emptyDataSetSource = self;
+        self.tableView.emptyDataSetDelegate = self;
         [self addSubview:self.tableView];
+        
+        
+        self.currentPage = 1;
+        __block __typeof(self) weakSelf = self;
+        self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            weakSelf.currentPage = 1;
+            [weakSelf getResource];
+        }];
+        self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            weakSelf.currentPage++;
+            [weakSelf getResource];
+        }];
+        
+        [self.tableView.mj_header beginRefreshing];
     }
     return self;
 }
 
+- (void)getResource
+{
+    [self showLoadingMBP:@"努力加载中..."];
+    /**获取报修列表**/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request listOFOtherAffairWithHandleState:self.stateStr page:self.currentPage];
+}
 
 #pragma mark -
 #pragma mark - tableView代理方法
@@ -50,6 +84,7 @@
 {
     BXTOtherAffairCell *cell = [BXTOtherAffairCell cellWithTableView:tableView];
     
+    cell.affairModel = self.dataArray[indexPath.section];
     
     return cell;
 }
@@ -73,6 +108,56 @@
 {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"没有符合条件的工单";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName:[UIColor blackColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+#pragma mark -
+#pragma mark 请求返回代理
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideTheMBP];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
+    
+    
+    NSDictionary *dic = response;
+    NSArray *data = [dic objectForKey:@"data"];
+    
+    if (type == OtherAffairLists)
+    {
+        if (self.currentPage == 1 && self.self.dataArray.count != 0)
+        {
+            [self.dataArray removeAllObjects];
+        }
+        
+        if (data.count)
+        {
+            [BXTOtherAffair mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"affairID":@"id"};
+            }];
+            NSArray *repairs = [BXTOtherAffair mj_objectArrayWithKeyValuesArray:data];
+            [self.dataArray addObjectsFromArray:repairs];
+        }
+        [self.tableView reloadData];
+        
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideTheMBP];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
 }
 
 @end

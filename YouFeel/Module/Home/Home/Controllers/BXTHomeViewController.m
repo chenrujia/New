@@ -29,6 +29,7 @@
 #import "BXTMyIntegralViewController.h"
 #import "BXTMTProfessionViewController.h"
 #import "BXTMTReportsViewController.h"
+#import "BXTRepairsListViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -349,9 +350,14 @@
     //        [self.view addSubview:callWeb];
     //    }
     
-    BXTMTReportsViewController *reportVC = [[BXTMTReportsViewController alloc] init];
-    reportVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:reportVC animated:YES];
+//    BXTMTReportsViewController *reportVC = [[BXTMTReportsViewController alloc] init];
+//    reportVC.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:reportVC animated:YES];
+
+    BXTRepairsListViewController *repairsListVC = [[BXTRepairsListViewController alloc] init];
+    repairsListVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:repairsListVC animated:YES];
+
 }
 
 #pragma mark - SDCycleScrollViewDelegate

@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     RepairList,
     SubgroupLists,
     PlaceLists,
+    OtherAffairLists,
     DeleteRepair,
     RepairDetail,
     DeviceList,
@@ -230,6 +231,12 @@ andRepairerIsReacive:(NSString *)reacive;
  *  isAllPlace - YES获取全部位置
  */
 - (void)listOFPlaceIsAllPlace:(BOOL)isAllPlace;
+
+/**
+ *  获取待处理事件列表 - 新
+ */
+- (void)listOFOtherAffairWithHandleState:(NSString *)handle_state
+                                    page:(NSInteger)page;
 
 /**
  *  设备添加报修

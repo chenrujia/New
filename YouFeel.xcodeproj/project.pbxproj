@@ -97,6 +97,9 @@
 		782985AD1C40BB6600D0837C /* BXTMineIconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782985AB1C40BB6600D0837C /* BXTMineIconCell.xib */; };
 		782985B01C40BDBF00D0837C /* MLImageCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 782985AF1C40BDBF00D0837C /* MLImageCrop.m */; };
 		782985B31C40E48F00D0837C /* BXTSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782985B21C40E48F00D0837C /* BXTSettingViewController.m */; };
+		7829DDA91CABB65300255469 /* BXTMineDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7829DDA81CABB65300255469 /* BXTMineDownView.m */; };
+		7829DDAB1CABB66600255469 /* BXTMineDownView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7829DDAA1CABB66600255469 /* BXTMineDownView.xib */; };
+		7829DDB61CABDF3F00255469 /* BXTRepairsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7829DDB51CABDF3F00255469 /* BXTRepairsListViewController.m */; };
 		782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AD4D41C5A12BD00A1C4D8 /* DES3Util.m */; };
 		782AD4D91C5A12BD00A1C4D8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AD4D61C5A12BD00A1C4D8 /* GTMBase64.m */; };
 		782D6BC11C0D6CFC00E1828F /* SPBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB51C0D6CFC00E1828F /* SPBar.m */; };
@@ -105,6 +108,7 @@
 		782D6BC41C0D6CFC00E1828F /* SPChartUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BBE1C0D6CFC00E1828F /* SPChartUtil.m */; };
 		782D6BC51C0D6CFC00E1828F /* SPChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BC01C0D6CFC00E1828F /* SPChartView.m */; };
 		782D6BD31C0D88B300E1828F /* SPChartPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BD21C0D88B300E1828F /* SPChartPopup.m */; };
+		783515BC1CAB73E3004F09F1 /* BXTOtherAffair.m in Sources */ = {isa = PBXBuildFile; fileRef = 783515BB1CAB73E2004F09F1 /* BXTOtherAffair.m */; };
 		78352A011CA0DD5E005134B6 /* BXTReaciveOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78352A001CA0DD5E005134B6 /* BXTReaciveOrdersViewController.m */; };
 		783710181C4503CA00A8D5EE /* BXTPersonInform.m in Sources */ = {isa = PBXBuildFile; fileRef = 783710171C4503CA00A8D5EE /* BXTPersonInform.m */; };
 		7837101B1C4503E900A8D5EE /* BXTPersonChecks.m in Sources */ = {isa = PBXBuildFile; fileRef = 7837101A1C4503E900A8D5EE /* BXTPersonChecks.m */; };
@@ -581,6 +585,11 @@
 		782985AF1C40BDBF00D0837C /* MLImageCrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLImageCrop.m; sourceTree = "<group>"; };
 		782985B11C40E48F00D0837C /* BXTSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSettingViewController.h; sourceTree = "<group>"; };
 		782985B21C40E48F00D0837C /* BXTSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSettingViewController.m; sourceTree = "<group>"; };
+		7829DDA71CABB65300255469 /* BXTMineDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMineDownView.h; sourceTree = "<group>"; };
+		7829DDA81CABB65300255469 /* BXTMineDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMineDownView.m; sourceTree = "<group>"; };
+		7829DDAA1CABB66600255469 /* BXTMineDownView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMineDownView.xib; sourceTree = "<group>"; };
+		7829DDB41CABDF3F00255469 /* BXTRepairsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairsListViewController.h; sourceTree = "<group>"; };
+		7829DDB51CABDF3F00255469 /* BXTRepairsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairsListViewController.m; sourceTree = "<group>"; };
 		782AD4D31C5A12BD00A1C4D8 /* DES3Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DES3Util.h; sourceTree = "<group>"; };
 		782AD4D41C5A12BD00A1C4D8 /* DES3Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DES3Util.m; sourceTree = "<group>"; };
 		782AD4D51C5A12BD00A1C4D8 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
@@ -600,6 +609,8 @@
 		782D6BC01C0D6CFC00E1828F /* SPChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPChartView.m; sourceTree = "<group>"; };
 		782D6BD11C0D88B300E1828F /* SPChartPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPChartPopup.h; sourceTree = "<group>"; };
 		782D6BD21C0D88B300E1828F /* SPChartPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPChartPopup.m; sourceTree = "<group>"; };
+		783515BA1CAB73E2004F09F1 /* BXTOtherAffair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTOtherAffair.h; sourceTree = "<group>"; };
+		783515BB1CAB73E2004F09F1 /* BXTOtherAffair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOtherAffair.m; sourceTree = "<group>"; };
 		783529FF1CA0DD5E005134B6 /* BXTReaciveOrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTReaciveOrdersViewController.h; sourceTree = "<group>"; };
 		78352A001CA0DD5E005134B6 /* BXTReaciveOrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTReaciveOrdersViewController.m; sourceTree = "<group>"; };
 		783710161C4503CA00A8D5EE /* BXTPersonInform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPersonInform.h; sourceTree = "<group>"; };
@@ -1195,6 +1206,8 @@
 		78086DDB1CAA6EA8003B1C99 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				783515BA1CAB73E2004F09F1 /* BXTOtherAffair.h */,
+				783515BB1CAB73E2004F09F1 /* BXTOtherAffair.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1655,6 +1668,9 @@
 				782985A91C40BB6600D0837C /* BXTMineIconCell.h */,
 				782985AA1C40BB6600D0837C /* BXTMineIconCell.m */,
 				782985AB1C40BB6600D0837C /* BXTMineIconCell.xib */,
+				7829DDA71CABB65300255469 /* BXTMineDownView.h */,
+				7829DDA81CABB65300255469 /* BXTMineDownView.m */,
+				7829DDAA1CABB66600255469 /* BXTMineDownView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1784,6 +1800,39 @@
 				9696B7281C90043100272076 /* BXTCommentListViewController.xib */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		7829DDB01CABDF2100255469 /* RepairsList */ = {
+			isa = PBXGroup;
+			children = (
+				7829DDB11CABDF2100255469 /* Controllers */,
+				7829DDB21CABDF2100255469 /* Models */,
+				7829DDB31CABDF2100255469 /* Views */,
+			);
+			path = RepairsList;
+			sourceTree = "<group>";
+		};
+		7829DDB11CABDF2100255469 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7829DDB41CABDF3F00255469 /* BXTRepairsListViewController.h */,
+				7829DDB51CABDF3F00255469 /* BXTRepairsListViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		7829DDB21CABDF2100255469 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		7829DDB31CABDF2100255469 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		782AD4D21C5A12BD00A1C4D8 /* DES3Util */ = {
@@ -2850,6 +2899,7 @@
 				7867DD8E1C4CBEE9000749F1 /* Repair */,
 				7867DD981C4CBEE9000749F1 /* RepairDetail */,
 				7867DD871C4CBEE9000749F1 /* ReaciveOrders */,
+				7829DDB01CABDF2100255469 /* RepairsList */,
 			);
 			name = Repair/ReaciveOrders;
 			path = "Repair:ReaciveOrders";
@@ -4232,6 +4282,7 @@
 				78086DEC1CAA7722003B1C99 /* BXTOtherAffairCell.xib in Resources */,
 				964C4AC41C157C7B00E6C8C4 /* Assets.xcassets in Resources */,
 				7823C8A91C7EFDD400E2858B /* BXTEPStateCell.xib in Resources */,
+				7829DDAB1CABB66600255469 /* BXTMineDownView.xib in Resources */,
 				78A1B86B1C8428CF00F252BE /* BXTEPSystemRateCell.xib in Resources */,
 				784E4FA61CA90D2700EF2A06 /* BXTMyIntegralFirstCell.xib in Resources */,
 				78090B321C7DC68F003E1565 /* BXTEPHeaderView.xib in Resources */,
@@ -4460,6 +4511,7 @@
 				7818DBDD1C0824D800DC22C6 /* PNChartLabel.m in Sources */,
 				782AD4D91C5A12BD00A1C4D8 /* GTMBase64.m in Sources */,
 				7867DCF51C4CBDAA000749F1 /* BXTExaminationViewController.m in Sources */,
+				7829DDB61CABDF3F00255469 /* BXTRepairsListViewController.m in Sources */,
 				96D3D5051CA4DE74009F91EB /* BXTCustomButton.m in Sources */,
 				781EF1831C3CB3B30027FE72 /* BXTMailViewController.m in Sources */,
 				7867DD221C4CBE4F000749F1 /* BXTPropertyView.m in Sources */,
@@ -4501,6 +4553,7 @@
 				7867DCED1C4CBD42000749F1 /* BXTHaveEvaluationView.m in Sources */,
 				7867DD811C4CBEA1000749F1 /* BXTRejectOrderViewController.m in Sources */,
 				7818DBD81C0824D800DC22C6 /* NSMutableArray+pieEx.m in Sources */,
+				7829DDA91CABB65300255469 /* BXTMineDownView.m in Sources */,
 				9652AC351BC90EC9009A666D /* LocalPhotoViewController.m in Sources */,
 				969701F21C88109D0048391F /* BXTDeviceStateViewController.m in Sources */,
 				9652AB461BC90791009A666D /* AssetHelper.m in Sources */,
@@ -4593,6 +4646,7 @@
 				96C684941BE76B4B0038A342 /* HCollectionViewCell.m in Sources */,
 				7818DBE11C0824D800DC22C6 /* PNLineChart.m in Sources */,
 				783E6C2E1C51BFF400DC13FB /* BXTRemarksTableViewCell.m in Sources */,
+				783515BC1CAB73E3004F09F1 /* BXTOtherAffair.m in Sources */,
 				78C55B0A1C47C12700FFEB37 /* BXTUnReadNoticeView.m in Sources */,
 				7867DDAD1C4CBEE9000749F1 /* BXTDetailBaseViewController.m in Sources */,
 				783DDA5E1C3FD45C0035B927 /* BXTQRCodeViewController.m in Sources */,
