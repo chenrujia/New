@@ -27,7 +27,6 @@
     [logo_Btn setImage:[UIImage imageNamed:@"WarrantyIcon"] forState:UIControlStateNormal];
     title_label.text = @"我要报修";
     
-    
     self.imgNameArray = [NSMutableArray arrayWithObjects:@[@"home_calendar_add",@"home_Work_Order"],
                          @[@"home_my", @"home_lights"],
                          @[@"home_notepad_ok"],
