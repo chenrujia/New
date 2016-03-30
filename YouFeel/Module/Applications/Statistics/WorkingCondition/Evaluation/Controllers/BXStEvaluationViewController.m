@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) NSDictionary *dataDict;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+
 @property (nonatomic, strong) PNBarChart * barChart;
 @property (nonatomic, strong) BXTStEvaluationFooter *footerView;
 

@@ -154,7 +154,6 @@
         default: break;
     }
     
-    
     self.rootSegmentedCtr.selectedSegmentIndex = 2;
     
     [self showLoadingMBP:@"数据加载中..."];
