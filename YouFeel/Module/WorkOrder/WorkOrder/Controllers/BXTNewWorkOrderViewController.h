@@ -19,9 +19,11 @@
 @property (weak, nonatomic) IBOutlet UIView *dateSelectBtnBV;
 @property (weak, nonatomic) IBOutlet UIView *notesBV;
 @property (weak, nonatomic) IBOutlet UISwitch *openSwitch;
+@property (weak, nonatomic) IBOutlet UIImageView *notes_image;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *content_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *order_type_height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *notes_image_top;
 
 - (IBAction)commitOrder:(id)sender;
 - (IBAction)switchValueChanged:(id)sender;

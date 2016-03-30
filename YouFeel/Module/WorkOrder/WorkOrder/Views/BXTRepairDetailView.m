@@ -12,11 +12,12 @@
 
 @implementation BXTRepairDetailView
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame block:(RepairNotesBlock)block
 {
     self = [super initWithFrame:frame];
     if (self)
     {
+        self.notesBlock = block;
         UITextView *tv = [[UITextView alloc] initWithFrame:CGRectMake(20, 0, SCREEN_WIDTH - 40.f, frame.size.height)];
         tv.backgroundColor = colorWithHexString(@"C3E6FF");
         tv.text = @"请输入详情描述";
@@ -46,7 +47,7 @@
     {
         textView.text = @"请输入详情描述";
     }
-    self.notes = textView.text;
+    self.notesBlock(textView.text);
 }
 
 @end

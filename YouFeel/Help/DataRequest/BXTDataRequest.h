@@ -138,6 +138,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
  */
 - (void)branchResign:(NSInteger)is_repair
            andShopID:(NSString *)shopID;
+- (void)branchResign;
 
 /**
  *  分店登录
@@ -255,17 +256,12 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  新建工单
  */
-- (void)createRepair:(NSString *)faultType
-      faultType_type:(NSString *)faulttype_type
-           deviceIDs:(NSString *)deviceID
+- (void)createRepair:(NSString *)reserveTime
+         faultTypeID:(NSString *)faultTypeID
           faultCause:(NSString *)cause
-          faultLevel:(NSString *)level
-         depatmentID:(NSString *)depID
-         floorInfoID:(NSString *)floorID
-          areaInfoId:(NSString *)areaID
-          shopInfoID:(NSString *)shopID
-           equipment:(NSString *)eqID
-          faultNotes:(NSString *)notes
+             placeID:(NSString *)placeID
+           deviceIDs:(NSString *)deviceID
+              adsTxt:(NSString *)adsTxt
           imageArray:(NSArray *)images
      repairUserArray:(NSArray *)userArray;
 
@@ -550,7 +546,7 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  退出登录
  */
-- (void)exitLoginWithClientID:(NSString *)clientid;
+- (void)exitLogin;
 
 /**
  *  设备详情

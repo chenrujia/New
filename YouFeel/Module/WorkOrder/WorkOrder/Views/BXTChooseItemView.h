@@ -7,17 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTDeviceList.h"
 
 typedef NS_ENUM(NSInteger, ChooseViewType) {
     DeviceListType,
     DatePickerType
 };
 
+typedef void (^ChooseItemBlock)(id item,ChooseViewType chooseType,BOOL isDone);
+
 @interface BXTChooseItemView : UIView<UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic, assign) ChooseViewType viewType;
-@property (nonatomic, strong) UITableView *currentTable;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, assign) ChooseViewType  viewType;
+@property (nonatomic, copy  ) ChooseItemBlock chooseBlock;
+@property (nonatomic, strong) NSArray         *devicesArray;
+@property (nonatomic, strong) NSMutableArray  *markArray;
+@property (nonatomic, strong) UITableView     *currentTable;
+@property (nonatomic, strong) UIDatePicker    *currentDatePicker;
+@property (nonatomic, strong) BXTDeviceList   *selectDeviceInfo;
+@property (nonatomic, strong) NSDictionary    *selectTimeDic;
 
-- (instancetype)initWithFrame:(CGRect)frame type:(ChooseViewType)cvType array:(NSArray *)array;
+- (instancetype)initWithFrame:(CGRect)frame type:(ChooseViewType)cvType array:(NSArray *)array block:(ChooseItemBlock)block;
+- (void)refreshChooseView:(ChooseViewType)cvType array:(NSArray *)array;
 
 @end

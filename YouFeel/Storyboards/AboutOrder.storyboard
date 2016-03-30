@@ -2044,7 +2044,7 @@
                                                     <constraint firstAttribute="width" constant="80" id="yrB-cq-aQY"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <variation key="default">
                                                     <mask key="constraints">
@@ -2081,7 +2081,7 @@
                                                     <action selector="switchValueChanged:" destination="d7G-Je-80F" eventType="valueChanged" id="DJU-Ao-BLn"/>
                                                 </connections>
                                             </switch>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wfa-ze-hJu">
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wfa-ze-hJu">
                                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -2174,7 +2174,7 @@
                                                 <variation key="heightClass=regular-widthClass=compact" constant="10"/>
                                             </constraint>
                                             <constraint firstItem="0OM-up-MJW" firstAttribute="top" secondItem="2yx-ZW-3CW" secondAttribute="bottom" constant="20" id="mdT-pb-RTE">
-                                                <variation key="heightClass=regular-widthClass=compact" constant="76"/>
+                                                <variation key="heightClass=regular-widthClass=compact" constant="20"/>
                                             </constraint>
                                             <constraint firstItem="acW-up-HvK" firstAttribute="centerY" secondItem="RsY-ks-gfm" secondAttribute="centerY" id="n8B-DK-FCL"/>
                                             <constraint firstAttribute="trailing" secondItem="gZ3-Nw-llH" secondAttribute="trailing" id="ofM-wE-Uy1"/>
@@ -2500,6 +2500,8 @@
                         <outlet property="dateSelectBtnBV" destination="98c-Rk-Qle" id="Bxb-wC-CbG"/>
                         <outlet property="deviceSelectBtnBV" destination="Wfa-ze-hJu" id="QNT-Oo-3Ip"/>
                         <outlet property="notesBV" destination="Q1N-XS-lsq" id="tCb-TZ-Ljf"/>
+                        <outlet property="notes_image" destination="0OM-up-MJW" id="3j1-Vl-22j"/>
+                        <outlet property="notes_image_top" destination="mdT-pb-RTE" id="uYx-Dw-FWS"/>
                         <outlet property="openSwitch" destination="LW2-bI-hFT" id="HOt-Wk-4bM"/>
                         <outlet property="orderTypeBV" destination="gZ3-Nw-llH" id="x60-ob-ZpE"/>
                         <outlet property="order_type_height" destination="lZv-eg-Sk9" id="2Uw-zo-MuC"/>

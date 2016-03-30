@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^RepairNotesBlock)(NSString *notes);
+
 @interface BXTRepairDetailView : UIView <UITextViewDelegate>
 
-@property (nonatomic, strong) NSString *notes;
+@property (nonatomic, copy) RepairNotesBlock notesBlock;
+
+- (instancetype)initWithFrame:(CGRect)frame block:(RepairNotesBlock)block;
 
 @end

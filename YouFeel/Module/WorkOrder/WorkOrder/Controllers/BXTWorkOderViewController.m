@@ -116,22 +116,22 @@
     
     [self showLoadingMBP:@"新工单创建中..."];
     
-    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-    /**请求新建工单**/
-    BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [rep_request createRepair:self.faulttypeID
-               faultType_type:self.faulttype_typeID
-                    deviceIDs:self.addressIDArray[6]
-                   faultCause:cause
-                   faultLevel:_repairState
-                  depatmentID:departmentInfo.dep_id
-                  floorInfoID:self.addressIDArray[0]
-                   areaInfoId:self.addressIDArray[2]
-                   shopInfoID:self.addressIDArray[4]
-                    equipment:@"0"
-                   faultNotes:@""
-                   imageArray:self.resultPhotos
-              repairUserArray:array];
+//    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
+//    /**请求新建工单**/
+//    BXTDataRequest *rep_request = [[BXTDataRequest alloc] initWithDelegate:self];
+//    [rep_request createRepair:self.faulttypeID
+//               faultType_type:self.faulttype_typeID
+//                    deviceIDs:self.addressIDArray[6]
+//                   faultCause:cause
+//                   faultLevel:_repairState
+//                  depatmentID:departmentInfo.dep_id
+//                  floorInfoID:self.addressIDArray[0]
+//                   areaInfoId:self.addressIDArray[2]
+//                   shopInfoID:self.addressIDArray[4]
+//                    equipment:@"0"
+//                   faultNotes:@""
+//                   imageArray:self.resultPhotos
+//              repairUserArray:array];
 }
 
 - (void)showAlertView:(NSString *)title
