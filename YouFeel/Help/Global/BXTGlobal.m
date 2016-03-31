@@ -113,7 +113,7 @@
     
     BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
     roleInfo.role_id = branchUser.role_id;
-    roleInfo.role = branchUser.role;
+    roleInfo.duty_name = branchUser.role;
     [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
     
 //    [BXTGlobal setUserProperty:branchUser.username withKey:U_USERNAME];

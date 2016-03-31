@@ -45,18 +45,28 @@
     [self postRequest:url withParameters:parameters];
 }
 
-- (void)departmentsList:(NSString *)is_repair
+- (void)departmentsList:(NSString *)pid
 {
     self.requestType = DepartmentType;
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_department",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:nil];
+    NSDictionary *dic = nil;
+    if (pid)
+    {
+        dic = @{@"pid": pid};
+    }
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=department_one_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
 }
 
-- (void)positionsList:(NSString *)departmentID
+- (void)positionsList:(NSString *)dutyType
 {
     self.requestType = PositionType;
-    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=role_list&department=%@",[BXTGlobal shareGlobal].baseURL,departmentID];
-    [self getRequest:url];
+    NSDictionary *dic = nil;
+    if (dutyType)
+    {
+        dic = @{@"duty_type": dutyType};
+    }
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=duty_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)shopLocation
@@ -101,6 +111,9 @@
 
 - (void)branchResign:(NSInteger)is_repair
            andShopID:(NSString *)shopID
+      andBindPlaceID:(NSString *)placeID
+      andSubgroupIDS:(NSString *)subIDS
+
 {
     self.requestType = BranchResign;
     
@@ -114,17 +127,13 @@
         subGroup = groupInfo.group_id;
     }
     
-    NSDictionary *dic = @{@"name":[BXTGlobal getUserProperty:U_NAME],
-                          @"username":[BXTGlobal getUserProperty:U_USERNAME],
-                          @"mobile":[BXTGlobal getUserProperty:U_USERNAME],
-                          @"role_id":postionInfo.role_id,
+    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID],
+                          @"duty_id":postionInfo.role_id,
                           @"department_id":departmentInfo.dep_id,
-                          @"clientid":@"123",
-                          @"gender":[BXTGlobal getUserProperty:U_SEX],
-                          @"out_userid":[BXTGlobal getUserProperty:U_USERID],
-                          @"stores_id": @"",
-                          @"shops_id": shopID,
-                          @"subgroup":subGroup};
+                          @"subgroup_id":groupInfo.group_id,
+                          @"have_subgroup_ids":subIDS,
+                          @"stores_id": shopID,
+                          @"bind_place_ids":placeID};
     
     SaveValueTUD(@"BranchResign_shopID", shopID);
     
@@ -503,7 +512,14 @@ andRepairerIsReacive:(NSString *)reacive
                           @"device_ids":deviceID,
                           @"ads_txt":adsTxt};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_fault",[BXTGlobal shareGlobal].baseURL];
-    [self uploadImageRequest:url withParameters:dic withImages:images];
+    if (images.count)
+    {
+        [self uploadImageRequest:url withParameters:dic withImages:images];
+    }
+    else
+    {
+        [self postRequest:url withParameters:dic];
+    }
 }
 
 - (void)deleteRepair:(NSString *)repairID
@@ -1249,8 +1265,8 @@ andRepairerIsReacive:(NSString *)reacive
     {
         url = [self encryptTheURL:url dict:parameters];
     }
-    
     LogRed(@"url......%@",url);
+    LogRed(@"dic......\n%@", [self dictionaryToJson:parameters]);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
     manager.requestSerializer = [AFJSONRequestSerializer serializer];

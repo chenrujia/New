@@ -23,11 +23,12 @@
 
 @implementation BXTAttributeView
 
-+ (BXTAttributeView *)attributeViewWithTitleFont:(UIFont *)font attributeTexts:(NSArray *)texts viewWidth:(CGFloat)viewWidth
++ (BXTAttributeView *)attributeViewWithTitleFont:(UIFont *)font attributeTexts:(NSArray *)texts viewWidth:(CGFloat)viewWidth delegate:(id <AttributeViewDelegate>)delegate
 {
     int count = 0;
     float btnW = 0;
     BXTAttributeView *view = [[BXTAttributeView alloc] init];
+    view.attribute_delegate = delegate;
     view.dataSource = texts;
     
     for (int i = 0; i < texts.count; i++)
@@ -42,7 +43,7 @@
         
         CGSize strsize = MB_MULTILINE_TEXTSIZE(orderTypeInfo.faulttype, [UIFont boldSystemFontOfSize:13], CGSizeMake(1000.f, 300), NSLineBreakByWordWrapping);
         btn.width = strsize.width + marginW;
-        btn.height = strsize.height+ marginH;
+        btn.height = strsize.height + marginH;
         
         if (i == 0)
         {

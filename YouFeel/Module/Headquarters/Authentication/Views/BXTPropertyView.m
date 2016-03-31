@@ -40,14 +40,14 @@
         
         /**请求部门列表**/
         BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [dep_request departmentsList:@"2"];
+        [dep_request departmentsList:nil];
         
         if ([BXTGlobal getUserProperty:U_DEPARTMENT])
         {
             /**请求职位列表**/
             BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
             BXTDataRequest *pos_request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [pos_request positionsList:departmentInfo.dep_id];
+            [pos_request positionsList:nil];
         }
         
         if ([BXTGlobal getUserProperty:U_POSITION])
@@ -71,10 +71,11 @@
 {
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
     NSInteger index = 5;
-    if ([postionInfo.is_repair integerValue] == 2)
-    {
-        index = 6;
-    }
+    //???: postionInfo的is_repair问题啊
+//    if ([postionInfo.is_repair integerValue] == 2)
+//    {
+//        index = 6;
+//    }
     if (section == index)
     {
         return 80.f;
@@ -87,10 +88,10 @@
 {
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
     NSInteger index = 5;
-    if ([postionInfo.is_repair integerValue] == 2)
-    {
-        index = 6;
-    }
+//    if ([postionInfo.is_repair integerValue] == 2)
+//    {
+//        index = 6;
+//    }
     if (section == index)
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
@@ -117,10 +118,10 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-    if ([postionInfo.is_repair integerValue] == 2)
-    {
-        return 7;
-    }
+//    if ([postionInfo.is_repair integerValue] == 2)
+//    {
+//        return 7;
+//    }
     return 6;
 }
 
@@ -186,9 +187,9 @@
         cell.detailTF.hidden = YES;
         cell.detailLable.hidden = NO;
         BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-        if (![BXTGlobal isBlankString:postionInfo.role])
+        if (![BXTGlobal isBlankString:postionInfo.duty_name])
         {
-            cell.detailLable.text = postionInfo.role;
+            cell.detailLable.text = postionInfo.duty_name;
         }
         else
         {
@@ -241,13 +242,15 @@
     else if (indexPath.section == 6)
     {
         BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-        if ([BXTGlobal isBlankString:departmentInfo.department]) {
+        if ([BXTGlobal isBlankString:departmentInfo.department])
+        {
             [self showAlertView:@"请选择你所在部门"];
             return;
         }
         
         BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-        if ([BXTGlobal isBlankString:postionInfo.role]) {
+        if ([BXTGlobal isBlankString:postionInfo.duty_name])
+        {
             [self showAlertView:@"请选择你的职位"];
             return;
         }
@@ -309,18 +312,21 @@
     }
     
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-    if ([BXTGlobal isBlankString:postionInfo.role]) {
+    if ([BXTGlobal isBlankString:postionInfo.duty_name])
+    {
         [self showAlertView:@"请选择你的职位"];
         return;
     }
     
-    if ([postionInfo.is_repair integerValue] == 2) {
-        BXTGroupingInfo *groupingInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
-        if ([BXTGlobal isBlankString:groupingInfo.subgroup]) {
-            [self showAlertView:@"请选择你的职位"];
-            return;
-        }
-    }
+//    if ([postionInfo.is_repair integerValue] == 2)
+//    {
+//        BXTGroupingInfo *groupingInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
+//        if ([BXTGlobal isBlankString:groupingInfo.subgroup])
+//        {
+//            [self showAlertView:@"请选择你的职位"];
+//            return;
+//        }
+//    }
     
     [self showLoadingMBP:@"注册中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];

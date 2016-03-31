@@ -282,7 +282,7 @@
             }
             BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
             cell.titleLabel.text = @" 职     位 ";
-            cell.detailLable.text = positionInfo.role;
+            cell.detailLable.text = positionInfo.duty_name;
         }
         else if (indexPath.row == 1)
         {

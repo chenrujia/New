@@ -41,6 +41,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self navigationSetting:@"我要报修" andRightTitle:nil andRightImage:nil];
     _commitBtn.layer.cornerRadius = 4.f;
     [_placeTF setValue:colorWithHexString(@"#3cafff") forKeyPath:@"_placeholderLabel.textColor"];
@@ -196,6 +197,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (IBAction)commitOrder:(id)sender
 {
+    [self showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     NSString *appointmentTime = @"";
     NSString *deviceID = @"";
@@ -208,7 +210,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         deviceID = self.selectDeviceInfo.deviceID;
     }
     [request createRepair:appointmentTime
-              faultTypeID:self.selectFaultInfo.faulttype
+              faultTypeID:self.selectFaultInfo.orderTypeID
                faultCause:self.notes
                   placeID:self.placeInfo.placeID
                 deviceIDs:deviceID
@@ -220,8 +222,10 @@ static CGFloat const ChooseViewHeight  = 328.f;
 - (IBAction)switchValueChanged:(id)sender
 {
     UISwitch *swt = sender;
+    UIView *subview = nil;
     if (swt.on)
     {
+        subview = self.dateSelectBtnBV;
         self.dateSelectBtnBV.hidden = NO;
         if (!self.dateBtn)
         {
@@ -242,12 +246,13 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }
     else
     {
+        subview = self.openSwitch;
         self.dateSelectBtnBV.hidden = YES;
     }
     
-    if (CGRectGetMaxY(self.openSwitch.frame) + 20.f + 68 > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
+    if (CGRectGetMaxY(subview.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
     {
-        _content_height.constant = CGRectGetMaxY(self.openSwitch.frame) + 20.f;
+        _content_height.constant = CGRectGetMaxY(subview.frame) + 20.f;
     }
     else
     {
@@ -310,11 +315,10 @@ static CGFloat const ChooseViewHeight  = 328.f;
         NSMutableArray *orderListArray = [NSMutableArray array];
         [orderListArray addObjectsFromArray:[[[BXTOrderTypeInfo mj_objectArrayWithKeyValuesArray:data] reverseObjectEnumerator] allObjects]];
         //工单类型
-        BXTAttributeView *attView = [BXTAttributeView attributeViewWithTitleFont:[UIFont boldSystemFontOfSize:17] attributeTexts:orderListArray viewWidth:SCREEN_WIDTH];
+        BXTAttributeView *attView = [BXTAttributeView attributeViewWithTitleFont:[UIFont boldSystemFontOfSize:17] attributeTexts:orderListArray viewWidth:SCREEN_WIDTH delegate:self];
         attView.y = 0;
         _order_type_height.constant = attView.height;
         [_orderTypeBV layoutIfNeeded];
-        attView.attribute_delegate = self;
         [self.orderTypeBV addSubview:attView];
     }
     else if (type == DeviceList)

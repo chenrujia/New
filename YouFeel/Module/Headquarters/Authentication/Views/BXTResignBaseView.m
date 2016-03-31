@@ -21,8 +21,7 @@
         [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
         
         BXTPostionInfo *positionInfo = [BXTGlobal getUserProperty:U_POSITION];
-        positionInfo.department = @"";
-        positionInfo.role = @"";
+        positionInfo.duty_name = @"";
         [BXTGlobal setUserProperty:positionInfo withKey:U_POSITION];
         
         BXTGroupingInfo *groupingInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
