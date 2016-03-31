@@ -69,7 +69,6 @@
         [self navigationSetting:@"维保工单" andRightTitle:nil andRightImage:nil];
     }
     
-    
     self.filterOfGroupID = @"";
     self.filterOfStateDaily = @"";
     self.filterOfAreasID = @"";
@@ -77,7 +76,6 @@
     self.filterOfTimeEnd = @"";
     
     self.filterOfStateInspection = @"";
-    
     
     [self resignNotifacation];
     [self createDOP];
@@ -135,8 +133,8 @@
 - (void)createTableView
 {
     self.ordersArray = [[NSMutableArray alloc] init];
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 108, SCREEN_WIDTH, SCREEN_HEIGHT - 108) style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 140.f;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.emptyDataSetDelegate = self;
@@ -394,11 +392,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 10.f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 140.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

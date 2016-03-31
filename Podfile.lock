@@ -48,6 +48,7 @@ PODS:
   - SDWebImage/Core (3.7.5)
   - SKSTableView (0.0.2)
   - Toast (3.0)
+  - UITableView+FDTemplateLayoutCell_Bell (1.4.1)
   - UIViewController+Swizzled (1.4)
   - UMengAnalytics-NO-IDFA (3.6.7)
   - ZXingObjC (3.1.0):
@@ -75,6 +76,7 @@ DEPENDENCIES:
   - SDWebImage (~> 3.7.3)
   - SKSTableView (~> 0.0.2)
   - Toast (~> 3.0)
+  - UITableView+FDTemplateLayoutCell_Bell (~> 1.4.1)
   - UIViewController+Swizzled (~> 1.4)
   - UMengAnalytics-NO-IDFA
 
@@ -113,6 +115,7 @@ SPEC CHECKSUMS:
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SKSTableView: f552b4847d0f11425891420473c3e041a7743a06
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
+  UITableView+FDTemplateLayoutCell_Bell: 99fa3b3c1e200c8fceae1af39ba3787707d200cc
   UIViewController+Swizzled: 1cd9397598ede6930f94fbcac4b43d63c7aa0dbb
   UMengAnalytics-NO-IDFA: 6d02561a00579b2e37718f204eb81347df5d7b8b
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a

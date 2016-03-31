@@ -78,6 +78,7 @@
     // currentTableView
     CGFloat height = valueForDevice(236, 215, 193, 193);
     self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, height, SCREEN_WIDTH, SCREEN_HEIGHT - height - KTABBARHEIGHT) style:UITableViewStyleGrouped];
+    self.currentTableView.rowHeight = 50.f;
     self.currentTableView.delegate = self;
     self.currentTableView.dataSource = self;
     self.currentTableView.showsVerticalScrollIndicator = NO;
@@ -129,11 +130,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

@@ -15,6 +15,7 @@ pod 'MJExtension', '~> 3.0.8'
 pod 'NSDate-Escort', '~> 1.7.0'
 pod 'ObjectiveSugar', '~> 1.1.0'
 pod 'UIViewController+Swizzled', '~> 1.4'
+pod 'UITableView+FDTemplateLayoutCell_Bell', '~> 1.4.1'
 pod 'dyci', :git => 'https://github.com/DyCI/dyci-main.git'
 platform :ios, ‘7.0’
 pod 'LBXScan',:git=>'https://github.com/MxABC/LBXScan.git'

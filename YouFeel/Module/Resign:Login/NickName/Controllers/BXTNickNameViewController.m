@@ -51,6 +51,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 {
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     [currentTableView registerNib:[UINib nibWithNibName:@"BXTResignTableViewCell" bundle:nil] forCellReuseIdentifier:cellIndentify];
+    currentTableView.rowHeight = 50.f;
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     [self.view addSubview:currentTableView];
@@ -174,11 +175,6 @@ static NSString *cellIndentify = @"resignCellIndentify";
         view.backgroundColor = [UIColor clearColor];
         return view;
     }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

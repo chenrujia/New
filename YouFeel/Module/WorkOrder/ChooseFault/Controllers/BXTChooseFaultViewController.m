@@ -316,7 +316,8 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.tableView_Search) {
+    if (tableView == self.tableView_Search)
+    {
         return 50;
     }
     return self.cellSize.height + 29;

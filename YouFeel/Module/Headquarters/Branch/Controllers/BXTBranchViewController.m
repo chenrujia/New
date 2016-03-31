@@ -51,6 +51,7 @@
 {
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStylePlain];
     [currentTableView registerClass:[BXTShopsTableViewCell class] forCellReuseIdentifier:@"shopsCell"];
+    currentTableView.rowHeight = 50.f;
     currentTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
@@ -81,11 +82,6 @@
 
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50.f;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return shopsArray.count;

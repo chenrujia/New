@@ -18,11 +18,12 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
+    if (self)
+    {
         UIBarButtonItem *cancle=[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancleAction)];
         self.navigationItem.rightBarButtonItem=cancle;
         self.title=@"选择相册";
-        // self.navigationController=[[UINavigationController alloc] init];
+        self.tableView.rowHeight = 60;
     }
     return self;
 }
@@ -30,18 +31,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //    if(([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
-    //        self.edgesForExtendedLayout = UIRectEdgeNone;
-    //        self.extendedLayoutIncludesOpaqueBars = NO;
-    //        self.modalPresentationCapturesStatusBarAppearance = NO;
-    //    }
-    
-    //    if (self.assetsLibrary == nil) {
-    //        _assetsLibrary = [[ALAssetsLibrary alloc] init];
-    //    }
-    if (self.albums == nil) {
+    if (self.albums == nil)
+    {
         _albums = [[NSMutableArray alloc] init];
-    } else {
+    }
+    else
+    {
         [self.albums removeAllObjects];
     }
     
@@ -88,7 +83,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)cancleAction{
+-(void)cancleAction
+{
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -118,18 +114,13 @@
     return cell;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 60;
-}
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     if(self.delegate!=nil)
     {
         [self.delegate selectAlbum:self.albums[indexPath.row]];
     }
-    
 }
-
 
 @end

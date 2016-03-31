@@ -49,6 +49,7 @@
 - (void)createUI
 {
     self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 150;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.emptyDataSetDelegate = self;
@@ -99,11 +100,6 @@
     cell.noticeModel = self.dataArray[indexPath.section];
     
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 150;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

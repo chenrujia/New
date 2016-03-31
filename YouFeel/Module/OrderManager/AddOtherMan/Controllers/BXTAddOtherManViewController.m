@@ -92,6 +92,7 @@
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 44, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 44) style:UITableViewStylePlain];
     currentTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [currentTableView registerClass:[BXTAddOtherManTableViewCell class] forCellReuseIdentifier:@"OtherManCell"];
+    currentTableView.rowHeight = 100.f;
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     [self.view addSubview:currentTableView];
@@ -278,11 +279,6 @@
     [cell.addBtn addTarget:self action:@selector(addMan:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 100.f;
 }
 
 #pragma mark -

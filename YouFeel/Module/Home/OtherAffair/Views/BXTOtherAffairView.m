@@ -37,6 +37,7 @@
         self.stateStr = handle_state;
         
         self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
+        self.tableView.rowHeight = 100;
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         self.tableView.emptyDataSetSource = self;
@@ -87,11 +88,6 @@
     cell.affairModel = self.dataArray[indexPath.section];
     
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 100;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

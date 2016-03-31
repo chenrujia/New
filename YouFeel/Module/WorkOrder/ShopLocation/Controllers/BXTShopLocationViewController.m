@@ -116,6 +116,7 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 {
     self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     [_currentTableView registerClass:[BXTSettingTableViewCell class] forCellReuseIdentifier:@"ShopLocationCell"];
+    _currentTableView.rowHeight = 50.f;
     _currentTableView.delegate = self;
     _currentTableView.dataSource = self;
     _currentTableView.showsVerticalScrollIndicator = NO;
@@ -223,11 +224,6 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.1f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

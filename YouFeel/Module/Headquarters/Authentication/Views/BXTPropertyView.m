@@ -27,7 +27,8 @@
         
         BXTHeadquartersInfo *model = [BXTGlobal getUserProperty:U_COMPANY];
         NSLog(@"%@", model.company_id);
-        if ([BXTGlobal isBlankString:model.company_id]) {
+        if ([BXTGlobal isBlankString:model.company_id])
+        {
             BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
             companyInfo.company_id = self.shopID;
             companyInfo.name = self.shopAddress;
@@ -86,7 +87,8 @@
 {
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
     NSInteger index = 5;
-    if ([postionInfo.is_repair integerValue] == 2) {
+    if ([postionInfo.is_repair integerValue] == 2)
+    {
         index = 6;
     }
     if (section == index)
@@ -112,15 +114,11 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50.f;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-    if ([postionInfo.is_repair integerValue] == 2) {
+    if ([postionInfo.is_repair integerValue] == 2)
+    {
         return 7;
     }
     return 6;

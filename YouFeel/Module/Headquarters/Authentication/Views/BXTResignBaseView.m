@@ -45,6 +45,7 @@
         groupArray = [NSMutableArray array];
         self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStyleGrouped];
         [_currentTableView registerClass:[BXTSettingTableViewCell class] forCellReuseIdentifier:@"AuthenticationCell"];
+        _currentTableView.rowHeight = 50.f;
         _currentTableView.delegate = self;
         _currentTableView.dataSource = self;
         _currentTableView.showsVerticalScrollIndicator = NO;

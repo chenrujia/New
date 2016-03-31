@@ -509,11 +509,11 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     {
         return 60.f;
     }
-    
     if (tableView == self.tableView_Search)
     {
         return 60.f;
     }
+    
     return 50.0f;
 }
 

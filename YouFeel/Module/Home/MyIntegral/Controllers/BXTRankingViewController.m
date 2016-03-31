@@ -31,6 +31,7 @@
                         ];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 45;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -64,16 +65,12 @@
     if (indexPath.section == 1) {
         cell.backgroundColor = colorWithHexString(@"#E2E6E8");
     }
-    else {
-        cell.rankingView.text = [NSString stringWithFormat:@"%d", indexPath.row+1];
+    else
+    {
+        cell.rankingView.text = [NSString stringWithFormat:@"%ld", indexPath.row + 1];
     }
     
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 45;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

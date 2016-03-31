@@ -31,6 +31,7 @@
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 40;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.view addSubview:self.tableView];
@@ -45,7 +46,8 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.isShowArray[section] isEqualToString:@"1"]) {
+    if ([self.isShowArray[section] isEqualToString:@"1"])
+    {
         return  1;
     }
     return  0;
@@ -55,22 +57,12 @@
 {
     static NSString *cellID = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
-    
-//    cell.textLabel.text = self.dataArray[indexPath.section];
-    
-    return cell;
-}
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//    NSDictionary *dataDict = self.dataArray[indexPath.section];
-//    NSArray *workloadArray = dataDict[@"workload"];
-//    CGFloat viViewH = (workloadArray.count-1) * (bgViewH+Margin) + 150;
-//    return viViewH;
-    return 40;
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

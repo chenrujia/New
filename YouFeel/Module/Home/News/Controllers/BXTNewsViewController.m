@@ -49,6 +49,7 @@
     currentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     currentTable.backgroundColor = colorWithHexString(@"eff3f6");
     [currentTable registerClass:[BXTNewsTableViewCell class] forCellReuseIdentifier:@"Cell"];
+    currentTable.rowHeight = 118.f;
     currentTable.delegate = self;
     currentTable.dataSource = self;
     [self.view addSubview:currentTable];
@@ -99,11 +100,6 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 4.f)];
     view.backgroundColor = [UIColor clearColor];
     return view;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 118.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
