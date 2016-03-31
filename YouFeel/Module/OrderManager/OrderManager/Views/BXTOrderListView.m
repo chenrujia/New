@@ -170,23 +170,23 @@
         /**获取报修列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request listOfRepairOrderWithTaskType:self.filterOfTaskType
-                                       FaultID:self.filterOfFaultID
-                                   FaulttypeID:@""
-                                         Order:@""
-                                   DispatchUid:@""
-                                     RepairUid:self.filterOfRepairUID
-                                  DailyTimeout:@""
-                             InspectionTimeout:@""
-                                      TimeName:@"fault_time"
-                                      TmeStart:@""
-                                      TimeOver:@""
-                                    SubgroupID:@""
-                                       PlaceID:@""
-                                   RepairState:@""
-                                         State:@""
-                             FaultCarriedState:self.faultCarriedState
-                            RepairCarriedState:self.repairCarriedState
-                                          Page:1];
+                                       faultID:self.filterOfFaultID
+                                   faulttypeID:@""
+                                         order:@""
+                                   dispatchUid:@""
+                                     repairUid:self.filterOfRepairUID
+                                  dailyTimeout:@""
+                             inspectionTimeout:@""
+                                      timeName:@"fault_time"
+                                      tmeStart:@""
+                                      timeOver:@""
+                                    subgroupID:@""
+                                       placeID:@""
+                                   repairState:@""
+                                         state:@""
+                             faultCarriedState:self.faultCarriedState
+                            repairCarriedState:self.repairCarriedState
+                                          page:1];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求位置**/
@@ -213,23 +213,23 @@
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOfRepairOrderWithTaskType:self.filterOfTaskType
-                                   FaultID:self.filterOfFaultID
-                               FaulttypeID:@""
-                                     Order:@""
-                               DispatchUid:self.filterOfDispatchUID
-                                 RepairUid:self.filterOfRepairUID
-                              DailyTimeout:@""
-                         InspectionTimeout:@""
-                                  TimeName:@"fault_time"
-                                  TmeStart:self.filterOfTimeBegain
-                                  TimeOver:self.filterOfTimeEnd
-                                SubgroupID:@""
-                                   PlaceID:self.filterOfAreasID
-                               RepairState:self.filterOfRepairState
-                                     State:self.filterOfState
-                         FaultCarriedState:self.faultCarriedState
-                        RepairCarriedState:self.repairCarriedState
-                                      Page:self.currentPage];
+                                   faultID:self.filterOfFaultID
+                               faulttypeID:@""
+                                     order:@""
+                               dispatchUid:self.filterOfDispatchUID
+                                 repairUid:self.filterOfRepairUID
+                              dailyTimeout:@""
+                         inspectionTimeout:@""
+                                  timeName:@"fault_time"
+                                  tmeStart:self.filterOfTimeBegain
+                                  timeOver:self.filterOfTimeEnd
+                                subgroupID:@""
+                                   placeID:self.filterOfAreasID
+                               repairState:self.filterOfRepairState
+                                     state:self.filterOfState
+                         faultCarriedState:self.faultCarriedState
+                        repairCarriedState:self.repairCarriedState
+                                      page:self.currentPage];
 }
 
 #pragma mark -

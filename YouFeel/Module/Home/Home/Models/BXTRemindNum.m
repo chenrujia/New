@@ -28,14 +28,14 @@
     if (self)
     {
         self.timeStart_Daily = @"0";
-        self.timeStart_Inspectio = @"0";
+        self.timeStart_Inspection = @"0";
         
         if ([ValueFUD(@"timeStart_Daily") integerValue] != 0)
         {
             self.timeStart_Daily = ValueFUD(@"timeStart_Daily");
         }
         if ([ValueFUD(@"timeStart_Inspectio") integerValue] != 0) {
-            self.timeStart_Inspectio = ValueFUD(@"timeStart_Inspectio");
+            self.timeStart_Inspection = ValueFUD(@"timeStart_Inspectio");
         }
     }
     return self;

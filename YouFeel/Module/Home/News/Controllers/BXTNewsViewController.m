@@ -35,8 +35,8 @@
     datasource = [NSMutableArray array];
     currentPage = 1;
     [self showLoadingMBP:@"努力加载中..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request newsListWithPage:currentPage noticeType:@"2"];
+//    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//    [request newsListWithPage:currentPage noticeType:@"2"];
     _isRequesting = YES;
 }
 
@@ -60,9 +60,9 @@
 {
     if (_isRequesting) return;
     /**获取报修列表**/
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request newsListWithPage:currentPage noticeType:@"2"];
-    _isRequesting = YES;
+//    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//    [request newsListWithPage:currentPage noticeType:@"2"];
+//    _isRequesting = YES;
 }
 
 #pragma mark -

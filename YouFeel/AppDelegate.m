@@ -66,13 +66,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [self loadingLoginVC];
     }];
     
-    //???:临时的，事后会删除
-    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", @11, [BXTGlobal getUserProperty:U_TOKEN]];
-    [BXTGlobal shareGlobal].baseURL = url;
     
-    CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
-    [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];
-
     BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
     if (isLoaded)
     {
@@ -492,7 +486,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 // 应用提示
                 CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
                 UIViewController *appController = [tabbarC.viewControllers objectAtIndex:2];
-                NSInteger appNumStr = [[BXTRemindNum sharedManager].appNum integerValue] + 1;
+                NSInteger appNumStr = [BXTRemindNum sharedManager].app_show + 1;
                 appController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld", (long)appNumStr];
                 [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%ld", (long)appNumStr];
             }

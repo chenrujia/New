@@ -9,9 +9,9 @@
 #import "BXTMessageListViewController.h"
 #import "BXTMessageListTableViewCell.h"
 #import "BXTHeaderForVC.h"
-#import "BXTNewsViewController.h"
+#import "BXTMessageViewController.h"
 
-@interface BXTMessageListViewController ()<UITableViewDataSource,UITableViewDelegate, BXTDataResponseDelegate>
+@interface BXTMessageListViewController () <UITableViewDataSource,UITableViewDelegate, BXTDataResponseDelegate>
 {
     UITableView *currentTable;
     NSArray *imageArray;
@@ -61,36 +61,12 @@
 #pragma mark UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 0.5f;
-    }
-    return 10.f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (section == 0)
-    {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5f)];
-        view.backgroundColor = [UIColor clearColor];
-        return view;
-    }
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10.f)];
-    view.backgroundColor = [UIColor clearColor];
-    return view;
+    return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 4.f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 4.f)];
-    view.backgroundColor = [UIColor clearColor];
-    return view;
+    return 13.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -138,7 +114,7 @@
             break;
         case 1:
         {
-            BXTNewsViewController *newsVC = [[BXTNewsViewController alloc] init];
+            BXTMessageViewController *newsVC = [[BXTMessageViewController alloc] init];
             [self.navigationController pushViewController:newsVC animated:YES];
         }
             break;

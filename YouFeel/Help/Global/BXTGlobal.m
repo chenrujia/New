@@ -116,7 +116,7 @@
     roleInfo.role = branchUser.role;
     [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
     
-    [BXTGlobal setUserProperty:branchUser.username withKey:U_USERNAME];
+//    [BXTGlobal setUserProperty:branchUser.username withKey:U_USERNAME];
     [BXTGlobal setUserProperty:branchUser.role_con withKey:U_ROLEARRAY];
     [BXTGlobal setUserProperty:branchUser.mobile withKey:U_MOBILE];
     [BXTGlobal setUserProperty:branchUser.is_verify withKey:U_IS_VERIFY];

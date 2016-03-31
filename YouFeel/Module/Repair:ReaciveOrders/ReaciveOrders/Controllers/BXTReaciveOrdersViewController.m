@@ -91,23 +91,23 @@
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOfRepairOrderWithTaskType:self.taskType
-                                   FaultID:@""
-                               FaulttypeID:@""
-                                     Order:@""
-                               DispatchUid:@""
-                                 RepairUid:@""
-                              DailyTimeout:self.filterOfStateDaily
-                         InspectionTimeout:self.filterOfStateInspection
-                                  TimeName:@"fault_time"
-                                  TmeStart:self.filterOfTimeBegain
-                                  TimeOver:self.filterOfTimeEnd
-                                SubgroupID:self.filterOfGroupID
-                                   PlaceID:self.filterOfAreasID
-                               RepairState:@""
-                                     State:@""
-                         FaultCarriedState:@""
-                        RepairCarriedState:@""
-                                      Page:self.currentPage];
+                                   faultID:@""
+                               faulttypeID:@""
+                                     order:@""
+                               dispatchUid:@""
+                                 repairUid:@""
+                              dailyTimeout:self.filterOfStateDaily
+                         inspectionTimeout:self.filterOfStateInspection
+                                  timeName:@"fault_time"
+                                  tmeStart:self.filterOfTimeBegain
+                                  timeOver:self.filterOfTimeEnd
+                                subgroupID:self.filterOfGroupID
+                                   placeID:self.filterOfAreasID
+                               repairState:@""
+                                     state:@""
+                         faultCarriedState:@""
+                        repairCarriedState:@""
+                                      page:self.currentPage];
 }
 
 #pragma mark -
@@ -163,23 +163,23 @@
         /**获取报修列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request listOfRepairOrderWithTaskType:self.taskType
-                                       FaultID:@""
-                                   FaulttypeID:@""
-                                         Order:@""
-                                   DispatchUid:@""
-                                     RepairUid:@""
-                                  DailyTimeout:@""
-                             InspectionTimeout:@""
-                                      TimeName:@"fault_time"
-                                      TmeStart:@""
-                                      TimeOver:@""
-                                    SubgroupID:@""
-                                       PlaceID:@""
-                                   RepairState:@""
-                                         State:@""
-                             FaultCarriedState:@""
-                            RepairCarriedState:@""
-                                          Page:1];
+                                       faultID:@""
+                                   faulttypeID:@""
+                                         order:@""
+                                   dispatchUid:@""
+                                     repairUid:@""
+                                  dailyTimeout:@""
+                             inspectionTimeout:@""
+                                      timeName:@"fault_time"
+                                      tmeStart:@""
+                                      timeOver:@""
+                                    subgroupID:@""
+                                       placeID:@""
+                                   repairState:@""
+                                         state:@""
+                             faultCarriedState:@""
+                            repairCarriedState:@""
+                                          page:1];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求位置**/

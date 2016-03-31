@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     SubgroupLists,
     PlaceLists,
     OtherAffairLists,
+    MessageList,
     DeleteRepair,
     RepairDetail,
     DeviceList,
@@ -204,23 +205,23 @@ andRepairerIsReacive:(NSString *)reacive;
  *  获取工单列表 - 新
  */
 - (void)listOfRepairOrderWithTaskType:(NSString *)task_type // 工单任务类型 1正常工单 2维保工单
-                              FaultID:(NSString *)fault_id // 报修人的用户id
-                          FaulttypeID:(NSString *)faulttype_id // 故障类型id
-                                Order:(NSString *)order // 排序 1按排序顺序排序
-                          DispatchUid:(NSString *)dispatch_uid // 维修员的用户id（维修员获取被指派的任务）
-                            RepairUid:(NSString *)repair_uid // 维修员的用户id（维修员获取自己的工单列表）
-                         DailyTimeout:(NSString *)daily_timeout // 正常工单筛选是否超时 1超时 2正常
-                    InspectionTimeout:(NSString *)inspection_timeout // 维保工单过期查询 1超时 2将要超时
-                             TimeName:(NSString *)timename // 要排序的字段名称（此处填写 fault_time）
-                             TmeStart:(NSString *)timestart // 时间戳的开始时间
-                             TimeOver:(NSString *)timeover // 时间戳的结束时间
-                           SubgroupID:(NSString *)subgroup_id // 获取专业分组的工单列表
-                              PlaceID:(NSString *)place_id // 获取此位置下面的所有位置的工单
-                          RepairState:(NSString *)repairstate // 工单状态
-                                State:(NSString *)state // 维修状态 1已修好 2 未修好
-                    FaultCarriedState:(NSString *)fault_carried_state // 报修者的列表进度状态
-                   RepairCarriedState:(NSString *)repair_carried_state // 维修者的列表进度状态
-                                 Page:(NSInteger)page;
+                              faultID:(NSString *)fault_id // 报修人的用户id
+                          faulttypeID:(NSString *)faulttype_id // 故障类型id
+                                order:(NSString *)order // 排序 1按排序顺序排序
+                          dispatchUid:(NSString *)dispatch_uid // 维修员的用户id（维修员获取被指派的任务）
+                            repairUid:(NSString *)repair_uid // 维修员的用户id（维修员获取自己的工单列表）
+                         dailyTimeout:(NSString *)daily_timeout // 正常工单筛选是否超时 1超时 2正常
+                    inspectionTimeout:(NSString *)inspection_timeout // 维保工单过期查询 1超时 2将要超时
+                             timeName:(NSString *)timename // 要排序的字段名称（此处填写 fault_time）
+                             tmeStart:(NSString *)timestart // 时间戳的开始时间
+                             timeOver:(NSString *)timeover // 时间戳的结束时间
+                           subgroupID:(NSString *)subgroup_id // 获取专业分组的工单列表
+                              placeID:(NSString *)place_id // 获取此位置下面的所有位置的工单
+                          repairState:(NSString *)repairstate // 工单状态
+                                state:(NSString *)state // 维修状态 1已修好 2 未修好
+                    faultCarriedState:(NSString *)fault_carried_state // 报修者的列表进度状态
+                   repairCarriedState:(NSString *)repair_carried_state // 维修者的列表进度状态
+                                 page:(NSInteger)page;
 
 /**
  *  获取故障类型列表 - 新
@@ -365,7 +366,8 @@ andRepairerIsReacive:(NSString *)reacive;
  *  消息列表
  */
 - (void)newsListWithPage:(NSInteger)page
-              noticeType:(NSString *)noticeType;
+              noticeType:(NSString *)notice_type
+               eventType:(NSString *)event_type;
 
 /**
  *  消息分类列表
@@ -651,7 +653,11 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  提醒数字接口
  */
-- (void)remindNumberWithDailyTimeStart:(NSString *)dailyStart
-                    InspectioTimeStart:(NSString *)inspectioStart;
+- (void)remindNumberWithDailyTimestart:(NSString *)daily_timestart
+                   inspectionTimestart:(NSString *)inspection_timestart
+                       repairTimestart:(NSString *)repair_timestart
+                       reportTimestart:(NSString *)report_timestart
+                       objectTimestart:(NSString *)object_timestart
+                 announcementTimestart:(NSString *)announcement_timestart;
 
 @end

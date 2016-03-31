@@ -150,9 +150,9 @@
     NSString *shopID = [NSString stringWithFormat:@"%@", array[0]];
     NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID],
                           @"shop_id":shopID};
-
-//    NSDictionary *dic = @{@"out_userid":@"11",
-//                          @"shop_id":@"11"};
+    
+    //    NSDictionary *dic = @{@"out_userid":@"11",
+    //                          @"shop_id":@"11"};
     
     NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=shop_login",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -367,23 +367,23 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)listOfRepairOrderWithTaskType:(NSString *)task_type
-                              FaultID:(NSString *)fault_id
-                          FaulttypeID:(NSString *)faulttype_id
-                                Order:(NSString *)order
-                          DispatchUid:(NSString *)dispatch_uid
-                            RepairUid:(NSString *)repair_uid
-                         DailyTimeout:(NSString *)daily_timeout
-                    InspectionTimeout:(NSString *)inspection_timeout
-                             TimeName:(NSString *)timename
-                             TmeStart:(NSString *)timestart
-                             TimeOver:(NSString *)timeover
-                           SubgroupID:(NSString *)subgroup_id
-                              PlaceID:(NSString *)place_id
-                          RepairState:(NSString *)repairstate
-                                State:(NSString *)state
-                    FaultCarriedState:(NSString *)fault_carried_state
-                   RepairCarriedState:(NSString *)repair_carried_state
-                                 Page:(NSInteger)page
+                              faultID:(NSString *)fault_id
+                          faulttypeID:(NSString *)faulttype_id
+                                order:(NSString *)order
+                          dispatchUid:(NSString *)dispatch_uid
+                            repairUid:(NSString *)repair_uid
+                         dailyTimeout:(NSString *)daily_timeout
+                    inspectionTimeout:(NSString *)inspection_timeout
+                             timeName:(NSString *)timename
+                             tmeStart:(NSString *)timestart
+                             timeOver:(NSString *)timeover
+                           subgroupID:(NSString *)subgroup_id
+                              placeID:(NSString *)place_id
+                          repairState:(NSString *)repairstate
+                                state:(NSString *)state
+                    faultCarriedState:(NSString *)fault_carried_state
+                   repairCarriedState:(NSString *)repair_carried_state
+                                 page:(NSInteger)page
 {
     self.requestType = RepairList;
     NSDictionary *dic = @{@"task_type": task_type,
@@ -406,7 +406,7 @@ andRepairerIsReacive:(NSString *)reacive
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
     
-    NSString *url = @"http://api.51bxt.com/?module=Repair&opt=repair_lists&shop_id=11";
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -414,7 +414,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = SubgroupLists;
     
-    NSString *url = @"http://api.51bxt.com/?module=Hqdb&opt=subgroup_lists&shop_id=11";
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=subgroup_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:nil];
 }
 
@@ -427,7 +427,8 @@ andRepairerIsReacive:(NSString *)reacive
         isMore = @"1";
     }
     NSDictionary *dic = @{@"more": isMore};
-    NSString *url = @"http://api.51bxt.com/?c=Port&m=actionGet_Web_v2_Port&shop_id=4&module=Mydb&opt=place_lists&shop_id=11";
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=place_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -440,7 +441,8 @@ andRepairerIsReacive:(NSString *)reacive
                           @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"page": [NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize": @"5",};
-    NSString *url = @"http://api.51bxt.com/?module=Affairs&opt=affairs_lists&shop_id=11";
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Affairs&opt=affairs_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -670,17 +672,28 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)newsListWithPage:(NSInteger)page
-              noticeType:(NSString *)noticeType
+              noticeType:(NSString *)notice_type
+               eventType:(NSString *)event_type
 {
+    self.requestType = MessageList;
     // notice_type
     // 1.系统消息 2工单消息 3工作通知消息 4.预警消息 6 公告消息
-    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    //    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    //    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
+    //                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
+    //                          @"pagesize":@"10",
+    //                          @"shop_id":companyInfo.company_id,
+    //                          @"notice_type": noticeType};
+    //    NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_list",KURLREQUEST];
+    
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"10",
-                          @"shop_id":companyInfo.company_id,
-                          @"notice_type": noticeType};
-    NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_list",KURLREQUEST];
+                          @"notice_type": notice_type,
+                          @"event_type": event_type};
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Notice&opt=notice_lists",[BXTGlobal shareGlobal].baseURL];
+    //    NSString *url = @"http://api.51bxt.com/?c=Port&m=actionGet_Web_v2_Port&shop_id=11&&module=Notice&opt=notice_lists&shop_id=11";
     [self postRequest:url withParameters:dic];
 }
 
@@ -1198,14 +1211,23 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)remindNumberWithDailyTimeStart:(NSString *)dailyStart
-                    InspectioTimeStart:(NSString *)inspectioStart
+- (void)remindNumberWithDailyTimestart:(NSString *)daily_timestart
+                   inspectionTimestart:(NSString *)inspection_timestart
+                       repairTimestart:(NSString *)repair_timestart
+                       reportTimestart:(NSString *)report_timestart
+                       objectTimestart:(NSString *)object_timestart
+                 announcementTimestart:(NSString *)announcement_timestart
 {
     self.requestType = Remind_Number;
     NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"daily_timestart": dailyStart,
-                          @"inspectio_timestart": inspectioStart};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Remind&opt=remind_number",[BXTGlobal shareGlobal].baseURL];
+                          @"daily_timestart": daily_timestart,
+                          @"inspection_timestart": inspection_timestart,
+                          @"repair_timestart": repair_timestart,
+                          @"report_timestart": report_timestart,
+                          @"object_timestart": object_timestart,
+                          @"announcement_timestart": announcement_timestart};
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=remind_number",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
