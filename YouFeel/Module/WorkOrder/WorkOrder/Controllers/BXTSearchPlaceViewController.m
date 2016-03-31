@@ -54,6 +54,7 @@
     self.isOpen = YES;
     _commitBtn.layer.cornerRadius = 4.f;
     [_currentTable registerNib:[UINib nibWithNibName:@"BXTPlaceTableViewCell" bundle:nil] forCellReuseIdentifier:@"RowCell"];
+    _currentTable.rowHeight = 50.f;
     
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     self.mutableArray = mutableArray;
@@ -138,11 +139,6 @@
     }
     UIView *bv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
     return bv;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

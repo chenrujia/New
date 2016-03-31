@@ -108,7 +108,7 @@
     else if (_boxType == PositionView)
     {
         BXTPostionInfo *positionInfo = _dataArray[indexPath.row];
-        cell.titleLabel.text = positionInfo.role;
+        cell.titleLabel.text = positionInfo.duty_name;
     }
     else if (_boxType == FloorInfoView)
     {
@@ -182,7 +182,7 @@
     {
         BXTPostionInfo *positionInfo = _dataArray[indexPath.row];
         [BXTGlobal setUserProperty:positionInfo withKey:U_POSITION];
-        [_delegate boxSelectedObj:positionInfo.role selectedType:_boxType];
+        [_delegate boxSelectedObj:positionInfo.duty_name selectedType:_boxType];
     }
     else if (_boxType == FloorInfoView)
     {

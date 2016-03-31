@@ -42,6 +42,7 @@
     [self setupForDismissKeyboard];
     
     [_currentTable registerNib:[UINib nibWithNibName:@"BXTResignTableViewCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
+    _currentTable.rowHeight = 50.f;
 }
 
 #pragma mark -
@@ -142,11 +143,6 @@
         view.backgroundColor = [UIColor clearColor];
         return view;
     }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

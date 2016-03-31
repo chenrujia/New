@@ -153,6 +153,7 @@
     
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, frame.size.width, frame.size.height-44) style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 140;
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     self.tableView.delegate = self;
@@ -449,11 +450,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 10.f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 140;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

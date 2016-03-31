@@ -111,12 +111,12 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  部门列表
  */
-- (void)departmentsList:(NSString *)is_repair;
+- (void)departmentsList:(NSString *)pid;
 
 /**
  *  职位列表
  */
-- (void)positionsList:(NSString *)departmentID;
+- (void)positionsList:(NSString *)dutyType;
 
 /**
  *  分店位置

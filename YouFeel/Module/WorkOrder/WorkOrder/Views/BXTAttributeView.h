@@ -23,6 +23,6 @@
 
 @property(nonatomic,assign)id <AttributeViewDelegate>attribute_delegate;
 
-+ (BXTAttributeView *)attributeViewWithTitleFont:(UIFont *)font attributeTexts:(NSArray *)texts viewWidth:(CGFloat)viewWidth;
++ (BXTAttributeView *)attributeViewWithTitleFont:(UIFont *)font attributeTexts:(NSArray *)texts viewWidth:(CGFloat)viewWidth delegate:(id <AttributeViewDelegate>)delegate;
 
 @end

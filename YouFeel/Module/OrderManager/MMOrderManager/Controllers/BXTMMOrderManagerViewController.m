@@ -64,6 +64,7 @@
     currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
     currentTableView.mj_footer.ignoredScrollViewContentInsetBottom = 40.f;
     [currentTableView registerClass:[BXTRepairTableViewCell class] forCellReuseIdentifier:@"RepairCell"];
+    currentTableView.rowHeight = 236.f;
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     currentTableView.emptyDataSetDelegate = self;
@@ -233,11 +234,6 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5.f)];
     view.backgroundColor = [UIColor clearColor];
     return view;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 236.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

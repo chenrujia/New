@@ -121,10 +121,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 5) {
+    if (indexPath.section == 5)
+    {
         return self.cellHeight;
     }
-    if (indexPath.section == 4) {
+    if (indexPath.section == 4)
+    {
         return 90;
     }
     return 50;

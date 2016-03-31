@@ -32,6 +32,7 @@
     [super viewDidLoad];
     [self navigationSetting:@"找回密码" andRightTitle:nil andRightImage:nil];
     [_currentTable registerNib:[UINib nibWithNibName:@"BXTResignTableViewCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
+    _currentTable.rowHeight = 50.f;
 }
 
 #pragma mark -
@@ -105,11 +106,6 @@
         view.backgroundColor = [UIColor clearColor];
         return view;
     }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

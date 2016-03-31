@@ -41,6 +41,7 @@
 {
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     [currentTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    currentTableView.rowHeight = 50.f;
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
     [self.view addSubview:currentTableView];
@@ -87,11 +88,6 @@
     [backView addSubview:detailLabel];
     
     return backView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

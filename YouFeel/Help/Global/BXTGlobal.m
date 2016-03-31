@@ -94,7 +94,7 @@
         [BXTGlobal setUserProperty:shop withKey:U_SHOP];
         area.stores = @[shop];
     }
-    
+    //!!!: 少了很多参数，下面的这些可能要删除一部分，具体再调试！
     BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
     departmentInfo.dep_id = branchUser.department;
     departmentInfo.department = branchUser.department_name;
@@ -113,7 +113,7 @@
     
     BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
     roleInfo.role_id = branchUser.role_id;
-    roleInfo.role = branchUser.role;
+    roleInfo.duty_name = branchUser.role;
     [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
     
 //    [BXTGlobal setUserProperty:branchUser.username withKey:U_USERNAME];

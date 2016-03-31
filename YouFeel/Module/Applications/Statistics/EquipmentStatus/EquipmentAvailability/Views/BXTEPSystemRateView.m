@@ -76,6 +76,7 @@
 - (void)createUI
 {
     self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 130;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self addSubview:self.tableView];
@@ -139,11 +140,6 @@
     [self createWorkIoadViewOfIndex:indexPath.section WithTableViewCell:cell];
     
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 130;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

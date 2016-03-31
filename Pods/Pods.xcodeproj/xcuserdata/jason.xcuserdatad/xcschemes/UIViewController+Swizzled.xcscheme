@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "048B9089440ECBB63CDBF4BB"
+               BlueprintIdentifier = "5DB6A2938A1EAA0872BC0594"
                BuildableName = "libUIViewController+Swizzled.a"
                BlueprintName = "UIViewController+Swizzled"
                ReferencedContainer = "container:Pods.xcodeproj">

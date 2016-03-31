@@ -55,7 +55,6 @@
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
-    
     [self showLoadingMBP:@"数据加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
@@ -78,6 +77,7 @@
 - (void)createUI
 {
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT- KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 50;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -127,7 +127,8 @@
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (tableView == self.selectTableView) {
+    if (tableView == self.selectTableView)
+    {
         return 1;
     }
     return self.titleArray.count;
@@ -135,7 +136,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == self.selectTableView) {
+    if (tableView == self.selectTableView)
+    {
         return self.selectArray.count;
     }
     return 1;
@@ -143,10 +145,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.selectTableView) {
+    if (tableView == self.selectTableView)
+    {
         static NSString *cellID = @"cellSelect";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        if (cell == nil) {
+        if (cell == nil)
+        {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
         }
         
@@ -154,10 +158,12 @@
         NSString *selectRow = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
         
         //数组中包含当前行号，设置对号
-        if ([self.mulitSelectArray containsObject:selectRow]) {
+        if ([self.mulitSelectArray containsObject:selectRow])
+        {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
-        else {
+        else
+        {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
         
@@ -179,14 +185,10 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (tableView == self.selectTableView) {
+    if (tableView == self.selectTableView)
+    {
         return 0.1;
     }
     return 10;

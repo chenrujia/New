@@ -136,6 +136,7 @@ static NSInteger const DoneBtnTag = 12;
 {
     self.currentTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 56, SCREEN_WIDTH, 216) style:UITableViewStylePlain];
     [self.currentTable registerNib:[UINib nibWithNibName:@"BXTItemTableViewCell" bundle:nil] forCellReuseIdentifier:@"DeviceListCell"];
+    [self.currentTable setRowHeight:50.f];
     self.currentTable.delegate = self;
     self.currentTable.dataSource = self;
     [self addSubview:self.currentTable];
@@ -157,11 +158,6 @@ static NSInteger const DoneBtnTag = 12;
                                @"timeInterval":timeInterval};
     }];
     [self addSubview:self.currentDatePicker];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50.f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
