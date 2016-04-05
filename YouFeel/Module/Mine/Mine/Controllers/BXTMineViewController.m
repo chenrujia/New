@@ -14,7 +14,7 @@
 #import "BXTFeebackInfo.h"
 #import "UIImageView+WebCache.h"
 #import "BXTUserInformViewController.h"
-#import "BXTProjectInfromViewController.h"
+#import "BXTProjectManageViewController.h"
 #import "BXTFeedbackViewController.h"
 #import "BXTSettingViewController.h"
 #import "BXTCommentListViewController.h"
@@ -26,6 +26,8 @@
 @property (nonatomic, strong) NSArray *iconArray;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *feebackSource;
+
+@property (strong, nonatomic) UIImageView *headImgView;
 
 @end
 
@@ -87,7 +89,7 @@
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"HEADERIMAGE" object:nil] subscribeNext:^(id x) {
         @strongify(self);
-        [self.currentTableView reloadData];
+        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     }];
 }
 
@@ -99,15 +101,15 @@
     [self.view addSubview:logoView];
     
     CGFloat width = valueForDevice(84, 76, 65, 65);
-    UIImageView *headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, valueForDevice(53, 48, 40.8, 40.8), width, width)];
-    headImgView.center = CGPointMake(SCREEN_WIDTH/2.f, headImgView.center.y);
-    headImgView.contentMode = UIViewContentModeScaleAspectFill;
-    headImgView.layer.masksToBounds = YES;
-    headImgView.layer.cornerRadius = width/2.f;
-    [headImgView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-    [logoView addSubview:headImgView];
+    self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, valueForDevice(53, 48, 40.8, 40.8), width, width)];
+    self.headImgView.center = CGPointMake(SCREEN_WIDTH/2.f, self.headImgView.center.y);
+    self.headImgView.contentMode = UIViewContentModeScaleAspectFill;
+    self.headImgView.layer.masksToBounds = YES;
+    self.headImgView.layer.cornerRadius = width/2.f;
+    [self.headImgView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+    [logoView addSubview:self.headImgView];
     
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(headImgView.frame) + valueForDevice(12, 11, 8, 8), 200.f, 20.f)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headImgView.frame) + valueForDevice(12, 11, 8, 8), 200.f, 20.f)];
     nameLabel.center = CGPointMake(SCREEN_WIDTH/2.f, nameLabel.center.y);
     nameLabel.textAlignment = NSTextAlignmentCenter;
     nameLabel.textColor = colorWithHexString(@"ffffff");
@@ -166,7 +168,7 @@
         }
         case 1:
         {
-            BXTProjectInfromViewController *pivc = [[BXTProjectInfromViewController alloc] init];
+            BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
             pivc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:pivc animated:YES];
             break;

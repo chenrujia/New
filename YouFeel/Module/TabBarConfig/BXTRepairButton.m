@@ -12,7 +12,7 @@
 #import "BXTMMOrderManagerViewController.h"
 #import "BXTRepairViewController.h"
 #import "UINavigationController+YRBackGesture.h"
-#import "BXTProjectInfromViewController.h"
+#import "BXTProjectManageViewController.h"
 #import "CYLTabBarController.h"
 #import "BXTNewWorkOrderViewController.h"
 

@@ -81,7 +81,7 @@
 #pragma mark 选择相册图片
 - (void)addImages
 {
-    HySideScrollingImagePicker *hy = [[HySideScrollingImagePicker alloc] initWithCancelStr:@"取消" otherButtonTitles:@[@"拍摄",@"从相册选择"]];
+    HySideScrollingImagePicker *hy = [[HySideScrollingImagePicker alloc] initWithCancelStr:@"取消" otherButtonTitles:@[@"拍照上传",@"本地上传"]];
     hy.isMultipleSelection = NO;
     [BXTGlobal shareGlobal].maxPics = 3 - [self.selectPhotos count];
     @weakify(self);

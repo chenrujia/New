@@ -17,7 +17,7 @@
 #import "BXTAuthorityListViewController.h"
 #import "BXTQRCodeViewController.h"
 #import "SDCycleScrollView.h"
-#import "BXTProjectInfromViewController.h"
+#import "BXTProjectManageViewController.h"
 #import "BXTAdsInform.h"
 #import "BXTNoticeInformViewController.h"
 #import "BXTOrderManagerViewController.h"

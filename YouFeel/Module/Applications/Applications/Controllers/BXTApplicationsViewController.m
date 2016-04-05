@@ -14,7 +14,7 @@
 #import "BXTNoticeInformViewController.h"
 #import "BXTStatisticsViewController.h"
 #import "BXTRemindNum.h"
-#import "BXTProjectInfromViewController.h"
+#import "BXTProjectManageViewController.h"
 
 @interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 

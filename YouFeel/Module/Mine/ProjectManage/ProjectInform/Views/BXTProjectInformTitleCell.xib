@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="BXTProjectInformTitleCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="项目名：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LRG-C7-3CH">
+                        <rect key="frame" x="15" y="14" width="64" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Gxj-md-fdF"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="常营" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="opC-Rh-7jq">
+                        <rect key="frame" x="79" y="14" width="281" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Eb0-o0-9ze"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="opC-Rh-7jq" secondAttribute="trailing" constant="15" id="LK7-UG-GFJ"/>
+                    <constraint firstItem="LRG-C7-3CH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Ojj-zq-doP"/>
+                    <constraint firstItem="opC-Rh-7jq" firstAttribute="leading" secondItem="LRG-C7-3CH" secondAttribute="trailing" id="PSM-xk-Eyc"/>
+                    <constraint firstItem="opC-Rh-7jq" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Yu5-vP-BIa"/>
+                    <constraint firstItem="LRG-C7-3CH" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="pWZ-s6-5aK"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="descView" destination="opC-Rh-7jq" id="Y6q-Gn-KGo"/>
+                <outlet property="titleView" destination="pWZ-s6-5aK" id="3lT-L1-raA"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
