@@ -33,7 +33,6 @@
     
     [self navigationSetting:@"我的积分" andRightTitle:nil andRightImage:nil];
     
-    
     self.titleArray = @[@[@""],
                         @[@""],
                         @[@"完成率", @"日常工单", @"维保工单", @"总计"],
@@ -44,13 +43,11 @@
     self.nowTimeStr = [NSString stringWithFormat:@"%@年%@月", timeArray[0], timeArray[1]];
     self.timeStr = self.nowTimeStr;
     
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.rowHeight = 45;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    
     
     [self getResource];
 }
