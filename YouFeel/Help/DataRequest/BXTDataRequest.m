@@ -689,28 +689,14 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)newsListWithPage:(NSInteger)page
-              noticeType:(NSString *)notice_type
-               eventType:(NSString *)event_type
 {
     self.requestType = MessageList;
-    // notice_type
-    // 1.系统消息 2工单消息 3工作通知消息 4.预警消息 6 公告消息
-    //    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    //    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
-    //                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
-    //                          @"pagesize":@"10",
-    //                          @"shop_id":companyInfo.company_id,
-    //                          @"notice_type": noticeType};
-    //    NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_list",KURLREQUEST];
-    
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
+    //TODO: user_id记得改回来
+    NSDictionary *dic = @{@"user_id":@"31",
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                          @"pagesize":@"10",
-                          @"notice_type": notice_type,
-                          @"event_type": event_type};
+                          @"pagesize":@"10"};
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Notice&opt=notice_lists",[BXTGlobal shareGlobal].baseURL];
-    //    NSString *url = @"http://api.51bxt.com/?c=Port&m=actionGet_Web_v2_Port&shop_id=11&&module=Notice&opt=notice_lists&shop_id=11";
     [self postRequest:url withParameters:dic];
 }
 

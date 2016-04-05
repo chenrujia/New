@@ -175,10 +175,6 @@
 		7867DC2E1C4CBA5B000749F1 /* BXTRemindNum.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC211C4CBA5B000749F1 /* BXTRemindNum.m */; };
 		7867DC2F1C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC241C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m */; };
 		7867DC301C4CBA5B000749F1 /* BXTHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC261C4CBA5B000749F1 /* BXTHomeTableViewCell.m */; };
-		7867DC3C1C4CBAE8000749F1 /* BXTMessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC341C4CBAE8000749F1 /* BXTMessageListViewController.m */; };
-		7867DC3D1C4CBAE8000749F1 /* BXTNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC361C4CBAE8000749F1 /* BXTNewsViewController.m */; };
-		7867DC3E1C4CBAE8000749F1 /* BXTMessageListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC391C4CBAE8000749F1 /* BXTMessageListTableViewCell.m */; };
-		7867DC3F1C4CBAE8000749F1 /* BXTNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC3B1C4CBAE8000749F1 /* BXTNewsTableViewCell.m */; };
 		7867DC941C4CBB47000749F1 /* BXTStatisticsMianViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC701C4CBB47000749F1 /* BXTStatisticsMianViewController.m */; };
 		7867DC951C4CBB47000749F1 /* BXTStatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC721C4CBB47000749F1 /* BXTStatisticsViewController.m */; };
 		7867DC961C4CBB47000749F1 /* MYPieElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC751C4CBB47000749F1 /* MYPieElement.m */; };
@@ -376,6 +372,9 @@
 		967C3D4B1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C3D491C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.xib */; };
 		967C3D4F1C4620E00078F1D6 /* BXTControlUserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D4D1C4620E00078F1D6 /* BXTControlUserTableViewCell.m */; };
 		967C3D501C4620E00078F1D6 /* BXTControlUserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C3D4E1C4620E00078F1D6 /* BXTControlUserTableViewCell.xib */; };
+		968A58601CB39D3E009A60D8 /* BXTMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968A585E1CB39D3E009A60D8 /* BXTMessageTableViewCell.m */; };
+		968A58611CB39D3E009A60D8 /* BXTMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968A585F1CB39D3E009A60D8 /* BXTMessageTableViewCell.xib */; };
+		968A58651CB3A1FF009A60D8 /* BXTMessageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 968A58641CB3A1FF009A60D8 /* BXTMessageInfo.m */; };
 		968F89BC1CA52A010023D306 /* BXTSearchPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F89BB1CA52A010023D306 /* BXTSearchPlaceViewController.m */; };
 		9696B7251C8FFE9100272076 /* BXTFeebackInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696B7241C8FFE9100272076 /* BXTFeebackInfo.m */; };
 		9696B7291C90043100272076 /* BXTCommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696B7271C90043100272076 /* BXTCommentListViewController.m */; };
@@ -746,14 +745,6 @@
 		7867DC241C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHomeCollectionViewCell.m; sourceTree = "<group>"; };
 		7867DC251C4CBA5B000749F1 /* BXTHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHomeTableViewCell.h; sourceTree = "<group>"; };
 		7867DC261C4CBA5B000749F1 /* BXTHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHomeTableViewCell.m; sourceTree = "<group>"; };
-		7867DC331C4CBAE8000749F1 /* BXTMessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageListViewController.h; sourceTree = "<group>"; };
-		7867DC341C4CBAE8000749F1 /* BXTMessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageListViewController.m; sourceTree = "<group>"; };
-		7867DC351C4CBAE8000749F1 /* BXTNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BXTNewsViewController.h; path = ../Controllers/BXTNewsViewController.h; sourceTree = "<group>"; };
-		7867DC361C4CBAE8000749F1 /* BXTNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BXTNewsViewController.m; path = ../Controllers/BXTNewsViewController.m; sourceTree = "<group>"; };
-		7867DC381C4CBAE8000749F1 /* BXTMessageListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageListTableViewCell.h; sourceTree = "<group>"; };
-		7867DC391C4CBAE8000749F1 /* BXTMessageListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageListTableViewCell.m; sourceTree = "<group>"; };
-		7867DC3A1C4CBAE8000749F1 /* BXTNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNewsTableViewCell.h; sourceTree = "<group>"; };
-		7867DC3B1C4CBAE8000749F1 /* BXTNewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewsTableViewCell.m; sourceTree = "<group>"; };
 		7867DC6F1C4CBB47000749F1 /* BXTStatisticsMianViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStatisticsMianViewController.h; sourceTree = "<group>"; };
 		7867DC701C4CBB47000749F1 /* BXTStatisticsMianViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTStatisticsMianViewController.m; sourceTree = "<group>"; };
 		7867DC711C4CBB47000749F1 /* BXTStatisticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStatisticsViewController.h; sourceTree = "<group>"; };
@@ -1113,6 +1104,11 @@
 		967C3D4C1C4620E00078F1D6 /* BXTControlUserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTControlUserTableViewCell.h; sourceTree = "<group>"; };
 		967C3D4D1C4620E00078F1D6 /* BXTControlUserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTControlUserTableViewCell.m; sourceTree = "<group>"; };
 		967C3D4E1C4620E00078F1D6 /* BXTControlUserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTControlUserTableViewCell.xib; sourceTree = "<group>"; };
+		968A585D1CB39D3E009A60D8 /* BXTMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageTableViewCell.h; sourceTree = "<group>"; };
+		968A585E1CB39D3E009A60D8 /* BXTMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageTableViewCell.m; sourceTree = "<group>"; };
+		968A585F1CB39D3E009A60D8 /* BXTMessageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMessageTableViewCell.xib; sourceTree = "<group>"; };
+		968A58631CB3A1FF009A60D8 /* BXTMessageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageInfo.h; sourceTree = "<group>"; };
+		968A58641CB3A1FF009A60D8 /* BXTMessageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageInfo.m; sourceTree = "<group>"; };
 		968F89BA1CA52A010023D306 /* BXTSearchPlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSearchPlaceViewController.h; sourceTree = "<group>"; };
 		968F89BB1CA52A010023D306 /* BXTSearchPlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSearchPlaceViewController.m; sourceTree = "<group>"; };
 		9696B7231C8FFE9100272076 /* BXTFeebackInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTFeebackInfo.h; sourceTree = "<group>"; };
@@ -2308,6 +2304,7 @@
 			isa = PBXGroup;
 			children = (
 				7867DC321C4CBAE8000749F1 /* Controllers */,
+				968A58621CB3A1CB009A60D8 /* Model */,
 				7867DC371C4CBAE8000749F1 /* Views */,
 			);
 			path = News;
@@ -2316,8 +2313,6 @@
 		7867DC321C4CBAE8000749F1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				7867DC331C4CBAE8000749F1 /* BXTMessageListViewController.h */,
-				7867DC341C4CBAE8000749F1 /* BXTMessageListViewController.m */,
 				7837A59A1CAD0572000A1986 /* BXTMessageViewController.h */,
 				7837A59B1CAD0572000A1986 /* BXTMessageViewController.m */,
 			);
@@ -2327,14 +2322,11 @@
 		7867DC371C4CBAE8000749F1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7867DC381C4CBAE8000749F1 /* BXTMessageListTableViewCell.h */,
-				7867DC391C4CBAE8000749F1 /* BXTMessageListTableViewCell.m */,
 				7837A59D1CAD0BB8000A1986 /* BXTMessageView.h */,
 				7837A59E1CAD0BB8000A1986 /* BXTMessageView.m */,
-				7867DC351C4CBAE8000749F1 /* BXTNewsViewController.h */,
-				7867DC361C4CBAE8000749F1 /* BXTNewsViewController.m */,
-				7867DC3A1C4CBAE8000749F1 /* BXTNewsTableViewCell.h */,
-				7867DC3B1C4CBAE8000749F1 /* BXTNewsTableViewCell.m */,
+				968A585D1CB39D3E009A60D8 /* BXTMessageTableViewCell.h */,
+				968A585E1CB39D3E009A60D8 /* BXTMessageTableViewCell.m */,
+				968A585F1CB39D3E009A60D8 /* BXTMessageTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4161,6 +4153,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		968A58621CB3A1CB009A60D8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				968A58631CB3A1FF009A60D8 /* BXTMessageInfo.h */,
+				968A58641CB3A1FF009A60D8 /* BXTMessageInfo.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		9696B72B1C900BBC00272076 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -4413,6 +4414,7 @@
 				9652AC341BC90EC9009A666D /* LocalPhotoCell.xib in Resources */,
 				96AABA541BE0BB220071B6FA /* RongCloudKit.strings in Resources */,
 				7893D8E41C7ADA8000F042D5 /* BXTProfessionFooter.xib in Resources */,
+				968A58611CB39D3E009A60D8 /* BXTMessageTableViewCell.xib in Resources */,
 				781EF20B1C3D382C0027FE72 /* BXTEquipmentFilesCell.xib in Resources */,
 				7867DCA61C4CBBB7000749F1 /* BXTAuthorityListCell.xib in Resources */,
 				9696B72A1C90043100272076 /* BXTCommentListViewController.xib in Resources */,
@@ -4553,6 +4555,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96EBFCD11CA63C3700F93AB0 /* BXTPlaceTableViewCell.m in Sources */,
+				968A58651CB3A1FF009A60D8 /* BXTMessageInfo.m in Sources */,
 				7867DD261C4CBE4F000749F1 /* BXTShopsTableViewCell.m in Sources */,
 				783710181C4503CA00A8D5EE /* BXTPersonInform.m in Sources */,
 				782D6BC31C0D6CFC00E1828F /* SPBarChartData.m in Sources */,
@@ -4614,6 +4617,7 @@
 				7818DBEB1C0824D800DC22C6 /* UICountingLabel.m in Sources */,
 				7893D8E21C7ADA8000F042D5 /* BXTProfessionViewController.m in Sources */,
 				782985A31C40B6A100D0837C /* BXTFeedbackViewController.m in Sources */,
+				968A58601CB39D3E009A60D8 /* BXTMessageTableViewCell.m in Sources */,
 				7867DCCB1C4CBCAC000749F1 /* BXTChangePassWordViewController.m in Sources */,
 				782D6BC21C0D6CFC00E1828F /* SPBarChart.m in Sources */,
 				7818DBD31C0824D800DC22C6 /* AksStraightPieChart.m in Sources */,
@@ -4683,14 +4687,12 @@
 				78C55B071C47C11700FFEB37 /* BXTReadNoticeView.m in Sources */,
 				781EF20A1C3D382C0027FE72 /* BXTEquipmentFilesCell.m in Sources */,
 				7827D0481C85736400E9E29E /* BXTMTProfessionTopView.m in Sources */,
-				7867DC3E1C4CBAE8000749F1 /* BXTMessageListTableViewCell.m in Sources */,
 				7823D20A1C3231A000E3641C /* MYAlertAction.m in Sources */,
 				7893D90B1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m in Sources */,
 				7818DBE01C0824D800DC22C6 /* PNGenericChart.m in Sources */,
 				7893D8A11C7AA8CC00F042D5 /* BXTStatisticsForthView.m in Sources */,
 				7867DC961C4CBB47000749F1 /* MYPieElement.m in Sources */,
 				782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */,
-				7867DC3F1C4CBAE8000749F1 /* BXTNewsTableViewCell.m in Sources */,
 				7867DD7B1C4CBEA1000749F1 /* BXTAllOrdersViewController.m in Sources */,
 				78086DE21CAA6F73003B1C99 /* BXTOtherAffairView.m in Sources */,
 				967C3D4A1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.m in Sources */,
@@ -4772,7 +4774,6 @@
 				7867DD701C4CBEA1000749F1 /* BXTAddOtherManInfo.m in Sources */,
 				7893D89E1C7AA8C000F042D5 /* BXTStatisticsThirdView.m in Sources */,
 				783DDA4D1C3FB4A50035B927 /* PinyinFormatter.m in Sources */,
-				7867DC3C1C4CBAE8000749F1 /* BXTMessageListViewController.m in Sources */,
 				7818DBE91C0824D800DC22C6 /* PNScatterChartData.m in Sources */,
 				96F8C5F21C439A450035F187 /* BXTChangeStateViewController.m in Sources */,
 				78213FBD1C3E0502003290A8 /* BXTTimeFilterViewController.m in Sources */,
@@ -4795,7 +4796,6 @@
 				7893D8E11C7ADA8000F042D5 /* BXTIncidenceView.m in Sources */,
 				7893D8ED1C7ADA8000F042D5 /* BXTWorkloadCell.m in Sources */,
 				9652ABF01BC90DCC009A666D /* ANKeyValueStrategy.m in Sources */,
-				7867DC3D1C4CBAE8000749F1 /* BXTNewsViewController.m in Sources */,
 				7893D89B1C7AA8AE00F042D5 /* BXTStatisticsSecondView.m in Sources */,
 				783DDA531C3FB5670035B927 /* ChineseInclude.m in Sources */,
 				784E4F971CA9045700EF2A06 /* BXTMyIntegralViewController.m in Sources */,

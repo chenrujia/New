@@ -34,11 +34,13 @@
 {
     [self.view endEditing:YES];
     
-    if (![BXTGlobal validateMobile:self.phoneTextField.text]) {
+    if (![BXTGlobal validateMobile:self.phoneTextField.text])
+    {
         [self showMBP:@"请输入有效的手机号" withBlock:nil];
         return;
     }
-    if ([BXTGlobal isBlankString:self.messageTextField.text]) {
+    if ([BXTGlobal isBlankString:self.messageTextField.text])
+    {
         [self showMBP:@"请输入正确的验证码" withBlock:nil];
         return;
     }
@@ -78,7 +80,7 @@
     }
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     
 }
