@@ -8,7 +8,7 @@
 
 #import "BXTChangeNameViewController.h"
 
-@interface BXTChangeNameViewController ()
+@interface BXTChangeNameViewController () <BXTDataResponseDelegate>
 
 @property (strong, nonatomic) UITextField *textField;
 
@@ -27,12 +27,16 @@
 
 - (void)navigationRightButton
 {
-    if ([self.textField.text isEqualToString:@""]) {
+    [self.view endEditing:YES];
+    
+    if (![BXTGlobal validateUserName:self.textField.text]) {
         [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写真实姓名" chooseBlock:nil buttonsStatement:@"确定", nil];
         return;
     }
     
-
+    /** 修改用户信息 **/
+    BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+    [dataRequest modifyUserInformWithName:self.textField.text gender:@""];
 }
 
 - (void)createUI
@@ -47,19 +51,39 @@
     [bgView addSubview:self.textField];
 }
 
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    NSDictionary *dic = response;
+    NSLog(@" ------- %@", dic);
+    
+    if (type == ModifyUserInform)
+    {
+        NSLog(@" ------- %@", dic);
+    }
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    [self hideMBP];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

@@ -10,4 +10,6 @@
 
 @interface BXTRankingViewController : BXTBaseViewController
 
+@property (copy, nonatomic) NSString *transTime;
+
 @end

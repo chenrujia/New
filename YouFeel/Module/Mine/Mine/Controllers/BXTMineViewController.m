@@ -48,7 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //    [self navigationSetting:@"我的" andRightTitle:nil andRightImage:nil];
+    
     [self initContentViews];
     
     self.feebackSource = [NSMutableArray array];
@@ -62,9 +62,9 @@
 
 - (void)loadDataSoure
 {
-    //    [self showLoadingMBP:@"请稍等..."];
-    //    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    //    [request feedbackCommentList];
+    [self showLoadingMBP:@"请稍等..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request feedbackCommentList];
 }
 
 #pragma mark -

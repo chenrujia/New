@@ -19,14 +19,14 @@
 @end
 
 @implementation BXTProjectCertificationViewController
-
+     
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     [self navigationSetting:@"项目认证" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray = @[@"", @"机构类型", @"部门/所属", @"职位", @"本职职业", @"其他技能", @"常用位置"];
+    self.titleArray = @[@"", @"机构类型", @"部门/所属", @"职位", @"本职专业", @"其他技能", @"常用位置"];
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"请选择", @"请选择", @"请选择", @"请选择", @"请选择", @"请选择", nil];
     
     [self createUI];

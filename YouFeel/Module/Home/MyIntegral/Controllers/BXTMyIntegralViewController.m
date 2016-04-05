@@ -138,6 +138,7 @@
 {
     if (indexPath.section == 1) {
         BXTRankingViewController *rankingVC = [[BXTRankingViewController alloc] init];
+        rankingVC.transTime = self.timeStr;
         [self.navigationController pushViewController:rankingVC animated:YES];
     }
     

@@ -478,6 +478,21 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)modifyUserInformWithName:(NSString *)name
+                          gender:(NSString *)gender
+{
+    self.requestType = ModifyUserInform;
+    
+    NSDictionary *dic = @{@"name": name,
+                          @"gender": gender,
+                          @"id": [BXTGlobal getUserProperty:U_USERID]};
+
+//    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port/module/User/opt/perfect_user&id=11"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=perfect_user",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
                                     faulttype:(NSString *)faulttype
                                faultType_type:(NSString *)faulttype_type
@@ -1223,7 +1238,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
+    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
     [self getRequest:url];
 }
 
@@ -1233,7 +1248,7 @@ andRepairerIsReacive:(NSString *)reacive
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_Android_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", shopID];
+    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", shopID];
     [self getRequest:url];
 }
 

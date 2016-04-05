@@ -38,7 +38,7 @@
     
     NSArray *timeArray = [BXTGlobal yearAndmonthAndDay];
     self.nowTimeStr = [NSString stringWithFormat:@"%@年%@月", timeArray[0], timeArray[1]];
-    self.timeStr = self.nowTimeStr;
+    self.timeStr = self.transTime;
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.rowHeight = 45;
@@ -157,8 +157,9 @@
 {
     [self hideMBP];
     NSDictionary *dic = response;
+    NSArray *dataArray = dic[@"data"];
     
-    if (type == IntegarlRanking)
+    if (type == IntegarlRanking && dataArray.count != 0)
     {
         self.rankingData = [BXTRankingData mj_objectWithKeyValues:dic];
         
