@@ -11,8 +11,9 @@
 #import "BXTMyIntegralSecondCell.h"
 #import "BXTMyIntegralThirdCell.h"
 #import "BXTRankingViewController.h"
+#import "BXTMyIntegralData.h"
 
-@interface BXTMyIntegralViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface BXTMyIntegralViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
@@ -43,6 +44,13 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    
+    
+    [self showLoadingMBP:@"努力加载中..."];
+    /**请求分店位置**/
+    BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [dep_request listOFMyIntegralWithDate:@""];
+    
 }
 
 #pragma mark -
@@ -154,6 +162,29 @@
     self.timeStr = [NSString stringWithFormat:@"%ld年%ld月", year, month];
     
     return self.timeStr;
+}
+
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    NSDictionary *dic = response;
+    
+    if (type == MyIntegral)
+    {
+        BXTMyIntegralData *myIntegralModel = [BXTMyIntegralData mj_objectWithKeyValues:dic];
+        PraiseData *praiseData = myIntegralModel.praise_data[0];
+        
+        NSLog(@"%@  %@", myIntegralModel.ranking, praiseData.name);
+        
+        [self.tableView reloadData];
+    }
+}
+
+- (void)requestError:(NSError *)error
+{
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

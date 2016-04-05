@@ -449,9 +449,20 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"handle_state": handle_state,
                           @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"page": [NSString stringWithFormat:@"%ld",(long)page],
-                          @"pagesize": @"5",};
+                          @"pagesize": @"5"};
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Affairs&opt=affairs_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)listOFMyIntegralWithDate:(NSString *)date
+{
+    self.requestType = MyIntegral;
+    
+    NSDictionary *dic = @{@"date": date,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=my_integral",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     SubgroupLists,
     PlaceLists,
     OtherAffairLists,
+    MyIntegral,
     MessageList,
     DeleteRepair,
     RepairDetail,
@@ -239,6 +240,11 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)listOFOtherAffairWithHandleState:(NSString *)handle_state
                                     page:(NSInteger)page;
+
+/**
+ *  获取我的积分 - 新
+ */
+- (void)listOFMyIntegralWithDate:(NSString *)date;
 
 /**
  *  设备添加报修
@@ -651,7 +657,7 @@ andRepairerIsReacive:(NSString *)reacive;
                                  page:(NSString *)page;
 
 /**
- *  提醒数字接口
+ *  提醒数字接口 - 新
  */
 - (void)remindNumberWithDailyTimestart:(NSString *)daily_timestart
                    inspectionTimestart:(NSString *)inspection_timestart

@@ -243,6 +243,7 @@
 		7867DDB21C4CBEE9000749F1 /* BXTDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DDA71C4CBEE9000749F1 /* BXTDrawView.m */; };
 		786B571D1C3A06C400F48402 /* BXTPersonInfromViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 786B571C1C3A06C400F48402 /* BXTPersonInfromViewController.m */; };
 		786B57241C3A464300F48402 /* BXTMailListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 786B57231C3A464300F48402 /* BXTMailListModel.m */; };
+		786DB5111CB35C42003DA314 /* BXTMyIntegralData.m in Sources */ = {isa = PBXBuildFile; fileRef = 786DB5101CB35C42003DA314 /* BXTMyIntegralData.m */; };
 		7893D88C1C7AA6CD00F042D5 /* BXTStatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC721C4CBB47000749F1 /* BXTStatisticsViewController.m */; };
 		7893D8911C7AA70D00F042D5 /* BXTStatisticsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7893D88F1C7AA70D00F042D5 /* BXTStatisticsCell.m */; };
 		7893D8921C7AA70D00F042D5 /* BXTStatisticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7893D8901C7AA70D00F042D5 /* BXTStatisticsCell.xib */; };
@@ -879,6 +880,8 @@
 		786B571C1C3A06C400F48402 /* BXTPersonInfromViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPersonInfromViewController.m; sourceTree = "<group>"; };
 		786B57221C3A464300F48402 /* BXTMailListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailListModel.h; sourceTree = "<group>"; };
 		786B57231C3A464300F48402 /* BXTMailListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailListModel.m; sourceTree = "<group>"; };
+		786DB50F1CB35C42003DA314 /* BXTMyIntegralData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMyIntegralData.h; sourceTree = "<group>"; };
+		786DB5101CB35C42003DA314 /* BXTMyIntegralData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMyIntegralData.m; sourceTree = "<group>"; };
 		7893D88E1C7AA70D00F042D5 /* BXTStatisticsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStatisticsCell.h; sourceTree = "<group>"; };
 		7893D88F1C7AA70D00F042D5 /* BXTStatisticsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTStatisticsCell.m; sourceTree = "<group>"; };
 		7893D8901C7AA70D00F042D5 /* BXTStatisticsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTStatisticsCell.xib; sourceTree = "<group>"; };
@@ -2166,6 +2169,8 @@
 		784E4F931CA903FF00EF2A06 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				786DB50F1CB35C42003DA314 /* BXTMyIntegralData.h */,
+				786DB5101CB35C42003DA314 /* BXTMyIntegralData.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4826,6 +4831,7 @@
 				783DDA4C1C3FB4A50035B927 /* NSString+PinYin4Cocoa.m in Sources */,
 				781EF2091C3D382C0027FE72 /* BXTEquipmentBaseView.m in Sources */,
 				7823C8A41C7EFCD100E2858B /* BXTEquipmentState.m in Sources */,
+				786DB5111CB35C42003DA314 /* BXTMyIntegralData.m in Sources */,
 				7867DCCC1C4CBCAC000749F1 /* BXTFindPassWordViewController.m in Sources */,
 				7867DD2A1C4CBE4F000749F1 /* CLLocation+YCLocation.m in Sources */,
 				78086DD81CAA5834003B1C99 /* BXTManagerOMView.m in Sources */,
