@@ -280,9 +280,9 @@
     [super requestResponseData:response requeseType:type];
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [super requestError:error];
+    [super requestError:error requeseType:type];
 }
 
 #pragma mark -
@@ -330,7 +330,8 @@
     
     [self showLoadingMBP:@"注册中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request branchResign:2 andShopID:self.shopID];
+    //!!!: 后边这两个参数值，有待处理
+    [request branchResign:2 andShopID:self.shopID andBindPlaceID:@"" andSubgroupIDS:@""];
 }
 
 - (void)showAlertView:(NSString *)title

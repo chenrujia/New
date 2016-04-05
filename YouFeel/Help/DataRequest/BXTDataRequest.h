@@ -81,7 +81,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
 
 - (void)requestResponseData:(id)response
                 requeseType:(RequestType)type;
-- (void)requestError:(NSError *)error;
+- (void)requestError:(NSError *)error
+         requeseType:(RequestType)type;
 
 @end
 
@@ -139,7 +140,9 @@ typedef NS_ENUM(NSInteger, RequestType) {
  *  分店注册
  */
 - (void)branchResign:(NSInteger)is_repair
-           andShopID:(NSString *)shopID;
+           andShopID:(NSString *)shopID
+      andBindPlaceID:(NSString *)placeID
+      andSubgroupIDS:(NSString *)subIDS;
 - (void)branchResign;
 
 /**

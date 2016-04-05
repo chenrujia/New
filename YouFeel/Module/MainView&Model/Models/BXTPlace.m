@@ -10,8 +10,10 @@
 
 @implementation BXTPlace
 
-+ (NSDictionary *)objectClassInArray{
++ (NSDictionary *)objectClassInArray
+{
     return @{@"lists" : [BXTPlace class]};
 }
+
 @end
 

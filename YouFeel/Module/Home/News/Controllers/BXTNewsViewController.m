@@ -208,7 +208,7 @@
     [currentTable.mj_footer endRefreshing];
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     _isRequesting = NO;
 }

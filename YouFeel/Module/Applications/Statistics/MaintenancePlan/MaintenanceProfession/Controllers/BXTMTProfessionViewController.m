@@ -312,7 +312,7 @@ static CGFloat const maxTitleScale = 1.3;
     self.contentScrollView.delegate = self;
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
 }

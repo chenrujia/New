@@ -342,7 +342,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
 }

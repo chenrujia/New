@@ -14,11 +14,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="49.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3s-QF-QYR">
-                        <rect key="frame" x="15" y="15" width="245" height="20"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="IBi-K8-TaR"/>
-                        </constraints>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3s-QF-QYR">
+                        <rect key="frame" x="15" y="8" width="245" height="33.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -33,16 +30,17 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="Kyx-9Y-YkS" secondAttribute="trailing" constant="30" id="59H-Za-3lJ"/>
-                    <constraint firstAttribute="trailing" secondItem="e3s-QF-QYR" secondAttribute="trailing" constant="60" id="Fgp-Lp-Wc3"/>
-                    <constraint firstItem="e3s-QF-QYR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="MHx-6U-Lso"/>
+                    <constraint firstItem="Kyx-9Y-YkS" firstAttribute="leading" secondItem="e3s-QF-QYR" secondAttribute="trailing" constant="15" id="A2N-DU-Uoa"/>
+                    <constraint firstItem="e3s-QF-QYR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="CEU-wl-If9"/>
+                    <constraint firstItem="e3s-QF-QYR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Cck-lu-ajs"/>
                     <constraint firstItem="Kyx-9Y-YkS" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Q0Q-md-mvR"/>
-                    <constraint firstItem="e3s-QF-QYR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="kAP-nc-rfn"/>
+                    <constraint firstAttribute="bottom" secondItem="e3s-QF-QYR" secondAttribute="bottom" constant="8" id="zBF-QA-7fl"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="arrowImage" destination="Kyx-9Y-YkS" id="6Tx-cM-Ey3"/>
                 <outlet property="nameLabel" destination="e3s-QF-QYR" id="s9B-cu-iMe"/>
-                <outlet property="name_left" destination="MHx-6U-Lso" id="crZ-75-X86"/>
+                <outlet property="name_left" destination="CEU-wl-If9" id="YlZ-4F-Ovy"/>
             </connections>
             <point key="canvasLocation" x="272" y="418"/>
         </tableViewCell>

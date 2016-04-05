@@ -153,7 +153,7 @@
     }
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideTheMBP];
     [self.tableView.mj_header endRefreshing];

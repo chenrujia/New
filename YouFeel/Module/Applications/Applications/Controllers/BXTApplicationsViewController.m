@@ -180,7 +180,7 @@
     }
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [BXTGlobal showText:@"请求失败，请重试" view:self.view completionBlock:nil];
 }

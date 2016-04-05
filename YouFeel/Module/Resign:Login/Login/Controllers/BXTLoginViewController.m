@@ -22,7 +22,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextField        *nameTF;
 @property (weak, nonatomic) IBOutlet UITextField        *passwordTF;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *resign_bottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *logo_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *back_top;
 @property (nonatomic ,strong) NSString *userName;
@@ -49,7 +48,6 @@
     {
         _logo_top.constant = 60.f;
         _back_top.constant = 175.f;
-        _resign_bottom.constant = 20;
     }
     
     if (![WXApi isWXAppInstalled])
@@ -97,9 +95,7 @@
     }
     else if (IS_IPHONE5)
     {
-        self.wx_width.constant = 60.f;
-        self.wx_height.constant = 60.f;
-        self.wx_bottom.constant = 15.f;
+        self.wx_bottom.constant = 20.f;
         [self.wxLogin layoutIfNeeded];
     }
     else if (IS_IPHONE4)
@@ -108,9 +104,7 @@
         [self.logoView layoutIfNeeded];
         self.login_back_y.constant = 130.f;
         [self.loginBackView layoutIfNeeded];
-        self.wx_width.constant = 60.f;
-        self.wx_height.constant = 60.f;
-        self.wx_bottom.constant = 15.f;
+        self.wx_bottom.constant = 20.f;
         [self.wxLogin layoutIfNeeded];
     }
 }
@@ -272,7 +266,7 @@
     }
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
 }

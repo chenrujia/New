@@ -27,20 +27,17 @@
     NSMutableArray *timesArray;
 }
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UITableView    *tableView;
 @property (nonatomic, strong) NSMutableArray *ordersArray;
-
-@property (nonatomic, copy) NSString *taskType;
-@property (nonatomic, assign) NSInteger currentPage;
-
-@property (nonatomic, copy) NSString *filterOfGroupID;
-@property (nonatomic, copy) NSString *filterOfStateDaily;
-@property (nonatomic, copy) NSString *filterOfAreasID;
-@property (nonatomic, copy) NSString *filterOfTimeBegain;
-@property (nonatomic, copy) NSString *filterOfTimeEnd;
-
+@property (nonatomic, copy  ) NSString       *taskType;
+@property (nonatomic, assign) NSInteger      currentPage;
+@property (nonatomic, copy  ) NSString       *filterOfGroupID;
+@property (nonatomic, copy  ) NSString       *filterOfStateDaily;
+@property (nonatomic, copy  ) NSString       *filterOfAreasID;
+@property (nonatomic, copy  ) NSString       *filterOfTimeBegain;
+@property (nonatomic, copy  ) NSString       *filterOfTimeEnd;
 // 维保
-@property (nonatomic, copy) NSString *filterOfStateInspection;
+@property (nonatomic, copy  ) NSString       *filterOfStateInspection;
 
 @end
 
@@ -113,10 +110,12 @@
 - (void)createDOP
 {
     groupArray = [NSMutableArray arrayWithObjects:@"分组", nil];
-    if ([_taskType integerValue] == 1) {
+    if ([_taskType integerValue] == 1)
+    {
         stateArray = [NSMutableArray arrayWithObjects:@"状态", @"正常工单", @"超时工单", nil];
     }
-    else {
+    else
+    {
         stateArray = [NSMutableArray arrayWithObjects:@"状态", @"未到期", @"即将到期", @"已过期", nil];
     }
     areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
@@ -483,7 +482,7 @@
     
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
     [self.tableView.mj_header endRefreshing];

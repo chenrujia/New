@@ -9,6 +9,7 @@
 #import "BXTSearchPlaceViewController.h"
 #import "ANKeyValueTable.h"
 #import "BXTPlaceTableViewCell.h"
+#import "UITableView+FDTemplateLayoutCell.h"
 
 #define YGREENCOLOR colorWithHexString(@"3cafff")
 #define YBLACKCOLOR [UIColor blackColor]
@@ -54,7 +55,7 @@
     self.isOpen = YES;
     _commitBtn.layer.cornerRadius = 4.f;
     [_currentTable registerNib:[UINib nibWithNibName:@"BXTPlaceTableViewCell" bundle:nil] forCellReuseIdentifier:@"RowCell"];
-    _currentTable.rowHeight = 50.f;
+    [_currentTable setEstimatedRowHeight:50.f];
     
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     self.mutableArray = mutableArray;
@@ -108,6 +109,27 @@
         [_resultMarksArray addObject:@"0"];
     }
     [_currentTable reloadData];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [tableView fd_heightForCellWithIdentifier:@"RowCell" cacheByIndexPath:indexPath configuration:^(id cell) {
+        BXTPlaceTableViewCell *tempCell = cell;
+        BXTPlace *placeInfo;
+        if (_isOpen)
+        {
+            NSMutableArray *tempArray = _mutableArray[indexPath.section];
+            placeInfo = tempArray[indexPath.row];
+            tempCell.name_left.constant = [placeInfo.level integerValue] * 15.f;
+        }
+        else
+        {
+            placeInfo = _resultsArray[indexPath.row];
+            tempCell.name_left.constant = 15.f;
+        }
+        [tempCell.nameLabel layoutIfNeeded];
+        tempCell.nameLabel.text = placeInfo.place;
+    }];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

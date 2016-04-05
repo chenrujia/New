@@ -452,7 +452,7 @@
 
 - (void)connectTa
 {
-    BXTRepairPersonInfo *repairPerson = _repairDetail.repair_fault_arr[0];
+    BXTRepairPersonInfo *repairPerson = _repairDetail.fault_user_arr[0];
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = repairPerson.out_userid;
     
@@ -545,22 +545,14 @@
         }];
         self.repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
         
-        BXTRepairPersonInfo *repairPerson = _repairDetail.repair_fault_arr[0];
+        BXTRepairPersonInfo *repairPerson = _repairDetail.fault_user_arr[0];
         NSString *headURL = repairPerson.head_pic;
         [headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         repairerName.text = repairPerson.name;
-        repairerDetail.text = repairPerson.role;
+        repairerDetail.text = repairPerson.duty_name;
         
         repairID.text = [NSString stringWithFormat:@"工单号:%@",_repairDetail.orderid];
-        
-        NSTimeInterval timeInterval = [_repairDetail.repair_time doubleValue];
-        NSDate *detaildate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-        //实例化一个NSDateFormatter对象
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        //设定时间格式,这里可以设置成自己需要的格式
-        [dateFormatter setDateFormat:@"MM-dd HH:mm"];
-        NSString *currentDateStr = [dateFormatter stringFromDate:detaildate];
-        time.text = [NSString stringWithFormat:@"报修时间:%@",currentDateStr];
+        time.text = [NSString stringWithFormat:@"报修时间:%@",_repairDetail.fault_time_name];
         
         if (_repairDetail.visitmobile.length != 11)
         {
@@ -598,7 +590,7 @@
             orderType.text = @"超时工单";
         }
         
-        place.text = [NSString stringWithFormat:@"位置:%@-%@",_repairDetail.area_name,_repairDetail.place_name];
+        place.text = [NSString stringWithFormat:@"位置:%@",_repairDetail.place_name];
         
         CGSize cause_size = MB_MULTILINE_TEXTSIZE(place.text, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
         // 更新所有控件位置 1
@@ -673,7 +665,7 @@
     }
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
 }

@@ -242,7 +242,7 @@
     [self.tableView reloadData];
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     //    [self hideMBP];
 }
