@@ -19,9 +19,7 @@
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    cell.nextMonthBtn.enabled = NO;
-    
+        
     return cell;
 }
 

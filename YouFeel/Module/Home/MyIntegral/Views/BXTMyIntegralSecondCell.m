@@ -7,6 +7,7 @@
 //
 
 #import "BXTMyIntegralSecondCell.h"
+#import "BXTMyIntegralData.h"
 
 @implementation BXTMyIntegralSecondCell
 
@@ -23,6 +24,13 @@
     return cell;
 }
 
+- (void)setMyIntegral:(BXTMyIntegralData *)myIntegral
+{
+    _myIntegral = myIntegral;
+    
+    self.rankingView.text = [NSString stringWithFormat:@"排名：%@", myIntegral.ranking];
+    self.sumView.text = [NSString stringWithFormat:@"总分：%@", myIntegral.total_score];
+}
 
 - (void)awakeFromNib {
     // Initialization code

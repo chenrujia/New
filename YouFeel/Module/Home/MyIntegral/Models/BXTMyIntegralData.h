@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class ComplateData,PraiseData;
+@class BXTComplateData,BXTPraiseData;
 @interface BXTMyIntegralData : NSObject
 
-@property (nonatomic, strong) NSArray<PraiseData *> *praise_data;
+@property (nonatomic, strong) NSArray<BXTPraiseData *> *praise_data;
 
 @property (nonatomic, copy) NSString *date;
 
-@property (nonatomic, strong) NSArray<ComplateData *> *complate_data;
+@property (nonatomic, strong) NSArray<BXTComplateData *> *complate_data;
 
 @property (nonatomic, copy) NSString *user_id;
 
@@ -26,7 +26,7 @@
 @property (nonatomic, copy) NSString *total_score;
 
 @end
-@interface ComplateData : NSObject
+@interface BXTComplateData : NSObject
 
 @property (nonatomic, copy) NSString *total;
 
@@ -40,7 +40,7 @@
 
 @end
 
-@interface PraiseData : NSObject
+@interface BXTPraiseData : NSObject
 
 @property (nonatomic, copy) NSString *name;
 

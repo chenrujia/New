@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class BXTMyIntegralData;
+
 @interface BXTMyIntegralSecondCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *rankingView;
 @property (weak, nonatomic) IBOutlet UILabel *sumView;
+
+@property (strong, nonatomic) BXTMyIntegralData *myIntegral;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

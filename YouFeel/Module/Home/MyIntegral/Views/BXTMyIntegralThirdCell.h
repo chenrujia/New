@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class BXTComplateData;
+@class BXTPraiseData;
+
 @interface BXTMyIntegralThirdCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *titleView;
@@ -15,6 +18,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *percentView;
 @property (weak, nonatomic) IBOutlet UILabel *rankingView;
 
-+ (instancetype)cellWithTableView:(UITableView *)tableView;
+@property (strong, nonatomic) BXTComplateData *complate;
+@property (strong, nonatomic) BXTPraiseData *praise;
+
++ (instancetype)cellWithTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

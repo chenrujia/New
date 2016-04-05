@@ -467,6 +467,17 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)listOFIntegralRankingWithDate:(NSString *)date
+{
+    self.requestType = IntegarlRanking;
+    
+    NSDictionary *dic = @{@"date": date,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=integral_ranking",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
                                     faulttype:(NSString *)faulttype
                                faultType_type:(NSString *)faulttype_type

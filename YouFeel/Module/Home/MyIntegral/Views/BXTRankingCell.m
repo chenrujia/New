@@ -7,10 +7,11 @@
 //
 
 #import "BXTRankingCell.h"
+#import "BXTHeaderFile.h"
 
 @implementation BXTRankingCell
 
-+ (instancetype)cellWithTableView:(UITableView *)tableView
++ (instancetype)cellWithTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID = @"cell";
     BXTRankingCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
@@ -19,6 +20,13 @@
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    if (indexPath.section == 1) {
+        cell.backgroundColor = colorWithHexString(@"#E2E6E8");
+    }
+    else {
+        cell.rankingView.text = [NSString stringWithFormat:@"%ld", indexPath.row + 1];
+    }
     
     return cell;
 }

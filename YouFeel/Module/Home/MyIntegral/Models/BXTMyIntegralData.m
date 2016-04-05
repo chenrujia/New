@@ -12,17 +12,17 @@
 
 
 + (NSDictionary *)objectClassInArray{
-    return @{@"complate_data" : [ComplateData class], @"praise_data" : [PraiseData class]};
+    return @{@"complate_data" : [BXTComplateData class], @"praise_data" : [BXTPraiseData class]};
 }
 @end
 
 
-@implementation ComplateData
+@implementation BXTComplateData
 
 @end
 
 
-@implementation PraiseData
+@implementation BXTPraiseData
 
 @end
 

@@ -244,6 +244,7 @@
 		786B571D1C3A06C400F48402 /* BXTPersonInfromViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 786B571C1C3A06C400F48402 /* BXTPersonInfromViewController.m */; };
 		786B57241C3A464300F48402 /* BXTMailListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 786B57231C3A464300F48402 /* BXTMailListModel.m */; };
 		786DB5111CB35C42003DA314 /* BXTMyIntegralData.m in Sources */ = {isa = PBXBuildFile; fileRef = 786DB5101CB35C42003DA314 /* BXTMyIntegralData.m */; };
+		786DB5141CB3939F003DA314 /* BXTRankingData.m in Sources */ = {isa = PBXBuildFile; fileRef = 786DB5131CB3939F003DA314 /* BXTRankingData.m */; };
 		7893D88C1C7AA6CD00F042D5 /* BXTStatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC721C4CBB47000749F1 /* BXTStatisticsViewController.m */; };
 		7893D8911C7AA70D00F042D5 /* BXTStatisticsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7893D88F1C7AA70D00F042D5 /* BXTStatisticsCell.m */; };
 		7893D8921C7AA70D00F042D5 /* BXTStatisticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7893D8901C7AA70D00F042D5 /* BXTStatisticsCell.xib */; };
@@ -882,6 +883,8 @@
 		786B57231C3A464300F48402 /* BXTMailListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailListModel.m; sourceTree = "<group>"; };
 		786DB50F1CB35C42003DA314 /* BXTMyIntegralData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMyIntegralData.h; sourceTree = "<group>"; };
 		786DB5101CB35C42003DA314 /* BXTMyIntegralData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMyIntegralData.m; sourceTree = "<group>"; };
+		786DB5121CB3939F003DA314 /* BXTRankingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRankingData.h; sourceTree = "<group>"; };
+		786DB5131CB3939F003DA314 /* BXTRankingData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRankingData.m; sourceTree = "<group>"; };
 		7893D88E1C7AA70D00F042D5 /* BXTStatisticsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStatisticsCell.h; sourceTree = "<group>"; };
 		7893D88F1C7AA70D00F042D5 /* BXTStatisticsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTStatisticsCell.m; sourceTree = "<group>"; };
 		7893D8901C7AA70D00F042D5 /* BXTStatisticsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTStatisticsCell.xib; sourceTree = "<group>"; };
@@ -2171,6 +2174,8 @@
 			children = (
 				786DB50F1CB35C42003DA314 /* BXTMyIntegralData.h */,
 				786DB5101CB35C42003DA314 /* BXTMyIntegralData.m */,
+				786DB5121CB3939F003DA314 /* BXTRankingData.h */,
+				786DB5131CB3939F003DA314 /* BXTRankingData.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4639,6 +4644,7 @@
 				7867DC2C1C4CBA5B000749F1 /* BXTAdsInform.m in Sources */,
 				78C55A661C47339700FFEB37 /* BXTEquipmentAdsName.m in Sources */,
 				783E6C271C51BFF400DC13FB /* BXTFloorInfo.m in Sources */,
+				786DB5141CB3939F003DA314 /* BXTRankingData.m in Sources */,
 				7893D8E81C7ADA8000F042D5 /* BXTStEvaluationFooter.m in Sources */,
 				9602214B1BC9201400010072 /* UIView+ZXQuartz.m in Sources */,
 				7867DCA51C4CBBB7000749F1 /* BXTAuthorityListCell.m in Sources */,

@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     PlaceLists,
     OtherAffairLists,
     MyIntegral,
+    IntegarlRanking,
     MessageList,
     DeleteRepair,
     RepairDetail,
@@ -248,6 +249,11 @@ andRepairerIsReacive:(NSString *)reacive;
  *  获取我的积分 - 新
  */
 - (void)listOFMyIntegralWithDate:(NSString *)date;
+
+/**
+ *  积分排名列表 - 新
+ */
+- (void)listOFIntegralRankingWithDate:(NSString *)date;
 
 /**
  *  设备添加报修

@@ -13,6 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *rankingView;
 @property (weak, nonatomic) IBOutlet UILabel *integralView;
 
-+ (instancetype)cellWithTableView:(UITableView *)tableView;
++ (instancetype)cellWithTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
