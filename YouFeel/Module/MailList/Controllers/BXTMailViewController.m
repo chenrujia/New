@@ -10,7 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTMailListViewController.h"
 #import "UINavigationController+YRBackGesture.h"
-#import "BXTProjectInfromViewController.h"
+#import "BXTProjectManageViewController.h"
 
 @interface BXTMailViewController ()
 
@@ -100,7 +100,7 @@
     if ([is_verify integerValue] != 1)
     {
         [BXTGlobal showText:@"您尚未验证，现在去验证" view:self.view completionBlock:^{
-            BXTProjectInfromViewController *pivc = [[BXTProjectInfromViewController alloc] init];
+            BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
             pivc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:pivc animated:YES];
         }];

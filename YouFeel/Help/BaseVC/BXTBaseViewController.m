@@ -9,7 +9,7 @@
 #import "BXTBaseViewController.h"
 #import "BXTHeaderFile.h"
 #import "MBProgressHUD.h"
-#import "BXTProjectInfromViewController.h"
+#import "BXTProjectManageViewController.h"
 
 @interface BXTBaseViewController () <MBProgressHUDDelegate>
 

@@ -11,6 +11,8 @@
 #import "BXTSettingTableViewCell.h"
 #import "BXTUserInformCell.h"
 #import "UIImageView+WebCache.h"
+#import "BXTChangeNameViewController.h"
+#import "BXTChangePhoneViewController.h"
 
 @interface BXTUserInformViewController () <UITableViewDataSource,UITableViewDelegate>
 {
@@ -54,9 +56,9 @@
 #pragma mark 初始化视图
 - (void)initContentViews
 {
-    self.titleArray = @[@[@"", @"姓   名", @"手机号", @"性   别"], @[@"手机号", @"微信号"]];
+    self.titleArray = @[@[@"", @"姓   名", @"性   别", @"邮   箱"], @[@"手机号"], @[@"微信号"]];
     NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
-    self.detailArray = @[@[@"", [BXTGlobal getUserProperty:U_NAME], [BXTGlobal getUserProperty:U_USERNAME], sexStr], @[[BXTGlobal getUserProperty:U_USERNAME], @"cccc"]];
+    self.detailArray = @[@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"]];
     
     
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
@@ -133,11 +135,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 0)
-    {
-        [self addImages];
+    BXTChangeNameViewController *changeName = [[BXTChangeNameViewController alloc] init];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
+    BXTChangePhoneViewController *changePhone = [storyboard instantiateViewControllerWithIdentifier:@"BXTChangePhoneViewController"];
+    
+    if (indexPath.section == 0) {
+        switch (indexPath.row) {
+            case 0: [self addImages]; break;
+            case 1: [self.navigationController pushViewController:changeName animated:YES]; break;
+            case 2: [self changeSex]; break;
+            case 3: break;
+            default: break;
+        }
     }
+    else if (indexPath.section == 1) {
+        [self.navigationController pushViewController:changePhone animated:YES];
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)changeSex
+{
+    [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
+        
+    } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"男", @"女", nil];
 }
 
 #pragma mark -
