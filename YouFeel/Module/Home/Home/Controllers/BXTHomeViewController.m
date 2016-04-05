@@ -8,7 +8,7 @@
 
 #import "BXTHomeViewController.h"
 #import "BXTHomeCollectionViewCell.h"
-#import "BXTMessageListViewController.h"
+#import "BXTMessageViewController.h"
 #import "BXTHeaderFile.h"
 #import "BXTGroupInfo.h"
 #import "BXTDataRequest.h"
@@ -74,8 +74,7 @@
         self.usersArray = [NSMutableArray array];
     }
     
-#pragma mark -
-#pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+//TODO: 要修改
     //    [self showLoadingMBP:@"数据加载中..."];
     //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     //    dispatch_async(concurrentQueue, ^{
@@ -93,8 +92,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-#pragma mark -
-#pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+//TODO: 要修改
     //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     //    dispatch_async(concurrentQueue, ^{
     //        /** 消息列表 **/
@@ -200,9 +198,9 @@
     [[messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         if ([self is_verify]) {
-            BXTMessageListViewController *messageVC = [[BXTMessageListViewController alloc] init];
-            messageVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:messageVC animated:YES];
+            BXTMessageViewController *newsVC = [[BXTMessageViewController alloc] init];
+            newsVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:newsVC animated:YES];
         }
     }];
     [logoImgView addSubview:messageBtn];

@@ -136,7 +136,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1)
+    {
         BXTRankingViewController *rankingVC = [[BXTRankingViewController alloc] init];
         rankingVC.transTime = self.timeStr;
         [self.navigationController pushViewController:rankingVC animated:YES];
@@ -152,22 +153,26 @@
     NSInteger year = [[self.timeStr substringToIndex:4] integerValue];
     NSInteger month = [[self.timeStr substringWithRange:NSMakeRange(5, self.timeStr.length-6)] integerValue];
     
-    if (!add) { // 减法
+    if (!add)
+    { // 减法
         month -= 1;
-        if (month <= 0) {
+        if (month <= 0)
+        {
             year -= 1;
             month = 12;
         }
     }
-    else {
+    else
+    {
         month += 1;
-        if (month >= 12) {
+        if (month >= 12)
+        {
             year += 1;
             month = 1;
         }
     }
     
-    self.timeStr = [NSString stringWithFormat:@"%ld年%ld月", year, month];
+    self.timeStr = [NSString stringWithFormat:@"%ld年%ld月", (long)year, (long)month];
     
     [self getResource];
     

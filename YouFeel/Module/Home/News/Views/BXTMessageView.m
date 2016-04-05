@@ -7,8 +7,8 @@
 //
 
 #import "BXTMessageView.h"
-#import "BXTOtherAffairCell.h"
-#import "BXTOtherAffair.h"
+#import "BXTMessageTableViewCell.h"
+#import "BXTMessageInfo.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "BXTHeaderForVC.h"
 #import <MJRefresh.h>
@@ -19,30 +19,27 @@
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *dataArray;
-
 @property (nonatomic, assign) NSInteger currentPage;
-
-@property (copy, nonatomic) NSString *stateStr;
 
 @end
 
 @implementation BXTMessageView
 
-- (instancetype)initWithFrame:(CGRect)frame eventType:(NSString *)event_type
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        
+    if (self)
+    {
         self.dataArray = [[NSMutableArray alloc] init];
-        self.stateStr = event_type;
-        
-        self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
+        self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+        [self.tableView registerNib:[UINib nibWithNibName:@"BXTMessageTableViewCell" bundle:nil] forCellReuseIdentifier:@"MessageCell"];
+        self.tableView.rowHeight = 86;
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableView.emptyDataSetSource = self;
         self.tableView.emptyDataSetDelegate = self;
         [self addSubview:self.tableView];
-        
         
         self.currentPage = 1;
         __block __typeof(self) weakSelf = self;
@@ -54,7 +51,6 @@
             weakSelf.currentPage++;
             [weakSelf getResource];
         }];
-        
         [self.tableView.mj_header beginRefreshing];
     }
     return self;
@@ -65,48 +61,31 @@
     [self showLoadingMBP:@"努力加载中..."];
     /**获取消息**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request newsListWithPage:self.currentPage noticeType:@"2" eventType:self.stateStr];
+    [request newsListWithPage:self.currentPage];
 }
 
 #pragma mark -
 #pragma mark - tableView代理方法
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.dataArray.count;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 1;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTOtherAffairCell *cell = [BXTOtherAffairCell cellWithTableView:tableView];
+    BXTMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
     
-    cell.affairModel = self.dataArray[indexPath.section];
+    BXTMessageInfo *messageInfo = self.dataArray[indexPath.section];
+    cell.headImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_%@",messageInfo.notice_type,messageInfo.event_type]];
+    cell.titleLabel.text = messageInfo.notice_title;
+    cell.detailLabel.text = messageInfo.notice_desc;
+    cell.timeLabel.text = messageInfo.send_time_name;
     
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 100;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 0.1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 10;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -129,27 +108,23 @@
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
     
-    
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
-    
     if (type == MessageList)
     {
         if (self.currentPage == 1 && self.self.dataArray.count != 0)
         {
             [self.dataArray removeAllObjects];
         }
-        
         if (data.count)
         {
-            [BXTOtherAffair mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            [BXTMessageInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
                 return @{@"messageID":@"id"};
             }];
-            NSArray *repairs = [BXTOtherAffair mj_objectArrayWithKeyValuesArray:data];
+            NSArray *repairs = [BXTMessageInfo mj_objectArrayWithKeyValuesArray:data];
             [self.dataArray addObjectsFromArray:repairs];
         }
         [self.tableView reloadData];
-        
     }
 }
 

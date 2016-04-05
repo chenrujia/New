@@ -10,12 +10,9 @@
 
 @interface BXTOtherAffair : NSObject
 
-@property (nonatomic, copy) NSString *id;
-
+@property (nonatomic, copy) NSString *messageID;
 @property (nonatomic, copy) NSString *affairs_desc;
-
 @property (nonatomic, copy) NSString *affairs_time_name;
-
 @property (nonatomic, copy) NSString *affairs_type;
 
 @end

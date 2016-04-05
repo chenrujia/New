@@ -10,6 +10,6 @@
 
 @interface BXTMessageView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame eventType:(NSString *)event_type;
+- (instancetype)initWithFrame:(CGRect)frame;
 
 @end

@@ -35,7 +35,6 @@
         
         self.dataArray = [[NSMutableArray alloc] init];
         self.stateStr = handle_state;
-        
         self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
         self.tableView.rowHeight = 100;
         self.tableView.delegate = self;
@@ -43,8 +42,6 @@
         self.tableView.emptyDataSetSource = self;
         self.tableView.emptyDataSetDelegate = self;
         [self addSubview:self.tableView];
-        
-        
         self.currentPage = 1;
         __block __typeof(self) weakSelf = self;
         self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -139,7 +136,7 @@
         if (data.count)
         {
             [BXTOtherAffair mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-                return @{@"affairID":@"id"};
+                return @{@"messageID":@"id"};
             }];
             NSArray *repairs = [BXTOtherAffair mj_objectArrayWithKeyValuesArray:data];
             [self.dataArray addObjectsFromArray:repairs];
