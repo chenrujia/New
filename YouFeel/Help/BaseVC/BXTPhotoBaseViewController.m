@@ -503,7 +503,7 @@
     NSLog(@"response:%@",dic);
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     NSLog(@"error:%@",[error localizedDescription]);
 }

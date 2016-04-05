@@ -10,7 +10,7 @@
 #define BXT_BXTPublicSetting_h
 
 // AppStore下载地址
-#define APPSTORE_APPADDRESS @"https://itunes.apple.com/us/app/you-fu-bao-xiu/id1055274713?l=zh&ls=1&mt=8"
+#define APPSTORE_APPADDRESS @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1093739474"
 
 //  app 版本
 #define IOSSHORTAPPVERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -71,7 +71,7 @@
 //  请求地址
 #define KURLREQUEST             @"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port"
 
-#define YPLACESAVE          @"PlaceSave"
+#define YPLACESAVE              @"PlaceSave"
 
 //  动态计算高度
 #define MB_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text \

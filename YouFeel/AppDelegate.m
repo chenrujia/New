@@ -103,19 +103,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     {
         [self loadingGuideView];
     }
-    
-    if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
-    {
-        /**请求位置**/
-        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlaceIsAllPlace:YES];
-    }
-    else
-    {
-        NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
-        LogBlue(@"dataSource:%@",dataSource);
-    }
-    
+
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
@@ -163,6 +151,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (void)loadingGuideView
 {
+    //TODO: 记得处理在requestError情况下，GuideView的不显示问题
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.window.bounds];;
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
@@ -202,6 +191,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)imageViewTap
 {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"LoadedGuideView"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [self loadingLoginVC];
 }
 
@@ -603,12 +593,25 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
             [BXTGlobal shareGlobal].baseURL = url;
             
-            BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [pic_request updateHeadPic:abUserInfo.pic];
-            
-            /**分店登录**/
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request branchLogin];
+            dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+            dispatch_async(concurrentQueue, ^{
+                /**请求位置列表**/
+                if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
+                {
+                    BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+                    [location_request listOFPlaceIsAllPlace:YES];
+                }
+            });
+            dispatch_async(concurrentQueue, ^{
+                /**更新头像**/
+                BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [pic_request updateHeadPic:abUserInfo.pic];
+            });
+            dispatch_async(concurrentQueue, ^{
+                /**分店登录**/
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request branchLogin];
+            });
         }
         else
         {
@@ -653,8 +656,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
+    LogBlue(@"type:%ld",(long)type);
     [self loadingLoginVC];
 }
 

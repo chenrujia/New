@@ -484,7 +484,7 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     }
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
 }

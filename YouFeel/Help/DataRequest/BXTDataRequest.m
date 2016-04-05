@@ -432,7 +432,8 @@ andRepairerIsReacive:(NSString *)reacive
     self.requestType = PlaceLists;
     
     NSString *isMore = @"";
-    if (isAllPlace) {
+    if (isAllPlace)
+    {
         isMore = @"1";
     }
     NSDictionary *dic = @{@"more": isMore};
@@ -1274,7 +1275,7 @@ andRepairerIsReacive:(NSString *)reacive
             [[NSNotificationCenter defaultCenter] postNotificationName:@"VERIFY_TOKEN_FAIL" object:nil];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [_delegate requestError:error];
+        [_delegate requestError:error requeseType:_requestType];
         LogBlue(@"error:%@",error);
     }];
 }
@@ -1314,7 +1315,7 @@ andRepairerIsReacive:(NSString *)reacive
         NSDictionary *dictionary = [result JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [_delegate requestError:error];
+        [_delegate requestError:error requeseType:_requestType];
     }];
 }
 
@@ -1332,7 +1333,7 @@ andRepairerIsReacive:(NSString *)reacive
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [_delegate requestError:error];
+        [_delegate requestError:error requeseType:_requestType];
     }];
 }
 

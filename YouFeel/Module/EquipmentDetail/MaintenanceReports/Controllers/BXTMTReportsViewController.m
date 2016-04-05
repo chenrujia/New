@@ -542,12 +542,12 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    NSDictionary *dic = response;
-    NSArray *data = [dic objectForKey:@"data"];
+//    NSDictionary *dic = response;
+//    NSArray *data = [dic objectForKey:@"data"];
     
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
 }

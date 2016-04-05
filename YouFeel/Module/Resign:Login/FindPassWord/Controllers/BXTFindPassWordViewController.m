@@ -232,7 +232,7 @@
     dispatch_resume(_time);
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     
 }

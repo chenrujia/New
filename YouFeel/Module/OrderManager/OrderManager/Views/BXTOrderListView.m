@@ -473,7 +473,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTRepairInfo *repairInfo = [self.ordersArray objectAtIndex:indexPath.section];
+//    BXTRepairInfo *repairInfo = [self.ordersArray objectAtIndex:indexPath.section];
 #pragma mark -
 #pragma mark -  修改下
     //    if ([BXTGlobal shareGlobal].isRepair && [repairInfo.order_type integerValue] == 3)
@@ -542,7 +542,7 @@
     
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideTheMBP];
     [self.tableView.mj_header endRefreshing];

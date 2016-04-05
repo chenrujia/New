@@ -18,7 +18,7 @@
              @"evaluation_pic":[BXTFaultPicInfo class],
              @"device_list":[BXTDeviceMMListInfo class],
              @"close_info":[BXTCloseInfo class],
-             @"repair_fault_arr":[BXTRepairPersonInfo class],
+             @"fault_user_arr":[BXTRepairPersonInfo class],
              @"progress":[BXTProgressInfo class]};
 }
 @end

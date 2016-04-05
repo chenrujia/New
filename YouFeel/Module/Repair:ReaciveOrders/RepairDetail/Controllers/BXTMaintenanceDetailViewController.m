@@ -72,7 +72,7 @@
     @weakify(self);
     [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTRepairPersonInfo *rpInfo = self.repairDetail.repair_fault_arr[0];
+        BXTRepairPersonInfo *rpInfo = self.repairDetail.fault_user_arr[0];
         [self handleUserInfo:@{@"UserID":rpInfo.rpID,
                                @"UserName":rpInfo.name,
                                @"HeadPic":rpInfo.head_pic}];
@@ -84,7 +84,7 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
     [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
-        BXTRepairPersonInfo *repairPerson = self.repairDetail.repair_fault_arr[0];
+        BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];
         BXTPersonInfromViewController *personVC = [[BXTPersonInfromViewController alloc] init];
         personVC.userID = repairPerson.rpID;
         NSArray *shopArray = [BXTGlobal getUserProperty:U_SHOPIDS];
@@ -101,14 +101,14 @@
     [timeArray addObject:@"自定义"];
     self.comeTimeArray = timeArray;
     
-    //由于详情采用了统一的详情，所以如果是报修者的身份，则一下信息是不让看的
-    if (![BXTGlobal shareGlobal].isRepair)
-    {
-        _headImgView.hidden = YES;
-        _repairerName.hidden = YES;
-        _connectTa.hidden = YES;
-        [_repairID layoutIfNeeded];
-    }
+//    //由于详情采用了统一的详情，所以如果是报修者的身份，则一下信息是不让看的
+//    if (![BXTGlobal shareGlobal].isRepair)
+//    {
+//        _headImgView.hidden = YES;
+//        _repairerName.hidden = YES;
+//        _connectTa.hidden = YES;
+//        [_repairID layoutIfNeeded];
+//    }
     
     //发起请求
     [self requestDetail];
@@ -704,9 +704,6 @@
         [BXTRepairPersonInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"rpID":@"id"};
         }];
-        [BXTFaultPicInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"picID":@"id"};
-        }];
         self.repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
         
         //状态相关
@@ -715,23 +712,15 @@
         [_firstBV addSubview:drawView];
         
         //各种赋值
-        BXTRepairPersonInfo *repairPerson = self.repairDetail.repair_fault_arr[0];
+        BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];
         NSString *headURL = repairPerson.head_pic;
         [_headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         _repairerName.text = repairPerson.name;
-        _departmentName.text = repairPerson.department;
-        _positionName.text = repairPerson.role;
+        _departmentName.text = [NSString stringWithFormat:@"部门：%@",repairPerson.department_name];
+        _positionName.text = [NSString stringWithFormat:@"职位：%@",repairPerson.duty_name];
         _repairID.text = [NSString stringWithFormat:@"工单编号:%@",self.repairDetail.orderid];
-        NSString *repairTimeStr = [BXTGlobal transformationTime:@"yyyy-MM-dd HH:mm" withTime:self.repairDetail.repair_time];
-        _repairTime.text = [NSString stringWithFormat:@"报修时间:%@",repairTimeStr];
-        if (self.repairDetail.stores_name.length)
-        {
-            _place.text = [NSString stringWithFormat:@"报修位置:%@-%@-%@",self.repairDetail.area_name,self.repairDetail.place_name,self.repairDetail.stores_name];
-        }
-        else
-        {
-            _place.text = [NSString stringWithFormat:@"报修位置:%@-%@",self.repairDetail.area_name,self.repairDetail.place_name];
-        }
+        _repairTime.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
+        _place.text = [NSString stringWithFormat:@"报修位置:%@",self.repairDetail.place_name];
         _faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
         _cause.text = [NSString stringWithFormat:@"故障描述:%@",self.repairDetail.cause];
         [_contentView layoutIfNeeded];
@@ -774,7 +763,7 @@
             _eighthBV.hidden = YES;
             _ninthBV.hidden = YES;
             _tenthBV.hidden = YES;
-            
+
             if (CGRectGetMaxY(_fouthBV.frame) + 12.f + YBottomBackHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
             {
                 _content_height.constant = CGRectGetMaxY(_fouthBV.frame) + 12.f + YBottomBackHeight;
@@ -911,7 +900,7 @@
     }
 }
 
-- (void)requestError:(NSError *)error
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
 }
