@@ -495,7 +495,7 @@ andRepairerIsReacive:(NSString *)reacive
                           @"id": [BXTGlobal getUserProperty:U_USERID]};
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/perfect_user/id/%@", KURLREQUEST, companyInfo.company_id];
+    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/perfect_user/id/%@", KADMINBASEURL, companyInfo.company_id];
     
     [self postRequest:url withParameters:dic];
 }
@@ -504,7 +504,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = UserShopLists;
     
-    NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/user_shop_lists&user_id=%@", KURLREQUEST, [BXTGlobal getUserProperty:U_USERID]];
+    NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/user_shop_lists&user_id=%@", KADMINBASEURL, [BXTGlobal getUserProperty:U_USERID]];
     [self postRequest:url withParameters:nil];
 }
 
@@ -1239,7 +1239,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"%@/module/shops/opt/shop_info&id=%@", KURLREQUEST, shopID];
+    NSString *url = [NSString stringWithFormat:@"%@/module/shops/opt/shop_info&id=%@", KADMINBASEURL, shopID];
     [self getRequest:url];
 }
 
@@ -1249,7 +1249,7 @@ andRepairerIsReacive:(NSString *)reacive
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"%@/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", KURLREQUEST, shopID];
+    NSString *url = [NSString stringWithFormat:@"%@/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", KADMINBASEURL, shopID];
     [self getRequest:url];
 }
 
@@ -1305,7 +1305,7 @@ andRepairerIsReacive:(NSString *)reacive
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [response JSONValue];
-        LogBlue(@"\n\n---------------------response---------------------> type>>>>>:%d    \n\n%@\n\n<---------------------response---------------------\n\n",self.requestType,response);
+        LogBlue(@"\n\n---------------------response---------------------> type>>>>>:%ld    \n\n%@\n\n<---------------------response---------------------\n\n",(long)self.requestType,response);
         [_delegate requestResponseData:dictionary requeseType:_requestType];
         // token验证失败
         if ([[NSString stringWithFormat:@"%@", dictionary[@"returncode"]] isEqualToString:@"037"])
@@ -1314,7 +1314,7 @@ andRepairerIsReacive:(NSString *)reacive
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [_delegate requestError:error requeseType:_requestType];
-        LogBlue(@"type>>>>>:%d    error:%@",self.requestType,error);
+        LogBlue(@"type>>>>>:%ld    error:%@",(long)self.requestType,error);
     }];
 }
 
