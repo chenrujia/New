@@ -32,6 +32,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     MyIntegral,
     IntegarlRanking,
     ModifyUserInform,
+    UserShopLists,
     MessageList,
     DeleteRepair,
     RepairDetail,
@@ -260,7 +261,13 @@ andRepairerIsReacive:(NSString *)reacive;
  *  修改用户资料 - 新
  */
 - (void)modifyUserInformWithName:(NSString *)name
-                          gender:(NSString *)gender;
+                          gender:(NSString *)gender
+                          mobile:(NSString *)mobile;
+
+/**
+ *  我的项目列表 - 新
+ */
+- (void)listOFUserShopLists;
 
 /**
  *  设备添加报修

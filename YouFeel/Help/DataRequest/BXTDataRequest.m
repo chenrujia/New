@@ -480,17 +480,27 @@ andRepairerIsReacive:(NSString *)reacive
 
 - (void)modifyUserInformWithName:(NSString *)name
                           gender:(NSString *)gender
+                          mobile:(NSString *)mobile
 {
     self.requestType = ModifyUserInform;
     
     NSDictionary *dic = @{@"name": name,
                           @"gender": gender,
+                          @"mobile": mobile,
                           @"id": [BXTGlobal getUserProperty:U_USERID]};
-
-//    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port/module/User/opt/perfect_user&id=11"];
     
-    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=perfect_user",[BXTGlobal shareGlobal].baseURL];
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/perfect_user/id/%@", KURLREQUEST, companyInfo.company_id];
+    
     [self postRequest:url withParameters:dic];
+}
+
+- (void)listOFUserShopLists
+{
+    self.requestType = UserShopLists;
+    
+    NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/user_shop_lists&user_id=%@", KURLREQUEST, [BXTGlobal getUserProperty:U_USERID]];
+    [self postRequest:url withParameters:nil];
 }
 
 - (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
@@ -1224,7 +1234,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port/module/shops/opt/shop_info&id=%@", shopID];
+    NSString *url = [NSString stringWithFormat:@"%@/module/shops/opt/shop_info&id=%@", KURLREQUEST, shopID];
     [self getRequest:url];
 }
 
@@ -1234,7 +1244,7 @@ andRepairerIsReacive:(NSString *)reacive
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", shopID];
+    NSString *url = [NSString stringWithFormat:@"%@/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", KURLREQUEST, shopID];
     [self getRequest:url];
 }
 
