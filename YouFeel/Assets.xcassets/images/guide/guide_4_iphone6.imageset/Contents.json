@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "guide_4_iphone6@2x .png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "guide_4_iphone6@2x.png",
       "scale" : "2x"
     },
     {

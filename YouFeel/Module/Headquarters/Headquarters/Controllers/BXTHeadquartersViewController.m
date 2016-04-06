@@ -437,7 +437,8 @@
             
         }
     }
-    else if (indexPath.section == 1 && indexPath.row != 0) {
+    else if (indexPath.section == 1 && indexPath.row != 0)
+    {
         BXTHeadquartersInfo *company = shopsArray[indexPath.row-1];
         BXTBranchViewController *branchVC = [[BXTBranchViewController alloc] initWithHeadquarters:company];
         branchVC.hidesBottomBarWhenPushed = YES;
@@ -454,7 +455,7 @@
     [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
     
     
-    NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     [BXTGlobal shareGlobal].baseURL = url;
 }
 

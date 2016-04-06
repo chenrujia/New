@@ -10,6 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTResignTableViewCell.h"
 #import "BXTHeadquartersViewController.h"
+#import "ANKeyValueTable.h"
 
 @interface BXTChangePassWordViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate>
 
@@ -189,15 +190,28 @@
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-            NSString *url = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+            NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
             [BXTGlobal shareGlobal].baseURL = url;
             
-            BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [pic_request updateHeadPic:abUserInfo.pic];
-            
-            /**分店登录**/
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request branchLogin];
+            dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+            dispatch_async(concurrentQueue, ^{
+                /**请求位置列表**/
+                if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
+                {
+                    BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+                    [location_request listOFPlaceIsAllPlace:YES];
+                }
+            });
+            dispatch_async(concurrentQueue, ^{
+                /**更新头像**/
+                BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [pic_request updateHeadPic:abUserInfo.pic];
+            });
+            dispatch_async(concurrentQueue, ^{
+                /**分店登录**/
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request branchLogin];
+            });
         }
         else
         {

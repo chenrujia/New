@@ -111,27 +111,6 @@
     [_currentTable reloadData];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [tableView fd_heightForCellWithIdentifier:@"RowCell" cacheByIndexPath:indexPath configuration:^(id cell) {
-        BXTPlaceTableViewCell *tempCell = cell;
-        BXTPlace *placeInfo;
-        if (_isOpen)
-        {
-            NSMutableArray *tempArray = _mutableArray[indexPath.section];
-            placeInfo = tempArray[indexPath.row];
-            tempCell.name_left.constant = [placeInfo.level integerValue] * 15.f;
-        }
-        else
-        {
-            placeInfo = _resultsArray[indexPath.row];
-            tempCell.name_left.constant = 15.f;
-        }
-        [tempCell.nameLabel layoutIfNeeded];
-        tempCell.nameLabel.text = placeInfo.place;
-    }];
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 12.f;

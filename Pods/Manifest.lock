@@ -41,6 +41,7 @@ PODS:
   - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
   - RongCloudIMKit (2.4.9)
+  - SDAutoLayout (1.50)
   - SDCycleScrollView (1.61):
     - SDWebImage (~> 3.7)
   - SDWebImage (3.7.5):
@@ -72,6 +73,7 @@ DEPENDENCIES:
   - ObjectiveSugar (~> 1.1.0)
   - ReactiveCocoa (~> 2.5)
   - RongCloudIMKit (~> 2.4.0)
+  - SDAutoLayout (~> 1.50)
   - SDCycleScrollView (~> 1.3)
   - SDWebImage (~> 3.7.3)
   - SKSTableView (~> 0.0.2)
@@ -111,6 +113,7 @@ SPEC CHECKSUMS:
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   RongCloudIMKit: e670867836deef44c0157f05b4a88107f1f5f8e6
+  SDAutoLayout: 88b539a0c6204787d8e4084ef1b0db250241cc47
   SDCycleScrollView: a002d85b30cfa9d0ac74069cd3973ca19ff4f22f
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SKSTableView: f552b4847d0f11425891420473c3e041a7743a06

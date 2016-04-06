@@ -27,21 +27,21 @@
 
 - (void)resignUser:(NSDictionary *)parameters
 {
-    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/reg_user",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/reg_user",KADMINBASEURL];
     [self postRequest:url withParameters:parameters];
 }
 
 - (void)bindingUser:(NSDictionary *)parameters
 {
     self.requestType = BindingUser;
-    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/third_bind_mobile",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/third_bind_mobile",KADMINBASEURL];
     [self postRequest:url withParameters:parameters];
 }
 
 - (void)loginUser:(NSDictionary *)parameters
 {
     self.requestType = LoginType;
-    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/login",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/login",KADMINBASEURL];
     [self postRequest:url withParameters:parameters];
 }
 
@@ -100,11 +100,11 @@
     NSString *url;
     if (departmentID)
     {
-        url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops&id=%@",KURLREQUEST,departmentID];
+        url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops&id=%@",KADMINBASEURL,departmentID];
     }
     else
     {
-        url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops/is_hot/1",KURLREQUEST];
+        url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops/is_hot/1",KADMINBASEURL];
     }
     [self getRequest:url];
 }
@@ -137,7 +137,7 @@
     
     SaveValueTUD(@"BranchResign_shopID", shopID);
     
-    NSString *urlLast = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",urlLast];
     
     [self postRequest:url withParameters:dic];
@@ -147,23 +147,30 @@
 {
     self.requestType = BranchResign;
     NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};
-    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",[BXTGlobal shareGlobal].baseURL];
+    //TODO:shop_id=11这是测试值
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=11&module=user&opt=add_user",KAPIBASEURL];
     [self postRequest:url withParameters:dic];
 }
 
 - (void)branchLogin
 {
     self.requestType = BranchLogin;
-    
     NSArray *array = [BXTGlobal getUserProperty:U_SHOPIDS];
-    NSString *shopID = [NSString stringWithFormat:@"%@", array[0]];
-    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID],
-                          @"shop_id":shopID};
-    
-    //    NSDictionary *dic = @{@"out_userid":@"11",
-    //                          @"shop_id":@"11"};
-    
-    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=shop_login",[BXTGlobal shareGlobal].baseURL];
+    NSString *shopID = nil;
+    NSString *shortURL = nil;
+    if (array && array.count)
+    {
+        shopID = [NSString stringWithFormat:@"%@", array[0]];
+        shortURL = [BXTGlobal shareGlobal].baseURL;
+    }
+    else
+    {
+        //TODO: 11是临时值
+        shopID = @"11";
+        shortURL = KAPIBASEURL;
+    }
+    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&module=user&opt=shop_login",shortURL,shopID];
     [self postRequest:url withParameters:dic];
 }
 
@@ -430,14 +437,12 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)listOFPlaceIsAllPlace:(BOOL)isAllPlace
 {
     self.requestType = PlaceLists;
-    
     NSString *isMore = @"";
     if (isAllPlace)
     {
         isMore = @"1";
     }
     NSDictionary *dic = @{@"more": isMore};
-    
     NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=place_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -689,7 +694,7 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"id":[BXTGlobal getUserProperty:U_USERID],
                           @"name":[BXTGlobal getUserProperty:U_NAME],
                           @"gender":[BXTGlobal getUserProperty:U_SEX]};
-    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/perfect_user",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/User/opt/perfect_user",KADMINBASEURL];
     [self uploadImageRequest:url withParameters:dic withImages:@[image]];
 }
 
@@ -697,7 +702,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = GetVerificationCode;
     NSDictionary *dic = @{@"mobile":mobile};
-    NSString *url = [NSString stringWithFormat:@"%@/opt/get_verification_code/module/Means",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/opt/get_verification_code/module/Means",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -731,7 +736,7 @@ andRepairerIsReacive:(NSString *)reacive
     self.requestType = LocationShop;
     NSDictionary *dic = @{@"latitude":latitude,
                           @"longitude":longitude};
-    NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -752,7 +757,7 @@ andRepairerIsReacive:(NSString *)reacive
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
                           @"shop_id":companyInfo.company_id};
-    NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_type",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_type",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -772,21 +777,21 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"send_user":[BXTGlobal getUserProperty:U_USERID],
                           @"type":@"1",
                           @"content":notes};
-    NSString *url = [NSString stringWithFormat:@"%@/module/comment/opt/add_comment",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/comment/opt/add_comment",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }
 
 - (void)feedbackCommentList
 {
     NSDictionary *dic = @{@"send_user":[BXTGlobal getUserProperty:U_USERID]};
-    NSString *url = [NSString stringWithFormat:@"%@/module/Comment/opt/comment_list",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/Comment/opt/comment_list",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }
 
 - (void)aboutUs
 {
     NSDictionary *dic = @{@"news_id":@"1"};
-    NSString *url = [NSString stringWithFormat:@"%@/opt/news_con/module/news",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/opt/news_con/module/news",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -794,7 +799,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = UserInfoForChatList;
     NSDictionary *dic = @{@"user_id":userID};
-    NSString *url = [NSString stringWithFormat:@"%@/module/Account/opt/account_con",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/module/Account/opt/account_con",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -805,7 +810,7 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"type":@"3",
                           @"username":moblie,
                           @"mailmatch":code};
-    NSString *url = [NSString stringWithFormat:@"%@/opt/find_pass/module/Account",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/opt/find_pass/module/Account",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -817,7 +822,7 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"key":key,
                           @"id":pw_ID,
                           @"password":password};
-    NSString *url = [NSString stringWithFormat:@"%@/opt/reset_pass/module/Account",KURLREQUEST];
+    NSString *url = [NSString stringWithFormat:@"%@/opt/reset_pass/module/Account",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -1126,7 +1131,7 @@ andRepairerIsReacive:(NSString *)reacive
     SaveValueTUD(@"shopID_Special", shopID);
     
     NSDictionary *dic = @{@"id": userID};
-    NSString *baseURL = [NSString stringWithFormat:@"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port&shop_id=%@&token=%@", shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *baseURL = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_con", baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -1300,7 +1305,7 @@ andRepairerIsReacive:(NSString *)reacive
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [response JSONValue];
-        LogBlue(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
+        LogBlue(@"\n\n---------------------response---------------------> type>>>>>:%d    \n\n%@\n\n<---------------------response---------------------\n\n",self.requestType,response);
         [_delegate requestResponseData:dictionary requeseType:_requestType];
         // token验证失败
         if ([[NSString stringWithFormat:@"%@", dictionary[@"returncode"]] isEqualToString:@"037"])
@@ -1309,7 +1314,7 @@ andRepairerIsReacive:(NSString *)reacive
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [_delegate requestError:error requeseType:_requestType];
-        LogBlue(@"error:%@",error);
+        LogBlue(@"type>>>>>:%d    error:%@",self.requestType,error);
     }];
 }
 
