@@ -15,6 +15,7 @@
 #import "BXTCustomButton.h"
 #import "BXTChooseItemView.h"
 #import "BXTDeviceList.h"
+#import "ANKeyValueTable.h"
 
 static NSInteger const DeviceButtonTag = 11;
 static NSInteger const DateButtonTag   = 12;
@@ -22,7 +23,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 @interface BXTNewWorkOrderViewController ()<AttributeViewDelegate,BXTDataResponseDelegate,UITextFieldDelegate>
 
-@property (nonatomic, strong) BXTPlace          *placeInfo;
+@property (nonatomic, strong) BXTPlaceInfo          *placeInfo;
 @property (nonatomic, copy  ) NSString          *notes;
 @property (nonatomic, strong) BXTCustomButton   *deviceBtn;
 @property (nonatomic, strong) BXTCustomButton   *dateBtn;
@@ -288,8 +289,9 @@ static CGFloat const ChooseViewHeight  = 328.f;
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+    NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
     @weakify(self);
-    [searchVC userChoosePlaceInfo:^(BXTPlace *placeInfo) {
+    [searchVC userChoosePlace:dataSource block:^(BXTPlaceInfo *placeInfo) {
         @strongify(self);
         self.placeTF.text = placeInfo.place;
         self.placeInfo = placeInfo;

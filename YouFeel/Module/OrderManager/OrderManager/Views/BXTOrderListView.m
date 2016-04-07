@@ -20,7 +20,7 @@
 #import "BXTEvaluationViewController.h"
 #import "DOPDropDownMenu.h"
 #import "BXTMainTableViewCell.h"
-#import "BXTPlace.h"
+#import "BXTPlaceInfo.h"
 
 @interface BXTOrderListView () <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
 {
@@ -282,7 +282,7 @@
     else if (indexPath.column == 2)
     {
         if (indexPath.row == 0) return areasArray[0];
-        BXTPlace *place = areasArray[indexPath.row];
+        BXTPlaceInfo *place = areasArray[indexPath.row];
         return place.place;
     }
     else
@@ -296,7 +296,7 @@
     if (column == 2)
     {
         if (row == 0  || row > areasArray.count - 1) return 0;
-        BXTPlace *place = areasArray[row];
+        BXTPlaceInfo *place = areasArray[row];
         return place.lists.count;
     }
     
@@ -308,8 +308,8 @@
     if (indexPath.column == 2)
     {
         if (indexPath.row == 0 || indexPath.row > areasArray.count - 1) return nil;
-        BXTPlace *place = areasArray[indexPath.row];
-        BXTPlace *lists = place.lists[indexPath.item];
+        BXTPlaceInfo *place = areasArray[indexPath.row];
+        BXTPlaceInfo *lists = place.lists[indexPath.item];
         return lists.place;
     }
     
@@ -324,8 +324,8 @@
         // 位置
         if (indexPath.column == 2)
         {
-            BXTPlace *place = areasArray[indexPath.row];
-            BXTPlace *lists = place.lists[indexPath.item];
+            BXTPlaceInfo *place = areasArray[indexPath.row];
+            BXTPlaceInfo *lists = place.lists[indexPath.item];
             self.filterOfAreasID = lists.placeID;
         }
     }
@@ -543,10 +543,10 @@
     }
     else if (type == PlaceLists)
     {
-        [BXTPlace mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"placeID": @"id"};
         }];
-        [areasArray addObjectsFromArray:[BXTPlace mj_objectArrayWithKeyValuesArray:data]];
+        [areasArray addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     
 }

@@ -1,5 +1,5 @@
 //
-//  BXTPlaceTableViewCell.m
+//  BXTPlaceInfoTableViewCell.m
 //  YouFeel
 //
 //  Created by Jason on 16/3/26.

@@ -47,8 +47,6 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UILabel      *place;
 @property (weak, nonatomic) IBOutlet UILabel      *faultType;
 @property (weak, nonatomic) IBOutlet UILabel      *cause;
-@property (weak, nonatomic) IBOutlet UIButton     *leftBtn;
-@property (weak, nonatomic) IBOutlet UIButton     *rightBtn;
 @property (weak, nonatomic) IBOutlet UIView       *firstBV;
 @property (weak, nonatomic) IBOutlet UIView       *secondBV;
 @property (weak, nonatomic) IBOutlet UIView       *thirdBV;
@@ -85,7 +83,6 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fifth_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *seventh_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *ninth_bv_height;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *left_btn_x;
 
 - (IBAction)cancelTheRepair:(id)sender;
 - (IBAction)reaciveAction:(id)sender;

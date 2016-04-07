@@ -18,6 +18,7 @@
 #import "BXTEvaluationViewController.h"
 #import "AMRatingControl.h"
 #import "BXTButtonInfo.h"
+#import "UIView+SDAutoLayout.h"
 
 //底部白色背景图高度
 #define YBottomBackHeight 67.f
@@ -63,15 +64,15 @@
     _connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _connectTa.layer.borderWidth = 1.f;
     _connectTa.layer.cornerRadius = 4.f;
-    _leftBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    _leftBtn.layer.borderWidth = 1.f;
-    _leftBtn.layer.cornerRadius = 4.f;
-    [_leftBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-    _rightBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    _rightBtn.layer.borderWidth = 1.f;
-    _rightBtn.layer.cornerRadius = 4.f;
-    _rightBtn.backgroundColor = colorWithHexString(@"3cafff");
-    [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    _leftBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+//    _leftBtn.layer.borderWidth = 1.f;
+//    _leftBtn.layer.cornerRadius = 4.f;
+//    [_leftBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+//    _rightBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+//    _rightBtn.layer.borderWidth = 1.f;
+//    _rightBtn.layer.cornerRadius = 4.f;
+//    _rightBtn.backgroundColor = colorWithHexString(@"3cafff");
+//    [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
     //联系他
     @weakify(self);
@@ -698,7 +699,6 @@
 {
     [BXTGlobal hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
-    LogRed(@"%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count > 0)
     {
@@ -888,6 +888,7 @@
     {
         [self.btnArray removeAllObjects];
         [self.btnArray addObjectsFromArray:[BXTButtonInfo mj_objectArrayWithKeyValuesArray:data]];
+        [self loadButtons];
     }
     else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
@@ -922,6 +923,64 @@
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
+}
+
+- (void)loadButtons
+{
+    switch (self.btnArray.count) {
+        case 1:
+        {
+            BXTButtonInfo *btnInfo = self.btnArray[0];
+            UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [btn setTitle:btnInfo.button_name forState:UIControlStateNormal];
+            btn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+            btn.layer.borderWidth = 1.f;
+            btn.layer.cornerRadius = 4.f;
+            [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [self.eleventhBV addSubview:btn];
+            
+            btn.sd_layout
+            .leftSpaceToView(self.eleventhBV,100)
+            .topSpaceToView(self.eleventhBV,12)
+            .heightIs(44);
+        }
+            break;
+        case 2:
+        {
+            BXTButtonInfo *btnOneInfo = self.btnArray[0];
+            UIButton *btnOne = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [btnOne setTitle:btnOneInfo.button_name forState:UIControlStateNormal];
+            btnOne.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+            btnOne.layer.borderWidth = 1.f;
+            btnOne.layer.cornerRadius = 4.f;
+            [btnOne setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [self.eleventhBV addSubview:btnOne];
+            
+            BXTButtonInfo *btnTwoInfo = self.btnArray[1];
+            UIButton *btnTwo = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [btnTwo setTitle:btnTwoInfo.button_name forState:UIControlStateNormal];
+            btnTwo.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+            btnTwo.layer.borderWidth = 1.f;
+            btnTwo.layer.cornerRadius = 4.f;
+            [btnTwo setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [self.eleventhBV addSubview:btnTwo];
+            
+            btnOne.sd_layout
+            .leftSpaceToView(self.eleventhBV,20)
+            .topSpaceToView(self.eleventhBV,12)
+            .rightSpaceToView(btnTwo,20)
+            .heightIs(44);
+            
+            btnTwo.sd_layout
+            .leftSpaceToView(btnOne,20)
+            .topEqualToView(btnOne)
+            .rightSpaceToView(self.eleventhBV,20)
+            .heightIs(44);
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)didReceiveMemoryWarning

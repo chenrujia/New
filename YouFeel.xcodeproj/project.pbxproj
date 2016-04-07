@@ -163,7 +163,7 @@
 		7851A0311CA3C60900255B8A /* BXTMainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7851A02D1CA3C60900255B8A /* BXTMainTableViewCell.xib */; };
 		7851A0321CA3C60900255B8A /* SegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A02F1CA3C60900255B8A /* SegmentView.m */; };
 		7851A0351CA3C66300255B8A /* BXTSubgroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0341CA3C66300255B8A /* BXTSubgroup.m */; };
-		7851A0381CA3CBD000255B8A /* BXTPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0371CA3CBD000255B8A /* BXTPlace.m */; };
+		7851A0381CA3CBD000255B8A /* BXTPlaceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */; };
 		78644F6B1C575D5600D2C4C5 /* BXTDeviceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 78644F6A1C575D5600D2C4C5 /* BXTDeviceList.m */; };
 		7867DC0C1C4CB9F3000749F1 /* BXTAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC0B1C4CB9F3000749F1 /* BXTAboutUsViewController.m */; };
 		7867DC271C4CBA5B000749F1 /* BXTCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC101C4CBA5B000749F1 /* BXTCustomerServiceViewController.m */; };
@@ -725,8 +725,8 @@
 		7851A02F1CA3C60900255B8A /* SegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentView.m; sourceTree = "<group>"; };
 		7851A0331CA3C66300255B8A /* BXTSubgroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSubgroup.h; sourceTree = "<group>"; };
 		7851A0341CA3C66300255B8A /* BXTSubgroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSubgroup.m; sourceTree = "<group>"; };
-		7851A0361CA3CBD000255B8A /* BXTPlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPlace.h; sourceTree = "<group>"; };
-		7851A0371CA3CBD000255B8A /* BXTPlace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPlace.m; sourceTree = "<group>"; };
+		7851A0361CA3CBD000255B8A /* BXTPlaceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPlaceInfo.h; sourceTree = "<group>"; };
+		7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPlaceInfo.m; sourceTree = "<group>"; };
 		78644F691C575D5600D2C4C5 /* BXTDeviceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceList.h; sourceTree = "<group>"; };
 		78644F6A1C575D5600D2C4C5 /* BXTDeviceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceList.m; sourceTree = "<group>"; };
 		7867DC0A1C4CB9F3000749F1 /* BXTAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAboutUsViewController.h; sourceTree = "<group>"; };
@@ -2215,8 +2215,8 @@
 			children = (
 				7851A0331CA3C66300255B8A /* BXTSubgroup.h */,
 				7851A0341CA3C66300255B8A /* BXTSubgroup.m */,
-				7851A0361CA3CBD000255B8A /* BXTPlace.h */,
-				7851A0371CA3CBD000255B8A /* BXTPlace.m */,
+				7851A0361CA3CBD000255B8A /* BXTPlaceInfo.h */,
+				7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4673,7 +4673,7 @@
 				9602214C1BC9201400010072 /* UIViewController+DismissKeyboard.m in Sources */,
 				7867DDB21C4CBEE9000749F1 /* BXTDrawView.m in Sources */,
 				782985B31C40E48F00D0837C /* BXTSettingViewController.m in Sources */,
-				7851A0381CA3CBD000255B8A /* BXTPlace.m in Sources */,
+				7851A0381CA3CBD000255B8A /* BXTPlaceInfo.m in Sources */,
 				7893D8951C7AA7B300F042D5 /* BXTStatisticsMianView.m in Sources */,
 				967C3D4F1C4620E00078F1D6 /* BXTControlUserTableViewCell.m in Sources */,
 				784E4FB31CA9151100EF2A06 /* BXTRankingViewController.m in Sources */,

@@ -7,9 +7,9 @@
 //
 
 #import "BXTBaseViewController.h"
-#import "BXTPlace.h"
+#import "BXTPlaceInfo.h"
 
-typedef void (^ChoosePlace)(BXTPlace *placeInfo);
+typedef void (^ChoosePlace)(id obj);
 
 @interface BXTSearchPlaceViewController : BXTBaseViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
@@ -17,7 +17,7 @@ typedef void (^ChoosePlace)(BXTPlace *placeInfo);
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
 @property (nonatomic, copy) ChoosePlace selectPlace;
 
-- (void)userChoosePlaceInfo:(ChoosePlace)place;
+- (void)userChoosePlace:(NSArray *)array block:(ChoosePlace)place;
 
 - (IBAction)commitClick:(id)sender;
 - (IBAction)switchValueChanged:(id)sender;

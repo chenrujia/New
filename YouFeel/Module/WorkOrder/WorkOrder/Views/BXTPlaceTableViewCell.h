@@ -1,5 +1,5 @@
 //
-//  BXTPlaceTableViewCell.h
+//  BXTPlaceInfoTableViewCell.h
 //  YouFeel
 //
 //  Created by Jason on 16/3/26.
