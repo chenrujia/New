@@ -11,7 +11,7 @@
 #import "BXTProjectInformContentCell.h"
 #import "BXTProjectInformAuthorCell.h"
 
-@interface BXTProjectInformViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface BXTProjectInformViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataArray;
@@ -31,6 +31,11 @@
                        @[@"审核人"] ];
     
     [self createUI];
+    
+    
+    /** 修改用户信息 **/
+    BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+    [dataRequest projectAuthenticationDetailWithShopID:self.transShopID];
 }
 
 #pragma mark -
@@ -134,6 +139,30 @@
 {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [self hideMBP];
+    
+    NSDictionary *dic = response;
+    NSArray *data = [dic objectForKey:@"data"];
+    
+    if (type == UserShopLists && [dic[@"returncode"] integerValue] == 0)
+    {
+//        [BXTMyProject mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+//            return @{@"projectID": @"id"};
+//        }];
+//        [self.dataArray addObjectsFromArray:[BXTMyProject mj_objectArrayWithKeyValuesArray:data]];
+//        [self.tableView reloadData];
+    }
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

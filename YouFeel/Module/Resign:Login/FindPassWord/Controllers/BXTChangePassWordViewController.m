@@ -9,7 +9,7 @@
 #import "BXTChangePassWordViewController.h"
 #import "BXTHeaderForVC.h"
 #import "BXTResignTableViewCell.h"
-#import "BXTHeadquartersViewController.h"
+#import "BXTProjectAddNewViewController.h"
 #import "ANKeyValueTable.h"
 
 @interface BXTChangePassWordViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate>
@@ -215,7 +215,7 @@
         }
         else
         {
-            BXTHeadquartersViewController *authenticationVC = [[BXTHeadquartersViewController alloc] init];
+            BXTProjectAddNewViewController *authenticationVC = [[BXTProjectAddNewViewController alloc] init];
             [self.navigationController pushViewController:authenticationVC animated:YES];
         }
     }

@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 Jason. All rights reserved.
 //
 
-#import "BXTHeadquartersTableViewCell.h"
+#import "BXTProjectAddNewCell.h"
 #import "BXTPublicSetting.h"
 
-@implementation BXTHeadquartersTableViewCell
+@implementation BXTProjectAddNewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

@@ -508,6 +508,29 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:nil];
 }
 
+- (void)projectAuthenticationDetailWithShopID:(NSString *)shopID
+{
+    self.requestType = AuthenticationDetail;
+    
+    NSDictionary *dic = @{@"shop_id": shopID,
+                          @"out_userid": [BXTGlobal getUserProperty:U_USERID]};
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_detail",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)projectAddUserWithShopID:(NSString *)shopID
+{
+    self.requestType = BranchResign;
+    
+    NSDictionary *dic = @{@"out_userid": [BXTGlobal getUserProperty:U_USERID]};
+    
+    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",urlLast];
+    
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
                                     faulttype:(NSString *)faulttype
                                faultType_type:(NSString *)faulttype_type

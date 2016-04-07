@@ -13,7 +13,6 @@
 #import "BXTGroupInfo.h"
 #import "BXTDataRequest.h"
 #import "BXTHomeTableViewCell.h"
-#import "BXTHeadquartersViewController.h"
 #import "BXTAuthorityListViewController.h"
 #import "BXTQRCodeViewController.h"
 #import "SDCycleScrollView.h"
@@ -576,7 +575,7 @@
         [BXTGlobal setUserProperty:_usersArray withKey:U_USERSARRAY];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMailList" object:nil];
     }
-    else if (type == Remind_Number)
+    else if (type == Remind_Number && dic[@"returncode"] == 0)
     {
         NSDictionary *numDict = array[0];
         [BXTRemindNum sharedManager].dailyNum = [NSString stringWithFormat:@"%@", numDict[@"daily_num"]];

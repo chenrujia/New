@@ -10,10 +10,6 @@
 #import "BXTEPFilterCell.h"
 
 @interface BXTMTFilterViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
-{
-    UIView *bgView;
-    UIView *selectBgView;
-}
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
@@ -21,6 +17,9 @@
 @property (nonatomic, strong) NSMutableArray *transArray;
 
 @property (nonatomic, strong) UIDatePicker *datePicker;
+
+@property (nonatomic, strong) UIView *bgView;
+@property (nonatomic, strong) UIView *selectBgView;
 
 @property (nonatomic, strong) UITableView *selectTableView;
 @property (nonatomic, strong) NSMutableArray *selectArray;
@@ -257,10 +256,10 @@
         self.showSelectedRow = 4;
     }
     
-    selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    selectBgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
-    selectBgView.tag = 102;
-    [self.view addSubview:selectBgView];
+    self.selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.selectBgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    self.selectBgView.tag = 102;
+    [self.view addSubview:self.selectBgView];
     
     
     // selectTableView
@@ -319,7 +318,7 @@
         [self.mulitSelectArray removeAllObjects];
         [_selectTableView removeFromSuperview];
         _selectTableView = nil;
-        [selectBgView removeFromSuperview];
+        [self.selectBgView removeFromSuperview];
     }];
     sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
     sureBtn.layer.borderWidth = 0.5;
@@ -329,16 +328,16 @@
 - (void)createDatePickerWithIndex:(NSInteger)index
 {
     // bgView
-    bgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
-    bgView.tag = 101;
-    [self.view addSubview:bgView];
+    self.bgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    self.bgView.tag = 101;
+    [self.view addSubview:self.bgView];
     
     
     // headerView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-50, SCREEN_WIDTH, 50)];
     headerView.backgroundColor = [UIColor whiteColor];
-    [bgView addSubview:headerView];
+    [self.bgView addSubview:headerView];
     
     // titleLabel
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 80, 30)];
@@ -371,13 +370,13 @@
         // 显示时间
         timeLabel.text = [self weekdayStringFromDate:self.datePicker.date];
     }];
-    [bgView addSubview:self.datePicker];
+    [self.bgView addSubview:self.datePicker];
     
     
     // toolView
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
     toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
-    [bgView addSubview:toolView];
+    [self.bgView addSubview:toolView];
     
     // sure
     UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 50)];
@@ -392,7 +391,7 @@
         [self.tableView reloadData];
         
         self.datePicker = nil;
-        [bgView removeFromSuperview];
+        [self.bgView removeFromSuperview];
     }];
     sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
     sureBtn.layer.borderWidth = 0.5;

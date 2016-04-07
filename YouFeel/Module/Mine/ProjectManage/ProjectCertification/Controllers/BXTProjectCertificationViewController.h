@@ -7,7 +7,10 @@
 //
 
 #import "BXTBaseViewController.h"
+#import "BXTMyProject.h"
 
 @interface BXTProjectCertificationViewController : BXTBaseViewController
+
+@property (strong, nonatomic) BXTMyProject *transProject;
 
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BXTHeadquartersTableViewCell : UITableViewCell
+@interface BXTProjectAddNewCell : UITableViewCell
 
 @property (nonatomic ,strong) UILabel *nameLabel;
 @property (nonatomic ,strong) UIImageView *rightImageView;

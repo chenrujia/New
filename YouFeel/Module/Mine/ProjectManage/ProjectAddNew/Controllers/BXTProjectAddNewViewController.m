@@ -6,18 +6,18 @@
 //  Copyright (c) 2015年 Jason. All rights reserved.
 //
 
-#import "BXTHeadquartersViewController.h"
-#import "BXTHeadquartersTableViewCell.h"
-#import "BXTBranchViewController.h"
+#import "BXTProjectAddNewViewController.h"
+#import "BXTProjectAddNewCell.h"
 #include <math.h>
 #import "BXTHeaderForVC.h"
 #import "BXTHeadquartersInfo.h"
 #import "PinYinForObjc.h"
-#import "BXTAuthenticationViewController.h"
+#import "BXTProjectCertificationViewController.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 #define NavBarHeight 120.f
 
-@interface BXTHeadquartersViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,BXTDataResponseDelegate,CLLocationManagerDelegate>
+@interface BXTProjectAddNewViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,UISearchBarDelegate,BXTDataResponseDelegate,CLLocationManagerDelegate>
 {
     /** ---- 热门项目 ---- */
     NSMutableArray    *shopsArray;
@@ -35,13 +35,12 @@
 @property (nonatomic, assign) BOOL           isOpenLocationProject;
 @property (nonatomic, strong) UISearchBar    *searchBar;
 @property (nonatomic, strong) UITableView    *tableView_Search;
-@property (nonatomic, strong) UILabel        *remindLabel;
 @property (nonatomic, strong) NSMutableArray *searchArray;
 @property (nonatomic, strong) NSMutableArray *allPersonArray;
 
 @end
 
-@implementation BXTHeadquartersViewController
+@implementation BXTProjectAddNewViewController
 
 - (void)dealloc
 {
@@ -101,7 +100,7 @@
     
     // UITableView
     currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 55, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
-    [currentTableView registerClass:[BXTHeadquartersTableViewCell class] forCellReuseIdentifier:@"HeadquartersTableViewCell"];
+    [currentTableView registerClass:[BXTProjectAddNewCell class] forCellReuseIdentifier:@"BXTProjectAddNewCell"];
     currentTableView.rowHeight = 50;
     currentTableView.delegate = self;
     currentTableView.dataSource = self;
@@ -111,6 +110,8 @@
     self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
     self.tableView_Search.dataSource = self;
     self.tableView_Search.delegate = self;
+    self.tableView_Search.emptyDataSetDelegate = self;
+    self.tableView_Search.emptyDataSetSource = self;
     [self.view addSubview:self.tableView_Search];
     
     // UITableView - tableView_Search - tableHeaderView
@@ -122,12 +123,6 @@
     alertLabel.font = [UIFont systemFontOfSize:15];
     alertLabel.textAlignment = NSTextAlignmentLeft;
     [headerView addSubview:alertLabel];
-    
-    self.remindLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, SCREEN_WIDTH-40, 40)];
-    self.remindLabel.text = @"抱歉，没有找到相关项目";
-    self.remindLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:self.remindLabel];
-    self.remindLabel.hidden = YES;
     
     [self showTableViewAndHideSearchTableView:YES];
 }
@@ -198,7 +193,6 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     searchBar.text = @"";
-    self.remindLabel.hidden = YES;
     NSLog(@"did begin");
 }
 
@@ -285,14 +279,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    self.remindLabel.hidden = YES;
-    
     if (tableView == self.tableView_Search) {
         if (self.searchArray.count == 0) {
-            self.remindLabel.hidden = NO;
         }
         if ([searchStr isEqualToString:@""]) {
-            self.remindLabel.hidden = YES;
         }
         return self.searchArray.count;
     }
@@ -329,9 +319,9 @@
     }
     
     static NSString *cellID = @"cell";
-    BXTHeadquartersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    BXTProjectAddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[BXTHeadquartersTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+        cell = [[BXTProjectAddNewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.switchbtn.hidden = YES;
@@ -384,68 +374,60 @@
         NSDictionary *dict = self.searchArray[indexPath.row];
         BXTHeadquartersInfo *infoModel = [BXTHeadquartersInfo modelObjectWithDictionary:dict];
         
-        
         NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
-        if ([shopsIDArray containsObject:infoModel.company_id])
-        {
+        if ([shopsIDArray containsObject:infoModel.company_id]) {
             [self refreshAllInformWithShopID:infoModel.company_id shopAddress:infoModel.name];
             
             /**请求分店位置**/
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request branchLogin];
         }
-        else
-        {
-            BXTAuthenticationViewController *authenticationVC = [[BXTAuthenticationViewController alloc] init];
-            authenticationVC.shopID = infoModel.company_id;
-            authenticationVC.shopAddress = infoModel.name;
-            [self.navigationController pushViewController:authenticationVC animated:YES];
+        else {
+            [self getResourceWithShopID:infoModel.company_id];
         }
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
     
-    if (indexPath.section == 0 && indexPath.row != 0)
-    {
-        if (locationShopsArray.count == 0)
-        {
+    if (indexPath.section == 0 && indexPath.row != 0) {
+        if (locationShopsArray.count == 0) {
             NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
             if([[UIApplication sharedApplication] canOpenURL:url]) {
                 NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
                 [[UIApplication sharedApplication] openURL:url];
             }
-        } else {
+        }
+        else {
             BXTHeadquartersInfo *company = locationShopsArray[indexPath.row-1];
             
             NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
-            if ([shopsIDArray containsObject:company.company_id])
-            {
+            if ([shopsIDArray containsObject:company.company_id]) {
                 [self refreshAllInformWithShopID:company.company_id shopAddress:company.name];
                 
                 /**请求分店位置**/
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request branchLogin];
             }
-            else
-            {
-                BXTAuthenticationViewController *authenticationVC = [[BXTAuthenticationViewController alloc] init];
-                authenticationVC.shopID = company.company_id;
-                authenticationVC.shopAddress = company.name;
-                [self.navigationController pushViewController:authenticationVC animated:YES];
+            else {
+                [self getResourceWithShopID:company.company_id];
             }
-            
         }
     }
-    else if (indexPath.section == 1 && indexPath.row != 0)
-    {
+    else if (indexPath.section == 1 && indexPath.row != 0) {
         BXTHeadquartersInfo *company = shopsArray[indexPath.row-1];
-        BXTBranchViewController *branchVC = [[BXTBranchViewController alloc] initWithHeadquarters:company];
-        branchVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:branchVC animated:YES];
+        
+        [self getResourceWithShopID:company.company_id];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)getResourceWithShopID:(NSString *)shopID
+{
+    /**分店添加用户**/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request projectAddUserWithShopID:shopID];
 }
 
 - (void)refreshAllInformWithShopID:(NSString *)shopID shopAddress:(NSString *)shopAddress {
@@ -457,6 +439,17 @@
     
     NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     [BXTGlobal shareGlobal].baseURL = url;
+}
+
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"抱歉，没有找到相关项目";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName:[UIColor blackColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 #pragma mark -
@@ -484,6 +477,17 @@
         }];
         [locationShopsArray addObjectsFromArray:[BXTHeadquartersInfo mj_objectArrayWithKeyValuesArray:array]];
         [self.allPersonArray addObjectsFromArray:array];
+    }
+    else if (type == BranchResign)
+    {
+        if ([dic[@"returncode"] integerValue] == 0) {
+            [MYAlertAction showAlertWithTitle:@"添加项目成功！" msg:@"现在是否去补齐信息，进行项目认证？" chooseBlock:^(NSInteger buttonIdx) {
+                if (buttonIdx == 1) {
+                    BXTProjectCertificationViewController *projCfVC = [[BXTProjectCertificationViewController alloc] init];
+                    [self.navigationController pushViewController:projCfVC animated:YES];
+                }
+            } buttonsStatement:@"以后再说", @"现在就去", nil];
+        }
     }
     else
     {

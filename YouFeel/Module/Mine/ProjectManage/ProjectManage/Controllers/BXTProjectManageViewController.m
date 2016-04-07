@@ -8,7 +8,7 @@
 
 #import "BXTProjectManageViewController.h"
 #import "BXTProjectManageCell.h"
-#import "BXTHeadquartersViewController.h"
+#import "BXTProjectAddNewViewController.h"
 #import "BXTProjectInformViewController.h"
 #import "BXTProjectCertificationViewController.h"
 #import "BXTMyProject.h"
@@ -77,7 +77,7 @@
     @weakify(self);
     [[addItemBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTHeadquartersViewController *headqtVC = [[BXTHeadquartersViewController alloc] init];
+        BXTProjectAddNewViewController *headqtVC = [[BXTProjectAddNewViewController alloc] init];
         [self.navigationController pushViewController:headqtVC animated:YES];
     }];
     [footerView addSubview:addItemBtn];
@@ -99,8 +99,30 @@
 {
     BXTProjectManageCell *cell = [BXTProjectManageCell cellWithTableView:tableView];
     
+    cell.project = self.dataArray[indexPath.row];
+    
+    BXTMyProject *myProject = self.dataArray[indexPath.row];
+    @weakify(self);
+    [[cell.switchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self refreshAllInformWithShopID:myProject.shop_id shopAddress:myProject.name];
+        
+        /**请求分店位置**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request branchLogin];
+    }];
     
     return cell;
+}
+
+- (void)refreshAllInformWithShopID:(NSString *)shopID shopAddress:(NSString *)shopAddress {
+    BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
+    companyInfo.company_id = shopID;
+    companyInfo.name = shopAddress;
+    [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
+    
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    [BXTGlobal shareGlobal].baseURL = url;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -120,8 +142,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTProjectInformViewController *pivc = [[BXTProjectInformViewController alloc] init];
-    [self.navigationController pushViewController:pivc animated:YES];
+    BXTMyProject *myProjectInform = self.dataArray[indexPath.row];
+    
+     // verify_state 状态：0未认证 1申请中 2已认证
+    if ([myProjectInform.verify_state integerValue] == 0) {
+        BXTProjectCertificationViewController *pcvc = [[BXTProjectCertificationViewController alloc] init];
+        pcvc.transProject = myProjectInform;
+        [self.navigationController pushViewController:pcvc animated:YES];
+    }
+    else {
+        BXTProjectInformViewController *pivc = [[BXTProjectInformViewController alloc] init];
+        pivc.transShopID = myProjectInform.projectID;
+        [self.navigationController pushViewController:pivc animated:YES];
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -142,6 +175,14 @@
         }];
         [self.dataArray addObjectsFromArray:[BXTMyProject mj_objectArrayWithKeyValuesArray:data]];
         [self.tableView reloadData];
+    }
+    else if (type == BranchLogin)
+    {
+        if (data.count > 0)
+        {
+            NSDictionary *userInfo = data[0];
+            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
+        }
     }
 }
 

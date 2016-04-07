@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class BXTMyProject;
+
 @interface BXTProjectManageCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *stateView;
 @property (weak, nonatomic) IBOutlet UIButton *switchBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *locationView;
+
+@property (strong, nonatomic) BXTMyProject *project;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

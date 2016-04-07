@@ -8,13 +8,13 @@
 
 #import "BXTLoginViewController.h"
 #import "BXTHeaderFile.h"
-#import "BXTHeadquartersViewController.h"
 #import "UIViewController+DismissKeyboard.h"
 #import "BXTDataRequest.h"
 #import "BXTHeadquartersInfo.h"
 #import "AppDelegate.h"
 #import "ANKeyValueTable.h"
 #import "BXTResignViewController.h"
+#import "BXTProjectAddNewViewController.h"
 
 #define UserNameTag 11
 #define PassWordTag 12
@@ -241,7 +241,7 @@
         }
         else
         {
-            BXTHeadquartersViewController *authenticationVC = [[BXTHeadquartersViewController alloc] init];
+            BXTProjectAddNewViewController *authenticationVC = [[BXTProjectAddNewViewController alloc] init];
             [self.navigationController pushViewController:authenticationVC animated:YES];
         }
     }
@@ -256,7 +256,7 @@
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
     {
-        BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
+        BXTProjectAddNewViewController *headVC = [[BXTProjectAddNewViewController alloc] initWithType:YES];
         [self.navigationController pushViewController:headVC animated:YES];
     }
     else if (type == UpdateHeadPic)
