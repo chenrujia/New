@@ -36,7 +36,9 @@
     
     /** 修改用户信息 **/
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dataRequest modifyUserInformWithName:self.textField.text gender:@""];
+    [dataRequest modifyUserInformWithName:self.textField.text
+                                   gender:@""
+                                   mobile:@""];
 }
 
 - (void)createUI
@@ -58,11 +60,16 @@
     [self hideMBP];
     
     NSDictionary *dic = response;
-    NSLog(@" ------- %@", dic);
     
-    if (type == ModifyUserInform)
+    if (type == ModifyUserInform && [dic[@"returncode"] integerValue] == 0)
     {
-        NSLog(@" ------- %@", dic);
+        [BXTGlobal showText:@"修改成功" view:self.view completionBlock:^{
+            [BXTGlobal setUserProperty:self.textField.text withKey:U_NAME];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeNameSuccess" object:nil];
+            
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
     }
 }
 

@@ -22,12 +22,13 @@
 
 @interface BXTMineViewController () <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 
-@property (nonatomic, strong) UITableView *currentTableView;
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *iconArray;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *feebackSource;
 
 @property (strong, nonatomic) UIImageView *headImgView;
+@property (strong, nonatomic) UILabel *nameLabel;
 
 @end
 
@@ -58,6 +59,13 @@
         [self loadDataSoure];
     }];
     [self loadDataSoure];
+    
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeNameSuccess" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        self.nameLabel.text = [BXTGlobal getUserProperty:U_NAME];
+    }];
 }
 
 - (void)loadDataSoure
@@ -79,12 +87,12 @@
     
     // currentTableView
     CGFloat height = valueForDevice(236, 215, 193, 193);
-    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, height, SCREEN_WIDTH, SCREEN_HEIGHT - height - KTABBARHEIGHT) style:UITableViewStyleGrouped];
-    self.currentTableView.rowHeight = 50.f;
-    self.currentTableView.delegate = self;
-    self.currentTableView.dataSource = self;
-    self.currentTableView.showsVerticalScrollIndicator = NO;
-    [self.view addSubview:self.currentTableView];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, height, SCREEN_WIDTH, SCREEN_HEIGHT - height - KTABBARHEIGHT) style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 50.f;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:self.tableView];
     
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"HEADERIMAGE" object:nil] subscribeNext:^(id x) {
@@ -109,16 +117,16 @@
     [self.headImgView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     [logoView addSubview:self.headImgView];
     
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headImgView.frame) + valueForDevice(12, 11, 8, 8), 200.f, 20.f)];
-    nameLabel.center = CGPointMake(SCREEN_WIDTH/2.f, nameLabel.center.y);
-    nameLabel.textAlignment = NSTextAlignmentCenter;
-    nameLabel.textColor = colorWithHexString(@"ffffff");
-    nameLabel.font = [UIFont boldSystemFontOfSize:IS_IPHONE4 ? 15.f : 17.f];
-    nameLabel.text = [BXTGlobal getUserProperty:U_NAME];
-    [logoView addSubview:nameLabel];
+    self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headImgView.frame) + valueForDevice(12, 11, 8, 8), 200.f, 20.f)];
+    self.nameLabel.center = CGPointMake(SCREEN_WIDTH/2.f, self.nameLabel.center.y);
+    self.nameLabel.textAlignment = NSTextAlignmentCenter;
+    self.nameLabel.textColor = colorWithHexString(@"ffffff");
+    self.nameLabel.font = [UIFont boldSystemFontOfSize:IS_IPHONE4 ? 15.f : 17.f];
+    self.nameLabel.text = [BXTGlobal getUserProperty:U_NAME];
+    [logoView addSubview:self.nameLabel];
     
     BXTMineDownView *downView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMineDownView" owner:nil options:nil] lastObject];
-    downView.frame = CGRectMake((SCREEN_WIDTH-240)/2, CGRectGetMaxY(nameLabel.frame) + valueForDevice(12, 11, 8, 8), 240, 40);
+    downView.frame = CGRectMake((SCREEN_WIDTH-240)/2, CGRectGetMaxY(self.nameLabel.frame) + valueForDevice(12, 11, 8, 8), 240, 40);
     [logoView addSubview:downView];
 }
 
@@ -209,6 +217,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+#pragma mark -
+#pragma mark - BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];

@@ -14,13 +14,13 @@
 #import "BXTChangeNameViewController.h"
 #import "BXTChangePhoneViewController.h"
 
-@interface BXTUserInformViewController () <UITableViewDataSource,UITableViewDelegate>
-{
-    UITableView *currentTableView;
-}
+@interface BXTUserInformViewController () <UITableViewDataSource,UITableViewDelegate, BXTDataResponseDelegate>
 
+@property (strong, nonatomic) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
-@property (nonatomic, strong) NSArray *detailArray;
+@property (nonatomic, strong) NSMutableArray *detailArray;
+
+@property (copy, nonatomic) NSString *sexStr;
 
 @end
 
@@ -29,6 +29,7 @@
 - (void)dealloc
 {
     LogBlue(@"设置界面释放了！！！！！！");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -42,6 +43,15 @@
     self.selectPhotos = [NSMutableArray array];
     
     [self initContentViews];
+    
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeNameSuccess" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
+        self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
+        [self.tableView reloadData];
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -58,14 +68,14 @@
 {
     self.titleArray = @[@[@"", @"姓   名", @"性   别", @"邮   箱"], @[@"手机号"], @[@"微信号"]];
     NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
-    self.detailArray = @[@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"]];
+    self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
     
     
-    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
-    currentTableView.delegate = self;
-    currentTableView.dataSource = self;
-    currentTableView.showsVerticalScrollIndicator = NO;
-    [self.view addSubview:currentTableView];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:self.tableView];
 }
 
 #pragma mark -
@@ -158,7 +168,12 @@
 - (void)changeSex
 {
     [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
-        
+        /** 修改用户信息 **/
+        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dataRequest modifyUserInformWithName:@""
+                                       gender:[NSString stringWithFormat:@"%ld", (long)buttonIdx]
+                                       mobile:@""];
+        self.sexStr = buttonIdx == 1 ? @"男" : @"女";
     } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"男", @"女", nil];
 }
 
@@ -171,9 +186,26 @@
     if ([dict[@"returncode"] intValue] == 0 && type == UploadHeadImage)
     {
         [BXTGlobal setUserProperty:dict[@"pic"] withKey:U_HEADERIMAGE];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"HEADERIMAGE" object:nil];
+        
+        [self.tableView reloadData];
     }
-    [currentTableView reloadData];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"HEADERIMAGE" object:nil];
+    else if ([dict[@"returncode"] intValue] == 0 && type == ModifyUserInform)
+    {
+        [BXTGlobal setUserProperty:self.sexStr withKey:U_SEX];
+        
+        [BXTGlobal showText:@"修改信息成功" view:self.view completionBlock:^{
+            self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], self.sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
+            
+            [self.tableView reloadData];
+        }];
+    }
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    
 }
 
 - (void)didReceiveMemoryWarning {
