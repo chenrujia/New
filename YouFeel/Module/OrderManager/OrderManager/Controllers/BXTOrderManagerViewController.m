@@ -32,10 +32,12 @@
 #pragma mark 初始化视图
 - (void)navigationSetting
 {
-    if (self.isRepair) {
+    if (self.isRepair)
+    {
         [self navigationSetting:@"我的维修工单" andRightTitle:nil andRightImage:nil];
     }
-    else {
+    else
+    {
         [self navigationSetting:@"我的报修工单" andRightTitle:nil andRightImage:nil];
     }
     

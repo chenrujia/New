@@ -15,6 +15,7 @@
 #import "BXTCustomButton.h"
 #import "BXTChooseItemView.h"
 #import "BXTDeviceList.h"
+#import "ANKeyValueTable.h"
 
 static NSInteger const DeviceButtonTag = 11;
 static NSInteger const DateButtonTag   = 12;
@@ -22,7 +23,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 @interface BXTNewWorkOrderViewController ()<AttributeViewDelegate,BXTDataResponseDelegate,UITextFieldDelegate>
 
-@property (nonatomic, strong) BXTPlace          *placeInfo;
+@property (nonatomic, strong) BXTPlaceInfo          *placeInfo;
 @property (nonatomic, copy  ) NSString          *notes;
 @property (nonatomic, strong) BXTCustomButton   *deviceBtn;
 @property (nonatomic, strong) BXTCustomButton   *dateBtn;
@@ -84,16 +85,6 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }];
     [self.notesBV addSubview:repairDetail];
     
-    if (CGRectGetMaxY(self.openSwitch.frame) + 20.f + 68 > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
-    {
-        _content_height.constant = CGRectGetMaxY(self.openSwitch.frame) + 20.f;
-    }
-    else
-    {
-        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
-    }
-    [_contentView layoutIfNeeded];
-    
     [self showLoadingMBP:@"请稍候..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
@@ -101,6 +92,34 @@ static CGFloat const ChooseViewHeight  = 328.f;
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request orderTypeList];
     });
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    [self updateContentView];
+}
+
+- (void)updateContentView
+{
+    UIView *subview = nil;
+    if (self.openSwitch.on)
+    {
+        subview = self.dateSelectBtnBV;
+    }
+    else
+    {
+        subview = self.openSwitch;
+    }
+    if (CGRectGetMaxY(subview.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
+    {
+        _content_height.constant = CGRectGetMaxY(subview.frame) + 20.f;
+    }
+    else
+    {
+        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
+    }
+    [_contentView layoutIfNeeded];
 }
 
 - (void)navigationLeftButton
@@ -138,15 +157,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }
     
     [self.notes_image layoutIfNeeded];
-    if (CGRectGetMaxY(self.openSwitch.frame) + 20.f + 68 > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
-    {
-        _content_height.constant = CGRectGetMaxY(self.openSwitch.frame) + 20.f;
-    }
-    else
-    {
-        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
-    }
-    [_contentView layoutIfNeeded];
+    [self updateContentView];
 }
 
 - (void)showSelectedView:(UIButton *)btn
@@ -249,16 +260,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         subview = self.openSwitch;
         self.dateSelectBtnBV.hidden = YES;
     }
-    
-    if (CGRectGetMaxY(subview.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
-    {
-        _content_height.constant = CGRectGetMaxY(subview.frame) + 20.f;
-    }
-    else
-    {
-        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
-    }
-    [_contentView layoutIfNeeded];
+    [self updateContentView];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -287,8 +289,9 @@ static CGFloat const ChooseViewHeight  = 328.f;
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+    NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
     @weakify(self);
-    [searchVC userChoosePlaceInfo:^(BXTPlace *placeInfo) {
+    [searchVC userChoosePlace:dataSource block:^(BXTPlaceInfo *placeInfo) {
         @strongify(self);
         self.placeTF.text = placeInfo.place;
         self.placeInfo = placeInfo;

@@ -1,18 +1,18 @@
 //
-//  BXTPlace.m
+//  BXTPlaceInfo.m
 //  YouFeel
 //
 //  Created by 满孝意 on 16/3/24.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTPlace.h"
+#import "BXTPlaceInfo.h"
 
-@implementation BXTPlace
+@implementation BXTPlaceInfo
 
 + (NSDictionary *)objectClassInArray
 {
-    return @{@"lists" : [BXTPlace class]};
+    return @{@"lists" : [BXTPlaceInfo class]};
 }
 
 @end

@@ -12,6 +12,7 @@
 #import "BXTMTAddImageCell.h"
 #import "BXTMTWriteReportCell.h"
 #import "UIImage+SubImage.h"
+#import "ANKeyValueTable.h"
 #import "BXTSearchPlaceViewController.h"
 
 @interface BXTMTReportsViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,BXTDataResponseDelegate>
@@ -500,8 +501,9 @@
     else if (indexPath.section == 1 + self.isShowCause) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+        NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
         @weakify(self);
-        [searchVC userChoosePlaceInfo:^(BXTPlace *placeInfo) {
+        [searchVC userChoosePlace:dataSource block:^(BXTPlaceInfo *placeInfo) {
             @strongify(self);
             
             MJExtensionLog(@"placeInfo:%@", placeInfo.place);

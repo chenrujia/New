@@ -10,7 +10,7 @@
 #import "BXTHeaderFile.h"
 #import "NSString+URL.h"
 #import "MobClick.h"
-#import "BXTPlace.h"
+#import "BXTPlaceInfo.h"
 #import "BXTRemindNum.h"
 #import "ANKeyValueTable.h"
 #import "CYLTabBarController.h"
@@ -643,11 +643,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     else if (type == PlaceLists)
     {
         NSArray *data = [dic objectForKey:@"data"];
-        [BXTPlace mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"placeID":@"id"};
         }];
         NSMutableArray *dataSource = [[NSMutableArray alloc] init];
-        [dataSource addObjectsFromArray:[BXTPlace mj_objectArrayWithKeyValuesArray:data]];
+        [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
         [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
     }
     else

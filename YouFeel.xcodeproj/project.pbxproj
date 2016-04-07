@@ -163,7 +163,7 @@
 		7851A0311CA3C60900255B8A /* BXTMainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7851A02D1CA3C60900255B8A /* BXTMainTableViewCell.xib */; };
 		7851A0321CA3C60900255B8A /* SegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A02F1CA3C60900255B8A /* SegmentView.m */; };
 		7851A0351CA3C66300255B8A /* BXTSubgroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0341CA3C66300255B8A /* BXTSubgroup.m */; };
-		7851A0381CA3CBD000255B8A /* BXTPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0371CA3CBD000255B8A /* BXTPlace.m */; };
+		7851A0381CA3CBD000255B8A /* BXTPlaceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */; };
 		78644F6B1C575D5600D2C4C5 /* BXTDeviceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 78644F6A1C575D5600D2C4C5 /* BXTDeviceList.m */; };
 		7867DC0C1C4CB9F3000749F1 /* BXTAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC0B1C4CB9F3000749F1 /* BXTAboutUsViewController.m */; };
 		7867DC271C4CBA5B000749F1 /* BXTCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC101C4CBA5B000749F1 /* BXTCustomerServiceViewController.m */; };
@@ -359,6 +359,7 @@
 		9660CEE21C437E2E00176DDE /* BXTMaintenanceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9660CEE01C437E2E00176DDE /* BXTMaintenanceViewController.xib */; };
 		9662659A1C3A6E8A001113FF /* AboutOrder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 966265991C3A6E8A001113FF /* AboutOrder.storyboard */; };
 		96649B081CA3D25C00084656 /* BXTNewWorkOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96649B071CA3D25C00084656 /* BXTNewWorkOrderViewController.m */; };
+		96704FBC1CB63EFB00696788 /* BXTButtonInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96704FBB1CB63EFB00696788 /* BXTButtonInfo.m */; };
 		9671BB501C1ED29F00D90BFF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AABA331BE0765A0071B6FA /* libc++.tbd */; };
 		9671BB521C1ED3AB00D90BFF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 960223111BC922DB00010072 /* libsqlite3.tbd */; };
 		9677FDF11C9FEEB4009FAAFE /* BXTShopLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9677FDF01C9FEEB4009FAAFE /* BXTShopLocationViewController.m */; };
@@ -718,8 +719,8 @@
 		7851A02F1CA3C60900255B8A /* SegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentView.m; sourceTree = "<group>"; };
 		7851A0331CA3C66300255B8A /* BXTSubgroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSubgroup.h; sourceTree = "<group>"; };
 		7851A0341CA3C66300255B8A /* BXTSubgroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSubgroup.m; sourceTree = "<group>"; };
-		7851A0361CA3CBD000255B8A /* BXTPlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPlace.h; sourceTree = "<group>"; };
-		7851A0371CA3CBD000255B8A /* BXTPlace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPlace.m; sourceTree = "<group>"; };
+		7851A0361CA3CBD000255B8A /* BXTPlaceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPlaceInfo.h; sourceTree = "<group>"; };
+		7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPlaceInfo.m; sourceTree = "<group>"; };
 		78644F691C575D5600D2C4C5 /* BXTDeviceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceList.h; sourceTree = "<group>"; };
 		78644F6A1C575D5600D2C4C5 /* BXTDeviceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceList.m; sourceTree = "<group>"; };
 		7867DC0A1C4CB9F3000749F1 /* BXTAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAboutUsViewController.h; sourceTree = "<group>"; };
@@ -1084,6 +1085,8 @@
 		966265991C3A6E8A001113FF /* AboutOrder.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutOrder.storyboard; sourceTree = "<group>"; };
 		96649B061CA3D25C00084656 /* BXTNewWorkOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNewWorkOrderViewController.h; sourceTree = "<group>"; };
 		96649B071CA3D25C00084656 /* BXTNewWorkOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewWorkOrderViewController.m; sourceTree = "<group>"; };
+		96704FBA1CB63EFB00696788 /* BXTButtonInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTButtonInfo.h; sourceTree = "<group>"; };
+		96704FBB1CB63EFB00696788 /* BXTButtonInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTButtonInfo.m; sourceTree = "<group>"; };
 		9677FDF01C9FEEB4009FAAFE /* BXTShopLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTShopLocationViewController.m; sourceTree = "<group>"; };
 		9677FDF21C9FEED4009FAAFE /* BXTMailListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailListViewController.m; sourceTree = "<group>"; };
 		967C3D421C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenceProjectTableViewCell.h; sourceTree = "<group>"; };
@@ -2200,8 +2203,8 @@
 				78FFB96C1CB5F5D700309339 /* BXTPostionInfo.m */,
 				7851A0331CA3C66300255B8A /* BXTSubgroup.h */,
 				7851A0341CA3C66300255B8A /* BXTSubgroup.m */,
-				7851A0361CA3CBD000255B8A /* BXTPlace.h */,
-				7851A0371CA3CBD000255B8A /* BXTPlace.m */,
+				7851A0361CA3CBD000255B8A /* BXTPlaceInfo.h */,
+				7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2916,6 +2919,8 @@
 			children = (
 				7867DDA31C4CBEE9000749F1 /* BXTRepairDetailInfo.h */,
 				7867DDA41C4CBEE9000749F1 /* BXTRepairDetailInfo.m */,
+				96704FBA1CB63EFB00696788 /* BXTButtonInfo.h */,
+				96704FBB1CB63EFB00696788 /* BXTButtonInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4575,7 +4580,7 @@
 				78FFB9971CB5F77B00309339 /* CCLocationManager.m in Sources */,
 				7867DDB21C4CBEE9000749F1 /* BXTDrawView.m in Sources */,
 				782985B31C40E48F00D0837C /* BXTSettingViewController.m in Sources */,
-				7851A0381CA3CBD000255B8A /* BXTPlace.m in Sources */,
+				7851A0381CA3CBD000255B8A /* BXTPlaceInfo.m in Sources */,
 				7893D8951C7AA7B300F042D5 /* BXTStatisticsMianView.m in Sources */,
 				967C3D4F1C4620E00078F1D6 /* BXTControlUserTableViewCell.m in Sources */,
 				784E4FB31CA9151100EF2A06 /* BXTRankingViewController.m in Sources */,
@@ -4671,6 +4676,7 @@
 				969701F21C88109D0048391F /* BXTDeviceStateViewController.m in Sources */,
 				9652AB461BC90791009A666D /* AssetHelper.m in Sources */,
 				78C55AFE1C47AC0800FFEB37 /* BXTNoticeListViewController.m in Sources */,
+				96704FBC1CB63EFB00696788 /* BXTButtonInfo.m in Sources */,
 				96649B081CA3D25C00084656 /* BXTNewWorkOrderViewController.m in Sources */,
 				9652ABF21BC90DCC009A666D /* AutoCoding.m in Sources */,
 				78FFB9701CB5F5E400309339 /* BXTGroupingInfo.m in Sources */,

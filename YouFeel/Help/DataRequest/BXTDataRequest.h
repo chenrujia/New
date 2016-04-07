@@ -317,6 +317,12 @@ andRepairerIsReacive:(NSString *)reacive;
 - (void)repairDetail:(NSString *)repairID;
 
 /**
+ *  控制操作按钮显示
+ */
+- (void)handlePermission:(NSString *)workorderID
+                 sceneID:(NSString *)sceneID;
+
+/**
  *  评价
  */
 - (void)evaluateRepair:(NSArray *)rateArray

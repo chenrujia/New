@@ -223,7 +223,6 @@
 {
     [self hideMBP];
     NSDictionary *dic = response;
-    LogRed(@"dic......%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     [BXTFeebackInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         return @{@"feebackID":@"id"};

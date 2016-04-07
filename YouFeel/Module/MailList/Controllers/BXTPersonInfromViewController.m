@@ -138,7 +138,8 @@
     [self.view addSubview:phoneBtn];
     
     // 自己不能通话
-    if ([self.userID isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]]) {
+    if ([self.userID isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]])
+    {
         messageBtn.enabled = NO;
         phoneBtn.enabled = NO;
     }
@@ -197,22 +198,26 @@
     if (data.count > 0)
     {
         NSDictionary *infoDict = data[0];
-        BXTPersonInform *informModel = [BXTPersonInform modelObjectWithDictionary:infoDict];
-        
-        
+        [BXTPersonInform mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"personID":@"id"};
+        }];
+        BXTPersonInform *informModel = [BXTPersonInform mj_objectWithKeyValues:infoDict];
         // 完善信息
-        [iconView sd_setImageWithURL:[NSURL URLWithString:informModel.head_pic] placeholderImage:[UIImage imageNamed:@"login_normal"]];
+        [iconView sd_setImageWithURL:[NSURL URLWithString:informModel.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         nameLabel.text = informModel.name;
         
         CGSize size = MB_MULTILINE_TEXTSIZE(nameLabel.text, [UIFont systemFontOfSize:17], CGSizeMake(SCREEN_WIDTH - 30.f, 21), NSLineBreakByWordWrapping);
         sexView.center = CGPointMake(SCREEN_WIDTH/2.f + size.width/2 + 20, nameLabel.center.y);
         
-        if ([informModel.sex_name isEqualToString:@"男"]) {
+        if ([informModel.gender_name isEqualToString:@"男"])
+        {
             sexView.image = [UIImage imageNamed:@"boy"];
-        } else {
+        }
+        else
+        {
             sexView.image = [UIImage imageNamed:@"grill"];
         }
-        positionLabel.text = [NSString stringWithFormat:@"%@ %@", informModel.department, informModel.role];
+        positionLabel.text = [NSString stringWithFormat:@"%@ %@", informModel.department_name,informModel.duty_name];
         
         @weakify(self);
         [[messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -230,8 +235,8 @@
         
         NSString *nameStr = [NSString stringWithFormat:@"姓名：%@", informModel.name];
         NSString *phoneStr = [NSString stringWithFormat:@"手机号：%@", informModel.mobile];
-        NSString *departmentStr = [NSString stringWithFormat:@"部门：%@", informModel.department];
-        NSString *roleStr = [NSString stringWithFormat:@"职位：%@", informModel.role];
+        NSString *departmentStr = [NSString stringWithFormat:@"部门：%@", informModel.department_name];
+        NSString *roleStr = [NSString stringWithFormat:@"职位：%@", informModel.duty_name];
         self.dataArray = [[NSMutableArray alloc] initWithObjects:nameStr, phoneStr, departmentStr, roleStr, nil];
         
         [self.tableView reloadData];
@@ -247,12 +252,8 @@
 {
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = model.out_userid;
-    
-    //    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
-    //    if ([userInfo.userId isEqualToString:my_userID]) return;
-    
     userInfo.name = model.name;
-    userInfo.portraitUri = model.head;
+    userInfo.portraitUri = model.head_pic;
     
     NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (usersArray)
@@ -287,7 +288,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

@@ -17,6 +17,8 @@
 #import "BXTRejectOrderViewController.h"
 #import "BXTEvaluationViewController.h"
 #import "AMRatingControl.h"
+#import "BXTButtonInfo.h"
+#import "UIView+SDAutoLayout.h"
 
 //底部白色背景图高度
 #define YBottomBackHeight 67.f
@@ -32,15 +34,17 @@
 @property (nonatomic, strong) NSMutableArray   *manIDArray;
 @property (nonatomic ,strong) UIButton         *evaluationBtn;
 @property (nonatomic ,strong) UIView           *evaBackView;
+@property (nonatomic, strong) NSMutableArray   *btnArray;
 
 @end
 
 @implementation BXTMaintenanceDetailViewController
 
-- (void)dataWithRepairID:(NSString *)repair_ID
+- (void)dataWithRepairID:(NSString *)repairID sceneType:(SceneType)type
 {
     [BXTGlobal shareGlobal].maxPics = 3;
-    self.repair_id = repair_ID;
+    self.repair_id = repairID;
+    self.sceneType = type;
 }
 
 - (void)viewDidLoad
@@ -54,19 +58,21 @@
     {
         [self navigationSetting:@"工单管理" andRightTitle:nil andRightImage:nil];
     }
+    NSMutableArray *buttons = [[NSMutableArray alloc] init];
+    self.btnArray = buttons;
     isFirst = YES;
     _connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _connectTa.layer.borderWidth = 1.f;
     _connectTa.layer.cornerRadius = 4.f;
-    _leftBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    _leftBtn.layer.borderWidth = 1.f;
-    _leftBtn.layer.cornerRadius = 4.f;
-    [_leftBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-    _rightBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    _rightBtn.layer.borderWidth = 1.f;
-    _rightBtn.layer.cornerRadius = 4.f;
-    _rightBtn.backgroundColor = colorWithHexString(@"3cafff");
-    [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    _leftBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+//    _leftBtn.layer.borderWidth = 1.f;
+//    _leftBtn.layer.cornerRadius = 4.f;
+//    [_leftBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+//    _rightBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+//    _rightBtn.layer.borderWidth = 1.f;
+//    _rightBtn.layer.cornerRadius = 4.f;
+//    _rightBtn.backgroundColor = colorWithHexString(@"3cafff");
+//    [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
     //联系他
     @weakify(self);
@@ -101,6 +107,7 @@
     [timeArray addObject:@"自定义"];
     self.comeTimeArray = timeArray;
     
+    //???: 这个是怎么个情况
 //    //由于详情采用了统一的详情，所以如果是报修者的身份，则一下信息是不让看的
 //    if (![BXTGlobal shareGlobal].isRepair)
 //    {
@@ -513,10 +520,18 @@
 
 - (void)requestDetail
 {
-    /**获取详情**/
     [BXTGlobal showLoadingMBP:@"努力加载中..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**获取详情**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**请求控制按钮显示**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request handlePermission:self.repair_id sceneID:[NSString stringWithFormat:@"%ld",(long)self.sceneType]];
+    });
 }
 
 #pragma mark -
@@ -684,7 +699,6 @@
 {
     [BXTGlobal hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
-    LogRed(@"%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count > 0)
     {
@@ -726,11 +740,11 @@
         [_contentView layoutIfNeeded];
         _first_bv_height.constant = CGRectGetMaxY(_cause.frame) + 10.f;
         [_firstBV layoutIfNeeded];
-
+        
         //故障图相关
         [self loadFaultPic];
         
-        //!!!: 阿西吧！需要各种判断，有点乱。。
+        /**阿西吧！需要各种判断，醉了。。**/
         if (self.repairDetail.fault_pic.count == 0 &&
             self.repairDetail.device_list.count == 0 &&
             self.repairDetail.repair_user_arr.count == 0)
@@ -870,6 +884,12 @@
         _content_height.constant = CGRectGetMaxY(_tenthBV.frame)+ 10.f + YBottomBackHeight + 12.f;
         [_contentView layoutIfNeeded];
     }
+    else if (type == HandlePermission && [[dic objectForKey:@"returncode"] integerValue] == 0)
+    {
+        [self.btnArray removeAllObjects];
+        [self.btnArray addObjectsFromArray:[BXTButtonInfo mj_objectArrayWithKeyValuesArray:data]];
+        [self loadButtons];
+    }
     else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
@@ -903,6 +923,64 @@
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
+}
+
+- (void)loadButtons
+{
+    switch (self.btnArray.count) {
+        case 1:
+        {
+            BXTButtonInfo *btnInfo = self.btnArray[0];
+            UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [btn setTitle:btnInfo.button_name forState:UIControlStateNormal];
+            btn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+            btn.layer.borderWidth = 1.f;
+            btn.layer.cornerRadius = 4.f;
+            [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [self.eleventhBV addSubview:btn];
+            
+            btn.sd_layout
+            .leftSpaceToView(self.eleventhBV,100)
+            .topSpaceToView(self.eleventhBV,12)
+            .heightIs(44);
+        }
+            break;
+        case 2:
+        {
+            BXTButtonInfo *btnOneInfo = self.btnArray[0];
+            UIButton *btnOne = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [btnOne setTitle:btnOneInfo.button_name forState:UIControlStateNormal];
+            btnOne.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+            btnOne.layer.borderWidth = 1.f;
+            btnOne.layer.cornerRadius = 4.f;
+            [btnOne setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [self.eleventhBV addSubview:btnOne];
+            
+            BXTButtonInfo *btnTwoInfo = self.btnArray[1];
+            UIButton *btnTwo = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [btnTwo setTitle:btnTwoInfo.button_name forState:UIControlStateNormal];
+            btnTwo.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+            btnTwo.layer.borderWidth = 1.f;
+            btnTwo.layer.cornerRadius = 4.f;
+            [btnTwo setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            [self.eleventhBV addSubview:btnTwo];
+            
+            btnOne.sd_layout
+            .leftSpaceToView(self.eleventhBV,20)
+            .topSpaceToView(self.eleventhBV,12)
+            .rightSpaceToView(btnTwo,20)
+            .heightIs(44);
+            
+            btnTwo.sd_layout
+            .leftSpaceToView(btnOne,20)
+            .topEqualToView(btnOne)
+            .rightSpaceToView(self.eleventhBV,20)
+            .heightIs(44);
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)didReceiveMemoryWarning

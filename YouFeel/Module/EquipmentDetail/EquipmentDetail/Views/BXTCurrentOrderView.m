@@ -55,14 +55,13 @@ typedef NS_ENUM(NSInteger, OrderType) {
 #pragma mark - 初始化
 - (void)initial
 {
-    
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
-    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"]) {
+    for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
+    {
         [timeArray addObject:[NSString stringWithFormat:@"%@分钟内", timeStr]];
     }
     [timeArray addObject:@"自定义"];
     comeTimeArray = timeArray;
-    
     
     self.titleArray = @[@"未接优先", @"日常工单优先", @"维保工单优先", @"自定义排序/筛选"];
     self.dataArray = [[NSMutableArray alloc] init];
@@ -417,7 +416,8 @@ typedef NS_ENUM(NSInteger, OrderType) {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return 0.1;
     }
     return 10;
@@ -434,7 +434,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-    [repairDetailVC dataWithRepairID:odModel.dataIdentifier];
+    [repairDetailVC dataWithRepairID:odModel.dataIdentifier sceneType:MyMaintenanceType];
     repairDetailVC.isComingFromDeviceInfo = YES;
     [[self navigation] pushViewController:repairDetailVC animated:YES];
     

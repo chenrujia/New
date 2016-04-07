@@ -11,7 +11,7 @@
 #import "DOPDropDownMenu.h"
 #import "BXTRepairInfo.h"
 #import "BXTSubgroup.h"
-#import "BXTPlace.h"
+#import "BXTPlaceInfo.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "BXTMaintenanceDetailViewController.h"
 #import <MJRefresh.h>
@@ -244,7 +244,7 @@
     else if (indexPath.column == 2)
     {
         if (indexPath.row == 0) return areasArray[0];
-        BXTPlace *place = areasArray[indexPath.row];
+        BXTPlaceInfo *place = areasArray[indexPath.row];
         return place.place;
     }
     else
@@ -258,7 +258,7 @@
     if (column == 2)
     {
         if (row == 0  || row > areasArray.count - 1) return 0;
-        BXTPlace *place = areasArray[row];
+        BXTPlaceInfo *place = areasArray[row];
         return place.lists.count;
     }
     
@@ -270,8 +270,8 @@
     if (indexPath.column == 2)
     {
         if (indexPath.row == 0 || indexPath.row > areasArray.count - 1) return nil;
-        BXTPlace *place = areasArray[indexPath.row];
-        BXTPlace *lists = place.lists[indexPath.item];
+        BXTPlaceInfo *place = areasArray[indexPath.row];
+        BXTPlaceInfo *lists = place.lists[indexPath.item];
         return lists.place;
     }
     
@@ -286,8 +286,8 @@
         // 位置
         if (indexPath.column == 2)
         {
-            BXTPlace *place = areasArray[indexPath.row];
-            BXTPlace *lists = place.lists[indexPath.item];
+            BXTPlaceInfo *place = areasArray[indexPath.row];
+            BXTPlaceInfo *lists = place.lists[indexPath.item];
             self.filterOfAreasID = lists.placeID;
         }
     }
@@ -419,7 +419,7 @@
     BXTRepairInfo *repairInfo = [self.ordersArray objectAtIndex:indexPath.section];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-    [repairDetailVC dataWithRepairID:repairInfo.repairID];
+    [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:DailyType];
     [self.navigationController pushViewController:repairDetailVC animated:YES];
 }
 
@@ -467,10 +467,10 @@
     }
     else if (type == PlaceLists)
     {
-        [BXTPlace mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"placeID": @"id"};
         }];
-        [areasArray addObjectsFromArray:[BXTPlace mj_objectArrayWithKeyValuesArray:data]];
+        [areasArray addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     else if (type == SubgroupLists)
     {
