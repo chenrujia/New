@@ -20,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIView *notesBV;
 @property (weak, nonatomic) IBOutlet UISwitch *openSwitch;
 @property (weak, nonatomic) IBOutlet UIImageView *notes_image;
-@property (weak, nonatomic) IBOutlet UIImageView *time_image;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *content_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *order_type_height;

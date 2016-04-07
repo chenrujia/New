@@ -195,9 +195,23 @@
     //头像
     UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 64, 64)];
     userImgView.center = CGPointMake(mmBackWidth/2.f, 32.f);
+    userImgView.tag = i;
     [userImgView sd_setImageWithURL:[NSURL URLWithString:userInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     userImgView.userInteractionEnabled = YES;
     [userBack addSubview:userImgView];
+    //点击头像
+    @weakify(self);
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
+    [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTMaintenanceManInfo *repairPerson = self.repairDetail.repair_user_arr[userImgView.tag];
+        BXTPersonInfromViewController *personVC = [[BXTPersonInfromViewController alloc] init];
+        personVC.userID = repairPerson.mmID;
+        NSArray *shopArray = [BXTGlobal getUserProperty:U_SHOPIDS];
+        personVC.shopID = shopArray[0];
+        [self.navigationController pushViewController:personVC animated:YES];
+    }];
+    [userImgView addGestureRecognizer:tapGesture];
     
     //姓名
     UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(userImgView.frame) + 8.f, mmBackWidth, 20)];
@@ -217,7 +231,6 @@
     [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
     contact.titleLabel.font = [UIFont systemFontOfSize:16];
     [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-    @weakify(self);
     [[contact rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BXTMaintenanceManInfo *mainManInfo = self.repairDetail.repair_user_arr[i];

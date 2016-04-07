@@ -8,6 +8,13 @@
 
 #import "BXTDetailBaseViewController.h"
 
+typedef NS_ENUM (NSInteger, SceneType)
+{
+    MyRepairType = 1,
+    MyMaintenanceType = 2,
+    DailyType = 3
+};
+
 @interface BXTMaintenanceDetailViewController : BXTDetailBaseViewController
 {
     BOOL isFirst;//判断是不是第一次进入viewDidAppear
@@ -24,6 +31,8 @@
  *  是否是从设备详情过来的
  */
 @property (nonatomic, assign) BOOL isComingFromDeviceInfo;
+
+@property (nonatomic, assign) SceneType sceneType;
 
 @property (weak, nonatomic) IBOutlet UIView       *contentView;
 @property (weak, nonatomic) IBOutlet UIImageView  *headImgView;
@@ -76,9 +85,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fifth_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *seventh_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *ninth_bv_height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *left_btn_x;
 
 - (IBAction)cancelTheRepair:(id)sender;
 - (IBAction)reaciveAction:(id)sender;
-- (void)dataWithRepairID:(NSString *)repair_ID;
+- (void)dataWithRepairID:(NSString *)repairID sceneType:(SceneType)type;
 
 @end

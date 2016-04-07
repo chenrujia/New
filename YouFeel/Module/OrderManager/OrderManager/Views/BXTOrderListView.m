@@ -82,10 +82,12 @@
         
         self.repairCarriedState = @"";
         self.faultCarriedState = @"";
-        if (self.isRepair) {
+        if (self.isRepair)
+        {
             self.repairCarriedState = [self.stateStr isEqualToString:@"2"] ? @"1" : @"2" ;
         }
-        else {
+        else
+        {
             self.faultCarriedState = [self.stateStr isEqualToString:@"2"] ? @"1" : @"2" ;
         }
         
@@ -111,29 +113,38 @@
     
     self.filterOfRepairUID = @"";
     self.filterOfFaultID = @"";
-    if (self.isRepair) {
+    if (self.isRepair)
+    {
         self.filterOfRepairUID = @"31";
-    } else {
+    }
+    else
+    {
         self.filterOfFaultID = @"31";
     }
     
     
     
     // 我的维修工单 - isRepair == YES
-    if (self.isRepair) {
+    if (self.isRepair)
+    {
         // 工单状态 - stateStr  2进行中  1已完成
-        if ([self.stateStr intValue] == 2) {
+        if ([self.stateStr intValue] == 2)
+        {
             stateArray = [NSMutableArray arrayWithObjects:@"状态", @"已接单", @"指派中", @"维修中", @"待确认", nil];
         }
-        else {
+        else
+        {
             stateArray = [NSMutableArray arrayWithObjects:@"状态", @"未修好", nil];
         }
     }
-    else {
-        if ([self.stateStr intValue] == 2) {
+    else
+    {
+        if ([self.stateStr intValue] == 2)
+        {
             stateArray = [NSMutableArray arrayWithObjects:@"状态", @"待维修", @"维修中", @"待确认", nil];
         }
-        else {
+        else
+        {
             stateArray = [NSMutableArray arrayWithObjects:@"状态", @"待评价", @"已评价", @"未修好", @"已修好", nil];
         }
     }
@@ -142,7 +153,6 @@
     areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
     timesArray = [NSMutableArray arrayWithObjects:@"时间",@"今天",@"3天内",@"7天内",@"本月",@"本年", nil];
     
-    
     // 添加下拉菜单
     DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
     menu.delegate = self;
@@ -150,7 +160,6 @@
     menu.layer.borderWidth = 0.5;
     menu.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
     [self addSubview:menu];
-    
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, frame.size.width, frame.size.height-44) style:UITableViewStyleGrouped];
     self.tableView.rowHeight = 140;

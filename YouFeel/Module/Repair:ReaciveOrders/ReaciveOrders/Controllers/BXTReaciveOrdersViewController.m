@@ -419,7 +419,7 @@
     BXTRepairInfo *repairInfo = [self.ordersArray objectAtIndex:indexPath.section];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-    [repairDetailVC dataWithRepairID:repairInfo.repairID];
+    [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:DailyType];
     [self.navigationController pushViewController:repairDetailVC animated:YES];
 }
 

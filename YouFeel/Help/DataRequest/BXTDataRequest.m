@@ -594,6 +594,17 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)handlePermission:(NSString *)workorderID
+                 sceneID:(NSString *)sceneID
+{
+    self.requestType = HandlePermission;
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"workorder_id":workorderID,
+                          @"scene_id":sceneID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=handle_permission",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)evaluateRepair:(NSArray *)rateArray
        evaluationNotes:(NSString *)notes
               repairID:(NSString *)reID
@@ -1132,7 +1143,7 @@ andRepairerIsReacive:(NSString *)reacive
     
     NSDictionary *dic = @{@"id": userID};
     NSString *baseURL = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
-    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_con", baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=user_info", baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -1294,7 +1305,7 @@ andRepairerIsReacive:(NSString *)reacive
         url = [self encryptTheURL:url dict:parameters];
     }
     LogRed(@"url......\n%@", url);
-    LogRed(@"dic......\n%@", [self dictionaryToJson:parameters]);
+    LogRed(@"post参数值.....\n%@", [self dictionaryToJson:parameters]);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -1305,7 +1316,7 @@ andRepairerIsReacive:(NSString *)reacive
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [response JSONValue];
-        LogBlue(@"\n\n---------------------response---------------------> type>>>>>:%ld    \n\n%@\n\n<---------------------response---------------------\n\n",(long)self.requestType,response);
+        LogBlue(@"\n\n---------------------response---------------------> of type:%ld    \n\n%@\n\n<---------------------response---------------------\n\n",(long)self.requestType,response);
         [_delegate requestResponseData:dictionary requeseType:_requestType];
         // token验证失败
         if ([[NSString stringWithFormat:@"%@", dictionary[@"returncode"]] isEqualToString:@"037"])
@@ -1327,7 +1338,7 @@ andRepairerIsReacive:(NSString *)reacive
         url = [self encryptTheURL:url dict:parameters];
     }
     LogRed(@"url......%@",url);
-    LogRed(@"dic......\n%@", [self dictionaryToJson:parameters]);
+    LogRed(@"post参数值.....\n%@", [self dictionaryToJson:parameters]);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
     manager.requestSerializer = [AFJSONRequestSerializer serializer];

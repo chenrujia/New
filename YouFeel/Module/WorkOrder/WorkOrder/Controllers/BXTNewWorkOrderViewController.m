@@ -83,7 +83,6 @@ static CGFloat const ChooseViewHeight  = 328.f;
         self.notes = notes;
     }];
     [self.notesBV addSubview:repairDetail];
-    [self updateContentView];
     
     [self showLoadingMBP:@"请稍候..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
@@ -94,13 +93,26 @@ static CGFloat const ChooseViewHeight  = 328.f;
     });
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    [self updateContentView];
+}
+
 - (void)updateContentView
 {
-    LogBlue(@"openSwitch:%@",NSStringFromCGRect(self.openSwitch.frame));
-    LogRed(@"total:%f",CGRectGetMaxY(self.openSwitch.frame) + 20.f);
-    if (CGRectGetMaxY(self.openSwitch.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
+    UIView *subview = nil;
+    if (self.openSwitch.on)
     {
-        _content_height.constant = CGRectGetMaxY(self.openSwitch.frame) + 20.f;
+        subview = self.dateSelectBtnBV;
+    }
+    else
+    {
+        subview = self.openSwitch;
+    }
+    if (CGRectGetMaxY(subview.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
+    {
+        _content_height.constant = CGRectGetMaxY(subview.frame) + 20.f;
     }
     else
     {

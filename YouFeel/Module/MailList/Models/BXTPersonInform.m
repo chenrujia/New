@@ -10,27 +10,6 @@
 
 @implementation BXTPersonInform
 
-+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
-{
-    return [[self alloc] initWithDictionary:dict];
-}
 
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-{
-    self = [super init];
-    if (self)
-    {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(id)value forUndefinedKey:(NSString *)key
-{
-    if ([key isEqualToString:@"id"])
-    {
-        self.StrID = value;
-    }
-}
 
 @end

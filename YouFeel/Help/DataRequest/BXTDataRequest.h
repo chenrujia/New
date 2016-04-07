@@ -77,7 +77,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Update_Inspection = 64,
     Ads_Pics = 65,
     Remind_Number = 66,
-    UserShopLists = 67
+    UserShopLists = 67,
+    HandlePermission = 68
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -304,6 +305,12 @@ andRepairerIsReacive:(NSString *)reacive;
  *  工单详情
  */
 - (void)repairDetail:(NSString *)repairID;
+
+/**
+ *  控制操作按钮显示
+ */
+- (void)handlePermission:(NSString *)workorderID
+                 sceneID:(NSString *)sceneID;
 
 /**
  *  评价

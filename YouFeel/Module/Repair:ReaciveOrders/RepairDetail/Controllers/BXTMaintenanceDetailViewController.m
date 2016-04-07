@@ -17,6 +17,7 @@
 #import "BXTRejectOrderViewController.h"
 #import "BXTEvaluationViewController.h"
 #import "AMRatingControl.h"
+#import "BXTButtonInfo.h"
 
 //底部白色背景图高度
 #define YBottomBackHeight 67.f
@@ -32,15 +33,17 @@
 @property (nonatomic, strong) NSMutableArray   *manIDArray;
 @property (nonatomic ,strong) UIButton         *evaluationBtn;
 @property (nonatomic ,strong) UIView           *evaBackView;
+@property (nonatomic, strong) NSMutableArray   *btnArray;
 
 @end
 
 @implementation BXTMaintenanceDetailViewController
 
-- (void)dataWithRepairID:(NSString *)repair_ID
+- (void)dataWithRepairID:(NSString *)repairID sceneType:(SceneType)type
 {
     [BXTGlobal shareGlobal].maxPics = 3;
-    self.repair_id = repair_ID;
+    self.repair_id = repairID;
+    self.sceneType = type;
 }
 
 - (void)viewDidLoad
@@ -54,6 +57,8 @@
     {
         [self navigationSetting:@"工单管理" andRightTitle:nil andRightImage:nil];
     }
+    NSMutableArray *buttons = [[NSMutableArray alloc] init];
+    self.btnArray = buttons;
     isFirst = YES;
     _connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _connectTa.layer.borderWidth = 1.f;
@@ -101,6 +106,7 @@
     [timeArray addObject:@"自定义"];
     self.comeTimeArray = timeArray;
     
+    //???: 这个是怎么个情况
 //    //由于详情采用了统一的详情，所以如果是报修者的身份，则一下信息是不让看的
 //    if (![BXTGlobal shareGlobal].isRepair)
 //    {
@@ -513,10 +519,18 @@
 
 - (void)requestDetail
 {
-    /**获取详情**/
     [BXTGlobal showLoadingMBP:@"努力加载中..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**获取详情**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**请求控制按钮显示**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request handlePermission:self.repair_id sceneID:[NSString stringWithFormat:@"%ld",(long)self.sceneType]];
+    });
 }
 
 #pragma mark -
@@ -726,11 +740,11 @@
         [_contentView layoutIfNeeded];
         _first_bv_height.constant = CGRectGetMaxY(_cause.frame) + 10.f;
         [_firstBV layoutIfNeeded];
-
+        
         //故障图相关
         [self loadFaultPic];
         
-        //!!!: 阿西吧！需要各种判断，有点乱。。
+        /**阿西吧！需要各种判断，醉了。。**/
         if (self.repairDetail.fault_pic.count == 0 &&
             self.repairDetail.device_list.count == 0 &&
             self.repairDetail.repair_user_arr.count == 0)
@@ -869,6 +883,11 @@
         
         _content_height.constant = CGRectGetMaxY(_tenthBV.frame)+ 10.f + YBottomBackHeight + 12.f;
         [_contentView layoutIfNeeded];
+    }
+    else if (type == HandlePermission && [[dic objectForKey:@"returncode"] integerValue] == 0)
+    {
+        [self.btnArray removeAllObjects];
+        [self.btnArray addObjectsFromArray:[BXTButtonInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
