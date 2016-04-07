@@ -78,7 +78,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Ads_Pics = 65,
     Remind_Number = 66,
     UserShopLists = 67,
-    AuthenticationDetail = 68
+    AuthenticationDetail = 68,
+    HandlePermission = 69
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
