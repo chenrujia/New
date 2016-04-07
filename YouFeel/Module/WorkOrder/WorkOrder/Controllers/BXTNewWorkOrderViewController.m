@@ -83,16 +83,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         self.notes = notes;
     }];
     [self.notesBV addSubview:repairDetail];
-    
-    if (CGRectGetMaxY(self.openSwitch.frame) + 20.f + 68 > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
-    {
-        _content_height.constant = CGRectGetMaxY(self.openSwitch.frame) + 20.f;
-    }
-    else
-    {
-        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
-    }
-    [_contentView layoutIfNeeded];
+    [self updateContentView];
     
     [self showLoadingMBP:@"请稍候..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
@@ -101,6 +92,21 @@ static CGFloat const ChooseViewHeight  = 328.f;
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request orderTypeList];
     });
+}
+
+- (void)updateContentView
+{
+    LogBlue(@"openSwitch:%@",NSStringFromCGRect(self.openSwitch.frame));
+    LogRed(@"total:%f",CGRectGetMaxY(self.openSwitch.frame) + 20.f);
+    if (CGRectGetMaxY(self.openSwitch.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
+    {
+        _content_height.constant = CGRectGetMaxY(self.openSwitch.frame) + 20.f;
+    }
+    else
+    {
+        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
+    }
+    [_contentView layoutIfNeeded];
 }
 
 - (void)navigationLeftButton
@@ -138,15 +144,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }
     
     [self.notes_image layoutIfNeeded];
-    if (CGRectGetMaxY(self.openSwitch.frame) + 20.f + 68 > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
-    {
-        _content_height.constant = CGRectGetMaxY(self.openSwitch.frame) + 20.f;
-    }
-    else
-    {
-        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
-    }
-    [_contentView layoutIfNeeded];
+    [self updateContentView];
 }
 
 - (void)showSelectedView:(UIButton *)btn
@@ -249,16 +247,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         subview = self.openSwitch;
         self.dateSelectBtnBV.hidden = YES;
     }
-    
-    if (CGRectGetMaxY(subview.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
-    {
-        _content_height.constant = CGRectGetMaxY(subview.frame) + 20.f;
-    }
-    else
-    {
-        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
-    }
-    [_contentView layoutIfNeeded];
+    [self updateContentView];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event

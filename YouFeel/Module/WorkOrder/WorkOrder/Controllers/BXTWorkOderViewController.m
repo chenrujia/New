@@ -25,7 +25,7 @@
     BXTFaultInfo     *selectFaultInfo;
     BXTFaultTypeInfo *selectFaultTypeInfo;
     NSInteger        faulttype_type;
-    NSString        *address;
+    NSString         *address;
 }
 
 @property (nonatomic ,strong) NSString     *faultType;
