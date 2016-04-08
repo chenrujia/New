@@ -15,7 +15,6 @@
 #import "ANKeyValueTable.h"
 #import "CYLTabBarController.h"
 #import "BXTLoadingViewController.h"
-#import "BXTHeadquartersViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 #import "BXTApplicationsViewController.h"
 #import "BXTNoticeListViewController.h"
@@ -23,6 +22,7 @@
 #import "BXTGrabOrderViewController.h"
 #import "CYLTabBarControllerConfig.h"
 #import "UIViewController+Swizzled.h"
+#import "BXTProjectAddNewViewController.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -384,7 +384,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             @weakify(self);
             UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"立即查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 @strongify(self);
-                BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
+                BXTProjectAddNewViewController *headVC = [[BXTProjectAddNewViewController alloc] initWithType:YES];
                 UINavigationController *navigation = (UINavigationController *)self.window.rootViewController;
                 [navigation pushViewController:headVC animated:YES];
             }];
@@ -550,7 +550,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 {
     if (buttonIndex == 1)
     {
-        BXTHeadquartersViewController *headVC = [[BXTHeadquartersViewController alloc] initWithType:YES];
+        BXTProjectAddNewViewController *headVC = [[BXTProjectAddNewViewController alloc] initWithType:YES];
         UINavigationController *navigation = (UINavigationController *)self.window.rootViewController;
         [navigation pushViewController:headVC animated:YES];
     }

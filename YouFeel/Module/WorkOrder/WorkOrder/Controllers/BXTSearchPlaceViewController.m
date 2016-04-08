@@ -66,7 +66,7 @@
     self.resultsArray = resultArray;
     NSMutableArray *resultMarkArray = [[NSMutableArray alloc] init];
     self.resultMarksArray = resultMarkArray;
-
+    
     for (id obj in self.dataSource)
     {
         NSMutableArray *tempArray = [[NSMutableArray alloc] initWithObjects:obj, nil];
@@ -74,7 +74,7 @@
         NSMutableArray *emptyArray = [[NSMutableArray alloc] init];
         [_marksArray addObject:emptyArray];
     }
-
+    
     [_currentTable reloadData];
 }
 
@@ -169,7 +169,7 @@
     {
         NSMutableArray *tempArray = _mutableArray[indexPath.section];
         id obj = tempArray[indexPath.row];
-        /***************这里需做分类判断***************/
+        // TODO: -----------------  这里需做分类判断  -----------------
         if ([obj isKindOfClass:[BXTPlaceInfo class]])
         {
             BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
@@ -178,6 +178,15 @@
             //是否显示箭头
             cell.arrowImage.hidden = placeInfo.lists.count == 0 ? YES : NO;
         }
+        else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
+        {
+            BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
+            content = departmentInfo.department;
+            cell.name_left.constant = [departmentInfo.level integerValue] * 15.f;
+            //是否显示箭头
+            cell.arrowImage.hidden = departmentInfo.lists.count == 0 ? YES : NO;
+        }
+        
         
         NSMutableArray *markArray = _marksArray[indexPath.section];
         if (markArray.count > indexPath.row)
@@ -195,12 +204,19 @@
     else
     {
         id obj = _resultsArray[indexPath.row];
-        /***************这里需做分类判断***************/
+        // TODO: -----------------  这里需做分类判断  -----------------
         if ([obj isKindOfClass:[BXTPlaceInfo class]])
         {
             BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
             content = placeInfo.place;
         }
+        else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
+        {
+            BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
+            content = departmentInfo.department;
+        }
+        
+        
         cell.name_left.constant = 15.f;
         cell.arrowImage.hidden = YES;
         //颜色变换
@@ -281,13 +297,21 @@
     NSMutableArray *tempArray = _mutableArray[indexPath.section];
     id obj = tempArray[indexPath.row];
     self.manualObj = obj;
-    /***************这里需做分类判断***************/
+    // TODO: -----------------  这里需做分类判断  -----------------
     if ([obj isKindOfClass:[BXTPlaceInfo class]])
     {
         BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
         if (placeInfo.lists.count > 0)
         {
             [tempArray addObjectsFromArray:placeInfo.lists];
+        }
+    }
+    else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
+    {
+        BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
+        if (departmentInfo.lists.count > 0)
+        {
+            [tempArray addObjectsFromArray:departmentInfo.lists];
         }
     }
     
@@ -300,7 +324,7 @@
     //如果placeInfe的lists有数据，则取出相应的数据，添加到tempArray数组里面
     NSMutableArray *tempArray = _mutableArray[indexPath.section];
     id obj = tempArray[indexPath.row];
-    /***************这里需做分类判断***************/
+    // TODO: -----------------  这里需做分类判断  -----------------
     if ([obj isKindOfClass:[BXTPlaceInfo class]])
     {
         BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
@@ -320,6 +344,27 @@
             [tempArray removeObjectsInArray:items];
         }
     }
+    else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
+    {
+        BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
+        if (departmentInfo.lists.count > 0)
+        {
+            //改变标记数组的状态值
+            NSMutableArray *markArray = _marksArray[indexPath.section];
+            NSMutableArray *items = [self searchItemsWithPlace:departmentInfo theIndexPath:indexPath];
+            for (BXTPlaceInfo *tempPlace in items)
+            {
+                NSInteger index = [tempArray indexOfObject:tempPlace];
+                if (markArray.count > index)
+                {
+                    [markArray replaceObjectAtIndex:index withObject:@"0"];
+                }
+            }
+            [tempArray removeObjectsInArray:items];
+        }
+    }
+    
+    
     [_currentTable reloadData];
 }
 
@@ -329,7 +374,7 @@
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     NSMutableArray *tempArray = _mutableArray[indexPath.section];
     NSMutableArray *markArray = _marksArray[indexPath.section];
-    /***************这里需做分类判断***************/
+    // TODO: -----------------  这里需做分类判断  -----------------
     if ([obj isKindOfClass:[BXTPlaceInfo class]])
     {
         BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
@@ -345,6 +390,22 @@
             }
         }
     }
+    else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
+    {
+        BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
+        for (BXTAllDepartmentInfo *department in departmentInfo.lists)
+        {
+            [mutableArray addObject:department];
+            NSInteger index = [tempArray indexOfObject:department];
+            //判断此项是否展开
+            if (markArray.count > index && [markArray[index] integerValue] && department.lists.count > 0)
+            {
+                NSMutableArray *array = [self searchItemsWithPlace:department theIndexPath:indexPath];
+                [mutableArray addObjectsFromArray:array];
+            }
+        }
+    }
+    
     return mutableArray;
 }
 
@@ -354,7 +415,7 @@
     
     for (id obj in array)
     {
-        /***************这里需做分类判断***************/
+        // TODO: -----------------  这里需做分类判断  -----------------
         if ([obj isKindOfClass:[BXTPlaceInfo class]])
         {
             BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
@@ -368,8 +429,21 @@
                 [mutableArray addObjectsFromArray:tempArray];
             }
         }
+        else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
+        {
+            BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
+            if ([departmentInfo.department containsString:searchStr])
+            {
+                [mutableArray addObject:departmentInfo];
+            }
+            if (departmentInfo.lists.count > 0)
+            {
+                NSMutableArray *tempArray = [self filterItemsWithData:departmentInfo.lists searchString:searchStr];
+                [mutableArray addObjectsFromArray:tempArray];
+            }
+        }
     }
-
+    
     return mutableArray;
 }
 

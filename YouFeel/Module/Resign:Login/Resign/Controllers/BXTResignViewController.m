@@ -13,7 +13,7 @@
 #import "BXTResignTableViewCell.h"
 #import "BXTDataRequest.h"
 #import "ANKeyValueTable.h"
-#import "BXTHeadquartersViewController.h"
+#import "BXTProjectAddNewViewController.h"
 
 @interface BXTResignViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 
@@ -313,7 +313,7 @@
         }
         else
         {
-            BXTHeadquartersViewController *authenticationVC = [[BXTHeadquartersViewController alloc] init];
+            BXTProjectAddNewViewController *authenticationVC = [[BXTProjectAddNewViewController alloc] init];
             [self.navigationController pushViewController:authenticationVC animated:YES];
         }
     }

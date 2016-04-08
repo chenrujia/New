@@ -447,6 +447,22 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)listOFDepartmentWithPid:(NSString *)pid
+{
+    self.requestType = DepartmentLists;
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=department_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
+}
+
+- (void)listOFDutyWithDutyType:(NSString *)duty_type
+{
+    self.requestType = DutyLists;
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=duty_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
+}
+
 - (void)listOFOtherAffairWithHandleState:(NSString *)handle_state
                                     page:(NSInteger)page
 {
@@ -506,6 +522,29 @@ andRepairerIsReacive:(NSString *)reacive
     
     NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/user_shop_lists&user_id=%@", KADMINBASEURL, [BXTGlobal getUserProperty:U_USERID]];
     [self postRequest:url withParameters:nil];
+}
+
+- (void)projectAuthenticationDetailWithShopID:(NSString *)shopID
+{
+    self.requestType = AuthenticationDetail;
+    
+    NSDictionary *dic = @{@"shop_id": shopID,
+                          @"out_userid": [BXTGlobal getUserProperty:U_USERID]};
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_detail",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)projectAddUserWithShopID:(NSString *)shopID
+{
+    self.requestType = BranchResign;
+    
+    NSDictionary *dic = @{@"out_userid": [BXTGlobal getUserProperty:U_USERID]};
+    
+    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",urlLast];
+    
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID

@@ -10,4 +10,6 @@
 
 @interface BXTProjectInformViewController : BXTBaseViewController
 
+@property (copy, nonatomic) NSString *transShopID;
+
 @end

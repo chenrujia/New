@@ -10,7 +10,7 @@
 
 @interface BXTMyProject : NSObject
 
-@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSString *projectID;
 
 @property (nonatomic, copy) NSString *verify_state;
 

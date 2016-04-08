@@ -340,7 +340,7 @@
     {
         if (data.count == 0) return;
         [BXTGroupingInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"group_id":@"id"};
+            return @{@"group_id":@"id"};      
         }];
         [departmentsArray addObjectsFromArray:[BXTGroupingInfo mj_objectArrayWithKeyValuesArray:data]];
     }

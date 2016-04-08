@@ -9,7 +9,7 @@
 #import "BXTBaseViewController.h"
 @import CoreLocation;
 
-@interface BXTHeadquartersViewController : BXTBaseViewController
+@interface BXTProjectAddNewViewController : BXTBaseViewController
 
 - (instancetype)initWithType:(BOOL)push;
 
