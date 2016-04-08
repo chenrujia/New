@@ -64,16 +64,7 @@
     _connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _connectTa.layer.borderWidth = 1.f;
     _connectTa.layer.cornerRadius = 4.f;
-//    _leftBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-//    _leftBtn.layer.borderWidth = 1.f;
-//    _leftBtn.layer.cornerRadius = 4.f;
-//    [_leftBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-//    _rightBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-//    _rightBtn.layer.borderWidth = 1.f;
-//    _rightBtn.layer.cornerRadius = 4.f;
-//    _rightBtn.backgroundColor = colorWithHexString(@"3cafff");
-//    [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
+
     //联系他
     @weakify(self);
     [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -213,6 +204,19 @@
         [self.bgView removeFromSuperview];
     }];
     [toolView addSubview:cancelBtn];
+}
+
+- (void)updateContentConstant:(UIView *)view
+{
+    if (CGRectGetMaxY(view.frame) + 12.f + YBottomBackHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
+    {
+        _content_height.constant = CGRectGetMaxY(view.frame) + 12.f + YBottomBackHeight;
+    }
+    else
+    {
+        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT;
+    }
+    [_contentView layoutIfNeeded];
 }
 
 - (void)loadDeviceList
@@ -518,6 +522,76 @@
     }
 }
 
+- (void)loadButtons
+{
+    self.eleventhBV.hidden = NO;
+    switch (self.btnArray.count) {
+        case 1:
+        {
+            BXTButtonInfo *btnInfo = self.btnArray[0];
+            UIButton *btn = [self initialButton];
+            [btn setTitle:btnInfo.button_name forState:UIControlStateNormal];
+            @weakify(self);
+            [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                @strongify(self);
+                [self actionWithButtonInfo:btnInfo];
+            }];
+            
+            btn.sd_layout
+            .leftSpaceToView(self.eleventhBV,100)
+            .rightSpaceToView(self.eleventhBV,100)
+            .topSpaceToView(self.eleventhBV,12)
+            .heightIs(44);
+        }
+            break;
+        case 2:
+        {
+            BXTButtonInfo *leftBtnInfo = self.btnArray[0];
+            UIButton *leftBtn = [self initialButton];
+            [leftBtn setTitle:leftBtnInfo.button_name forState:UIControlStateNormal];
+            @weakify(self);
+            [[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                @strongify(self);
+                [self actionWithButtonInfo:leftBtnInfo];
+            }];
+            BXTButtonInfo *rightBtnInfo = self.btnArray[1];
+            UIButton *rightBtn = [self initialButton];
+            [rightBtn setTitle:rightBtnInfo.button_name forState:UIControlStateNormal];
+            [[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                @strongify(self);
+                [self actionWithButtonInfo:rightBtnInfo];
+            }];
+            
+            leftBtn.sd_layout
+            .leftSpaceToView(self.eleventhBV,20)
+            .topSpaceToView(self.eleventhBV,12)
+            .rightSpaceToView(self.eleventhBV,SCREEN_WIDTH/2.f + 10.f)
+            .heightIs(44);
+            rightBtn.sd_layout
+            .leftSpaceToView(leftBtn,20)
+            .topEqualToView(leftBtn)
+            .rightSpaceToView(self.eleventhBV,20)
+            .heightIs(44);
+        }
+            break;
+        default:
+            self.eleventhBV.hidden = YES;
+            
+            break;
+    }
+}
+
+- (UIButton *)initialButton
+{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    btn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+    btn.layer.borderWidth = 1.f;
+    btn.layer.cornerRadius = 4.f;
+    [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+    [self.eleventhBV addSubview:btn];
+    return btn;
+}
+
 - (void)requestDetail
 {
     [BXTGlobal showLoadingMBP:@"努力加载中..."];
@@ -543,8 +617,71 @@
 }
 
 #pragma mark -
-#pragma mark 取消报修
-- (IBAction)cancelTheRepair:(id)sender
+#pragma mark 事件处理
+- (void)actionWithButtonInfo:(BXTButtonInfo *)btnInfo
+{
+    //1.取消按钮 2.接单按钮 3.派工按钮 4.增援按钮 5.开始维修 6.结束维修 7.确认驳回 8.确认工单 9.评价工单 10.已评价 11.派工驳回 12.派工确认
+    if (btnInfo.button_key == 1)
+    {
+        [self cancelTheRepair];
+    }
+    else if (btnInfo.button_key == 2)
+    {
+        [self reaciveOrder];
+    }
+    else if (btnInfo.button_key == 3)
+    {
+        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[self.repairDetail.orderID integerValue] andWithVCType:AssignType];
+        [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
+        addOtherVC.manIDArray = self.manIDArray;
+        [self.navigationController pushViewController:addOtherVC animated:YES];
+    }
+    else if (btnInfo.button_key == 4)
+    {
+        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[self.repairDetail.orderID integerValue] andWithVCType:DetailType];
+        [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
+        addOtherVC.manIDArray = self.manIDArray;
+        [self.navigationController pushViewController:addOtherVC animated:YES];
+    }
+    else if (btnInfo.button_key == 5)
+    {
+        [self showLoadingMBP:@"请稍候..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request startRepair:self.repairDetail.orderID];
+    }
+    else if (btnInfo.button_key == 6)
+    {
+        
+    }
+    else if (btnInfo.button_key == 7)
+    {
+        
+    }
+    else if (btnInfo.button_key == 8)
+    {
+        
+    }
+    else if (btnInfo.button_key == 9)
+    {
+        BXTEvaluationViewController *evaVC = [[BXTEvaluationViewController alloc] initWithRepairID:self.repairDetail.orderID];
+        [self.navigationController pushViewController:evaVC animated:YES];
+    }
+    else if (btnInfo.button_key == 10)
+    {
+        
+    }
+    else if (btnInfo.button_key == 11)
+    {
+        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID andIsAssign:NO];
+        [self.navigationController pushViewController:rejectVC animated:YES];
+    }
+    else if (btnInfo.button_key == 12)
+    {
+        [self reaciveOrder];
+    }
+}
+
+- (void)cancelTheRepair
 {
     if ([self.repairDetail.repairstate integerValue] == 1)
     {
@@ -590,7 +727,7 @@
 
 #pragma mark -
 #pragma mark 我要接单
-- (IBAction)reaciveAction:(id)sender
+- (void)reaciveOrder
 {
     UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
     backView.backgroundColor = [UIColor blackColor];
@@ -756,15 +893,7 @@
             _eighthBV.hidden = YES;
             _ninthBV.hidden = YES;
             _tenthBV.hidden = YES;
-            if (CGRectGetMaxY(_thirdBV.frame) + 12.f + YBottomBackHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
-            {
-                _content_height.constant = CGRectGetMaxY(_thirdBV.frame) + 12.f + YBottomBackHeight;
-            }
-            else
-            {
-                _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT;
-            }
-            [_contentView layoutIfNeeded];
+            [self updateContentConstant:self.thirdBV];
             return;
         }
         else if (self.repairDetail.fault_pic.count &&
@@ -777,16 +906,7 @@
             _eighthBV.hidden = YES;
             _ninthBV.hidden = YES;
             _tenthBV.hidden = YES;
-
-            if (CGRectGetMaxY(_fouthBV.frame) + 12.f + YBottomBackHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
-            {
-                _content_height.constant = CGRectGetMaxY(_fouthBV.frame) + 12.f + YBottomBackHeight;
-            }
-            else
-            {
-                _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT;
-            }
-            [_contentView layoutIfNeeded];
+            [self updateContentConstant:self.fouthBV];
             return;
         }
         else if (self.repairDetail.fault_pic.count == 0 &&
@@ -799,20 +919,11 @@
             _eighthBV.hidden = YES;
             _ninthBV.hidden = YES;
             _tenthBV.hidden = YES;
-            
             //设备列表相关
             [self loadDeviceList];
-            _fifth_top.constant = 12.f;
-            [_fifthBV layoutIfNeeded];
-            if (CGRectGetMaxY(_fifthBV.frame) + 12.f + YBottomBackHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
-            {
-                _content_height.constant = CGRectGetMaxY(_fifthBV.frame) + 12.f + YBottomBackHeight;
-            }
-            else
-            {
-                _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT;
-            }
-            [_contentView layoutIfNeeded];
+            self.fifth_top.constant = 12.f;
+            [self.fifthBV layoutIfNeeded];
+            [self updateContentConstant:self.fifthBV];
             return;
         }
         else if (self.repairDetail.fault_pic.count &&
@@ -828,15 +939,7 @@
             [self loadFaultPic];
             //设备列表相关
             [self loadDeviceList];
-            if (CGRectGetMaxY(_fifthBV.frame) + 12.f + YBottomBackHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
-            {
-                _content_height.constant = CGRectGetMaxY(_fifthBV.frame) + 12.f + YBottomBackHeight;
-            }
-            else
-            {
-                _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT;
-            }
-            [_contentView layoutIfNeeded];
+            [self updateContentConstant:self.fifthBV];
             return;
         }
         else if (self.repairDetail.fault_pic.count == 0 &&
@@ -850,7 +953,6 @@
             //维修员相关
             [self loadMMList];
             [self loadAllOthers];
-            
             [_contentView layoutIfNeeded];
             return;
         }
@@ -863,7 +965,6 @@
             //维修员相关
             [self loadMMList];
             [self loadAllOthers];
-            
             [_contentView layoutIfNeeded];
             return;
         }
@@ -886,6 +987,10 @@
     }
     else if (type == HandlePermission && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
+        for (UIView *view in self.eleventhBV.subviews)
+        {
+            [view removeFromSuperview];
+        }
         [self.btnArray removeAllObjects];
         [self.btnArray addObjectsFromArray:[BXTButtonInfo mj_objectArrayWithKeyValuesArray:data]];
         [self loadButtons];
@@ -918,69 +1023,19 @@
             }];
         }
     }
+    else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+        __weak typeof(self) weakSelf = self;
+        [self showMBP:@"维修开始！" withBlock:^(BOOL hidden) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }];
+    }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
-}
-
-- (void)loadButtons
-{
-    switch (self.btnArray.count) {
-        case 1:
-        {
-            BXTButtonInfo *btnInfo = self.btnArray[0];
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [btn setTitle:btnInfo.button_name forState:UIControlStateNormal];
-            btn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-            btn.layer.borderWidth = 1.f;
-            btn.layer.cornerRadius = 4.f;
-            [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-            [self.eleventhBV addSubview:btn];
-            
-            btn.sd_layout
-            .leftSpaceToView(self.eleventhBV,100)
-            .topSpaceToView(self.eleventhBV,12)
-            .heightIs(44);
-        }
-            break;
-        case 2:
-        {
-            BXTButtonInfo *btnOneInfo = self.btnArray[0];
-            UIButton *btnOne = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [btnOne setTitle:btnOneInfo.button_name forState:UIControlStateNormal];
-            btnOne.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-            btnOne.layer.borderWidth = 1.f;
-            btnOne.layer.cornerRadius = 4.f;
-            [btnOne setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-            [self.eleventhBV addSubview:btnOne];
-            
-            BXTButtonInfo *btnTwoInfo = self.btnArray[1];
-            UIButton *btnTwo = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [btnTwo setTitle:btnTwoInfo.button_name forState:UIControlStateNormal];
-            btnTwo.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-            btnTwo.layer.borderWidth = 1.f;
-            btnTwo.layer.cornerRadius = 4.f;
-            [btnTwo setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-            [self.eleventhBV addSubview:btnTwo];
-            
-            btnOne.sd_layout
-            .leftSpaceToView(self.eleventhBV,20)
-            .topSpaceToView(self.eleventhBV,12)
-            .rightSpaceToView(btnTwo,20)
-            .heightIs(44);
-            
-            btnTwo.sd_layout
-            .leftSpaceToView(btnOne,20)
-            .topEqualToView(btnOne)
-            .rightSpaceToView(self.eleventhBV,20)
-            .heightIs(44);
-        }
-            break;
-        default:
-            break;
-    }
 }
 
 - (void)didReceiveMemoryWarning

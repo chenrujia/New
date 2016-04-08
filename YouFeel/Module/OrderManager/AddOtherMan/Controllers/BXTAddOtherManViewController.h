@@ -9,9 +9,9 @@
 #import "BXTBaseViewController.h"
 
 typedef NS_ENUM(NSInteger, ControllerType) {
-    DetailType,
-    RepairType,
-    AssignType
+    DetailType,//增员（已经接过单，需要帮手）
+    RepairType,//增员（创建新工单时，自己报自己修时，需要增员）
+    AssignType//派单
 };
 
 typedef void (^ChooseMans)(NSMutableArray *mans);

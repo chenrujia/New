@@ -187,7 +187,6 @@
             cell.arrowImage.hidden = departmentInfo.lists.count == 0 ? YES : NO;
         }
         
-        
         NSMutableArray *markArray = _marksArray[indexPath.section];
         if (markArray.count > indexPath.row)
         {
@@ -215,7 +214,6 @@
             BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
             content = departmentInfo.department;
         }
-        
         
         cell.name_left.constant = 15.f;
         cell.arrowImage.hidden = YES;
@@ -268,11 +266,13 @@
         {
             [markArray addObject:@"0"];
         }
+        [self singleSelectionWithArray:markArray indexPath:indexPath];
         [markArray addObject:@"1"];
         [self refreshTableForAdd:indexPath];
     }
     else if (markArray.count == indexPath.row)
     {
+        [self singleSelectionWithArray:markArray indexPath:indexPath];
         [markArray addObject:@"1"];
         [self refreshTableForAdd:indexPath];
     }
@@ -285,6 +285,7 @@
         }
         else
         {
+            [self singleSelectionWithArray:markArray indexPath:indexPath];
             [markArray replaceObjectAtIndex:indexPath.row withObject:@"1"];
             [self refreshTableForAdd:indexPath];
         }
@@ -321,7 +322,7 @@
 
 - (void)refreshTableForRemove:(NSIndexPath *)indexPath
 {
-    //如果placeInfe的lists有数据，则取出相应的数据，添加到tempArray数组里面
+    //如果placeInfe的lists有数据，则删除里面的数据
     NSMutableArray *tempArray = _mutableArray[indexPath.section];
     id obj = tempArray[indexPath.row];
     // TODO: -----------------  这里需做分类判断  -----------------
@@ -445,6 +446,49 @@
     }
     
     return mutableArray;
+}
+
+- (void)singleSelectionWithArray:(NSMutableArray *)markArray indexPath:(NSIndexPath *)indexPath
+{
+    NSMutableArray *tempArray = _mutableArray[indexPath.section];
+    id selectObj = tempArray[indexPath.row];
+    // TODO: -----------------  这里需做分类判断  -----------------
+    BXTPlaceInfo *selectPlaceInfo = nil;
+    BXTAllDepartmentInfo *selectDepartmentInfo = nil;
+    if ([selectObj isKindOfClass:[BXTPlaceInfo class]])
+    {
+        selectPlaceInfo = selectObj;
+    }
+    else if ([selectObj isKindOfClass:[BXTAllDepartmentInfo class]])
+    {
+        selectDepartmentInfo = selectObj;
+    }
+    for (NSInteger i = 0; i < tempArray.count; i++)
+    {
+        id obj = tempArray[i];
+        if ([obj isKindOfClass:[BXTPlaceInfo class]])
+        {
+            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
+            if ([placeInfo.level integerValue] == [selectPlaceInfo.level integerValue])
+            {
+                if (markArray.count >= i + 1)
+                {
+                    [markArray replaceObjectAtIndex:i withObject:@"0"];
+                }
+            }
+        }
+        else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
+        {
+            BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
+            if ([departmentInfo.level integerValue] == [selectDepartmentInfo.level integerValue])
+            {
+                if (markArray.count >= i + 1)
+                {
+                   [markArray replaceObjectAtIndex:i withObject:@"0"];
+                }
+            }
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning

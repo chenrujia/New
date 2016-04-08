@@ -459,7 +459,7 @@
     else if (type == DepartmentLists)
     {
         [BXTAllDepartmentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"DepartmentID":@"id"};
+            return @{@"departmentID":@"id"};
         }];
         [self.departmentArray addObjectsFromArray:[BXTAllDepartmentInfo mj_objectArrayWithKeyValuesArray:data]];
     }

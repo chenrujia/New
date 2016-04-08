@@ -84,8 +84,6 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *seventh_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *ninth_bv_height;
 
-- (IBAction)cancelTheRepair:(id)sender;
-- (IBAction)reaciveAction:(id)sender;
 - (void)dataWithRepairID:(NSString *)repairID sceneType:(SceneType)type;
 
 @end
