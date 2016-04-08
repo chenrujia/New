@@ -81,7 +81,9 @@ typedef NS_ENUM(NSInteger, RequestType) {
     AuthenticationDetail = 68,
     HandlePermission = 69,
     DepartmentLists = 70,
-    DutyLists = 71
+    DutyLists = 71,
+    StoresList = 72,
+    AuthenticationApply = 73,
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -252,10 +254,16 @@ andRepairerIsReacive:(NSString *)reacive;
 - (void)listOFDepartmentWithPid:(NSString *)pid;
 
 /**
- *  获取职位列表接口 - 新
+ *  获取职位列表 - 新
  *  pid - 1报修 2维修，默认：全部
  */
 - (void)listOFDutyWithDutyType:(NSString *)duty_type;
+
+/**
+ *  获取商铺列表 - 新
+ *  stores_name - 商铺名：模糊搜索
+ */
+- (void)listOFStoresWithStoresName:(NSString *)stores_name;
 
 /**
  *  获取待处理事件列表 - 新
@@ -294,6 +302,17 @@ andRepairerIsReacive:(NSString *)reacive;
  *  分店添加用户 - 新
  */
 - (void)projectAddUserWithShopID:(NSString *)shopID;
+
+/**
+ *  项目认证申请 - 新
+ */
+- (void)authenticationApplyWithShopID:(NSString *)shop_id
+                                 type:(NSString *)type
+                         departmentID:(NSString *)department_id
+                               dutyID:(NSString *)duty_id
+                           subgroupID:(NSString *)subgroup_id
+                      haveSubgroupIDs:(NSString *)have_subgroup_ids
+                             storesID:(NSString *)stores_id;
 
 /**
  *  设备添加报修

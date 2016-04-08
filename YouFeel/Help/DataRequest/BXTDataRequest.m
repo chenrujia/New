@@ -451,16 +451,27 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = DepartmentLists;
     
+    NSDictionary *dic = @{@"pid": pid};
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=department_lists",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:nil];
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)listOFDutyWithDutyType:(NSString *)duty_type
 {
     self.requestType = DutyLists;
     
+    NSDictionary *dic = @{@"duty_type": duty_type};
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=duty_lists",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:nil];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)listOFStoresWithStoresName:(NSString *)stores_name
+{
+    self.requestType = StoresList;
+    
+    NSDictionary *dic = @{@"stores_name": stores_name};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=stores_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)listOFOtherAffairWithHandleState:(NSString *)handle_state
@@ -544,6 +555,28 @@ andRepairerIsReacive:(NSString *)reacive
     NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",urlLast];
     
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)authenticationApplyWithShopID:(NSString *)shop_id
+                                 type:(NSString *)type
+                         departmentID:(NSString *)department_id
+                               dutyID:(NSString *)duty_id
+                           subgroupID:(NSString *)subgroup_id
+                      haveSubgroupIDs:(NSString *)have_subgroup_ids
+                             storesID:(NSString *)stores_id
+{
+    self.requestType = AuthenticationApply;
+    
+    NSDictionary *dic = @{@"shop_id": shop_id,
+                          @"out_userid": [BXTGlobal getUserProperty:U_USERID],
+                          @"type": type,
+                          @"duty_id": duty_id,
+                          @"subgroup_id": subgroup_id,
+                          @"have_subgroup_ids": have_subgroup_ids,
+                          @"stores_id": stores_id };
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_apply",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

@@ -25,7 +25,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="手机号" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILc-wL-OpP">
-                        <rect key="frame" x="191" y="14" width="150" height="21"/>
+                        <rect key="frame" x="110" y="14" width="231" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="3wr-KH-yyr"/>
                             <constraint firstAttribute="width" constant="150" id="hhK-Ab-7yQ"/>
@@ -33,6 +33,11 @@
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="hhK-Ab-7yQ"/>
+                            </mask>
+                        </variation>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow-right" translatesAutoresizingMaskIntoConstraints="NO" id="9JN-Xl-2hP">
                         <rect key="frame" x="351" y="17" width="9" height="15"/>
@@ -48,6 +53,7 @@
                     <constraint firstItem="ILc-wL-OpP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Ebl-fM-5M9"/>
                     <constraint firstItem="3NM-5O-LvD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="amE-Rb-UBa"/>
                     <constraint firstItem="9JN-Xl-2hP" firstAttribute="leading" secondItem="ILc-wL-OpP" secondAttribute="trailing" constant="10" id="oVb-wB-C36"/>
+                    <constraint firstItem="ILc-wL-OpP" firstAttribute="leading" secondItem="3NM-5O-LvD" secondAttribute="trailing" constant="15" id="t0c-66-y5t"/>
                     <constraint firstItem="3NM-5O-LvD" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uJn-74-8NL"/>
                 </constraints>
             </tableViewCellContentView>
