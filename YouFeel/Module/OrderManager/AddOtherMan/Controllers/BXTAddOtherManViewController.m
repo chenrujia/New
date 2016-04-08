@@ -150,7 +150,8 @@
         numberLabel.textColor = colorWithHexString(@"ffffff");
         numberLabel.font = [UIFont systemFontOfSize:16.f];
         long sumNum = number - 1;
-        if (vcType == AssignType) {
+        if (vcType == AssignType)
+        {
             sumNum = number;
         }
         numberLabel.text = [NSString stringWithFormat:@"当前已添加:%ld人", sumNum];
@@ -176,7 +177,8 @@
     {
         UILabel *numberLabel = (UILabel *)[singleView viewWithTag:2];
         long sumNum = number - 1;
-        if (vcType == AssignType) {
+        if (vcType == AssignType)
+        {
             sumNum = number;
         }
         numberLabel.text = [NSString stringWithFormat:@"当前已添加:%ld人", sumNum];
@@ -235,8 +237,10 @@
     }
     
     // 指派工单 去除自己
-    if (vcType == AssignType) {
-        if ([categoryArray containsObject:[BXTGlobal getUserProperty:U_BRANCHUSERID]]) {
+    if (vcType == AssignType)
+    {
+        if ([categoryArray containsObject:[BXTGlobal getUserProperty:U_BRANCHUSERID]])
+        {
             [categoryArray removeObject:[BXTGlobal getUserProperty:U_BRANCHUSERID]];
         }
     }
@@ -255,7 +259,8 @@
 {
     static NSString *cellID = @"cell";
     BXTAddOtherManTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[BXTAddOtherManTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

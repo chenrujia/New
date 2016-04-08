@@ -649,9 +649,9 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = ReaciveOrder;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"user":mans,
-                          @"id":repairID};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=dispatching",[BXTGlobal shareGlobal].baseURL];
+                          @"dispatch_ids":mans,
+                          @"workorder_id":repairID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=dispatch_workorder",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
