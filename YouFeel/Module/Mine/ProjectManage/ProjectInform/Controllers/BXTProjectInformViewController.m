@@ -149,7 +149,7 @@
     
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
-    
+
     if (type == UserShopLists && [dic[@"returncode"] integerValue] == 0)
     {
 //        [BXTMyProject mj_setupReplacedKeyFromPropertyName:^NSDictionary *{

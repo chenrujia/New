@@ -308,7 +308,7 @@
         @strongify(self);
         MJExtensionLog(@"---------- placeInfo:%@", departmentInfo.department);
         [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
-        [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.DepartmentID];
+        [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.departmentID];
         [self.tableView reloadData];
     }];
     
@@ -440,6 +440,8 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
+    
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     
@@ -475,6 +477,12 @@
         for (BXTPostionInfo *postion in dataSource) {
             [self.positionArray addObject:postion.duty_name];
             [self.positionIDArray addObject:postion.role_id];
+        }
+    }
+    else if (type == AuthenticationApply)
+    {
+        if (dic[@"returncode"] == 0) {
+            
         }
     }
 }
