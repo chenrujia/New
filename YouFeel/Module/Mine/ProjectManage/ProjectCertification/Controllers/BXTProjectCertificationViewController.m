@@ -410,7 +410,7 @@
     else if (type == DepartmentLists)
     {
         [BXTAllDepartmentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"DepartmentID":@"id"};
+            return @{@"departmentID":@"id"};
         }];
         NSMutableArray *dataSource = [[NSMutableArray alloc] init];
         [dataSource addObjectsFromArray:[BXTAllDepartmentInfo mj_objectArrayWithKeyValuesArray:data]];
@@ -422,7 +422,7 @@
             @strongify(self);
             MJExtensionLog(@"---------- placeInfo:%@", departmentInfo.department);
             [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
-            [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.DepartmentID];
+            [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.departmentID];
             [self.tableView reloadData];
         }];
         
