@@ -447,6 +447,22 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)listOFDepartmentWithPid:(NSString *)pid
+{
+    self.requestType = DepartmentLists;
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=department_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
+}
+
+- (void)listOFDutyWithDutyType:(NSString *)duty_type
+{
+    self.requestType = DutyLists;
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=duty_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
+}
+
 - (void)listOFOtherAffairWithHandleState:(NSString *)handle_state
                                     page:(NSInteger)page
 {

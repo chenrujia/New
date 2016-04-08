@@ -8,6 +8,7 @@
 
 #import "BXTBaseViewController.h"
 #import "BXTPlaceInfo.h"
+#import "BXTAllDepartmentInfo.h"
 
 typedef void (^ChoosePlace)(id obj);
 

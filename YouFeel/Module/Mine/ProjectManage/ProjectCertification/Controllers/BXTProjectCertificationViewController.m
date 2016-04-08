@@ -10,6 +10,10 @@
 #import "BXTProjectCertificationCell.h"
 #import "BXTUserInformCell.h"
 #import "BXTSubgroup.h"
+#import "BXTAllDepartmentInfo.h"
+#import "BXTPostionInfo.h"
+#import "BXTSearchPlaceViewController.h"
+#import "ANKeyValueTable.h"
 
 @interface BXTProjectCertificationViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -32,10 +36,10 @@
 @property (assign, nonatomic) BOOL isCompanyType;
 
 // 存值参数
+@property (nonatomic, strong) NSMutableArray *positionArray;
+@property (nonatomic, strong) NSMutableArray *positionIDArray;
 @property (nonatomic, strong) NSMutableArray *subgroupArray;
 @property (nonatomic, strong) NSMutableArray *subgroupIDArray;
-@property (nonatomic, strong) NSMutableArray *faulttypeArray;
-@property (nonatomic, strong) NSMutableArray *faulttypeIDArray;
 
 @end
 
@@ -51,10 +55,10 @@
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"请选择", @"请选择", @"请选择", @"请选择", @"请选择", @"请选择", nil];
     self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transProject.shop_id, @"", @"", @"", @"", @"", @"", nil];
     
+    self.positionArray = [[NSMutableArray alloc] init];
+    self.positionIDArray = [[NSMutableArray alloc] init];
     self.subgroupArray = [[NSMutableArray alloc] init];
     self.subgroupIDArray = [[NSMutableArray alloc] init];
-    self.faulttypeArray = [[NSMutableArray alloc] init];
-    self.faulttypeIDArray = [[NSMutableArray alloc] init];
     
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
@@ -69,9 +73,9 @@
         [fau_request listOFSubgroup];
     });
     dispatch_async(concurrentQueue, ^{
-        /**请求位置**/
-        //        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        //        [location_request listOFPlaceIsAllPlace:NO];
+        /**获取职位列表接口**/
+        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [fau_request listOFDutyWithDutyType:@""];
     });
     
     
@@ -198,7 +202,7 @@
         NSString *selectRow  = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
         
         
-        if (self.showSelectedRow == 1) {        // 单选
+        if (self.showSelectedRow == 1 || self.showSelectedRow == 4) {        // 单选
             //判断数组中有没有被选中行的行号,
             if ([self.mulitSelectArray containsObject:selectRow]) {
                 [self.mulitSelectArray removeObject:selectRow];
@@ -231,17 +235,25 @@
     
     // 项目管理公司
     if (_isCompanyType) {
-        if (indexPath.section == 4) {
-            
+        if (indexPath.section == 2) {
+            [self getDepartmentList];
+        }
+        else if (indexPath.section == 3 || indexPath.section == 4 || indexPath.section == 5) {
+            [self createTableViewWithIndex:indexPath.section];
         }
     }
     else {
         
     }
     
-    
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)getDepartmentList
+{
+    /**获取部门列表**/
+    BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [fau_request listOFDepartmentWithPid:@""];
 }
 
 #pragma mark -
@@ -254,11 +266,16 @@
         self.showSelectedRow = 1;
     }
     else if (index == 3) {
-        self.selectArray = self.faulttypeArray;
+        self.selectArray = self.positionArray;
+        self.showSelectedRow = 4;
     }
     else if (index == 4) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"进行中", @"已完成", nil];
+        self.selectArray = self.subgroupArray;
         self.showSelectedRow = 4;
+    }
+    else if (index == 5) {
+        self.selectArray = self.subgroupArray;
+        self.showSelectedRow = 5;
     }
     
     self.selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -268,18 +285,20 @@
     
     
     // selectTableView
-    CGFloat tableViewH = self.selectArray.count * 50 + 60;
-    self.selectTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - tableViewH, SCREEN_WIDTH, tableViewH) style:UITableViewStylePlain];
+    CGFloat tableViewH = self.selectArray.count * 50 + 10;
+    if (self.selectArray.count >= 4) {
+        tableViewH = 4 * 50 + 10;
+    }
+    self.selectTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - tableViewH-50, SCREEN_WIDTH, tableViewH) style:UITableViewStylePlain];
     self.selectTableView.delegate = self;
     self.selectTableView.dataSource = self;
-    self.selectTableView.scrollEnabled = NO;
     [self.view addSubview:self.selectTableView];
     
     
     // toolView
-    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
+    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
     toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
-    self.selectTableView.tableFooterView = toolView;
+    [self.selectBgView addSubview:toolView];
     
     // sure
     UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
@@ -295,13 +314,19 @@
             [self adjustStructureType];
         }
         
-        // 项目管理公司
-        if (_isCompanyType) {
-            
+        if (index == 3) {
+            NSString *selectRow = self.mulitSelectArray[0];
+            [self.detailArray replaceObjectAtIndex:index withObject:self.positionArray[[selectRow integerValue]]];
+            [self.transArray replaceObjectAtIndex:index withObject:self.positionIDArray[[selectRow integerValue]]];
+            [self.tableView reloadData];
         }
-        else {
-            
+        if (index == 4) {
+            NSString *selectRow = self.mulitSelectArray[0];
+            [self.detailArray replaceObjectAtIndex:index withObject:self.subgroupArray[[selectRow integerValue]]];
+            [self.transArray replaceObjectAtIndex:index withObject:self.subgroupIDArray[[selectRow integerValue]]];
+            [self.tableView reloadData];
         }
+        
         
         //        NSString *finalStr =@"";
         //        NSString *finalNumStr = @"";
@@ -371,10 +396,51 @@
     
     if (type == SubgroupLists)
     {
+        NSMutableArray *subgroupArray = [[NSMutableArray alloc] init];
         [BXTSubgroup mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"subgroupID":@"id"};
         }];
-        [self.subgroupArray addObjectsFromArray:[BXTSubgroup mj_objectArrayWithKeyValuesArray:data]];
+        [subgroupArray addObjectsFromArray:[BXTSubgroup mj_objectArrayWithKeyValuesArray:data]];
+        
+        for (BXTSubgroup *subgroupInfo in subgroupArray) {
+            [self.subgroupArray addObject:subgroupInfo.subgroup];
+            [self.subgroupIDArray addObject:subgroupInfo.subgroupID];
+        }
+    }
+    else if (type == DepartmentLists)
+    {
+        [BXTAllDepartmentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"DepartmentID":@"id"};
+        }];
+        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+        [dataSource addObjectsFromArray:[BXTAllDepartmentInfo mj_objectArrayWithKeyValuesArray:data]];
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+        @weakify(self);
+        [searchVC userChoosePlace:dataSource block:^(BXTAllDepartmentInfo *departmentInfo) {
+            @strongify(self);
+            MJExtensionLog(@"---------- placeInfo:%@", departmentInfo.department);
+            [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
+            [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.DepartmentID];
+            [self.tableView reloadData];
+        }];
+        
+        [self.navigationController pushViewController:searchVC animated:YES];
+    }
+    else if (type == DutyLists)
+    {
+        [BXTPostionInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"role_id":@"id"};
+        }];
+        
+        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+        [dataSource addObjectsFromArray:[BXTPostionInfo mj_objectArrayWithKeyValuesArray:data]];
+        
+        for (BXTPostionInfo *postion in dataSource) {
+            [self.positionArray addObject:postion.duty_name];
+            [self.positionIDArray addObject:postion.role_id];
+        }
     }
 }
 

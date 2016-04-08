@@ -78,6 +78,7 @@
 		7823D20C1C3231A000E3641C /* UIAlertView+BlockT.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2091C3231A000E3641C /* UIAlertView+BlockT.m */; };
 		78266AED1C48C98E0004C49A /* BXTReadNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = 78266AEC1C48C98E0004C49A /* BXTReadNotice.m */; };
 		7826C77E1CB5079D0026EF7A /* BXTMyProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7826C77D1CB5079D0026EF7A /* BXTMyProject.m */; };
+		782762741CB7572E0095FF10 /* BXTAllDepartmentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 782762731CB7572E0095FF10 /* BXTAllDepartmentInfo.m */; };
 		7827D0451C85734F00E9E29E /* BXTMTProfessionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7827D0441C85734F00E9E29E /* BXTMTProfessionHeader.m */; };
 		7827D0481C85736400E9E29E /* BXTMTProfessionTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7827D0471C85736400E9E29E /* BXTMTProfessionTopView.m */; };
 		7827D04A1C85738100E9E29E /* BXTMTProfessionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7827D0491C85738100E9E29E /* BXTMTProfessionHeader.xib */; };
@@ -564,6 +565,8 @@
 		78266AEC1C48C98E0004C49A /* BXTReadNotice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTReadNotice.m; sourceTree = "<group>"; };
 		7826C77C1CB5079D0026EF7A /* BXTMyProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMyProject.h; sourceTree = "<group>"; };
 		7826C77D1CB5079D0026EF7A /* BXTMyProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMyProject.m; sourceTree = "<group>"; };
+		782762721CB7572E0095FF10 /* BXTAllDepartmentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAllDepartmentInfo.h; sourceTree = "<group>"; };
+		782762731CB7572E0095FF10 /* BXTAllDepartmentInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAllDepartmentInfo.m; sourceTree = "<group>"; };
 		7827D0431C85734F00E9E29E /* BXTMTProfessionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTProfessionHeader.h; sourceTree = "<group>"; };
 		7827D0441C85734F00E9E29E /* BXTMTProfessionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTProfessionHeader.m; sourceTree = "<group>"; };
 		7827D0461C85736400E9E29E /* BXTMTProfessionTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTProfessionTopView.h; sourceTree = "<group>"; };
@@ -2195,6 +2198,8 @@
 		7851A0291CA3C60900255B8A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				782762721CB7572E0095FF10 /* BXTAllDepartmentInfo.h */,
+				782762731CB7572E0095FF10 /* BXTAllDepartmentInfo.m */,
 				78FFB9711CB5F5F000309339 /* BXTDepartmentInfo.h */,
 				78FFB9721CB5F5F000309339 /* BXTDepartmentInfo.m */,
 				78FFB96E1CB5F5E400309339 /* BXTGroupingInfo.h */,
@@ -4728,6 +4733,7 @@
 				783DDA531C3FB5670035B927 /* ChineseInclude.m in Sources */,
 				784E4F971CA9045700EF2A06 /* BXTMyIntegralViewController.m in Sources */,
 				96C684981BE76B4B0038A342 /* SideScrollingLayout.m in Sources */,
+				782762741CB7572E0095FF10 /* BXTAllDepartmentInfo.m in Sources */,
 				782985B01C40BDBF00D0837C /* MLImageCrop.m in Sources */,
 				7867DCEA1C4CBD42000749F1 /* AMRatingControl.m in Sources */,
 				7867DD7C1C4CBEA1000749F1 /* BXTManagerOMViewController.m in Sources */,

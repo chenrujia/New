@@ -79,7 +79,9 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Remind_Number = 66,
     UserShopLists = 67,
     AuthenticationDetail = 68,
-    HandlePermission = 69
+    HandlePermission = 69,
+    DepartmentLists = 70,
+    DutyLists = 71
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -242,6 +244,18 @@ andRepairerIsReacive:(NSString *)reacive;
  *  isAllPlace - YES获取全部位置
  */
 - (void)listOFPlaceIsAllPlace:(BOOL)isAllPlace;
+
+/**
+ *  获取部门列表 - 新
+ *  pid - 获取该id下部门树形数据，默认为0则为获取所有部门列表
+ */
+- (void)listOFDepartmentWithPid:(NSString *)pid;
+
+/**
+ *  获取职位列表接口 - 新
+ *  pid - 1报修 2维修，默认：全部
+ */
+- (void)listOFDutyWithDutyType:(NSString *)duty_type;
 
 /**
  *  获取待处理事件列表 - 新
