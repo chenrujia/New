@@ -34,9 +34,9 @@
 //筛选结果标记数组
 @property (nonatomic, strong) NSMutableArray *resultMarksArray;
 //手动选择的结果
-@property (nonatomic, strong) id manualObj;
+@property (nonatomic, strong) BXTBaseClassifyInfo *manualClassifyInfo;
 //自动选择的结果
-@property (nonatomic, strong) id autoObj;
+@property (nonatomic, strong) BXTBaseClassifyInfo *autoClassifyInfo;
 
 @end
 
@@ -82,11 +82,11 @@
 {
     if (_isOpen)
     {
-        _selectPlace(_manualObj);
+        _selectPlace(_manualClassifyInfo);
     }
     else
     {
-        _selectPlace(_autoObj);
+        _selectPlace(_autoClassifyInfo);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -168,24 +168,11 @@
     if (_isOpen)
     {
         NSMutableArray *tempArray = _mutableArray[indexPath.section];
-        id obj = tempArray[indexPath.row];
-        // TODO: -----------------  这里需做分类判断  -----------------
-        if ([obj isKindOfClass:[BXTPlaceInfo class]])
-        {
-            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
-            content = placeInfo.place;
-            cell.name_left.constant = [placeInfo.level integerValue] * 15.f;
-            //是否显示箭头
-            cell.arrowImage.hidden = placeInfo.lists.count == 0 ? YES : NO;
-        }
-        else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
-        {
-            BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
-            content = departmentInfo.department;
-            cell.name_left.constant = [departmentInfo.level integerValue] * 15.f;
-            //是否显示箭头
-            cell.arrowImage.hidden = departmentInfo.lists.count == 0 ? YES : NO;
-        }
+        BXTBaseClassifyInfo *classifyInfo = tempArray[indexPath.row];
+        content = classifyInfo.name;
+        cell.name_left.constant = [classifyInfo.level integerValue] * 15.f;
+        //是否显示箭头
+        cell.arrowImage.hidden = classifyInfo.lists.count == 0 ? YES : NO;
         
         NSMutableArray *markArray = _marksArray[indexPath.section];
         if (markArray.count > indexPath.row)
@@ -202,19 +189,8 @@
     }
     else
     {
-        id obj = _resultsArray[indexPath.row];
-        // TODO: -----------------  这里需做分类判断  -----------------
-        if ([obj isKindOfClass:[BXTPlaceInfo class]])
-        {
-            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
-            content = placeInfo.place;
-        }
-        else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
-        {
-            BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
-            content = departmentInfo.department;
-        }
-        
+        BXTBaseClassifyInfo *classifyInfo = _resultsArray[indexPath.row];
+        content = classifyInfo.name;
         cell.name_left.constant = 15.f;
         cell.arrowImage.hidden = YES;
         //颜色变换
@@ -236,8 +212,8 @@
         {
             [_resultMarksArray replaceObjectAtIndex:_lastIndex withObject:@"0"];
         }
-        id obj = _resultsArray[indexPath.row];
-        _autoObj = obj;
+        BXTBaseClassifyInfo *classifyInfo = _resultsArray[indexPath.row];
+        _autoClassifyInfo = classifyInfo;
         [_resultMarksArray replaceObjectAtIndex:indexPath.row withObject:@"1"];
         _lastIndex = indexPath.row;
         [tableView reloadData];
@@ -296,24 +272,11 @@
 {
     //如果placeInfe的lists有数据，则取出相应的数据，添加到tempArray数组里面
     NSMutableArray *tempArray = _mutableArray[indexPath.section];
-    id obj = tempArray[indexPath.row];
-    self.manualObj = obj;
-    // TODO: -----------------  这里需做分类判断  -----------------
-    if ([obj isKindOfClass:[BXTPlaceInfo class]])
+    BXTBaseClassifyInfo *classifyInfo = tempArray[indexPath.row];
+    self.manualClassifyInfo = classifyInfo;
+    if (classifyInfo.lists.count > 0)
     {
-        BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
-        if (placeInfo.lists.count > 0)
-        {
-            [tempArray addObjectsFromArray:placeInfo.lists];
-        }
-    }
-    else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
-    {
-        BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
-        if (departmentInfo.lists.count > 0)
-        {
-            [tempArray addObjectsFromArray:departmentInfo.lists];
-        }
+        [tempArray addObjectsFromArray:classifyInfo.lists];
     }
     
     //不管有没有下级都要刷新
@@ -324,86 +287,40 @@
 {
     //如果placeInfe的lists有数据，则删除里面的数据
     NSMutableArray *tempArray = _mutableArray[indexPath.section];
-    id obj = tempArray[indexPath.row];
-    // TODO: -----------------  这里需做分类判断  -----------------
-    if ([obj isKindOfClass:[BXTPlaceInfo class]])
+    BXTBaseClassifyInfo *classifyInfo = tempArray[indexPath.row];
+    if (classifyInfo.lists.count > 0)
     {
-        BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
-        if (placeInfo.lists.count > 0)
+        //改变标记数组的状态值
+        NSMutableArray *markArray = _marksArray[indexPath.section];
+        NSMutableArray *items = [self searchItemsWithPlace:classifyInfo theIndexPath:indexPath];
+        for (BXTBaseClassifyInfo *tempClassifyInfo in items)
         {
-            //改变标记数组的状态值
-            NSMutableArray *markArray = _marksArray[indexPath.section];
-            NSMutableArray *items = [self searchItemsWithPlace:placeInfo theIndexPath:indexPath];
-            for (BXTPlaceInfo *tempPlace in items)
+            NSInteger index = [tempArray indexOfObject:tempClassifyInfo];
+            if (markArray.count > index)
             {
-                NSInteger index = [tempArray indexOfObject:tempPlace];
-                if (markArray.count > index)
-                {
-                    [markArray replaceObjectAtIndex:index withObject:@"0"];
-                }
+                [markArray replaceObjectAtIndex:index withObject:@"0"];
             }
-            [tempArray removeObjectsInArray:items];
         }
+        [tempArray removeObjectsInArray:items];
     }
-    else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
-    {
-        BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
-        if (departmentInfo.lists.count > 0)
-        {
-            //改变标记数组的状态值
-            NSMutableArray *markArray = _marksArray[indexPath.section];
-            NSMutableArray *items = [self searchItemsWithPlace:departmentInfo theIndexPath:indexPath];
-            for (BXTPlaceInfo *tempPlace in items)
-            {
-                NSInteger index = [tempArray indexOfObject:tempPlace];
-                if (markArray.count > index)
-                {
-                    [markArray replaceObjectAtIndex:index withObject:@"0"];
-                }
-            }
-            [tempArray removeObjectsInArray:items];
-        }
-    }
-    
-    
     [_currentTable reloadData];
 }
 
-- (NSMutableArray *)searchItemsWithPlace:(id)obj theIndexPath:(NSIndexPath *)indexPath
+- (NSMutableArray *)searchItemsWithPlace:(BXTBaseClassifyInfo *)classifyInfo theIndexPath:(NSIndexPath *)indexPath
 {
     //存需要删除的数据
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     NSMutableArray *tempArray = _mutableArray[indexPath.section];
     NSMutableArray *markArray = _marksArray[indexPath.section];
-    // TODO: -----------------  这里需做分类判断  -----------------
-    if ([obj isKindOfClass:[BXTPlaceInfo class]])
+    for (BXTBaseClassifyInfo *tempClassifyInfo in classifyInfo.lists)
     {
-        BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
-        for (BXTPlaceInfo *place in placeInfo.lists)
+        [mutableArray addObject:tempClassifyInfo];
+        NSInteger index = [tempArray indexOfObject:tempClassifyInfo];
+        //判断此项是否展开
+        if (markArray.count > index && [markArray[index] integerValue] && tempClassifyInfo.lists.count > 0)
         {
-            [mutableArray addObject:place];
-            NSInteger index = [tempArray indexOfObject:place];
-            //判断此项是否展开
-            if (markArray.count > index && [markArray[index] integerValue] && place.lists.count > 0)
-            {
-                NSMutableArray *array = [self searchItemsWithPlace:place theIndexPath:indexPath];
-                [mutableArray addObjectsFromArray:array];
-            }
-        }
-    }
-    else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
-    {
-        BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
-        for (BXTAllDepartmentInfo *department in departmentInfo.lists)
-        {
-            [mutableArray addObject:department];
-            NSInteger index = [tempArray indexOfObject:department];
-            //判断此项是否展开
-            if (markArray.count > index && [markArray[index] integerValue] && department.lists.count > 0)
-            {
-                NSMutableArray *array = [self searchItemsWithPlace:department theIndexPath:indexPath];
-                [mutableArray addObjectsFromArray:array];
-            }
+            NSMutableArray *array = [self searchItemsWithPlace:tempClassifyInfo theIndexPath:indexPath];
+            [mutableArray addObjectsFromArray:array];
         }
     }
     
@@ -414,34 +331,16 @@
 {
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     
-    for (id obj in array)
+    for (BXTBaseClassifyInfo *classifyInfo in array)
     {
-        // TODO: -----------------  这里需做分类判断  -----------------
-        if ([obj isKindOfClass:[BXTPlaceInfo class]])
+        if ([classifyInfo.name containsString:searchStr])
         {
-            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
-            if ([placeInfo.place containsString:searchStr])
-            {
-                [mutableArray addObject:placeInfo];
-            }
-            if (placeInfo.lists.count > 0)
-            {
-                NSMutableArray *tempArray = [self filterItemsWithData:placeInfo.lists searchString:searchStr];
-                [mutableArray addObjectsFromArray:tempArray];
-            }
+            [mutableArray addObject:classifyInfo];
         }
-        else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
+        if (classifyInfo.lists.count > 0)
         {
-            BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
-            if ([departmentInfo.department containsString:searchStr])
-            {
-                [mutableArray addObject:departmentInfo];
-            }
-            if (departmentInfo.lists.count > 0)
-            {
-                NSMutableArray *tempArray = [self filterItemsWithData:departmentInfo.lists searchString:searchStr];
-                [mutableArray addObjectsFromArray:tempArray];
-            }
+            NSMutableArray *tempArray = [self filterItemsWithData:classifyInfo.lists searchString:searchStr];
+            [mutableArray addObjectsFromArray:tempArray];
         }
     }
     
@@ -451,41 +350,15 @@
 - (void)singleSelectionWithArray:(NSMutableArray *)markArray indexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray *tempArray = _mutableArray[indexPath.section];
-    id selectObj = tempArray[indexPath.row];
-    // TODO: -----------------  这里需做分类判断  -----------------
-    BXTPlaceInfo *selectPlaceInfo = nil;
-    BXTAllDepartmentInfo *selectDepartmentInfo = nil;
-    if ([selectObj isKindOfClass:[BXTPlaceInfo class]])
-    {
-        selectPlaceInfo = selectObj;
-    }
-    else if ([selectObj isKindOfClass:[BXTAllDepartmentInfo class]])
-    {
-        selectDepartmentInfo = selectObj;
-    }
+    BXTBaseClassifyInfo *selectClassifyInfo = tempArray[indexPath.row];
     for (NSInteger i = 0; i < tempArray.count; i++)
     {
-        id obj = tempArray[i];
-        if ([obj isKindOfClass:[BXTPlaceInfo class]])
+        BXTBaseClassifyInfo *classifyInfo = tempArray[i];
+        if ([classifyInfo.level integerValue] == [selectClassifyInfo.level integerValue])
         {
-            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)obj;
-            if ([placeInfo.level integerValue] == [selectPlaceInfo.level integerValue])
+            if (markArray.count >= i + 1)
             {
-                if (markArray.count >= i + 1)
-                {
-                    [self packUpWithArray:markArray index:i];
-                }
-            }
-        }
-        else if ([obj isKindOfClass:[BXTAllDepartmentInfo class]])
-        {
-            BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)obj;
-            if ([departmentInfo.level integerValue] == [selectDepartmentInfo.level integerValue])
-            {
-                if (markArray.count >= i + 1)
-                {
-                   [self packUpWithArray:markArray index:i];
-                }
+                [self packUpWithArray:markArray index:i];
             }
         }
     }

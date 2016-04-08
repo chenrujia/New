@@ -15,5 +15,11 @@
     return @{@"lists" : [BXTPlaceInfo class]};
 }
 
+- (void)setPlace:(NSString *)place
+{
+    _place = [place copy];
+    self.name = place;
+}
+
 @end
 

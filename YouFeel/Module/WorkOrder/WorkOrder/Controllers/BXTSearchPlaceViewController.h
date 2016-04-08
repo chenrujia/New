@@ -10,7 +10,7 @@
 #import "BXTPlaceInfo.h"
 #import "BXTAllDepartmentInfo.h"
 
-typedef void (^ChoosePlace)(id obj);
+typedef void (^ChoosePlace)(BXTBaseClassifyInfo *classifyInfo);
 
 @interface BXTSearchPlaceViewController : BXTBaseViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
