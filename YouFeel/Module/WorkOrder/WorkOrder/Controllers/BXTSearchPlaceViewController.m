@@ -473,7 +473,7 @@
             {
                 if (markArray.count >= i + 1)
                 {
-                    [markArray replaceObjectAtIndex:i withObject:@"0"];
+                    [self packUpWithArray:markArray index:i];
                 }
             }
         }
@@ -489,6 +489,13 @@
             }
         }
     }
+}
+
+- (void)packUpWithArray:(NSMutableArray *)markArray index:(NSInteger)index
+{
+    [markArray replaceObjectAtIndex:index withObject:@"0"];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:_lastSection];
+    [self refreshTableForRemove:indexPath];
 }
 
 - (void)didReceiveMemoryWarning
