@@ -289,12 +289,16 @@
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
     NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
     @weakify(self);
-    [searchVC userChoosePlace:dataSource block:^(BXTPlaceInfo *placeInfo) {
+    [searchVC userChoosePlace:dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
         @strongify(self);
-        MJExtensionLog(@"---------- placeInfo:%@", placeInfo.place);
-        [self.detailArray replaceObjectAtIndex:3 withObject:placeInfo.place];
-        [self.transArray replaceObjectAtIndex:3 withObject:placeInfo.placeID];
-        [self.tableView reloadData];
+        if ([classifyInfo isKindOfClass:[BXTPlaceInfo class]])
+        {
+            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
+            MJExtensionLog(@"---------- placeInfo:%@", placeInfo.place);
+            [self.detailArray replaceObjectAtIndex:3 withObject:placeInfo.place];
+            [self.transArray replaceObjectAtIndex:3 withObject:placeInfo.placeID];
+            [self.tableView reloadData];
+        }
     }];
     [self.navigationController pushViewController:searchVC animated:YES];
 }
@@ -304,7 +308,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
     @weakify(self);
-    [searchVC userChoosePlace:self.departmentArray block:^(BXTAllDepartmentInfo *departmentInfo) {
+    [searchVC userChoosePlace:self.departmentArray block:^(BXTBaseClassifyInfo *classifyInfo) {
         @strongify(self);
         MJExtensionLog(@"---------- placeInfo:%@", departmentInfo.department);
         [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];

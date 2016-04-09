@@ -7,16 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BXTBaseClassifyInfo.h"
 
 @class BXTLists;
-@interface BXTPlaceInfo : NSObject
+@interface BXTPlaceInfo : BXTBaseClassifyInfo
 
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, copy) NSString *sort;
 @property (nonatomic, copy) NSString *del_state;
 @property (nonatomic, copy) NSString *placeID;
-@property (nonatomic, strong) NSArray<BXTPlaceInfo *> *lists;
-@property (nonatomic, copy) NSString *level;
+//@property (nonatomic, strong) NSArray<BXTPlaceInfo *> *lists;
+//@property (nonatomic, copy) NSString *level;
 @property (nonatomic, copy) NSString *lng;
 @property (nonatomic, copy) NSString *lat;
 @property (nonatomic, copy) NSString *place;

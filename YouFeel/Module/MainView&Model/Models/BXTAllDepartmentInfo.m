@@ -14,6 +14,12 @@
     return @{@"lists" : [BXTAllDepartmentInfo class]};
 }
 
+- (void)setDepartment:(NSString *)department
+{
+    _department = [department copy];
+    self.name = department;
+}
+
 @end
 
 

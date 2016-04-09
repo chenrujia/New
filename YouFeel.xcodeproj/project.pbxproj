@@ -392,6 +392,7 @@
 		96AC24301CAA45AC001C19F9 /* BXTPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AC242F1CAA45AC001C19F9 /* BXTPhotosView.m */; };
 		96AC24331CAA78F2001C19F9 /* BXTChooseItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AC24321CAA78F2001C19F9 /* BXTChooseItemView.m */; };
 		96BDF1911C8579FE00CEDA58 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BDF18D1C8579FE00CEDA58 /* libWeChatSDK.a */; };
+		96C4910A1CB7B75C00D14C9B /* BXTBaseClassifyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C491091CB7B75C00D14C9B /* BXTBaseClassifyInfo.m */; };
 		96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C684891BE76B4B0038A342 /* AssetsLibraryD.m */; };
 		96C684941BE76B4B0038A342 /* HCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C6848B1BE76B4B0038A342 /* HCollectionViewCell.m */; };
 		96C684951BE76B4B0038A342 /* HySideScrollingImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C6848D1BE76B4B0038A342 /* HySideScrollingImagePicker.m */; };
@@ -1140,6 +1141,8 @@
 		96BDF18E1C8579FE00CEDA58 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
 		96BDF18F1C8579FE00CEDA58 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		96BDF1901C8579FE00CEDA58 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		96C491081CB7B75C00D14C9B /* BXTBaseClassifyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTBaseClassifyInfo.h; sourceTree = "<group>"; };
+		96C491091CB7B75C00D14C9B /* BXTBaseClassifyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTBaseClassifyInfo.m; sourceTree = "<group>"; };
 		96C684881BE76B4B0038A342 /* AssetsLibraryD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetsLibraryD.h; sourceTree = "<group>"; };
 		96C684891BE76B4B0038A342 /* AssetsLibraryD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetsLibraryD.m; sourceTree = "<group>"; };
 		96C6848A1BE76B4B0038A342 /* HCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCollectionViewCell.h; sourceTree = "<group>"; };
@@ -2211,6 +2214,8 @@
 				78FFB96C1CB5F5D700309339 /* BXTPostionInfo.m */,
 				7851A0331CA3C66300255B8A /* BXTSubgroup.h */,
 				7851A0341CA3C66300255B8A /* BXTSubgroup.m */,
+				96C491081CB7B75C00D14C9B /* BXTBaseClassifyInfo.h */,
+				96C491091CB7B75C00D14C9B /* BXTBaseClassifyInfo.m */,
 				7851A0361CA3CBD000255B8A /* BXTPlaceInfo.h */,
 				7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */,
 			);
@@ -4620,6 +4625,7 @@
 				7867DDAB1C4CBEE9000749F1 /* BXTRepairInfo.m in Sources */,
 				7893D8E31C7ADA8000F042D5 /* BXTProfessionFooter.m in Sources */,
 				78C55B071C47C11700FFEB37 /* BXTReadNoticeView.m in Sources */,
+				96C4910A1CB7B75C00D14C9B /* BXTBaseClassifyInfo.m in Sources */,
 				781EF20A1C3D382C0027FE72 /* BXTEquipmentFilesCell.m in Sources */,
 				7827D0481C85736400E9E29E /* BXTMTProfessionTopView.m in Sources */,
 				7823D20A1C3231A000E3641C /* MYAlertAction.m in Sources */,

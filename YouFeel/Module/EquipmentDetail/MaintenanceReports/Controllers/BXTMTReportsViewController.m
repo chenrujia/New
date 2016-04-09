@@ -503,12 +503,15 @@
         BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
         NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
         @weakify(self);
-        [searchVC userChoosePlace:dataSource block:^(BXTPlaceInfo *placeInfo) {
+        [searchVC userChoosePlace:dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
             @strongify(self);
-            
-            MJExtensionLog(@"placeInfo:%@", placeInfo.place);
-            [self.dataArray replaceObjectAtIndex:indexPath.section withObject:placeInfo.place];
-            [self.currentTableView reloadData];
+            if ([classifyInfo isKindOfClass:[BXTPlaceInfo class]])
+            {
+                BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
+                MJExtensionLog(@"placeInfo:%@", placeInfo.place);
+                [self.dataArray replaceObjectAtIndex:indexPath.section withObject:placeInfo.place];
+                [self.currentTableView reloadData];
+            }
         }];
         [self.navigationController pushViewController:searchVC animated:YES];
     }
