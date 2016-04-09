@@ -310,10 +310,14 @@
     @weakify(self);
     [searchVC userChoosePlace:self.departmentArray block:^(BXTBaseClassifyInfo *classifyInfo) {
         @strongify(self);
-        MJExtensionLog(@"---------- placeInfo:%@", departmentInfo.department);
-        [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
-        [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.departmentID];
-        [self.tableView reloadData];
+        if ([classifyInfo isKindOfClass:[BXTAllDepartmentInfo class]])
+        {
+            BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)classifyInfo;
+            MJExtensionLog(@"---------- placeInfo:%@", departmentInfo.department);
+            [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
+            [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.departmentID];
+            [self.tableView reloadData];
+        }
     }];
     
     [self.navigationController pushViewController:searchVC animated:YES];
