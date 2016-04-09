@@ -24,19 +24,17 @@ typedef NS_ENUM(NSInteger, OrderType) {
     OrderType_Undown = 7
 };
 
-@interface BXTCurrentOrderView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, BXTBoxSelectedTitleDelegate>
+@interface BXTCurrentOrderView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 {
     NSArray *comeTimeArray;
     NSDate *originDate;
     
 }
 
-@property (nonatomic, strong) BXTSelectBoxView *boxView;
 @property (nonatomic, assign) NSInteger       currentPage;
 @property (nonatomic, strong) UIButton        *bgView;
 @property (nonatomic, strong) UIButton        *bgView_fit;
 @property (nonatomic, strong) UIView          *pickerBgView;
-@property (nonatomic, strong) UIDatePicker    *datePicker;
 @property (nonatomic, assign) NSTimeInterval  timeInterval;
 @property (nonatomic, strong) NSString        *orderID;
 @property (nonatomic, strong) NSArray         *titleArray;
@@ -159,168 +157,6 @@ typedef NS_ENUM(NSInteger, OrderType) {
 }
 
 #pragma mark -
-#pragma mark - createBXTSelectBoxView
-- (void)createBXTSelectBoxView
-{
-    self.bgView = [[UIButton alloc] initWithFrame:ApplicationWindow.bounds];
-    self.bgView.backgroundColor = [UIColor blackColor];
-    self.bgView.alpha = 0.6f;
-    self.bgView.tag = 101;
-    @weakify(self);
-    [[self.bgView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self.bgView removeFromSuperview];
-        [UIView animateWithDuration:0.3f animations:^{
-            [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-        }];
-    }];
-    [ApplicationWindow addSubview:self.bgView];
-    
-    if (self.boxView)
-    {
-        [self.boxView boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray];
-        [ApplicationWindow bringSubviewToFront:self.boxView];
-    }
-    else
-    {
-        self.boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray markID:nil actionDelegate:self];
-        [ApplicationWindow addSubview:self.boxView];
-    }
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
-    }];
-}
-
-- (void)createDatePicker
-{
-    self.bgView_fit = [[UIButton alloc] initWithFrame:ApplicationWindow.bounds];
-    self.bgView_fit.backgroundColor = [UIColor blackColor];
-    self.bgView_fit.alpha = 0.6f;
-    self.bgView_fit.tag = 101;
-    @weakify(self);
-    [[self.bgView_fit rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self.bgView_fit removeFromSuperview];
-        [UIView animateWithDuration:0.3f animations:^{
-            [self.pickerBgView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-        }];
-    }];
-    [ApplicationWindow addSubview:self.bgView_fit];
-    
-    originDate = [NSDate date];
-    
-    
-    if (self.pickerBgView) {
-        [self.pickerBgView setFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 216+50+40)];
-        [ApplicationWindow bringSubviewToFront:self.pickerBgView];
-    } else {
-        self.pickerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 216+50+40)];
-        self.pickerBgView.backgroundColor = [UIColor whiteColor];
-        [ApplicationWindow addSubview:self.pickerBgView];
-    }
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
-    titleLabel.backgroundColor = colorWithHexString(@"ffffff");
-    titleLabel.text = @"请选择到达时间";
-    titleLabel.font = [UIFont systemFontOfSize:16.f];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.pickerBgView addSubview:titleLabel];
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
-    line.backgroundColor = colorWithHexString(@"e2e6e8");
-    [self.pickerBgView addSubview:line];
-    
-    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 216)];
-    _datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
-    _datePicker.backgroundColor = colorWithHexString(@"ffffff");
-    _datePicker.minimumDate = [NSDate date];
-    _datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-    [[_datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
-        @strongify(self);
-        // 获取分钟数
-        self.timeInterval = [self.datePicker.date timeIntervalSince1970];
-    }];
-    [self.pickerBgView addSubview:_datePicker];
-    
-    
-    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, 216+40, SCREEN_WIDTH, 50)];
-    toolView.backgroundColor = colorWithHexString(@"ffffff");
-    [self.pickerBgView addSubview:toolView];
-    // sure
-    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 50)];
-    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self showLoadingMBP:@"请稍候..."];
-        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)self.timeInterval];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        NSArray *users = @[userID];
-        [request reaciveOrderID:self.orderID
-                    arrivalTime:timeStr
-                      andUserID:userID
-                       andUsers:users
-                      andIsGrad:NO];
-        [self.bgView_fit removeFromSuperview];
-        [UIView animateWithDuration:0.3f animations:^{
-            [self.pickerBgView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-        }];
-    }];
-    sureBtn.tag = 10001;
-    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    sureBtn.layer.borderWidth = 0.5;
-    [toolView addSubview:sureBtn];
-    // cancel
-    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 50)];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self.bgView_fit removeFromSuperview];
-        [UIView animateWithDuration:0.3f animations:^{
-            [self.pickerBgView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-        }];
-    }];
-    cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    cancelBtn.layer.borderWidth = 0.5;
-    cancelBtn.tag = 10002;
-    [toolView addSubview:cancelBtn];
-}
-
-#pragma mark -
-#pragma mark BXTBoxSelectedTitleDelegate
-- (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
-{
-    [self.bgView removeFromSuperview];
-    [UIView animateWithDuration:0.3f animations:^{
-        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-    }];
-    
-    if ([obj isKindOfClass:[NSString class]])
-    {
-        NSString *tempStr = (NSString *)obj;
-        if ([tempStr isEqualToString:@"自定义"]) {
-            [self createDatePicker];
-            return;
-        }
-        NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
-        NSTimeInterval timer = [[NSDate date] timeIntervalSince1970] + [timeStr intValue]*50;
-        timeStr = [NSString stringWithFormat:@"%.0f", timer];
-        
-        [self showLoadingMBP:@"请稍候..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        NSArray *users = @[userID];
-        [request reaciveOrderID:self.orderID
-                    arrivalTime:timeStr
-                      andUserID:userID
-                       andUsers:users
-                      andIsGrad:NO];
-    }
-}
-
-#pragma mark -
 #pragma mark DOPDropDownMenuDataSource & DOPDropDownMenuDelegate
 - (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu
 {
@@ -397,9 +233,10 @@ typedef NS_ENUM(NSInteger, OrderType) {
     @weakify(self);
     [[cell.receiveOrderView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        NSLog(@"%@", cell.orderList.dataIdentifier);
         self.orderID = cell.orderList.dataIdentifier;
-        [self createBXTSelectBoxView];
+        [self showLoadingMBP:@"请稍候..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request reaciveOrderID:self.orderID];
     }];
     
     [cell setNeedsUpdateConstraints];

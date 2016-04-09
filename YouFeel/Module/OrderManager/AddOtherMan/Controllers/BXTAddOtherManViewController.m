@@ -190,13 +190,9 @@
     if (vcType == AssignType)
     {
         [self showLoadingMBP:@"请稍候..."];
+        /**请求维修员列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        [request reaciveOrderID:[NSString stringWithFormat:@"%ld",(long)repairID]
-                    arrivalTime:@""
-                      andUserID:userID
-                       andUsers:[self selectMans]
-                      andIsGrad:NO];
+        [request dispatchingMan:[NSString stringWithFormat:@"%ld",(long)repairID] andMans:[self selectMans]];
     }
     else if (vcType == DetailType)
     {

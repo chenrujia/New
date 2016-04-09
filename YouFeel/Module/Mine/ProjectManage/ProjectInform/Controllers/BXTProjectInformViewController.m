@@ -183,7 +183,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
-    
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     

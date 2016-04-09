@@ -74,19 +74,9 @@
         self.usersArray = [NSMutableArray array];
     }
     
-//TODO: 要修改
-    //    [self showLoadingMBP:@"数据加载中..."];
-    //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    //    dispatch_async(concurrentQueue, ^{
-    //        /** 获取配置参数 **/
-    //        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    //        [dataRequest configInfo];
-    //    });
-    //    dispatch_async(concurrentQueue, ^{
-    //        /** 广告页 **/
-    //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    //        [request advertisementPages];
-    //    });
+    /** 广告页 **/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request advertisementPages];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -517,43 +507,7 @@
     NSDictionary *dic = response;
     NSArray *array = [dic objectForKey:@"data"];
     
-    if (type == ConfigInfo)
-    {
-        isConfigInfoSuccess = YES;
-        NSArray *dataArray = [dic objectForKey:@"data"];
-        NSDictionary *dataDict = dataArray[0];
-        NSMutableArray *arriveArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *dict1 in dataDict[@"arrive_arr"])
-        {
-            NSString *time = dict1[@"arrive_time"];
-            [arriveArray addObject:time];
-        }
-        NSMutableArray *hoursArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *dict2 in dataDict[@"hours_arr"])
-        {
-            NSString *time = dict2[@"hours_time"];
-            [hoursArray addObject:time];
-        }
-        
-        if (arriveArray.count == 0)
-        {
-            [arriveArray addObjectsFromArray:@[@"10", @"20"]];
-        }
-        if (hoursArray.count == 0)
-        {
-            [hoursArray addObjectsFromArray:@[@"1", @"2", @"3", @"4"]];
-        }
-        
-        // 存数组
-        [BXTGlobal writeFileWithfileName:@"arriveArray" Array:arriveArray];
-        [BXTGlobal writeFileWithfileName:@"hoursArray" Array:hoursArray];
-        
-        if (dataDict[@"shop_tel"])
-        {
-            SaveValueTUD(@"shop_tel", dataDict[@"shop_tel"]);
-        }
-    }
-    else if (type == Ads_Pics)
+    if (type == Ads_Pics)
     {
         NSMutableArray *modelArray = [[NSMutableArray alloc] init];
         for (NSDictionary *dict in array)
