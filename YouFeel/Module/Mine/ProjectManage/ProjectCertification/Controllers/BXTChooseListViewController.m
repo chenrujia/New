@@ -278,7 +278,7 @@
             {
                 BXTStoresListsInfo *company = locationShopsArray[indexPath.row-1];
                 cell.nameLabel.textColor = colorWithHexString(@"#000000");
-                cell.nameLabel.text = company.sto ;
+//                cell.nameLabel.text = company.sto ;
                 cell.rightImageView.hidden = NO;
             }
         }

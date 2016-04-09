@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YouFeel/Module/Mine/ProjectManage/ProjectCertification/Controllers/BXTChooseListViewController.m"
-            timestampString = "481879305.401885"
+            timestampString = "481881767.736889"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
+            startingLineNumber = "341"
+            endingLineNumber = "341"
             landmarkName = "-requestResponseData:requeseType:"
             landmarkType = "5">
          </BreakpointContent>
