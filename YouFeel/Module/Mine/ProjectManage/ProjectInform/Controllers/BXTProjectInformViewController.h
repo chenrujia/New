@@ -11,6 +11,6 @@
 
 @interface BXTProjectInformViewController : BXTBaseViewController
 
-@property (strong, nonatomic) BXTMyProject *transProject;
+@property (strong, nonatomic) BXTMyProject *transMyProject;
 
 @end

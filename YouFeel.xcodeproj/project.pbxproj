@@ -20,6 +20,8 @@
 		78090B2A1C7DAF47003E1565 /* BXTEPFilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78090B271C7DAF47003E1565 /* BXTEPFilterCell.xib */; };
 		78090B301C7DC67A003E1565 /* BXTEPHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78090B2F1C7DC67A003E1565 /* BXTEPHeaderView.m */; };
 		78090B321C7DC68F003E1565 /* BXTEPHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78090B311C7DC68F003E1565 /* BXTEPHeaderView.xib */; };
+		781346561CB8D7FB00B6ED64 /* BXTChooseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781346551CB8D7FB00B6ED64 /* BXTChooseListViewController.m */; };
+		781346591CB8E12D00B6ED64 /* BXTStoresListsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 781346581CB8E12D00B6ED64 /* BXTStoresListsInfo.m */; };
 		7818DBD31C0824D800DC22C6 /* AksStraightPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DB9D1C0824D800DC22C6 /* AksStraightPieChart.m */; };
 		7818DBD41C0824D800DC22C6 /* BarChatItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DB9F1C0824D800DC22C6 /* BarChatItemView.m */; };
 		7818DBD71C0824D800DC22C6 /* MYPieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7818DBA71C0824D800DC22C6 /* MYPieView.m */; };
@@ -455,6 +457,10 @@
 		78090B2E1C7DC67A003E1565 /* BXTEPHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPHeaderView.h; sourceTree = "<group>"; };
 		78090B2F1C7DC67A003E1565 /* BXTEPHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPHeaderView.m; sourceTree = "<group>"; };
 		78090B311C7DC68F003E1565 /* BXTEPHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPHeaderView.xib; sourceTree = "<group>"; };
+		781346541CB8D7FB00B6ED64 /* BXTChooseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTChooseListViewController.h; sourceTree = "<group>"; };
+		781346551CB8D7FB00B6ED64 /* BXTChooseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChooseListViewController.m; sourceTree = "<group>"; };
+		781346571CB8E12D00B6ED64 /* BXTStoresListsInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStoresListsInfo.h; sourceTree = "<group>"; };
+		781346581CB8E12D00B6ED64 /* BXTStoresListsInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTStoresListsInfo.m; sourceTree = "<group>"; };
 		7818DB9C1C0824D800DC22C6 /* AksStraightPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AksStraightPieChart.h; sourceTree = "<group>"; };
 		7818DB9D1C0824D800DC22C6 /* AksStraightPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AksStraightPieChart.m; sourceTree = "<group>"; };
 		7818DB9E1C0824D800DC22C6 /* BarChatItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarChatItemView.h; sourceTree = "<group>"; };
@@ -3591,6 +3597,8 @@
 			children = (
 				78EFEED41CAE550D0011F9E9 /* BXTProjectCertificationViewController.h */,
 				78EFEED51CAE550D0011F9E9 /* BXTProjectCertificationViewController.m */,
+				781346541CB8D7FB00B6ED64 /* BXTChooseListViewController.h */,
+				781346551CB8D7FB00B6ED64 /* BXTChooseListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3598,6 +3606,8 @@
 		78EFEEBF1CAE24730011F9E9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				781346571CB8E12D00B6ED64 /* BXTStoresListsInfo.h */,
+				781346581CB8E12D00B6ED64 /* BXTStoresListsInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4658,6 +4668,7 @@
 				7893D8E01C7ADA8000F042D5 /* BXTIncidenceViewController.m in Sources */,
 				7867DD721C4CBEA1000749F1 /* BXTGrabOrderViewController.m in Sources */,
 				960221481BC9201400010072 /* UIImage+SubImage.m in Sources */,
+				781346561CB8D7FB00B6ED64 /* BXTChooseListViewController.m in Sources */,
 				781EF20C1C3D382C0027FE72 /* BXTEquipmentFilesView.m in Sources */,
 				78FFB96D1CB5F5D700309339 /* BXTPostionInfo.m in Sources */,
 				78BF5A5E1CA28B7F00D26BDC /* BXTMTReportsCell.m in Sources */,
@@ -4806,6 +4817,7 @@
 				7823D20C1C3231A000E3641C /* UIAlertView+BlockT.m in Sources */,
 				7818DBE41C0824D800DC22C6 /* PNPieChart.m in Sources */,
 				78090B291C7DAF47003E1565 /* BXTEPFilterCell.m in Sources */,
+				781346591CB8E12D00B6ED64 /* BXTStoresListsInfo.m in Sources */,
 				7827D0451C85734F00E9E29E /* BXTMTProfessionHeader.m in Sources */,
 				78352A011CA0DD5E005134B6 /* BXTReaciveOrdersViewController.m in Sources */,
 				7867DCCE1C4CBCAC000749F1 /* BXTNickNameViewController.m in Sources */,

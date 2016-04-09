@@ -14,6 +14,7 @@
 #import "BXTPostionInfo.h"
 #import "BXTSearchPlaceViewController.h"
 #import "ANKeyValueTable.h"
+#import "BXTProjectManageViewController.h"
 
 @interface BXTProjectCertificationViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -54,7 +55,23 @@
     
     self.titleArray = @[@"", @"机构类型"];
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"请选择", nil];
-    self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transProject.shop_id, @"", nil];
+    self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"", nil];
+    
+    NSLog(@"transProjectInfo ----- %@", self.transProjectInfo.type);
+    if (self.transProjectInfo) {
+        if ([self.transProjectInfo.type integerValue] == 1) {
+            self.isCompanyType = YES;
+            self.titleArray = @[@"", @"机构类型", @"部门", @"职位", @"本职专业", @"其他技能"];
+            self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"项目管理公司", self.transProjectInfo.department, self.transProjectInfo.duty_name, self.transProjectInfo.subgroup, self.transProjectInfo.extra_subgroup, nil];
+            self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"项目管理公司", self.transProjectInfo.department_id, self.transProjectInfo.duty_id, self.transProjectInfo.subgroup_id, self.transProjectInfo.have_subgroup_ids, nil];
+        }
+        else {
+            self.isCompanyType = NO;
+            self.titleArray = @[@"", @"机构类型", @"所属", @"常用位置"];
+            self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"客户组", @"请选择", @"请选择", nil];
+            self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"客户组", @"", @"", nil];
+        }
+    }
     
     self.departmentArray = [[NSMutableArray alloc] init];
     self.positionArray = [[NSMutableArray alloc] init];
@@ -121,7 +138,7 @@
             BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
             
             if (self.isCompanyType) {
-                [fau_request authenticationApplyWithShopID:self.transProject.shop_id
+                [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
                                                       type:@"1"
                                               departmentID:self.transArray[2]
                                                     dutyID:self.transArray[3]
@@ -130,7 +147,7 @@
                                                   storesID:@""];
             }
             else {
-                [fau_request authenticationApplyWithShopID:self.transProject.shop_id
+                [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
                                                       type:@"2"
                                               departmentID:@""
                                                     dutyID:@""
@@ -196,7 +213,7 @@
     if (indexPath.section == 0) {
         BXTProjectCertificationCell *cell = [BXTProjectCertificationCell cellWithTableView:tableView];
         
-        cell.myProject = self.transProject;
+        cell.myProject = self.transMyProject;
         
         return cell;
     }
@@ -432,13 +449,13 @@
         self.isCompanyType = YES;
         self.titleArray = @[@"", @"机构类型", @"部门", @"职位", @"本职专业", @"其他技能"];
         self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"项目管理公司", @"请选择", @"请选择", @"请选择", @"请选择", nil];
-        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transProject.shop_id, @"项目管理公司", @"", @"", @"", @"", nil];
+        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"项目管理公司", @"", @"", @"", @"", nil];
     }
     else {
         self.isCompanyType = NO;
         self.titleArray = @[@"", @"机构类型", @"所属", @"常用位置"];
         self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"客户组", @"请选择", @"请选择", nil];
-        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transProject.shop_id, @"客户组", @"", @"", nil];
+        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"客户组", @"", @"", nil];
     }
     
     [self.tableView reloadData];
@@ -491,6 +508,16 @@
     {
         if (dic[@"returncode"] == 0) {
             [BXTGlobal showText:@"项目认证申请成功" view:self.view completionBlock:^{
+                if (self.transProjectInfo) {
+                    for (UIViewController *temp in self.navigationController.viewControllers) {
+                        if ([temp isKindOfClass:[BXTProjectManageViewController class]]) {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshBXTProjectManageViewController" object:nil];
+                            [self.navigationController popToViewController:temp animated:YES];
+                            return ;
+                        }
+                    }
+                }
+                
                 if (self.delegateSignal) {
                     [self.delegateSignal sendNext:nil];
                     [self.navigationController popViewControllerAnimated:YES];

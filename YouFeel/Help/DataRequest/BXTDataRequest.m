@@ -468,9 +468,9 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)listOFStoresWithStoresName:(NSString *)stores_name
 {
     self.requestType = StoresList;
-    
+
     NSDictionary *dic = @{@"stores_name": stores_name};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=stores_lists",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=stores_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
