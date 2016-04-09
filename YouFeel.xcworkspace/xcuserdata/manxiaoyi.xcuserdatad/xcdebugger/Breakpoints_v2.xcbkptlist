@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YouFeel/Module/Mine/ProjectManage/ProjectCertification/Controllers/BXTProjectCertificationViewController.m"
-            timestampString = "481801462.712316"
+            timestampString = "481802839.668832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "485"
-            endingLineNumber = "485"
+            startingLineNumber = "487"
+            endingLineNumber = "487"
             landmarkName = "-requestResponseData:requeseType:"
             landmarkType = "5">
          </BreakpointContent>

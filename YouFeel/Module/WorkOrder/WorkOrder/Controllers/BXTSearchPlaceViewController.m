@@ -484,7 +484,7 @@
             {
                 if (markArray.count >= i + 1)
                 {
-                    [markArray replaceObjectAtIndex:i withObject:@"0"];
+                   [self packUpWithArray:markArray index:i];
                 }
             }
         }
