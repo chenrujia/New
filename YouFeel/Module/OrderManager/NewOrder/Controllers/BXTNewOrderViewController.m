@@ -17,7 +17,7 @@
 #define ImageWidth 73.3f
 #define ImageHeight 73.3f
 
-@interface BXTNewOrderViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
+@interface BXTNewOrderViewController ()<BXTDataResponseDelegate>
 {
     UIImageView         *headImgView;
     UILabel             *repairerName;
@@ -34,7 +34,6 @@
     UILabel             *level;
     UILabel             *notes;
     NSArray             *comeTimeArray;
-    BXTSelectBoxView    *boxView;
     NSDate              *originDate;
     BOOL                isAssign;//判断是派工界面还是新工单界面
     AVAudioPlayer       *player;
@@ -44,7 +43,6 @@
 @property (nonatomic ,strong) NSString            *currentOrderID;
 @property (nonatomic ,strong) NSMutableArray      *manIDArray;
 @property (nonatomic ,assign) NSTimeInterval      timeInterval2;
-@property (nonatomic ,strong) UIDatePicker        *datePicker;
 @property (nonatomic ,strong) UIView              *bgView;
 
 @end
@@ -302,7 +300,12 @@
         [grabOrderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [grabOrderBtn setTitle:@"我要接" forState:UIControlStateNormal];
         grabOrderBtn.layer.cornerRadius = 4.f;
-        [grabOrderBtn addTarget:self action:@selector(grabBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        @weakify(self);
+        [[grabOrderBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request reaciveOrderID:self.repairDetail.orderID];
+        }];
         [backView addSubview:grabOrderBtn];
         
         UIButton *rejectBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -311,7 +314,6 @@
         [rejectBtn setTitleColor:colorWithHexString(@"f0640f") forState:UIControlStateNormal];
         [rejectBtn setTitle:@"我不接" forState:UIControlStateNormal];
         rejectBtn.layer.cornerRadius = 4.f;
-        @weakify(self);
         [[rejectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
             BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID andIsAssign:NO];
@@ -321,80 +323,6 @@
     }
     
     [self.view addSubview:backView];
-}
-
-#pragma mark -
-#pragma mark UIDatePicker
-- (void)createDatePicker
-{
-    self.bgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    _bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
-    _bgView.tag = 101;
-    [self.view addSubview:_bgView];
-    
-    originDate = [NSDate date];
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
-    titleLabel.backgroundColor = colorWithHexString(@"ffffff");
-    titleLabel.text = @"请选择到达时间";
-    titleLabel.font = [UIFont systemFontOfSize:16.f];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [_bgView addSubview:titleLabel];
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
-    line.backgroundColor = colorWithHexString(@"e2e6e8");
-    [_bgView addSubview:line];
-    
-    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
-    _datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
-    _datePicker.backgroundColor = colorWithHexString(@"ffffff");
-    _datePicker.minimumDate = [NSDate date];
-    _datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-    @weakify(self);
-    [[_datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
-        @strongify(self);
-        // 获取分钟数
-        self.timeInterval2 = [self.datePicker.date timeIntervalSince1970];
-    }];
-    [_bgView addSubview:_datePicker];
-    
-    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
-    toolView.backgroundColor = colorWithHexString(@"ffffff");
-    [_bgView addSubview:toolView];
-    // sure
-    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 50)];
-    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    sureBtn.layer.borderWidth = 0.5;
-    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self showLoadingMBP:@"请稍候..."];
-        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)self.timeInterval2];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        NSArray *users = @[userID];
-        [request reaciveOrderID:self.repairDetail.orderID
-                    arrivalTime:timeStr
-                      andUserID:userID
-                       andUsers:users
-                      andIsGrad:NO];
-        self.datePicker = nil;
-        [self.bgView removeFromSuperview];
-    }];
-    [toolView addSubview:sureBtn];
-    
-    // cancel
-    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 50)];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    cancelBtn.layer.borderWidth = 0.5;
-    [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        self.datePicker = nil;
-        [self.bgView removeFromSuperview];
-    }];
-    [toolView addSubview:cancelBtn];
 }
 
 #pragma mark -
@@ -410,30 +338,6 @@
         BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID andIsAssign:NO];
         [self.navigationController pushViewController:rejectVC animated:YES];
     }
-}
-
-- (void)grabBtnClick
-{
-    UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.6f;
-    backView.tag = 101;
-    [self.view addSubview:backView];
-    
-    if (boxView)
-    {
-        [boxView boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray];
-        [self.view bringSubviewToFront:boxView];
-    }
-    else
-    {
-        boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:comeTimeArray markID:nil actionDelegate:self];
-        [self.view addSubview:boxView];
-    }
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
-    }];
 }
 
 - (void)assignBtnClick
@@ -668,62 +572,6 @@
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
-}
-
-#pragma mark -
-#pragma mark BXTBoxSelectedTitleDelegate
-- (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
-{
-    UIView *view = [self.view viewWithTag:101];
-    [view removeFromSuperview];
-    [UIView animateWithDuration:0.3f animations:^{
-        [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-    }];
-    
-    if ([obj isKindOfClass:[NSString class]])
-    {
-        NSString *tempStr = (NSString *)obj;
-        if ([tempStr isEqualToString:@"自定义"])
-        {
-            [self createDatePicker];
-            return;
-        }
-        NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
-        NSTimeInterval timer = [[NSDate date] timeIntervalSince1970] + [timeStr intValue]*60;
-        timeStr = [NSString stringWithFormat:@"%.0f", timer];
-        
-        [self showLoadingMBP:@"请稍候..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        NSArray *users = @[userID];
-        [request reaciveOrderID:self.repairDetail.orderID
-                    arrivalTime:timeStr
-                      andUserID:userID
-                       andUsers:users
-                      andIsGrad:NO];
-    }
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UITouch *touch = [touches anyObject];
-    UIView *view = touch.view;
-    if (view.tag == 101)
-    {
-        if (_datePicker)
-        {
-            [_datePicker removeFromSuperview];
-            _datePicker = nil;
-        }
-        else
-        {
-            [UIView animateWithDuration:0.3f animations:^{
-                [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-            }];
-        }
-        
-        [view removeFromSuperview];
-    }
 }
 
 #pragma mark -

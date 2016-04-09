@@ -49,41 +49,41 @@ typedef NS_ENUM(NSInteger, RequestType) {
     ChangePassWord = 36,
     UpdateHeadPic = 37,
     UpdateShopAddress = 38,
-    ConfigInfo = 39,
-    StartRepair = 40,
-    Device_AvailableStatics = 41,
-    Device_AvailableType = 42,
-    InspectionPlanOverview = 43,
-    Statistics_MTPlanList = 44,
-    Statistics_EPList = 45,
-    Statistics_DeviceTypeList = 46,
-    Statistics_MTComplete = 47,
-    Statistics_Complete = 48,
-    Statistics_Subgroup = 49,
-    Statistics_Faulttype = 50,
-    Statistics_Workload_day = 51,
-    Statistics_Workload_year = 52,
-    Statistics_Workload = 53,
-    Statistics_Praise = 54,
-    SpecialOrderTypes = 55,
-    Exit_Login = 56,
-    Device_Con = 57,
-    Device_Repair_List = 58,
-    Inspection_Record_List = 59,
-    Mail_Get_All = 60,
-    Mail_User_list = 61,
-    MaintenanceEquipmentList = 62,
-    Add_Inspection = 63,
-    Update_Inspection = 64,
-    Ads_Pics = 65,
-    Remind_Number = 66,
-    UserShopLists = 67,
-    AuthenticationDetail = 68,
-    HandlePermission = 69,
-    DepartmentLists = 70,
-    DutyLists = 71,
-    StoresList = 72,
-    AuthenticationApply = 73,
+    StartRepair = 39,
+    Device_AvailableStatics = 40,
+    Device_AvailableType = 41,
+    InspectionPlanOverview = 42,
+    Statistics_MTPlanList = 43,
+    Statistics_EPList = 44,
+    Statistics_DeviceTypeList = 45,
+    Statistics_MTComplete = 46,
+    Statistics_Complete = 47,
+    Statistics_Subgroup = 48,
+    Statistics_Faulttype = 49,
+    Statistics_Workload_day = 50,
+    Statistics_Workload_year = 51,
+    Statistics_Workload = 52,
+    Statistics_Praise = 53,
+    SpecialOrderTypes = 54,
+    Exit_Login = 55,
+    Device_Con = 56,
+    Device_Repair_List = 57,
+    Inspection_Record_List = 58,
+    Mail_Get_All = 59,
+    Mail_User_list = 60,
+    MaintenanceEquipmentList = 61,
+    Add_Inspection = 62,
+    Update_Inspection = 63,
+    Ads_Pics = 64,
+    Remind_Number = 65,
+    UserShopLists = 66,
+    AuthenticationDetail = 67,
+    HandlePermission = 68,
+    DepartmentLists = 69,
+    DutyLists = 70,
+    StoresList = 71,
+    AuthenticationApply = 72,
+    IsFixed = 73,
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -367,18 +367,7 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  接单
  */
-- (void)reaciveOrderID:(NSString *)repairID
-           arrivalTime:(NSString *)time
-             andUserID:(NSString *)userID
-              andUsers:(NSArray *)users
-             andIsGrad:(BOOL)isGrab;
-
-/**
- *  指派后的接单
- */
-- (void)reaciveOrderForAssign:(NSString *)repairID
-                  arrivalTime:(NSString *)time
-                    andUserID:(NSString *)userID;
+- (void)reaciveOrderID:(NSString *)repairID;
 
 /**
  *  派工or增员
@@ -500,11 +489,6 @@ andRepairerIsReacive:(NSString *)reacive;
  *  更新店铺地址
  */
 - (void)updateShopAddress:(NSString *)storeID;
-
-/**
- *  获取配置参数
- */
-- (void)configInfo;
 
 /**
  *  开始维修
@@ -737,5 +721,12 @@ andRepairerIsReacive:(NSString *)reacive;
                        reportTimestart:(NSString *)report_timestart
                        objectTimestart:(NSString *)object_timestart
                  announcementTimestart:(NSString *)announcement_timestart;
+
+/**
+ *  报修者确认是否修好
+ */
+- (void)isFixed:(NSString *)repairID
+   confirmState:(NSString *)confirmState
+   confirmNotes:(NSString *)notes;
 
 @end

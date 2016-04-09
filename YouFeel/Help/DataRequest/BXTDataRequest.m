@@ -689,30 +689,11 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)reaciveOrderID:(NSString *)repairID
-           arrivalTime:(NSString *)time
-             andUserID:(NSString *)userID
-              andUsers:(NSArray *)users
-             andIsGrad:(BOOL)isGrab
 {
     self.requestType = ReaciveOrder;
-    NSDictionary *dic = @{@"is_grab":[NSString stringWithFormat:@"%d",isGrab],
-                          @"user_id":userID,
-                          @"user":users,
-                          @"id":repairID,
-                          @"arrival_time":time};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=dispatching",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)reaciveOrderForAssign:(NSString *)repairID
-                  arrivalTime:(NSString *)time
-                    andUserID:(NSString *)userID
-{
-    self.requestType = ReaciveOrder;
-    NSDictionary *dic = @{@"user_id":userID,
-                          @"id":repairID,
-                          @"receive_time":time};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=update_receive_time",[BXTGlobal shareGlobal].baseURL];
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"workorder_id":repairID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=accept_workorder",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -925,13 +906,6 @@ andRepairerIsReacive:(NSString *)reacive
                           @"id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=update_user",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
-}
-
-- (void)configInfo
-{
-    self.requestType = ConfigInfo;
-    NSString *url = [NSString stringWithFormat:@"%@&module=Config&opt=Config_info",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:nil];
 }
 
 - (void)startRepair:(NSString *)repairID
@@ -1329,11 +1303,12 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)advertisementPages
 {
     self.requestType = Ads_Pics;
-    
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
-    NSString *url = [NSString stringWithFormat:@"%@/opt/ads_pic/module/ads/ads_id/1/shop_id/%@", KADMINBASEURL, shopID];
-    [self getRequest:url];
+    NSDictionary *dic = @{@"ads_id":@"1",
+                          @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Ads&opt=ads_pic&shop_id=%@", KAPIBASEURL, shopID];
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)announcementListWithReadState:(NSString *)readState
@@ -1366,6 +1341,20 @@ andRepairerIsReacive:(NSString *)reacive
                           @"announcement_timestart": announcement_timestart};
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=remind_number",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)isFixed:(NSString *)repairID
+   confirmState:(NSString *)confirmState
+   confirmNotes:(NSString *)notes
+{
+    self.requestType = IsFixed;
+    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"workorder_id": repairID,
+                          @"confirm_state": confirmState,
+                          @"fault_confirm_notes": notes};
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=fault_confirm",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

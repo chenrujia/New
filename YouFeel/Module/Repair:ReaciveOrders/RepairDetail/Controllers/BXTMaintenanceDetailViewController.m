@@ -23,12 +23,10 @@
 //底部白色背景图高度
 #define YBottomBackHeight 67.f
 
-@interface BXTMaintenanceDetailViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITabBarDelegate>
+@interface BXTMaintenanceDetailViewController ()<BXTDataResponseDelegate>
 
-@property (nonatomic, strong) BXTSelectBoxView *boxView;
 @property (nonatomic ,strong) NSString         *repair_id;
 @property (nonatomic ,strong) NSArray          *comeTimeArray;
-@property (nonatomic ,strong) UIDatePicker     *datePicker;
 @property (nonatomic ,strong) UIView           *bgView;
 @property (nonatomic ,assign) NSTimeInterval   timeInterval;
 @property (nonatomic, strong) NSMutableArray   *manIDArray;
@@ -135,77 +133,26 @@
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
 }
 
-- (void)createDatePicker
+#pragma mark -
+#pragma mark 请求数据
+- (void)requestDetail
 {
-    self.bgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    self.bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
-    self.bgView.tag = 101;
-    [self.view addSubview:self.bgView];
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-40, SCREEN_WIDTH, 40)];
-    titleLabel.backgroundColor = colorWithHexString(@"ffffff");
-    titleLabel.text = @"请选择到达时间";
-    titleLabel.font = [UIFont systemFontOfSize:16.f];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.bgView addSubview:titleLabel];
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(titleLabel.frame)-1, SCREEN_WIDTH-30, 1)];
-    line.backgroundColor = colorWithHexString(@"e2e6e8");
-    [self.bgView addSubview:line];
-    
-    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
-    self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
-    self.datePicker.backgroundColor = colorWithHexString(@"ffffff");
-    self.datePicker.minimumDate = [NSDate date];
-    self.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-    @weakify(self);
-    [[self.datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
-        @strongify(self);
-        // 获取分钟数
-        self.timeInterval = [self.datePicker.date timeIntervalSince1970];
-    }];
-    [self.bgView addSubview:self.datePicker];
-    
-    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
-    toolView.backgroundColor = colorWithHexString(@"ffffff");
-    [self.bgView addSubview:toolView];
-    
-    // sure
-    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 50)];
-    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    sureBtn.layer.borderWidth = 0.5;
-    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)self.timeInterval];
-        [self showLoadingMBP:@"请稍候..."];
+    [BXTGlobal showLoadingMBP:@"努力加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**获取详情**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        NSArray *users = @[userID];
-        [request reaciveOrderID:self.repairDetail.orderID
-                    arrivalTime:timeStr
-                      andUserID:userID
-                       andUsers:users
-                      andIsGrad:NO];
-        self.datePicker = nil;
-        [self.bgView removeFromSuperview];
-    }];
-    [toolView addSubview:sureBtn];
-    
-    // cancel
-    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 50)];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    cancelBtn.layer.borderWidth = 0.5;
-    [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        self.datePicker = nil;
-        [self.bgView removeFromSuperview];
-    }];
-    [toolView addSubview:cancelBtn];
+        [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**请求控制按钮显示**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request handlePermission:self.repair_id sceneID:[NSString stringWithFormat:@"%ld",(long)self.sceneType]];
+    });
 }
 
+#pragma mark -
+#pragma mark 更新ContentView高度
 - (void)updateContentConstant:(UIView *)view
 {
     if (CGRectGetMaxY(view.frame) + 12.f + YBottomBackHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
@@ -592,22 +539,6 @@
     return btn;
 }
 
-- (void)requestDetail
-{
-    [BXTGlobal showLoadingMBP:@"努力加载中..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /**获取详情**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**请求控制按钮显示**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request handlePermission:self.repair_id sceneID:[NSString stringWithFormat:@"%ld",(long)self.sceneType]];
-    });
-}
-
 #pragma mark -
 #pragma mark 关闭工单（跟权限相关）
 - (void)navigationRightButton
@@ -617,7 +548,7 @@
 }
 
 #pragma mark -
-#pragma mark 事件处理
+#pragma mark 底部按钮事件处理
 - (void)actionWithButtonInfo:(BXTButtonInfo *)btnInfo
 {
     //1.取消按钮 2.接单按钮 3.派工按钮 4.增援按钮 5.开始维修 6.结束维修 7.确认驳回 8.确认工单 9.评价工单 10.已评价 11.派工驳回 12.派工确认
@@ -625,20 +556,16 @@
     {
         [self cancelTheRepair];
     }
-    else if (btnInfo.button_key == 2)
+    else if (btnInfo.button_key == 2 || btnInfo.button_key == 12)
     {
-        [self reaciveOrder];
+        [self showLoadingMBP:@"请稍候..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request reaciveOrderID:self.repairDetail.orderID];
     }
-    else if (btnInfo.button_key == 3)
+    else if (btnInfo.button_key == 3 || btnInfo.button_key == 4)
     {
-        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[self.repairDetail.orderID integerValue] andWithVCType:AssignType];
-        [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
-        addOtherVC.manIDArray = self.manIDArray;
-        [self.navigationController pushViewController:addOtherVC animated:YES];
-    }
-    else if (btnInfo.button_key == 4)
-    {
-        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[self.repairDetail.orderID integerValue] andWithVCType:DetailType];
+        ControllerType cvType = btnInfo.button_key == 3 ? AssignType : DetailType;
+        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[self.repairDetail.orderID integerValue] andWithVCType:cvType];
         [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
         addOtherVC.manIDArray = self.manIDArray;
         [self.navigationController pushViewController:addOtherVC animated:YES];
@@ -651,33 +578,42 @@
     }
     else if (btnInfo.button_key == 6)
     {
-        
+        //如果还有设备在维保中，则不让修改维保过程
+        if (self.repairDetail.all_inspection_state == 1)
+        {
+            [self showMBP:@"设备正在维保中，此刻不能更改维修过程！" withBlock:nil];
+        }
+        else
+        {
+            BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:self.repairDetail.faulttype_name andCurrentFaultID:[self.repairDetail.faulttype integerValue] andRepairID:[self.repairDetail.orderID integerValue] andReaciveTime:self.repairDetail.start_time];
+            @weakify(self);
+            maintenanceProcossVC.BlockRefresh = ^() {
+                @strongify(self);
+                [self requestDetail];
+            };
+            [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
+        }
     }
     else if (btnInfo.button_key == 7)
     {
-        
+        //TODO: 记得到时候测试一下
+        [self dontFixed];
     }
     else if (btnInfo.button_key == 8)
     {
-        
+        [self showLoadingMBP:@"请稍候..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request isFixed:self.repairDetail.orderID confirmState:@"1" confirmNotes:@""];
     }
     else if (btnInfo.button_key == 9)
     {
         BXTEvaluationViewController *evaVC = [[BXTEvaluationViewController alloc] initWithRepairID:self.repairDetail.orderID];
         [self.navigationController pushViewController:evaVC animated:YES];
     }
-    else if (btnInfo.button_key == 10)
-    {
-        
-    }
     else if (btnInfo.button_key == 11)
     {
         BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID andIsAssign:NO];
         [self.navigationController pushViewController:rejectVC animated:YES];
-    }
-    else if (btnInfo.button_key == 12)
-    {
-        [self reaciveOrder];
     }
 }
 
@@ -725,108 +661,49 @@
     }
 }
 
-#pragma mark -
-#pragma mark 我要接单
-- (void)reaciveOrder
+- (void)dontFixed
 {
-    UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.6f;
-    backView.tag = 101;
-    [self.view addSubview:backView];
-    
-    if (self.boxView)
+    if (!IS_IOS_8)
     {
-        [self.boxView boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:self.comeTimeArray];
-        [self.view bringSubviewToFront:self.boxView];
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"请填写驳回原因" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alertCtr addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"请输入驳回原因";
+            textField.secureTextEntry = NO;
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alertCtr addAction:cancelAction];
+        @weakify(self);
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+            @strongify(self);
+            UITextField *textField = alertCtr.textFields.firstObject;
+            [self showLoadingMBP:@"请稍等..."];
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request isFixed:self.repairDetail.orderID confirmState:@"2" confirmNotes:textField.text];
+        }];
+        [alertCtr addAction:doneAction];
+        [self presentViewController:alertCtr animated:YES completion:nil];
     }
     else
     {
-        self.boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"请选择到达时间" boxSelectedViewType:Other listDataSource:self.comeTimeArray markID:nil actionDelegate:self];
-        [self.view addSubview:self.boxView];
-    }
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
-    }];
-}
-
-#pragma mark -
-#pragma mark Touch
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UITouch *touch = [touches anyObject];
-    UIView *view = touch.view;
-    if (view.tag == 101)
-    {
-        [view removeFromSuperview];
-        [UIView animateWithDuration:0.3f animations:^{
-            [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-        } completion:nil];
-    }
-}
-
-#pragma mark -
-#pragma mark BXTBoxSelectedTitleDelegate
-- (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
-{
-    UIView *view = [self.view viewWithTag:101];
-    [view removeFromSuperview];
-    [UIView animateWithDuration:0.3f animations:^{
-        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-    }];
-    
-    if ([obj isKindOfClass:[NSString class]])
-    {
-        NSString *tempStr = (NSString *)obj;
-        if ([tempStr isEqualToString:@"自定义"])
-        {
-            [self createDatePicker];
-            return;
-        }
-        NSString *timeStr = [tempStr stringByReplacingOccurrencesOfString:@"分钟内" withString:@""];
-        NSTimeInterval timer = [[NSDate date] timeIntervalSince1970] + [timeStr intValue]*60;
-        timeStr = [NSString stringWithFormat:@"%.0f", timer];
-        
-        [self showLoadingMBP:@"请稍候..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        NSString *userID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-        NSArray *users = @[userID];
-        [request reaciveOrderID:self.repairDetail.orderID
-                    arrivalTime:timeStr
-                      andUserID:userID
-                       andUsers:users
-                      andIsGrad:NO];
-    }
-}
-
-#pragma mark -
-#pragma mark UITabBarDelegate
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
-{
-    if (item.tag == 1)
-    {
-        BXTAddOtherManViewController *addOtherVC = [[BXTAddOtherManViewController alloc] initWithRepairID:[_repair_id integerValue] andWithVCType:DetailType];
-        addOtherVC.manIDArray = self.manIDArray;
-        [self.navigationController pushViewController:addOtherVC animated:YES];
-    }
-    else if (item.tag == 2)
-    {
-        //如果还有设备在维保中，则不让修改维保过程
-        if (self.repairDetail.all_inspection_state == 1)
-        {
-            [self showMBP:@"设备正在维保中，此刻不能更改维修过程！" withBlock:nil];
-        }
-        else
-        {
-            BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:self.repairDetail.faulttype_name andCurrentFaultID:[self.repairDetail.faulttype integerValue] andRepairID:[self.repairDetail.orderID integerValue] andReaciveTime:self.repairDetail.start_time];
-            @weakify(self);
-            maintenanceProcossVC.BlockRefresh = ^() {
-                @strongify(self);
-                [self requestDetail];
-            };
-            [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
-        }
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请填写驳回原因"
+                                                        message:nil
+                                                       delegate:nil
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"确定",nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        UITextField *textField = [alert textFieldAtIndex:0];
+        textField.placeholder = @"请输入驳回原因";
+        @weakify(self);
+        [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            if ([x integerValue] == 1)
+            {
+                [self showLoadingMBP:@"请稍等..."];
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request isFixed:self.repairDetail.orderID confirmState:@"2" confirmNotes:textField.text];
+            }
+        }];
+        [alert show];
     }
 }
 
