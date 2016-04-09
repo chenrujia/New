@@ -10,11 +10,14 @@
 #import "BXTProjectInformTitleCell.h"
 #import "BXTProjectInformContentCell.h"
 #import "BXTProjectInformAuthorCell.h"
+#import "BXTProjectInfo.h"
 
 @interface BXTProjectInformViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataArray;
+
+@property (strong, nonatomic) BXTProjectInfo *projectInfo;
 
 @end
 
@@ -35,7 +38,7 @@
     
     /** 修改用户信息 **/
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dataRequest projectAuthenticationDetailWithShopID:self.transShopID];
+    [dataRequest projectAuthenticationDetailWithShopID:self.transProject.projectID];
 }
 
 #pragma mark -
@@ -95,6 +98,7 @@
     if (indexPath.section == 2) {
         BXTProjectInformAuthorCell *cell = [BXTProjectInformAuthorCell cellWithTableView:tableView];
         
+        cell.projectInfo = self.projectInfo;
         
         return cell;
     }
@@ -103,6 +107,7 @@
     if (indexPath.section == 0 && indexPath.row == 1) {
         BXTProjectInformContentCell *cell = [BXTProjectInformContentCell cellWithTableView:tableView];
         
+        cell.projectInfo = self.projectInfo;
         
         return cell;
     }
@@ -110,6 +115,14 @@
     
     BXTProjectInformTitleCell *cell = [BXTProjectInformTitleCell cellWithTableView:tableView];
     
+    if (indexPath.section == 0) {
+        cell.titleView.text = @"项目名：";
+        cell.descView.text = self.transProject.name;
+    }
+    else if (indexPath.section == 1) {
+        cell.titleView.text = @"常用位置：";
+        cell.descView.text = self.projectInfo.stores_name;
+    }
     
     return cell;
 }
@@ -149,13 +162,14 @@
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     
-    if (type == UserShopLists && [dic[@"returncode"] integerValue] == 0)
+    if (type == AuthenticationDetail && [dic[@"returncode"] integerValue] == 0)
     {
-//        [BXTMyProject mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-//            return @{@"projectID": @"id"};
-//        }];
-//        [self.dataArray addObjectsFromArray:[BXTMyProject mj_objectArrayWithKeyValuesArray:data]];
-//        [self.tableView reloadData];
+        [BXTProjectInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"projectID": @"id"};
+        }];
+        self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
+        
+        [self.tableView reloadData];
     }
 }
 

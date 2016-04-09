@@ -8,6 +8,7 @@
 
 #import "BXTProjectInformAuthorCell.h"
 #import "BXTHeaderFile.h"
+#import "UIImageView+WebCache.h"
 
 @implementation BXTProjectInformAuthorCell
 
@@ -23,6 +24,16 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
+}
+
+- (void)setProjectInfo:(BXTProjectInfo *)projectInfo
+{
+    _projectInfo = projectInfo;
+    
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:projectInfo.headMedium] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
+    self.nameView.text = projectInfo.name;
+    self.apartmentView.text = projectInfo.department;
+    self.positionView.text = projectInfo.duty_name;
 }
 
 - (void)awakeFromNib {

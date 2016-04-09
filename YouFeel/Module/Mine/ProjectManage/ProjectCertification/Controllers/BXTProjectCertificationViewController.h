@@ -13,4 +13,6 @@
 
 @property (strong, nonatomic) BXTMyProject *transProject;
 
+@property (strong, nonatomic) RACSubject *delegateSignal;
+
 @end

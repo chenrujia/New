@@ -32,15 +32,20 @@
     
     [self createUI];
     
-    [self showLoadingMBP:@"请稍等..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request listOFUserShopLists];
+    [self getResource];
 }
 
 - (void)navigationRightButton
 {
     BXTProjectCertificationViewController *pcvc = [[BXTProjectCertificationViewController alloc] init];
     [self.navigationController pushViewController:pcvc animated:YES];
+}
+
+- (void)getResource
+{
+    [self showLoadingMBP:@"请稍等..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request listOFUserShopLists];
 }
 
 #pragma mark -
@@ -144,15 +149,19 @@
 {
     BXTMyProject *myProjectInform = self.dataArray[indexPath.row];
     
-     // verify_state 状态：0未认证 1申请中 2已认证
+    // verify_state 状态：0未认证 1申请中 2已认证
     if ([myProjectInform.verify_state integerValue] == 0) {
         BXTProjectCertificationViewController *pcvc = [[BXTProjectCertificationViewController alloc] init];
         pcvc.transProject = myProjectInform;
+        pcvc.delegateSignal = [RACSubject subject];
+        [pcvc.delegateSignal subscribeNext:^(id x) {
+            [self getResource];
+        }];
         [self.navigationController pushViewController:pcvc animated:YES];
     }
     else {
         BXTProjectInformViewController *pivc = [[BXTProjectInformViewController alloc] init];
-        pivc.transShopID = myProjectInform.projectID;
+        pivc.transProject = myProjectInform;
         [self.navigationController pushViewController:pivc animated:YES];
     }
     
@@ -170,6 +179,9 @@
     
     if (type == UserShopLists && [dic[@"returncode"] integerValue] == 0)
     {
+        if (self.dataArray.count != 0) {
+            [self.dataArray removeAllObjects];
+        }
         [BXTMyProject mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"projectID": @"id"};
         }];

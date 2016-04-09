@@ -10,7 +10,7 @@
 
 @interface BXTProjectInformTitleCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleView;
+@property (weak, nonatomic) IBOutlet UILabel *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *descView;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;

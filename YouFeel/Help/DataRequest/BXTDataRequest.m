@@ -571,6 +571,7 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"shop_id": shop_id,
                           @"out_userid": [BXTGlobal getUserProperty:U_USERID],
                           @"type": type,
+                          @"department_id": department_id,
                           @"duty_id": duty_id,
                           @"subgroup_id": subgroup_id,
                           @"have_subgroup_ids": have_subgroup_ids,

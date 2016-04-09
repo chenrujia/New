@@ -7,9 +7,10 @@
 //
 
 #import "BXTBaseViewController.h"
+#import "BXTMyProject.h"
 
 @interface BXTProjectInformViewController : BXTBaseViewController
 
-@property (copy, nonatomic) NSString *transShopID;
+@property (strong, nonatomic) BXTMyProject *transProject;
 
 @end

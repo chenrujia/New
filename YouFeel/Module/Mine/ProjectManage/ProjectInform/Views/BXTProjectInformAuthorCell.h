@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTProjectInfo.h"
 
 @interface BXTProjectInformAuthorCell : UITableViewCell
 
@@ -17,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *positionView;
 
 @property (weak, nonatomic) IBOutlet UIButton *connectBtn;
+
+@property (strong, nonatomic) BXTProjectInfo *projectInfo;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
