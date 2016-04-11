@@ -228,6 +228,8 @@
 		7867DDB21C4CBEE9000749F1 /* BXTDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DDA71C4CBEE9000749F1 /* BXTDrawView.m */; };
 		786B571D1C3A06C400F48402 /* BXTPersonInfromViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 786B571C1C3A06C400F48402 /* BXTPersonInfromViewController.m */; };
 		786B57241C3A464300F48402 /* BXTMailListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 786B57231C3A464300F48402 /* BXTMailListModel.m */; };
+		786D371F1CBB3A5B00D307DB /* BXTChooseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 786D371D1CBB3A5B00D307DB /* BXTChooseListViewController.m */; };
+		786D37221CBB3A6100D307DB /* BXTStoresListsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 786D37201CBB3A6100D307DB /* BXTStoresListsInfo.m */; };
 		786DB5111CB35C42003DA314 /* BXTMyIntegralData.m in Sources */ = {isa = PBXBuildFile; fileRef = 786DB5101CB35C42003DA314 /* BXTMyIntegralData.m */; };
 		786DB5141CB3939F003DA314 /* BXTRankingData.m in Sources */ = {isa = PBXBuildFile; fileRef = 786DB5131CB3939F003DA314 /* BXTRankingData.m */; };
 		7893D88C1C7AA6CD00F042D5 /* BXTStatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC721C4CBB47000749F1 /* BXTStatisticsViewController.m */; };
@@ -849,6 +851,10 @@
 		786B571C1C3A06C400F48402 /* BXTPersonInfromViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPersonInfromViewController.m; sourceTree = "<group>"; };
 		786B57221C3A464300F48402 /* BXTMailListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailListModel.h; sourceTree = "<group>"; };
 		786B57231C3A464300F48402 /* BXTMailListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailListModel.m; sourceTree = "<group>"; };
+		786D371D1CBB3A5B00D307DB /* BXTChooseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChooseListViewController.m; sourceTree = "<group>"; };
+		786D371E1CBB3A5B00D307DB /* BXTChooseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTChooseListViewController.h; sourceTree = "<group>"; };
+		786D37201CBB3A6100D307DB /* BXTStoresListsInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTStoresListsInfo.m; sourceTree = "<group>"; };
+		786D37211CBB3A6100D307DB /* BXTStoresListsInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStoresListsInfo.h; sourceTree = "<group>"; };
 		786DB50F1CB35C42003DA314 /* BXTMyIntegralData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMyIntegralData.h; sourceTree = "<group>"; };
 		786DB5101CB35C42003DA314 /* BXTMyIntegralData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMyIntegralData.m; sourceTree = "<group>"; };
 		786DB5121CB3939F003DA314 /* BXTRankingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRankingData.h; sourceTree = "<group>"; };
@@ -2195,6 +2201,7 @@
 		7851A0281CA3C60900255B8A /* MainView&Model */ = {
 			isa = PBXGroup;
 			children = (
+				785D31101CBB37AE009B8A6E /* Controllers */,
 				7851A0291CA3C60900255B8A /* Models */,
 				7851A02A1CA3C60900255B8A /* Views */,
 			);
@@ -2204,6 +2211,8 @@
 		7851A0291CA3C60900255B8A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				786D37201CBB3A6100D307DB /* BXTStoresListsInfo.m */,
+				786D37211CBB3A6100D307DB /* BXTStoresListsInfo.h */,
 				782762721CB7572E0095FF10 /* BXTAllDepartmentInfo.h */,
 				782762731CB7572E0095FF10 /* BXTAllDepartmentInfo.m */,
 				78FFB9711CB5F5F000309339 /* BXTDepartmentInfo.h */,
@@ -2232,6 +2241,15 @@
 				7851A02D1CA3C60900255B8A /* BXTMainTableViewCell.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		785D31101CBB37AE009B8A6E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				786D371D1CBB3A5B00D307DB /* BXTChooseListViewController.m */,
+				786D371E1CBB3A5B00D307DB /* BXTChooseListViewController.h */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		7867DC081C4CB9F3000749F1 /* AboutUs */ = {
@@ -4658,6 +4676,7 @@
 				7893D8E01C7ADA8000F042D5 /* BXTIncidenceViewController.m in Sources */,
 				7867DD721C4CBEA1000749F1 /* BXTGrabOrderViewController.m in Sources */,
 				960221481BC9201400010072 /* UIImage+SubImage.m in Sources */,
+				786D371F1CBB3A5B00D307DB /* BXTChooseListViewController.m in Sources */,
 				781EF20C1C3D382C0027FE72 /* BXTEquipmentFilesView.m in Sources */,
 				78FFB96D1CB5F5D700309339 /* BXTPostionInfo.m in Sources */,
 				78BF5A5E1CA28B7F00D26BDC /* BXTMTReportsCell.m in Sources */,
@@ -4806,6 +4825,7 @@
 				7823D20C1C3231A000E3641C /* UIAlertView+BlockT.m in Sources */,
 				7818DBE41C0824D800DC22C6 /* PNPieChart.m in Sources */,
 				78090B291C7DAF47003E1565 /* BXTEPFilterCell.m in Sources */,
+				786D37221CBB3A6100D307DB /* BXTStoresListsInfo.m in Sources */,
 				7827D0451C85734F00E9E29E /* BXTMTProfessionHeader.m in Sources */,
 				78352A011CA0DD5E005134B6 /* BXTReaciveOrdersViewController.m in Sources */,
 				7867DCCE1C4CBCAC000749F1 /* BXTNickNameViewController.m in Sources */,

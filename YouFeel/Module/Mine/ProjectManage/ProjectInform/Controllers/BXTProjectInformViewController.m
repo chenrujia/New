@@ -11,6 +11,7 @@
 #import "BXTProjectInformContentCell.h"
 #import "BXTProjectInformAuthorCell.h"
 #import "BXTProjectInfo.h"
+#import "BXTProjectCertificationViewController.h"
 
 @interface BXTProjectInformViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -38,7 +39,7 @@
     
     /** 修改用户信息 **/
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dataRequest projectAuthenticationDetailWithShopID:self.transProject.projectID];
+    [dataRequest projectAuthenticationDetailWithShopID:self.transMyProject.projectID];
 }
 
 #pragma mark -
@@ -57,17 +58,29 @@
     footerView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:footerView];
     
+    // changeBtn
     CGFloat btnW = (SCREEN_WIDTH - 2 * 15 - 30) / 2;
     UIButton *changeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     changeBtn.frame = CGRectMake(15, 10, btnW, 50);
     [changeBtn setTitle:@"修改信息" forState:UIControlStateNormal];
     changeBtn.backgroundColor = colorWithHexString(@"#5DAEF9");
     changeBtn.layer.cornerRadius = 5;
+    @weakify(self);
     [[changeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         
+        BXTProjectCertificationViewController *pcvc = [[BXTProjectCertificationViewController alloc] init];
+        pcvc.transMyProject = self.transMyProject;
+        pcvc.transProjectInfo = self.projectInfo;
+        pcvc.delegateSignal = [RACSubject subject];
+        [pcvc.delegateSignal subscribeNext:^(id x) {
+            //            [self getResource];
+        }];
+        [self.navigationController pushViewController:pcvc animated:YES];
     }];
     [footerView addSubview:changeBtn];
     
+    // switchBtn
     UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     switchBtn.frame = CGRectMake(15 + btnW + 30, 10, btnW, 50);
     [switchBtn setTitle:@"切换至" forState:UIControlStateNormal];
@@ -76,9 +89,16 @@
     switchBtn.layer.borderColor = [colorWithHexString(@"#5DAEF9") CGColor];
     switchBtn.layer.cornerRadius = 5;
     [[switchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        [self.navigationController popViewControllerAnimated:YES];
     }];
     [footerView addSubview:switchBtn];
+    
+    
+    // verify_state 状态：0未认证 1申请中 2已认证，没有状态3（不通过），如果审核的时候选择了不通过，则将状态直接设置为0
+    if ([self.transMyProject.verify_state integerValue] != 2) {
+        changeBtn.frame = CGRectMake(0, 0, 0, 0);
+        switchBtn.frame = CGRectMake(15, 10, SCREEN_WIDTH - 30, 50);
+    }
 }
 
 #pragma mark -
@@ -100,6 +120,10 @@
         
         cell.projectInfo = self.projectInfo;
         
+        [[cell.connectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            NSLog(@"--------------- 联系Ta");
+        }];
+        
         return cell;
     }
     
@@ -117,7 +141,7 @@
     
     if (indexPath.section == 0) {
         cell.titleView.text = @"项目名：";
-        cell.descView.text = self.transProject.name;
+        cell.descView.text = self.transMyProject.name;
     }
     else if (indexPath.section == 1) {
         cell.titleView.text = @"常用位置：";

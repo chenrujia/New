@@ -22,6 +22,11 @@
 
 @implementation BXTProjectManageViewController
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -33,6 +38,12 @@
     [self createUI];
     
     [self getResource];
+    
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshBXTProjectManageViewController" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        [self getResource];
+    }];
 }
 
 - (void)navigationRightButton
@@ -152,7 +163,7 @@
     // verify_state 状态：0未认证 1申请中 2已认证
     if ([myProjectInform.verify_state integerValue] == 0) {
         BXTProjectCertificationViewController *pcvc = [[BXTProjectCertificationViewController alloc] init];
-        pcvc.transProject = myProjectInform;
+        pcvc.transMyProject = myProjectInform;
         pcvc.delegateSignal = [RACSubject subject];
         [pcvc.delegateSignal subscribeNext:^(id x) {
             [self getResource];
@@ -161,7 +172,7 @@
     }
     else {
         BXTProjectInformViewController *pivc = [[BXTProjectInformViewController alloc] init];
-        pivc.transProject = myProjectInform;
+        pivc.transMyProject = myProjectInform;
         [self.navigationController pushViewController:pivc animated:YES];
     }
     
