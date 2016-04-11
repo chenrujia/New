@@ -38,6 +38,9 @@
 @property (nonatomic, strong) NSMutableArray *searchArray;
 @property (nonatomic, strong) NSMutableArray *allPersonArray;
 
+// 点击添加新项目
+@property (strong, nonatomic) BXTHeadquartersInfo *headquartersInfo;
+
 @end
 
 @implementation BXTProjectAddNewViewController
@@ -372,19 +375,8 @@
     if (tableView == self.tableView_Search)
     {
         NSDictionary *dict = self.searchArray[indexPath.row];
-        BXTHeadquartersInfo *infoModel = [BXTHeadquartersInfo modelObjectWithDictionary:dict];
-        
-        NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
-        if ([shopsIDArray containsObject:infoModel.company_id]) {
-            [self refreshAllInformWithShopID:infoModel.company_id shopAddress:infoModel.name];
-            
-            /**请求分店位置**/
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request branchLogin];
-        }
-        else {
-            [self getResourceWithShopID:infoModel.company_id];
-        }
+        BXTHeadquartersInfo *company = [BXTHeadquartersInfo modelObjectWithDictionary:dict];
+        [self transStateOfAuthorityWithInform:company];
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
@@ -400,27 +392,31 @@
         }
         else {
             BXTHeadquartersInfo *company = locationShopsArray[indexPath.row-1];
-            
-            NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
-            if ([shopsIDArray containsObject:company.company_id]) {
-                [self refreshAllInformWithShopID:company.company_id shopAddress:company.name];
-                
-                /**请求分店位置**/
-                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request branchLogin];
-            }
-            else {
-                [self getResourceWithShopID:company.company_id];
-            }
+            [self transStateOfAuthorityWithInform:company];
         }
     }
     else if (indexPath.section == 1 && indexPath.row != 0) {
         BXTHeadquartersInfo *company = shopsArray[indexPath.row-1];
-        
-        [self getResourceWithShopID:company.company_id];
+        [self transStateOfAuthorityWithInform:company];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)transStateOfAuthorityWithInform:(BXTHeadquartersInfo *)company
+{
+    NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
+    if ([shopsIDArray containsObject:company.company_id]) {
+        [self refreshAllInformWithShopID:company.company_id shopAddress:company.name];
+        
+        /**请求分店位置**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request branchLogin];
+    }
+    else {
+        self.headquartersInfo = company;
+        [self getResourceWithShopID:company.company_id];
+    }
 }
 
 - (void)getResourceWithShopID:(NSString *)shopID
@@ -484,6 +480,11 @@
             [MYAlertAction showAlertWithTitle:@"添加项目成功！" msg:@"现在是否去补齐信息，进行项目认证？" chooseBlock:^(NSInteger buttonIdx) {
                 if (buttonIdx == 1) {
                     BXTProjectCertificationViewController *projCfVC = [[BXTProjectCertificationViewController alloc] init];
+                    BXTMyProject *myProject = [[BXTMyProject alloc] init];
+                    myProject.shop_id = self.headquartersInfo.company_id;
+                    myProject.name = self.headquartersInfo.name;
+                    myProject.verify_state = @"0";
+                    projCfVC.transMyProject = myProject;
                     [self.navigationController pushViewController:projCfVC animated:YES];
                 }
             } buttonsStatement:@"以后再说", @"现在就去", nil];

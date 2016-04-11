@@ -46,12 +46,6 @@
     }];
 }
 
-- (void)navigationRightButton
-{
-    BXTProjectCertificationViewController *pcvc = [[BXTProjectCertificationViewController alloc] init];
-    [self.navigationController pushViewController:pcvc animated:YES];
-}
-
 - (void)getResource
 {
     [self showLoadingMBP:@"请稍等..."];

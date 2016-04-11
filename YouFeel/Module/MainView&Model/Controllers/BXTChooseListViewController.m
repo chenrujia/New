@@ -279,19 +279,20 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (tableView == self.tableView_Search)
-    {
-        BXTStoresListsInfo *storeInfo = self.searchArray[indexPath.row];
-        NSLog(@"stores_name ------ %@", storeInfo.stores_name);
-        
-        return;
+    BXTStoresListsInfo *storeInfo;
+    if (tableView == self.tableView_Search) {
+        storeInfo = self.searchArray[indexPath.row];
+    } else {
+        if (indexPath.row != 0 && self.dataArray.count != 0) {
+            storeInfo = self.dataArray[indexPath.row-1];
+        }
     }
     
-    
-    if (indexPath.row != 0) {
-        BXTStoresListsInfo *storeInfo = self.dataArray[indexPath.row-1];
-        NSLog(@"stores_name ------ %@", storeInfo.stores_name);
+    if (self.delegateSignal) {
+        [self.delegateSignal sendNext:storeInfo];
+        [self.navigationController popViewControllerAnimated:YES];
     }
+    
 }
 
 #pragma mark -
@@ -312,7 +313,7 @@
     NSDictionary *dic = response;
     NSArray *array = [dic objectForKey:@"data"];
     
-    if (type == StoresList)
+    if (type == StoresList && array.count != 0)
     {
         [self.dataArray removeAllObjects];
         [self.allDataArray removeAllObjects];

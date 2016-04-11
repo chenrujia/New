@@ -29,6 +29,8 @@
 {
     _projectInfo = projectInfo;
     
+    NSLog(@"--------- %@", projectInfo.subgroup);
+    
     self.stateView.text = [self transVertifyState:projectInfo.verify_state];
     self.typeView.text = [projectInfo.type integerValue] == 1 ? @"项目管理公司" : @"客户组";
     self.apartmentView.text = projectInfo.department;

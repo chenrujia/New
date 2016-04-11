@@ -15,6 +15,8 @@
 #import "BXTSearchPlaceViewController.h"
 #import "ANKeyValueTable.h"
 #import "BXTProjectManageViewController.h"
+#import "BXTChooseListViewController.h"
+#import "BXTStoresListsInfo.h"
 
 @interface BXTProjectCertificationViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -290,7 +292,7 @@
     }
     else {
         if (indexPath.section == 2) {
-            
+            [self pushChooseListViewController];
         }
         else if (indexPath.section == 3) {
             [self pushLocationViewController];
@@ -298,6 +300,18 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)pushChooseListViewController
+{
+    BXTChooseListViewController *chooseListVC = [[BXTChooseListViewController alloc] init];
+    chooseListVC.delegateSignal = [RACSubject subject];
+    [chooseListVC.delegateSignal subscribeNext:^(BXTStoresListsInfo *storeInfo) {
+        [self.detailArray replaceObjectAtIndex:2 withObject:storeInfo.stores_name];
+        [self.transArray replaceObjectAtIndex:2 withObject:storeInfo.storeID];
+        [self.tableView reloadData];
+    }];
+    [self.navigationController pushViewController:chooseListVC animated:YES];
 }
 
 - (void)pushLocationViewController
@@ -315,6 +329,11 @@
             [self.detailArray replaceObjectAtIndex:3 withObject:placeInfo.place];
             [self.transArray replaceObjectAtIndex:3 withObject:placeInfo.placeID];
             [self.tableView reloadData];
+            
+            [self showLoadingMBP:@"努力加载中..."];
+            /**维修位置**/
+            BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [fau_request modifyBindPlaceWithShopID:self.transMyProject.shop_id placeID:placeInfo.placeID];
         }
     }];
     [self.navigationController pushViewController:searchVC animated:YES];
@@ -399,16 +418,20 @@
         }
         
         if (index == 3) {
-            NSString *selectRow = self.mulitSelectArray[0];
-            [self.detailArray replaceObjectAtIndex:index withObject:self.positionArray[[selectRow integerValue]]];
-            [self.transArray replaceObjectAtIndex:index withObject:self.positionIDArray[[selectRow integerValue]]];
-            [self.tableView reloadData];
+            if (self.mulitSelectArray.count != 0) {
+                NSString *selectRow = self.mulitSelectArray[0];
+                [self.detailArray replaceObjectAtIndex:index withObject:self.positionArray[[selectRow integerValue]]];
+                [self.transArray replaceObjectAtIndex:index withObject:self.positionIDArray[[selectRow integerValue]]];
+                [self.tableView reloadData];
+            }
         }
         else if (index == 4) {
-            NSString *selectRow = self.mulitSelectArray[0];
-            [self.detailArray replaceObjectAtIndex:index withObject:self.subgroupArray[[selectRow integerValue]]];
-            [self.transArray replaceObjectAtIndex:index withObject:self.subgroupIDArray[[selectRow integerValue]]];
-            [self.tableView reloadData];
+            if (self.mulitSelectArray.count != 0) {
+                NSString *selectRow = self.mulitSelectArray[0];
+                [self.detailArray replaceObjectAtIndex:index withObject:self.subgroupArray[[selectRow integerValue]]];
+                [self.transArray replaceObjectAtIndex:index withObject:self.subgroupIDArray[[selectRow integerValue]]];
+                [self.tableView reloadData];
+            }
         }
         else if (index == 5) {
             NSString *finalStr =@"";
@@ -455,7 +478,7 @@
         self.isCompanyType = NO;
         self.titleArray = @[@"", @"机构类型", @"所属", @"常用位置"];
         self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"客户组", @"请选择", @"请选择", nil];
-        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"客户组", @"", @"", nil];
+        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"客户组", @"", @" ", nil];
     }
     
     [self.tableView reloadData];
@@ -506,7 +529,7 @@
     }
     else if (type == AuthenticationApply)
     {
-        if (dic[@"returncode"] == 0) {
+        if ([dic[@"returncode"] integerValue] == 0) {
             [BXTGlobal showText:@"项目认证申请成功" view:self.view completionBlock:^{
                 if (self.transProjectInfo) {
                     for (UIViewController *temp in self.navigationController.viewControllers) {
@@ -524,6 +547,10 @@
                 }
             }];
         }
+    }
+    else if (type == ModifyBindPlace && [dic[@"returncode"] integerValue] == 0)
+    {
+        [BXTGlobal showText:@"常用位置绑定成功" view:self.view completionBlock:nil];
     }
 }
 

@@ -155,6 +155,7 @@
 - (void)branchLogin
 {
     self.requestType = BranchLogin;
+    
     NSArray *array = [BXTGlobal getUserProperty:U_SHOPIDS];
     NSString *shopID = nil;
     NSString *shortURL = nil;
@@ -468,7 +469,7 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)listOFStoresWithStoresName:(NSString *)stores_name
 {
     self.requestType = StoresList;
-
+    
     NSDictionary *dic = @{@"stores_name": stores_name};
     NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=stores_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -542,7 +543,8 @@ andRepairerIsReacive:(NSString *)reacive
     NSDictionary *dic = @{@"shop_id": shopID,
                           @"out_userid": [BXTGlobal getUserProperty:U_USERID]};
     
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_detail",[BXTGlobal shareGlobal].baseURL];
+    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_detail",urlLast];
     [self postRequest:url withParameters:dic];
 }
 
@@ -577,7 +579,22 @@ andRepairerIsReacive:(NSString *)reacive
                           @"have_subgroup_ids": have_subgroup_ids,
                           @"stores_id": stores_id };
     
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_apply",[BXTGlobal shareGlobal].baseURL];
+    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shop_id, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_apply",urlLast];
+    
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)modifyBindPlaceWithShopID:(NSString *)shop_id
+                          placeID:(NSString *)place_id
+{
+    self.requestType = ModifyBindPlace;
+    
+    NSDictionary *dic = @{@"shop_id": shop_id,
+                          @"out_userid": [BXTGlobal getUserProperty:U_USERID],
+                          @"place_id": place_id };
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=bind_place_modify",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

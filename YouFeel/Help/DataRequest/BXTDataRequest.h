@@ -314,6 +314,12 @@ andRepairerIsReacive:(NSString *)reacive;
                              storesID:(NSString *)stores_id;
 
 /**
+ *  修改用户常用位置 - 新
+ */
+- (void)modifyBindPlaceWithShopID:(NSString *)shop_id
+                          placeID:(NSString *)place_id;
+
+/**
  *  设备添加报修
  */
 - (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
