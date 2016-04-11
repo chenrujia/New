@@ -39,7 +39,7 @@
     
     /** 修改用户信息 **/
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dataRequest projectAuthenticationDetailWithShopID:self.transMyProject.projectID];
+    [dataRequest projectAuthenticationDetailWithShopID:self.transMyProject.shop_id];
 }
 
 #pragma mark -

@@ -10,4 +10,6 @@
 
 @interface BXTChooseListViewController : BXTBaseViewController
 
+@property (nonatomic, strong) RACSubject *delegateSignal;
+
 @end

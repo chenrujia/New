@@ -29,7 +29,6 @@
 #import "BXTMTProfessionViewController.h"
 #import "BXTMTReportsViewController.h"
 #import "BXTRepairsListViewController.h"
-#import "BXTChooseListViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -340,13 +339,13 @@
 
 - (void)projectPhone
 {
-    //    if ([self is_verify])
-    //    {
-    //        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
-    //        UIWebView *callWeb = [[UIWebView alloc] init];
-    //        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-    //        [self.view addSubview:callWeb];
-    //    }
+        if ([self is_verify])
+        {
+            NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
+            UIWebView *callWeb = [[UIWebView alloc] init];
+            [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+            [self.view addSubview:callWeb];
+        }
     
     
     //    BXTMTReportsViewController *reportVC = [[BXTMTReportsViewController alloc] init];
@@ -357,10 +356,7 @@
 //    BXTRepairsListViewController *repairsListVC = [[BXTRepairsListViewController alloc] init];
 //    repairsListVC.hidesBottomBarWhenPushed = YES;
 //    [self.navigationController pushViewController:repairsListVC animated:YES];
-    
-    BXTChooseListViewController *repairsListVC = [[BXTChooseListViewController alloc] init];
-    repairsListVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:repairsListVC animated:YES];
+
 }
 
 #pragma mark - SDCycleScrollViewDelegate

@@ -84,6 +84,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     StoresList = 71,
     AuthenticationApply = 72,
     IsFixed = 73,
+    ModifyBindPlace = 74,
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -313,6 +314,12 @@ andRepairerIsReacive:(NSString *)reacive;
                            subgroupID:(NSString *)subgroup_id
                       haveSubgroupIDs:(NSString *)have_subgroup_ids
                              storesID:(NSString *)stores_id;
+
+/**
+ *  修改用户常用位置 - 新
+ */
+- (void)modifyBindPlaceWithShopID:(NSString *)shop_id
+                          placeID:(NSString *)place_id;
 
 /**
  *  设备添加报修
