@@ -31,7 +31,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self navigationSetting:@"项目管理" andRightTitle:@"项目认证" andRightImage:nil];
+    [self navigationSetting:@"项目管理" andRightTitle:nil andRightImage:nil];
     
     self.dataArray = [[NSMutableArray alloc] init];
     
