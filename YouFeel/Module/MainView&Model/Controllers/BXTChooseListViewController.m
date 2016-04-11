@@ -16,22 +16,18 @@
 
 #define NavBarHeight 120.f
 
-@interface BXTChooseListViewController () <UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,UISearchBarDelegate,BXTDataResponseDelegate>
-{
-    /** ---- 附近项目 ---- */
-    NSMutableArray    *locationShopsArray;
-    UITableView       *currentTableView;
-    
-    NSMutableArray    *searchResults;
-    NSString          *searchStr;
-}
+@interface BXTChooseListViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, UISearchBarDelegate, BXTDataResponseDelegate>
 
-@property (nonatomic, assign) BOOL           isOpenLocationProject;
-@property (nonatomic, strong) UISearchBar    *searchBar;
+@property (nonatomic, strong) UISearchBar *searchBar;
+@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) NSMutableArray *dataArray;
+// switch是否打开
+@property (nonatomic, assign) BOOL isSwitchOn;
 
-@property (nonatomic, strong) UITableView    *tableView_Search;
+@property (nonatomic, strong) UITableView *tableView_Search;
 @property (nonatomic, strong) NSMutableArray *searchArray;
-@property (nonatomic, strong) NSMutableArray *allPersonArray;
+// 存储所有可搜索数据
+@property (nonatomic, strong) NSMutableArray *allDataArray;
 
 @end
 
@@ -46,15 +42,13 @@
 {
     [super viewDidLoad];
     
+    [self navigationSetting:@"选择部门" andRightTitle:nil andRightImage:nil];
     
-    self.isOpenLocationProject = YES;
-    locationShopsArray = [NSMutableArray array];
-    self.allPersonArray = [[NSMutableArray alloc] init];
+    self.isSwitchOn = YES;
+    self.dataArray = [NSMutableArray array];
+    self.allDataArray = [[NSMutableArray alloc] init];
     
-    
-    [self navigationSetting:@"添加新项目" andRightTitle:nil andRightImage:nil];
-    
-    [self createTableView];
+    [self createUI];
     
     [self showLoadingMBP:@"努力加载中..."];
     /**请求分店位置**/
@@ -64,7 +58,7 @@
 
 #pragma mark -
 #pragma mark 初始化视图
-- (void)createTableView
+- (void)createUI
 {
     // UISearchBar
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, 55)];
@@ -76,13 +70,15 @@
     self.searchBar.backgroundColor = colorWithHexString(NavColorStr);
     self.searchBar.backgroundImage = [self imageWithColor:[UIColor clearColor] size:self.searchBar.bounds.size];
     
+    
     // UITableView
-    currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 55, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
-    [currentTableView registerClass:[BXTProjectAddNewCell class] forCellReuseIdentifier:@"BXTProjectAddNewCell"];
-    currentTableView.rowHeight = 50;
-    currentTableView.delegate = self;
-    currentTableView.dataSource = self;
-    [self.view addSubview:currentTableView];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 55, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
+    [self.tableView registerClass:[BXTProjectAddNewCell class] forCellReuseIdentifier:@"BXTProjectAddNewCell"];
+    self.tableView.rowHeight = 50;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    
     
     // UITableView - tableView_Search
     self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
@@ -91,6 +87,7 @@
     self.tableView_Search.emptyDataSetDelegate = self;
     self.tableView_Search.emptyDataSetSource = self;
     [self.view addSubview:self.tableView_Search];
+    
     
     // UITableView - tableView_Search - tableHeaderView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
@@ -102,14 +99,8 @@
     alertLabel.textAlignment = NSTextAlignmentLeft;
     [headerView addSubview:alertLabel];
     
+    
     [self showTableViewAndHideSearchTableView:YES];
-}
-
-
-- (void)switchAction:(UISwitch *)switchBtn
-{
-    self.isOpenLocationProject = switchBtn.on;
-    [currentTableView reloadData];
 }
 
 #pragma mark -
@@ -120,7 +111,7 @@
     searchBar.showsCancelButton = YES;
     for(UIView *view in  [[[searchBar subviews] objectAtIndex:0] subviews]) {
         if([view isKindOfClass:[NSClassFromString(@"UINavigationButton") class]]) {
-            UIButton * cancel =(UIButton *)view;
+            UIButton *cancel =(UIButton *)view;
             [cancel  setTintColor:[UIColor whiteColor]];
         }
     }
@@ -150,41 +141,38 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    searchStr = searchText;
+    NSArray *allPersonArray = self.allDataArray;
     
-    NSArray *allPersonArray = self.allPersonArray;
-    
-    searchResults = [[NSMutableArray alloc]init];
+    NSMutableArray    *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
         
         for (int i=0; i<allPersonArray.count; i++) {
-            BXTHeadquartersInfo *model = [BXTHeadquartersInfo modelObjectWithDictionary:allPersonArray[i]];
+            BXTStoresListsInfo *model = allPersonArray[i];
             
-            if ([ChineseInclude isIncludeChineseInString:model.name]) {
-                NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.name];
+            if ([ChineseInclude isIncludeChineseInString:model.stores_name]) {
+                NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.stores_name];
                 NSRange titleResult=[tempPinYinStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                 
                 if (titleResult.length > 0) {
                     [searchResults addObject:allPersonArray[i]];
                 } else {
-                    NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:model.name]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                    NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:model.stores_name]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                     if (titleHeadResult.length > 0) {
                         [searchResults addObject:allPersonArray[i]];
                     }
                 }
             } else {
-                NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                NSRange titleResult=[model.stores_name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                 if (titleResult.length > 0) {
                     [searchResults addObject:allPersonArray[i]];
                 }
             }
         }
     } else if (self.searchBar.text.length > 0 && [ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
-        for (NSDictionary *dict in allPersonArray) {
-            BXTHeadquartersInfo *model = [BXTHeadquartersInfo modelObjectWithDictionary:dict];
-            NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+        for (BXTStoresListsInfo *model in allPersonArray) {
+            NSRange titleResult=[model.stores_name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
             if (titleResult.length > 0) {
-                [searchResults addObject:dict];
+                [searchResults addObject:model];
             }
         }
     }
@@ -198,7 +186,7 @@
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-        return 0.1;
+    return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -214,19 +202,15 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == self.tableView_Search) {
-        if (self.searchArray.count == 0) {
-        }
-        if ([searchStr isEqualToString:@""]) {
-        }
         return self.searchArray.count;
     }
     
-    if (self.isOpenLocationProject) {
+    if (self.isSwitchOn) {
         // 如果没有项目， 建议打开定位
-        if (locationShopsArray.count == 0) {
+        if (self.dataArray.count == 0) {
             return 2;
         }
-        return 1 + locationShopsArray.count;
+        return 1 + self.dataArray.count;
     }
     return 1;
     
@@ -241,9 +225,8 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
         }
         
-        NSDictionary *dict = self.searchArray[indexPath.row];
-        BXTHeadquartersInfo *infoModel = [BXTHeadquartersInfo modelObjectWithDictionary:dict];
-        cell.textLabel.text = infoModel.name;
+        BXTStoresListsInfo *infoModel = self.searchArray[indexPath.row];
+        cell.textLabel.text = infoModel.stores_name;
         
         return cell;
     }
@@ -261,60 +244,54 @@
     {
         if (indexPath.row == 0)
         {
-            cell.nameLabel.text = @"附近项目";
+            cell.nameLabel.text = @"手动选择部门";
             cell.switchbtn.hidden = NO;
-            [cell.switchbtn addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+            @weakify(self);
+            [[cell.switchbtn rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UISwitch *switchBtn) {
+                @strongify(self);
+                self.isSwitchOn = switchBtn.on;
+                [self.tableView reloadData];
+            }];
         }
         else
         {
-            if (locationShopsArray.count == 0)
+            if (self.dataArray.count == 0)
             {
-                cell.nameLabel.text = @"未能获取您的位置，请开启定位";
+                cell.nameLabel.text = @"暂无部门";
                 cell.nameLabel.textColor = colorWithHexString(@"#666666");
                 cell.nameLabel.frame = CGRectMake(15., 10., SCREEN_WIDTH-30, 30);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             else
             {
-                BXTStoresListsInfo *company = locationShopsArray[indexPath.row-1];
+                BXTStoresListsInfo *company = self.dataArray[indexPath.row-1];
                 cell.nameLabel.textColor = colorWithHexString(@"#000000");
-//                cell.nameLabel.text = company.sto ;
+                cell.nameLabel.text = company.stores_name ;
                 cell.rightImageView.hidden = NO;
             }
         }
     }
-    
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (tableView == self.tableView_Search)
     {
-        NSDictionary *dict = self.searchArray[indexPath.row];
-        BXTHeadquartersInfo *infoModel = [BXTHeadquartersInfo modelObjectWithDictionary:dict];
+        BXTStoresListsInfo *storeInfo = self.searchArray[indexPath.row];
+        NSLog(@"stores_name ------ %@", storeInfo.stores_name);
         
-        
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
     
-    if (indexPath.section == 0 && indexPath.row != 0) {
-        if (locationShopsArray.count == 0) {
-            NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-            if([[UIApplication sharedApplication] canOpenURL:url]) {
-                NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                [[UIApplication sharedApplication] openURL:url];
-            }
-        }
-        else {
-            
-        }
+    
+    if (indexPath.row != 0) {
+        BXTStoresListsInfo *storeInfo = self.dataArray[indexPath.row-1];
+        NSLog(@"stores_name ------ %@", storeInfo.stores_name);
     }
-    
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
@@ -324,7 +301,6 @@
     NSString *text = @"抱歉，没有找到相关项目";
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName:[UIColor blackColor]};
-    
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
@@ -338,17 +314,17 @@
     
     if (type == StoresList)
     {
-        [locationShopsArray removeAllObjects];
-        [self.allPersonArray removeAllObjects];
+        [self.dataArray removeAllObjects];
+        [self.allDataArray removeAllObjects];
+        
         [BXTStoresListsInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"storeID":@"id"};
         }];
-        [locationShopsArray addObjectsFromArray:[BXTHeadquartersInfo mj_objectArrayWithKeyValuesArray:array]];
-        [self.allPersonArray addObjectsFromArray:array];
+        [self.dataArray addObjectsFromArray:[BXTStoresListsInfo mj_objectArrayWithKeyValuesArray:array]];
+        [self.allDataArray addObjectsFromArray:[BXTStoresListsInfo mj_objectArrayWithKeyValuesArray:array]];
     }
     
-    
-    [currentTableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
@@ -376,15 +352,13 @@
 // 列表和搜索列表显示类
 - (void)showTableViewAndHideSearchTableView:(BOOL)isRight
 {
-    if (isRight)
-    {
+    if (isRight) {
         self.tableView_Search.hidden = YES;
-        currentTableView.hidden = NO;
+        self.tableView.hidden = NO;
     }
-    else
-    {
+    else {
         self.tableView_Search.hidden = NO;
-        currentTableView.hidden = YES;
+        self.tableView.hidden = YES;
     }
 }
 

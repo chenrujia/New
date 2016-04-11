@@ -62,7 +62,7 @@
     _connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     _connectTa.layer.borderWidth = 1.f;
     _connectTa.layer.cornerRadius = 4.f;
-
+    
     //联系他
     @weakify(self);
     [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -97,14 +97,14 @@
     self.comeTimeArray = timeArray;
     
     //???: 这个是怎么个情况
-//    //由于详情采用了统一的详情，所以如果是报修者的身份，则一下信息是不让看的
-//    if (![BXTGlobal shareGlobal].isRepair)
-//    {
-//        _headImgView.hidden = YES;
-//        _repairerName.hidden = YES;
-//        _connectTa.hidden = YES;
-//        [_repairID layoutIfNeeded];
-//    }
+    //    //由于详情采用了统一的详情，所以如果是报修者的身份，则一下信息是不让看的
+    //    if (![BXTGlobal shareGlobal].isRepair)
+    //    {
+    //        _headImgView.hidden = YES;
+    //        _repairerName.hidden = YES;
+    //        _connectTa.hidden = YES;
+    //        [_repairID layoutIfNeeded];
+    //    }
     
     //发起请求
     [self requestDetail];
@@ -279,7 +279,7 @@
         default:
             break;
     }
-
+    
 }
 
 - (void)loadFixedPic
@@ -820,8 +820,8 @@
             return;
         }
         else if (self.repairDetail.fault_pic.count == 0 &&
-                  self.repairDetail.device_list.count == 0 &&
-                  self.repairDetail.repair_user_arr.count)
+                 self.repairDetail.device_list.count == 0 &&
+                 self.repairDetail.repair_user_arr.count)
         {
             _fouthBV.hidden = YES;
             _fifthBV.hidden = YES;
