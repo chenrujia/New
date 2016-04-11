@@ -12,7 +12,7 @@
 #import "BXTDrawView.h"
 #import "BXTSelectBoxView.h"
 #import "BXTPersonInfromViewController.h"
-#import "BXTMaintenanceProcessViewController.h"
+#import "BXTMMProcessViewController.h"
 #import "BXTAddOtherManViewController.h"
 #import "BXTRejectOrderViewController.h"
 #import "BXTEvaluationViewController.h"
@@ -54,7 +54,8 @@
     }
     else
     {
-        [self navigationSetting:@"工单管理" andRightTitle:nil andRightImage:nil];
+        //TODO: 去掉维修过程
+        [self navigationSetting:@"工单详情" andRightTitle:@"维修过程" andRightImage:nil];
     }
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
     self.btnArray = buttons;
@@ -543,8 +544,11 @@
 #pragma mark 关闭工单（跟权限相关）
 - (void)navigationRightButton
 {
-    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:[NSString stringWithFormat:@"%@",self.repair_id] andIsAssign:YES];
-    [self.navigationController pushViewController:rejectVC animated:YES];
+    //TODO: 替换回来
+//    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID viewControllerType:ExamineVCType];
+//    [self.navigationController pushViewController:rejectVC animated:YES];
+    BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID];
+    [self.navigationController pushViewController:procossVC animated:YES];
 }
 
 #pragma mark -
@@ -578,26 +582,12 @@
     }
     else if (btnInfo.button_key == 6)
     {
-        //如果还有设备在维保中，则不让修改维保过程
-        if (self.repairDetail.all_inspection_state == 1)
-        {
-            [self showMBP:@"设备正在维保中，此刻不能更改维修过程！" withBlock:nil];
-        }
-        else
-        {
-            BXTMaintenanceProcessViewController *maintenanceProcossVC = [[BXTMaintenanceProcessViewController alloc] initWithCause:self.repairDetail.faulttype_name andCurrentFaultID:[self.repairDetail.faulttype integerValue] andRepairID:[self.repairDetail.orderID integerValue] andReaciveTime:self.repairDetail.start_time];
-            @weakify(self);
-            maintenanceProcossVC.BlockRefresh = ^() {
-                @strongify(self);
-                [self requestDetail];
-            };
-            [self.navigationController pushViewController:maintenanceProcossVC animated:YES];
-        }
+        [self endMaintence];
     }
     else if (btnInfo.button_key == 7)
     {
-        //TODO: 记得到时候测试一下
-        [self dontFixed];
+        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID viewControllerType:RejectType];
+        [self.navigationController pushViewController:rejectVC animated:YES];
     }
     else if (btnInfo.button_key == 8)
     {
@@ -612,7 +602,7 @@
     }
     else if (btnInfo.button_key == 11)
     {
-        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID andIsAssign:NO];
+        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID viewControllerType:AssignVCType];
         [self.navigationController pushViewController:rejectVC animated:YES];
     }
 }
@@ -661,46 +651,53 @@
     }
 }
 
-- (void)dontFixed
+- (void)endMaintence
 {
-    if (!IS_IOS_8)
+    if (IS_IOS_8)
     {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"请填写驳回原因" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alertCtr addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"请输入驳回原因";
-            textField.secureTextEntry = NO;
-        }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"您是否确定当前工单已结束？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"再看看" style:UIAlertActionStyleCancel handler:nil];
         [alertCtr addAction:cancelAction];
         @weakify(self);
         UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             @strongify(self);
-            UITextField *textField = alertCtr.textFields.firstObject;
-            [self showLoadingMBP:@"请稍等..."];
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request isFixed:self.repairDetail.orderID confirmState:@"2" confirmNotes:textField.text];
+            //如果还有设备在维保中，则不让修改维保过程
+            if (self.repairDetail.all_inspection_state == 1)
+            {
+                [self showMBP:@"设备正在维保中，此刻不能更改维修过程！" withBlock:nil];
+            }
+            else
+            {
+                BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID];
+                [self.navigationController pushViewController:procossVC animated:YES];
+            }
         }];
         [alertCtr addAction:doneAction];
         [self presentViewController:alertCtr animated:YES completion:nil];
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请填写驳回原因"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您是否确定当前工单已结束？"
                                                         message:nil
                                                        delegate:nil
-                                              cancelButtonTitle:@"取消"
+                                              cancelButtonTitle:@"再看看"
                                               otherButtonTitles:@"确定",nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        UITextField *textField = [alert textFieldAtIndex:0];
-        textField.placeholder = @"请输入驳回原因";
         @weakify(self);
         [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
             @strongify(self);
             if ([x integerValue] == 1)
             {
                 [self showLoadingMBP:@"请稍等..."];
-                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request isFixed:self.repairDetail.orderID confirmState:@"2" confirmNotes:textField.text];
+                //如果还有设备在维保中，则不让修改维保过程
+                if (self.repairDetail.all_inspection_state == 1)
+                {
+                    [self showMBP:@"设备正在维保中，此刻不能更改维修过程！" withBlock:nil];
+                }
+                else
+                {
+                    BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID];
+                    [self.navigationController pushViewController:procossVC animated:YES];
+                }
             }
         }];
         [alert show];

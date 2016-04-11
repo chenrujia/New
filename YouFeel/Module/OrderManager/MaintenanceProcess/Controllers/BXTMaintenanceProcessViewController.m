@@ -11,6 +11,7 @@
 #import "BXTSettingTableViewCell.h"
 #import "BXTSelectBoxView.h"
 #import "BXTFaultInfo.h"
+#import "BXTSearchPlaceViewController.h"
 #import "BXTMaintenanceProcessTableViewCell.h"
 #import "BXTMMLogTableViewCell.h"
 #import "BXTRemarksTableViewCell.h"
@@ -18,13 +19,11 @@
 #define kMMLOG 12
 #define kNOTE 11
 
-@interface BXTMaintenanceProcessViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,BXTBoxSelectedTitleDelegate,UIPickerViewDataSource,UIPickerViewDelegate,BXTDataResponseDelegate>
+@interface BXTMaintenanceProcessViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,BXTBoxSelectedTitleDelegate,BXTDataResponseDelegate>
 {
     BXTSelectBoxView *boxView;
     BXTFaultInfo     *selectFaultInfo;
-    BXTFaultTypeInfo *selectFaultTypeInfo;
     NSMutableArray   *specialArray;//特殊工单类型
-    NSMutableArray   *groupArray;
     NSArray          *orderTypeArray;
     NSString         *maintenanceState;
     NSString         *orderType;//工单类型
@@ -44,8 +43,6 @@
 @property (nonatomic ,copy  ) NSString     *reaciveTime;
 @property (nonatomic, copy  ) NSString     *specialOID;
 @property (nonatomic ,assign) NSInteger    currentFaultID;
-@property (nonatomic, strong) UIView       *pickerbackView;
-@property (nonatomic, strong) UIPickerView *faultPickView;
 
 @end
 
@@ -83,7 +80,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     //侦听删除事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
     
@@ -97,7 +93,6 @@
     orderTypeArray = @[@"特殊工单"];
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
     specialArray = [[NSMutableArray alloc] init];
-    groupArray = [[NSMutableArray alloc] init];
     
     /**请求故障类型列表**/
     BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -106,10 +101,6 @@
     /**请求特殊工单类型列表**/
     BXTDataRequest *ot_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [ot_request specialOrderTypes];
-    
-    /**请求分组列表**/
-//    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//    [request propertyGrouping];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -126,7 +117,8 @@
 
 - (void)navigationLeftButton
 {
-    if (self.delegateSignal) {
+    if (self.delegateSignal)
+    {
         [self.delegateSignal sendNext:nil];
     }
     [self.navigationController popViewControllerAnimated:YES];
@@ -146,14 +138,14 @@
 #pragma mark 创建BoxView
 - (void)createBoxView:(NSInteger)section
 {
-    self.pickerbackView = [[UIView alloc] initWithFrame:self.view.bounds];
-    _pickerbackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
-    _pickerbackView.tag = 101;
-    [self.view addSubview:_pickerbackView];
+    UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
+    backView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    backView.tag = 101;
+    [self.view addSubview:backView];
     
     if (section == 0)
     {
-        [self boxViewWithType:Other andTitle:@"维修状态" andData:stateArray];
+        [self boxViewWithType:Other andTitle:@"维修结果" andData:stateArray];
     }
     else if (!isDone && section == 1)
     {
@@ -162,55 +154,14 @@
     else if (!isDone && section == 2)
     {
         [self boxViewWithType:SpecialOrderView andTitle:@"类型描述" andData:specialArray];
-//        if ([orderType isEqual:@"特殊工单"])
-//        {
-//            [self boxViewWithType:SpecialOrderView andTitle:@"类型描述" andData:specialArray];
-//        }
-//        else if ([orderType isEqual:@"协作工单"])
-//        {
-//            [self boxViewWithType:GroupingView andTitle:@"类型描述" andData:groupArray];
-//        }
     }
     else if (!isDone && section == 3)
     {
-        self.faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        _faultPickView.showsSelectionIndicator = YES;
-        _faultPickView.backgroundColor = colorWithHexString(@"cdced1");
-        _faultPickView.dataSource = self;
-        _faultPickView.delegate = self;
-        [self.view addSubview:_faultPickView];
+        
     }
     else if (isDone && section == 1)
     {
-        self.faultPickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        _faultPickView.showsSelectionIndicator = YES;
-        _faultPickView.backgroundColor = colorWithHexString(@"cdced1");
-        _faultPickView.dataSource = self;
-        _faultPickView.delegate = self;
-        [self.view addSubview:_faultPickView];
         
-        // 工具条
-        toolView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-44, SCREEN_WIDTH, 44)];
-        toolView.backgroundColor = colorWithHexString(@"cccdd0");
-        [_pickerbackView addSubview:toolView];
-        
-        // sure
-        UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-80, 2, 80, 40)];
-        [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
-        [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        sureBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-        @weakify(self);
-        [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            @strongify(self);
-            if (self.faultPickView)
-            {
-                [self.faultPickView removeFromSuperview];
-                self.faultPickView = nil;
-                [self.pickerbackView removeFromSuperview];
-                [self.currentTableView reloadData];
-            }
-        }];
-        [toolView addSubview:sureBtn];
     }
 }
 
@@ -240,7 +191,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if ((isDone && section == 2) || (!isDone && section == 4))
+    if ((isDone && section == 4) || (!isDone && section == 6))
     {
         return 80.f;
     }
@@ -249,7 +200,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if ((isDone && section == 2) || (!isDone && section == 4))
+    if ((isDone && section == 4) || (!isDone && section == 6))
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -305,9 +256,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ((isDone && indexPath.section == 2) || (!isDone && indexPath.section == 4))
+    if ((isDone && (indexPath.section == 2 || indexPath.section == 3)) || (!isDone && (indexPath.section == 4 || indexPath.section == 5)))
     {
-        return 170;
+        return 100;
     }
     return 50.f;
 }
@@ -316,9 +267,9 @@
 {
     if (!isDone)
     {
-        return 5;
+        return 7;
     }
-    return 3;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -328,44 +279,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (isDone && indexPath.section == 2)
-    {
-        BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-        if (!cell)
-        {
-            cell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        cell.remarkTV.delegate = self;
-        cell.remarkTV.tag = kNOTE;
-        cell.remarkTV.text = @"请输入维修内容";
-        cell.titleLabel.text = @"备   注";
-        
-        @weakify(self);
-        UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
-        [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
-            @strongify(self);
-            [self loadMWPhotoBrowser:cell.imgViewOne.tag];
-        }];
-        [cell.imgViewOne addGestureRecognizer:tapGROne];
-        UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
-        [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
-            @strongify(self);
-            [self loadMWPhotoBrowser:cell.imgViewTwo.tag];
-        }];
-        [cell.imgViewTwo addGestureRecognizer:tapGRTwo];
-        UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
-        [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
-            @strongify(self);
-            [self loadMWPhotoBrowser:cell.imgViewThree.tag];
-        }];
-        [cell.imgViewThree addGestureRecognizer:tapGRThree];
-        
-        [cell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
-        
-        return cell;
-    }
-    if (!isDone && indexPath.section == 4)
+    if ((!isDone && indexPath.section == 4) || (isDone && indexPath.section == 2))
     {
         BXTMMLogTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LogCell"];
         if (!cell)
@@ -389,6 +303,7 @@
             cell.checkImgView.hidden = YES;
             cell.detailLable.textAlignment = NSTextAlignmentRight;
             CGRect rect = cell.detailLable.frame;
+            rect.origin.x += 30.f;
             rect.size.width -= 12.f;
             cell.detailLable.frame = rect;
         }
@@ -397,41 +312,78 @@
         {
             if (indexPath.section == 0)
             {
-                cell.titleLabel.text = @"维修状态";
+                cell.titleLabel.text = @"维修结果";
                 cell.detailLable.text = maintenanceState;
             }
-            else
+            else if (indexPath.section == 1)
             {
                 cell.titleLabel.text = @"故障类型";
                 cell.detailLable.text = _cause;
+            }
+            else if (indexPath.section == 3)
+            {
+                if (!self.photosView)
+                {
+                    //图片视图
+                    BXTPhotosView *photoView = [[BXTPhotosView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
+                    [photoView.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
+                    [cell.contentView addSubview:self.photosView];
+                    
+                    //添加图片点击事件
+                    @weakify(self);
+                    UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
+                    [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
+                        @strongify(self);
+                        [self loadMWPhotoBrowser:photoView.imgViewOne.tag];
+                    }];
+                    [photoView.imgViewOne addGestureRecognizer:tapGROne];
+                    UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
+                    [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
+                        @strongify(self);
+                        [self loadMWPhotoBrowser:photoView.imgViewTwo.tag];
+                    }];
+                    [photoView.imgViewTwo addGestureRecognizer:tapGRTwo];
+                    UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
+                    [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
+                        @strongify(self);
+                        [self loadMWPhotoBrowser:photoView.imgViewThree.tag];
+                    }];
+                    [photoView.imgViewThree addGestureRecognizer:tapGRThree];
+                    self.photosView = photoView;
+                }
+            }
+            else
+            {
+                cell.titleLabel.text = @"结束时间";
+                NSDate *now = [NSDate date];
+                NSString *dateStr = [BXTGlobal transTimeWithDate:now withType:@"yyyy-MM-dd HH:mm"];
+                cell.detailLable.text = dateStr;
             }
         }
         else
         {
             if (indexPath.section == 0)
             {
-                cell.titleLabel.text = @"维修状态";
+                cell.titleLabel.text = @"维修结果";
                 cell.detailLable.text = maintenanceState;
             }
             else if (indexPath.section == 1)
             {
-                cell.titleLabel.text = @"工单类型";
-                cell.detailLable.text = @"特殊工单";
+                cell.titleLabel.text = @"未修好原因";
+                cell.detailLable.text = @"...";
                 cell.accessoryType = UITableViewCellAccessoryNone;
             }
             else if (indexPath.section == 2)
             {
-                if ([orderType isEqual:@"协作工单"])
-                {
-                    cell.titleLabel.text = @"协作部门";
-                }
-                else
-                {
-                    cell.titleLabel.text = @"特殊类型";
-                }
-                cell.detailLable.text = orderTypeInfo.length > 0 ? orderTypeInfo : @"请选择类型描述";
+                cell.titleLabel.text = @"维修位置";
+                cell.detailLable.text = @"...";
             }
-            else
+            else if (indexPath.section == 3)
+            {
+                cell.titleLabel.text = @"故障类型";
+                cell.detailLable.text = _cause;
+            }
+            else if (indexPath.section == 5)
             {
                 cell.titleLabel.text = @"故障类型";
                 cell.detailLable.text = _cause;
@@ -444,10 +396,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!(!isDone && indexPath.section == 1))
-    {
-        [self createBoxView:indexPath.section];
-    }
+    [self createBoxView:indexPath.section];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -456,21 +405,12 @@
     UIView *view = touch.view;
     if (view.tag == 101)
     {
-        if (_faultPickView)
-        {
-            [_faultPickView removeFromSuperview];
-            _faultPickView = nil;
-            [self.currentTableView reloadData];
-        }
-        else
-        {
-            [UIView animateWithDuration:0.3f animations:^{
-                [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-            } completion:^(BOOL finished) {
-                [boxView removeFromSuperview];
-                boxView = nil;
-            }];
-        }
+        [UIView animateWithDuration:0.3f animations:^{
+            [boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
+        } completion:^(BOOL finished) {
+            [boxView removeFromSuperview];
+            boxView = nil;
+        }];
         [view removeFromSuperview];
     }
 }
@@ -544,7 +484,6 @@
             textView.text = @"";
         }
     }
-    
     return YES;
 }
 
@@ -569,70 +508,6 @@
 }
 
 #pragma mark -
-#pragma mark UIPickerViewDelegate
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 2;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    if (component == 0)
-    {
-        return fau_dataSource.count;
-    }
-    return selectFaultInfo.sub_data.count;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    if (component == 0)
-    {
-        BXTFaultInfo *faultInfo = fau_dataSource[row];
-        return faultInfo.faulttype_type;
-    }
-    
-    BXTFaultTypeInfo *faultTypeInfo = selectFaultInfo.sub_data[row];
-    return faultTypeInfo.faulttype;
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    if (component == 0)
-    {
-        selectFaultInfo = fau_dataSource[row];
-        NSArray *faultTypesArray = selectFaultInfo.sub_data;
-        if (faultTypesArray.count > 0)
-        {
-            selectFaultTypeInfo = faultTypesArray[0];
-        }
-        else
-        {
-            BXTFaultTypeInfo *faultTypeInfo = [[BXTFaultTypeInfo alloc] init];
-            faultTypeInfo.faulttype = @"";
-            faultTypeInfo.fau_id = 1;
-            selectFaultTypeInfo = faultTypeInfo;
-        }
-        [pickerView reloadComponent:1];
-    }
-    else
-    {
-        NSArray *faultTypesArray = selectFaultInfo.sub_data;
-        selectFaultTypeInfo = faultTypesArray[row];
-        _currentFaultID = selectFaultTypeInfo.fau_id;
-    }
-    if (selectFaultTypeInfo.faulttype.length > 0)
-    {
-        _cause = [NSString stringWithFormat:@"%@-%@",selectFaultInfo.faulttype_type,selectFaultTypeInfo.faulttype];
-    }
-    else
-    {
-        _cause = selectFaultInfo.faulttype_type;
-    }
-    [self.currentTableView reloadData];
-}
-
-#pragma mark -
 #pragma mark 请求返回代理
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
@@ -643,9 +518,6 @@
     {
         [BXTFaultInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"fault_id":@"id"};
-        }];
-        [BXTFaultTypeInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"fau_id":@"id"};
         }];
         [fau_dataSource addObjectsFromArray:[BXTFaultInfo mj_objectArrayWithKeyValuesArray:data]];
     }
@@ -681,16 +553,6 @@
         if ([data count])
         {
             [specialArray addObjectsFromArray:data];
-        }
-    }
-    else if (type == PropertyGrouping)
-    {
-        if (data.count)
-        {
-            [BXTGroupingInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-                return @{@"group_id":@"id"};
-            }];
-            [groupArray addObjectsFromArray:[BXTGroupingInfo mj_objectArrayWithKeyValuesArray:data]];
         }
     }
 }

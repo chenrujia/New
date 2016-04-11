@@ -82,8 +82,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     DepartmentLists = 69,
     DutyLists = 70,
     StoresList = 71,
-    AuthenticationApply = 72,
-    IsFixed = 73,
+    AuthenticationApply = 72
 };
 
 @protocol BXTDataResponseDelegate <NSObject>

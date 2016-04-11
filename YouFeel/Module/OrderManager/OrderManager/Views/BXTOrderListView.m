@@ -481,19 +481,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTRepairInfo *repairInfo = [self.ordersArray objectAtIndex:indexPath.section];
-#pragma mark -
-#pragma mark -  修改下
-//    if ([BXTGlobal shareGlobal].isRepair && [repairInfo.order_type integerValue] == 3)
-//    {
-//        [BXTGlobal showText:@"特殊工单不可点击" view:self completionBlock:nil];
-//    }
-//    else
-//    {
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-//        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-//        [repairDetailVC dataWithRepairID:repairInfo.repairID];
-//        [[self navigation] pushViewController:repairDetailVC animated:YES];
-//    }
+    if ([BXTGlobal shareGlobal].isRepair && [repairInfo.repairstate integerValue] == 3)
+    {
+        [BXTGlobal showText:@"特殊工单不可点击" view:self completionBlock:nil];
+    }
+    else
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+        [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:DailyType];
+        [[self navigation] pushViewController:repairDetailVC animated:YES];
+    }
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

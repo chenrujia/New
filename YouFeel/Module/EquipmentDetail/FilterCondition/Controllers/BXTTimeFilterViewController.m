@@ -48,12 +48,18 @@ typedef NS_ENUM(NSInteger, timeType) {
     @weakify(self);
     [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if (self.startTime.length == 0) {
+        if (self.startTime.length == 0)
+        {
             [MYAlertAction showAlertWithTitle:@"请选择开始时间" msg:nil chooseBlock:nil buttonsStatement:@"确定", nil];
-        } else if (self.endTime.length == 0) {
+        }
+        else if (self.endTime.length == 0)
+        {
             [MYAlertAction showAlertWithTitle:@"请选择结束时间" msg:nil chooseBlock:nil buttonsStatement:@"确定", nil];
-        } else {
-            if (self.delegateSignal) {
+        }
+        else
+        {
+            if (self.delegateSignal)
+            {
                 NSString *timeStart = [BXTGlobal transTimeStampWithTime:self.startTime withType:@"yyyy/MM/dd"];
                 NSString *timeEnd = [BXTGlobal transTimeStampWithTime:self.endTime withType:@"yyyy/MM/dd"];
                 NSArray *array = [[NSArray alloc] initWithObjects:timeStart, timeEnd, nil];

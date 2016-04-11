@@ -1349,7 +1349,6 @@ andRepairerIsReacive:(NSString *)reacive
    confirmState:(NSString *)confirmState
    confirmNotes:(NSString *)notes
 {
-    self.requestType = IsFixed;
     NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"workorder_id": repairID,
                           @"confirm_state": confirmState,

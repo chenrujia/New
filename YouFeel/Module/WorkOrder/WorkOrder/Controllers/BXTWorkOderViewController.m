@@ -23,7 +23,6 @@
     NSMutableArray   *fau_dataSource;
     NSString         *cause;
     BXTFaultInfo     *selectFaultInfo;
-    BXTFaultTypeInfo *selectFaultTypeInfo;
     NSInteger        faulttype_type;
     NSString         *address;
 }

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BXTMMProcessViewController">
+            <connections>
+                <outlet property="currentTable" destination="AZB-Wu-fnT" id="H5h-rg-sLL"/>
+                <outlet property="doneBtn" destination="Tv7-C2-pll" id="HKg-2A-ztS"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="AZB-Wu-fnT">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="5Ks-ds-baV"/>
+                        <outlet property="delegate" destination="-1" id="B9G-hy-5pR"/>
+                    </connections>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FD6-uu-TJ6">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tv7-C2-pll">
+                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                            <color key="backgroundColor" red="0.23529411759999999" green="0.68627450980000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="7pz-BT-WqP"/>
+                                <constraint firstAttribute="width" constant="188" id="huD-rk-DxJ"/>
+                            </constraints>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="7pz-BT-WqP"/>
+                                    <exclude reference="huD-rk-DxJ"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=regular-widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="7pz-BT-WqP"/>
+                                    <include reference="huD-rk-DxJ"/>
+                                </mask>
+                            </variation>
+                            <connections>
+                                <action selector="doneClick:" destination="-1" eventType="touchUpInside" id="e0I-cq-iYi"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="Tv7-C2-pll" firstAttribute="centerX" secondItem="FD6-uu-TJ6" secondAttribute="centerX" id="jtY-zE-S2G"/>
+                        <constraint firstItem="Tv7-C2-pll" firstAttribute="centerY" secondItem="FD6-uu-TJ6" secondAttribute="centerY" id="tHd-Pr-gdN"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="Tv7-C2-pll"/>
+                        </mask>
+                        <mask key="constraints">
+                            <exclude reference="jtY-zE-S2G"/>
+                            <exclude reference="tHd-Pr-gdN"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="subviews">
+                            <include reference="Tv7-C2-pll"/>
+                        </mask>
+                        <mask key="constraints">
+                            <include reference="jtY-zE-S2G"/>
+                            <include reference="tHd-Pr-gdN"/>
+                        </mask>
+                    </variation>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="AZB-Wu-fnT" secondAttribute="bottom" constant="68" id="3PO-PZ-LT2"/>
+                <constraint firstItem="FD6-uu-TJ6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Atq-fh-QZL"/>
+                <constraint firstItem="FD6-uu-TJ6" firstAttribute="top" secondItem="AZB-Wu-fnT" secondAttribute="bottom" id="SL6-HN-Oyv"/>
+                <constraint firstItem="AZB-Wu-fnT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="aGX-Cu-fxU"/>
+                <constraint firstItem="AZB-Wu-fnT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="aUT-hN-GKj"/>
+                <constraint firstAttribute="trailing" secondItem="AZB-Wu-fnT" secondAttribute="trailing" id="dNX-ZK-baX"/>
+                <constraint firstAttribute="bottom" secondItem="FD6-uu-TJ6" secondAttribute="bottom" id="lg2-Fk-z4c"/>
+                <constraint firstAttribute="trailing" secondItem="FD6-uu-TJ6" secondAttribute="trailing" id="p0X-7u-HZk"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="AZB-Wu-fnT"/>
+                    <exclude reference="FD6-uu-TJ6"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="3PO-PZ-LT2"/>
+                    <exclude reference="aGX-Cu-fxU"/>
+                    <exclude reference="aUT-hN-GKj"/>
+                    <exclude reference="dNX-ZK-baX"/>
+                    <exclude reference="Atq-fh-QZL"/>
+                    <exclude reference="SL6-HN-Oyv"/>
+                    <exclude reference="lg2-Fk-z4c"/>
+                    <exclude reference="p0X-7u-HZk"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="subviews">
+                    <include reference="AZB-Wu-fnT"/>
+                    <include reference="FD6-uu-TJ6"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="3PO-PZ-LT2"/>
+                    <include reference="aGX-Cu-fxU"/>
+                    <include reference="aUT-hN-GKj"/>
+                    <include reference="dNX-ZK-baX"/>
+                    <include reference="Atq-fh-QZL"/>
+                    <include reference="SL6-HN-Oyv"/>
+                    <include reference="lg2-Fk-z4c"/>
+                    <include reference="p0X-7u-HZk"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="458" y="569"/>
+        </view>
+    </objects>
+</document>

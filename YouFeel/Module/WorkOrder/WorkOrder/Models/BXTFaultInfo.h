@@ -7,24 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BXTBaseClassifyInfo.h"
 
-@class BXTFaultTypeInfo;
+@interface BXTFaultInfo : BXTBaseClassifyInfo
 
-@interface BXTFaultInfo : NSObject
-
-@property (nonatomic ,copy) NSString *fault_id;
-@property (nonatomic ,copy) NSString *faulttype_type;
-@property (nonatomic, strong) NSArray<BXTFaultTypeInfo *> *sub_data;
-
-@end
-
-@interface BXTFaultTypeInfo : NSObject
-
-@property (nonatomic ,assign) NSInteger fau_id;
-@property (nonatomic ,assign) NSInteger subgroup;
-@property (nonatomic ,copy  ) NSString  *subgroup_name;
-@property (nonatomic ,copy  ) NSString  *faulttype;
-@property (nonatomic ,assign) NSInteger faulttype_type;
-@property (nonatomic ,assign) NSInteger faultintegral;
+@property (nonatomic, copy) NSString *faulttype;
+@property (nonatomic, copy) NSString *del_state;
+@property (nonatomic, copy) NSString *fault_id;
+@property (nonatomic, copy) NSString *task_type;
+@property (nonatomic, copy) NSString *subgroup_id;
+@property (nonatomic, copy) NSString *faultintegral;
+@property (nonatomic, copy) NSString *pid;
 
 @end

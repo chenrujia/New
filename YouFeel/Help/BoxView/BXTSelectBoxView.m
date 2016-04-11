@@ -132,11 +132,6 @@
             cell.titleLabel.text = shopInfo.stores_name;
         }
     }
-    else if (_boxType == FaultInfoView)
-    {
-        BXTFaultTypeInfo *faultInfo = _dataArray[indexPath.row];
-        cell.titleLabel.text = faultInfo.faulttype;
-    }
     else if (_boxType == GroupingView)
     {
         BXTGroupingInfo *groupInfo = _dataArray[indexPath.row];
@@ -208,11 +203,6 @@
             [BXTGlobal setUserProperty:shopInfo withKey:U_SHOP];
             [_delegate boxSelectedObj:shopInfo selectedType:_boxType];
         }
-    }
-    else if (_boxType == FaultInfoView)
-    {
-        BXTFaultTypeInfo *faultInfo = _dataArray[indexPath.row];
-        [_delegate boxSelectedObj:faultInfo selectedType:_boxType];
     }
     else if (_boxType == GroupingView)
     {
@@ -317,19 +307,6 @@
                     index = [_dataArray indexOfObject:shopInfo];
                     [self replaceMarkObj:index];
                 }
-            }
-        }
-    }
-    else if (_boxType == FaultInfoView)
-    {
-        if (markID)
-        {
-            NSArray *arrResult = [_dataArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.fau_id = %@",markID]];
-            if (arrResult.count)
-            {
-                BXTFaultTypeInfo *faultInfo = arrResult[0];
-                index = [_dataArray indexOfObject:faultInfo];
-                [self replaceMarkObj:index];
             }
         }
     }

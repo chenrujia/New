@@ -12,11 +12,16 @@
 
 + (NSDictionary *)objectClassInArray
 {
-    return @{@"sub_data":[BXTFaultTypeInfo class]};
+    return @{@"lists" : [BXTFaultInfo class]};
+}
+
+- (void)setFaulttype:(NSString *)faulttype
+{
+    _faulttype = [faulttype copy];
+    self.name = faulttype;
 }
 
 @end
 
-@implementation BXTFaultTypeInfo
 
-@end
+
