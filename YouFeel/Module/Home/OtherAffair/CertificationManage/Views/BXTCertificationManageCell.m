@@ -7,6 +7,7 @@
 //
 
 #import "BXTCertificationManageCell.h"
+#import "UIImageView+WebCache.h"
 
 @implementation BXTCertificationManageCell
 
@@ -20,6 +21,15 @@
     
     
     return cell;
+}
+
+- (void)setProjectInfo:(BXTProjectInfo *)projectInfo
+{
+    _projectInfo = projectInfo;
+    
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:projectInfo.headMedium] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
+    self.nameView.text = projectInfo.name;
+    self.phoneView.text = [NSString stringWithFormat:@"电话：%@", projectInfo.mobile];
 }
 
 - (void)awakeFromNib {

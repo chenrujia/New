@@ -43,6 +43,7 @@
         self.tableView.emptyDataSetSource = self;
         self.tableView.emptyDataSetDelegate = self;
         [self addSubview:self.tableView];
+        
         self.currentPage = 1;
         __block __typeof(self) weakSelf = self;
         self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -100,7 +101,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BXTOtherAffair *affairModel = self.dataArray[indexPath.section];
+    
     BXTCertificationManageViewController *cmvc = [[BXTCertificationManageViewController alloc] init];
+    cmvc.transID = affairModel.about_id;
+    cmvc.delegateSignal = [RACSubject subject];
+    @weakify(self);
+    [cmvc.delegateSignal subscribeNext:^(id x) {
+        @strongify(self);
+        self.currentPage = 1;
+        [self.tableView.mj_header beginRefreshing];
+    }];
     [[self navigation] pushViewController:cmvc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
