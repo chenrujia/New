@@ -14,6 +14,7 @@
 #import <MJRefresh.h>
 #import "UIView+Nav.h"
 #import "AppDelegate.h"
+#import "BXTCertificationManageViewController.h"
 
 @interface BXTOtherAffairView () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
@@ -99,6 +100,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BXTCertificationManageViewController *cmvc = [[BXTCertificationManageViewController alloc] init];
+    [[self navigation] pushViewController:cmvc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
