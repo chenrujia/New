@@ -66,7 +66,7 @@ static CGFloat const maxTitleScale = 1.3;
     {
         /**系统分组**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request faultTypeListWithRTaskType:@"2"];
+        [request faultTypeListWithRTaskType:@"2" more:nil];
     }
     
 }

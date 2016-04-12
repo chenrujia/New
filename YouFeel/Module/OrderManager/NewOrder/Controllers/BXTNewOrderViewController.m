@@ -316,7 +316,7 @@
         rejectBtn.layer.cornerRadius = 4.f;
         [[rejectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID andIsAssign:NO];
+            BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID viewControllerType:AssignVCType];
             [self.navigationController pushViewController:rejectVC animated:YES];
         }];
         [backView addSubview:rejectBtn];
@@ -335,7 +335,7 @@
     }
     else
     {
-        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID andIsAssign:NO];
+        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID viewControllerType:AssignVCType];
         [self.navigationController pushViewController:rejectVC animated:YES];
     }
 }

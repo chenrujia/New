@@ -22,13 +22,10 @@
 
 @interface BXTRepairWordOrderViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,BXTDataResponseDelegate>
 {
-    BXTFaultTypeInfo *fault_type_info;
     BXTFaultInfo     *selectFaultInfo;
-    BXTFaultTypeInfo *selectFaultTypeInfo;
     NSMutableArray   *dep_dataSource;
     NSMutableArray   *fau_dataSource;
     NSString         *cause;
-    
     NSInteger        indexSection;
     NSMutableArray   *manIDs;
     NSInteger        faulttype_type;

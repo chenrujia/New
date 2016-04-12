@@ -54,10 +54,9 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 
 @implementation BXTChooseFaultViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"选择故障" andRightTitle:nil andRightImage:nil];
     
     self.faultArray = [[NSMutableArray alloc] init];
@@ -70,7 +69,7 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     dispatch_async(concurrentQueue, ^{
         /**请求故障类型列表**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request faultTypeListWithRTaskType:@"all"];
+        [fau_request faultTypeListWithRTaskType:@"1" more:nil];
     });
     dispatch_async(concurrentQueue, ^{
         /** 获取全部故障类型 **/

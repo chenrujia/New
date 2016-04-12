@@ -9,8 +9,16 @@
 #import "BXTBaseViewController.h"
 #import <UIKit/UIKit.h>
 
-@interface BXTRejectOrderViewController : BXTBaseViewController
+typedef NS_ENUM(NSInteger, ViewControllType)
+{
+    ExamineVCType,//审批说明
+    AssignVCType,//拒接指派
+    RejectType//驳回维修结果
+};
 
-- (instancetype)initWithOrderID:(NSString *)orderID andIsAssign:(BOOL)assign;
+@interface BXTRejectOrderViewController : BXTBaseViewController
+@property (nonatomic, assign) ViewControllType vcType;
+
+- (instancetype)initWithOrderID:(NSString *)orderID viewControllerType:(ViewControllType)type;
 
 @end

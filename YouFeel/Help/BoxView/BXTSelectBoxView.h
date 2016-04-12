@@ -16,7 +16,6 @@ typedef NS_ENUM(NSInteger, BoxSelectedType) {
     FloorInfoView,
     AreaInfoView,
     ShopInfoView,
-    FaultInfoView,
     SpecialOrderView,
     CheckProjectsView,
     Other

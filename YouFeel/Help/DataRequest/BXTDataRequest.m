@@ -191,15 +191,21 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)faultTypeListWithRTaskType:(NSString *)taskType
+- (void)faultTypeListWithRTaskType:(NSString *)taskType more:(NSString *)more
 {
     self.requestType = FaultType;
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_faulttype_type",[BXTGlobal shareGlobal].baseURL];
-    if ([taskType isEqualToString:@"2"])
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=faulttype_type_lists",[BXTGlobal shareGlobal].baseURL];
+    NSDictionary *dic;
+    if (more)
     {
-        url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_faulttype_type&task_type=%@",[BXTGlobal shareGlobal].baseURL, taskType];
+        dic = @{@"task_type":taskType,
+                @"more":more};
     }
-    [self postRequest:url withParameters:nil];
+    else
+    {
+        dic = @{@"task_type":taskType};
+    }
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)orderTypeList
@@ -1366,7 +1372,6 @@ andRepairerIsReacive:(NSString *)reacive
    confirmState:(NSString *)confirmState
    confirmNotes:(NSString *)notes
 {
-    self.requestType = IsFixed;
     NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"workorder_id": repairID,
                           @"confirm_state": confirmState,

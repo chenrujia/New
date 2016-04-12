@@ -398,6 +398,9 @@
 		96AB06301C1FB48E0038E2AF /* DOPDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AB062D1C1FB48E0038E2AF /* DOPDropDownMenu.m */; };
 		96AC24301CAA45AC001C19F9 /* BXTPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AC242F1CAA45AC001C19F9 /* BXTPhotosView.m */; };
 		96AC24331CAA78F2001C19F9 /* BXTChooseItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AC24321CAA78F2001C19F9 /* BXTChooseItemView.m */; };
+		96B191CA1CBB8DB100F5F6A8 /* BXTMMProcessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B191C81CBB8DB100F5F6A8 /* BXTMMProcessViewController.m */; };
+		96B191CB1CBB8DB100F5F6A8 /* BXTMMProcessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96B191C91CBB8DB100F5F6A8 /* BXTMMProcessViewController.xib */; };
+		96B191D31CBB952200F5F6A8 /* BXTPhotosTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B191D21CBB952200F5F6A8 /* BXTPhotosTableViewCell.m */; };
 		96BDF1911C8579FE00CEDA58 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BDF18D1C8579FE00CEDA58 /* libWeChatSDK.a */; };
 		96C4910A1CB7B75C00D14C9B /* BXTBaseClassifyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C491091CB7B75C00D14C9B /* BXTBaseClassifyInfo.m */; };
 		96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C684891BE76B4B0038A342 /* AssetsLibraryD.m */; };
@@ -1155,6 +1158,11 @@
 		96AC242F1CAA45AC001C19F9 /* BXTPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPhotosView.m; sourceTree = "<group>"; };
 		96AC24311CAA78F2001C19F9 /* BXTChooseItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTChooseItemView.h; sourceTree = "<group>"; };
 		96AC24321CAA78F2001C19F9 /* BXTChooseItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChooseItemView.m; sourceTree = "<group>"; };
+		96B191C71CBB8DB100F5F6A8 /* BXTMMProcessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMMProcessViewController.h; sourceTree = "<group>"; };
+		96B191C81CBB8DB100F5F6A8 /* BXTMMProcessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMMProcessViewController.m; sourceTree = "<group>"; };
+		96B191C91CBB8DB100F5F6A8 /* BXTMMProcessViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMMProcessViewController.xib; sourceTree = "<group>"; };
+		96B191D11CBB952200F5F6A8 /* BXTPhotosTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPhotosTableViewCell.h; sourceTree = "<group>"; };
+		96B191D21CBB952200F5F6A8 /* BXTPhotosTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPhotosTableViewCell.m; sourceTree = "<group>"; };
 		96BA7C411C1ABFAE00F02EF0 /* BXTPCH.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BXTPCH.pch; sourceTree = "<group>"; };
 		96BDF18D1C8579FE00CEDA58 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		96BDF18E1C8579FE00CEDA58 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
@@ -2714,6 +2722,9 @@
 			children = (
 				7867DD481C4CBEA1000749F1 /* BXTMaintenanceProcessViewController.h */,
 				7867DD491C4CBEA1000749F1 /* BXTMaintenanceProcessViewController.m */,
+				96B191C71CBB8DB100F5F6A8 /* BXTMMProcessViewController.h */,
+				96B191C81CBB8DB100F5F6A8 /* BXTMMProcessViewController.m */,
+				96B191C91CBB8DB100F5F6A8 /* BXTMMProcessViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2725,6 +2736,8 @@
 				7867DD4C1C4CBEA1000749F1 /* BXTMaintenanceProcessTableViewCell.m */,
 				7867DD4D1C4CBEA1000749F1 /* BXTMMLogTableViewCell.h */,
 				7867DD4E1C4CBEA1000749F1 /* BXTMMLogTableViewCell.m */,
+				96B191D11CBB952200F5F6A8 /* BXTPhotosTableViewCell.h */,
+				96B191D21CBB952200F5F6A8 /* BXTPhotosTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4502,6 +4515,7 @@
 				7827D04C1C85738C00E9E29E /* BXTMTProfessionTopView.xib in Resources */,
 				9607A3C51BE0BC0F000A6C5B /* Emoji.plist in Resources */,
 				96AB062E1C1FB48E0038E2AF /* icon_chose_arrow_nor@2x.png in Resources */,
+				96B191CB1CBB8DB100F5F6A8 /* BXTMMProcessViewController.xib in Resources */,
 				7823C8921C7E9FD500E2858B /* BXTEquipmentListCell.xib in Resources */,
 				781EF2071C3D382C0027FE72 /* BXTCurrentOrderCell.xib in Resources */,
 				96AB062F1C1FB48E0038E2AF /* icon_chose_arrow_sel@2x.png in Resources */,
@@ -4593,6 +4607,7 @@
 				7867DC301C4CBA5B000749F1 /* BXTHomeTableViewCell.m in Sources */,
 				782D6BC41C0D6CFC00E1828F /* SPChartUtil.m in Sources */,
 				7893D8EC1C7ADA8000F042D5 /* BXTWorkloadViewController.m in Sources */,
+				96B191CA1CBB8DB100F5F6A8 /* BXTMMProcessViewController.m in Sources */,
 				782985951C40B4CB00D0837C /* BXTSettingTableViewCell.m in Sources */,
 				7893D8E51C7ADA8000F042D5 /* BXTProfessionHeader.m in Sources */,
 				960221471BC9201400010072 /* NSString+URL.m in Sources */,
@@ -4835,6 +4850,7 @@
 				7867DCEA1C4CBD42000749F1 /* AMRatingControl.m in Sources */,
 				7867DD7C1C4CBEA1000749F1 /* BXTManagerOMViewController.m in Sources */,
 				9652ABF41BC90DCC009A666D /* ANPersistentStrategy.m in Sources */,
+				96B191D31CBB952200F5F6A8 /* BXTPhotosTableViewCell.m in Sources */,
 				7867DC951C4CBB47000749F1 /* BXTStatisticsViewController.m in Sources */,
 				964DE5F31CA930D30064D5D6 /* BXTRepairDetailView.m in Sources */,
 				7851A0321CA3C60900255B8A /* SegmentView.m in Sources */,

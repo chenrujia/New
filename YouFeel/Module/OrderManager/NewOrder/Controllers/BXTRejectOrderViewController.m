@@ -11,7 +11,6 @@
 
 @interface BXTRejectOrderViewController ()<UITextViewDelegate,BXTDataResponseDelegate>
 
-@property (nonatomic, assign) BOOL     isAssign;
 @property (nonatomic, strong) NSString *notes;
 @property (nonatomic ,strong) NSString *currentOrderID;
 
@@ -19,12 +18,12 @@
 
 @implementation BXTRejectOrderViewController
 
-- (instancetype)initWithOrderID:(NSString *)orderID andIsAssign:(BOOL)assign
+- (instancetype)initWithOrderID:(NSString *)orderID viewControllerType:(ViewControllType)type
 {
     self = [super init];
     if (self)
     {
-        self.isAssign = assign;
+        self.vcType = type;
         self.currentOrderID = orderID;
     }
     return self;
@@ -33,7 +32,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:_isAssign ? @"审批说明" : @"拒接原因" andRightTitle:nil andRightImage:nil];
+    if (_vcType == ExamineVCType)
+    {
+       [self navigationSetting:@"审批说明" andRightTitle:nil andRightImage:nil];
+    }
+    else if (_vcType == AssignVCType)
+    {
+        [self navigationSetting:@"拒接原因" andRightTitle:nil andRightImage:nil];
+    }
+    else if (_vcType == RejectType)
+    {
+        [self navigationSetting:@"驳回维修结果" andRightTitle:nil andRightImage:nil];
+    }
+    
     [self createSubviews];
     self.notes = @"";
 }
@@ -43,7 +54,19 @@
     UITextView *cause = [[UITextView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 20.f, SCREEN_WIDTH, 170.f)];
     cause.font = [UIFont systemFontOfSize:16.];
     cause.textColor = colorWithHexString(@"909497");
-    cause.text = _isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）";
+    if (_vcType == ExamineVCType)
+    {
+        cause.text = @"请输入您关闭工单的原因（500字以内）";
+    }
+    else if (_vcType == AssignVCType)
+    {
+        cause.text = @"请输入您不接单的原因（500字以内）";
+    }
+    else if (_vcType == RejectType)
+    {
+        cause.text = @"请输入您驳回的原因（500字以内）";
+    }
+    
     cause.delegate = self;
     [self.view addSubview:cause];
     
@@ -63,18 +86,33 @@
         if (self.notes.length)
         {
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            if (self.isAssign)
+            if (self.vcType == ExamineVCType)
             {
                 [request closeOrder:self.currentOrderID withNotes:self.notes];
             }
-            else
+            else if (self.vcType == AssignVCType)
             {
                 [request rejectOrder:self.currentOrderID withNotes:self.notes];
+            }
+            else if (self.vcType == RejectType)
+            {
+                [request isFixed:self.currentOrderID confirmState:@"2" confirmNotes:self.notes];
             }
         }
         else
         {
-            [self showMBP:self.isAssign ? @"关闭工单原因不能为空" : @"拒接原因不能为空" withBlock:nil];
+            if (self.vcType == ExamineVCType)
+            {
+                [self showMBP:@"关闭工单原因不能为空" withBlock:nil];
+            }
+            else if (self.vcType == AssignVCType)
+            {
+                [self showMBP:@"拒接原因不能为空"  withBlock:nil];
+            }
+            else if (self.vcType == RejectType)
+            {
+                [self showMBP:@"驳回原因不能为空" withBlock:nil];
+            }
         }
     }];
     [self.view addSubview:commitBtn];
@@ -84,19 +122,55 @@
 #pragma mark UITextViewDelegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:_isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）"])
+    if (self.vcType == ExamineVCType)
     {
-        textView.text = @"";
+        if ([textView.text isEqualToString:@"请输入您关闭工单的原因（500字以内）"])
+        {
+            textView.text = @"";
+        }
     }
+    else if (self.vcType == AssignVCType)
+    {
+        if ([textView.text isEqualToString:@"请输入您不接单的原因（500字以内）"])
+        {
+            textView.text = @"";
+        }
+    }
+    else if (self.vcType == RejectType)
+    {
+        if ([textView.text isEqualToString:@"请输入您驳回的原因（500字以内）"])
+        {
+            textView.text = @"";
+        }
+    }
+    
     return YES;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    if (textView.text.length < 1)
+    if (self.vcType == ExamineVCType)
     {
-        textView.text = _isAssign ? @"请输入您关闭工单的原因（500字以内）" : @"请输入您不接单的原因（500字以内）";
+        if (textView.text.length < 1)
+        {
+            textView.text = @"请输入您关闭工单的原因（500字以内）";
+        }
     }
+    else if (self.vcType == AssignVCType)
+    {
+        if (textView.text.length < 1)
+        {
+            textView.text = @"请输入您不接单的原因（500字以内）";
+        }
+    }
+    else if (self.vcType == RejectType)
+    {
+        if (textView.text.length < 1)
+        {
+            textView.text = @"请输入您驳回的原因（500字以内）";
+        }
+    }
+    
     _notes = textView.text;
 }
 
@@ -107,17 +181,24 @@
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
-        if (_isAssign)
+        if (self.vcType == ExamineVCType)
         {
             [self showMBP:@"已关闭" withBlock:^(BOOL hidden) {
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }];
         }
-        else
+        else if (self.vcType == AssignVCType)
         {
             [self showMBP:@"已拒接" withBlock:^(BOOL hidden) {
                 [self.navigationController popToRootViewControllerAnimated:YES];
                 --[BXTGlobal shareGlobal].assignNumber;
+            }];
+        }
+        else if (self.vcType == RejectType)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
+            [self showMBP:@"已驳回" withBlock:^(BOOL hidden) {
+                [self.navigationController popToRootViewControllerAnimated:YES];
             }];
         }
     }
@@ -132,15 +213,5 @@
 {
     [super didReceiveMemoryWarning];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

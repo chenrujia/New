@@ -17,57 +17,72 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.imgViewOne = ({
-            
-            BXTCustomImageView *imageView = [[BXTCustomImageView alloc] init];
-            [imageView setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
-            imageView.userInteractionEnabled = YES;
-            imageView.layer.masksToBounds = YES;
-            imageView.contentMode = UIViewContentModeScaleAspectFill;
-            imageView.tag = 0;
-            [self addSubview:imageView];
-            imageView;
-            
-        });
-        
-        self.imgViewTwo = ({
-        
-            BXTCustomImageView *imageView = [[BXTCustomImageView alloc] init];
-            [imageView setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
-            imageView.userInteractionEnabled = YES;
-            imageView.layer.masksToBounds = YES;
-            imageView.contentMode = UIViewContentModeScaleAspectFill;
-            imageView.tag = 1;
-            [self addSubview:imageView];
-            imageView;
-        
-        });
-        
-        self.imgViewThree = ({
-            
-            BXTCustomImageView *imageView = [[BXTCustomImageView alloc] init];
-            [imageView setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
-            imageView.userInteractionEnabled = YES;
-            imageView.layer.masksToBounds = YES;
-            imageView.contentMode = UIViewContentModeScaleAspectFill;
-            imageView.tag = 2;
-            [self addSubview:imageView];
-            imageView;
-            
-        });
-        
-        self.addBtn = ({
-            
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            [button setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
-            [button setImage:[UIImage imageNamed:@"wo_photo"] forState:UIControlStateNormal];
-            [button setImage:[UIImage imageNamed:@"wo_photo_select"] forState:UIControlStateHighlighted];
-            [self addSubview:button];
-            button;
-            
-        });
+        [self initialSubviews];
     }
     return self;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self initialSubviews];
+    }
+    return self;
+}
+
+- (void)initialSubviews
+{
+    self.imgViewOne = ({
+        
+        BXTCustomImageView *imageView = [[BXTCustomImageView alloc] init];
+        [imageView setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
+        imageView.userInteractionEnabled = YES;
+        imageView.layer.masksToBounds = YES;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.tag = 0;
+        [self addSubview:imageView];
+        imageView;
+        
+    });
+    
+    self.imgViewTwo = ({
+        
+        BXTCustomImageView *imageView = [[BXTCustomImageView alloc] init];
+        [imageView setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
+        imageView.userInteractionEnabled = YES;
+        imageView.layer.masksToBounds = YES;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.tag = 1;
+        [self addSubview:imageView];
+        imageView;
+        
+    });
+    
+    self.imgViewThree = ({
+        
+        BXTCustomImageView *imageView = [[BXTCustomImageView alloc] init];
+        [imageView setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
+        imageView.userInteractionEnabled = YES;
+        imageView.layer.masksToBounds = YES;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.tag = 2;
+        [self addSubview:imageView];
+        imageView;
+        
+    });
+    
+    self.addBtn = ({
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
+        [button setImage:[UIImage imageNamed:@"wo_photo"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"wo_photo_select"] forState:UIControlStateHighlighted];
+        [self addSubview:button];
+        button;
+        
+    });
 }
 
 - (void)handleImagesFrame:(NSArray *)array

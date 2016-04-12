@@ -83,8 +83,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     DutyLists = 70,
     StoresList = 71,
     AuthenticationApply = 72,
-    IsFixed = 73,
-    ModifyBindPlace = 74,
+    ModifyBindPlace = 73,
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -168,7 +167,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  故障类型
  */
-- (void)faultTypeListWithRTaskType:(NSString *)taskType;
+- (void)faultTypeListWithRTaskType:(NSString *)taskType more:(NSString *)more;
 
 /**
  *  工单类型
