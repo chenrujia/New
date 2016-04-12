@@ -167,7 +167,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
 /**
  *  故障类型
  */
-- (void)faultTypeListWithRTaskType:(NSString *)taskType;
+- (void)faultTypeListWithRTaskType:(NSString *)taskType more:(NSString *)more;
 
 /**
  *  工单类型
