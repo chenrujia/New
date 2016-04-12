@@ -547,7 +547,7 @@
     //TODO: 替换回来
 //    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID viewControllerType:ExamineVCType];
 //    [self.navigationController pushViewController:rejectVC animated:YES];
-    BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID];
+    BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_list];
     [self.navigationController pushViewController:procossVC animated:YES];
 }
 
@@ -668,7 +668,7 @@
             }
             else
             {
-                BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID];
+                BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_list];
                 [self.navigationController pushViewController:procossVC animated:YES];
             }
         }];
@@ -695,7 +695,7 @@
                 }
                 else
                 {
-                    BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID];
+                    BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_list];
                     [self.navigationController pushViewController:procossVC animated:YES];
                 }
             }

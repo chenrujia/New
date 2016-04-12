@@ -293,17 +293,14 @@ static CGFloat const ChooseViewHeight  = 328.f;
     @weakify(self);
     [searchVC userChoosePlace:dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
         @strongify(self);
-        if ([classifyInfo isKindOfClass:[BXTPlaceInfo class]])
-        {
-            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
-            self.placeTF.text = placeInfo.place;
-            self.placeInfo = placeInfo;
-            LogBlue(@"placeID:%@",placeInfo.placeID);
-            [self showLoadingMBP:@"请稍候..."];
-            /** 设备列表 **/
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request devicesWithPlaceID:self.placeInfo.placeID];
-        }
+        BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
+        self.placeTF.text = placeInfo.place;
+        self.placeInfo = placeInfo;
+
+        [self showLoadingMBP:@"请稍候..."];
+        /** 设备列表 **/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request devicesWithPlaceID:self.placeInfo.placeID];
     }];
     [self.navigationController pushViewController:searchVC animated:YES];
     return NO;

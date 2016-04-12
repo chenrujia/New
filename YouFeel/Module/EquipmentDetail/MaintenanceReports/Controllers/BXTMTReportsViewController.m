@@ -505,13 +505,9 @@
         @weakify(self);
         [searchVC userChoosePlace:dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
             @strongify(self);
-            if ([classifyInfo isKindOfClass:[BXTPlaceInfo class]])
-            {
-                BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
-                MJExtensionLog(@"placeInfo:%@", placeInfo.place);
-                [self.dataArray replaceObjectAtIndex:indexPath.section withObject:placeInfo.place];
-                [self.currentTableView reloadData];
-            }
+            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
+            [self.dataArray replaceObjectAtIndex:indexPath.section withObject:placeInfo.place];
+            [self.currentTableView reloadData];
         }];
         [self.navigationController pushViewController:searchVC animated:YES];
     }

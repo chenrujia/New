@@ -13,29 +13,51 @@
 #import "BXTFaultInfo.h"
 #import "BXTSearchPlaceViewController.h"
 #import "BXTSelectBoxView.h"
+#import "BXTRepairDetailInfo.h"
+#import "BXTSpecialOrderInfo.h"
+#import "ANKeyValueTable.h"
 
-@interface BXTMMProcessViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
+@interface BXTMMProcessViewController ()<BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITextViewDelegate>
 {
     BOOL  isDone;//是否修好的状态
 }
 
-@property (nonatomic, strong) NSMutableArray *fau_dataSource;
-@property (nonatomic, strong) NSString *maintenanceState;
-@property (nonatomic, strong) NSString *repairID;
-@property (nonatomic, strong) NSString *faultName;
-@property (nonatomic, strong) NSString *reason;
-@property (nonatomic, strong) NSString *placeName;
+@property (nonatomic, strong) NSMutableArray      *fau_dataSource;
+@property (nonatomic, strong) NSMutableArray      *specialOrderArray;
+@property (nonatomic, strong) NSMutableArray      *deviceStateArray;
+@property (nonatomic, strong) NSArray             *stateArray;
+@property (nonatomic, strong) NSString            *maintenanceState;
+@property (nonatomic, strong) NSString            *repairID;
+@property (nonatomic, strong) NSString            *deviceState;
+@property (nonatomic, strong) NSString            *state;
+@property (nonatomic, strong) NSString            *mmLog;
+@property (nonatomic, assign) NSInteger           number;
+@property (nonatomic, strong) BXTSelectBoxView    *boxView;
+@property (nonatomic, strong) BXTDeviceMMListInfo *deviceInfo;
+@property (nonatomic, strong) BXTFaultInfo        *choosedFaultInfo;
+@property (nonatomic, strong) BXTPlaceInfo        *choosedPlaceInfo;
+@property (nonatomic, strong) BXTDeviceStateInfo  *choosedStateInfo;
+@property (nonatomic, strong) BXTSpecialOrderInfo *choosedReasonInfo;
 
 @end
 
 @implementation BXTMMProcessViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil repairID:(NSString *)repairID
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil repairID:(NSString *)repairID deviceList:(NSArray *)devices
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
         self.repairID = repairID;
+        self.number = 0;
+        if (devices.count == 1)
+        {
+            self.deviceInfo = devices[0];
+            self.number = 2;
+        }
+        isDone = YES;
+        self.state = @"2";
+        self.maintenanceState = @"已修好";
     }
     return self;
 }
@@ -50,6 +72,9 @@
     [self.currentTable registerClass:[BXTSettingTableViewCell class] forCellReuseIdentifier:@"NormalCell"];
     
     self.fau_dataSource = [NSMutableArray array];
+    self.specialOrderArray = [NSMutableArray array];
+    self.deviceStateArray = [NSMutableArray array];
+    self.stateArray = @[@"未修好",@"已修好"];
     
     dispatch_queue_t queue = dispatch_queue_create("NormalQueue", DISPATCH_QUEUE_SERIAL);
     dispatch_async(queue, ^{
@@ -57,21 +82,97 @@
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
         [fau_request faultTypeListWithRTaskType:@"1" more:@"1"];
     });
+    dispatch_async(queue, ^{
+        /**请求未修好原因**/
+        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [fau_request specialWorkOrder];
+    });
+    if (self.deviceInfo)
+    {
+        dispatch_async(queue, ^{
+            /**请求设备状态**/
+            BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [fau_request deviceStates];
+        });
+    }
 }
 
-- (void)initialBoxWithSection:(NSInteger)section
+#pragma mark -
+#pragma mark 创建BoxView
+- (void)createBoxView:(NSInteger)section
 {
+    UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
+    backView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    backView.tag = 101;
+    [self.view addSubview:backView];
+
+    if (section == 2 && self.number)
+    {
+        [self boxViewWithType:OrderDeviceStateView andTitle:@"设备状态" andData:self.deviceStateArray];
+    }
+    else if (section == 1 + self.number)
+    {
+        [self boxViewWithType:FaultTypeView andTitle:@"故障类型" andData:self.fau_dataSource];
+    }
+    else if (section == 2 + self.number)
+    {
+        [self boxViewWithType:Other andTitle:@"维修结果" andData:self.stateArray];
+    }
+    else if (section == 3 + self.number)
+    {
+        [self boxViewWithType:SpecialSeasonView andTitle:@"未修好原因" andData:self.specialOrderArray];
+    }
+}
+
+- (void)boxViewWithType:(BoxSelectedType)type andTitle:(NSString *)title andData:(NSArray *)array
+{
+    self.boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:title boxSelectedViewType:type listDataSource:array markID:nil actionDelegate:self];
+    [self.view addSubview:self.boxView];
     
+    [UIView animateWithDuration:0.3f animations:^{
+        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
+    }];
 }
 
 - (IBAction)doneClick:(id)sender
 {
-    
+    [self showLoadingMBP:@"请稍后..."];
+    /**提交维修中状态**/
+    NSString *deviceState = nil;
+    if (self.deviceInfo)
+    {
+        deviceState = self.deviceInfo.deviceMMID;
+    }
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request maintenanceState:self.repairID
+                      placeID:self.choosedPlaceInfo.placeID
+                  deviceState:deviceState
+                   orderState:self.state
+                    faultType:self.choosedFaultInfo.fault_id
+                     reasonID:self.choosedReasonInfo.specialOrderID
+                        mmLog:self.mmLog
+                       images:self.resultPhotos];
 }
 
 - (void)handleActionWithIndexPath:(NSIndexPath *)indexPath
 {
-    if (!isDone && indexPath.section == 3)
+    //维修位置
+    if (indexPath.section == 0)
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+        NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
+        @weakify(self);
+        [searchVC userChoosePlace:dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
+            @strongify(self);
+            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
+            self.choosedPlaceInfo = placeInfo;
+            [self.currentTable reloadData];
+        }];
+        [self.navigationController pushViewController:searchVC animated:YES];
+    }
+    //故障类型
+    else if (indexPath.section == 1 + self.number)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
@@ -79,10 +180,14 @@
         [searchVC userChoosePlace:self.fau_dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
             @strongify(self);
             BXTFaultInfo *faultInfo = (BXTFaultInfo *)classifyInfo;
-            self.faultName = faultInfo.faulttype;
+            self.choosedFaultInfo = faultInfo;
             [self.currentTable reloadData];
         }];
         [self.navigationController pushViewController:searchVC animated:YES];
+    }
+    else if (!(indexPath.section == 5 + self.number) && !(indexPath.section == 6 + self.number))
+    {
+        [self createBoxView:indexPath.section];
     }
 }
 
@@ -114,7 +219,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ((isDone && (indexPath.section == 2 || indexPath.section == 3)) || (!isDone && (indexPath.section == 4 || indexPath.section == 5)))
+    if ((isDone && (indexPath.section == 3 + self.number || indexPath.section == 4 + self.number)) || (!isDone && (indexPath.section == 4 + self.number || indexPath.section == 5 + self.number)))
     {
         return 110;
     }
@@ -125,9 +230,9 @@
 {
     if (!isDone)
     {
-        return 7;
+        return 7 + self.number;
     }
-    return 5;
+    return 6 + self.number;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -138,20 +243,43 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //维修记录
-    if ((!isDone && indexPath.section == 4) || (isDone && indexPath.section == 2))
+    if ((!isDone && indexPath.section == 4 + self.number) || (isDone && indexPath.section == 3 + self.number))
     {
         BXTMMLogTableViewCell *logCell = [tableView dequeueReusableCellWithIdentifier:@"LogCell" forIndexPath:indexPath];
         
         logCell.titleLabel.text = @"维修记录";
+        logCell.remarkTV.delegate = self;
         
         return logCell;
     }
     //维修后图片
-    else if ((!isDone && indexPath.section == 5) || (isDone && indexPath.section == 3))
+    else if ((!isDone && indexPath.section == 5 + self.number) || (isDone && indexPath.section == 4 + self.number))
     {
         BXTPhotosTableViewCell *photosCell = [tableView dequeueReusableCellWithIdentifier:@"PhotosCell" forIndexPath:indexPath];
         
         photosCell.titleLabel.text = @"维修后图片";
+        //添加图片点击事件
+        @weakify(self);
+        UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
+        [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            [self loadMWPhotoBrowser:photosCell.photosView.imgViewOne.tag];
+        }];
+        [photosCell.photosView.imgViewOne addGestureRecognizer:tapGROne];
+        UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
+        [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            [self loadMWPhotoBrowser:photosCell.photosView.imgViewTwo.tag];
+        }];
+        [photosCell.photosView.imgViewTwo addGestureRecognizer:tapGRTwo];
+        UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
+        [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            [self loadMWPhotoBrowser:photosCell.photosView.imgViewThree.tag];
+        }];
+        [photosCell.photosView.imgViewThree addGestureRecognizer:tapGRThree];
+        [photosCell.photosView.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
+        self.photosView = photosCell.photosView;
         
         return photosCell;
     }
@@ -162,51 +290,52 @@
         normalCell.detailLable.textAlignment = NSTextAlignmentRight;
         normalCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
-        if (isDone)
+        if (indexPath.section == 0)
         {
-            switch (indexPath.section)
+            normalCell.titleLabel.text = @"维修位置";
+            if (self.choosedPlaceInfo)
             {
-                case 0:
-                    normalCell.titleLabel.text = @"维修结果";
-                    normalCell.detailLable.text = self.maintenanceState;
-                case 1:
-                    normalCell.titleLabel.text = @"故障类型";
-                    normalCell.detailLable.text = self.faultName;
-                    break;
-                case 4:
-                {
-                    normalCell.titleLabel.text = @"结束时间";
-                    NSDate *now = [NSDate date];
-                    NSString *dateStr = [BXTGlobal transTimeWithDate:now withType:@"yyyy-MM-dd HH:mm"];
-                    normalCell.detailLable.text = dateStr;
-                    normalCell.accessoryType = UITableViewCellAccessoryNone;
-                }
-                    break;
-                default:
-                    break;
+                normalCell.detailLable.text = self.choosedPlaceInfo.name;
+            }
+            else
+            {
+                normalCell.detailLable.text = @"请选择";
             }
         }
         else
         {
-            switch (indexPath.section)
+            if (isDone)
             {
-                case 0:
+                if (indexPath.section == 1 && self.number)
+                {
+                    //TODO: 注意测试一下有设备的情况
+                    normalCell.titleLabel.text = @"设备";
+                    normalCell.detailLable.text = self.deviceInfo.name;
+                    normalCell.accessoryType = UITableViewCellAccessoryNone;
+                }
+                else if (indexPath.section == 2 && self.number)
+                {
+                    normalCell.titleLabel.text = @"设备状态";
+                    normalCell.detailLable.text = self.deviceState;
+                }
+                else if (indexPath.section == 1 + self.number)
+                {
+                    normalCell.titleLabel.text = @"故障类型";
+                    if (self.choosedFaultInfo)
+                    {
+                        normalCell.detailLable.text = self.choosedFaultInfo.faulttype;
+                    }
+                    else
+                    {
+                        normalCell.detailLable.text = @"请选择";
+                    }
+                }
+                else if (indexPath.section == 2 + self.number)
+                {
                     normalCell.titleLabel.text = @"维修结果";
                     normalCell.detailLable.text = self.maintenanceState;
-                    break;
-                case 1:
-                    normalCell.titleLabel.text = @"未修好原因";
-                    normalCell.detailLable.text = self.reason;
-                    break;
-                case 2:
-                    normalCell.titleLabel.text = @"维修位置";
-                    normalCell.detailLable.text = self.placeName;
-                    break;
-                case 3:
-                    normalCell.titleLabel.text = @"故障类型";
-                    normalCell.detailLable.text = self.faultName;
-                    break;
-                case 6:
+                }
+                else if (indexPath.section == 5 + self.number)
                 {
                     normalCell.titleLabel.text = @"结束时间";
                     NSDate *now = [NSDate date];
@@ -214,9 +343,57 @@
                     normalCell.detailLable.text = dateStr;
                     normalCell.accessoryType = UITableViewCellAccessoryNone;
                 }
-                    break;
-                default:
-                    break;
+            }
+            else
+            {
+                if (indexPath.section == 1 && self.number)
+                {
+                    normalCell.titleLabel.text = @"设备";
+                    normalCell.detailLable.text = self.deviceInfo.name;
+                    normalCell.accessoryType = UITableViewCellAccessoryNone;
+                }
+                else if (indexPath.section == 2 && self.number)
+                {
+                    normalCell.titleLabel.text = @"设备状态";
+                    normalCell.detailLable.text = self.deviceState;
+                }
+                else if (indexPath.section == 1 + self.number)
+                {
+                    normalCell.titleLabel.text = @"故障类型";
+                    if (self.choosedFaultInfo)
+                    {
+                        normalCell.detailLable.text = self.choosedFaultInfo.faulttype;
+                    }
+                    else
+                    {
+                        normalCell.detailLable.text = @"请选择";
+                    }
+                }
+                else if (indexPath.section == 2 + self.number)
+                {
+                    normalCell.titleLabel.text = @"维修结果";
+                    normalCell.detailLable.text = self.maintenanceState;
+                }
+                else if (indexPath.section == 3 + self.number)
+                {
+                    normalCell.titleLabel.text = @"未修好原因";
+                    if (self.choosedReasonInfo)
+                    {
+                        normalCell.detailLable.text = self.choosedReasonInfo.param_value;
+                    }
+                    else
+                    {
+                        normalCell.detailLable.text = @"请选择";
+                    }
+                }
+                else if (indexPath.section == 6 + self.number)
+                {
+                    normalCell.titleLabel.text = @"结束时间";
+                    NSDate *now = [NSDate date];
+                    NSString *dateStr = [BXTGlobal transTimeWithDate:now withType:@"yyyy-MM-dd HH:mm"];
+                    normalCell.detailLable.text = dateStr;
+                    normalCell.accessoryType = UITableViewCellAccessoryNone;
+                }
             }
         }
         
@@ -230,11 +407,92 @@
     [self handleActionWithIndexPath:indexPath];
 }
 
-- (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
+    UITouch *touch = [touches anyObject];
+    UIView *view = touch.view;
+    if (view.tag == 101)
+    {
+        [UIView animateWithDuration:0.3f animations:^{
+            [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
+        } completion:^(BOOL finished) {
+            [self.boxView removeFromSuperview];
+            self.boxView = nil;
+        }];
+        [view removeFromSuperview];
+    }
 }
 
+#pragma mark -
+#pragma mark UITextViewDelegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@"请输入维修日志"])
+    {
+        textView.text = @"";
+    }
+    return YES;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    self.mmLog = textView.text;
+    if (textView.text.length < 1)
+    {
+        textView.text = @"请输入维修日志";
+    }
+}
+
+#pragma mark -
+#pragma mark BXTBoxSelectedTitleDelegate
+- (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
+{
+    if (type == FaultTypeView)
+    {
+        BXTFaultInfo *faultInfo = obj;
+        self.choosedFaultInfo = faultInfo;
+    }
+    else if (type == OrderDeviceStateView)
+    {
+        BXTDeviceStateInfo *stateInfo = obj;
+        self.choosedStateInfo = stateInfo;
+    }
+    else if (type == SpecialSeasonView)
+    {
+        BXTSpecialOrderInfo *orderInfo = obj;
+        self.choosedReasonInfo = orderInfo;
+    }
+    else if (type == Other)
+    {
+        if ([obj isEqualToString:@"未修好"])
+        {
+            self.maintenanceState = obj;
+            self.state = @"1";
+            isDone = NO;
+        }
+        else if ([obj isEqualToString:@"已修好"])
+        {
+            self.maintenanceState = obj;
+            isDone = YES;
+            self.state = @"2";
+        }
+    }
+    
+    [self.currentTable reloadData];
+    
+    UIView *view = [self.view viewWithTag:101];
+    [view removeFromSuperview];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
+    } completion:^(BOOL finished) {
+        [self.boxView removeFromSuperview];
+        self.boxView = nil;
+    }];
+}
+
+#pragma mark -
+#pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
@@ -246,6 +504,20 @@
             return @{@"fault_id":@"id"};
         }];
         [self.fau_dataSource addObjectsFromArray:[BXTFaultInfo mj_objectArrayWithKeyValuesArray:data]];
+    }
+    else if (type == SpecialOrder)
+    {
+        [BXTSpecialOrderInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"specialOrderID":@"id"};
+        }];
+        [self.specialOrderArray addObjectsFromArray:[BXTSpecialOrderInfo mj_objectArrayWithKeyValuesArray:data]];
+    }
+    else if (type == DeviceState)
+    {
+        [BXTDeviceStateInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"stateID":@"id"};
+        }];
+        [self.deviceStateArray addObjectsFromArray:[BXTDeviceStateInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     else if (type == MaintenanceProcess)
     {
