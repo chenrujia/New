@@ -322,19 +322,15 @@
     @weakify(self);
     [searchVC userChoosePlace:dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
         @strongify(self);
-        if ([classifyInfo isKindOfClass:[BXTPlaceInfo class]])
-        {
-            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
-            MJExtensionLog(@"---------- placeInfo:%@", placeInfo.place);
-            [self.detailArray replaceObjectAtIndex:3 withObject:placeInfo.place];
-            [self.transArray replaceObjectAtIndex:3 withObject:placeInfo.placeID];
-            [self.tableView reloadData];
-            
-            [self showLoadingMBP:@"努力加载中..."];
-            /**维修位置**/
-            BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [fau_request modifyBindPlaceWithShopID:self.transMyProject.shop_id placeID:placeInfo.placeID];
-        }
+        BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
+        [self.detailArray replaceObjectAtIndex:3 withObject:placeInfo.place];
+        [self.transArray replaceObjectAtIndex:3 withObject:placeInfo.placeID];
+        [self.tableView reloadData];
+        
+        [self showLoadingMBP:@"努力加载中..."];
+        /**维修位置**/
+        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [fau_request modifyBindPlaceWithShopID:self.transMyProject.shop_id placeID:placeInfo.placeID];
     }];
     [self.navigationController pushViewController:searchVC animated:YES];
 }
@@ -346,14 +342,10 @@
     @weakify(self);
     [searchVC userChoosePlace:self.departmentArray block:^(BXTBaseClassifyInfo *classifyInfo) {
         @strongify(self);
-        if ([classifyInfo isKindOfClass:[BXTAllDepartmentInfo class]])
-        {
-            BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)classifyInfo;
-            MJExtensionLog(@"---------- placeInfo:%@", departmentInfo.department);
-            [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
-            [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.departmentID];
-            [self.tableView reloadData];
-        }
+        BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)classifyInfo;
+        [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
+        [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.departmentID];
+        [self.tableView reloadData];
     }];
     
     [self.navigationController pushViewController:searchVC animated:YES];

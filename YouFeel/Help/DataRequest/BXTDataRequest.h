@@ -84,6 +84,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     StoresList = 71,
     AuthenticationApply = 72,
     ModifyBindPlace = 73,
+    SpecialOrder =74,
+    DeviceState = 75
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -387,19 +389,16 @@ andRepairerIsReacive:(NSString *)reacive;
 - (void)propertyGrouping;
 
 /**
- *  维修状态
+ *  维修过程
  */
 - (void)maintenanceState:(NSString *)repairID
-          andReaciveTime:(NSString *)reaciveTime
-           andFinishTime:(NSString *)finishTime
-     andMaintenanceState:(NSString *)state
-            andFaultType:(NSString *)faultType
-             andManHours:(NSString *)hours
-       andSpecialOrderID:(NSString *)specialOID
-               andImages:(NSArray *)images
-                andNotes:(NSString *)notes
-                andMMLog:(NSString *)mmLog
-      andCollectionGroup:(NSString *)group;
+                 placeID:(NSString *)placeID
+             deviceState:(NSString *)deviceState
+              orderState:(NSString *)state
+               faultType:(NSString *)faultType
+                reasonID:(NSString *)reasonID
+                   mmLog:(NSString *)mmLog
+                  images:(NSArray *)images;
 
 /**
  *  维修员列表
@@ -734,5 +733,11 @@ andRepairerIsReacive:(NSString *)reacive;
 - (void)isFixed:(NSString *)repairID
    confirmState:(NSString *)confirmState
    confirmNotes:(NSString *)notes;
+
+/**
+ *  特殊工单and设备状态
+ */
+- (void)specialWorkOrder;
+- (void)deviceStates;
 
 @end

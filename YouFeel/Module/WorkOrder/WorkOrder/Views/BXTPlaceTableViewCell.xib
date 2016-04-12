@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3s-QF-QYR">
-                        <rect key="frame" x="15" y="8" width="245" height="33.5"/>
+                        <rect key="frame" x="15" y="12" width="245" height="25.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -32,9 +32,9 @@
                     <constraint firstAttribute="trailing" secondItem="Kyx-9Y-YkS" secondAttribute="trailing" constant="30" id="59H-Za-3lJ"/>
                     <constraint firstItem="Kyx-9Y-YkS" firstAttribute="leading" secondItem="e3s-QF-QYR" secondAttribute="trailing" constant="15" id="A2N-DU-Uoa"/>
                     <constraint firstItem="e3s-QF-QYR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="CEU-wl-If9"/>
-                    <constraint firstItem="e3s-QF-QYR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Cck-lu-ajs"/>
+                    <constraint firstItem="e3s-QF-QYR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="Cck-lu-ajs"/>
                     <constraint firstItem="Kyx-9Y-YkS" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Q0Q-md-mvR"/>
-                    <constraint firstAttribute="bottom" secondItem="e3s-QF-QYR" secondAttribute="bottom" constant="8" id="zBF-QA-7fl"/>
+                    <constraint firstAttribute="bottom" secondItem="e3s-QF-QYR" secondAttribute="bottom" constant="12" id="zBF-QA-7fl"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

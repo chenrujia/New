@@ -740,31 +740,34 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)maintenanceState:(NSString *)repairID
-          andReaciveTime:(NSString *)reaciveTime
-           andFinishTime:(NSString *)finishTime
-     andMaintenanceState:(NSString *)state
-            andFaultType:(NSString *)faultType
-             andManHours:(NSString *)hours
-       andSpecialOrderID:(NSString *)specialOID
-               andImages:(NSArray *)images
-                andNotes:(NSString *)notes
-                andMMLog:(NSString *)mmLog
-      andCollectionGroup:(NSString *)group
+                 placeID:(NSString *)placeID
+             deviceState:(NSString *)deviceState
+              orderState:(NSString *)state
+               faultType:(NSString *)faultType
+                reasonID:(NSString *)reasonID
+                   mmLog:(NSString *)mmLog
+                  images:(NSArray *)images
+
 {
     self.requestType = MaintenanceProcess;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"receive_time":reaciveTime,
-                          @"end_time":finishTime,
+                          @"workorder_id":repairID,
                           @"state":state,
-                          @"faulttype":faultType,
-                          @"id":repairID,
-                          @"man_hours":hours,
-                          @"collection":specialOID,
-                          @"workprocess":notes,
-                          @"log_content":mmLog,
-                          @"cooperation_group":group};
+                          @"faulttype_id":faultType,
+                          @"place_id":placeID,
+                          @"collection_id":reasonID,
+                          @"workprocess":mmLog};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_processed",[BXTGlobal shareGlobal].baseURL];
-    [self uploadImageRequest:url withParameters:dic withImages:images];
+    if (deviceState)
+    {
+        NSMutableDictionary *muDic = [NSMutableDictionary dictionaryWithDictionary:dic];
+        [muDic setObject:deviceState forKey:@"device_state"];
+        [self uploadImageRequest:url withParameters:muDic withImages:images];
+    }
+    else
+    {
+        [self uploadImageRequest:url withParameters:dic withImages:images];
+    }
 }
 
 - (void)maintenanceManList:(NSString *)groupID
@@ -1378,6 +1381,22 @@ andRepairerIsReacive:(NSString *)reacive
                           @"fault_confirm_notes": notes};
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=fault_confirm",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)specialWorkOrder
+{
+    self.requestType = SpecialOrder;
+    NSDictionary *dic = @{@"type": @"collection"};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=param_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)deviceStates
+{
+    self.requestType = DeviceState;
+    NSDictionary *dic = @{@"type": @"device_state"};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=param_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

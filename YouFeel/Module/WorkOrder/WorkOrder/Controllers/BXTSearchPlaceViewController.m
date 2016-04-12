@@ -16,6 +16,8 @@
 #define YDOWNIMAGE  [UIImage imageNamed:@"wo_down_arrow"]
 #define YUPIMAGE    [UIImage imageNamed:@"wo_up_arrow"]
 
+//!!!: 选择的时候有点小问题，到时候多测测
+
 @interface BXTSearchPlaceViewController ()
 
 @property (nonatomic, assign) BOOL isOpen;

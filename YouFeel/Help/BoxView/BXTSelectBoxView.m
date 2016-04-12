@@ -14,6 +14,7 @@
 #import "BXTFaultInfo.h"
 #import "BXTGroupingInfo.h"
 #import "BXTDeviceMaintenceInfo.h"
+#import "BXTSpecialOrderInfo.h"
 
 @implementation BXTSelectBoxView
 
@@ -147,6 +148,21 @@
         BXTDeviceMaintenceInfo *maintence = _dataArray[indexPath.row];
         cell.titleLabel.text = [NSString stringWithFormat:@"%@ %@",maintence.time_name,maintence.inspection_title];
     }
+    else if (_boxType == OrderDeviceStateView)
+    {
+        BXTDeviceStateInfo *deviceInfo = _dataArray[indexPath.row];
+        cell.titleLabel.text = deviceInfo.param_value;
+    }
+    else if (_boxType == FaultTypeView)
+    {
+        BXTFaultInfo *faultInfo = _dataArray[indexPath.row];
+        cell.titleLabel.text = faultInfo.faulttype;
+    }
+    else if (_boxType == SpecialSeasonView)
+    {
+        BXTSpecialOrderInfo *orderType = _dataArray[indexPath.row];
+        cell.titleLabel.text = orderType.param_value;
+    }
     else if (_boxType == Other)
     {
         cell.titleLabel.text = _dataArray[indexPath.row];
@@ -218,6 +234,21 @@
     {
         BXTDeviceMaintenceInfo *maintence = _dataArray[indexPath.row];
         [_delegate boxSelectedObj:maintence selectedType:_boxType];
+    }
+    else if (_boxType == OrderDeviceStateView)
+    {
+        BXTDeviceStateInfo *stateInfo = _dataArray[indexPath.row];
+        [_delegate boxSelectedObj:stateInfo selectedType:_boxType];
+    }
+    else if (_boxType == FaultTypeView)
+    {
+        BXTFaultInfo *faultInfo = _dataArray[indexPath.row];
+        [_delegate boxSelectedObj:faultInfo selectedType:_boxType];
+    }
+    else if (_boxType == SpecialSeasonView)
+    {
+        BXTSpecialOrderInfo *orderType = _dataArray[indexPath.row];
+        [_delegate boxSelectedObj:orderType selectedType:_boxType];
     }
     else if (_boxType == Other)
     {
