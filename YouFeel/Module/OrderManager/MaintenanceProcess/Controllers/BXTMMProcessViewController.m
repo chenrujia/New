@@ -58,6 +58,7 @@
         isDone = YES;
         self.state = @"2";
         self.maintenanceState = @"已修好";
+        self.mmLog = @"";
     }
     return self;
 }
@@ -126,22 +127,39 @@
 
 - (void)boxViewWithType:(BoxSelectedType)type andTitle:(NSString *)title andData:(NSArray *)array
 {
-    self.boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:title boxSelectedViewType:type listDataSource:array markID:nil actionDelegate:self];
+    self.boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 250.f) boxTitle:title boxSelectedViewType:type listDataSource:array markID:nil actionDelegate:self];
     [self.view addSubview:self.boxView];
     
     [UIView animateWithDuration:0.3f animations:^{
-        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
+        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 250.f, SCREEN_WIDTH, 250.f)];
     }];
 }
 
 - (IBAction)doneClick:(id)sender
 {
+    if (!self.choosedPlaceInfo)
+    {
+        [self showMBP:@"请您确定维修位置" withBlock:nil];
+    }
+    else if (self.deviceInfo && !self.choosedStateInfo)
+    {
+        [self showMBP:@"请您确定设备状态" withBlock:nil];
+    }
+    else if (!self.choosedFaultInfo)
+    {
+        [self showMBP:@"请您确定故障类型" withBlock:nil];
+    }
+    else if ([self.state isEqualToString:@"1"] && !self.choosedReasonInfo)
+    {
+        [self showMBP:@"请您确定未完成原因" withBlock:nil];
+    }
+    
     [self showLoadingMBP:@"请稍后..."];
     /**提交维修中状态**/
     NSString *deviceState = nil;
-    if (self.deviceInfo)
+    if (self.choosedStateInfo)
     {
-        deviceState = self.deviceInfo.deviceMMID;
+        deviceState = self.choosedStateInfo.stateID;
     }
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request maintenanceState:self.repairID
@@ -414,7 +432,7 @@
     if (view.tag == 101)
     {
         [UIView animateWithDuration:0.3f animations:^{
-            [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
+            [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 250.f)];
         } completion:^(BOOL finished) {
             [self.boxView removeFromSuperview];
             self.boxView = nil;
@@ -447,6 +465,20 @@
 #pragma mark BXTBoxSelectedTitleDelegate
 - (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
 {
+    UIView *view = [self.view viewWithTag:101];
+    [view removeFromSuperview];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
+    } completion:^(BOOL finished) {
+        [self.boxView removeFromSuperview];
+        self.boxView = nil;
+    }];
+    
+    if (!obj)
+    {
+        return;
+    }
     if (type == FaultTypeView)
     {
         BXTFaultInfo *faultInfo = obj;
@@ -479,16 +511,6 @@
     }
     
     [self.currentTable reloadData];
-    
-    UIView *view = [self.view viewWithTag:101];
-    [view removeFromSuperview];
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f)];
-    } completion:^(BOOL finished) {
-        [self.boxView removeFromSuperview];
-        self.boxView = nil;
-    }];
 }
 
 #pragma mark -

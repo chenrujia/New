@@ -23,7 +23,7 @@
     self = [super initWithFrame:rect];
     if (self)
     {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = colorWithHexString(@"EFF3F6");
         markArray = [NSMutableArray array];
         self.dataArray = array;
         self.delegate = delegate;
@@ -37,26 +37,64 @@
         /**标记上次的选项**/
         [self mark];
         
+        UIView *titleBV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
+        titleBV.backgroundColor = [UIColor whiteColor];
         title_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200.f, 20.f)];
         title_label.center = CGPointMake(SCREEN_WIDTH/2.f, 20.f);
         title_label.textAlignment = NSTextAlignmentCenter;
         title_label.textColor = colorWithHexString(@"000000");
         title_label.font = [UIFont systemFontOfSize:17.f];
-        title_label.text = [NSString stringWithFormat:@"请选择%@",title];
-        [self addSubview:title_label];
+        title_label.text = title;
+        [titleBV addSubview:title_label];
+        [self addSubview:titleBV];
         
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 39.f, SCREEN_WIDTH - 30.f, 1.f)];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39.4f, SCREEN_WIDTH, 0.6f)];
         lineView.backgroundColor = colorWithHexString(@"e2e6e8");
         [self addSubview:lineView];
         
-        currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView.frame), SCREEN_WIDTH, rect.size.height - 40.f) style:UITableViewStylePlain];
+        currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView.frame), SCREEN_WIDTH, rect.size.height - 110.f) style:UITableViewStylePlain];
         currentTableView.backgroundColor = [UIColor whiteColor];
-        currentTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        currentTableView.rowHeight = 50.f;
         [currentTableView registerClass:[BXTSettingTableViewCell class] forCellReuseIdentifier:@"BoxCell"];
         currentTableView.delegate = self;
         currentTableView.dataSource = self;
         currentTableView.showsVerticalScrollIndicator = NO;
         [self addSubview:currentTableView];
+        
+        UIView *buttonBV = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(rect) - 56.f, CGRectGetWidth(rect), 56.f)];
+        buttonBV.backgroundColor = [UIColor whiteColor];
+        [self addSubview:buttonBV];
+        
+        UIView *lineTwoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0.f, SCREEN_WIDTH, 0.5f)];
+        lineTwoView.backgroundColor = colorWithHexString(@"e2e6e8");
+        [buttonBV addSubview:lineTwoView];
+        
+        UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [cancelBtn setFrame:CGRectMake(0, 6, 120.f, 44.f)];
+        [cancelBtn setCenter:CGPointMake(SCREEN_WIDTH/4.f, cancelBtn.center.y)];
+        [cancelBtn setTitleColor:colorWithHexString(@"6E6E6E") forState:UIControlStateNormal];
+        [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+        @weakify(self);
+        [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self.delegate boxSelectedObj:nil selectedType:self.boxType];
+        }];
+        [buttonBV addSubview:cancelBtn];
+        
+        UIView *lineThreeView = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2.f - 1.f, 16.f, 2.f, 24.f)];
+        lineThreeView.backgroundColor = colorWithHexString(@"ACADB2");
+        [buttonBV addSubview:lineThreeView];
+        
+        UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [doneBtn setFrame:CGRectMake(0, 6, 120.f, 44.f)];
+        [doneBtn setCenter:CGPointMake(SCREEN_WIDTH/4.f*3.f, cancelBtn.center.y)];
+        [doneBtn setTitleColor:colorWithHexString(@"3CAFFF") forState:UIControlStateNormal];
+        [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
+        [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self.delegate boxSelectedObj:self.choosedItem selectedType:self.boxType];
+        }];
+        [buttonBV addSubview:doneBtn];
     }
     return self;
 }
@@ -187,72 +225,72 @@
     {
         BXTDepartmentInfo *departmentInfo = _dataArray[indexPath.row];
         [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
-        [_delegate boxSelectedObj:departmentInfo.department selectedType:_boxType];
+        self.choosedItem = departmentInfo;
     }
     else if (_boxType == PositionView)
     {
         BXTPostionInfo *positionInfo = _dataArray[indexPath.row];
         [BXTGlobal setUserProperty:positionInfo withKey:U_POSITION];
-        [_delegate boxSelectedObj:positionInfo.duty_name selectedType:_boxType];
+        self.choosedItem = positionInfo;
     }
     else if (_boxType == FloorInfoView)
     {
         BXTFloorInfo *floorInfo = _dataArray[indexPath.row];
         [BXTGlobal setUserProperty:floorInfo withKey:U_FLOOOR];
-        [_delegate boxSelectedObj:floorInfo selectedType:_boxType];
+        self.choosedItem = floorInfo;
     }
     else if (_boxType == AreaInfoView)
     {
         BXTAreaInfo *areaInfo = _dataArray[indexPath.row];
         [BXTGlobal setUserProperty:areaInfo withKey:U_AREA];
-        [_delegate boxSelectedObj:areaInfo selectedType:_boxType];
+        self.choosedItem = areaInfo;
     }
     else if (_boxType == ShopInfoView)
     {
         if ([_dataArray[indexPath.row] isKindOfClass:[NSString class]])
         {
-            [_delegate boxSelectedObj:_dataArray[indexPath.row] selectedType:_boxType];
+            self.choosedItem = _dataArray[indexPath.row];
         }
         else
         {
             BXTShopInfo *shopInfo = _dataArray[indexPath.row];
             [BXTGlobal setUserProperty:shopInfo withKey:U_SHOP];
-            [_delegate boxSelectedObj:shopInfo selectedType:_boxType];
+            self.choosedItem = shopInfo;
         }
     }
     else if (_boxType == GroupingView)
     {
         BXTGroupingInfo *groupInfo = _dataArray[indexPath.row];
-        [_delegate boxSelectedObj:groupInfo selectedType:_boxType];
+        self.choosedItem = groupInfo;
     }
     else if (_boxType == SpecialOrderView)
     {
         NSDictionary *dic = _dataArray[indexPath.row];
-        [_delegate boxSelectedObj:dic selectedType:_boxType];
+        self.choosedItem = dic;
     }
     else if (_boxType == CheckProjectsView)
     {
         BXTDeviceMaintenceInfo *maintence = _dataArray[indexPath.row];
-        [_delegate boxSelectedObj:maintence selectedType:_boxType];
+        self.choosedItem = maintence;
     }
     else if (_boxType == OrderDeviceStateView)
     {
         BXTDeviceStateInfo *stateInfo = _dataArray[indexPath.row];
-        [_delegate boxSelectedObj:stateInfo selectedType:_boxType];
+        self.choosedItem = stateInfo;
     }
     else if (_boxType == FaultTypeView)
     {
         BXTFaultInfo *faultInfo = _dataArray[indexPath.row];
-        [_delegate boxSelectedObj:faultInfo selectedType:_boxType];
+        self.choosedItem = faultInfo;
     }
     else if (_boxType == SpecialSeasonView)
     {
         BXTSpecialOrderInfo *orderType = _dataArray[indexPath.row];
-        [_delegate boxSelectedObj:orderType selectedType:_boxType];
+        self.choosedItem = orderType;
     }
     else if (_boxType == Other)
     {
-        [_delegate boxSelectedObj:_dataArray[indexPath.row] selectedType:_boxType];
+        self.choosedItem = _dataArray[indexPath.row];
     }
 }
 
