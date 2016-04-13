@@ -203,7 +203,7 @@
         }];
         [self.navigationController pushViewController:searchVC animated:YES];
     }
-    else if (!(indexPath.section == 5 + self.number) && !(indexPath.section == 6 + self.number))
+    else if (!(indexPath.section == 5 + self.number) && !(indexPath.section == 6 + self.number) && !(!isDone && indexPath.section == 5 + self.number) && !(isDone && indexPath.section == 4 + self.number))
     {
         [self createBoxView:indexPath.section];
     }

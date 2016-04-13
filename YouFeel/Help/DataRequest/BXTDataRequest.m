@@ -801,13 +801,11 @@ andRepairerIsReacive:(NSString *)reacive
     }
 }
 
-- (void)maintenanceManList:(NSString *)groupID
+- (void)maintenanceManList
 {
     self.requestType = ManList;
-    NSDictionary *dic = @{@"is_repair":@"2",
-                          @"subgroup":groupID};
-    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_list",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
+    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=subgroup_user",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
 }
 
 - (void)uploadHeaderImage:(UIImage *)image

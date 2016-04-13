@@ -57,6 +57,11 @@
     [_deleteBtn setCenter:CGPointMake(CGRectGetMaxX(self.bounds) - 22, 22)];
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"........");
+}
+
 - (void)deleteImage:(NSNotification *)notification
 {
     NSNumber *number = notification.object;

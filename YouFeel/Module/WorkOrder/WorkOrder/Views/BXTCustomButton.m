@@ -37,6 +37,12 @@
         titleW = SCREEN_WIDTH - 40 - 30 - 10 - 8;
         titleH = contentRect.size.height - titleY;
     }
+    else if (_customBtnType == GroupBtnType)
+    {
+        titleX = 0.f;
+        titleW = SCREEN_WIDTH - 40 - 30 - 10 - 8;
+        titleH = contentRect.size.height - titleY;
+    }
     
     return CGRectMake(titleX, titleY, titleW, titleH);
 }
@@ -58,6 +64,13 @@
     else if (_customBtnType == SelectBtnType)
     {
         imageX = SCREEN_WIDTH - 40 - 30;
+        imageY = 18;
+        imageW = 15.f;
+        imageH = 9.f;
+    }
+    else if (_customBtnType == GroupBtnType)
+    {
+        imageX = SCREEN_WIDTH - 58;
         imageY = 18;
         imageW = 15.f;
         imageH = 9.f;

@@ -10,4 +10,13 @@
 
 @implementation BXTGroupingInfo
 
+
++ (NSDictionary *)objectClassInArray{
+    return @{@"user_lists" : [BXTManInfo class]};
+}
 @end
+@implementation BXTManInfo
+
+@end
+
+
