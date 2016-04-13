@@ -357,6 +357,10 @@
 		9652AC341BC90EC9009A666D /* LocalPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9652AC201BC90EC9009A666D /* LocalPhotoCell.xib */; };
 		9652AC351BC90EC9009A666D /* LocalPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AC221BC90EC9009A666D /* LocalPhotoViewController.m */; };
 		9652AC361BC90EC9009A666D /* LocalPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9652AC231BC90EC9009A666D /* LocalPhotoViewController.xib */; };
+		965F68701CBDEA7300BF781D /* BXTManListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 965F686E1CBDEA7300BF781D /* BXTManListViewController.m */; };
+		965F68711CBDEA7300BF781D /* BXTManListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965F686F1CBDEA7300BF781D /* BXTManListViewController.xib */; };
+		965F68781CBE219000BF781D /* BXTManTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 965F68761CBE219000BF781D /* BXTManTableViewCell.m */; };
+		965F68791CBE219000BF781D /* BXTManTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965F68771CBE219000BF781D /* BXTManTableViewCell.xib */; };
 		9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */; };
 		9660CEE21C437E2E00176DDE /* BXTMaintenanceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9660CEE01C437E2E00176DDE /* BXTMaintenanceViewController.xib */; };
 		9662659A1C3A6E8A001113FF /* AboutOrder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 966265991C3A6E8A001113FF /* AboutOrder.storyboard */; };
@@ -1090,6 +1094,12 @@
 		9652AC211BC90EC9009A666D /* LocalPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalPhotoViewController.h; sourceTree = "<group>"; };
 		9652AC221BC90EC9009A666D /* LocalPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalPhotoViewController.m; sourceTree = "<group>"; };
 		9652AC231BC90EC9009A666D /* LocalPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocalPhotoViewController.xib; sourceTree = "<group>"; };
+		965F686D1CBDEA7300BF781D /* BXTManListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTManListViewController.h; sourceTree = "<group>"; };
+		965F686E1CBDEA7300BF781D /* BXTManListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTManListViewController.m; sourceTree = "<group>"; };
+		965F686F1CBDEA7300BF781D /* BXTManListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTManListViewController.xib; sourceTree = "<group>"; };
+		965F68751CBE219000BF781D /* BXTManTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTManTableViewCell.h; sourceTree = "<group>"; };
+		965F68761CBE219000BF781D /* BXTManTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTManTableViewCell.m; sourceTree = "<group>"; };
+		965F68771CBE219000BF781D /* BXTManTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTManTableViewCell.xib; sourceTree = "<group>"; };
 		9660CEDE1C437E2E00176DDE /* BXTMaintenanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenanceViewController.h; sourceTree = "<group>"; };
 		9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenanceViewController.m; sourceTree = "<group>"; };
 		9660CEE01C437E2E00176DDE /* BXTMaintenanceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMaintenanceViewController.xib; sourceTree = "<group>"; };
@@ -2627,6 +2637,9 @@
 			children = (
 				7867DD2F1C4CBEA1000749F1 /* BXTAddOtherManViewController.h */,
 				7867DD301C4CBEA1000749F1 /* BXTAddOtherManViewController.m */,
+				965F686D1CBDEA7300BF781D /* BXTManListViewController.h */,
+				965F686E1CBDEA7300BF781D /* BXTManListViewController.m */,
+				965F686F1CBDEA7300BF781D /* BXTManListViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2645,6 +2658,9 @@
 			children = (
 				7867DD351C4CBEA1000749F1 /* BXTAddOtherManTableViewCell.h */,
 				7867DD361C4CBEA1000749F1 /* BXTAddOtherManTableViewCell.m */,
+				965F68751CBE219000BF781D /* BXTManTableViewCell.h */,
+				965F68761CBE219000BF781D /* BXTManTableViewCell.m */,
+				965F68771CBE219000BF781D /* BXTManTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4411,6 +4427,7 @@
 				783DDA5F1C3FD45C0035B927 /* CodeScan.bundle in Resources */,
 				7867DD731C4CBEA1000749F1 /* sound.wav in Resources */,
 				78EFEEE81CAE6CB10011F9E9 /* BXTProjectInformTitleCell.xib in Resources */,
+				965F68791CBE219000BF781D /* BXTManTableViewCell.xib in Resources */,
 				784E4FB01CA911B300EF2A06 /* BXTMyIntegralThirdCell.xib in Resources */,
 				9634156B1C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib in Resources */,
 				781EF20E1C3D382C0027FE72 /* BXTEquipmentInformCell.xib in Resources */,
@@ -4775,6 +4792,7 @@
 				781EF20F1C3D382C0027FE72 /* BXTEquipmentInformView.m in Sources */,
 				9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */,
 				783DDA4A1C3FB4A50035B927 /* ChineseToPinyinResource.m in Sources */,
+				965F68781CBE219000BF781D /* BXTManTableViewCell.m in Sources */,
 				7893D9141C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m in Sources */,
 				9652ABEC1BC90DCC009A666D /* NSData+CommonCrypto.m in Sources */,
 				9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */,
@@ -4807,6 +4825,7 @@
 				784E4FB71CA9160700EF2A06 /* BXTRankingCell.m in Sources */,
 				7839780C1C34D9EB00BE9620 /* BXTMailListCell.m in Sources */,
 				969701F61C881C590048391F /* BXTInfoNotesTableViewCell.m in Sources */,
+				965F68701CBDEA7300BF781D /* BXTManListViewController.m in Sources */,
 				7818DBDB1C0824D800DC22C6 /* PNBar.m in Sources */,
 				7867DD771C4CBEA1000749F1 /* WZFlashButton.m in Sources */,
 				78C55A681C47339700FFEB37 /* BXTEquipmentData.m in Sources */,

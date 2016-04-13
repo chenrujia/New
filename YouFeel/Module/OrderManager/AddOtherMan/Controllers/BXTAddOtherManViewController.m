@@ -69,7 +69,7 @@
     dispatch_async(concurrentQueue, ^{
         /**请求维修员列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request maintenanceManList:@""];
+        [request maintenanceManList];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求职位列表**/
@@ -314,14 +314,13 @@
     {
         /**请求维修员列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request maintenanceManList:@""];
+        [request maintenanceManList];
     }
     else
     {
-        BXTGroupingInfo *groupInfo = departmentsArray[indexPath.row];
         /**请求维修员列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request maintenanceManList:groupInfo.group_id];
+        [request maintenanceManList];
     }
 }
 

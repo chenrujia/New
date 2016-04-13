@@ -414,7 +414,7 @@ andRepairerIsReacive:(NSString *)reacive;
 /**
  *  维修员列表
  */
-- (void)maintenanceManList:(NSString *)groupID;
+- (void)maintenanceManList;
 
 /**
  *  上传头像
