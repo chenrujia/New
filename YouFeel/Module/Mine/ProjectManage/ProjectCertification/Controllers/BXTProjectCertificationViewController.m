@@ -282,19 +282,25 @@
     }
     
     // 项目管理公司
-    if (self.isCompanyType) {
-        if (indexPath.section == 2) {
+    if (self.isCompanyType)
+    {
+        if (indexPath.section == 2)
+        {
             [self pushDepartmentViewController];
         }
-        else if (indexPath.section == 3 || indexPath.section == 4 || indexPath.section == 5) {
+        else if (indexPath.section == 3 || indexPath.section == 4 || indexPath.section == 5)
+        {
             [self createTableViewWithIndex:indexPath.section];
         }
     }
-    else {
-        if (indexPath.section == 2) {
+    else
+    {
+        if (indexPath.section == 2)
+        {
             [self pushChooseListViewController];
         }
-        else if (indexPath.section == 3) {
+        else if (indexPath.section == 3)
+        {
             [self pushLocationViewController];
         }
     }

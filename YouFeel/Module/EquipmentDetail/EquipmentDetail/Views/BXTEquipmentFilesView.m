@@ -225,6 +225,10 @@
 {
     [self.bgView removeFromSuperview];
     [self.boxView removeFromSuperview];
+    if (!obj)
+    {
+        return;
+    }
     BXTDeviceMaintenceInfo *maintenceInfo = obj;
     //已在维保中，不需要再次新建维保作业
     if ([maintenceInfo.inspection_state integerValue] > 0)

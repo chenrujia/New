@@ -33,12 +33,13 @@ typedef NS_ENUM(NSInteger, BoxSelectedType) {
 @interface BXTSelectBoxView : UIView <UITableViewDataSource,UITableViewDelegate>
 {
     NSMutableArray *markArray;
-    UILabel *title_label;
-    UITableView *currentTableView;
-    NSString *markID;
+    UILabel        *title_label;
+    UITableView    *currentTableView;
+    NSString       *markID;
 }
 
 @property (nonatomic ,strong) NSArray *dataArray;
+@property (nonatomic, strong) id choosedItem;
 @property (nonatomic ,assign) BoxSelectedType boxType;
 @property (nonatomic ,weak) id <BXTBoxSelectedTitleDelegate> delegate;
 
