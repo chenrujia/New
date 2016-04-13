@@ -248,7 +248,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
     }
     
     cell.codeButton.hidden = YES;
-
+    
     return cell;
 }
 

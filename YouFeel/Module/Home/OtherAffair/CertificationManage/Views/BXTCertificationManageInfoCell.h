@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTProjectInfo.h"
 
 @interface BXTCertificationManageInfoCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *typeView;
+@property (weak, nonatomic) IBOutlet UILabel *departmentView;
+@property (weak, nonatomic) IBOutlet UILabel *positionView;
+@property (weak, nonatomic) IBOutlet UILabel *groupView;
+@property (weak, nonatomic) IBOutlet UILabel *professionView;
+
+@property (strong, nonatomic) BXTProjectInfo *projectInfo;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

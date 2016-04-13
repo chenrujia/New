@@ -63,6 +63,11 @@
                     <constraint firstItem="G4K-lw-4eD" firstAttribute="top" secondItem="Ymv-SA-I9w" secondAttribute="bottom" constant="8" id="eoi-kh-QWk"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="iconView" destination="1SZ-z3-Tc3" id="mLh-6d-3df"/>
+                <outlet property="nameView" destination="Ymv-SA-I9w" id="is2-mn-D8m"/>
+                <outlet property="phoneView" destination="G4K-lw-4eD" id="Zkg-7g-fWS"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>

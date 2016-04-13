@@ -192,6 +192,14 @@
         }];
         [self.dataArray addObjectsFromArray:[BXTMyProject mj_objectArrayWithKeyValuesArray:data]];
         [self.tableView reloadData];
+        
+        // 更新U_SHOPIDS
+        NSMutableArray *shopIDs = [[NSMutableArray alloc] init];
+        for (BXTMyProject * myProject in self.dataArray) {
+            [shopIDs addObject:myProject.shop_id];
+        }
+        [BXTGlobal setUserProperty:shopIDs withKey:U_SHOPIDS];
+        
     }
     else if (type == BranchLogin)
     {

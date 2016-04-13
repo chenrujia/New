@@ -43,7 +43,7 @@
         self.locationView.hidden = YES;
         self.switchBtn.hidden = NO;
     }
-
+    
 }
 
 - (NSString *)transVertifyState:(NSString *)state

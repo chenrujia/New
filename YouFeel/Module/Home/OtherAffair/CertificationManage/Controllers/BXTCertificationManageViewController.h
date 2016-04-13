@@ -10,4 +10,7 @@
 
 @interface BXTCertificationManageViewController : BXTBaseViewController
 
+@property (copy, nonatomic) NSString *transID;
+@property (strong, nonatomic) RACSubject *delegateSignal;
+
 @end

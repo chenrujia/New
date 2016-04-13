@@ -9,11 +9,12 @@
 #import "BXTCertificationManageViewController.h"
 #import "BXTCertificationManageCell.h"
 #import "BXTCertificationManageInfoCell.h"
+#import "BXTProjectInfo.h"
 
 @interface BXTCertificationManageViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSArray *dataArray;
+@property (strong, nonatomic) BXTProjectInfo *projectInfo;
 
 @end
 
@@ -26,6 +27,11 @@
     [self navigationSetting:@"认证审批" andRightTitle:nil andRightImage:nil];
     
     [self createUI];
+    
+    [self showLoadingMBP:@"努力加载中..."];
+    /** 项目认证详情 **/
+    BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+    [dataRequest projectAuthenticationDetailWithApplicantID:self.transID shopID:@""];
 }
 
 #pragma mark -
@@ -44,70 +50,78 @@
     footerView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:footerView];
     
-    // changeBtn
-    CGFloat btnW = (SCREEN_WIDTH - 2 * 15 - 30) / 2;
-    UIButton *changeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    changeBtn.frame = CGRectMake(15, 10, btnW, 50);
-    [changeBtn setTitle:@"修改信息" forState:UIControlStateNormal];
-    changeBtn.backgroundColor = colorWithHexString(@"#5DAEF9");
-    changeBtn.layer.cornerRadius = 5;
-    @weakify(self);
-    [[changeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        
-    }];
-    [footerView addSubview:changeBtn];
     
-    // switchBtn
+    // disagree
+    CGFloat btnW = (SCREEN_WIDTH - 2 * 15 - 30) / 2;
     UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    switchBtn.frame = CGRectMake(15 + btnW + 30, 10, btnW, 50);
-    [switchBtn setTitle:@"切换至" forState:UIControlStateNormal];
+    switchBtn.frame = CGRectMake(15, 10, btnW, 50);
+    [switchBtn setTitle:@"不通过" forState:UIControlStateNormal];
     [switchBtn setTitleColor:colorWithHexString(@"#5DAEF9") forState:UIControlStateNormal];
     switchBtn.layer.borderWidth = 1;
     switchBtn.layer.borderColor = [colorWithHexString(@"#5DAEF9") CGColor];
     switchBtn.layer.cornerRadius = 5;
+    @weakify(self);
     [[switchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [self.navigationController popViewControllerAnimated:YES];
+        @strongify(self);
+        [self showLoadingMBP:@"努力加载中..."];
+        /** 项目认证详情 **/
+        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid isVerify:@"0"];
     }];
     [footerView addSubview:switchBtn];
+    
+    // agree
+    UIButton *changeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    changeBtn.frame = CGRectMake(15 + btnW + 30, 10, btnW, 50);
+    [changeBtn setTitle:@"通过" forState:UIControlStateNormal];
+    changeBtn.backgroundColor = colorWithHexString(@"#5DAEF9");
+    changeBtn.layer.cornerRadius = 5;
+    [[changeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self showLoadingMBP:@"努力加载中..."];
+        /** 项目认证详情 **/
+        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid isVerify:@"1"];
+    }];
+    [footerView addSubview:changeBtn];
 }
 
 #pragma mark -
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.dataArray.count;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.dataArray[section] count];
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2) {
+    if (indexPath.section == 0) {
         BXTCertificationManageCell *cell = [BXTCertificationManageCell cellWithTableView:tableView];
         
+        cell.projectInfo = self.projectInfo;
         
         return cell;
     }
     
     BXTCertificationManageInfoCell *cell = [BXTCertificationManageInfoCell cellWithTableView:tableView];
     
+    cell.projectInfo = self.projectInfo;
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 1) {
-        return 140;
-    }
-    if (indexPath.section == 2) {
+    if (indexPath.section == 0) {
         return 117;
     }
-    return 50;
+    
+    return 140;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -132,17 +146,37 @@
 {
     [self hideMBP];
     NSDictionary *dic = response;
-//    NSArray *data = [dic objectForKey:@"data"];
-//    
-//    if (type == AuthenticationDetail && [dic[@"returncode"] integerValue] == 0)
-//    {
-//        [BXTProjectInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-//            return @{@"projectID": @"id"};
-//        }];
-//        self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
-//        
-//        [self.tableView reloadData];
-//    }
+    
+    if (type == AuthenticationDetail && [dic[@"returncode"] integerValue] == 0)
+    {
+        NSArray *data = [dic objectForKey:@"data"];
+        
+        [BXTProjectInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"projectID": @"id"};
+        }];
+        self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
+        
+        [self.tableView reloadData];
+    }
+    else if (type == AuthenticationVerify)
+    {
+        if ([dic[@"returncode"] integerValue] == 0) {
+            [BXTGlobal showText:@"认证审核完成" view:self.view completionBlock:^{
+                if (self.delegateSignal) {
+                    [self.delegateSignal sendNext:nil];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+        }
+        else if ([dic[@"returncode"] integerValue] == 47) {
+            [BXTGlobal showText:@"认证审核已被其他人员处理完成" view:self.view completionBlock:^{
+                if (self.delegateSignal) {
+                    [self.delegateSignal sendNext:nil];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+        }
+    }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

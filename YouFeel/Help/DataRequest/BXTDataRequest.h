@@ -85,7 +85,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     AuthenticationApply = 72,
     ModifyBindPlace = 73,
     SpecialOrder =74,
-    DeviceState = 75
+    DeviceState = 75,
+    AuthenticationVerify = 76,
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -297,8 +298,18 @@ andRepairerIsReacive:(NSString *)reacive;
 
 /**
  *  项目认证详情 - 新
+ *  applicantID - 认证审批人的ID
+ *  shopID - 项目详情ID   两者取其一
  */
-- (void)projectAuthenticationDetailWithShopID:(NSString *)shopID;
+- (void)projectAuthenticationDetailWithApplicantID:(NSString *)applicantID
+                                            shopID:(NSString *)shopID;
+
+/**
+ *  项目认证审核 - 新
+ *  is_verify - 认证审核：1通过 0不通过
+ */
+- (void)projectAuthenticationVerifyWithApplicantID:(NSString *)applicantID
+                                          isVerify:(NSString *)is_verify;
 
 /**
  *  分店添加用户 - 新

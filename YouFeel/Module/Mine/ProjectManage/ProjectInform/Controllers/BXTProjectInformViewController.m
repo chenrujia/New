@@ -39,7 +39,7 @@
     
     /** 项目认证详情 **/
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dataRequest projectAuthenticationDetailWithShopID:self.transMyProject.shop_id];
+    [dataRequest projectAuthenticationDetailWithApplicantID:@"" shopID:self.transMyProject.shop_id];
 }
 
 #pragma mark -
@@ -89,6 +89,8 @@
     switchBtn.layer.borderColor = [colorWithHexString(@"#5DAEF9") CGColor];
     switchBtn.layer.cornerRadius = 5;
     [[switchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        
         [self.navigationController popViewControllerAnimated:YES];
     }];
     [footerView addSubview:switchBtn];

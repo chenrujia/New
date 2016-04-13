@@ -149,6 +149,12 @@
     NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};
     //TODO:shop_id=11这是测试值
     NSString *url = [NSString stringWithFormat:@"%@&shop_id=11&module=user&opt=add_user",KAPIBASEURL];
+    
+    // 不给baseURL赋值，注册后URL无前缀
+    [BXTGlobal shareGlobal].baseURL = [NSString stringWithFormat:@"%@&shop_id=11", KAPIBASEURL];
+    // 更新U_SHOPIDS
+    [BXTGlobal setUserProperty:@[@"11"] withKey:U_SHOPIDS];
+    
     [self postRequest:url withParameters:dic];
 }
 
@@ -542,15 +548,40 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:nil];
 }
 
-- (void)projectAuthenticationDetailWithShopID:(NSString *)shopID
+- (void)projectAuthenticationDetailWithApplicantID:(NSString *)applicantID
+                                            shopID:(NSString *)shopID
 {
     self.requestType = AuthenticationDetail;
     
-    NSDictionary *dic = @{@"shop_id": shopID,
-                          @"out_userid": [BXTGlobal getUserProperty:U_USERID]};
     
+    // 认证审批 -- 默认项目详情
+    if ([BXTGlobal isBlankString:shopID]) {
+        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+        shopID = companyInfo.company_id;
+    }
+    
+    NSDictionary *dic = @{@"id": applicantID,
+                          @"shop_id": shopID,
+                          @"out_userid": [BXTGlobal getUserProperty:U_USERID]};
     NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
+    
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_detail",urlLast];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)projectAuthenticationVerifyWithApplicantID:(NSString *)applicantID
+                                          isVerify:(NSString *)is_verify
+{
+    self.requestType = AuthenticationVerify;
+    
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    NSDictionary *dic = @{@"out_userid": applicantID,
+                          @"shop_id": companyInfo.company_id,
+                          @"is_verify": is_verify};
+    
+    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, companyInfo.company_id, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_verify",urlLast];
+    
     [self postRequest:url withParameters:dic];
 }
 

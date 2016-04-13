@@ -133,6 +133,13 @@
                     <constraint firstItem="B7g-Zf-C3m" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="zXy-0A-bDU"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="departmentView" destination="u10-pB-vro" id="hzU-qj-PVY"/>
+                <outlet property="groupView" destination="XNJ-H3-49J" id="fw6-1O-3e4"/>
+                <outlet property="positionView" destination="9UJ-at-g9d" id="0Af-PG-5IT"/>
+                <outlet property="professionView" destination="YHK-jQ-Sd7" id="rOm-gf-f9M"/>
+                <outlet property="typeView" destination="jg3-y3-FzX" id="zIA-L5-lTw"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>
