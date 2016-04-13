@@ -1388,6 +1388,7 @@ andRepairerIsReacive:(NSString *)reacive
                  announcementTimestart:(NSString *)announcement_timestart
 {
     self.requestType = Remind_Number;
+    
     NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"daily_timestart": daily_timestart,
                           @"inspection_timestart": inspection_timestart,

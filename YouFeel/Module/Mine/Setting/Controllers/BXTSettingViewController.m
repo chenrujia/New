@@ -67,7 +67,7 @@
                 [[RCIM sharedRCIM] disconnect];
                 [[ANKeyValueTable userDefaultTable] clear];
                 [BXTGlobal shareGlobal].isRepair = NO;
-                SaveValueTUD(@"shop_tel", nil);
+
                 [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
                 UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTLoginViewController"];

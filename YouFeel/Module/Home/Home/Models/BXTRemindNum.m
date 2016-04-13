@@ -27,8 +27,12 @@
     self = [super init];
     if (self)
     {
-        self.timeStart_Daily = @"0";
-        self.timeStart_Inspection = @"0";
+        self.timeStart_Daily = @"";
+        self.timeStart_Inspection = @"";
+        self.timeStart_Repair = @"";
+        self.timeStart_Report = @"";
+        self.timeStart_Object = @"";
+        self.timeStart_Announcement = @"";
         
         if ([ValueFUD(@"timeStart_Daily") integerValue] != 0)
         {
@@ -36,6 +40,20 @@
         }
         if ([ValueFUD(@"timeStart_Inspectio") integerValue] != 0) {
             self.timeStart_Inspection = ValueFUD(@"timeStart_Inspectio");
+        }
+        if ([ValueFUD(@"timeStart_Repair") integerValue] != 0)
+        {
+            self.timeStart_Daily = ValueFUD(@"timeStart_Repair");
+        }
+        if ([ValueFUD(@"timeStart_Report") integerValue] != 0) {
+            self.timeStart_Inspection = ValueFUD(@"timeStart_Report");
+        }
+        if ([ValueFUD(@"timeStart_Object") integerValue] != 0)
+        {
+            self.timeStart_Daily = ValueFUD(@"timeStart_Object");
+        }
+        if ([ValueFUD(@"timeStart_Announcement") integerValue] != 0) {
+            self.timeStart_Inspection = ValueFUD(@"timeStart_Announcement");
         }
     }
     return self;

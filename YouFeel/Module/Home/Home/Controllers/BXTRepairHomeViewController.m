@@ -39,29 +39,6 @@
                            @[@"我的积分"],
                            @[@"业务统计"],
                            @[@"项目热线"], nil];
-    
-    
-    //    NSArray *roleArray = [BXTGlobal getUserProperty:U_ROLEARRAY];
-    //    if (![roleArray containsObject:@"116"] && ![roleArray containsObject:@"114"])
-    //    {
-    //        [self.titleNameArray removeObject:@"特殊工单"];
-    //        [self.imgNameArray removeObject:@"Special_Orders"];
-    //        [self.titleNameArray removeObject:@"业务统计"];
-    //        [self.imgNameArray removeObject:@"Business_Statistics"];
-    //        self.whichHidden = HiddenType_Both;
-    //    }
-    //    else if (![roleArray containsObject:@"116"])
-    //    {
-    //        [self.titleNameArray removeObject:@"特殊工单"];
-    //        [self.imgNameArray removeObject:@"Special_Orders"];
-    //        self.whichHidden = HiddenType_SpecialOrders;
-    //    }
-    //    else if (![roleArray containsObject:@"114"])
-    //    {
-    //        [self.titleNameArray removeObject:@"业务统计"];
-    //        [self.imgNameArray removeObject:@"Business_Statistics"];
-    //        self.whichHidden = HiddenType_BusinessStatistics;
-    //    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
