@@ -27,7 +27,6 @@
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTMyIntegralViewController.h"
 #import "BXTMTProfessionViewController.h"
-#import "BXTMTReportsViewController.h"
 #import "BXTRepairsListViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
@@ -81,7 +80,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//TODO: 要修改
+    //TODO: 要修改
     //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     //    dispatch_async(concurrentQueue, ^{
     //        /** 消息列表 **/
@@ -89,22 +88,20 @@
     //        [request messageList];
     //    });
     //    dispatch_async(concurrentQueue, ^{
-    //        dispatch_async(concurrentQueue, ^{
-    //            /** 提醒数字 **/
-    //            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    //            [request remindNumberWithDailyTimeStart:[BXTRemindNum sharedManager].timeStart_Daily InspectioTimeStart:[BXTRemindNum sharedManager].timeStart_Inspectio];
-    //        });
+    
     //    });
     //
-    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButton" object:nil];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButton" object:nil];
+    
+    // 获取通知气泡数据列表
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request remindNumberWithDailyTimestart:[BXTRemindNum sharedManager].timeStart_Daily
                         inspectionTimestart:[BXTRemindNum sharedManager].timeStart_Inspection
-                            repairTimestart:@""
-                            reportTimestart:@""
-                            objectTimestart:@""
-                      announcementTimestart:@""];
+                            repairTimestart:[BXTRemindNum sharedManager].timeStart_Repair
+                            reportTimestart:[BXTRemindNum sharedManager].timeStart_Report
+                            objectTimestart:[BXTRemindNum sharedManager].timeStart_Object
+                      announcementTimestart:[BXTRemindNum sharedManager].timeStart_Announcement];
     
 }
 
@@ -255,6 +252,15 @@
 {
     if ([self is_verify]) {
         // 我的工单
+        if (isRepair) {
+            [BXTRemindNum sharedManager].timeStart_Repair = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+            SaveValueTUD(@"timeStart_Repair", [BXTRemindNum sharedManager].timeStart_Repair);
+        }
+        else {
+            [BXTRemindNum sharedManager].timeStart_Report = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+            SaveValueTUD(@"timeStart_Report", [BXTRemindNum sharedManager].timeStart_Report);
+        }
+        
         BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
         orderManagerVC.hidesBottomBarWhenPushed = YES;
         orderManagerVC.isRepair = isRepair;
@@ -276,6 +282,9 @@
 {
     if ([self is_verify]) {
         // 其他事务
+        [BXTRemindNum sharedManager].timeStart_Object = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+        SaveValueTUD(@"timeStart_Object", [BXTRemindNum sharedManager].timeStart_Object);
+        
         BXTOtherAffairViewController *affairVC = [[BXTOtherAffairViewController alloc] init];
         affairVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:affairVC animated:YES];
@@ -308,6 +317,7 @@
         //正常工单
         [BXTRemindNum sharedManager].timeStart_Daily = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
         SaveValueTUD(@"timeStart_Daily", [BXTRemindNum sharedManager].timeStart_Daily);
+        
         BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:1];
         reaciveVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:reaciveVC animated:YES];
@@ -319,8 +329,9 @@
     if ([self is_verify]) {
         //维保工单
         [BXTRemindNum sharedManager].timeStart_Inspection = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
-        BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
         SaveValueTUD(@"timeStart_Inspectio", [BXTRemindNum sharedManager].timeStart_Inspection);
+        
+        BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
         reaciveVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:reaciveVC animated:YES];
     }
@@ -339,24 +350,20 @@
 
 - (void)projectPhone
 {
-        if ([self is_verify])
-        {
-            NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", ValueFUD(@"shop_tel")];
-            UIWebView *callWeb = [[UIWebView alloc] init];
-            [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-            [self.view addSubview:callWeb];
-        }
+    if ([self is_verify])
+    {
+        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", @"400-893-7878"];
+        UIWebView *callWeb = [[UIWebView alloc] init];
+        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+        [self.view addSubview:callWeb];
+    }
     
     
-    //    BXTMTReportsViewController *reportVC = [[BXTMTReportsViewController alloc] init];
-    //    reportVC.hidesBottomBarWhenPushed = YES;
-    //    [self.navigationController pushViewController:reportVC animated:YES];
     
+    //    BXTRepairsListViewController *repairsListVC = [[BXTRepairsListViewController alloc] init];
+    //    repairsListVC.hidesBottomBarWhenPushed = YES;
+    //    [self.navigationController pushViewController:repairsListVC animated:YES];
     
-//    BXTRepairsListViewController *repairsListVC = [[BXTRepairsListViewController alloc] init];
-//    repairsListVC.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:repairsListVC animated:YES];
-
 }
 
 #pragma mark - SDCycleScrollViewDelegate
@@ -425,12 +432,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // TODO: -----------------  调试  -----------------
-    //    if ([BXTGlobal isBlankString:ValueFUD(@"shop_tel")] || [ValueFUD(@"shop_tel") integerValue] == 0)
-    //    {
-    //        return [_titleNameArray count] - 1;
-    //    }
-    
     return _titleNameArray.count;
 }
 
@@ -448,15 +449,33 @@
     cell.logoImgView.image = [UIImage imageNamed:_imgNameArray[indexPath.section][indexPath.row]];
     cell.titleLabel.text = _titleNameArray[indexPath.section][indexPath.row];
     
-    if ([BXTGlobal shareGlobal].isRepair && indexPath.section == 0)
+    if (![BXTGlobal shareGlobal].isRepair)
     {
-        if (indexPath.row == 0 && [[BXTRemindNum sharedManager].dailyNum integerValue] != 0) {
-            cell.numberLabel.hidden = NO;
-            cell.numberLabel.text = [BXTRemindNum sharedManager].dailyNum;
+        if (indexPath.section == 0) {
+            if (indexPath.row == 0 && [[BXTRemindNum sharedManager].dailyNum integerValue] != 0) {
+                cell.numberLabel.hidden = NO;
+                cell.numberLabel.text = [BXTRemindNum sharedManager].dailyNum;
+            }
+            if (indexPath.row == 1 && [[BXTRemindNum sharedManager].inspectionNum integerValue] != 0) {
+                cell.numberLabel.hidden = NO;
+                cell.numberLabel.text = [BXTRemindNum sharedManager].inspectionNum;
+            }
         }
-        if (indexPath.row == 1 && [[BXTRemindNum sharedManager].inspectionNum integerValue] != 0) {
-            cell.numberLabel.hidden = NO;
-            cell.numberLabel.text = [BXTRemindNum sharedManager].inspectionNum;
+        else if (indexPath.section == 1) {
+            if (indexPath.row == 0 && [[BXTRemindNum sharedManager].repairNum integerValue] != 0) {
+                cell.numberLabel.hidden = NO;
+                cell.numberLabel.text = [BXTRemindNum sharedManager].repairNum;
+            }
+            if (indexPath.row == 1 && [[BXTRemindNum sharedManager].reportNum integerValue] != 0) {
+                cell.numberLabel.hidden = NO;
+                cell.numberLabel.text = [BXTRemindNum sharedManager].reportNum;
+            }
+        }
+        else if (indexPath.section == 2) {
+            if (indexPath.row == 0 && [[BXTRemindNum sharedManager].objectNum integerValue] != 0) {
+                cell.numberLabel.hidden = NO;
+                cell.numberLabel.text = [BXTRemindNum sharedManager].objectNum;
+            }
         }
     }
     
@@ -529,7 +548,7 @@
         [BXTGlobal setUserProperty:_usersArray withKey:U_USERSARRAY];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMailList" object:nil];
     }
-    else if (type == Remind_Number && dic[@"returncode"] == 0)
+    else if (type == Remind_Number && [dic[@"returncode"] integerValue] == 0)
     {
         NSDictionary *numDict = array[0];
         [BXTRemindNum sharedManager].dailyNum = [NSString stringWithFormat:@"%@", numDict[@"daily_num"]];
@@ -540,14 +559,19 @@
         [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%@", numDict[@"announcement_number"]];
         
         NSString *appShow = [NSString stringWithFormat:@"%@", numDict[@"app_show"]];
-        NSString *index_show = [NSString stringWithFormat:@"%@", numDict[@"app_show"]];
+        NSString *index_show = [NSString stringWithFormat:@"%@", numDict[@"index_show"]];
         [BXTRemindNum sharedManager].app_show = [appShow boolValue];
         [BXTRemindNum sharedManager].index_show = [index_show boolValue];
         
-        // 应用提示
+        // “应用”是否显示气泡：1是 0否
         if ([BXTRemindNum sharedManager].app_show) {
             UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:2];
-            tController.tabBarItem.badgeValue = @"1";
+            tController.tabBarItem.badgeValue = @" ";
+        }
+        // “首页”是否显示气泡：1是 0否
+        if ([BXTRemindNum sharedManager].index_show) {
+            UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:0];
+            tController.tabBarItem.badgeValue = @" ";
         }
         
         [_currentTableView reloadData];

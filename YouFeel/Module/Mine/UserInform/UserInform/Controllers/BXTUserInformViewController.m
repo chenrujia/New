@@ -168,12 +168,15 @@
 - (void)changeSex
 {
     [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
-        /** 修改用户信息 **/
-        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-        [dataRequest modifyUserInformWithName:@""
-                                       gender:[NSString stringWithFormat:@"%ld", (long)buttonIdx]
-                                       mobile:@""];
-        self.sexStr = buttonIdx == 1 ? @"男" : @"女";
+        NSLog(@"---------------- %ld", buttonIdx);
+        if (buttonIdx == 1 || buttonIdx == 2) {
+            /** 修改用户信息 **/
+            BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+            [dataRequest modifyUserInformWithName:@""
+                                           gender:[NSString stringWithFormat:@"%ld", (long)buttonIdx]
+                                           mobile:@""];
+            self.sexStr = buttonIdx == 1 ? @"男" : @"女";
+        }
     } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"男", @"女", nil];
 }
 

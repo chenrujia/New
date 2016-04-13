@@ -730,6 +730,13 @@ andRepairerIsReacive:(NSString *)reacive;
 
 /**
  *  提醒数字接口 - 新
+ *
+ *  @param daily_timestart        日常工单起始时间
+ *  @param inspection_timestart   维保工单起始时间
+ *  @param repair_timestart       我的维修工单起始时间
+ *  @param report_timestart       我的报修工单起始时间
+ *  @param object_timestart       其他事务起始时间
+ *  @param announcement_timestart 公告起始时间
  */
 - (void)remindNumberWithDailyTimestart:(NSString *)daily_timestart
                    inspectionTimestart:(NSString *)inspection_timestart

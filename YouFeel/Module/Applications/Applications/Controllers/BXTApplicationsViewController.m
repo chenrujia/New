@@ -134,7 +134,11 @@
     {
         switch (indexPath.row) {
             case 0: {
+                // 点击去掉参数
                 [BXTRemindNum sharedManager].announcementNum = @"0";
+                // 存储点击时间
+                [BXTRemindNum sharedManager].timeStart_Announcement = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+                SaveValueTUD(@"timeStart_Announcement", [BXTRemindNum sharedManager].timeStart_Announcement);
                 
                 nlvc.delegateSignal = [RACSubject subject];
                 [nlvc.delegateSignal subscribeNext:^(id x) {

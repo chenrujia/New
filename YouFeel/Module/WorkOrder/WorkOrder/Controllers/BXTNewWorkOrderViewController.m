@@ -296,7 +296,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
         self.placeTF.text = placeInfo.place;
         self.placeInfo = placeInfo;
-
+        
         [self showLoadingMBP:@"请稍候..."];
         /** 设备列表 **/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];

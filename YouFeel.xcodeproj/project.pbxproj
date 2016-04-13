@@ -154,8 +154,6 @@
 		784E4FB81CA9160700EF2A06 /* BXTRankingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 784E4FB61CA9160700EF2A06 /* BXTRankingCell.xib */; };
 		7850ABDA1C7FF22E0070E498 /* BXTMTPlanList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7850ABD91C7FF22E0070E498 /* BXTMTPlanList.m */; };
 		7850ABDD1C804BC10070E498 /* BXTEPList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7850ABDC1C804BC10070E498 /* BXTEPList.m */; };
-		7851A0261CA387CE00255B8A /* BXTMTWriteReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0241CA387CE00255B8A /* BXTMTWriteReportCell.m */; };
-		7851A0271CA387CE00255B8A /* BXTMTWriteReportCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7851A0251CA387CE00255B8A /* BXTMTWriteReportCell.xib */; };
 		7851A0301CA3C60900255B8A /* BXTMainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A02C1CA3C60900255B8A /* BXTMainTableViewCell.m */; };
 		7851A0311CA3C60900255B8A /* BXTMainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7851A02D1CA3C60900255B8A /* BXTMainTableViewCell.xib */; };
 		7851A0321CA3C60900255B8A /* SegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A02F1CA3C60900255B8A /* SegmentView.m */; };
@@ -272,10 +270,6 @@
 		78A1B86A1C8428CF00F252BE /* BXTEPSystemRateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B8681C8428CF00F252BE /* BXTEPSystemRateCell.m */; };
 		78A1B86B1C8428CF00F252BE /* BXTEPSystemRateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */; };
 		78A1B86E1C8430C000F252BE /* BXTEPSystemRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B86D1C8430C000F252BE /* BXTEPSystemRate.m */; };
-		78BF5A5A1CA286B100D26BDC /* BXTMTReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BF5A591CA286B100D26BDC /* BXTMTReportsViewController.m */; };
-		78BF5A5E1CA28B7F00D26BDC /* BXTMTReportsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BF5A5C1CA28B7F00D26BDC /* BXTMTReportsCell.m */; };
-		78BF5A5F1CA28B7F00D26BDC /* BXTMTReportsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BF5A5D1CA28B7F00D26BDC /* BXTMTReportsCell.xib */; };
-		78BF5A621CA29ACF00D26BDC /* BXTMTAddImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BF5A611CA29ACF00D26BDC /* BXTMTAddImageCell.m */; };
 		78C55A651C47339700FFEB37 /* BXTCurrentOrderData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A581C47339700FFEB37 /* BXTCurrentOrderData.m */; };
 		78C55A661C47339700FFEB37 /* BXTEquipmentAdsName.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A5B1C47339700FFEB37 /* BXTEquipmentAdsName.m */; };
 		78C55A671C47339700FFEB37 /* BXTEquipmentControlUserArr.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A5D1C47339700FFEB37 /* BXTEquipmentControlUserArr.m */; };
@@ -717,9 +711,6 @@
 		7850ABD91C7FF22E0070E498 /* BXTMTPlanList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTPlanList.m; sourceTree = "<group>"; };
 		7850ABDB1C804BC10070E498 /* BXTEPList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPList.h; sourceTree = "<group>"; };
 		7850ABDC1C804BC10070E498 /* BXTEPList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPList.m; sourceTree = "<group>"; };
-		7851A0231CA387CE00255B8A /* BXTMTWriteReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTWriteReportCell.h; sourceTree = "<group>"; };
-		7851A0241CA387CE00255B8A /* BXTMTWriteReportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTWriteReportCell.m; sourceTree = "<group>"; };
-		7851A0251CA387CE00255B8A /* BXTMTWriteReportCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMTWriteReportCell.xib; sourceTree = "<group>"; };
 		7851A02B1CA3C60900255B8A /* BXTMainTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMainTableViewCell.h; sourceTree = "<group>"; };
 		7851A02C1CA3C60900255B8A /* BXTMainTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMainTableViewCell.m; sourceTree = "<group>"; };
 		7851A02D1CA3C60900255B8A /* BXTMainTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMainTableViewCell.xib; sourceTree = "<group>"; };
@@ -934,13 +925,6 @@
 		78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPSystemRateCell.xib; sourceTree = "<group>"; };
 		78A1B86C1C8430C000F252BE /* BXTEPSystemRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPSystemRate.h; sourceTree = "<group>"; };
 		78A1B86D1C8430C000F252BE /* BXTEPSystemRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPSystemRate.m; sourceTree = "<group>"; };
-		78BF5A581CA286B100D26BDC /* BXTMTReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTReportsViewController.h; sourceTree = "<group>"; };
-		78BF5A591CA286B100D26BDC /* BXTMTReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTReportsViewController.m; sourceTree = "<group>"; };
-		78BF5A5B1CA28B7F00D26BDC /* BXTMTReportsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTReportsCell.h; sourceTree = "<group>"; };
-		78BF5A5C1CA28B7F00D26BDC /* BXTMTReportsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTReportsCell.m; sourceTree = "<group>"; };
-		78BF5A5D1CA28B7F00D26BDC /* BXTMTReportsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMTReportsCell.xib; sourceTree = "<group>"; };
-		78BF5A601CA29ACF00D26BDC /* BXTMTAddImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTAddImageCell.h; sourceTree = "<group>"; };
-		78BF5A611CA29ACF00D26BDC /* BXTMTAddImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTAddImageCell.m; sourceTree = "<group>"; };
 		78C55A571C47339700FFEB37 /* BXTCurrentOrderData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCurrentOrderData.h; sourceTree = "<group>"; };
 		78C55A581C47339700FFEB37 /* BXTCurrentOrderData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCurrentOrderData.m; sourceTree = "<group>"; };
 		78C55A5A1C47339700FFEB37 /* BXTEquipmentAdsName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEquipmentAdsName.h; sourceTree = "<group>"; };
@@ -1486,7 +1470,6 @@
 				781EF1F71C3D382C0027FE72 /* Maintenance */,
 				78213FB71C3E04C7003290A8 /* FilterCondition */,
 				781C75FE1C55C16800E091D2 /* NewMaintenanceOrder */,
-				78BF5A541CA2862F00D26BDC /* MaintenanceReports */,
 			);
 			path = EquipmentDetail;
 			sourceTree = "<group>";
@@ -3467,47 +3450,6 @@
 			name = Cell;
 			sourceTree = "<group>";
 		};
-		78BF5A541CA2862F00D26BDC /* MaintenanceReports */ = {
-			isa = PBXGroup;
-			children = (
-				78BF5A551CA2862F00D26BDC /* Controllers */,
-				78BF5A561CA2862F00D26BDC /* Models */,
-				78BF5A571CA2862F00D26BDC /* Views */,
-			);
-			path = MaintenanceReports;
-			sourceTree = "<group>";
-		};
-		78BF5A551CA2862F00D26BDC /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				78BF5A581CA286B100D26BDC /* BXTMTReportsViewController.h */,
-				78BF5A591CA286B100D26BDC /* BXTMTReportsViewController.m */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		78BF5A561CA2862F00D26BDC /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		78BF5A571CA2862F00D26BDC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				78BF5A5B1CA28B7F00D26BDC /* BXTMTReportsCell.h */,
-				78BF5A5C1CA28B7F00D26BDC /* BXTMTReportsCell.m */,
-				78BF5A5D1CA28B7F00D26BDC /* BXTMTReportsCell.xib */,
-				78BF5A601CA29ACF00D26BDC /* BXTMTAddImageCell.h */,
-				78BF5A611CA29ACF00D26BDC /* BXTMTAddImageCell.m */,
-				7851A0231CA387CE00255B8A /* BXTMTWriteReportCell.h */,
-				7851A0241CA387CE00255B8A /* BXTMTWriteReportCell.m */,
-				7851A0251CA387CE00255B8A /* BXTMTWriteReportCell.xib */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		78C55A551C47339700FFEB37 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -4475,7 +4417,6 @@
 				96AABA551BE0BB220071B6FA /* RongCloudKit.strings in Resources */,
 				7893D8EE1C7ADA8000F042D5 /* BXTWorkloadCell.xib in Resources */,
 				786D37341CBBA85E00D307DB /* BXTOtherAffairCell.xib in Resources */,
-				78BF5A5F1CA28B7F00D26BDC /* BXTMTReportsCell.xib in Resources */,
 				7893D8E61C7ADA8000F042D5 /* BXTProfessionHeader.xib in Resources */,
 				7867DCD11C4CBCAC000749F1 /* BXTResignTableViewCell.xib in Resources */,
 				964E6F0A1C3276300081DEBB /* LoginAndResign.storyboard in Resources */,
@@ -4515,7 +4456,6 @@
 				78090B321C7DC68F003E1565 /* BXTEPHeaderView.xib in Resources */,
 				96F8C5F31C439A450035F187 /* BXTChangeStateViewController.xib in Resources */,
 				7829858F1C40AD3500D0837C /* BXTMineCell.xib in Resources */,
-				7851A0271CA387CE00255B8A /* BXTMTWriteReportCell.xib in Resources */,
 				78EFEEED1CAE6CBF0011F9E9 /* BXTProjectInformContentCell.xib in Resources */,
 				964C4AC21C157C0800E6C8C4 /* ImageResources.bundle in Resources */,
 				967C3D501C4620E00078F1D6 /* BXTControlUserTableViewCell.xib in Resources */,
@@ -4624,7 +4564,6 @@
 				784E4FA51CA90D2700EF2A06 /* BXTMyIntegralFirstCell.m in Sources */,
 				7867DD7F1C4CBEA1000749F1 /* BXTMMOrderManagerViewController.m in Sources */,
 				7867DDAA1C4CBEE9000749F1 /* BXTRepairViewController.m in Sources */,
-				78BF5A621CA29ACF00D26BDC /* BXTMTAddImageCell.m in Sources */,
 				78EFEED31CAE54F80011F9E9 /* BXTProjectInformViewController.m in Sources */,
 				783DDA4B1C3FB4A50035B927 /* HanyuPinyinOutputFormat.m in Sources */,
 				7818DBDE1C0824D800DC22C6 /* PNCircleChart.m in Sources */,
@@ -4654,7 +4593,6 @@
 				78A1B86E1C8430C000F252BE /* BXTEPSystemRate.m in Sources */,
 				7893D8E71C7ADA8000F042D5 /* BXStEvaluationViewController.m in Sources */,
 				7867DCCD1C4CBCAC000749F1 /* BXTLoginViewController.m in Sources */,
-				78BF5A5A1CA286B100D26BDC /* BXTMTReportsViewController.m in Sources */,
 				9634156F1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m in Sources */,
 				7823C8A81C7EFDD400E2858B /* BXTEPStateCell.m in Sources */,
 				9652ABEA1BC90DCC009A666D /* AESCrypt.m in Sources */,
@@ -4765,7 +4703,6 @@
 				786D371F1CBB3A5B00D307DB /* BXTChooseListViewController.m in Sources */,
 				781EF20C1C3D382C0027FE72 /* BXTEquipmentFilesView.m in Sources */,
 				78FFB96D1CB5F5D700309339 /* BXTPostionInfo.m in Sources */,
-				78BF5A5E1CA28B7F00D26BDC /* BXTMTReportsCell.m in Sources */,
 				78090B301C7DC67A003E1565 /* BXTEPHeaderView.m in Sources */,
 				783E6C311C51C05700DC13FB /* BXTChooseFaultViewController.m in Sources */,
 				9652ABED1BC90DCC009A666D /* NSString+Base64.m in Sources */,
@@ -4900,7 +4837,6 @@
 				78C55B011C47ACCE00FFEB37 /* BXTNoticeInformViewController.m in Sources */,
 				783DDA4F1C3FB4A50035B927 /* PinyinHelper.m in Sources */,
 				7893D8F51C7ADCD000F042D5 /* BXTEquipmentListViewController.m in Sources */,
-				7851A0261CA387CE00255B8A /* BXTMTWriteReportCell.m in Sources */,
 				7818DBDA1C0824D800DC22C6 /* PieLayer.m in Sources */,
 				7867DD7A1C4CBEA1000749F1 /* BXTMMLogTableViewCell.m in Sources */,
 				96D850C31C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m in Sources */,
