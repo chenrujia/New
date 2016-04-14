@@ -102,6 +102,7 @@
         [dataSource addObjectsFromArray:[BXTMailUserListInfo mj_objectArrayWithKeyValuesArray:data]];
         [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YMAILLISTSAVE];
     }
+    
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
