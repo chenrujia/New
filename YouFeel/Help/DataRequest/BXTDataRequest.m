@@ -1226,16 +1226,19 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)mailListOfAllPerson
 {
     self.requestType = Mail_Get_All;
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdirectory&opt=get_all",[BXTGlobal shareGlobal].baseURL];
-    NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Contacts&opt=contacts_lists",[BXTGlobal shareGlobal].baseURL];
+    NSDictionary *dic = @{@"out_userid": [BXTGlobal getUserProperty:U_USERID]};
     [self postRequest:url withParameters:dic];
 }
 
-- (void)mailListOfUserList
+- (void)mailListOfUserListWithShopIDs:(NSString *)shopIDs
 {
     self.requestType = Mail_User_list;
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdirectory&opt=user_list",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:nil];
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Contacts&opt=user_lists",[BXTGlobal shareGlobal].baseURL];
+    NSDictionary *dic = @{@"shop_ids": shopIDs};
+    
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)mailListOfOnePersonWithID:(NSString *)userID shopID:(NSString *)shopID

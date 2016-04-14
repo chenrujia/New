@@ -7,8 +7,10 @@
 //
 
 #import "BXTBaseViewController.h"
+#import "BXTMailRootInfo.h"
 
 @interface BXTMailListViewController : UIViewController
 
+@property (strong, nonatomic) BXTMailRootInfo *transMailInfo;
 
 @end

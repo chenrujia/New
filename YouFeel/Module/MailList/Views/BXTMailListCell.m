@@ -28,9 +28,9 @@
 {
     _mailListModel = mailListModel;
     
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:mailListModel.head] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:mailListModel.head_pic] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
     self.nameView.text = mailListModel.name;
-    self.positionView.text = mailListModel.role_name;
+    self.positionView.text = mailListModel.duty_name;
     
     @weakify(self);
     [[self.phoneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
