@@ -282,7 +282,6 @@
         }
         [self.tableView reloadData];
     }
-    
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
