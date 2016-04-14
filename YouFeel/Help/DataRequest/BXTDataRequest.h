@@ -87,6 +87,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     SpecialOrder =74,
     DeviceState = 75,
     AuthenticationVerify = 76,
+    DispatchOrAdd
 };
 
 @protocol BXTDataResponseDelegate <NSObject>
@@ -392,7 +393,7 @@ andRepairerIsReacive:(NSString *)reacive;
  *  派工or增员
  */
 - (void)dispatchingMan:(NSString *)repairID
-               andMans:(NSArray *)mans;
+               andMans:(NSString *)mans;
 
 /**
  *  维修者分组

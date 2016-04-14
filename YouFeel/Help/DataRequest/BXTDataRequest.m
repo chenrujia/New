@@ -753,9 +753,9 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)dispatchingMan:(NSString *)repairID
-               andMans:(NSArray *)mans
+               andMans:(NSString *)mans
 {
-    self.requestType = ReaciveOrder;
+    self.requestType = DispatchOrAdd;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"dispatch_ids":mans,
                           @"workorder_id":repairID};

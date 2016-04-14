@@ -29,21 +29,18 @@
         [self addSubview:_remarkTV];
         
         _imgViewOne = [[BXTCustomImageView alloc] init];
-        _imgViewOne.userInteractionEnabled = YES;
         _imgViewOne.layer.masksToBounds = YES;
         _imgViewOne.contentMode = UIViewContentModeScaleAspectFill;
         _imgViewOne.tag = 0;
         [self addSubview:_imgViewOne];
         
         _imgViewTwo = [[BXTCustomImageView alloc] init];
-        _imgViewTwo.userInteractionEnabled = YES;
         _imgViewTwo.layer.masksToBounds = YES;
         _imgViewTwo.contentMode = UIViewContentModeScaleAspectFill;
         _imgViewTwo.tag = 1;
         [self addSubview:_imgViewTwo];
         
         _imgViewThree = [[BXTCustomImageView alloc] init];
-        _imgViewThree.userInteractionEnabled = YES;
         _imgViewThree.layer.masksToBounds = YES;
         _imgViewThree.contentMode = UIViewContentModeScaleAspectFill;
         _imgViewThree.tag = 2;
