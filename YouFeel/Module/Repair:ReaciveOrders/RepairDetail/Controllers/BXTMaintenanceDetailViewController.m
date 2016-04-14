@@ -13,7 +13,7 @@
 #import "BXTSelectBoxView.h"
 #import "BXTPersonInfromViewController.h"
 #import "BXTMMProcessViewController.h"
-#import "BXTManListViewController.h"
+#import "BXTMenViewController.h"
 #import "BXTRejectOrderViewController.h"
 #import "BXTEvaluationViewController.h"
 #import "AMRatingControl.h"
@@ -547,10 +547,8 @@
     //TODO: 替换回来
 //    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID viewControllerType:ExamineVCType];
 //    [self.navigationController pushViewController:rejectVC animated:YES];
-    BXTManListViewController *manListVC = [[BXTManListViewController alloc] initWithNibName:@"BXTManListViewController" bundle:nil repairID:self.repairDetail.orderID manList:self.repairDetail.repair_user_arr controllerType:DetailType];
-    [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
-    manListVC.manIDArray = self.manIDArray;
-    [self.navigationController pushViewController:manListVC animated:YES];
+    BXTMenViewController *menVC = [[BXTMenViewController alloc] initWithNibName:@"BXTMenViewController" bundle:nil repairID:self.repairDetail.orderID repairUserList:self.repairDetail.repair_user_arr dispatchUserList:self.repairDetail.dispatch_user_arr];
+    [self.navigationController pushViewController:menVC animated:YES];
 }
 
 #pragma mark -
@@ -570,11 +568,11 @@
     }
     else if (btnInfo.button_key == 3 || btnInfo.button_key == 4)
     {
-        ControllerType cvType = btnInfo.button_key == 3 ? AssignType : DetailType;
-        BXTManListViewController *manListVC = [[BXTManListViewController alloc] initWithNibName:@"BXTManListViewController" bundle:nil repairID:self.repairDetail.orderID manList:self.repairDetail.repair_user_arr controllerType:cvType];
-        [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
-        manListVC.manIDArray = self.manIDArray;
-        [self.navigationController pushViewController:manListVC animated:YES];
+//        ControllerType cvType = btnInfo.button_key == 3 ? AssignType : DetailType;
+//        BXTManListViewController *manListVC = [[BXTManListViewController alloc] initWithNibName:@"BXTManListViewController" bundle:nil repairID:self.repairDetail.orderID manList:self.repairDetail.repair_user_arr controllerType:cvType];
+//        [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
+//        manListVC.manIDArray = self.manIDArray;
+//        [self.navigationController pushViewController:manListVC animated:YES];
     }
     else if (btnInfo.button_key == 5)
     {

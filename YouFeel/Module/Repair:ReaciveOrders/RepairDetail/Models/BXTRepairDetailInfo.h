@@ -62,6 +62,7 @@
 @property (nonatomic, copy  ) NSString              *close_user;
 @property (nonatomic, copy  ) NSString              *repairstate_name;
 @property (nonatomic, strong) NSArray<BXTMaintenanceManInfo *> *repair_user_arr;
+@property (nonatomic, strong) NSArray<BXTMaintenanceManInfo *> *dispatch_user_arr;
 @property (nonatomic, copy  ) NSString              *close_cause;
 @property (nonatomic, copy  ) NSString              *ads_txt;
 @property (nonatomic, copy  ) NSString              *urgent_state;

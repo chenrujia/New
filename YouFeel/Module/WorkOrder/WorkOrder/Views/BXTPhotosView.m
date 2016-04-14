@@ -38,7 +38,6 @@
         
         BXTCustomImageView *imageView = [[BXTCustomImageView alloc] init];
         [imageView setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
-        imageView.userInteractionEnabled = YES;
         imageView.layer.masksToBounds = YES;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.tag = 0;
@@ -51,7 +50,6 @@
         
         BXTCustomImageView *imageView = [[BXTCustomImageView alloc] init];
         [imageView setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
-        imageView.userInteractionEnabled = YES;
         imageView.layer.masksToBounds = YES;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.tag = 1;
@@ -64,7 +62,6 @@
         
         BXTCustomImageView *imageView = [[BXTCustomImageView alloc] init];
         [imageView setFrame:CGRectMake(20, 0, GImageHeight, GImageHeight)];
-        imageView.userInteractionEnabled = YES;
         imageView.layer.masksToBounds = YES;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.tag = 2;

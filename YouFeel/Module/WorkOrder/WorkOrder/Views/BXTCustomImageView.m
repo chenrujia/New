@@ -11,55 +11,65 @@
 
 @implementation BXTCustomImageView
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        [self addLongPressGesture];
+    }
+    return self;
+}
+
 - (instancetype)init
 {
     self = [super init];
     if (self)
     {
-        self.userInteractionEnabled = YES;
-        
-        //侦听长按事件
-        @weakify(self);
-        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"LongPress" object:nil] subscribeNext:^(id x) {
-            @strongify(self);
-            [self longPress];
-        }];
-        
-        //侦听删除事件
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
-        
-        //添加长按手势
-        UILongPressGestureRecognizer *recognize = [[UILongPressGestureRecognizer alloc] init];
-        [[recognize rac_gestureSignal] subscribeNext:^(id x) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"LongPress" object:nil];
-        }];
-        
-        //长按响应时间
-        recognize.minimumPressDuration = 1;
-        [self addGestureRecognizer:recognize];
-        
-        self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_deleteBtn setImage:[UIImage imageNamed:@"deleteImage"] forState:UIControlStateNormal];
-        _deleteBtn.frame= CGRectMake(0, 0, 44, 44);
-        _deleteBtn.hidden = YES;
-        [[_deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            @strongify(self);
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DeleteTheImage" object:[NSNumber numberWithInteger:self.tag]];
-        }];
-        [self addSubview:_deleteBtn];
+        [self addLongPressGesture];
     }
     return self;
+}
+
+- (void)addLongPressGesture
+{
+    self.userInteractionEnabled = YES;
+    
+    //侦听长按事件
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"LongPress" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        [self longPress];
+    }];
+    
+    //侦听删除事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
+    
+    //添加长按手势
+    UILongPressGestureRecognizer *recognize = [[UILongPressGestureRecognizer alloc] init];
+    [[recognize rac_gestureSignal] subscribeNext:^(id x) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LongPress" object:nil];
+    }];
+    
+    //长按响应时间
+    recognize.minimumPressDuration = 1;
+    [self addGestureRecognizer:recognize];
+    
+    self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_deleteBtn setImage:[UIImage imageNamed:@"deleteImage"] forState:UIControlStateNormal];
+    _deleteBtn.frame= CGRectMake(0, 0, 44, 44);
+    _deleteBtn.hidden = YES;
+    [[_deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DeleteTheImage" object:[NSNumber numberWithInteger:self.tag]];
+    }];
+    [self addSubview:_deleteBtn];
 }
 
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
     [_deleteBtn setCenter:CGPointMake(CGRectGetMaxX(self.bounds) - 22, 22)];
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    NSLog(@"........");
 }
 
 - (void)deleteImage:(NSNotification *)notification
