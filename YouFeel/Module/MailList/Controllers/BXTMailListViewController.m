@@ -103,6 +103,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.OLDArray = (NSMutableArray *)self.dataArray;
     [self ergodicArray:self.dataArray OtherListArray:nil];
     
+    
+    
     //    [self showLoadingMBP:@"数据加载中..."];
     //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     //    dispatch_async(concurrentQueue, ^{
