@@ -51,8 +51,6 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 @property (nonatomic, strong) NSMutableArray *subOtherArray;
 /** ---- 分组标题 ---- */
 @property(nonatomic, strong) NSMutableArray *titleArray;
-/** ---- 分组人数标题 ---- */
-@property(nonatomic, strong) NSMutableArray *titleNumArray;
 /** ---- 分组是否可以展开 ---- */
 @property(nonatomic, strong) NSMutableArray *groupOpenArray;
 
@@ -73,7 +71,6 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
@@ -91,7 +88,6 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     
     self.dataArray = [[NSMutableArray alloc] init];
     self.titleArray = [[NSMutableArray alloc] init];
-    self.titleNumArray = [[NSMutableArray alloc] init];
     self.groupOpenArray = [[NSMutableArray alloc] init];
     self.OLDArray = [[NSMutableArray alloc] init];
     self.listArray = [[NSMutableArray alloc] init];
@@ -103,21 +99,25 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.groupBtnX = 0;
     
     
-    [self showLoadingMBP:@"数据加载中..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /** 通讯录列表 **/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request mailListOfAllPerson];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /** 通讯录搜索列表 **/
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request mailListOfUserList];
-        });
-    });
+    self.dataArray = self.transMailInfo.data;
+    self.OLDArray = (NSMutableArray *)self.dataArray;
+    [self ergodicArray:self.dataArray OtherListArray:nil];
+    
+    //    [self showLoadingMBP:@"数据加载中..."];
+    //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    //    dispatch_async(concurrentQueue, ^{
+    //        /** 通讯录列表 **/
+    //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    //        [request mailListOfAllPerson];
+    //    });
+    //    dispatch_async(concurrentQueue, ^{
+    //        /** 通讯录搜索列表 **/
+    //        static dispatch_once_t onceToken;
+    //        dispatch_once(&onceToken, ^{
+    //            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    //            [request mailListOfUserList];
+    //        });
+    //    });
     
     [self createUI];
 }
@@ -361,6 +361,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     {
         return self.searchArray.count;
     }
+    
     return self.titleArray.count;
 }
 
@@ -443,7 +444,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     }
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 40, 40)];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:listModel.head] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:listModel.head_pic] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
     
     imageView.layer.masksToBounds = YES;
     [showCell.contentView addSubview:imageView];
@@ -455,7 +456,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [showCell.contentView addSubview:nameView];
     
     UILabel *positionView = [[UILabel alloc] initWithFrame:CGRectMake(65, 31, 100, 21)];
-    positionView.text = listModel.role_name;
+    positionView.text = listModel.duty_name;
     positionView.textColor = colorWithHexString(@"#999999");
     positionView.font = [UIFont systemFontOfSize:13];
     [showCell.contentView addSubview:positionView];
@@ -537,7 +538,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     if (tableView == self.tableView_Search)
     {
         BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
-        [self pushPersonInfromViewControllerWithUserID:[NSString stringWithFormat:@"%@", model.user_id] shopID:model.shops_id];
+        [self pushPersonInfromViewControllerWithUserID:[NSString stringWithFormat:@"%@", model.userID] shopID:model.shop_id];
         
         [self showTableViewAndHideSearchTableView:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -548,7 +549,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     if (indexPath.section == 1)
     {
         BXTMailListModel *listModel = self.subOtherArray[indexPath.row];
-        [self pushPersonInfromViewControllerWithUserID:listModel.user_id shopID:listModel.shops_id];
+        [self pushPersonInfromViewControllerWithUserID:listModel.userID shopID:listModel.shop_id];
         return;
     }
     
@@ -561,14 +562,14 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         
         // 递归函数
         NSDictionary *dict = self.OLDArray[indexPath.row];
-        self.OLDArray = dict[@"list"];
-        self.OtherArray = dict[@"user_list"];
+        self.OLDArray = dict[@"lists"];
+        self.OtherArray = dict[@"user_lists"];
         [self ergodicArray:self.OLDArray OtherListArray:self.OtherArray];
         [self.listArray addObject:self.OLDArray];
         [self.listOtherArray addObject:self.OtherArray];
         
         
-        UIButton *button = [self createShowButtonTitle:dict[@"name"]];
+        UIButton *button = [self createShowButtonTitle:dict[@"department"]];
         @weakify(self);
         [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *subBtn) {
             @strongify(self);
@@ -618,7 +619,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 - (void)tableView:(SKSTableView *)tableView didSelectSubRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTMailListModel *listModel = self.subDataArray[indexPath.row][indexPath.subRow];
-    [self pushPersonInfromViewControllerWithUserID:listModel.user_id shopID:listModel.shops_id];
+    [self pushPersonInfromViewControllerWithUserID:listModel.userID shopID:listModel.shop_id];
     
     NSLog(@"didSelectSubRow - Section: %ld, Row:%ld, Subrow:%ld", (long)indexPath.section, (long)indexPath.row, (long)indexPath.subRow);
 }
@@ -664,7 +665,14 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = (NSDictionary *)response;
-    NSArray *data = [dic objectForKey:@"data"];
+    
+    NSArray *superdata = [dic objectForKey:@"data"];
+    NSDictionary *superDic = superdata[1];
+    NSArray *data = superDic[@"data"];
+    
+    // TODO: -----------------  调试  -----------------
+    //    NSArray *data = [dic objectForKey:@"data"];
+    
     if (type == Mail_Get_All && data.count > 0)
     {
         [self hideMBP];
@@ -688,23 +696,19 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [self.titleArray removeAllObjects];
     [self.subDataArray removeAllObjects];
     [self.subOtherArray removeAllObjects];
-    [self.titleNumArray removeAllObjects];
     [self.groupOpenArray removeAllObjects];
     
     for (NSDictionary *dict in subArray)
     {
         // 组名
-        [self.titleArray addObject:dict[@"name"]];
-        
-        NSArray *user_listArray = dict[@"user_list"];
-        // 组人数
-        [self.titleNumArray addObject:[NSString stringWithFormat:@"%ld", (unsigned long)user_listArray.count]];
+        [self.titleArray addObject:dict[@"department"]];
         
         // 组可展开
-        NSArray *listArray = dict[@"list"];
+        NSArray *listArray = dict[@"lists"];
         [self.groupOpenArray addObject:(listArray.count == 0 ? @"1" : @"0")];
         
         // 组人员
+        NSArray *user_listArray = dict[@"user_lists"];
         NSMutableArray *subPersonArray = [[NSMutableArray alloc] initWithObjects:@"", nil];
         for (NSDictionary *subDict in user_listArray) {
             BXTMailListModel *model = [BXTMailListModel modelWithDict:subDict];
@@ -818,7 +822,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     if ([userInfo.userId isEqualToString:my_userID]) return;
     
     userInfo.name = model.name;
-    userInfo.portraitUri = model.head;
+    userInfo.portraitUri = model.head_pic;
     
     NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (usersArray)

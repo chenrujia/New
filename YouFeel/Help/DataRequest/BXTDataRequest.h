@@ -659,8 +659,9 @@ andRepairerIsReacive:(NSString *)reacive;
 
 /**
  *  通讯录搜索列表
+ *  分店ids，其中0表示总店，如：0,11,4
  */
-- (void)mailListOfUserList;
+- (void)mailListOfUserListWithShopIDs:(NSString *)shopIDs;
 
 /**
  *  个人信息

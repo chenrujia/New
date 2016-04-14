@@ -42,6 +42,9 @@
 		781C75FD1C55B41000E091D2 /* BXTFaultTypeList.m in Sources */ = {isa = PBXBuildFile; fileRef = 781C75FC1C55B41000E091D2 /* BXTFaultTypeList.m */; };
 		781C76041C55C1EA00E091D2 /* BXTNewRepairMtOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781C76031C55C1EA00E091D2 /* BXTNewRepairMtOrderViewController.m */; };
 		781C76071C55C20400E091D2 /* BXTNewWorkMtOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781C76061C55C20400E091D2 /* BXTNewWorkMtOrderViewController.m */; };
+		781D86511CBF765E00F01EF7 /* BXTMailRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781D86501CBF765E00F01EF7 /* BXTMailRootViewController.m */; };
+		781D86541CBF784900F01EF7 /* BXTMailRootInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 781D86531CBF784900F01EF7 /* BXTMailRootInfo.m */; };
+		781D86571CBF9CB100F01EF7 /* BXTMailUserListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 781D86561CBF9CB100F01EF7 /* BXTMailUserListInfo.m */; };
 		781EF1831C3CB3B30027FE72 /* BXTMailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781EF1821C3CB3B30027FE72 /* BXTMailViewController.m */; };
 		781EF1FB1C3D382C0027FE72 /* BXTEquipmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781EF1CC1C3D382C0027FE72 /* BXTEquipmentViewController.m */; };
 		781EF2061C3D382C0027FE72 /* BXTCurrentOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 781EF1E71C3D382C0027FE72 /* BXTCurrentOrderCell.m */; };
@@ -358,7 +361,6 @@
 		9652AC351BC90EC9009A666D /* LocalPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AC221BC90EC9009A666D /* LocalPhotoViewController.m */; };
 		9652AC361BC90EC9009A666D /* LocalPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9652AC231BC90EC9009A666D /* LocalPhotoViewController.xib */; };
 		965F68701CBDEA7300BF781D /* BXTManListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 965F686E1CBDEA7300BF781D /* BXTManListViewController.m */; };
-		965F68711CBDEA7300BF781D /* BXTManListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965F686F1CBDEA7300BF781D /* BXTManListViewController.xib */; };
 		965F68781CBE219000BF781D /* BXTManTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 965F68761CBE219000BF781D /* BXTManTableViewCell.m */; };
 		965F68791CBE219000BF781D /* BXTManTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965F68771CBE219000BF781D /* BXTManTableViewCell.xib */; };
 		9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */; };
@@ -511,6 +513,12 @@
 		781C76031C55C1EA00E091D2 /* BXTNewRepairMtOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewRepairMtOrderViewController.m; sourceTree = "<group>"; };
 		781C76051C55C20400E091D2 /* BXTNewWorkMtOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNewWorkMtOrderViewController.h; sourceTree = "<group>"; };
 		781C76061C55C20400E091D2 /* BXTNewWorkMtOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewWorkMtOrderViewController.m; sourceTree = "<group>"; };
+		781D864F1CBF765E00F01EF7 /* BXTMailRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailRootViewController.h; sourceTree = "<group>"; };
+		781D86501CBF765E00F01EF7 /* BXTMailRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailRootViewController.m; sourceTree = "<group>"; };
+		781D86521CBF784900F01EF7 /* BXTMailRootInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailRootInfo.h; sourceTree = "<group>"; };
+		781D86531CBF784900F01EF7 /* BXTMailRootInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailRootInfo.m; sourceTree = "<group>"; };
+		781D86551CBF9CB100F01EF7 /* BXTMailUserListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailUserListInfo.h; sourceTree = "<group>"; };
+		781D86561CBF9CB100F01EF7 /* BXTMailUserListInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailUserListInfo.m; sourceTree = "<group>"; };
 		781EF1811C3CB3B30027FE72 /* BXTMailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailViewController.h; sourceTree = "<group>"; };
 		781EF1821C3CB3B30027FE72 /* BXTMailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailViewController.m; sourceTree = "<group>"; };
 		781EF1CB1C3D382C0027FE72 /* BXTEquipmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEquipmentViewController.h; sourceTree = "<group>"; };
@@ -2952,12 +2960,16 @@
 		786B57211C3A464300F48402 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				781D86521CBF784900F01EF7 /* BXTMailRootInfo.h */,
+				781D86531CBF784900F01EF7 /* BXTMailRootInfo.m */,
 				786B57221C3A464300F48402 /* BXTMailListModel.h */,
 				786B57231C3A464300F48402 /* BXTMailListModel.m */,
 				783710161C4503CA00A8D5EE /* BXTPersonInform.h */,
 				783710171C4503CA00A8D5EE /* BXTPersonInform.m */,
 				783710191C4503E900A8D5EE /* BXTPersonChecks.h */,
 				7837101A1C4503E900A8D5EE /* BXTPersonChecks.m */,
+				781D86551CBF9CB100F01EF7 /* BXTMailUserListInfo.h */,
+				781D86561CBF9CB100F01EF7 /* BXTMailUserListInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4272,6 +4284,8 @@
 			children = (
 				781EF1811C3CB3B30027FE72 /* BXTMailViewController.h */,
 				781EF1821C3CB3B30027FE72 /* BXTMailViewController.m */,
+				781D864F1CBF765E00F01EF7 /* BXTMailRootViewController.h */,
+				781D86501CBF765E00F01EF7 /* BXTMailRootViewController.m */,
 				96C7F4201C2BC21200AD4C71 /* BXTMailListViewController.h */,
 				9677FDF21C9FEED4009FAAFE /* BXTMailListViewController.m */,
 				786B571B1C3A06C400F48402 /* BXTPersonInfromViewController.h */,
@@ -4647,6 +4661,7 @@
 				96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */,
 				7867DCE91C4CBD42000749F1 /* BXTEvaluationViewController.m in Sources */,
 				78FFB9961CB5F77B00309339 /* BXTHeadquartersInfo.m in Sources */,
+				781D86571CBF9CB100F01EF7 /* BXTMailUserListInfo.m in Sources */,
 				78090B121C7DA8C3003E1565 /* BXTMaintenanceListViewController.m in Sources */,
 				9677FDF11C9FEEB4009FAAFE /* BXTShopLocationViewController.m in Sources */,
 				9696B7291C90043100272076 /* BXTCommentListViewController.m in Sources */,
@@ -4793,6 +4808,7 @@
 				9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */,
 				783DDA4A1C3FB4A50035B927 /* ChineseToPinyinResource.m in Sources */,
 				965F68781CBE219000BF781D /* BXTManTableViewCell.m in Sources */,
+				781D86541CBF784900F01EF7 /* BXTMailRootInfo.m in Sources */,
 				7893D9141C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m in Sources */,
 				9652ABEC1BC90DCC009A666D /* NSData+CommonCrypto.m in Sources */,
 				9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */,
@@ -4809,6 +4825,7 @@
 				784E4F971CA9045700EF2A06 /* BXTMyIntegralViewController.m in Sources */,
 				96C684981BE76B4B0038A342 /* SideScrollingLayout.m in Sources */,
 				782762741CB7572E0095FF10 /* BXTAllDepartmentInfo.m in Sources */,
+				781D86511CBF765E00F01EF7 /* BXTMailRootViewController.m in Sources */,
 				782985B01C40BDBF00D0837C /* MLImageCrop.m in Sources */,
 				7867DCEA1C4CBD42000749F1 /* AMRatingControl.m in Sources */,
 				7867DD7C1C4CBEA1000749F1 /* BXTManagerOMViewController.m in Sources */,

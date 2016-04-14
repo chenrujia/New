@@ -8,11 +8,13 @@
 
 #import "BXTMailViewController.h"
 #import "BXTHeaderForVC.h"
-#import "BXTMailListViewController.h"
+#import "BXTMailRootViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 #import "BXTProjectManageViewController.h"
+#import "BXTMailUserListInfo.h"
+#import "ANKeyValueTable.h"
 
-@interface BXTMailViewController ()
+@interface BXTMailViewController () <BXTDataResponseDelegate>
 
 @end
 
@@ -53,6 +55,11 @@
     self.navigationItem.titleView = label;
     
     
+    /** 通讯录列表 **/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request mailListOfUserListWithShopIDs:@"0"];
+    
+
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
     [self setDisplayConversationTypes:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION)]];
     
@@ -66,7 +73,7 @@
     [[nav_rightButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         if ([self is_verify]) {
-            BXTMailListViewController *mlvc = [[BXTMailListViewController alloc] init];
+            BXTMailRootViewController *mlvc = [[BXTMailRootViewController alloc] init];
             mlvc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:mlvc animated:YES];
         }
@@ -77,6 +84,29 @@
     spaceItem.width = -10;
     
     self.navigationItem.rightBarButtonItems = @[spaceItem, rightItem];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    
+    if (type == Mail_User_list && data.count > 0)
+    {
+        [BXTLists mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"userID":@"id"};
+        }];
+        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+        [dataSource addObjectsFromArray:[BXTMailUserListInfo mj_objectArrayWithKeyValuesArray:data]];
+        [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YMAILLISTSAVE];
+    }
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+
 }
 
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType conversationModel:(RCConversationModel *)model atIndexPath:(NSIndexPath *)indexPath
@@ -97,7 +127,8 @@
 - (BOOL)is_verify
 {
     NSString *is_verify = [BXTGlobal getUserProperty:U_IS_VERIFY];
-    if ([is_verify integerValue] != 1)
+    // TODO: -----------------  调试  -----------------
+    if ([is_verify integerValue] == 1)
     {
         [BXTGlobal showText:@"您尚未验证，现在去验证" view:self.view completionBlock:^{
             BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];

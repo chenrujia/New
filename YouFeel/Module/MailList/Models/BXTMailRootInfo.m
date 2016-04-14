@@ -1,14 +1,14 @@
 //
-//  BXTMailListModel.m
+//  BXTMailRootInfo.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/1/4.
+//  Created by 满孝意 on 16/4/14.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTMailListModel.h"
+#import "BXTMailRootInfo.h"
 
-@implementation BXTMailListModel
+@implementation BXTMailRootInfo
 
 + (instancetype)modelWithDict:(NSDictionary *)dict
 {
@@ -23,14 +23,6 @@
         [self setValuesForKeysWithDictionary:dict];
     }
     return self;
-}
-
-- (void)setValue:(id)value forUndefinedKey:(NSString *)key
-{
-    if ([key isEqualToString:@"id"])
-    {
-        self.userID = value;
-    }
 }
 
 @end
