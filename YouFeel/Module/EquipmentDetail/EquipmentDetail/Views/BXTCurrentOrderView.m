@@ -11,12 +11,11 @@
 #import "BXTHeaderForVC.h"
 #import "BXTEquipmentInformCell.h"
 #import "BXTMaintenanceDetailViewController.h"
+#import "BXTNewWorkOrderViewController.h"
 #import "BXTTimeFilterViewController.h"
 #import "BXTSelectBoxView.h"
 #import <MJRefresh.h>
 #import "UIView+Nav.h"
-#import "BXTNewRepairMtOrderViewController.h"
-#import "BXTNewWorkMtOrderViewController.h"
 
 typedef NS_ENUM(NSInteger, OrderType) {
     OrderType_Normal = 5,
@@ -97,32 +96,15 @@ typedef NS_ENUM(NSInteger, OrderType) {
     [self addSubview:downBgView];
     
     UIButton *newOrderBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 13, SCREEN_WIDTH-80, 40)];
-    
     newOrderBtn.backgroundColor = [UIColor whiteColor];
     newOrderBtn.layer.cornerRadius = 5;
     @weakify(self);
     [[newOrderBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if ([BXTGlobal shareGlobal].isRepair) {
-            BXTNewRepairMtOrderViewController *workOderVC = [[BXTNewRepairMtOrderViewController alloc] init];
-            workOderVC.deviceID = self.deviceID;
-            workOderVC.delegateSignal = [RACSubject subject];
-            [workOderVC.delegateSignal subscribeNext:^(id x) {
-                self.currentPage = 1;
-                [weakSelf getResource];
-            }];
-            [[self navigation] pushViewController:workOderVC animated:YES];
-        }
-        else {
-            BXTNewWorkMtOrderViewController *workOderVC = [[BXTNewWorkMtOrderViewController alloc] init];
-            workOderVC.deviceID = self.deviceID;
-            workOderVC.delegateSignal = [RACSubject subject];
-            [workOderVC.delegateSignal subscribeNext:^(id x) {
-                self.currentPage = 1;
-                [weakSelf getResource];
-            }];
-            [[self navigation] pushViewController:workOderVC animated:YES];
-        }
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
+        newVC.isNewWorkOrder = YES;
+        [[self navigation] pushViewController:newVC animated:YES];
     }];
     [downBgView addSubview:newOrderBtn];
     

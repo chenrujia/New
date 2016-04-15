@@ -7,7 +7,6 @@
 //
 
 #import "BXTMMOrderManagerViewController.h"
-#import "BXTRepairWordOrderViewController.h"
 #import "BXTHeaderForVC.h"
 #import "BXTRepairTableViewCell.h"
 #import "UIScrollView+EmptyDataSet.h"
@@ -15,6 +14,7 @@
 #import "BXTRepairTableViewCell.h"
 #import "BXTMaintenanceDetailViewController.h"
 #import "MJRefresh.h"
+#import "BXTNewWorkOrderViewController.h"
 
 @interface BXTMMOrderManagerViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,BXTDataResponseDelegate>
 {
@@ -87,8 +87,10 @@
     @weakify(self);
     [[newBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTRepairWordOrderViewController *workOderVC = [[BXTRepairWordOrderViewController alloc] init];
-        [self.navigationController pushViewController:workOderVC animated:YES];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
+        newVC.isNewWorkOrder = YES;
+        [self.navigationController pushViewController:newVC animated:YES];
     }];
     [backView addSubview:newBtn];
     

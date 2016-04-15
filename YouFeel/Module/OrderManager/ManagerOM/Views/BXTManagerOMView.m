@@ -13,7 +13,6 @@
 #import "BXTRepairInfo.h"
 #import "BXTMaintenanceDetailViewController.h"
 #import "UIView+Nav.h"
-#import "BXTNewOrderViewController.h"
 #import "BXTRejectOrderViewController.h"
 #import "BXTAllOrdersViewController.h"
 
@@ -399,6 +398,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //TODO: 处理
 //    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
 //    if (_orderType == OutTimeType && [repairInfo.state integerValue] == 1 && [repairInfo.order_type integerValue] != 3)
 //    {

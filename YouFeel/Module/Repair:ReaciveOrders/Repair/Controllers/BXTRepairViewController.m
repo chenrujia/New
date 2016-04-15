@@ -9,12 +9,11 @@
 #import "BXTRepairViewController.h"
 #import "BXTHeaderForVC.h"
 #import "UIScrollView+EmptyDataSet.h"
-#import "BXTWorkOderViewController.h"
-#import "BXTRepairWordOrderViewController.h"
 #import "BXTRepairInfo.h"
 #import "MJRefresh.h"
 #import "BXTRepairTableViewCell.h"
 #import "BXTMaintenanceDetailViewController.h"
+#import "BXTNewWorkOrderViewController.h"
 
 @interface BXTRepairViewController () <UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,BXTDataResponseDelegate>
 {
@@ -106,16 +105,10 @@
     @weakify(self);
     [[newBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if (self.repairVCType == ShopsVCType)
-        {
-            BXTWorkOderViewController *workOderVC = [[BXTWorkOderViewController alloc] init];
-            [self.navigationController pushViewController:workOderVC animated:YES];
-        }
-        else
-        {
-            BXTRepairWordOrderViewController *workOderVC = [[BXTRepairWordOrderViewController alloc] init];
-            [self.navigationController pushViewController:workOderVC animated:YES];
-        }
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
+        newVC.isNewWorkOrder = YES;
+        [self.navigationController pushViewController:newVC animated:YES];
     }];
     [backView addSubview:newBtn];
     

@@ -7,7 +7,6 @@
 //
 
 #import "BXTShopsHomeViewController.h"
-#import "BXTWorkOderViewController.h"
 #import "BXTHeadquartersInfo.h"
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
@@ -48,19 +47,6 @@
     [super viewWillAppear:animated];
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     [shop_label setText:companyInfo.name];
-}
-
-#pragma mark -
-#pragma mark 事件处理
-- (void)repairClick
-{
-    if ([self is_verify])
-    {
-        return;
-    }
-    // 新建工单
-    BXTWorkOderViewController *workOrderVC = [[BXTWorkOderViewController alloc] init];
-    [self.navigationController pushViewController:workOrderVC animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

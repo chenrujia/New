@@ -241,13 +241,6 @@
     }];
 }
 
-#pragma mark -
-#pragma mark 事件处理
-- (void)repairClick
-{
-    
-}
-
 - (void)pushMyOrdersIsRepair:(BOOL)isRepair
 {
     if ([self is_verify]) {

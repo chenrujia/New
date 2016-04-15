@@ -18,11 +18,11 @@
 #import "UINavigationController+YRBackGesture.h"
 #import "BXTApplicationsViewController.h"
 #import "BXTNoticeListViewController.h"
-#import "BXTNewOrderViewController.h"
 #import "BXTGrabOrderViewController.h"
 #import "CYLTabBarControllerConfig.h"
 #import "UIViewController+Swizzled.h"
 #import "BXTProjectAddNewViewController.h"
+#import "BXTNewWorkOrderViewController.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -437,25 +437,27 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)//收到派工或者维修邀请
             {
                 [[BXTGlobal shareGlobal].assignOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
-                BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:NO andWithOrderID:nil];
-                newOrderVC.hidesBottomBarWhenPushed = YES;
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+                BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
+                newVC.isNewWorkOrder = YES;
+                newVC.hidesBottomBarWhenPushed = YES;
                 
                 if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
                 {
                     if ([BXTGlobal shareGlobal].presentNav)
                     {
-                        [[BXTGlobal shareGlobal].presentNav pushViewController:newOrderVC animated:YES];
+                        [[BXTGlobal shareGlobal].presentNav pushViewController:newVC animated:YES];
                     }
                     else if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
                     {
                         UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
-                        [nav pushViewController:newOrderVC animated:YES];
+                        [nav pushViewController:newVC animated:YES];
                     }
                     else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
                     {
                         CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
                         UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
-                        [nav pushViewController:newOrderVC animated:YES];
+                        [nav pushViewController:newVC animated:YES];
                     }
                 }
             }
