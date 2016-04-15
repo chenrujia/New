@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     ImageViewType_Selected
 };
 
-@interface BXTMailListViewController () <UISearchBarDelegate, BXTDataResponseDelegate, SKSTableViewDelegate, MBProgressHUDDelegate, UIScrollViewDelegate>
+@interface BXTMailListViewController () <UISearchBarDelegate, SKSTableViewDelegate, MBProgressHUDDelegate, UIScrollViewDelegate>
 {
     UIImageView *arrow;
     
@@ -102,23 +102,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.dataArray = self.transMailInfo.data;
     self.OLDArray = (NSMutableArray *)self.dataArray;
     [self ergodicArray:self.dataArray OtherListArray:nil];
-        
     
-    //    [self showLoadingMBP:@"数据加载中..."];
-    //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    //    dispatch_async(concurrentQueue, ^{
-    //        /** 通讯录列表 **/
-    //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    //        [request mailListOfAllPerson];
-    //    });
-    //    dispatch_async(concurrentQueue, ^{
-    //        /** 通讯录搜索列表 **/
-    //        static dispatch_once_t onceToken;
-    //        dispatch_once(&onceToken, ^{
-    //            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    //            [request mailListOfUserList];
-    //        });
-    //    });
     
     [self createUI];
 }
@@ -659,37 +643,6 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshData)];
             break;
     }
-}
-
-#pragma mark -
-#pragma mark - getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
-{
-    NSDictionary *dic = (NSDictionary *)response;
-    
-    NSArray *superdata = [dic objectForKey:@"data"];
-    NSDictionary *superDic = superdata[1];
-    NSArray *data = superDic[@"data"];
-    
-    // TODO: -----------------  调试  -----------------
-    //    NSArray *data = [dic objectForKey:@"data"];
-    
-    if (type == Mail_Get_All && data.count > 0)
-    {
-        [self hideMBP];
-        self.dataArray = data;
-        self.OLDArray = (NSMutableArray *)self.dataArray;
-        [self ergodicArray:data OtherListArray:nil];
-    }
-    else if (type == Mail_User_list)
-    {
-        [BXTGlobal writeFileWithfileName:@"MailUserList" Array:dic[@"data"]];
-    }
-}
-
-- (void)requestError:(NSError *)error requeseType:(RequestType)type
-{
-    [self hideMBP];
 }
 
 - (void)ergodicArray:(NSArray *)subArray OtherListArray:(NSArray *)otherArray

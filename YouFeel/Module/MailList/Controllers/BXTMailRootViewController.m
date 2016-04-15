@@ -12,6 +12,11 @@
 #import "BXTMailRootInfo.h"
 #import "PinYinForObjc.h"
 #import "BXTMailListModel.h"
+#import "ANKeyValueTable.h"
+#import "BXTPersonInfromViewController.h"
+#import "BXTMailListCell.h"
+#import <RongIMKit/RongIMKit.h>
+#import "BXTPersonInfromViewController.h"
 
 @interface BXTMailRootViewController () <BXTDataResponseDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, MBProgressHUDDelegate>
 
@@ -97,7 +102,7 @@
 {
     // UISearchBar
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 55)];
-    //self.searchBar.delegate = self;
+    self.searchBar.delegate = self;
     self.searchBar.placeholder = @"搜索";
     [self.view addSubview:self.searchBar];
     
@@ -124,6 +129,7 @@
     [self.view addSubview:self.tableView];
     
     [self showTableViewAndHideSearchTableView:YES];
+    
 }
 
 #pragma mark -
@@ -159,6 +165,9 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    NSArray *allArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
+    NSLog(@"\n\n\n\n %@", allArray);
+    
     // 获取存值
     NSArray *allPersonArray = [BXTGlobal readFileWithfileName:@"MailUserList"];
     
@@ -224,11 +233,38 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (tableView == self.tableView_Search)
+    {
+        return self.searchArray.count;
+    }
+    
     return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.tableView_Search)
+    {
+        static NSString *cellID = @"cellSearch";
+        BXTMailListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (cell == nil) {
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMailListCell" owner:nil options:nil] lastObject];
+        }
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
+        cell.mailListModel = model;
+        
+        @weakify(self);
+        [[cell.messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self connectTaWithOutID:cell.mailListModel];
+        }];
+        
+        return cell;
+    }
+    
+    
     static NSString *cellID = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
@@ -243,6 +279,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.tableView_Search)
+    {
+        return 60.f;
+    }
+    
     return 50;
 }
 
@@ -258,6 +299,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.tableView_Search)
+    {
+        BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
+        [self pushPersonInfromViewControllerWithUserID:[NSString stringWithFormat:@"%@", model.userID] shopID:model.shop_id];
+        
+        [self showTableViewAndHideSearchTableView:YES];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+    
     BXTMailListViewController *mlvc = [[BXTMailListViewController alloc] init];
     mlvc.transMailInfo = self.dataArray[indexPath.row];
     [self.navigationController pushViewController:mlvc animated:YES];
@@ -276,11 +327,28 @@
     
     if (type == Mail_Get_All && data.count > 0)
     {
+        NSMutableArray *shopIDsArray = [[NSMutableArray alloc] init];
         for (NSDictionary *dict in data) {
             BXTMailRootInfo *mail = [BXTMailRootInfo modelWithDict:dict];
             [self.dataArray addObject:mail];
+            
+            [shopIDsArray addObject:mail.shop_id];
         }
+        
+        
+        NSString *idStr = [shopIDsArray componentsJoinedByString:@","];
+        if (![ValueFUD(@"user_lists_shop_ids") isEqualToString:idStr]) {
+            /** 通讯录列表 **/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request mailListOfUserListWithShopIDs:idStr];
+        }
+        SaveValueTUD(@"user_lists_shop_ids", idStr);
+        
         [self.tableView reloadData];
+    }
+    else if (type == Mail_User_list && data.count > 0)
+    {
+        [[ANKeyValueTable userDefaultTable] setValue:data withKey:YMAILLISTSAVE];
     }
 }
 
@@ -318,6 +386,56 @@
         self.tableView_Search.hidden = NO;
         self.tableView.hidden = YES;
     }
+}
+
+- (void)connectTaWithOutID:(BXTMailListModel *)model
+{
+    RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+    userInfo.userId = model.out_userid;
+    
+    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
+    if ([userInfo.userId isEqualToString:my_userID]) return;
+    
+    userInfo.name = model.name;
+    userInfo.portraitUri = model.head_pic;
+    
+    NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (usersArray)
+    {
+        NSArray *arrResult = [usersArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.userId = %@",userInfo.userId]];
+        if (arrResult.count)
+        {
+            RCUserInfo *temp_userInfo = arrResult[0];
+            NSInteger index = [usersArray indexOfObject:temp_userInfo];
+            [usersArray replaceObjectAtIndex:index withObject:temp_userInfo];
+        }
+        else
+        {
+            [usersArray addObject:userInfo];
+        }
+    }
+    else
+    {
+        NSMutableArray *array = [NSMutableArray array];
+        [array addObject:userInfo];
+        [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.targetId = userInfo.userId;
+    conversationVC.title = userInfo.name;
+    [self.navigationController pushViewController:conversationVC animated:YES];
+}
+
+- (void)pushPersonInfromViewControllerWithUserID:(NSString *)userID shopID:(NSString *)shopID
+{
+    BXTPersonInfromViewController *pivc = [[BXTPersonInfromViewController alloc] init];
+    pivc.userID = userID;
+    pivc.shopID = shopID;
+    pivc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:pivc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
