@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BXTMailListModel.h"
+#import "BXTMailUserListSimpleInfo.h"
 
 @interface BXTMailListCell : UITableViewCell
 
@@ -21,5 +22,6 @@
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @property (nonatomic, strong) BXTMailListModel *mailListModel;
+@property (nonatomic, strong) BXTMailUserListSimpleInfo *userInfo;
 
 @end

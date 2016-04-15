@@ -577,7 +577,8 @@ andRepairerIsReacive:(NSString *)reacive
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSDictionary *dic = @{@"out_userid": applicantID,
                           @"shop_id": companyInfo.company_id,
-                          @"is_verify": is_verify};
+                          @"is_verify": is_verify,
+                          @"verify_user_id": [BXTGlobal getUserProperty:U_USERID]};
     
     NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, companyInfo.company_id, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_verify",urlLast];

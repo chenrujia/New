@@ -15,6 +15,8 @@
 #import "BXTStatisticsViewController.h"
 #import "BXTRemindNum.h"
 #import "BXTProjectManageViewController.h"
+#import "ANKeyValueTable.h"
+#import "BXTMailUserListSimpleInfo.h"
 
 @interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -55,6 +57,17 @@
     [request appVCAdvertisement];
     
     [self createUI];
+    
+    NSArray *listArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
+    
+    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *listDict in listArray) {
+        for (NSDictionary *subListDict in listDict[@"lists"]) {
+            BXTMailUserListSimpleInfo *userInfo = [BXTMailUserListSimpleInfo modelWithDict:subListDict];
+            [dataArray addObject:userInfo];
+            NSLog(@"\n\n\n\n %@", userInfo.name);
+        }
+    }
 }
 
 - (void)createUI

@@ -96,11 +96,13 @@
     nameLabel.font = [UIFont systemFontOfSize:17.f];
     [logoImgView addSubview:nameLabel];
     
+    
     // 性别
     sexView = [[UIImageView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(nameLabel.frame), 15, 15)];
     sexView.center = CGPointMake(SCREEN_WIDTH/2.f + 60, nameLabel.center.y);
     sexView.contentMode = UIViewContentModeScaleAspectFit;
     [logoImgView addSubview:sexView];
+    
     
     // 职位
     positionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(nameLabel.frame) + (IS_IPHONE6 ? 12 : 8), 180.f, 20.f)];

@@ -442,7 +442,7 @@
     cell.logoImgView.image = [UIImage imageNamed:_imgNameArray[indexPath.section][indexPath.row]];
     cell.titleLabel.text = _titleNameArray[indexPath.section][indexPath.row];
     
-    if (![BXTGlobal shareGlobal].isRepair)
+    if ([BXTGlobal shareGlobal].isRepair)
     {
         if (indexPath.section == 0) {
             if (indexPath.row == 0 && [[BXTRemindNum sharedManager].dailyNum integerValue] != 0) {

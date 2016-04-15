@@ -11,14 +11,14 @@
 #import "BXTHeaderForVC.h"
 #import "BXTMailRootInfo.h"
 #import "PinYinForObjc.h"
-#import "BXTMailListModel.h"
 #import "ANKeyValueTable.h"
 #import "BXTPersonInfromViewController.h"
 #import "BXTMailListCell.h"
 #import <RongIMKit/RongIMKit.h>
 #import "BXTPersonInfromViewController.h"
+#import "UIScrollView+EmptyDataSet.h"
 
-@interface BXTMailRootViewController () <BXTDataResponseDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, MBProgressHUDDelegate>
+@interface BXTMailRootViewController () <BXTDataResponseDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, MBProgressHUDDelegate>
 
 @property(nonatomic, strong) UISearchBar *searchBar;
 
@@ -110,6 +110,8 @@
     self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.searchBar.frame)) style:UITableViewStyleGrouped];
     self.tableView_Search.dataSource = self;
     self.tableView_Search.delegate = self;
+    self.tableView_Search.emptyDataSetDelegate = self;
+    self.tableView_Search.emptyDataSetSource = self;
     [self.view addSubview:self.tableView_Search];
     
     // UITableView - tableView_Search - tableHeaderView
@@ -165,11 +167,15 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSArray *allArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
-    NSLog(@"\n\n\n\n %@", allArray);
-    
     // 获取存值
-    NSArray *allPersonArray = [BXTGlobal readFileWithfileName:@"MailUserList"];
+    NSArray *listArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
+    NSMutableArray *allPersonArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *listDict in listArray) {
+        for (NSDictionary *subListDict in listDict[@"lists"]) {
+            [allPersonArray addObject:subListDict];
+        }
+    }
+    
     
     NSMutableArray *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text])
@@ -177,7 +183,7 @@
         
         for (int i=0; i<allPersonArray.count; i++)
         {
-            BXTMailListModel *model = [BXTMailListModel modelWithDict:allPersonArray[i]];
+            BXTMailUserListSimpleInfo *model = [BXTMailUserListSimpleInfo modelWithDict:allPersonArray[i]];
             
             if ([ChineseInclude isIncludeChineseInString:model.name])
             {
@@ -210,7 +216,7 @@
     {
         for (NSDictionary *dict in allPersonArray)
         {
-            BXTMailListModel *model = [BXTMailListModel modelWithDict:dict];
+            BXTMailUserListSimpleInfo *model = [BXTMailUserListSimpleInfo modelWithDict:dict];
             NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
             if (titleResult.length > 0)
             {
@@ -226,6 +232,11 @@
 
 #pragma mark -
 #pragma mark - tableView代理方法
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    [self.view endEditing:YES];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -252,13 +263,12 @@
         }
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
-        cell.mailListModel = model;
+        cell.userInfo = [BXTMailUserListSimpleInfo modelWithDict:self.searchArray[indexPath.row]];;
         
         @weakify(self);
         [[cell.messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            [self connectTaWithOutID:cell.mailListModel];
+            [self connectTaWithOutID:cell.userInfo];
         }];
         
         return cell;
@@ -299,9 +309,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.view endEditing:YES];
+    
     if (tableView == self.tableView_Search)
     {
-        BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
+        BXTMailUserListSimpleInfo *model = [BXTMailUserListSimpleInfo modelWithDict:self.searchArray[indexPath.row]];
         [self pushPersonInfromViewControllerWithUserID:[NSString stringWithFormat:@"%@", model.userID] shopID:model.shop_id];
         
         [self showTableViewAndHideSearchTableView:YES];
@@ -314,6 +326,16 @@
     [self.navigationController pushViewController:mlvc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"抱歉，没有找到相关人员";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName:[UIColor blackColor]};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 #pragma mark -
@@ -388,7 +410,7 @@
     }
 }
 
-- (void)connectTaWithOutID:(BXTMailListModel *)model
+- (void)connectTaWithOutID:(BXTMailUserListSimpleInfo *)model
 {
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = model.out_userid;
@@ -397,7 +419,7 @@
     if ([userInfo.userId isEqualToString:my_userID]) return;
     
     userInfo.name = model.name;
-    userInfo.portraitUri = model.head_pic;
+    userInfo.portraitUri = model.headMedium;
     
     NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (usersArray)

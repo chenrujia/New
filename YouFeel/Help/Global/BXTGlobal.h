@@ -47,7 +47,13 @@
 + (id)getUserProperty:(NSString *)key;
 + (void)setUserInfo:(BXTUserInfo *)userInfo;
 + (BXTUserInfo *)getUserInfo;
-- (void)reLoginWithDic:(NSDictionary *)dic;
+/**
+ *  登录
+ *
+ *  @param dic     数组
+ *  @param isPTRVC 是否跳转到首页
+ */
+- (void)reLoginWithDic:(NSDictionary *)dic isPushToRootVC:(BOOL)isPushToRootVC;
 
 /**
  *  正则验证手机号

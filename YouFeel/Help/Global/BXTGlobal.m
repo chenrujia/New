@@ -67,7 +67,7 @@
     }
 }
 
-- (void)reLoginWithDic:(NSDictionary *)dic
+- (void)reLoginWithDic:(NSDictionary *)dic isPushToRootVC:(BOOL)isPushToRootVC
 {
     [BXTBranchUserInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         return @{@"userID":@"id"};
@@ -116,7 +116,7 @@
     roleInfo.duty_name = branchUser.role;
     [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
     
-//    [BXTGlobal setUserProperty:branchUser.username withKey:U_USERNAME];
+    //    [BXTGlobal setUserProperty:branchUser.username withKey:U_USERNAME];
     [BXTGlobal setUserProperty:branchUser.role_con withKey:U_ROLEARRAY];
     [BXTGlobal setUserProperty:branchUser.mobile withKey:U_MOBILE];
     [BXTGlobal setUserProperty:branchUser.is_verify withKey:U_IS_VERIFY];
@@ -130,8 +130,10 @@
         [BXTGlobal shareGlobal].isRepair = YES;
     }
     
-    CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
-    [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];
+    if (isPushToRootVC) {
+        CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
+        [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];
+    }
 }
 
 + (BOOL)validateMobile:(NSString *)mobile

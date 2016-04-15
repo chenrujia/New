@@ -251,7 +251,7 @@
         if (data.count > 0)
         {
             NSDictionary *userInfo = data[0];
-            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
+            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
