@@ -97,6 +97,7 @@
 - (BOOL)is_verify
 {
     NSString *is_verify = [BXTGlobal getUserProperty:U_IS_VERIFY];
+    
     // TODO: -----------------  调试  -----------------
     if ([is_verify integerValue] == 1)
     {

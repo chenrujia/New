@@ -271,7 +271,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         }
     }
     
-    
+    // 搜索
     NSMutableArray *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text])
     {
