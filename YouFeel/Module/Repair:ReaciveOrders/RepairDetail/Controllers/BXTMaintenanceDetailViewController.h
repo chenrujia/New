@@ -10,9 +10,9 @@
 
 typedef NS_ENUM (NSInteger, SceneType)
 {
-    MyRepairType = 1,
-    MyMaintenanceType = 2,
-    DailyType = 3
+    MyRepairType = 1,//我的报修工单
+    MyMaintenanceType = 2,//我的维修工单
+    DailyType = 3//日常工单接单池
 };
 
 @interface BXTMaintenanceDetailViewController : BXTDetailBaseViewController
@@ -34,6 +34,7 @@ typedef NS_ENUM (NSInteger, SceneType)
 
 @property (nonatomic, assign) SceneType sceneType;
 
+@property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UIView       *contentView;
 @property (weak, nonatomic) IBOutlet UIImageView  *headImgView;
 @property (weak, nonatomic) IBOutlet UILabel      *repairerName;
@@ -57,7 +58,7 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UIView       *eighthBV;
 @property (weak, nonatomic) IBOutlet UIView       *ninthBV;
 @property (weak, nonatomic) IBOutlet UIView       *tenthBV;
-@property (weak, nonatomic) IBOutlet UIView       *eleventhBV;
+@property (weak, nonatomic) IBOutlet UIView       *buttonBV;
 @property (weak, nonatomic) IBOutlet UILabel      *endTime;
 @property (weak, nonatomic) IBOutlet UILabel      *maintencePlace;
 @property (weak, nonatomic) IBOutlet UILabel      *doneFaultType;
@@ -74,7 +75,7 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UIImageView *evaluatePicTwo;
 @property (weak, nonatomic) IBOutlet UIImageView *evaluatePicThree;
 @property (weak, nonatomic) IBOutlet UIScrollView *mmScroller;
-
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scroller_bottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fifth_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sixth_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *ninth_top;

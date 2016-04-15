@@ -396,11 +396,10 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)listOfRepairOrderWithTaskType:(NSString *)task_type
-                              faultID:(NSString *)fault_id
+                       repairListType:(RepairListType)listType
                           faulttypeID:(NSString *)faulttype_id
                                 order:(NSString *)order
                           dispatchUid:(NSString *)dispatch_uid
-                            repairUid:(NSString *)repair_uid
                          dailyTimeout:(NSString *)daily_timeout
                     inspectionTimeout:(NSString *)inspection_timeout
                              timeName:(NSString *)timename
@@ -416,11 +415,9 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = RepairList;
     NSDictionary *dic = @{@"task_type": task_type,
-                          @"fault_id": fault_id,
                           @"faulttype_id": faulttype_id,
                           @"order": order,
                           @"dispatch_uid": dispatch_uid,
-                          @"repair_uid": repair_uid,
                           @"daily_timeout": daily_timeout,
                           @"inspection_timeout": inspection_timeout,
                           @"timename": timename,
@@ -434,9 +431,18 @@ andRepairerIsReacive:(NSString *)reacive
                           @"repair_carried_state": repair_carried_state,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
+    NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] initWithDictionary:dic];
+    if (listType == MyMaintenanceList)
+    {
+        [mutableDic setObject:[BXTGlobal getUserProperty:U_BRANCHUSERID] forKey:@"repair_uid"];
+    }
+    else if (listType == MyRepairList)
+    {
+        [mutableDic setObject:[BXTGlobal getUserProperty:U_BRANCHUSERID] forKey:@"fault_id"];
+    }
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_lists",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
+    [self postRequest:url withParameters:mutableDic];
 }
 
 - (void)listOFSubgroup
@@ -865,7 +871,7 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = MessageList;
     //TODO: user_id记得改回来
-    NSDictionary *dic = @{@"user_id":@"31",
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"10"};
     

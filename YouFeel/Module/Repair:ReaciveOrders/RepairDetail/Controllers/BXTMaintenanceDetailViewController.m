@@ -21,10 +21,12 @@
 #import "UIView+SDAutoLayout.h"
 
 //底部白色背景图高度
-#define YBottomBackHeight 67.f
+#define YBottomBackHeight 64.f
 
 @interface BXTMaintenanceDetailViewController ()<BXTDataResponseDelegate>
-
+{
+    BOOL isHaveButtons;//底部是否有按钮
+}
 @property (nonatomic ,strong) NSString         *repair_id;
 @property (nonatomic ,strong) NSArray          *comeTimeArray;
 @property (nonatomic ,strong) UIView           *bgView;
@@ -140,14 +142,14 @@
     [BXTGlobal showLoadingMBP:@"努力加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
-        /**获取详情**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
-    });
-    dispatch_async(concurrentQueue, ^{
         /**请求控制按钮显示**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request handlePermission:self.repair_id sceneID:[NSString stringWithFormat:@"%ld",(long)self.sceneType]];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**获取详情**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request repairDetail:[NSString stringWithFormat:@"%@",_repair_id]];
     });
 }
 
@@ -155,13 +157,16 @@
 #pragma mark 更新ContentView高度
 - (void)updateContentConstant:(UIView *)view
 {
-    if (CGRectGetMaxY(view.frame) + 12.f + YBottomBackHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
+    CGFloat bottomBVHeight = isHaveButtons ? YBottomBackHeight : 0.f;
+    self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
+    [self.contentScrollView layoutIfNeeded];
+    if (CGRectGetMaxY(view.frame) + 12.f + bottomBVHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
     {
-        _content_height.constant = CGRectGetMaxY(view.frame) + 12.f + YBottomBackHeight;
+        _content_height.constant = CGRectGetMaxY(view.frame) + 12.f + bottomBVHeight;
     }
     else
     {
-        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT;
+        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - bottomBVHeight;
     }
     [_contentView layoutIfNeeded];
 }
@@ -232,6 +237,8 @@
 {
     //维修报告相关
     //TODO: 服务器还没有完好，缺少字段
+    self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
+    [self.contentScrollView layoutIfNeeded];
     _endTime.text = [NSString stringWithFormat:@"结束时间：%@",@"2016.3.22 18:20:39"];
     _maintencePlace.text = [NSString stringWithFormat:@"维修位置：%@",@"铁建广场603"];
     _doneFaultType.text = [NSString stringWithFormat:@"故障类型：%@",@"生活水泵"];
@@ -345,6 +352,8 @@
         imagesRatingControl.userInteractionEnabled = NO;
         [_ninthBV addSubview:imagesRatingControl];
     }
+    self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
+    [self.contentScrollView layoutIfNeeded];
     _evaluateNotes.text = self.repairDetail.evaluation_notes;
     [_contentView layoutIfNeeded];
     _ninth_bv_height.constant = CGRectGetMaxY(_evaluateNotes.frame) + 10.f;
@@ -393,6 +402,7 @@
 
 - (void)loadAllOthers
 {
+    CGFloat bottomBVHeight = isHaveButtons ? YBottomBackHeight : 0.f;
     //有维修报告
     if (self.repairDetail.man_hours.length > 0)
     {
@@ -409,19 +419,19 @@
                 if (self.repairDetail.evaluation_pic.count)
                 {
                     [self loadEvaluationPic];
-                    _content_height.constant = CGRectGetMaxY(_tenthBV.frame)+ 10.f + YBottomBackHeight + 12.f;
+                    _content_height.constant = CGRectGetMaxY(_tenthBV.frame)+ 10.f + bottomBVHeight + 12.f;
                 }
                 else
                 {
                     _tenthBV.hidden = YES;
-                    _content_height.constant = CGRectGetMaxY(_ninthBV.frame)+ 10.f + YBottomBackHeight + 12.f;
+                    _content_height.constant = CGRectGetMaxY(_ninthBV.frame)+ 10.f + bottomBVHeight + 12.f;
                 }
             }
             else
             {
                 _ninthBV.hidden = YES;
                 _tenthBV.hidden = YES;
-                _content_height.constant = CGRectGetMaxY(_eighthBV.frame)+ 10.f + YBottomBackHeight + 12.f;
+                _content_height.constant = CGRectGetMaxY(_eighthBV.frame)+ 10.f + bottomBVHeight + 12.f;
             }
         }
         else
@@ -436,19 +446,19 @@
                 if (self.repairDetail.evaluation_pic.count)
                 {
                     [self loadEvaluationPic];
-                    _content_height.constant = CGRectGetMaxY(_tenthBV.frame)+ 10.f + YBottomBackHeight + 12.f;
+                    _content_height.constant = CGRectGetMaxY(_tenthBV.frame)+ 10.f + bottomBVHeight + 12.f;
                 }
                 else
                 {
                     _tenthBV.hidden = YES;
-                    _content_height.constant = CGRectGetMaxY(_ninthBV.frame)+ 10.f + YBottomBackHeight + 12.f;
+                    _content_height.constant = CGRectGetMaxY(_ninthBV.frame)+ 10.f + bottomBVHeight + 12.f;
                 }
             }
             else
             {
                 _ninthBV.hidden = YES;
                 _tenthBV.hidden = YES;
-                _content_height.constant = CGRectGetMaxY(_eighthBV.frame)+ 10.f + YBottomBackHeight + 12.f;
+                _content_height.constant = CGRectGetMaxY(_eighthBV.frame)+ 10.f + bottomBVHeight + 12.f;
             }
         }
     }
@@ -458,20 +468,20 @@
         _eighthBV.hidden = YES;
         _ninthBV.hidden = YES;
         _tenthBV.hidden = YES;
-        if (CGRectGetMaxY(_sixthBV.frame) + 12.f + YBottomBackHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
+        if (CGRectGetMaxY(_sixthBV.frame) + 12.f + bottomBVHeight > SCREEN_HEIGHT  - KNAVIVIEWHEIGHT)
         {
-            _content_height.constant = CGRectGetMaxY(_sixthBV.frame) + 12.f + YBottomBackHeight;
+            _content_height.constant = CGRectGetMaxY(_sixthBV.frame) + 12.f + bottomBVHeight;
         }
         else
         {
-            _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT;
+            _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - bottomBVHeight;
         }
     }
 }
 
 - (void)loadButtons
 {
-    self.eleventhBV.hidden = NO;
+    self.buttonBV.hidden = NO;
     switch (self.btnArray.count) {
         case 1:
         {
@@ -484,10 +494,11 @@
                 [self actionWithButtonInfo:btnInfo];
             }];
             
+            CGFloat space = IS_IPHONE6 ? 100.f : 60.f;
             btn.sd_layout
-            .leftSpaceToView(self.eleventhBV,100)
-            .rightSpaceToView(self.eleventhBV,100)
-            .topSpaceToView(self.eleventhBV,12)
+            .leftSpaceToView(self.buttonBV,space)
+            .rightSpaceToView(self.buttonBV,space)
+            .topSpaceToView(self.buttonBV,12)
             .heightIs(44);
         }
             break;
@@ -510,19 +521,19 @@
             }];
             
             leftBtn.sd_layout
-            .leftSpaceToView(self.eleventhBV,20)
-            .topSpaceToView(self.eleventhBV,12)
-            .rightSpaceToView(self.eleventhBV,SCREEN_WIDTH/2.f + 10.f)
+            .leftSpaceToView(self.buttonBV,20)
+            .topSpaceToView(self.buttonBV,12)
+            .rightSpaceToView(self.buttonBV,SCREEN_WIDTH/2.f + 10.f)
             .heightIs(44);
             rightBtn.sd_layout
             .leftSpaceToView(leftBtn,20)
             .topEqualToView(leftBtn)
-            .rightSpaceToView(self.eleventhBV,20)
+            .rightSpaceToView(self.buttonBV,20)
             .heightIs(44);
         }
             break;
         default:
-            self.eleventhBV.hidden = YES;
+            self.buttonBV.hidden = YES;
             
             break;
     }
@@ -535,8 +546,142 @@
     btn.layer.borderWidth = 1.f;
     btn.layer.cornerRadius = 4.f;
     [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-    [self.eleventhBV addSubview:btn];
+    [self.buttonBV addSubview:btn];
     return btn;
+}
+
+- (void)showRepairInfo
+{
+    self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
+    [self.contentScrollView layoutIfNeeded];
+    //状态相关
+    self.orderState.text = self.repairDetail.repairstate_name;
+    BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 34, SCREEN_WIDTH, StateViewHeight) withProgress:self.repairDetail.progress isShowState:NO];
+    [_firstBV addSubview:drawView];
+    
+    //各种赋值
+    BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];
+    NSString *headURL = repairPerson.head_pic;
+    [_headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+    _repairerName.text = repairPerson.name;
+    _departmentName.text = [NSString stringWithFormat:@"部门：%@",repairPerson.department_name];
+    _positionName.text = [NSString stringWithFormat:@"职位：%@",repairPerson.duty_name];
+    _repairID.text = [NSString stringWithFormat:@"工单编号:%@",self.repairDetail.orderid];
+    _repairTime.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
+    _place.text = [NSString stringWithFormat:@"报修位置:%@",self.repairDetail.place_name];
+    _faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
+    _cause.text = [NSString stringWithFormat:@"故障描述:%@",self.repairDetail.cause];
+    [_contentView layoutIfNeeded];
+    _first_bv_height.constant = CGRectGetMaxY(_cause.frame) + 10.f;
+    [_firstBV layoutIfNeeded];
+    
+    //故障图相关
+    [self loadFaultPic];
+    
+    /**阿西吧！需要各种判断，醉了。。**/
+    if (self.repairDetail.fault_pic.count == 0 &&
+        self.repairDetail.device_list.count == 0 &&
+        self.repairDetail.repair_user_arr.count == 0)
+    {
+        _fouthBV.hidden = YES;
+        _fifthBV.hidden = YES;
+        _sixthBV.hidden = YES;
+        _seventhBV.hidden = YES;
+        _eighthBV.hidden = YES;
+        _ninthBV.hidden = YES;
+        _tenthBV.hidden = YES;
+        [self updateContentConstant:self.thirdBV];
+        return;
+    }
+    else if (self.repairDetail.fault_pic.count &&
+             self.repairDetail.device_list.count == 0 &&
+             self.repairDetail.repair_user_arr.count == 0)
+    {
+        _fifthBV.hidden = YES;
+        _sixthBV.hidden = YES;
+        _seventhBV.hidden = YES;
+        _eighthBV.hidden = YES;
+        _ninthBV.hidden = YES;
+        _tenthBV.hidden = YES;
+        [self updateContentConstant:self.fouthBV];
+        return;
+    }
+    else if (self.repairDetail.fault_pic.count == 0 &&
+             self.repairDetail.device_list.count &&
+             self.repairDetail.repair_user_arr.count == 0)
+    {
+        _fouthBV.hidden = YES;
+        _sixthBV.hidden = YES;
+        _seventhBV.hidden = YES;
+        _eighthBV.hidden = YES;
+        _ninthBV.hidden = YES;
+        _tenthBV.hidden = YES;
+        //设备列表相关
+        [self loadDeviceList];
+        self.fifth_top.constant = 12.f;
+        [self.fifthBV layoutIfNeeded];
+        [self updateContentConstant:self.fifthBV];
+        return;
+    }
+    else if (self.repairDetail.fault_pic.count &&
+             self.repairDetail.device_list.count &&
+             self.repairDetail.repair_user_arr.count == 0)
+    {
+        _sixthBV.hidden = YES;
+        _seventhBV.hidden = YES;
+        _eighthBV.hidden = YES;
+        _ninthBV.hidden = YES;
+        _tenthBV.hidden = YES;
+        //故障图片
+        [self loadFaultPic];
+        //设备列表相关
+        [self loadDeviceList];
+        [self updateContentConstant:self.fifthBV];
+        return;
+    }
+    else if (self.repairDetail.fault_pic.count == 0 &&
+             self.repairDetail.device_list.count == 0 &&
+             self.repairDetail.repair_user_arr.count)
+    {
+        _fouthBV.hidden = YES;
+        _fifthBV.hidden = YES;
+        _sixth_top.constant = 12.f;
+        [_sixthBV layoutIfNeeded];
+        //维修员相关
+        [self loadMMList];
+        [self loadAllOthers];
+        [_contentView layoutIfNeeded];
+        return;
+    }
+    else if (self.repairDetail.fault_pic.count &&
+             self.repairDetail.device_list.count &&
+             self.repairDetail.repair_user_arr.count)
+    {
+        //设备列表相关
+        [self loadDeviceList];
+        //维修员相关
+        [self loadMMList];
+        [self loadAllOthers];
+        [_contentView layoutIfNeeded];
+        return;
+    }
+    
+    //设备列表相关
+    [self loadDeviceList];
+    //维修员相关
+    [self loadMMList];
+    //维修报告相关
+    [self loadMaintenanceReports];
+    //维修后图片相关
+    [self loadFixedPic];
+    //评价相关
+    [self loadEvaluationContent];
+    //评价图片相关
+    [self loadEvaluationPic];
+    
+    CGFloat bottomBVHeight = isHaveButtons ? YBottomBackHeight : 0.f;
+    _content_height.constant = CGRectGetMaxY(_tenthBV.frame)+ 10.f + bottomBVHeight + 12.f;
+    [_contentView layoutIfNeeded];
 }
 
 #pragma mark -
@@ -723,144 +868,22 @@
             return @{@"rpID":@"id"};
         }];
         self.repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
-        
-        //状态相关
-        self.orderState.text = self.repairDetail.repairstate_name;
-        BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 34, SCREEN_WIDTH, StateViewHeight) withProgress:self.repairDetail.progress isShowState:NO];
-        [_firstBV addSubview:drawView];
-        
-        //各种赋值
-        BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];
-        NSString *headURL = repairPerson.head_pic;
-        [_headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-        _repairerName.text = repairPerson.name;
-        _departmentName.text = [NSString stringWithFormat:@"部门：%@",repairPerson.department_name];
-        _positionName.text = [NSString stringWithFormat:@"职位：%@",repairPerson.duty_name];
-        _repairID.text = [NSString stringWithFormat:@"工单编号:%@",self.repairDetail.orderid];
-        _repairTime.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
-        _place.text = [NSString stringWithFormat:@"报修位置:%@",self.repairDetail.place_name];
-        _faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
-        _cause.text = [NSString stringWithFormat:@"故障描述:%@",self.repairDetail.cause];
-        [_contentView layoutIfNeeded];
-        _first_bv_height.constant = CGRectGetMaxY(_cause.frame) + 10.f;
-        [_firstBV layoutIfNeeded];
-        
-        //故障图相关
-        [self loadFaultPic];
-        
-        /**阿西吧！需要各种判断，醉了。。**/
-        if (self.repairDetail.fault_pic.count == 0 &&
-            self.repairDetail.device_list.count == 0 &&
-            self.repairDetail.repair_user_arr.count == 0)
-        {
-            _fouthBV.hidden = YES;
-            _fifthBV.hidden = YES;
-            _sixthBV.hidden = YES;
-            _seventhBV.hidden = YES;
-            _eighthBV.hidden = YES;
-            _ninthBV.hidden = YES;
-            _tenthBV.hidden = YES;
-            [self updateContentConstant:self.thirdBV];
-            return;
-        }
-        else if (self.repairDetail.fault_pic.count &&
-                 self.repairDetail.device_list.count == 0 &&
-                 self.repairDetail.repair_user_arr.count == 0)
-        {
-            _fifthBV.hidden = YES;
-            _sixthBV.hidden = YES;
-            _seventhBV.hidden = YES;
-            _eighthBV.hidden = YES;
-            _ninthBV.hidden = YES;
-            _tenthBV.hidden = YES;
-            [self updateContentConstant:self.fouthBV];
-            return;
-        }
-        else if (self.repairDetail.fault_pic.count == 0 &&
-                 self.repairDetail.device_list.count &&
-                 self.repairDetail.repair_user_arr.count == 0)
-        {
-            _fouthBV.hidden = YES;
-            _sixthBV.hidden = YES;
-            _seventhBV.hidden = YES;
-            _eighthBV.hidden = YES;
-            _ninthBV.hidden = YES;
-            _tenthBV.hidden = YES;
-            //设备列表相关
-            [self loadDeviceList];
-            self.fifth_top.constant = 12.f;
-            [self.fifthBV layoutIfNeeded];
-            [self updateContentConstant:self.fifthBV];
-            return;
-        }
-        else if (self.repairDetail.fault_pic.count &&
-                 self.repairDetail.device_list.count &&
-                 self.repairDetail.repair_user_arr.count == 0)
-        {
-            _sixthBV.hidden = YES;
-            _seventhBV.hidden = YES;
-            _eighthBV.hidden = YES;
-            _ninthBV.hidden = YES;
-            _tenthBV.hidden = YES;
-            //故障图片
-            [self loadFaultPic];
-            //设备列表相关
-            [self loadDeviceList];
-            [self updateContentConstant:self.fifthBV];
-            return;
-        }
-        else if (self.repairDetail.fault_pic.count == 0 &&
-                 self.repairDetail.device_list.count == 0 &&
-                 self.repairDetail.repair_user_arr.count)
-        {
-            _fouthBV.hidden = YES;
-            _fifthBV.hidden = YES;
-            _sixth_top.constant = 12.f;
-            [_sixthBV layoutIfNeeded];
-            //维修员相关
-            [self loadMMList];
-            [self loadAllOthers];
-            [_contentView layoutIfNeeded];
-            return;
-        }
-        else if (self.repairDetail.fault_pic.count &&
-                 self.repairDetail.device_list.count &&
-                 self.repairDetail.repair_user_arr.count)
-        {
-            //设备列表相关
-            [self loadDeviceList];
-            //维修员相关
-            [self loadMMList];
-            [self loadAllOthers];
-            [_contentView layoutIfNeeded];
-            return;
-        }
-        
-        //设备列表相关
-        [self loadDeviceList];
-        //维修员相关
-        [self loadMMList];
-        //维修报告相关
-        [self loadMaintenanceReports];
-        //维修后图片相关
-        [self loadFixedPic];
-        //评价相关
-        [self loadEvaluationContent];
-        //评价图片相关
-        [self loadEvaluationPic];
-        
-        _content_height.constant = CGRectGetMaxY(_tenthBV.frame)+ 10.f + YBottomBackHeight + 12.f;
-        [_contentView layoutIfNeeded];
+        [self showRepairInfo];
     }
     else if (type == HandlePermission && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
-        for (UIView *view in self.eleventhBV.subviews)
+        for (UIView *view in self.buttonBV.subviews)
         {
             [view removeFromSuperview];
         }
         [self.btnArray removeAllObjects];
         [self.btnArray addObjectsFromArray:[BXTButtonInfo mj_objectArrayWithKeyValuesArray:data]];
+        isHaveButtons = self.btnArray.count > 0 ? YES : NO;
         [self loadButtons];
+        if (self.repairDetail)
+        {
+            [self showRepairInfo];
+        }
     }
     else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {

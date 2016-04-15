@@ -46,10 +46,6 @@
 @property (nonatomic, copy) NSString *filterOfAreasID;
 @property (nonatomic, copy) NSString *filterOfTimeBegain;
 @property (nonatomic, copy) NSString *filterOfTimeEnd;
-// 我的维修列表
-@property (nonatomic, copy) NSString *filterOfRepairUID;
-// 我的报修列表
-@property (nonatomic, copy) NSString *filterOfFaultID;
 /** ---- 报修者的列表进度状态 1进行中 2 已完成 ---- */
 @property (nonatomic, copy) NSString *faultCarriedState;
 /** ---- 维修者的列表进度状态 1进行中 2 已完成 ---- */
@@ -101,16 +97,6 @@
     self.filterOfAreasID = @"";
     self.filterOfTimeBegain = @"";
     self.filterOfTimeEnd = @"";
-    self.filterOfRepairUID = @"";
-    self.filterOfFaultID = @"";
-    if (self.isRepair)
-    {
-        self.filterOfRepairUID = @"31";
-    }
-    else
-    {
-        self.filterOfFaultID = @"31";
-    }
     // 我的维修工单 - isRepair == YES
     if (self.isRepair)
     {
@@ -163,14 +149,14 @@
     [self showLoadingMBP:@"努力加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
+        RepairListType listType = self.isRepair ? MyMaintenanceList : MyRepairList;
         /**获取报修列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request listOfRepairOrderWithTaskType:self.filterOfTaskType
-                                       faultID:self.filterOfFaultID
+                                repairListType:listType
                                    faulttypeID:@""
                                          order:@""
                                    dispatchUid:@""
-                                     repairUid:self.filterOfRepairUID
                                   dailyTimeout:@""
                              inspectionTimeout:@""
                                       timeName:@"fault_time"
@@ -206,13 +192,13 @@
 {
     [self showLoadingMBP:@"努力加载中..."];
     /**获取报修列表**/
+    RepairListType listType = self.isRepair ? MyMaintenanceList : MyRepairList;
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOfRepairOrderWithTaskType:self.filterOfTaskType
-                                   faultID:self.filterOfFaultID
+                            repairListType:listType
                                faulttypeID:@""
                                      order:@""
                                dispatchUid:self.filterOfDispatchUID
-                                 repairUid:self.filterOfRepairUID
                               dailyTimeout:@""
                          inspectionTimeout:@""
                                   timeName:@"fault_time"
@@ -488,7 +474,8 @@
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-        [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:DailyType];
+        SceneType sceneType = self.isRepair ? MyMaintenanceType : MyRepairType;
+        [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:sceneType];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
 
