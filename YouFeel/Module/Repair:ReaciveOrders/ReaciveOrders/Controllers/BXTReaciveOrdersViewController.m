@@ -86,6 +86,7 @@
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOfRepairOrderWithTaskType:self.taskType
+                            repairListType:OtherList
                                faulttypeID:@""
                                      order:@""
                                dispatchUid:@""
@@ -158,6 +159,7 @@
         /**获取报修列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request listOfRepairOrderWithTaskType:self.taskType
+                                repairListType:OtherList
                                    faulttypeID:@""
                                          order:@""
                                    dispatchUid:@""

@@ -90,6 +90,13 @@ typedef NS_ENUM(NSInteger, RequestType) {
     DispatchOrAdd
 };
 
+typedef NS_ENUM(NSInteger, RepairListType)
+{
+    MyMaintenanceList,//我的维修工单
+    MyRepairList,//我的报修工单
+    OtherList//日常工单或维保工单
+};
+
 @protocol BXTDataResponseDelegate <NSObject>
 
 - (void)requestResponseData:(id)response
@@ -222,6 +229,7 @@ andRepairerIsReacive:(NSString *)reacive;
  *  获取工单列表 - 新
  */
 - (void)listOfRepairOrderWithTaskType:(NSString *)task_type // 工单任务类型 1正常工单 2维保工单
+                       repairListType:(RepairListType)listType//Yes维修工单 No报修工单
                           faulttypeID:(NSString *)faulttype_id // 故障类型id
                                 order:(NSString *)order // 排序 1按排序顺序排序
                           dispatchUid:(NSString *)dispatch_uid // 维修员的用户id（维修员获取被指派的任务）

@@ -149,9 +149,11 @@
     [self showLoadingMBP:@"努力加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
+        RepairListType listType = self.isRepair ? MyMaintenanceList : MyRepairList;
         /**获取报修列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request listOfRepairOrderWithTaskType:self.filterOfTaskType
+                                repairListType:listType
                                    faulttypeID:@""
                                          order:@""
                                    dispatchUid:@""
@@ -190,8 +192,10 @@
 {
     [self showLoadingMBP:@"努力加载中..."];
     /**获取报修列表**/
+    RepairListType listType = self.isRepair ? MyMaintenanceList : MyRepairList;
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOfRepairOrderWithTaskType:self.filterOfTaskType
+                            repairListType:listType
                                faulttypeID:@""
                                      order:@""
                                dispatchUid:self.filterOfDispatchUID
@@ -470,7 +474,8 @@
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-        [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:DailyType];
+        SceneType sceneType = self.isRepair ? MyMaintenanceType : MyRepairType;
+        [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:sceneType];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
 

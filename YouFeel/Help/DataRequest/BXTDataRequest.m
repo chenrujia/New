@@ -396,6 +396,7 @@ andRepairerIsReacive:(NSString *)reacive
 }
 
 - (void)listOfRepairOrderWithTaskType:(NSString *)task_type
+                       repairListType:(RepairListType)listType
                           faulttypeID:(NSString *)faulttype_id
                                 order:(NSString *)order
                           dispatchUid:(NSString *)dispatch_uid
@@ -431,11 +432,11 @@ andRepairerIsReacive:(NSString *)reacive
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
     NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] initWithDictionary:dic];
-    if ([BXTGlobal shareGlobal].isRepair)
+    if (listType == MyMaintenanceList)
     {
         [mutableDic setObject:[BXTGlobal getUserProperty:U_BRANCHUSERID] forKey:@"repair_uid"];
     }
-    else
+    else if (listType == MyRepairList)
     {
         [mutableDic setObject:[BXTGlobal getUserProperty:U_BRANCHUSERID] forKey:@"fault_id"];
     }
