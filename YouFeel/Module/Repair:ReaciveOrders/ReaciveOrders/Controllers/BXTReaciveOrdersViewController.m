@@ -86,11 +86,9 @@
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOfRepairOrderWithTaskType:self.taskType
-                                   faultID:@""
                                faulttypeID:@""
                                      order:@""
                                dispatchUid:@""
-                                 repairUid:@""
                               dailyTimeout:self.filterOfStateDaily
                          inspectionTimeout:self.filterOfStateInspection
                                   timeName:@"fault_time"
@@ -160,11 +158,9 @@
         /**获取报修列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request listOfRepairOrderWithTaskType:self.taskType
-                                       faultID:@""
                                    faulttypeID:@""
                                          order:@""
                                    dispatchUid:@""
-                                     repairUid:@""
                                   dailyTimeout:@""
                              inspectionTimeout:@""
                                       timeName:@"fault_time"

@@ -46,10 +46,6 @@
 @property (nonatomic, copy) NSString *filterOfAreasID;
 @property (nonatomic, copy) NSString *filterOfTimeBegain;
 @property (nonatomic, copy) NSString *filterOfTimeEnd;
-// 我的维修列表
-@property (nonatomic, copy) NSString *filterOfRepairUID;
-// 我的报修列表
-@property (nonatomic, copy) NSString *filterOfFaultID;
 /** ---- 报修者的列表进度状态 1进行中 2 已完成 ---- */
 @property (nonatomic, copy) NSString *faultCarriedState;
 /** ---- 维修者的列表进度状态 1进行中 2 已完成 ---- */
@@ -101,16 +97,6 @@
     self.filterOfAreasID = @"";
     self.filterOfTimeBegain = @"";
     self.filterOfTimeEnd = @"";
-    self.filterOfRepairUID = @"";
-    self.filterOfFaultID = @"";
-    if (self.isRepair)
-    {
-        self.filterOfRepairUID = @"31";
-    }
-    else
-    {
-        self.filterOfFaultID = @"31";
-    }
     // 我的维修工单 - isRepair == YES
     if (self.isRepair)
     {
@@ -166,11 +152,9 @@
         /**获取报修列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request listOfRepairOrderWithTaskType:self.filterOfTaskType
-                                       faultID:self.filterOfFaultID
                                    faulttypeID:@""
                                          order:@""
                                    dispatchUid:@""
-                                     repairUid:self.filterOfRepairUID
                                   dailyTimeout:@""
                              inspectionTimeout:@""
                                       timeName:@"fault_time"
@@ -208,11 +192,9 @@
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOfRepairOrderWithTaskType:self.filterOfTaskType
-                                   faultID:self.filterOfFaultID
                                faulttypeID:@""
                                      order:@""
                                dispatchUid:self.filterOfDispatchUID
-                                 repairUid:self.filterOfRepairUID
                               dailyTimeout:@""
                          inspectionTimeout:@""
                                   timeName:@"fault_time"
