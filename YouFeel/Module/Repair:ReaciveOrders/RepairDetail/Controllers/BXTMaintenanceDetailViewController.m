@@ -54,8 +54,7 @@
     }
     else
     {
-        //TODO: 去掉增加人员
-        [self navigationSetting:@"工单详情" andRightTitle:@"增加人员" andRightImage:nil];
+        [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
     }
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
     self.btnArray = buttons;
@@ -544,11 +543,8 @@
 #pragma mark 关闭工单（跟权限相关）
 - (void)navigationRightButton
 {
-    //TODO: 替换回来
-//    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID viewControllerType:ExamineVCType];
-//    [self.navigationController pushViewController:rejectVC animated:YES];
-    BXTMenViewController *menVC = [[BXTMenViewController alloc] initWithNibName:@"BXTMenViewController" bundle:nil repairID:self.repairDetail.orderID repairUserList:self.repairDetail.repair_user_arr dispatchUserList:self.repairDetail.dispatch_user_arr];
-    [self.navigationController pushViewController:menVC animated:YES];
+    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID viewControllerType:ExamineVCType];
+    [self.navigationController pushViewController:rejectVC animated:YES];
 }
 
 #pragma mark -
@@ -568,11 +564,8 @@
     }
     else if (btnInfo.button_key == 3 || btnInfo.button_key == 4)
     {
-//        ControllerType cvType = btnInfo.button_key == 3 ? AssignType : DetailType;
-//        BXTManListViewController *manListVC = [[BXTManListViewController alloc] initWithNibName:@"BXTManListViewController" bundle:nil repairID:self.repairDetail.orderID manList:self.repairDetail.repair_user_arr controllerType:cvType];
-//        [self.manIDArray addObject:[NSString stringWithFormat:@"%@", [BXTGlobal getUserProperty:U_BRANCHUSERID]]];
-//        manListVC.manIDArray = self.manIDArray;
-//        [self.navigationController pushViewController:manListVC animated:YES];
+        BXTMenViewController *menVC = [[BXTMenViewController alloc] initWithNibName:@"BXTMenViewController" bundle:nil repairID:self.repairDetail.orderID repairUserList:self.repairDetail.repair_user_arr dispatchUserList:self.repairDetail.dispatch_user_arr];
+        [self.navigationController pushViewController:menVC animated:YES];
     }
     else if (btnInfo.button_key == 5)
     {

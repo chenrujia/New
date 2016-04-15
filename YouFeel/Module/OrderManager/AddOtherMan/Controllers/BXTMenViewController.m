@@ -34,7 +34,7 @@ static const CGFloat UserBackViewSpace = 20.f;
 
 @implementation BXTMenViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil repairID:(NSString *)orderID repairUserList:(NSArray *)repairUserArray dispatchUserList:(NSMutableArray *)dispatchUserArray
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil repairID:(NSString *)orderID repairUserList:(NSArray *)repairUserArray dispatchUserList:(NSArray *)dispatchUserArray
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
@@ -141,6 +141,12 @@ static const CGFloat UserBackViewSpace = 20.f;
 {
     NSMutableArray *filterArray = [NSMutableArray array];
     peoplesCount--;
+    NSString *str = [NSString stringWithFormat:@"已选中：%ld人",(long)peoplesCount];
+    NSRange range = [str rangeOfString:[NSString stringWithFormat:@"%ld人",(long)peoplesCount]];
+    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+    [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:range];
+    self.choosedLabel.attributedText = attributeStr;
+
     UIView *subView = [self.scrollerView viewWithTag:btn.tag];
     [subView removeFromSuperview];
     for (UIView *view in self.scrollerView.subviews)

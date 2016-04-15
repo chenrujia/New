@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *currentTableView;
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil repairID:(NSString *)orderID repairUserList:(NSArray *)repairUserArray dispatchUserList:(NSMutableArray *)dispatchUserArray;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil repairID:(NSString *)orderID repairUserList:(NSArray *)repairUserArray dispatchUserList:(NSArray *)dispatchUserArray;
 
 - (IBAction)commitClick:(id)sender;
 

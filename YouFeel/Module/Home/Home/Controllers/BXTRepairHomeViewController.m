@@ -8,7 +8,6 @@
 
 #import "BXTRepairHomeViewController.h"
 #import "BXTGrabOrderViewController.h"
-#import "BXTNewOrderViewController.h"
 #import "BXTGlobal.h"
 #import "BXTPublicSetting.h"
 
