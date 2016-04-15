@@ -42,7 +42,6 @@
 		781C75FD1C55B41000E091D2 /* BXTFaultTypeList.m in Sources */ = {isa = PBXBuildFile; fileRef = 781C75FC1C55B41000E091D2 /* BXTFaultTypeList.m */; };
 		781D86511CBF765E00F01EF7 /* BXTMailRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781D86501CBF765E00F01EF7 /* BXTMailRootViewController.m */; };
 		781D86541CBF784900F01EF7 /* BXTMailRootInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 781D86531CBF784900F01EF7 /* BXTMailRootInfo.m */; };
-		781D86571CBF9CB100F01EF7 /* BXTMailUserListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 781D86561CBF9CB100F01EF7 /* BXTMailUserListInfo.m */; };
 		781EF1831C3CB3B30027FE72 /* BXTMailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781EF1821C3CB3B30027FE72 /* BXTMailViewController.m */; };
 		781EF1FB1C3D382C0027FE72 /* BXTEquipmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781EF1CC1C3D382C0027FE72 /* BXTEquipmentViewController.m */; };
 		781EF2061C3D382C0027FE72 /* BXTCurrentOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 781EF1E71C3D382C0027FE72 /* BXTCurrentOrderCell.m */; };
@@ -141,6 +140,7 @@
 		78426B5E1C7C4C4C00BAE0F4 /* BXTMTCompletionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78426B5D1C7C4C4C00BAE0F4 /* BXTMTCompletionHeader.xib */; };
 		78426B601C7C61DE00BAE0F4 /* BXTMTCompletionFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78426B5F1C7C61DE00BAE0F4 /* BXTMTCompletionFooter.xib */; };
 		78426B631C7C61F500BAE0F4 /* BXTMTCompletionFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 78426B621C7C61F500BAE0F4 /* BXTMTCompletionFooter.m */; };
+		7844D32F1CC0878100EC2D5D /* BXTMailUserListSimpleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7844D32E1CC0878100EC2D5D /* BXTMailUserListSimpleInfo.m */; };
 		784E4F971CA9045700EF2A06 /* BXTMyIntegralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 784E4F961CA9045700EF2A06 /* BXTMyIntegralViewController.m */; };
 		784E4FA51CA90D2700EF2A06 /* BXTMyIntegralFirstCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 784E4FA31CA90D2700EF2A06 /* BXTMyIntegralFirstCell.m */; };
 		784E4FA61CA90D2700EF2A06 /* BXTMyIntegralFirstCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 784E4FA41CA90D2700EF2A06 /* BXTMyIntegralFirstCell.xib */; };
@@ -508,8 +508,6 @@
 		781D86501CBF765E00F01EF7 /* BXTMailRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailRootViewController.m; sourceTree = "<group>"; };
 		781D86521CBF784900F01EF7 /* BXTMailRootInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailRootInfo.h; sourceTree = "<group>"; };
 		781D86531CBF784900F01EF7 /* BXTMailRootInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailRootInfo.m; sourceTree = "<group>"; };
-		781D86551CBF9CB100F01EF7 /* BXTMailUserListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailUserListInfo.h; sourceTree = "<group>"; };
-		781D86561CBF9CB100F01EF7 /* BXTMailUserListInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailUserListInfo.m; sourceTree = "<group>"; };
 		781EF1811C3CB3B30027FE72 /* BXTMailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailViewController.h; sourceTree = "<group>"; };
 		781EF1821C3CB3B30027FE72 /* BXTMailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailViewController.m; sourceTree = "<group>"; };
 		781EF1CB1C3D382C0027FE72 /* BXTEquipmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEquipmentViewController.h; sourceTree = "<group>"; };
@@ -690,6 +688,8 @@
 		78426B5F1C7C61DE00BAE0F4 /* BXTMTCompletionFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMTCompletionFooter.xib; sourceTree = "<group>"; };
 		78426B611C7C61F500BAE0F4 /* BXTMTCompletionFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTCompletionFooter.h; sourceTree = "<group>"; };
 		78426B621C7C61F500BAE0F4 /* BXTMTCompletionFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTCompletionFooter.m; sourceTree = "<group>"; };
+		7844D32D1CC0878100EC2D5D /* BXTMailUserListSimpleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMailUserListSimpleInfo.h; sourceTree = "<group>"; };
+		7844D32E1CC0878100EC2D5D /* BXTMailUserListSimpleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailUserListSimpleInfo.m; sourceTree = "<group>"; };
 		784E4F951CA9045700EF2A06 /* BXTMyIntegralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMyIntegralViewController.h; sourceTree = "<group>"; };
 		784E4F961CA9045700EF2A06 /* BXTMyIntegralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMyIntegralViewController.m; sourceTree = "<group>"; };
 		784E4FA21CA90D2700EF2A06 /* BXTMyIntegralFirstCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMyIntegralFirstCell.h; sourceTree = "<group>"; };
@@ -2907,8 +2907,8 @@
 				783710171C4503CA00A8D5EE /* BXTPersonInform.m */,
 				783710191C4503E900A8D5EE /* BXTPersonChecks.h */,
 				7837101A1C4503E900A8D5EE /* BXTPersonChecks.m */,
-				781D86551CBF9CB100F01EF7 /* BXTMailUserListInfo.h */,
-				781D86561CBF9CB100F01EF7 /* BXTMailUserListInfo.m */,
+				7844D32D1CC0878100EC2D5D /* BXTMailUserListSimpleInfo.h */,
+				7844D32E1CC0878100EC2D5D /* BXTMailUserListSimpleInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4601,7 +4601,6 @@
 				96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */,
 				7867DCE91C4CBD42000749F1 /* BXTEvaluationViewController.m in Sources */,
 				78FFB9961CB5F77B00309339 /* BXTHeadquartersInfo.m in Sources */,
-				781D86571CBF9CB100F01EF7 /* BXTMailUserListInfo.m in Sources */,
 				78090B121C7DA8C3003E1565 /* BXTMaintenanceListViewController.m in Sources */,
 				9677FDF11C9FEEB4009FAAFE /* BXTShopLocationViewController.m in Sources */,
 				9696B7291C90043100272076 /* BXTCommentListViewController.m in Sources */,
@@ -4746,6 +4745,7 @@
 				7893D9141C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m in Sources */,
 				9652ABEC1BC90DCC009A666D /* NSData+CommonCrypto.m in Sources */,
 				9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */,
+				7844D32F1CC0878100EC2D5D /* BXTMailUserListSimpleInfo.m in Sources */,
 				9602214A1BC9201400010072 /* UIView+Nav.m in Sources */,
 				7823C8961C7EAEA700E2858B /* BXTMTPlanListCell.m in Sources */,
 				78C55B0E1C47C50C00FFEB37 /* BXTReadNoticeCell.m in Sources */,

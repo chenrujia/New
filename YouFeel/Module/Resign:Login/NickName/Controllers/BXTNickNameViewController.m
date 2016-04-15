@@ -280,7 +280,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
         if (data.count > 0)
         {
             NSDictionary *userInfo = data[0];
-            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
+            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
     else

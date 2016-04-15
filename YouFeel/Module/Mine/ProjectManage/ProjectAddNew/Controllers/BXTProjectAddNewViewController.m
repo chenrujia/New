@@ -461,7 +461,7 @@
         if (array.count > 0)
         {
             NSDictionary *userInfo = array[0];
-            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
+            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
     else if (type == LocationShop)

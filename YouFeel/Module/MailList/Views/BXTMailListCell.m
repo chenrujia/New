@@ -43,6 +43,23 @@
     
 }
 
+- (void)setUserInfo:(BXTMailUserListSimpleInfo *)userInfo
+{
+    _userInfo = userInfo;
+    
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:userInfo.headMedium] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
+    self.nameView.text = userInfo.name;
+    
+    @weakify(self);
+    [[self.phoneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", userInfo.mobile];
+        UIWebView *callWeb = [[UIWebView alloc] init];
+        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+        [self addSubview:callWeb];
+    }];
+}
+
 - (void)awakeFromNib {
     // Initialization code
     

@@ -529,13 +529,11 @@
     {
         if ([dic[@"returncode"] integerValue] == 0) {
             [BXTGlobal showText:@"项目认证申请成功" view:self.view completionBlock:^{
-                if (self.transProjectInfo) {
-                    for (UIViewController *temp in self.navigationController.viewControllers) {
-                        if ([temp isKindOfClass:[BXTProjectManageViewController class]]) {
-                            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshBXTProjectManageViewController" object:nil];
-                            [self.navigationController popToViewController:temp animated:YES];
-                            return ;
-                        }
+                for (UIViewController *temp in self.navigationController.viewControllers) {
+                    if ([temp isKindOfClass:[BXTProjectManageViewController class]]) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshBXTProjectManageViewController" object:nil];
+                        [self.navigationController popToViewController:temp animated:YES];
+                        return ;
                     }
                 }
                 

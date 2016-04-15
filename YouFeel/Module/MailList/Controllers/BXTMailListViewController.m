@@ -15,6 +15,8 @@
 #import "PinYinForObjc.h"
 #import "UIImageView+WebCache.h"
 #import <RongIMKit/RongIMKit.h>
+#import "ANKeyValueTable.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 #define ORIGINAL 10000
 
@@ -24,7 +26,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     ImageViewType_Selected
 };
 
-@interface BXTMailListViewController () <UISearchBarDelegate, BXTDataResponseDelegate, SKSTableViewDelegate, MBProgressHUDDelegate, UIScrollViewDelegate>
+@interface BXTMailListViewController () <UISearchBarDelegate, SKSTableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, MBProgressHUDDelegate, UIScrollViewDelegate>
 {
     UIImageView *arrow;
     
@@ -102,23 +104,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.dataArray = self.transMailInfo.data;
     self.OLDArray = (NSMutableArray *)self.dataArray;
     [self ergodicArray:self.dataArray OtherListArray:nil];
-        
     
-    //    [self showLoadingMBP:@"数据加载中..."];
-    //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    //    dispatch_async(concurrentQueue, ^{
-    //        /** 通讯录列表 **/
-    //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    //        [request mailListOfAllPerson];
-    //    });
-    //    dispatch_async(concurrentQueue, ^{
-    //        /** 通讯录搜索列表 **/
-    //        static dispatch_once_t onceToken;
-    //        dispatch_once(&onceToken, ^{
-    //            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    //            [request mailListOfUserList];
-    //        });
-    //    });
     
     [self createUI];
 }
@@ -173,6 +159,8 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.searchBar.frame)) style:UITableViewStyleGrouped];
     self.tableView_Search.dataSource = self;
     self.tableView_Search.delegate = self;
+    self.tableView_Search.emptyDataSetDelegate = self;
+    self.tableView_Search.emptyDataSetSource = self;
     [self.view addSubview:self.tableView_Search];
     
     // UITableView - tableView_Search - tableHeaderView
@@ -273,7 +261,15 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     // 获取存值
-    NSArray *allPersonArray = [BXTGlobal readFileWithfileName:@"MailUserList"];
+    NSArray *listArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
+    NSMutableArray *allPersonArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *listDict in listArray) {
+        if ([listDict[@"shop_id"] integerValue] == [self.transMailInfo.shop_id integerValue]) {
+            for (NSDictionary *subListDict in listDict[@"lists"]) {
+                [allPersonArray addObject:subListDict];
+            }
+        }
+    }
     
     NSMutableArray *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text])
@@ -281,7 +277,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         
         for (int i=0; i<allPersonArray.count; i++)
         {
-            BXTMailListModel *model = [BXTMailListModel modelWithDict:allPersonArray[i]];
+            BXTMailUserListSimpleInfo *model = [BXTMailUserListSimpleInfo modelWithDict:allPersonArray[i]];
             
             if ([ChineseInclude isIncludeChineseInString:model.name])
             {
@@ -314,7 +310,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     {
         for (NSDictionary *dict in allPersonArray)
         {
-            BXTMailListModel *model = [BXTMailListModel modelWithDict:dict];
+            BXTMailUserListSimpleInfo *model = [BXTMailUserListSimpleInfo modelWithDict:dict];
             NSRange titleResult=[model.name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
             if (titleResult.length > 0)
             {
@@ -393,13 +389,12 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
         }
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
-        cell.mailListModel = model;
+        cell.userInfo = [BXTMailUserListSimpleInfo modelWithDict:self.searchArray[indexPath.row]];
         
         @weakify(self);
         [[cell.messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            [self connectTaWithOutID:cell.mailListModel];
+            [self connectTaWithOutID:cell.userInfo];
         }];
         
         return cell;
@@ -480,7 +475,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [messageView setImage:[UIImage imageNamed:@"speech_bubble"] forState:UIControlStateNormal];
     [[messageView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self connectTaWithOutID:listModel];
+        [self connectTaWithOutID0:listModel];
     }];
     [showCell.contentView addSubview:messageView];
 }
@@ -499,7 +494,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     @weakify(self);
     [[cell.messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self connectTaWithOutID:cell.mailListModel];
+        [self connectTaWithOutID0:cell.mailListModel];
     }];
     
     return cell;
@@ -536,9 +531,11 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.view endEditing:YES];
+    
     if (tableView == self.tableView_Search)
     {
-        BXTMailListModel *model = [BXTMailListModel modelWithDict:self.searchArray[indexPath.row]];
+        BXTMailUserListSimpleInfo *model = [BXTMailUserListSimpleInfo modelWithDict:self.searchArray[indexPath.row]];
         [self pushPersonInfromViewControllerWithUserID:[NSString stringWithFormat:@"%@", model.userID] shopID:model.shop_id];
         
         [self showTableViewAndHideSearchTableView:YES];
@@ -634,6 +631,17 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [self.navigationController pushViewController:pivc animated:YES];
 }
 
+
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"抱歉，没有找到相关人员";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName:[UIColor blackColor]};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
 #pragma mark - Actions
 - (void)undoData
 {
@@ -659,37 +667,6 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshData)];
             break;
     }
-}
-
-#pragma mark -
-#pragma mark - getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
-{
-    NSDictionary *dic = (NSDictionary *)response;
-    
-    NSArray *superdata = [dic objectForKey:@"data"];
-    NSDictionary *superDic = superdata[1];
-    NSArray *data = superDic[@"data"];
-    
-    // TODO: -----------------  调试  -----------------
-    //    NSArray *data = [dic objectForKey:@"data"];
-    
-    if (type == Mail_Get_All && data.count > 0)
-    {
-        [self hideMBP];
-        self.dataArray = data;
-        self.OLDArray = (NSMutableArray *)self.dataArray;
-        [self ergodicArray:data OtherListArray:nil];
-    }
-    else if (type == Mail_User_list)
-    {
-        [BXTGlobal writeFileWithfileName:@"MailUserList" Array:dic[@"data"]];
-    }
-}
-
-- (void)requestError:(NSError *)error requeseType:(RequestType)type
-{
-    [self hideMBP];
 }
 
 - (void)ergodicArray:(NSArray *)subArray OtherListArray:(NSArray *)otherArray
@@ -814,7 +791,48 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
 }
 
-- (void)connectTaWithOutID:(BXTMailListModel *)model
+- (void)connectTaWithOutID:(BXTMailUserListSimpleInfo *)model
+{
+    RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+    userInfo.userId = model.out_userid;
+    
+    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
+    if ([userInfo.userId isEqualToString:my_userID]) return;
+    
+    userInfo.name = model.name;
+    userInfo.portraitUri = model.headMedium;
+    
+    NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (usersArray)
+    {
+        NSArray *arrResult = [usersArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.userId = %@",userInfo.userId]];
+        if (arrResult.count)
+        {
+            RCUserInfo *temp_userInfo = arrResult[0];
+            NSInteger index = [usersArray indexOfObject:temp_userInfo];
+            [usersArray replaceObjectAtIndex:index withObject:temp_userInfo];
+        }
+        else
+        {
+            [usersArray addObject:userInfo];
+        }
+    }
+    else
+    {
+        NSMutableArray *array = [NSMutableArray array];
+        [array addObject:userInfo];
+        [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.targetId = userInfo.userId;
+    conversationVC.title = userInfo.name;
+    [self.navigationController pushViewController:conversationVC animated:YES];
+}
+
+- (void)connectTaWithOutID0:(BXTMailListModel *)model
 {
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = model.out_userid;

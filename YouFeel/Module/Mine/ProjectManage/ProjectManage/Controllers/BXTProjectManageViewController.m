@@ -18,6 +18,9 @@
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *dataArray;
 
+/** ---- 是否为添加项目返回 ---- */
+@property (assign, nonatomic) BOOL isPopRefresh;
+
 @end
 
 @implementation BXTProjectManageViewController
@@ -42,6 +45,7 @@
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshBXTProjectManageViewController" object:nil] subscribeNext:^(id x) {
         @strongify(self);
+        self.isPopRefresh = YES;
         [self getResource];
     }];
 }
@@ -193,6 +197,17 @@
         [self.dataArray addObjectsFromArray:[BXTMyProject mj_objectArrayWithKeyValuesArray:data]];
         [self.tableView reloadData];
         
+        if (self.isPopRefresh) {
+            // 选中项目
+            BXTMyProject *myProject = self.dataArray[self.dataArray.count - 1];
+            [self refreshAllInformWithShopID:myProject.shop_id shopAddress:myProject.name];
+            
+            /**请求分店位置**/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request branchLogin];
+        }
+        
+        
         // 更新U_SHOPIDS
         NSMutableArray *shopIDs = [[NSMutableArray alloc] init];
         for (BXTMyProject * myProject in self.dataArray) {
@@ -206,7 +221,8 @@
         if (data.count > 0)
         {
             NSDictionary *userInfo = data[0];
-            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo];
+            
+            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo isPushToRootVC:!self.isPopRefresh];
         }
     }
 }
