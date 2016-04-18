@@ -58,6 +58,7 @@
     
     [self.view addSubview:logoImgView];
     
+    
     // 返回
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.frame = CGRectMake(0, valueForDevice(25.f, 25.f, 20.f, 15.f), 44, 44);
@@ -121,6 +122,7 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     
+    
     // 发消息
     messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     messageBtn.frame = CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH/2-0.5, 49.5);
@@ -130,6 +132,7 @@
     [messageBtn setImage:[UIImage imageNamed:@"speech_bubble"] forState:UIControlStateNormal];
     [self.view addSubview:messageBtn];
     
+    
     // 打电话
     phoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     phoneBtn.frame = CGRectMake(SCREEN_WIDTH/2, SCREEN_HEIGHT-50, SCREEN_WIDTH/2-0.5, 49.5);
@@ -138,6 +141,7 @@
     phoneBtn.layer.borderWidth = 0.5;
     [phoneBtn setImage:[UIImage imageNamed:@"phone"] forState:UIControlStateNormal];
     [self.view addSubview:phoneBtn];
+    
     
     // 自己不能通话
     if ([self.userID isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]])

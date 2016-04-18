@@ -52,7 +52,9 @@
     
     self.dataArray = [[NSMutableArray alloc] init];
     
+    
     [self createUI];
+    
     
     [self showLoadingMBP:@"数据加载中..."];
     /** 通讯录列表 **/
