@@ -9,7 +9,7 @@
 #import "BXTCompletionViewController.h"
 #import "BXTCompletionHeader.h"
 #import "BXTCompletionFooter.h"
-#import "BXTAllOrdersViewController.h"
+#import "BXTDailyOrderListViewController.h"
 
 #define Not_First_Launch @"not_first_launch"
 typedef enum {
@@ -150,28 +150,29 @@ typedef enum {
     self.headerView.specialLabelView.attributedText = [self transToRichLabelOfIndex:4 String:specialNumStr];
     __weak typeof(self) weakSelf = self;
     self.headerView.transBtnClick = ^(NSInteger tag) {
-        if (tag == 3333 || tag == 4444)
-        {
-            BXTAllOrdersViewController *allVC = [[BXTAllOrdersViewController alloc] init];
-            if (tag == 3333)
-            {
-                allVC.transType = @"UNDOWN";
-            }
-            else
-            {
-                allVC.transType = @"SPECIAL";
-            }
-            NSString *startTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[0]];
-            allVC.transStartTime = startTime;
-            allVC.transEndTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[1]];
-            NSTimeInterval timeSp = [startTime integerValue] + 86399;
-            if ([weakSelf.transTimeArray[0] isEqualToString:weakSelf.transTimeArray[1]])
-            {
-                allVC.transEndTime = [NSString stringWithFormat:@"%.0f",timeSp];
-            }
-            allVC.isSpecialPush = YES;
-            [weakSelf.navigationController pushViewController:allVC animated:YES];
-        }
+        // TODO: -----------------  调试  -----------------
+//        if (tag == 3333 || tag == 4444)
+//        {
+//            BXTAllOrdersViewController *allVC = [[BXTAllOrdersViewController alloc] init];
+//            if (tag == 3333)
+//            {
+//                allVC.transType = @"UNDOWN";
+//            }
+//            else
+//            {
+//                allVC.transType = @"SPECIAL";
+//            }
+//            NSString *startTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[0]];
+//            allVC.transStartTime = startTime;
+//            allVC.transEndTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[1]];
+//            NSTimeInterval timeSp = [startTime integerValue] + 86399;
+//            if ([weakSelf.transTimeArray[0] isEqualToString:weakSelf.transTimeArray[1]])
+//            {
+//                allVC.transEndTime = [NSString stringWithFormat:@"%.0f",timeSp];
+//            }
+//            allVC.isSpecialPush = YES;
+//            [weakSelf.navigationController pushViewController:allVC animated:YES];
+//        }
     };
 }
 

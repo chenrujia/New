@@ -629,6 +629,31 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
+- (void)authenticationModifyWithShopID:(NSString *)shop_id
+                                  type:(NSString *)type
+                          departmentID:(NSString *)department_id
+                                dutyID:(NSString *)duty_id
+                            subgroupID:(NSString *)subgroup_id
+                       haveSubgroupIDs:(NSString *)have_subgroup_ids
+                              storesID:(NSString *)stores_id
+{
+    self.requestType = AuthenticationModify;
+    
+    NSDictionary *dic = @{@"shop_id": shop_id,
+                          @"out_userid": [BXTGlobal getUserProperty:U_USERID],
+                          @"type": type,
+                          @"department_id": department_id,
+                          @"duty_id": duty_id,
+                          @"subgroup_id": subgroup_id,
+                          @"have_subgroup_ids": have_subgroup_ids,
+                          @"stores_id": stores_id };
+    
+    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shop_id, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_modify",urlLast];
+    
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)modifyBindPlaceWithShopID:(NSString *)shop_id
                           placeID:(NSString *)place_id
 {
@@ -1000,28 +1025,6 @@ andRepairerIsReacive:(NSString *)reacive
     self.requestType = Device_AvailableType;
     NSDictionary *dic = @{@"date":date};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=device_type",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)statisticsMTPlanListWithTimeStart:(NSString *)startTime
-                                  TimeEnd:(NSString *)endTime
-                              SubgroupIDs:(NSString *)subgroupIDs
-                         FaulttypeTypeIDs:(NSString *)faulttypeTypeIDs
-                                    State:(NSString *)state
-                                    Order:(NSString *)order
-                                 Pagesize:(NSString *)pageSize
-                                     Page:(NSString *)page
-{
-    self.requestType = Statistics_MTPlanList;
-    NSDictionary *dic = @{@"start_time": startTime,
-                          @"end_time": endTime,
-                          @"subgroup_ids": subgroupIDs,
-                          @"faulttype_type_ids": faulttypeTypeIDs,
-                          @"state": state,
-                          @"order": order,
-                          @"pagesize": pageSize,
-                          @"page": page};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=inspection_task_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

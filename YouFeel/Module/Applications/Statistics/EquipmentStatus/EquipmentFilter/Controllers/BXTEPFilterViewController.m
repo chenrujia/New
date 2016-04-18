@@ -27,7 +27,7 @@
 @property (nonatomic, strong) NSMutableArray *selectArray;
 @property (nonatomic, strong) NSMutableArray *mulitSelectArray;
 @property (nonatomic, assign) int selectRow;
-@property (nonatomic, assign) int showSelectedRow;
+@property (nonatomic, assign) NSInteger showSelectedRow;
 
 @property (nonatomic, strong) NSArray *transLocatArray;
 
@@ -173,17 +173,19 @@
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (tableView == self.selectTableView) {
-        return 0.1;
-    }
-    return 10;
+    return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.1;
+    return 10.1;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -256,10 +258,9 @@
 #pragma mark - 方法
 - (void)createTableViewWithIndex:(NSInteger)index
 {
-    self.showSelectedRow = 0;
+    self.showSelectedRow = index;
     if (index == 2) {
         self.selectArray = self.deviceArray;
-        self.showSelectedRow = 2;
     }
     else if (index == 3) {
         self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"正常", @"故障", @"报废", nil];
@@ -272,21 +273,23 @@
     
     
     // selectTableView
-    CGFloat tableViewH = self.selectArray.count * 50 + 60;
-    self.selectTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - tableViewH, SCREEN_WIDTH, tableViewH) style:UITableViewStylePlain];
+    CGFloat tableViewH = self.selectArray.count * 50 + 10;
+    if (self.selectArray.count >= 6) {
+        tableViewH = 6 * 50 + 10;
+    }
+    self.selectTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - tableViewH-50, SCREEN_WIDTH, tableViewH) style:UITableViewStylePlain];
     self.selectTableView.delegate = self;
     self.selectTableView.dataSource = self;
-    self.selectTableView.scrollEnabled = NO;
     [self.view addSubview:self.selectTableView];
     
     
     // toolView
-    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
+    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
     toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
-    self.selectTableView.tableFooterView = toolView;
+    [selectBgView addSubview:toolView];
     
     // sure
-    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 50)];
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
     [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
     [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     sureBtn.backgroundColor = [UIColor whiteColor];

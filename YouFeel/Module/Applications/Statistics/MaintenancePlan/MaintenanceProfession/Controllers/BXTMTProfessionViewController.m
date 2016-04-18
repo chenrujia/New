@@ -81,7 +81,7 @@ static CGFloat const maxTitleScale = 1.3;
         topView.titleView.text = @"维保专业分组统计";
     }
     else {
-        topView.titleView.text = @"维保系统分组统计";
+        topView.titleView.text = @"维保分类分组统计";
     }
     [self.view addSubview:topView];
     
