@@ -870,7 +870,6 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)newsListWithPage:(NSInteger)page
 {
     self.requestType = MessageList;
-    //TODO: user_id记得改回来
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"10"};

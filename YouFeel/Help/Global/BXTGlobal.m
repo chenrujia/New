@@ -73,64 +73,32 @@
         return @{@"userID":@"id"};
     }];
     BXTBranchUserInfo *branchUser = [BXTBranchUserInfo mj_objectWithKeyValues:dic];
-    [BXTGlobal setUserProperty:branchUser.binding_ads withKey:U_BINDINGADS];
-    
-    if (branchUser.binding_ads.count)
-    {
-        NSDictionary *areaDic = branchUser.binding_ads[0];
-        BXTFloorInfo *floor = [[BXTFloorInfo alloc] init];
-        floor.area_id = [areaDic objectForKey:@"area_id"];
-        floor.area_name = [areaDic objectForKey:@"area_name"];
-        [BXTGlobal setUserProperty:floor withKey:U_FLOOOR];
-        
-        BXTAreaInfo *area = [[BXTAreaInfo alloc] init];
-        area.place_id = [areaDic objectForKey:@"place_id"];
-        area.place_name = [areaDic objectForKey:@"place_name"];
-        [BXTGlobal setUserProperty:area withKey:U_AREA];
-        
-        BXTShopInfo *shop = [[BXTShopInfo alloc] init];
-        shop.stores_id = [areaDic objectForKey:@"stores_id"];
-        shop.stores_name = [areaDic objectForKey:@"stores_name"];
-        [BXTGlobal setUserProperty:shop withKey:U_SHOP];
-        area.stores = @[shop];
-    }
+
     //!!!: 少了很多参数，下面的这些可能要删除一部分，具体再调试！
     BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
-    departmentInfo.dep_id = branchUser.department;
+    departmentInfo.dep_id = branchUser.department_id;
     departmentInfo.department = branchUser.department_name;
     [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
     
     BXTGroupingInfo *groupInfo = [[BXTGroupingInfo alloc] init];
-    groupInfo.group_id = branchUser.subgroup;
+    groupInfo.group_id = branchUser.subgroup_id;
     groupInfo.subgroup = branchUser.subgroup_name;
     [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
-    
-    [BXTGlobal shareGlobal].longTime = branchUser.long_time;
-    [[NSUserDefaults standardUserDefaults] setObject:branchUser.long_time forKey:@"LongTime"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
     [BXTGlobal setUserProperty:branchUser.userID withKey:U_BRANCHUSERID];
-    
     BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
-    roleInfo.role_id = branchUser.role_id;
-    roleInfo.duty_name = branchUser.role;
+    roleInfo.role_id = branchUser.duty_id;
+    roleInfo.duty_name = branchUser.duty_name;
     [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
-    
-    //    [BXTGlobal setUserProperty:branchUser.username withKey:U_USERNAME];
-    [BXTGlobal setUserProperty:branchUser.role_con withKey:U_ROLEARRAY];
-    [BXTGlobal setUserProperty:branchUser.mobile withKey:U_MOBILE];
-    [BXTGlobal setUserProperty:branchUser.is_verify withKey:U_IS_VERIFY];
-    
-    if ([branchUser.is_repair integerValue] == 1)
+    if (branchUser.is_repair == 1)
     {
         [BXTGlobal shareGlobal].isRepair = NO;
     }
-    else if ([branchUser.is_repair integerValue] == 2)
+    else if (branchUser.is_repair == 2)
     {
         [BXTGlobal shareGlobal].isRepair = YES;
     }
-    
-    if (isPushToRootVC) {
+    if (isPushToRootVC)
+    {
         CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
         [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];
     }

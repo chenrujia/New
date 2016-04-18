@@ -138,6 +138,7 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     if (_orderType == OutTimeType)
     {
+        //TODO: @"LongTime"  内层登录不再返回这个值
         [request repairsList:[[NSUserDefaults standardUserDefaults] objectForKey:@"LongTime"]
                   andDisUser:@""
                 andCloseUser:@""
@@ -381,12 +382,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTManagerOMTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    
     BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
     cell.orderNumber.text = [NSString stringWithFormat:@"工单号：%@",repairInfo.orderid];
-    
     [cell refreshSubViewsFrame:repairInfo];
-
     if (IS_IOS_8)
     {
         self.cellHeight = cell.cellHeight;
@@ -398,36 +396,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //TODO: 处理
-//    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
-//    if (_orderType == OutTimeType && [repairInfo.state integerValue] == 1 && [repairInfo.order_type integerValue] != 3)
-//    {
-//        BXTNewOrderViewController *assignOrderVC = [[BXTNewOrderViewController alloc] initWithIsAssign:YES andWithOrderID:repairInfo.repairID];
-//        [[self navigation] pushViewController:assignOrderVC animated:YES];
-//    }
-//    else if (_orderType == OutTimeType && [repairInfo.order_type integerValue] == 3)
-//    {
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-//        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-//        repairDetailVC.isRejectVC = YES;
-//        [repairDetailVC dataWithRepairID:repairInfo.repairID];
-//        [[self navigation] pushViewController:repairDetailVC animated:YES];
-//    }
-//    else if (_orderType == AllType || _orderType == CloseType)
-//    {
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-//        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-//        repairDetailVC.isAllOrderType = YES;
-//        [repairDetailVC dataWithRepairID:repairInfo.repairID];
-//        [[self navigation] pushViewController:repairDetailVC animated:YES];
-//    }
-//    else
-//    {
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-//        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-//        [repairDetailVC dataWithRepairID:repairInfo.repairID];
-//        [[self navigation] pushViewController:repairDetailVC animated:YES];
-//    }
+    BXTRepairInfo *repairInfo = [repairListArray objectAtIndex:indexPath.section];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+    repairDetailVC.isRejectVC = YES;
+    [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:AllOrderType];
+    [[self navigation] pushViewController:repairDetailVC animated:YES];
 }
 
 #pragma mark -

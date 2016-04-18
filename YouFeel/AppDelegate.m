@@ -151,7 +151,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (void)loadingGuideView
 {
-    //TODO: 记得处理在requestError情况下，GuideView的不显示问题
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.window.bounds];;
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
@@ -571,6 +570,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [BXTAbroadUserInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"userID":@"id"};
         }];
+        [BXTResignedShopInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"shopID":@"id"};
+        }];
         BXTAbroadUserInfo *abUserInfo = [BXTAbroadUserInfo mj_objectWithKeyValues:userInfoDic];
         
         [BXTGlobal setUserProperty:abUserInfo.username withKey:U_USERNAME];
@@ -585,9 +587,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         
         if (abUserInfo.my_shop && abUserInfo.my_shop.count > 0)
         {
-            NSDictionary *shopsDic = abUserInfo.my_shop[0];
-            NSString *shopID = [shopsDic objectForKey:@"id"];
-            NSString *shopName = [shopsDic objectForKey:@"shop_name"];
+            BXTResignedShopInfo *shopInfo = abUserInfo.my_shop[0];
+            NSString *shopID = shopInfo.shopID;
+            NSString *shopName = shopInfo.shop_name;
             BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
@@ -845,24 +847,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             }
         });
     });
-}
-
-//    刷新access_token有效期。获取第一步的code后，请求以下链接进行refresh_token https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN
-- (void)refresh
-{
-    //    NSString *url =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=%@&grant_type=refresh_token&refresh_token=%@", APP_ID, [dic objectForKey:@"access_token"]];
-    //
-    //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    //        NSURL *zoneUrl = [NSURL URLWithString:url];
-    //        NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
-    //        NSData *data = [zoneStr dataUsingEncoding:NSUTF8StringEncoding];
-    //        dispatch_async(dispatch_get_main_queue(), ^{
-    //            if (data) {
-    //                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    //                NSLog(@"dic = %@", dic);
-    //            }
-    //        });
-    //    });
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

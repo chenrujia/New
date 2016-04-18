@@ -211,8 +211,9 @@
             [_imageView setImage:placeImage];
         }
         
-        NSString *content = [NSString stringWithFormat:@"工单响应截止时间%@", [self transTimeStampToTime:repairDetail.long_time]];
-        _repairTime.text = content;
+        //???: 这个时间没了
+//        NSString *content = [NSString stringWithFormat:@"工单响应截止时间%@", [self transTimeStampToTime:repairDetail.long_time]];
+//        _repairTime.text = content;
         
         NSString *subgroup_name = @"其他";
         if (![BXTGlobal isBlankString:repairDetail.subgroup_name])
@@ -237,20 +238,7 @@
         _level.frame = CGRectMake(15.f, CGRectGetMaxY(_notes.frame) + 10.f, CGRectGetWidth(_notes.frame), 20);
         _notes.text = contents;
         
-        if ([repairDetail.urgent integerValue] == 2)
-        {
-            _level.text = @"等级:一般";
-        }
-        else
-        {
-            NSString *str = @"等级:紧急";
-            NSRange range = [str rangeOfString:@"紧急"];
-            NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-            [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"de1a1a") range:range];
-            _level.attributedText = attributeStr;
-        }
-        
-        NSString *contents2 = [NSString stringWithFormat:@"备注：%@", repairDetail.notes];
+        NSString *contents2 = [NSString stringWithFormat:@"备注：%@", repairDetail.cause];
         CGSize size2 = MB_MULTILINE_TEXTSIZE(contents2, font, CGSizeMake(SCREEN_WIDTH - 40.f, 1000.f), NSLineBreakByWordWrapping);
         _remarks.frame = CGRectMake(15.f, CGRectGetMaxY(_level.frame) + 10.f, CGRectGetWidth(_level.frame), size2.height);
         _remarks.text = contents2;

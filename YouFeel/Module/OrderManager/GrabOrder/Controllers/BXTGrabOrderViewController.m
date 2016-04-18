@@ -64,7 +64,7 @@
     [super viewWillDisappear:animated];
     if (player)
     {
-        player = nil;
+        [player stop];
     }
 }
 

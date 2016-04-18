@@ -14,11 +14,19 @@
 
 @implementation BXTAbroadUserInfo
 
++ (NSDictionary *)objectClassInArray
+{
+    return @{@"my_shop" : [BXTResignedShopInfo class]};
+}
+
 @end
 
 @implementation BXTBranchUserInfo
 
 @end
 
+@implementation BXTResignedShopInfo
+
+@end
 
 

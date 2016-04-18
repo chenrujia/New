@@ -14,6 +14,8 @@
 #import <MJRefresh.h>
 #import "UIView+Nav.h"
 #import "AppDelegate.h"
+#import "BXTMaintenanceDetailViewController.h"
+#import "BXTProjectManageViewController.h"
 
 @interface BXTMessageView () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
@@ -87,16 +89,28 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    BXTMessageInfo *messageInfo = self.dataArray[indexPath.section];
+    if ([messageInfo.notice_type integerValue] == 1)
+    {
+        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+        [[self navigation] pushViewController:pivc animated:YES];
+    }
+    else if ([messageInfo.notice_type integerValue] == 2)
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+        [repairDetailVC dataWithRepairID:messageInfo.about_id sceneType:MessageType];
+        [[self navigation] pushViewController:repairDetailVC animated:YES];
+    }
 }
 
 #pragma mark -
 #pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"没有符合条件的工单";
+    NSString *text = @"没有符合条件的消息";
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName:[UIColor blackColor]};
-    
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 

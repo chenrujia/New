@@ -98,16 +98,6 @@
     [timeArray addObject:@"自定义"];
     self.comeTimeArray = timeArray;
     
-    //???: 这个是怎么个情况
-    //    //由于详情采用了统一的详情，所以如果是报修者的身份，则一下信息是不让看的
-    //    if (![BXTGlobal shareGlobal].isRepair)
-    //    {
-    //        _headImgView.hidden = YES;
-    //        _repairerName.hidden = YES;
-    //        _connectTa.hidden = YES;
-    //        [_repairID layoutIfNeeded];
-    //    }
-    
     //发起请求
     [self requestDetail];
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestDetail" object:nil] subscribeNext:^(id x) {
@@ -174,7 +164,7 @@
 - (void)loadDeviceList
 {
     //设备列表相关
-    NSInteger deviceCount = self.repairDetail.device_list.count;
+    NSInteger deviceCount = self.repairDetail.device_lists.count;
     CGFloat secondHeight = 32.f + 63.f * deviceCount;
     if (deviceCount)
     {
@@ -236,14 +226,13 @@
 - (void)loadMaintenanceReports
 {
     //维修报告相关
-    //TODO: 服务器还没有完好，缺少字段
     self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
     [self.contentScrollView layoutIfNeeded];
-    _endTime.text = [NSString stringWithFormat:@"结束时间：%@",@"2016.3.22 18:20:39"];
-    _maintencePlace.text = [NSString stringWithFormat:@"维修位置：%@",@"铁建广场603"];
-    _doneFaultType.text = [NSString stringWithFormat:@"故障类型：%@",@"生活水泵"];
-    _doneState.text = [NSString stringWithFormat:@"维修状态：%@",@"已修好"];
-    _doneNotes.text = [NSString stringWithFormat:@"维修记录：%@",self.repairDetail.workprocess];
+    _endTime.text = [NSString stringWithFormat:@"结束时间：%@",self.repairDetail.report.end_time_name];
+    _maintencePlace.text = [NSString stringWithFormat:@"维修位置：%@",self.repairDetail.report.real_place_name];
+    _doneFaultType.text = [NSString stringWithFormat:@"故障类型：%@",self.repairDetail.report.real_faulttype_name];
+    _doneState.text = [NSString stringWithFormat:@"维修状态：%@",self.repairDetail.report.real_repairstate_name];
+    _doneNotes.text = [NSString stringWithFormat:@"维修记录：%@",self.repairDetail.report.workprocess];
     [_contentView layoutIfNeeded];
     _seventh_bv_height.constant = CGRectGetMaxY(_doneNotes.frame) + 10.f;
     [_seventhBV layoutIfNeeded];
@@ -404,7 +393,7 @@
 {
     CGFloat bottomBVHeight = isHaveButtons ? YBottomBackHeight : 0.f;
     //有维修报告
-    if (self.repairDetail.man_hours.length > 0)
+    if (self.repairDetail.report)
     {
         [self loadMaintenanceReports];
         //有维修后图片
@@ -580,7 +569,7 @@
     
     /**阿西吧！需要各种判断，醉了。。**/
     if (self.repairDetail.fault_pic.count == 0 &&
-        self.repairDetail.device_list.count == 0 &&
+        self.repairDetail.device_lists.count == 0 &&
         self.repairDetail.repair_user_arr.count == 0)
     {
         _fouthBV.hidden = YES;
@@ -594,7 +583,7 @@
         return;
     }
     else if (self.repairDetail.fault_pic.count &&
-             self.repairDetail.device_list.count == 0 &&
+             self.repairDetail.device_lists.count == 0 &&
              self.repairDetail.repair_user_arr.count == 0)
     {
         _fifthBV.hidden = YES;
@@ -607,7 +596,7 @@
         return;
     }
     else if (self.repairDetail.fault_pic.count == 0 &&
-             self.repairDetail.device_list.count &&
+             self.repairDetail.device_lists.count &&
              self.repairDetail.repair_user_arr.count == 0)
     {
         _fouthBV.hidden = YES;
@@ -624,7 +613,7 @@
         return;
     }
     else if (self.repairDetail.fault_pic.count &&
-             self.repairDetail.device_list.count &&
+             self.repairDetail.device_lists.count &&
              self.repairDetail.repair_user_arr.count == 0)
     {
         _sixthBV.hidden = YES;
@@ -640,7 +629,7 @@
         return;
     }
     else if (self.repairDetail.fault_pic.count == 0 &&
-             self.repairDetail.device_list.count == 0 &&
+             self.repairDetail.device_lists.count == 0 &&
              self.repairDetail.repair_user_arr.count)
     {
         _fouthBV.hidden = YES;
@@ -654,7 +643,7 @@
         return;
     }
     else if (self.repairDetail.fault_pic.count &&
-             self.repairDetail.device_list.count &&
+             self.repairDetail.device_lists.count &&
              self.repairDetail.repair_user_arr.count)
     {
         //设备列表相关
@@ -799,16 +788,8 @@
         @weakify(self);
         UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             @strongify(self);
-            //如果还有设备在维保中，则不让修改维保过程
-            if (self.repairDetail.all_inspection_state == 1)
-            {
-                [self showMBP:@"设备正在维保中，此刻不能更改维修过程！" withBlock:nil];
-            }
-            else
-            {
-                BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_list];
-                [self.navigationController pushViewController:procossVC animated:YES];
-            }
+            BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_lists];
+            [self.navigationController pushViewController:procossVC animated:YES];
         }];
         [alertCtr addAction:doneAction];
         [self presentViewController:alertCtr animated:YES completion:nil];
@@ -825,17 +806,8 @@
             @strongify(self);
             if ([x integerValue] == 1)
             {
-                [self showLoadingMBP:@"请稍等..."];
-                //如果还有设备在维保中，则不让修改维保过程
-                if (self.repairDetail.all_inspection_state == 1)
-                {
-                    [self showMBP:@"设备正在维保中，此刻不能更改维修过程！" withBlock:nil];
-                }
-                else
-                {
-                    BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_list];
-                    [self.navigationController pushViewController:procossVC animated:YES];
-                }
+                BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_lists];
+                [self.navigationController pushViewController:procossVC animated:YES];
             }
         }];
         [alert show];

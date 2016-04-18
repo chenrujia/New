@@ -80,20 +80,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //TODO: 要修改
-    //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    //    dispatch_async(concurrentQueue, ^{
-    //        /** 消息列表 **/
-    //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    //        [request messageList];
-    //    });
-    //    dispatch_async(concurrentQueue, ^{
-    
-    //    });
-    //
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButton" object:nil];
-    
     // 获取通知气泡数据列表
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request remindNumberWithDailyTimestart:[BXTRemindNum sharedManager].timeStart_Daily
@@ -215,8 +202,7 @@
         }
     }];
     [logoImgView addSubview:scanBtn];
-    
-    
+
     self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(logoImgView.frame) - KTABBARHEIGHT-5) style:UITableViewStyleGrouped];
     [_currentTableView registerClass:[BXTHomeTableViewCell class] forCellReuseIdentifier:@"HomeCell"];
     _currentTableView.rowHeight = 50;
@@ -243,13 +229,16 @@
 
 - (void)pushMyOrdersIsRepair:(BOOL)isRepair
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         // 我的工单
-        if (isRepair) {
+        if (isRepair)
+        {
             [BXTRemindNum sharedManager].timeStart_Repair = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
             SaveValueTUD(@"timeStart_Repair", [BXTRemindNum sharedManager].timeStart_Repair);
         }
-        else {
+        else
+        {
             [BXTRemindNum sharedManager].timeStart_Report = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
             SaveValueTUD(@"timeStart_Report", [BXTRemindNum sharedManager].timeStart_Report);
         }
@@ -263,7 +252,8 @@
 
 - (void)pushEvaluationList
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         // 评价
         BXTEvaluationListViewController *evaluationListVC = [[BXTEvaluationListViewController alloc] init];
         evaluationListVC.hidesBottomBarWhenPushed = YES;
@@ -273,7 +263,8 @@
 
 - (void)pushOtherAffair
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         // 其他事务
         [BXTRemindNum sharedManager].timeStart_Object = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
         SaveValueTUD(@"timeStart_Object", [BXTRemindNum sharedManager].timeStart_Object);
@@ -286,7 +277,8 @@
 
 - (void)pushStatistics
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         // 业务统计
         BXTStatisticsViewController *statisticsVC = [[BXTStatisticsViewController alloc] init];
         statisticsVC.hidesBottomBarWhenPushed = YES;
@@ -296,7 +288,8 @@
 
 - (void)pushExamination
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         // 审批
         BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
         examinationVC.hidesBottomBarWhenPushed = YES;
@@ -306,7 +299,8 @@
 
 - (void)pushNormalOrders
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         //正常工单
         [BXTRemindNum sharedManager].timeStart_Daily = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
         SaveValueTUD(@"timeStart_Daily", [BXTRemindNum sharedManager].timeStart_Daily);
@@ -319,7 +313,8 @@
 
 - (void)pushMaintenceOrders
 {
-    if ([self is_verify]) {
+    if ([self is_verify])
+    {
         //维保工单
         [BXTRemindNum sharedManager].timeStart_Inspection = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
         SaveValueTUD(@"timeStart_Inspectio", [BXTRemindNum sharedManager].timeStart_Inspection);
@@ -350,13 +345,6 @@
         [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
         [self.view addSubview:callWeb];
     }
-    
-    
-    
-    //    BXTRepairsListViewController *repairsListVC = [[BXTRepairsListViewController alloc] init];
-    //    repairsListVC.hidesBottomBarWhenPushed = YES;
-    //    [self.navigationController pushViewController:repairsListVC animated:YES];
-    
 }
 
 #pragma mark - SDCycleScrollViewDelegate

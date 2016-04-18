@@ -157,9 +157,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTMyProject *myProjectInform = self.dataArray[indexPath.row];
-    
     // verify_state 状态：0未认证 1申请中 2已认证
-    if ([myProjectInform.verify_state integerValue] == 0) {
+    if ([myProjectInform.verify_state integerValue] == 0)
+    {
         BXTProjectCertificationViewController *pcvc = [[BXTProjectCertificationViewController alloc] init];
         pcvc.transMyProject = myProjectInform;
         pcvc.delegateSignal = [RACSubject subject];
@@ -168,7 +168,8 @@
         }];
         [self.navigationController pushViewController:pcvc animated:YES];
     }
-    else {
+    else
+    {
         BXTProjectInformViewController *pivc = [[BXTProjectInformViewController alloc] init];
         pivc.transMyProject = myProjectInform;
         [self.navigationController pushViewController:pivc animated:YES];

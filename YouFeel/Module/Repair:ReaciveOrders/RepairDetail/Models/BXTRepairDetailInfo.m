@@ -18,10 +18,19 @@
              @"fixed_pic":[BXTFaultPicInfo class],
              @"evaluation_pic":[BXTFaultPicInfo class],
              @"device_list":[BXTDeviceMMListInfo class],
-             @"close_info":[BXTCloseInfo class],
              @"fault_user_arr":[BXTRepairPersonInfo class],
-             @"progress":[BXTProgressInfo class]};
+             @"progress":[BXTProgressInfo class],
+             @"report":[BXTReportInfo class],
+             @"praise":[BXTPraiseInfo class]};
 }
+
+@end
+
+@implementation BXTReportInfo
+
+@end
+
+@implementation BXTMaintenanceManInfo
 
 @end
 
@@ -29,7 +38,7 @@
 
 @end
 
-@implementation BXTMaintenanceManInfo
+@implementation BXTRepairPersonInfo
 
 @end
 
@@ -46,14 +55,6 @@
 
 @end
 
-@implementation BXTCloseInfo
-
-@end
-
-@implementation BXTRepairPersonInfo
-
-@end
-
 @implementation BXTProgressInfo
 
 @end
@@ -61,5 +62,3 @@
 @implementation BXTFaultPicInfo
 
 @end
-
-

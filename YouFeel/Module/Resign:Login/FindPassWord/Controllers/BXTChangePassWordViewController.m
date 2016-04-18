@@ -171,6 +171,9 @@
         [BXTAbroadUserInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"userID":@"id"};
         }];
+        [BXTResignedShopInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"shopID":@"id"};
+        }];
         BXTAbroadUserInfo *abUserInfo = [BXTAbroadUserInfo mj_objectWithKeyValues:userInfoDic];
         
         [BXTGlobal setUserProperty:abUserInfo.name withKey:U_NAME];
@@ -183,9 +186,9 @@
         
         if (abUserInfo.my_shop && abUserInfo.my_shop.count > 0)
         {
-            NSDictionary *shopsDic = abUserInfo.my_shop[0];
-            NSString *shopID = [shopsDic objectForKey:@"id"];
-            NSString *shopName = [shopsDic objectForKey:@"shop_name"];
+            BXTResignedShopInfo *shopInfo = abUserInfo.my_shop[0];
+            NSString *shopID = shopInfo.shopID;
+            NSString *shopName = shopInfo.shop_name;
             BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;

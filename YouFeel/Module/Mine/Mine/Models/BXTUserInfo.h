@@ -24,7 +24,6 @@
 #define U_FLOOOR       @"floorInfo"
 #define U_AREA         @"areaInfo"
 #define U_SHOP         @"shopInfo"
-#define U_BINDINGADS   @"binding_ads"
 #define U_USERID       @"userID"
 #define U_BRANCHUSERID @"branchUserID"
 #define U_ROLEARRAY    @"roleArray"
@@ -40,6 +39,7 @@
 #define U_OPENID       @"openID"
 
 //存储用的Model
+@class BXTResignedShopInfo;
 @interface BXTUserInfo : NSObject
 
 @property (nonatomic ,strong) BXTHeadquartersInfo *company;
@@ -53,7 +53,6 @@
 @property (nonatomic ,copy  ) NSString            *passWord;
 @property (nonatomic ,copy  ) NSString            *name;
 @property (nonatomic ,copy  ) NSString            *sex;
-@property (nonatomic ,strong) NSArray             *binding_ads;
 @property (nonatomic ,copy  ) NSString            *userID;
 @property (nonatomic ,copy  ) NSString            *branchUserID;
 @property (nonatomic ,strong) NSArray             *roleArray;
@@ -75,7 +74,7 @@
 @property (nonatomic, copy) NSString *personal_role;
 @property (nonatomic, copy) NSString *lastLogin;
 @property (nonatomic, copy) NSString *easemob_username;
-@property (nonatomic, strong) NSArray *my_shop;
+@property (nonatomic, strong) NSArray<BXTResignedShopInfo *> *my_shop;
 @property (nonatomic, strong) NSDictionary *my_shop_arr;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *im_token;
@@ -89,7 +88,7 @@
 @property (nonatomic, copy) NSString *cid;
 @property (nonatomic, copy) NSString *token;
 @property (nonatomic, copy) NSString *role;
-@property (nonatomic, strong) NSArray *shop_ids;
+@property (nonatomic, strong) NSArray<NSString *> *shop_ids;
 @property (nonatomic, copy) NSString *is_test;
 @property (nonatomic, copy) NSString *username;
 
@@ -98,30 +97,27 @@
 //内层登录Model
 @interface BXTBranchUserInfo : NSObject
 
-@property (nonatomic, copy) NSString *stores;
-@property (nonatomic, strong) NSArray *binding_ads;
-@property (nonatomic, copy) NSString *long_time;
-@property (nonatomic, copy) NSString *stores_id;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *out_userid;
-@property (nonatomic, copy) NSString *userID;
-@property (nonatomic, copy) NSString *head_pic;
-@property (nonatomic, copy) NSString *department;
-@property (nonatomic, copy) NSString *is_repair;
-@property (nonatomic, copy) NSString *is_admin;
-@property (nonatomic, copy) NSString *mobile;
-@property (nonatomic, copy) NSString *is_leader;
-@property (nonatomic, copy) NSString *binding_stores;
-@property (nonatomic, copy) NSString *gender;
-@property (nonatomic, copy) NSString *role;
-@property (nonatomic, copy) NSString *subgroup_name;
-@property (nonatomic, copy) NSString *subgroup;
-@property (nonatomic, copy) NSString *is_verify;
-@property (nonatomic, copy) NSString *department_name;
-@property (nonatomic, copy) NSString *role_id;
-@property (nonatomic, strong) NSArray *role_con;
-@property (nonatomic, copy) NSString *username;
+@property (nonatomic, copy  ) NSString  *subgroup_name;
+@property (nonatomic, copy  ) NSString  *userID;
+@property (nonatomic, copy  ) NSString  *stores_id;
+@property (nonatomic, copy  ) NSString  *duty_id;
+@property (nonatomic, copy  ) NSString  *department_id;
+@property (nonatomic, copy  ) NSString  *stores_name;
+@property (nonatomic, assign) NSInteger is_repair;
+@property (nonatomic, copy  ) NSString  *subgroup_id;
+@property (nonatomic, copy  ) NSString  *department_name;
+@property (nonatomic, copy  ) NSString  *duty_name;
+@property (nonatomic, copy  ) NSString  *permission_keys;
 
 @end
 
+@interface BXTResignedShopInfo : NSObject
+
+@property (nonatomic, copy) NSString *shopID;
+@property (nonatomic, copy) NSString *shop_name;
+@property (nonatomic, copy) NSString *shop_pic;
+@property (nonatomic, copy) NSString *shop_logo;
+@property (nonatomic, copy) NSString *shop_address;
+
+@end
 

@@ -32,7 +32,6 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *ordersArray;
-
 /** ---- 工单状态 - stateStr  2进行中  1已完成 ---- */
 @property (nonatomic, copy) NSString *stateStr;
 /** ---- 我的维修工单 - isRepair == YES ---- */
