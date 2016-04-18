@@ -52,7 +52,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = label;
     
-
+    
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
     [self setDisplayConversationTypes:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION)]];
     

@@ -52,7 +52,9 @@
     
     self.dataArray = [[NSMutableArray alloc] init];
     
+    
     [self createUI];
+    
     
     [self showLoadingMBP:@"数据加载中..."];
     /** 通讯录列表 **/
@@ -176,7 +178,7 @@
         }
     }
     
-    
+
     NSMutableArray *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text])
     {

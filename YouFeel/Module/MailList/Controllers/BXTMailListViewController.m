@@ -155,6 +155,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.searchBar.placeholder = @"搜索";
     [self.view addSubview:self.searchBar];
     
+    
     // UITableView - tableView_Search
     self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.searchBar.frame)) style:UITableViewStyleGrouped];
     self.tableView_Search.dataSource = self;
@@ -162,6 +163,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     self.tableView_Search.emptyDataSetDelegate = self;
     self.tableView_Search.emptyDataSetSource = self;
     [self.view addSubview:self.tableView_Search];
+    
     
     // UITableView - tableView_Search - tableHeaderView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
@@ -172,6 +174,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     alertLabel.font = [UIFont systemFontOfSize:15];
     alertLabel.textAlignment = NSTextAlignmentLeft;
     [headerView addSubview:alertLabel];
+    
     
     // headerView - bgView
     self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_HEIGHT, 50)];
@@ -270,6 +273,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
             }
         }
     }
+    
     
     NSMutableArray *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text])
