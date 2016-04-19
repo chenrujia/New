@@ -60,7 +60,7 @@ static CGFloat const maxTitleScale = 1.3;
     {
         /**专业分组**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request propertyGrouping];
+        [request listOFSubgroup];
     }
     else
     {
@@ -283,7 +283,7 @@ static CGFloat const maxTitleScale = 1.3;
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == PropertyGrouping && data.count > 0)
+    if (type == SubgroupLists && data.count > 0)
     {
         for (NSDictionary *dataDict in data)
         {

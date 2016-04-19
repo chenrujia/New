@@ -65,10 +65,8 @@
     [self.rootCenterButton addTarget:self action:@selector(navigationcenterButton) forControlEvents:UIControlEventTouchUpInside];
     [navBarView addSubview:self.rootCenterButton];
     
-    CGFloat titleW = 145;
-    CGFloat padding = 20;
     [self.rootCenterButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-    [self.rootCenterButton setImageEdgeInsets:UIEdgeInsetsMake(0, titleW+padding, 0, -titleW-padding)];
+    [self.rootCenterButton setImageEdgeInsets:UIEdgeInsetsMake(0, 100, 0, -100)];
     
     
     // rightButton
@@ -237,12 +235,14 @@
     NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
     NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
     NSString *weekStr = [weekdays objectAtIndex:theComponents.weekday];
+    NSLog(@"%@", weekStr);
     
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
     [formatter1 setDateFormat:@"yyyy-MM-dd"];
     NSString *dateStr = [formatter1 stringFromDate:inputDate];
     
-    return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];
+    //return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];
+    return dateStr;
 }
 
 - (void)showLoadingMBP:(NSString *)text

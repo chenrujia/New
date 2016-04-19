@@ -6,10 +6,12 @@
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTDailyOrderFilterViewController.h"
+#import "BXTDOFilterViewController.h"
 #import "BXTEPFilterCell.h"
+#import "BXTSubgroupInfo.h"
+#import "BXTRepairStateInfo.h"
 
-@interface BXTDailyOrderFilterViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
+@interface BXTDOFilterViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
@@ -22,9 +24,15 @@
 @property (nonatomic, assign) int selectRow;
 @property (nonatomic, assign) NSInteger showSelectedRow;
 
+// 存值参数
+@property (nonatomic, strong) NSMutableArray *subgroupArray;
+@property (nonatomic, strong) NSMutableArray *subgroupIDArray;
+@property (nonatomic, strong) NSMutableArray *repairStateArray;
+@property (nonatomic, strong) NSMutableArray *repairStateIDArray;
+
 @end
 
-@implementation BXTDailyOrderFilterViewController
+@implementation BXTDOFilterViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,6 +43,11 @@
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", nil];
     self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", nil];
     
+    self.subgroupArray = [[NSMutableArray alloc] init];
+    self.subgroupIDArray = [[NSMutableArray alloc] init];
+    self.repairStateArray = [[NSMutableArray alloc] init];
+    self.repairStateIDArray = [[NSMutableArray alloc] init];
+    
     
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
@@ -42,10 +55,17 @@
     
     
     [self showLoadingMBP:@"数据加载中..."];
-    /**专业分组**/
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request propertyGrouping];
-    
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**专业分组**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request listOFSubgroup];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**工单分类**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request repairStates];
+    });
     
     [self createUI];
 }
@@ -76,14 +96,7 @@
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        int count = 0;
-        for (NSString *titleStr in self.dataArray) {
-            if ([titleStr isEqualToString:@"待完善"]) {
-                count++;
-            }
-        }
-        
-        if (count == self.dataArray.count) {
+        if ([self.dataArray containsObject:@"待完善"]) {
             [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
                 
             } buttonsStatement:@"确定", nil];
@@ -183,7 +196,7 @@
     if (tableView == self.selectTableView) {
         NSString *selectRow  = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
         
-        if (self.showSelectedRow == 4) {
+        if (self.showSelectedRow != 1) {  // 单选
             //判断数组中有没有被选中行的行号,
             if ([self.mulitSelectArray containsObject:selectRow]) {
                 [self.mulitSelectArray removeObject:selectRow];
@@ -196,7 +209,7 @@
                 }
             }
         }
-        else {
+        else {  // 多选
             //判断数组中有没有被选中行的行号,
             if ([self.mulitSelectArray containsObject:selectRow]) {
                 [self.mulitSelectArray removeObject:selectRow];
@@ -223,13 +236,13 @@
 {
     self.showSelectedRow = index;
     if (index == 0) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"今天", @"本周", @"本月",@"本年", nil];
+        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"今天", @"本周", @"本月",@"本年", nil];
     }
     else if (index == 1) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"未完成", @"已修好", @"待见维修", @"客户取消", nil];
+        self.selectArray = self.subgroupArray;
     }
     else if (index == 2) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"进行中", @"已完成", nil];
+        self.selectArray = self.repairStateArray;
     }
     
     self.selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -268,8 +281,15 @@
         for (id object in self.mulitSelectArray) {
             finalStr = [finalStr stringByAppendingString:[NSString stringWithFormat:@" %@", self.selectArray[[object intValue]]]];
             
-            finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.selectArray[[object intValue]]]];
-            
+            if (index == 0) {
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", object]];
+            }
+            else if (index == 1) {
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.subgroupIDArray[[object intValue]]]];
+            }
+            else if (index == 2) {
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.repairStateIDArray[[object intValue]]]];
+            }
         }
         if (finalNumStr.length >= 1) {
             finalNumStr = [finalNumStr substringToIndex:finalNumStr.length - 1];
@@ -282,7 +302,6 @@
             [self.transArray replaceObjectAtIndex:index withObject:finalNumStr];
             [self.tableView reloadData];
         }
-        
         
         // 清除
         [self.mulitSelectArray removeAllObjects];
@@ -318,9 +337,32 @@
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == PropertyGrouping && data.count > 0)
+    if (type == SubgroupLists && data.count > 0)
     {
+        NSMutableArray *subgroupArray = [[NSMutableArray alloc] init];
+        [BXTSubgroupInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"subgroupID":@"id"};
+        }];
+        [subgroupArray addObjectsFromArray:[BXTSubgroupInfo mj_objectArrayWithKeyValuesArray:data]];
         
+        for (BXTSubgroupInfo *subgroupInfo in subgroupArray) {
+            [self.subgroupArray addObject:subgroupInfo.subgroup];
+            [self.subgroupIDArray addObject:subgroupInfo.subgroupID];
+        }
+        
+    }
+    else if (type == RepairState && data.count > 0)
+    {
+        NSMutableArray *repairStateArray = [[NSMutableArray alloc] init];
+        [BXTRepairStateInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"repairStateID":@"id"};
+        }];
+        [repairStateArray addObjectsFromArray:[BXTRepairStateInfo mj_objectArrayWithKeyValuesArray:data]];
+        
+        for (BXTRepairStateInfo *repairStateInfo in repairStateArray) {
+            [self.repairStateArray addObject:repairStateInfo.param_value];
+            [self.repairStateIDArray addObject:repairStateInfo.param_key];
+        }
     }
     
     [self.selectTableView reloadData];

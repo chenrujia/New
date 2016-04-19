@@ -8,7 +8,7 @@
 
 #import "BXTBaseViewController.h"
 
-@interface BXTDailyOrderFilterViewController : BXTBaseViewController
+@interface BXTDOFilterViewController : BXTBaseViewController
 
 @property (nonatomic, strong) RACSubject *delegateSignal;
 

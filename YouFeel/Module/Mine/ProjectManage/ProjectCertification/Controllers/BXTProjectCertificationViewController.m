@@ -9,7 +9,7 @@
 #import "BXTProjectCertificationViewController.h"
 #import "BXTProjectCertificationCell.h"
 #import "BXTUserInformCell.h"
-#import "BXTSubgroup.h"
+#import "BXTSubgroupInfo.h"
 #import "BXTAllDepartmentInfo.h"
 #import "BXTPostionInfo.h"
 #import "BXTSearchPlaceViewController.h"
@@ -513,12 +513,12 @@
     if (type == SubgroupLists)
     {
         NSMutableArray *subgroupArray = [[NSMutableArray alloc] init];
-        [BXTSubgroup mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        [BXTSubgroupInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"subgroupID":@"id"};
         }];
-        [subgroupArray addObjectsFromArray:[BXTSubgroup mj_objectArrayWithKeyValuesArray:data]];
+        [subgroupArray addObjectsFromArray:[BXTSubgroupInfo mj_objectArrayWithKeyValuesArray:data]];
         
-        for (BXTSubgroup *subgroupInfo in subgroupArray) {
+        for (BXTSubgroupInfo *subgroupInfo in subgroupArray) {
             [self.subgroupArray addObject:subgroupInfo.subgroup];
             [self.subgroupIDArray addObject:subgroupInfo.subgroupID];
         }

@@ -10,7 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "DOPDropDownMenu.h"
 #import "BXTRepairInfo.h"
-#import "BXTSubgroup.h"
+#import "BXTSubgroupInfo.h"
 #import "BXTPlaceInfo.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "BXTMaintenanceDetailViewController.h"
@@ -232,7 +232,7 @@
     if (indexPath.column == 0)
     {
         if (indexPath.row == 0) return groupArray[0];
-        BXTSubgroup *subgroup = groupArray[indexPath.row];
+        BXTSubgroupInfo *subgroup = groupArray[indexPath.row];
         return subgroup.subgroup;
     }
     else if (indexPath.column == 1)
@@ -298,7 +298,7 @@
                 self.filterOfGroupID = @"";
             }
             else {
-                BXTSubgroup *subgroup = groupArray[indexPath.row];
+                BXTSubgroupInfo *subgroup = groupArray[indexPath.row];
                 self.filterOfGroupID = subgroup.subgroupID;
             }
         }
@@ -473,10 +473,10 @@
     }
     else if (type == SubgroupLists)
     {
-        [BXTSubgroup mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        [BXTSubgroupInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"subgroupID":@"id"};
         }];
-        [groupArray addObjectsFromArray:[BXTSubgroup mj_objectArrayWithKeyValuesArray:data]];
+        [groupArray addObjectsFromArray:[BXTSubgroupInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     
 }

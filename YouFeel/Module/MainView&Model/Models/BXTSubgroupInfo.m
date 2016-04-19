@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTSubgroup.h"
+#import "BXTSubgroupInfo.h"
 
-@implementation BXTSubgroup
+@implementation BXTSubgroupInfo
 
 @end
