@@ -1,20 +1,21 @@
 //
-//  BXTMaintenanceListViewController.m
+//  BXTDailyOrderListViewController.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/2/24.
+//  Created by 满孝意 on 16/4/18.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTMaintenanceListViewController.h"
-#import "BXTMTFilterViewController.h"
+#import "BXTDailyOrderListViewController.h"
 #import "DOPDropDownMenu.h"
-#import "BXTMainTableViewCell.h"
+#import "BXTDataRequest.h"
+#import "UIScrollView+EmptyDataSet.h"
 #import <MJRefresh.h>
+#import "BXTMainTableViewCell.h"
 #import "BXTRepairInfo.h"
-#import "BXTMaintenanceBookViewController.h"
+#import "BXTDailyOrderFilterViewController.h"
 
-@interface BXTMaintenanceListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
+@interface BXTDailyOrderListViewController () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate,BXTDataResponseDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -22,63 +23,35 @@
 @property (nonatomic, strong) NSArray *typeArray;
 
 @property (nonatomic, copy) NSString *order;
-@property (nonatomic, copy) NSString *startTime;
-
 
 @end
 
-@implementation BXTMaintenanceListViewController
+@implementation BXTDailyOrderListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self navigationSetting:@"全部维保任务" andRightTitle:@"  筛选" andRightImage:nil];
+    [self navigationSetting:@"全部工单" andRightTitle:@"   筛选" andRightImage:nil];
     
     self.typeArray = [[NSArray alloc] initWithObjects:@"时间逆序", @"时间正序", nil];
     self.dataArray = [[NSMutableArray alloc] init];
     self.currentPage = 1;
-    self.order = @"desc";
-    self.startTime = @"";
-    if (!self.endTime) {
-        self.endTime = @"";
-    }
-    if (!self.subgroupIDs) {
-        self.subgroupIDs = @"";
-    }
-    if (!self.faulttypeIDs) {
-        self.faulttypeIDs = @"";
-    }
-    if (!self.stateStr) {
-        self.stateStr = @"";
-    }
     
     [self createUI];
 }
 
 - (void)navigationRightButton
 {
-    BXTMTFilterViewController *filterVC = [[BXTMTFilterViewController alloc] init];
-    filterVC.delegateSignal = [RACSubject subject];
-    [filterVC.delegateSignal subscribeNext:^(NSArray *transArray) {
-        NSLog(@"transArray -= ---------- %@", transArray);
-        self.startTime = transArray[0];
-        self.endTime = transArray[1];
-        self.subgroupIDs = transArray[2];
-        self.faulttypeIDs = transArray[3];
-        self.stateStr = transArray[4];
-        
-        self.currentPage = 1;
-        [self getResource];
-    }];
-    [self.navigationController pushViewController:filterVC animated:YES];
+    BXTDailyOrderFilterViewController *doFilterVC = [[BXTDailyOrderFilterViewController alloc] init];
+    [self.navigationController pushViewController:doFilterVC animated:YES];
 }
 
 - (void)getResource
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request listOfRepairOrderWithTaskType:@"2"
+    [request listOfRepairOrderWithTaskType:@"1"
                             repairListType:OtherList
                                faulttypeID:@""
                                      order:@""
@@ -187,8 +160,8 @@
 {
     BXTRepairInfo *repairInfo = self.dataArray[indexPath.section];
     
-    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:repairInfo.orderid workOrderID:nil];
-    [self.navigationController pushViewController:bookVC animated:YES];
+    //    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:repairInfo.orderid workOrderID:nil];
+    //    [self.navigationController pushViewController:bookVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -250,6 +223,5 @@
  }
  */
 
+
 @end
-
-

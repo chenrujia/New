@@ -87,7 +87,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     SpecialOrder =74,
     DeviceState = 75,
     AuthenticationVerify = 76,
-    DispatchOrAdd
+    DispatchOrAdd = 77,
+    AuthenticationModify = 78,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -335,6 +336,17 @@ andRepairerIsReacive:(NSString *)reacive;
                              storesID:(NSString *)stores_id;
 
 /**
+ *  项目认证修改 - 新
+ */
+- (void)authenticationModifyWithShopID:(NSString *)shop_id
+                                 type:(NSString *)type
+                         departmentID:(NSString *)department_id
+                               dutyID:(NSString *)duty_id
+                           subgroupID:(NSString *)subgroup_id
+                      haveSubgroupIDs:(NSString *)have_subgroup_ids
+                             storesID:(NSString *)stores_id;
+
+/**
  *  修改用户常用位置 - 新
  */
 - (void)modifyBindPlaceWithShopID:(NSString *)shop_id
@@ -532,18 +544,6 @@ andRepairerIsReacive:(NSString *)reacive;
  *  统计-设备分类统计
  */
 - (void)deviceTypeStaticsWithDate:(NSString *)date;
-
-/**
- *  统计-维保任务列表
- */
-- (void)statisticsMTPlanListWithTimeStart:(NSString *)startTime
-                                  TimeEnd:(NSString *)endTime
-                              SubgroupIDs:(NSString *)subgroupIDs
-                         FaulttypeTypeIDs:(NSString *)faulttypeTypeIDs
-                                    State:(NSString *)state
-                                    Order:(NSString *)order
-                                 Pagesize:(NSString *)pageSize
-                                     Page:(NSString *)page;
 
 /**
  *  统计-维保设备列表

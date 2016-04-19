@@ -13,7 +13,7 @@
 #import "BXTStatisticsSecondView.h"
 #import "BXTStatisticsThirdView.h"
 #import "BXTStatisticsForthView.h"
-#import "BXTAllOrdersViewController.h"
+#import "BXTDailyOrderListViewController.h"
 #import "BXTMaintenanceListViewController.h"
 #import "BXTEquipmentListViewController.h"
 
@@ -48,14 +48,14 @@
 - (void)navigationRightButton
 {
     // 全部工单
-    BXTAllOrdersViewController *allOrdersVC = [[BXTAllOrdersViewController alloc] init];
+    BXTDailyOrderListViewController *dyListVC = [[BXTDailyOrderListViewController alloc] init];
     // 全部维保
     BXTMaintenanceListViewController *mtListVC = [[BXTMaintenanceListViewController alloc] init];
     // 全部设备
     BXTEquipmentListViewController *equipmentVC = [[BXTEquipmentListViewController alloc] init];
     
     switch (currentPage) {
-        case 0: [self.navigationController pushViewController:allOrdersVC animated:YES]; break;
+        case 0: [self.navigationController pushViewController:dyListVC animated:YES]; break;
         case 1: [self.navigationController pushViewController:mtListVC animated:YES]; break;
         case 2: [self.navigationController pushViewController:equipmentVC animated:YES]; break;
         default: break;

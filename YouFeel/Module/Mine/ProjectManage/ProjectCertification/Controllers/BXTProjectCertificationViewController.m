@@ -35,7 +35,7 @@
 @property (nonatomic, strong) NSMutableArray *selectArray;
 @property (nonatomic, strong) NSMutableArray *mulitSelectArray;
 @property (nonatomic, assign) int selectRow;
-@property (nonatomic, assign) int showSelectedRow;
+@property (nonatomic, assign) NSInteger showSelectedRow;
 
 @property (assign, nonatomic) BOOL isCompanyType;
 
@@ -139,24 +139,47 @@
             [self showLoadingMBP:@"努力加载中..."];
             BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
             
-            if (self.isCompanyType) {
-                [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
-                                                      type:@"1"
-                                              departmentID:self.transArray[2]
-                                                    dutyID:self.transArray[3]
-                                                subgroupID:self.transArray[4]
-                                           haveSubgroupIDs:self.transArray[5]
-                                                  storesID:@""];
+            if (self.transProjectInfo) {
+                if (self.isCompanyType) {
+                    [fau_request authenticationModifyWithShopID:self.transMyProject.shop_id
+                                                           type:@"1"
+                                                   departmentID:self.transArray[2]
+                                                         dutyID:self.transArray[3]
+                                                     subgroupID:self.transArray[4]
+                                                haveSubgroupIDs:self.transArray[5]
+                                                       storesID:@""];
+                }
+                else {
+                    [fau_request authenticationModifyWithShopID:self.transMyProject.shop_id
+                                                           type:@"2"
+                                                   departmentID:@""
+                                                         dutyID:@""
+                                                     subgroupID:@""
+                                                haveSubgroupIDs:@""
+                                                       storesID:self.transArray[2]];
+                }
             }
             else {
-                [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
-                                                      type:@"2"
-                                              departmentID:@""
-                                                    dutyID:@""
-                                                subgroupID:@""
-                                           haveSubgroupIDs:@""
-                                                  storesID:self.transArray[2]];
+                if (self.isCompanyType) {
+                    [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
+                                                          type:@"1"
+                                                  departmentID:self.transArray[2]
+                                                        dutyID:self.transArray[3]
+                                                    subgroupID:self.transArray[4]
+                                               haveSubgroupIDs:self.transArray[5]
+                                                      storesID:@""];
+                }
+                else {
+                    [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
+                                                          type:@"2"
+                                                  departmentID:@""
+                                                        dutyID:@""
+                                                    subgroupID:@""
+                                               haveSubgroupIDs:@""
+                                                      storesID:self.transArray[2]];
+                }
             }
+            
         }
     }];
     [footerView addSubview:commitBtn];
@@ -361,22 +384,18 @@
 #pragma mark - 方法
 - (void)createTableViewWithIndex:(NSInteger)index
 {
-    self.showSelectedRow = 0;
+    self.showSelectedRow = index;
     if (index == 1) {
         self.selectArray = [[NSMutableArray alloc] initWithObjects:@"项目管理公司", @"客户组", nil];
-        self.showSelectedRow = 1;
     }
     else if (index == 3) {
         self.selectArray = self.positionArray;
-        self.showSelectedRow = 4;
     }
     else if (index == 4) {
         self.selectArray = self.subgroupArray;
-        self.showSelectedRow = 4;
     }
     else if (index == 5) {
         self.selectArray = self.subgroupArray;
-        self.showSelectedRow = 5;
     }
     
     self.selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -540,6 +559,20 @@
                 if (self.delegateSignal) {
                     [self.delegateSignal sendNext:nil];
                     [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+        }
+    }
+    else if (type == AuthenticationModify)
+    {
+        if ([dic[@"returncode"] integerValue] == 0) {
+            [BXTGlobal showText:@"项目认证修改成功" view:self.view completionBlock:^{
+                for (UIViewController *temp in self.navigationController.viewControllers) {
+                    if ([temp isKindOfClass:[BXTProjectManageViewController class]]) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshBXTProjectManageViewController" object:nil];
+                        [self.navigationController popToViewController:temp animated:YES];
+                        return ;
+                    }
                 }
             }];
         }

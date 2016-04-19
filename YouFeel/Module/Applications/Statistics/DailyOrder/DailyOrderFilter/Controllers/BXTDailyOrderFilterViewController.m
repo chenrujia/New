@@ -1,24 +1,21 @@
 //
-//  BXTEPFilterViewController.m
+//  BXTDailyOrderFilterViewController.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/2/23.
+//  Created by 满孝意 on 16/4/18.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTMTFilterViewController.h"
+#import "BXTDailyOrderFilterViewController.h"
 #import "BXTEPFilterCell.h"
 
-@interface BXTMTFilterViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
+@interface BXTDailyOrderFilterViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSMutableArray *transArray;
 
-@property (nonatomic, strong) UIDatePicker *datePicker;
-
-@property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UIView *selectBgView;
 
 @property (nonatomic, strong) UITableView *selectTableView;
@@ -27,45 +24,29 @@
 @property (nonatomic, assign) int selectRow;
 @property (nonatomic, assign) NSInteger showSelectedRow;
 
-@property (nonatomic, strong) NSMutableArray *subgroupArray;
-@property (nonatomic, strong) NSMutableArray *subgroupIDArray;
-@property (nonatomic, strong) NSMutableArray *faulttypeArray;
-@property (nonatomic, strong) NSMutableArray *faulttypeIDArray;
-
 @end
 
-@implementation BXTMTFilterViewController
+@implementation BXTDailyOrderFilterViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray = @[@"开始时间", @"结束时间", @"专业分组", @"系统分组", @"工单分类"];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", @"待完善", @"待完善", nil];
-    self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", nil];
-    self.subgroupArray = [[NSMutableArray alloc] init];
-    self.subgroupIDArray = [[NSMutableArray alloc] init];
-    self.faulttypeArray = [[NSMutableArray alloc] init];
-    self.faulttypeIDArray = [[NSMutableArray alloc] init];
+    self.titleArray = @[@"时间范围", @"专业分组", @"工单分类"];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", nil];
+    self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", nil];
+    
     
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
+    
     [self showLoadingMBP:@"数据加载中..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /**专业分组**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request propertyGrouping];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**系统分组**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request faultTypeListWithRTaskType:@"2" more:nil];
-    });
+    /**专业分组**/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request propertyGrouping];
     
     
     [self createUI];
@@ -232,12 +213,9 @@
     }
     
     
-    if (indexPath.section <= 1) {
-        [self createDatePickerWithIndex:indexPath.section];
-    }
-    else {
-        [self createTableViewWithIndex:indexPath.section];
-    }
+    [self createTableViewWithIndex:indexPath.section];
+    
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -246,13 +224,13 @@
 - (void)createTableViewWithIndex:(NSInteger)index
 {
     self.showSelectedRow = index;
-    if (index == 2) {
-        self.selectArray = self.subgroupArray;
+    if (index == 0) {
+        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"今天", @"本周", @"本月",@"本年", nil];
     }
-    else if (index == 3) {
-        self.selectArray = self.faulttypeArray;
+    else if (index == 1) {
+        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"未完成", @"已修好", @"待见维修", @"客户取消", nil];
     }
-    else if (index == 4) {
+    else if (index == 2) {
         self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"进行中", @"已完成", nil];
     }
     
@@ -292,15 +270,7 @@
         for (id object in self.mulitSelectArray) {
             finalStr = [finalStr stringByAppendingString:[NSString stringWithFormat:@" %@", self.selectArray[[object intValue]]]];
             
-            if (index == 2) {
-                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.subgroupIDArray[[object intValue]]]];
-            }
-            else if (index == 3) {
-                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.faulttypeIDArray[[object intValue]]]];
-            }
-            else {
-                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", object]];
-            }
+            finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.selectArray[[object intValue]]]];
             
         }
         if (finalNumStr.length >= 1) {
@@ -327,117 +297,11 @@
     [toolView addSubview:sureBtn];
 }
 
-- (void)createDatePickerWithIndex:(NSInteger)index
-{
-    // bgView
-    self.bgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    self.bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
-    self.bgView.tag = 101;
-    [self.view addSubview:self.bgView];
-    
-    
-    // headerView
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-50, SCREEN_WIDTH, 50)];
-    headerView.backgroundColor = [UIColor whiteColor];
-    [self.bgView addSubview:headerView];
-    
-    // titleLabel
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 80, 30)];
-    titleLabel.text = @"开始时间";
-    if (index == 1) {
-        titleLabel.text = @"结束时间";
-    }
-    titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [headerView addSubview:titleLabel];
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49, SCREEN_WIDTH, 1)];
-    line.backgroundColor = colorWithHexString(@"e2e6e8");
-    [headerView addSubview:line];
-    
-    // timeLabel
-    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 165, 10, 150, 30)];
-    timeLabel.text = [self weekdayStringFromDate:[NSDate date]];
-    timeLabel.textColor = colorWithHexString(@"#3BAFFF");
-    timeLabel.font = [UIFont systemFontOfSize:16.f];
-    timeLabel.textAlignment = NSTextAlignmentRight;
-    [headerView addSubview:timeLabel];
-    
-    
-    // datePicker
-    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
-    self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
-    self.datePicker.backgroundColor = colorWithHexString(@"ffffff");
-    //    self.datePicker.minimumDate = [NSDate date];
-    self.datePicker.datePickerMode = UIDatePickerModeDate;
-    [[self.datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
-        // 显示时间
-        timeLabel.text = [self weekdayStringFromDate:self.datePicker.date];
-    }];
-    [self.bgView addSubview:self.datePicker];
-    
-    
-    // toolView
-    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
-    toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
-    [self.bgView addSubview:toolView];
-    
-    // sure
-    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 50)];
-    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    sureBtn.backgroundColor = [UIColor whiteColor];
-    @weakify(self);
-    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self.dataArray replaceObjectAtIndex:index withObject:timeLabel.text];
-        [self.transArray replaceObjectAtIndex:index withObject:[self transTimeWithTime:timeLabel.text]];
-        [self.tableView reloadData];
-        
-        self.datePicker = nil;
-        [self.bgView removeFromSuperview];
-    }];
-    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-    sureBtn.layer.borderWidth = 0.5;
-    [toolView addSubview:sureBtn];
-}
-
-// 时间戳转换成 2015年11月27日 星期五 格式
-- (NSString*)weekdayStringFromDate:(NSDate*)inputDate
-{
-    NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
-    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-    [calendar setTimeZone: timeZone];
-    NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-    NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
-    NSString *weekStr = [weekdays objectAtIndex:theComponents.weekday];
-    
-    NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
-    [formatter1 setDateFormat:@"yyyy/MM/dd"];
-    NSString *dateStr = [formatter1 stringFromDate:inputDate];
-    
-    return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];
-}
-
-
-- (NSString *)transTimeWithTime:(NSString *)time
-{
-    return [[time substringToIndex:10] stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
-}
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
     UIView *view = touch.view;
-    if (view.tag == 101)
-    {
-        if (_datePicker)
-        {
-            [_datePicker removeFromSuperview];
-            _datePicker = nil;
-        }
-        [view removeFromSuperview];
-    }
-    else if (view.tag == 102)
+    if (view.tag == 102)
     {
         if (_selectTableView) {
             [self.mulitSelectArray removeAllObjects];
@@ -458,22 +322,9 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == PropertyGrouping && data.count > 0)
     {
-        for (NSDictionary *dataDict in data)
-        {
-            [self.subgroupArray addObject:dataDict[@"subgroup"]];
-            [self.subgroupIDArray addObject:dataDict[@"id"]];
-        }
-        
         
     }
-    else if (type == FaultType && data.count > 0)
-    {
-        for (NSDictionary *dataDict in data)
-        {
-            [self.faulttypeArray addObject:dataDict[@"faulttype_type"]];
-            [self.faulttypeIDArray addObject:dataDict[@"id"]];
-        }
-    }
+    
     [self.selectTableView reloadData];
 }
 
@@ -496,5 +347,6 @@
  // Pass the selected object to the new view controller.
  }
  */
+
 
 @end
