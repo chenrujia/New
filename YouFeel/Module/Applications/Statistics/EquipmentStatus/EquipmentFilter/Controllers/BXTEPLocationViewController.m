@@ -11,7 +11,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTFloorInfo.h"
 #import "ANKeyValueTable.h"
-#import "BXTDeviceList.h"
+#import "BXTDeviceListInfo.h"
 
 typedef NS_ENUM(NSInteger, SelectedType) {
     SelectedType_First = 0,
@@ -59,12 +59,10 @@ typedef NS_ENUM(NSInteger, SelectedType) {
 
 @implementation BXTEPLocationViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"位置" andRightTitle:nil andRightImage:nil];
-    
     self.addressArray = [[NSMutableArray alloc] init];
     self.addressFirstArray = [[NSMutableArray alloc] init];
     self.addressSecondArray = [[NSMutableArray alloc] init];
@@ -72,8 +70,6 @@ typedef NS_ENUM(NSInteger, SelectedType) {
     self.firstText = @"请输入(必填项)";
     self.secondText = @"请输入(非必填项)";
     self.thirdText = @"请输入(非必填项)";
-    
-    
     dataArray = [NSMutableArray array];
     
     [self showLoadingMBP:@"正在获取信息..."];
@@ -388,10 +384,6 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         self.addressFirstArray = firstArray;
         self.addressSecondArray = secondArray;
         self.addressThirdArray = thirdArray;
-    }
-    else if (type == CommitShop)
-    {
-        //[BXTGlobal setUserProperty:[NSString stringWithFormat:@"%@", dic[@"finish_id"]] withKey:U_Finish_ID];
     }
     else if (type == UpdateShopAddress)
     {

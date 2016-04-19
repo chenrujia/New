@@ -36,7 +36,6 @@ typedef void (^HaveHidden)(BOOL hidden);
 
 - (NSString*)dataToJsonString:(id)object;
 
-- (BOOL)is_verify;
 - (id)toArrayOrNSDictionary:(NSData *)jsonData;
 
 @end

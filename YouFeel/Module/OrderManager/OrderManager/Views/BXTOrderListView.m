@@ -9,7 +9,6 @@
 #import "BXTOrderListView.h"
 #import "BXTDataRequest.h"
 #import "UIScrollView+EmptyDataSet.h"
-#import "BXTRepairTableViewCell.h"
 #import "BXTHeaderForVC.h"
 #import "BXTRepairInfo.h"
 #import <MJRefresh.h>

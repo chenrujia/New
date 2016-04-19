@@ -117,7 +117,7 @@
     }
     else if (section == 2 + self.number)
     {
-        [self boxViewWithType:Other andTitle:@"维修结果" andData:self.stateArray];
+        [self boxViewWithType:OtherView andTitle:@"维修结果" andData:self.stateArray];
     }
     else if (section == 3 + self.number)
     {
@@ -494,7 +494,7 @@
         BXTSpecialOrderInfo *orderInfo = obj;
         self.choosedReasonInfo = orderInfo;
     }
-    else if (type == Other)
+    else if (type == OtherView)
     {
         if ([obj isEqualToString:@"未修好"])
         {

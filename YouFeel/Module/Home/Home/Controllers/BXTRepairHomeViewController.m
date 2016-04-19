@@ -60,16 +60,6 @@
     }
 }
 
-#pragma mark -
-#pragma mark 事件处理
-- (void)repairClick
-{
-    if ([self is_verify])
-    {
-        return;
-    }
-}
-
 - (void)comingNewRepairs
 {
     // 工单数 > 实时抢单页面数 -> 跳转

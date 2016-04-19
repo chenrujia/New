@@ -228,7 +228,7 @@
         if (data.count > 0)
         {
             NSDictionary *userInfo = data[0];
-            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo isPushToRootVC:YES];
+            [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
     else if (type == UpdateHeadPic)

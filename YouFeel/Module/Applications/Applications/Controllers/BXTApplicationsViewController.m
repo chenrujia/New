@@ -146,7 +146,8 @@
     if (indexPath.section == 0)
     {
         switch (indexPath.row) {
-            case 0: {
+            case 0:
+            {
                 // 点击去掉参数
                 [BXTRemindNum sharedManager].announcementNum = @"0";
                 // 存储点击时间
@@ -160,10 +161,9 @@
                 
                 [self.navigationController pushViewController:nlvc animated:YES];
             } break;
-            case 1: {
-                if ([self is_verify]) {
-                    [self.navigationController pushViewController:epvc animated:YES];
-                }
+            case 1:
+            {
+                [self.navigationController pushViewController:epvc animated:YES];
             } break;
             default: break;
         }

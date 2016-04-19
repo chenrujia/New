@@ -45,45 +45,11 @@
     [self postRequest:url withParameters:parameters];
 }
 
-- (void)departmentsList:(NSString *)pid
-{
-    self.requestType = DepartmentType;
-    NSDictionary *dic = nil;
-    if (pid)
-    {
-        dic = @{@"pid": pid};
-    }
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=department_one_lists",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)positionsList:(NSString *)dutyType
-{
-    self.requestType = PositionType;
-    NSDictionary *dic = nil;
-    if (dutyType)
-    {
-        dic = @{@"duty_type": dutyType};
-    }
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=duty_lists",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
 - (void)shopLocation
 {
     self.requestType = ShopType;
     NSString *url = [NSString stringWithFormat:@"%@&module=Portmeans&opt=get_map",[BXTGlobal shareGlobal].baseURL];
     [self getRequest:url];
-}
-
-- (void)deviceListWithPlaceID:(NSString *)placeID
-{
-    self.requestType = DeviceList;
-    NSDictionary *dic = @{@"page": @"0",
-                          @"pagesize": @"0",
-                          @"place_id": placeID};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Device&opt=device_list",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
 }
 
 - (void)devicesWithPlaceID:(NSString *)placeID
@@ -107,40 +73,6 @@
         url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops/is_hot/1",KADMINBASEURL];
     }
     [self getRequest:url];
-}
-
-- (void)branchResign:(NSInteger)is_repair
-           andShopID:(NSString *)shopID
-      andBindPlaceID:(NSString *)placeID
-      andSubgroupIDS:(NSString *)subIDS
-
-{
-    self.requestType = BranchResign;
-    
-    BXTDepartmentInfo *departmentInfo = [BXTGlobal getUserProperty:U_DEPARTMENT];
-    BXTPostionInfo *postionInfo = [BXTGlobal getUserProperty:U_POSITION];
-    
-    NSString *subGroup = @"";
-    BXTGroupingInfo *groupInfo = [BXTGlobal getUserProperty:U_GROUPINGINFO];
-    if (groupInfo)
-    {
-        subGroup = groupInfo.group_id;
-    }
-    
-    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID],
-                          @"duty_id":postionInfo.role_id,
-                          @"department_id":departmentInfo.dep_id,
-                          @"subgroup_id":groupInfo.group_id,
-                          @"have_subgroup_ids":subIDS,
-                          @"stores_id": shopID,
-                          @"bind_place_ids":placeID};
-    
-    SaveValueTUD(@"BranchResign_shopID", shopID);
-    
-    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
-    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=add_user",urlLast];
-    
-    [self postRequest:url withParameters:dic];
 }
 
 - (void)branchResign
@@ -181,22 +113,6 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)commitNewShop:(NSString *)shop
-{
-    self.requestType = CommitShop;
-    BXTFloorInfo *floorInfo = [BXTGlobal getUserProperty:U_FLOOOR];
-    BXTAreaInfo *areaInfo = [BXTGlobal getUserProperty:U_AREA];
-    
-    NSDictionary *dic = @{@"stores_name":shop,
-                          @"area_id":floorInfo.area_id,
-                          @"place_id":areaInfo.place_id,
-                          @"info":@"123",
-                          @"stores_pic":@""};
-    
-    NSString *url = [NSString stringWithFormat:@"%@&module=Stores&opt=add_stores",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
 - (void)faultTypeListWithRTaskType:(NSString *)taskType more:(NSString *)more
 {
     self.requestType = FaultType;
@@ -219,179 +135,6 @@
     self.requestType = OrderFaultType;
     NSDictionary *dic = @{@"task_type": @"1"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=faulttype_type_lists",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)allFaultTypeListWith:(NSString *)taskType
-{
-    self.requestType = AllFaultType;
-    NSDictionary *dic = @{@"task_type": taskType};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_all_faulttype",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)repairsList:(NSString *)state
-            andPage:(NSInteger)page
-andIsMaintenanceMan:(BOOL)isMaintenanceMan
-andRepairerIsReacive:(NSString *)reacive
-{
-    self.requestType = RepairList;
-    BOOL stateIsComplete = NO;
-    if ([state isEqualToString:@""])
-    {
-        stateIsComplete = YES;
-    }
-    NSString *identity = @"faultid";
-    if (isMaintenanceMan)
-    {
-        identity = @"repairer";
-    }
-    if ([reacive isEqualToString:@"1"]) {
-        state = @"";
-    }
-    if ([reacive isEqualToString:@"2"]) {
-        state = @"2";
-    }
-    
-    NSDictionary *dic;
-    if (stateIsComplete)
-    {
-        dic = @{identity:[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                @"state":@"2",
-                @"pagesize":@"5",
-                @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                @"is_repairing":reacive};
-    }
-    else
-    {
-        dic = @{identity:[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                @"repairstate":state,
-                @"pagesize":@"5",
-                @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                @"is_repairing":reacive};
-    }
-    
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)repairerList:(NSString *)state
-             andPage:(NSInteger)page
-            andPlace:(NSString *)place
-       andDepartment:(NSString *)department
-        andBeginTime:(NSString *)beginTime
-          andEndTime:(NSString *)endTime
-        andFaultType:(NSString *)faultType
-         andTaskType:(NSString *)taskType
-{
-    self.requestType = RepairList;
-    BOOL stateIsComplete = NO;
-    if ([state isEqualToString:@""])
-    {
-        stateIsComplete = YES;
-    }
-    NSDictionary *dic;
-    NSString *timeName = @"";
-    if (beginTime.length > 0)
-    {
-        timeName = @"repair_time";
-    }
-    if (stateIsComplete)
-    {
-        dic = @{@"state":@"2",
-                @"pagesize":@"5",
-                @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                @"place":place,
-                @"department":department,
-                @"timestart":beginTime,
-                @"timeover":endTime,
-                @"timename":timeName,
-                @"faulttype":faultType,
-                @"task_type":taskType};
-    }
-    else
-    {
-        dic = @{@"repairstate":state,
-                @"pagesize":@"5",
-                @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                @"place":place,
-                @"department":department,
-                @"timestart":beginTime,
-                @"timeover":endTime,
-                @"timename":timeName,
-                @"faulttype":faultType,
-                @"task_type":taskType};
-    }
-    
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)repairsList:(NSString *)longTime
-         andDisUser:(NSString *)disUser
-       andCloseUser:(NSString *)closeUser
-       andOrderType:(NSString *)orderType
-      andSubgroupID:(NSString *)groupID
-            andPage:(NSInteger)page
-        close_state:(NSString *)close_state
-{
-    NSString *closeState = @"";
-    if (closeUser.length > 0)
-    {
-        closeState = @"2";
-    }
-    NSDictionary *dic;
-    //不区分类型
-    if (close_state.length > 0)
-    {
-        dic = @{@"long_time":longTime,
-                @"dispatching_user":disUser,
-                @"close_state":closeState,
-                @"close_user":closeUser,
-                @"order":orderType,
-                @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                @"order_subgroup":groupID,
-                @"pagesize":@"5",
-                @"close_state":close_state};
-    }
-    else
-    {
-        dic = @{@"long_time":longTime,
-                @"dispatching_user":disUser,
-                @"close_state":closeState,
-                @"close_user":closeUser,
-                @"order":orderType,
-                @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                @"pagesize":@"5",
-                @"order_subgroup":groupID};
-    }
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)allRepairs:(NSString *)collection
-       andTimeName:(NSString *)timeName
-      andStartTime:(NSString *)startTime
-        andEndTime:(NSString *)endTime
-      andOrderType:(NSString *)orderType
-        andGroupID:(NSString *)groupID
-      andSubgroups:(NSArray *)groups
-          andState:(NSString *)state
-           andPage:(NSInteger)page
-{
-    NSDictionary *dic = @{@"collection":collection,
-                          @"timename":timeName,
-                          @"timestart":startTime,
-                          @"timeover":endTime,
-                          @"order":orderType,
-                          @"order_subgroup":groupID,
-                          @"check_subgroup":groups,
-                          @"state":state,
-                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                          @"pagesize":@"5",
-                          @"close_state":@"all",
-                          @"task_type":@"1"};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -448,7 +191,6 @@ andRepairerIsReacive:(NSString *)reacive
 - (void)listOFSubgroup
 {
     self.requestType = SubgroupLists;
-    
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=subgroup_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:nil];
 }
@@ -558,10 +300,10 @@ andRepairerIsReacive:(NSString *)reacive
                                             shopID:(NSString *)shopID
 {
     self.requestType = AuthenticationDetail;
-    
-    
+
     // 认证审批 -- 默认项目详情
-    if ([BXTGlobal isBlankString:shopID]) {
+    if ([BXTGlobal isBlankString:shopID])
+    {
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
         shopID = companyInfo.company_id;
     }
@@ -667,46 +409,6 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
-                                    faulttype:(NSString *)faulttype
-                               faultType_type:(NSString *)faulttype_type
-                                   faultCause:(NSString *)cause
-                                   faultLevel:(NSString *)level
-                                  depatmentID:(NSString *)depID
-                                    equipment:(NSString *)eqID
-                                   faultNotes:(NSString *)notes
-                                   imageArray:(NSArray *)images
-                              repairUserArray:(NSArray *)userArray
-{
-    self.requestType = CreateMaintenanceOrder;
-    
-    if (!notes)
-    {
-        notes = @"";
-    }
-    
-    NSString *fault = [BXTGlobal getUserProperty:U_NAME];
-    NSString *faultID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-    NSString *moblie = [BXTGlobal getUserProperty:U_MOBILE];
-    NSDictionary *dic = @{@"type":@"add",
-                          @"device_ids": deviceID,
-                          @"faulttype":faulttype,
-                          @"faulttype_type":faulttype_type,
-                          @"cause":cause,
-                          @"urgent":level,
-                          @"department":depID,
-                          @"equipment":eqID,
-                          @"fault":fault,
-                          @"fault_id":faultID,
-                          @"visitmobile":moblie,
-                          @"notes":notes,
-                          @"collection":@"",
-                          @"collection_note":@"",
-                          @"repair_user_arr":userArray};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Device_repair&opt=device_add_fault",[BXTGlobal shareGlobal].baseURL];
-    [self uploadImageRequest:url withParameters:dic withImages:images];
-}
-
 - (void)createRepair:(NSString *)reserveTime
          faultTypeID:(NSString *)faultTypeID
           faultCause:(NSString *)cause
@@ -740,8 +442,8 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = DeleteRepair;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
-                          @"id":repairID};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=del_fault",[BXTGlobal shareGlobal].baseURL];
+                          @"workorder_id":repairID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=close_workorder",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -769,9 +471,13 @@ andRepairerIsReacive:(NSString *)reacive
               repairID:(NSString *)reID
             imageArray:(NSArray *)images
 {
-    NSDictionary *rateDic = @{@"speed":rateArray[0],@"professional":rateArray[1],@"serve":rateArray[2]};
-    NSDictionary *dic = @{@"send_id":[BXTGlobal getUserProperty:U_USERID],@"id":reID,@"praise":rateDic,@"evaluation_notes":notes,@"evaluation_name":[BXTGlobal getUserProperty:U_NAME]};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=praise",[BXTGlobal shareGlobal].baseURL];
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"workorder_id":reID,
+                          @"serve_result":rateArray[2],
+                          @"speed_result":rateArray[0],
+                          @"professional_result":rateArray[1],
+                          @"praise_notes":notes};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_praise",[BXTGlobal shareGlobal].baseURL];
     [self uploadImageRequest:url withParameters:dic withImages:images];
 }
 

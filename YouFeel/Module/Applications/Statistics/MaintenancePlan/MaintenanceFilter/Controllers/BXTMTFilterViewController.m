@@ -36,12 +36,10 @@
 
 @implementation BXTMTFilterViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
-    
     self.titleArray = @[@"开始时间", @"结束时间", @"专业分组", @"系统分组", @"工单分类"];
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", @"待完善", @"待完善", nil];
     self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", nil];
@@ -453,7 +451,6 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
-    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == PropertyGrouping && data.count > 0)
@@ -463,8 +460,6 @@
             [self.subgroupArray addObject:dataDict[@"subgroup"]];
             [self.subgroupIDArray addObject:dataDict[@"id"]];
         }
-        
-        
     }
     else if (type == FaultType && data.count > 0)
     {
@@ -482,19 +477,9 @@
     [self hideMBP];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

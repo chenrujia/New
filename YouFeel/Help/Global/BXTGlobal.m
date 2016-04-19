@@ -30,7 +30,6 @@
         bxtGlobal.assignOrderIDs = [NSMutableArray array];
         bxtGlobal.numOfPresented = 0;
         bxtGlobal.assignNumber = 0;
-        bxtGlobal.longTime = @"";
     });
     return bxtGlobal;
 }
@@ -67,28 +66,17 @@
     }
 }
 
-- (void)reLoginWithDic:(NSDictionary *)dic isPushToRootVC:(BOOL)isPushToRootVC
+- (void)branchLoginWithDic:(NSDictionary *)dic isPushToRootVC:(BOOL)isPushToRootVC
 {
     [BXTBranchUserInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         return @{@"userID":@"id"};
     }];
     BXTBranchUserInfo *branchUser = [BXTBranchUserInfo mj_objectWithKeyValues:dic];
 
-    //!!!: 少了很多参数，下面的这些可能要删除一部分，具体再调试！
-    BXTDepartmentInfo *departmentInfo = [[BXTDepartmentInfo alloc] init];
-    departmentInfo.dep_id = branchUser.department_id;
-    departmentInfo.department = branchUser.department_name;
-    [BXTGlobal setUserProperty:departmentInfo withKey:U_DEPARTMENT];
-    
-    BXTGroupingInfo *groupInfo = [[BXTGroupingInfo alloc] init];
-    groupInfo.group_id = branchUser.subgroup_id;
-    groupInfo.subgroup = branchUser.subgroup_name;
-    [BXTGlobal setUserProperty:groupInfo withKey:U_GROUPINGINFO];
     [BXTGlobal setUserProperty:branchUser.userID withKey:U_BRANCHUSERID];
     BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
     roleInfo.role_id = branchUser.duty_id;
     roleInfo.duty_name = branchUser.duty_name;
-    [BXTGlobal setUserProperty:roleInfo withKey:U_POSITION];
     if (branchUser.is_repair == 1)
     {
         [BXTGlobal shareGlobal].isRepair = NO;

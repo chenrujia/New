@@ -15,9 +15,7 @@
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSMutableArray *transArray;
-
 @property (nonatomic, strong) UIView *selectBgView;
-
 @property (nonatomic, strong) UITableView *selectTableView;
 @property (nonatomic, strong) NSMutableArray *selectArray;
 @property (nonatomic, strong) NSMutableArray *mulitSelectArray;

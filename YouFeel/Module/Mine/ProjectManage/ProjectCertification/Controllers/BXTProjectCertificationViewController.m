@@ -49,9 +49,9 @@
 
 @implementation BXTProjectCertificationViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     [self navigationSetting:@"项目认证" andRightTitle:nil andRightImage:nil];
     
