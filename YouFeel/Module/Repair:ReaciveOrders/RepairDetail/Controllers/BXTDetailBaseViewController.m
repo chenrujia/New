@@ -245,7 +245,7 @@
 
 - (UIView *)deviceLists:(NSInteger)i comingFromDeviceInfo:(BOOL)isComing isLast:(BOOL)last
 {
-    BXTDeviceMMListInfo *deviceMMInfo = _repairDetail.device_list[i];
+    BXTDeviceMMListInfo *deviceMMInfo = _repairDetail.device_lists[i];
     CGFloat height = 63.f;
     //以设备列表下面那条线为基准
     CGFloat y = 30.f;
@@ -282,7 +282,8 @@
         }
 
         //如果是报修者身份，或者是维修员还没有到达现场（点击开始维修），或者是正常工单，则只提供查看权限
-        if ((([self.repairDetail.repairstate integerValue] == 1 || [self.repairDetail.repairstate integerValue] == 2) && [self.repairDetail.is_repairing integerValue] == 1) || ![BXTGlobal shareGlobal].isRepair || [self.repairDetail.task_type integerValue] == 1)
+        //TODO: 测试测试
+        if (([self.repairDetail.repairstate integerValue] == 1 || [self.repairDetail.repairstate integerValue] == 2) || ![BXTGlobal shareGlobal].isRepair || [self.repairDetail.task_type integerValue] == 1)
         {
             [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
         }
@@ -303,7 +304,7 @@
         @weakify(self);
         [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            BXTDeviceMMListInfo *dmInfo = self.repairDetail.device_list[i];
+            BXTDeviceMMListInfo *dmInfo = self.repairDetail.device_lists[i];
             BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dmInfo.deviceMMID];
             epvc.pushType = PushType_StartMaintain;
             epvc.hidesBottomBarWhenPushed = YES;

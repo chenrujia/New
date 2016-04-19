@@ -12,7 +12,10 @@ typedef NS_ENUM (NSInteger, SceneType)
 {
     MyRepairType = 1,//我的报修工单
     MyMaintenanceType = 2,//我的维修工单
-    DailyType = 3//日常工单接单池
+    DailyType = 3,//日常工单接单池
+    MaintainType = 4,//维保工单接单池
+    MessageType = 5,//从消息列表进入
+    AllOrderType = 6//全部工单
 };
 
 @interface BXTMaintenanceDetailViewController : BXTDetailBaseViewController

@@ -15,27 +15,23 @@
 
 @interface BXTProjectInformViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
-@property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSArray *dataArray;
-
+@property (strong, nonatomic) UITableView    *currentTableView;
+@property (strong, nonatomic) NSArray        *dataArray;
 @property (strong, nonatomic) BXTProjectInfo *projectInfo;
 
 @end
 
 @implementation BXTProjectInformViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"项目详情" andRightTitle:nil andRightImage:nil];
-    
     self.dataArray = @[@[@"项目名", @"详情"],
                        @[@"常用位置"],
                        @[@"审核人"] ];
     
     [self createUI];
-    
     
     /** 项目认证详情 **/
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -47,11 +43,10 @@
 - (void)createUI
 {
     // tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 70) style:UITableViewStyleGrouped];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
-    
+    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 70) style:UITableViewStyleGrouped];
+    self.currentTableView.delegate = self;
+    self.currentTableView.dataSource = self;
+    [self.view addSubview:self.currentTableView];
     
     // footerView
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 70, SCREEN_WIDTH, 70)];
@@ -99,7 +94,6 @@
     }];
     [footerView addSubview:switchBtn];
     
-    
     // verify_state 状态：0未认证 1申请中 2已认证，没有状态3（不通过），如果审核的时候选择了不通过，则将状态直接设置为0
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     if ([self.transMyProject.verify_state integerValue] != 2) {
@@ -143,35 +137,32 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2) {
+    if (indexPath.section == 2)
+    {
         BXTProjectInformAuthorCell *cell = [BXTProjectInformAuthorCell cellWithTableView:tableView];
-        
         cell.projectInfo = self.projectInfo;
-        
         [[cell.connectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             NSLog(@"--------------- 联系Ta");
         }];
         
         return cell;
     }
-    
-    
-    if (indexPath.section == 0 && indexPath.row == 1) {
+    if (indexPath.section == 0 && indexPath.row == 1)
+    {
         BXTProjectInformContentCell *cell = [BXTProjectInformContentCell cellWithTableView:tableView];
-        
         cell.projectInfo = self.projectInfo;
         
         return cell;
     }
     
-    
     BXTProjectInformTitleCell *cell = [BXTProjectInformTitleCell cellWithTableView:tableView];
-    
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         cell.titleView.text = @"项目名：";
         cell.descView.text = self.transMyProject.name;
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 1)
+    {
         cell.titleView.text = @"常用位置：";
         cell.descView.text = self.projectInfo.stores_name;
     }
@@ -181,10 +172,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 1) {
+    if (indexPath.section == 0 && indexPath.row == 1)
+    {
         return 140;
     }
-    if (indexPath.section == 2) {
+    if (indexPath.section == 2)
+    {
         return 117;
     }
     return 50;
@@ -202,7 +195,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -213,15 +205,13 @@
     [self hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
-    
     if (type == AuthenticationDetail && [dic[@"returncode"] integerValue] == 0)
     {
         [BXTProjectInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"projectID": @"id"};
         }];
         self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
-        
-        [self.tableView reloadData];
+        [self.currentTableView reloadData];
     }
     else if (type == BranchLogin)
     {
@@ -239,19 +229,9 @@
     [self hideMBP];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

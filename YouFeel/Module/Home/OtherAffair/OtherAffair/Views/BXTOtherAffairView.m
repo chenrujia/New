@@ -121,7 +121,7 @@
 #pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"没有符合条件的工单";
+    NSString *text = @"没有符合条件的事务";
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName:[UIColor blackColor]};
     

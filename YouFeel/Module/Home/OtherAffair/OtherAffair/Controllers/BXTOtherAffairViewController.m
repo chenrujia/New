@@ -22,12 +22,10 @@
 
 @implementation BXTOtherAffairViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"其他事务" andRightTitle:nil andRightImage:nil];
-    
     [self createSubviews];
 }
 
