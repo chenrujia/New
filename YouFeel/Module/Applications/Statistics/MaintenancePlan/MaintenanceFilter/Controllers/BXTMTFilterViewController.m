@@ -464,6 +464,7 @@
             [self.subgroupArray addObject:dataDict[@"subgroup"]];
             [self.subgroupIDArray addObject:dataDict[@"id"]];
         }
+        
     }
     else if (type == FaultType && data.count > 0)
     {
