@@ -795,13 +795,6 @@ andRepairerIsReacive:(NSString *)reacive
     [self postRequest:url withParameters:dic];
 }
 
-- (void)propertyGrouping
-{
-    self.requestType = PropertyGrouping;
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_subgroup",[BXTGlobal shareGlobal].baseURL];
-    [self getRequest:url];
-}
-
 - (void)maintenanceState:(NSString *)repairID
                  placeID:(NSString *)placeID
              deviceState:(NSString *)deviceState
@@ -1438,6 +1431,14 @@ andRepairerIsReacive:(NSString *)reacive
 {
     self.requestType = DeviceState;
     NSDictionary *dic = @{@"type": @"device_state"};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=param_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)repairStates
+{
+    self.requestType = RepairState;
+    NSDictionary *dic = @{@"type": @"repairstate_name"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=param_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

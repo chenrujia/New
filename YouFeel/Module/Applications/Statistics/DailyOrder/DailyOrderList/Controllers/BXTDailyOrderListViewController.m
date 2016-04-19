@@ -13,7 +13,7 @@
 #import <MJRefresh.h>
 #import "BXTMainTableViewCell.h"
 #import "BXTRepairInfo.h"
-#import "BXTDailyOrderFilterViewController.h"
+#import "BXTDOFilterViewController.h"
 
 @interface BXTDailyOrderListViewController () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate,BXTDataResponseDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>
 
@@ -43,7 +43,11 @@
 
 - (void)navigationRightButton
 {
-    BXTDailyOrderFilterViewController *doFilterVC = [[BXTDailyOrderFilterViewController alloc] init];
+    BXTDOFilterViewController *doFilterVC = [[BXTDOFilterViewController alloc] init];
+    doFilterVC.delegateSignal = [RACSubject subject];
+    [doFilterVC.delegateSignal subscribeNext:^(NSArray *transArray) {
+        NSLog(@"transArray --- %@", transArray);
+    }];
     [self.navigationController pushViewController:doFilterVC animated:YES];
 }
 

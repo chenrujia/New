@@ -37,7 +37,6 @@ typedef NS_ENUM(NSInteger, RequestType) {
     RepairDetail = 24,
     DeviceList = 25,
     ReaciveOrder = 26,
-    PropertyGrouping = 27,
     MaintenanceProcess = 28,
     ManList = 29,
     UploadHeadImage = 30,
@@ -89,6 +88,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     AuthenticationVerify = 76,
     DispatchOrAdd = 77,
     AuthenticationModify = 78,
+    RepairState = 79,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -339,12 +339,12 @@ andRepairerIsReacive:(NSString *)reacive;
  *  项目认证修改 - 新
  */
 - (void)authenticationModifyWithShopID:(NSString *)shop_id
-                                 type:(NSString *)type
-                         departmentID:(NSString *)department_id
-                               dutyID:(NSString *)duty_id
-                           subgroupID:(NSString *)subgroup_id
-                      haveSubgroupIDs:(NSString *)have_subgroup_ids
-                             storesID:(NSString *)stores_id;
+                                  type:(NSString *)type
+                          departmentID:(NSString *)department_id
+                                dutyID:(NSString *)duty_id
+                            subgroupID:(NSString *)subgroup_id
+                       haveSubgroupIDs:(NSString *)have_subgroup_ids
+                              storesID:(NSString *)stores_id;
 
 /**
  *  修改用户常用位置 - 新
@@ -412,11 +412,6 @@ andRepairerIsReacive:(NSString *)reacive;
  */
 - (void)dispatchingMan:(NSString *)repairID
                andMans:(NSString *)mans;
-
-/**
- *  维修者分组
- */
-- (void)propertyGrouping;
 
 /**
  *  维修过程
@@ -761,9 +756,10 @@ andRepairerIsReacive:(NSString *)reacive;
    confirmNotes:(NSString *)notes;
 
 /**
- *  特殊工单and设备状态
+ *  特殊工单 & 设备状态 & 维修状态
  */
 - (void)specialWorkOrder;
 - (void)deviceStates;
+- (void)repairStates;
 
 @end
