@@ -13,17 +13,12 @@ typedef NS_ENUM(NSInteger, RequestType) {
     LoginType = 0,
     BindingUser = 1,
     GetVerificationCode = 2,
-    DepartmentType = 3,
     ShopType = 4,
-    PositionType = 5,
     ShopLists = 6,
     BranchResign = 7,
     BranchLogin = 8,
-    CommitShop = 9,
     FaultType = 10,
     OrderFaultType = 11,
-    AllFaultType = 12,
-    CreateMaintenanceOrder = 13,
     CreateRepair = 14,
     RepairList = 15,
     SubgroupLists = 16,
@@ -132,16 +127,6 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)loginUser:(NSDictionary *)parameters;
 
 /**
- *  部门列表
- */
-- (void)departmentsList:(NSString *)pid;
-
-/**
- *  职位列表
- */
-- (void)positionsList:(NSString *)dutyType;
-
-/**
  *  分店位置
  */
 - (void)shopLocation;
@@ -149,7 +134,6 @@ typedef NS_ENUM(NSInteger, RepairListType)
 /**
  *  设备列表
  */
-- (void)deviceListWithPlaceID:(NSString *)placeID;
 - (void)devicesWithPlaceID:(NSString *)placeID;
 
 /**
@@ -160,21 +144,12 @@ typedef NS_ENUM(NSInteger, RepairListType)
 /**
  *  分店注册
  */
-- (void)branchResign:(NSInteger)is_repair
-           andShopID:(NSString *)shopID
-      andBindPlaceID:(NSString *)placeID
-      andSubgroupIDS:(NSString *)subIDS;
 - (void)branchResign;
 
 /**
  *  分店登录
  */
 - (void)branchLogin;
-
-/**
- *  添加商铺
- */
-- (void)commitNewShop:(NSString *)shop;
 
 /**
  *  故障类型
@@ -187,47 +162,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)orderTypeList;
 
 /**
- *  全部故障类型
- */
-- (void)allFaultTypeListWith:(NSString *)taskType;
-
-/**
- *  工单列表 第一个是报修者身份，第二个是维修者身份，第三个是管理者
- */
-- (void)repairsList:(NSString *)state
-            andPage:(NSInteger)page
-andIsMaintenanceMan:(BOOL)isMaintenanceMan
-andRepairerIsReacive:(NSString *)reacive;
-
-- (void)repairerList:(NSString *)state
-             andPage:(NSInteger)page
-            andPlace:(NSString *)place
-       andDepartment:(NSString *)department
-        andBeginTime:(NSString *)beginTime
-          andEndTime:(NSString *)endTime
-        andFaultType:(NSString *)faultType
-         andTaskType:(NSString *)taskType;
-
-- (void)repairsList:(NSString *)longTime
-         andDisUser:(NSString *)disUser
-       andCloseUser:(NSString *)closeUser
-       andOrderType:(NSString *)orderType
-      andSubgroupID:(NSString *)groupID
-            andPage:(NSInteger)page
-        close_state:(NSString *)close_state;
-
-- (void)allRepairs:(NSString *)collection
-       andTimeName:(NSString *)timeName
-      andStartTime:(NSString *)startTime
-        andEndTime:(NSString *)endTime
-      andOrderType:(NSString *)orderType
-        andGroupID:(NSString *)groupID
-      andSubgroups:(NSArray *)groups
-          andState:(NSString *)state
-           andPage:(NSInteger)page;
-
-/**
- *  获取工单列表 - 新
+ *  获取工单列表
  */
 - (void)listOfRepairOrderWithTaskType:(NSString *)task_type // 工单任务类型 1正常工单 2维保工单
                        repairListType:(RepairListType)listType//Yes维修工单 No报修工单
@@ -248,64 +183,64 @@ andRepairerIsReacive:(NSString *)reacive;
                                  page:(NSInteger)page;
 
 /**
- *  获取故障类型列表 - 新
+ *  获取故障类型列表
  */
 - (void)listOFSubgroup;
 
 /**
- *  获取位置数组 - 新
+ *  获取位置数组
  *  isAllPlace - YES获取全部位置
  */
 - (void)listOFPlaceIsAllPlace:(BOOL)isAllPlace;
 
 /**
- *  获取部门列表 - 新
+ *  获取部门列表
  *  pid - 获取该id下部门树形数据，默认为0则为获取所有部门列表
  */
 - (void)listOFDepartmentWithPid:(NSString *)pid;
 
 /**
- *  获取职位列表 - 新
+ *  获取职位列表
  *  pid - 1报修 2维修，默认：全部
  */
 - (void)listOFDutyWithDutyType:(NSString *)duty_type;
 
 /**
- *  获取商铺列表 - 新
+ *  获取商铺列表
  *  stores_name - 商铺名：模糊搜索
  */
 - (void)listOFStoresWithStoresName:(NSString *)stores_name;
 
 /**
- *  获取待处理事件列表 - 新
+ *  获取待处理事件列表
  */
 - (void)listOFOtherAffairWithHandleState:(NSString *)handle_state
                                     page:(NSInteger)page;
 
 /**
- *  获取我的积分 - 新
+ *  获取我的积分
  */
 - (void)listOFMyIntegralWithDate:(NSString *)date;
 
 /**
- *  积分排名列表 - 新
+ *  积分排名列表
  */
 - (void)listOFIntegralRankingWithDate:(NSString *)date;
 
 /**
- *  修改用户资料 - 新
+ *  修改用户资料
  */
 - (void)modifyUserInformWithName:(NSString *)name
                           gender:(NSString *)gender
                           mobile:(NSString *)mobile;
 
 /**
- *  我的项目列表 - 新
+ *  我的项目列表
  */
 - (void)listOFUserShopLists;
 
 /**
- *  项目认证详情 - 新
+ *  项目认证详情
  *  applicantID - 认证审批人的ID
  *  shopID - 项目详情ID   两者取其一
  */
@@ -313,19 +248,19 @@ andRepairerIsReacive:(NSString *)reacive;
                                             shopID:(NSString *)shopID;
 
 /**
- *  项目认证审核 - 新
+ *  项目认证审核
  *  is_verify - 认证审核：1通过 0不通过
  */
 - (void)projectAuthenticationVerifyWithApplicantID:(NSString *)applicantID
                                           isVerify:(NSString *)is_verify;
 
 /**
- *  分店添加用户 - 新
+ *  分店添加用户
  */
 - (void)projectAddUserWithShopID:(NSString *)shopID;
 
 /**
- *  项目认证申请 - 新
+ *  项目认证申请
  */
 - (void)authenticationApplyWithShopID:(NSString *)shop_id
                                  type:(NSString *)type
@@ -336,7 +271,7 @@ andRepairerIsReacive:(NSString *)reacive;
                              storesID:(NSString *)stores_id;
 
 /**
- *  项目认证修改 - 新
+ *  项目认证修改
  */
 - (void)authenticationModifyWithShopID:(NSString *)shop_id
                                   type:(NSString *)type
@@ -347,24 +282,10 @@ andRepairerIsReacive:(NSString *)reacive;
                               storesID:(NSString *)stores_id;
 
 /**
- *  修改用户常用位置 - 新
+ *  修改用户常用位置
  */
 - (void)modifyBindPlaceWithShopID:(NSString *)shop_id
                           placeID:(NSString *)place_id;
-
-/**
- *  设备添加报修
- */
-- (void)createNewMaintenanceOrderWithDeviceID:(NSString *)deviceID
-                                    faulttype:(NSString *)faulttype
-                               faultType_type:(NSString *)faulttype_type
-                                   faultCause:(NSString *)cause
-                                   faultLevel:(NSString *)level
-                                  depatmentID:(NSString *)depID
-                                    equipment:(NSString *)eqID
-                                   faultNotes:(NSString *)notes
-                                   imageArray:(NSArray *)images
-                              repairUserArray:(NSArray *)userArray;
 
 /**
  *  新建工单

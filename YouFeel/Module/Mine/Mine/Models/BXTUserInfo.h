@@ -7,11 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BXTFloorInfo.h"
-#import "BXTGroupInfo.h"
-#import "BXTPostionInfo.h"
-#import "BXTGroupingInfo.h"
-#import "BXTDepartmentInfo.h"
 #import "BXTHeadquartersInfo.h"
 
 #define U_USERNAME     @"userName"
@@ -19,23 +14,16 @@
 #define U_NAME         @"name"
 #define U_SEX          @"sex"
 #define U_COMPANY      @"company"
-#define U_DEPARTMENT   @"department"
-#define U_POSITION     @"position"
-#define U_FLOOOR       @"floorInfo"
-#define U_AREA         @"areaInfo"
 #define U_SHOP         @"shopInfo"
 #define U_USERID       @"userID"
 #define U_BRANCHUSERID @"branchUserID"
-#define U_ROLEARRAY    @"roleArray"
 #define U_SHOPIDS      @"shopIdsArray"
 #define U_MOBILE       @"mobileNumber"
-#define U_GROUPINGINFO @"groupingInfo"
 #define U_HEADERIMAGE  @"headerImage"
 #define U_MYSHOP       @"my_shop"
 #define U_IMTOKEN      @"im_token"
 #define U_USERSARRAY   @"usersArray"
 #define U_TOKEN        @"token"
-#define U_IS_VERIFY    @"is_verify"
 #define U_OPENID       @"openID"
 
 //存储用的Model
@@ -43,19 +31,13 @@
 @interface BXTUserInfo : NSObject
 
 @property (nonatomic ,strong) BXTHeadquartersInfo *company;
-@property (nonatomic ,strong) BXTDepartmentInfo   *department;
-@property (nonatomic ,strong) BXTPostionInfo      *position;
-@property (nonatomic ,strong) BXTFloorInfo        *floorInfo;
-@property (nonatomic ,strong) BXTAreaInfo         *areaInfo;
-@property (nonatomic ,strong) BXTGroupingInfo     *groupingInfo;
-@property (nonatomic ,strong) id <NSCopying          > shopInfo;
+@property (nonatomic ,strong) id <NSCopying>      shopInfo;
 @property (nonatomic ,copy  ) NSString            *userName;
 @property (nonatomic ,copy  ) NSString            *passWord;
 @property (nonatomic ,copy  ) NSString            *name;
 @property (nonatomic ,copy  ) NSString            *sex;
 @property (nonatomic ,copy  ) NSString            *userID;
 @property (nonatomic ,copy  ) NSString            *branchUserID;
-@property (nonatomic ,strong) NSArray             *roleArray;
 @property (nonatomic ,strong) NSArray             *shopIdsArray;
 @property (nonatomic ,copy  ) NSString            *mobileNumber;
 @property (nonatomic ,copy  ) NSString            *headerImage;
@@ -63,7 +45,6 @@
 @property (nonatomic ,copy  ) NSString            *im_token;
 @property (nonatomic ,strong) NSMutableArray      *usersArray;
 @property (nonatomic, copy  ) NSString            *token;
-@property (nonatomic, copy  ) NSString            *is_verify;
 @property (nonatomic, copy  ) NSString            *openID;
 
 @end

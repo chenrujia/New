@@ -20,11 +20,6 @@
 
 @implementation BXTEvaluationViewController
 
-- (void)dealloc
-{
-    LogBlue(@"评价界面释放了！！！！！！");
-}
-
 - (instancetype)initWithRepairID:(NSString *)reID
 {
     self = [super init];
@@ -50,7 +45,8 @@
 
 - (void)navigationLeftButton
 {
-    if (self.delegateSignal) {
+    if (self.delegateSignal)
+    {
         [self.delegateSignal sendNext:nil];
     }
     [self.navigationController popViewControllerAnimated:YES];
@@ -139,6 +135,35 @@
     }];
     [photoView.imgViewThree addGestureRecognizer:tapGRThree];
     self.photosView = photoView;
+    
+    UIView *lineViewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.photosView.frame), SCREEN_WIDTH, 0.5f)];
+    lineViewTwo.backgroundColor = colorWithHexString(@"909497");
+    [backView addSubview:lineViewTwo];
+    
+    UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 40.f, SCREEN_WIDTH - 40, 50.f);
+    if (IS_IPHONE4)
+    {
+        commitBtn.frame = CGRectMake(20, CGRectGetMaxY(lineViewTwo.frame) + 20.f, SCREEN_WIDTH - 40, 50.f);
+    }
+    [commitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    commitBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+    [commitBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
+    commitBtn.layer.masksToBounds = YES;
+    commitBtn.layer.cornerRadius = 4.f;
+    [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self showLoadingMBP:@"正在提交..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request evaluateRepair:self.rateArray
+                evaluationNotes:self.notes
+                       repairID:self.repairID
+                     imageArray:self.resultPhotos];
+    }];
+    [backView addSubview:commitBtn];
+    
+    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(commitBtn.frame)+70);
 }
 
 #pragma mark -
@@ -199,17 +224,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

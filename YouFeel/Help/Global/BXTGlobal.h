@@ -9,9 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "BXTUserInfo.h"
-#import "BXTDepartmentInfo.h"
 #import "BXTPostionInfo.h"
-#import "BXTFloorInfo.h"
 #import "BXTHeadquartersInfo.h"
 
 /** ---- 背景色 ---- */
@@ -30,7 +28,6 @@
 @property (nonatomic ,strong) NSMutableArray         *assignOrderIDs;
 @property (nonatomic ,copy  ) NSString               *newsShopID;
 @property (nonatomic ,assign) BOOL                   isRepair;//Yes是维修员，No是报修者
-@property (nonatomic ,assign) NSString               *longTime;
 @property (nonatomic, copy  ) NSString               *openID;
 @property (nonatomic, copy  ) NSString               *wxHeadImage;
 @property (nonatomic, assign) NSInteger              numOfPresented;
@@ -53,7 +50,7 @@
  *  @param dic     数组
  *  @param isPTRVC 是否跳转到首页
  */
-- (void)reLoginWithDic:(NSDictionary *)dic isPushToRootVC:(BOOL)isPushToRootVC;
+- (void)branchLoginWithDic:(NSDictionary *)dic isPushToRootVC:(BOOL)isPushToRootVC;
 
 /**
  *  正则验证手机号

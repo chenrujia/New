@@ -168,7 +168,7 @@ static NSInteger const DoneBtnTag = 12;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTItemTableViewCell *cell = (BXTItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"DeviceListCell" forIndexPath:indexPath];
-    BXTDeviceList *deviceInfo = self.devicesArray[indexPath.row];
+    BXTDeviceListInfo *deviceInfo = self.devicesArray[indexPath.row];
     cell.nameLabel.text = deviceInfo.name;
     cell.nameLabel.textColor = [_markArray[indexPath.row] integerValue] ? colorWithHexString(@"3cafff") : [UIColor blackColor];
     cell.detailLabel.text = deviceInfo.code_number;

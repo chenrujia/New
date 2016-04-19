@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BXTDeviceList : NSObject
+@interface BXTDeviceListInfo : NSObject
 
 @property (nonatomic, copy) NSString *factory_id;
 @property (nonatomic, copy) NSString *params;

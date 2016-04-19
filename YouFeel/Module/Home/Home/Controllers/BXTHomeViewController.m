@@ -170,11 +170,9 @@
     [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
     [[messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if ([self is_verify]) {
-            BXTMessageViewController *newsVC = [[BXTMessageViewController alloc] init];
-            newsVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:newsVC animated:YES];
-        }
+        BXTMessageViewController *newsVC = [[BXTMessageViewController alloc] init];
+        newsVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:newsVC animated:YES];
     }];
     [logoImgView addSubview:messageBtn];
     
@@ -184,22 +182,20 @@
     [scanBtn setBackgroundImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
     [[scanBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if ([self is_verify]) {
-            //创建参数对象
-            LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
-            style.centerUpOffset = 44;
-            style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
-            style.photoframeLineW = 6;
-            style.photoframeAngleW = 24;
-            style.photoframeAngleH = 24;
-            style.anmiationStyle = LBXScanViewAnimationStyle_LineMove;
-            style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_light_green"];
-            BXTQRCodeViewController *qrcVC = [[BXTQRCodeViewController alloc] init];
-            qrcVC.style = style;
-            qrcVC.isQQSimulator = YES;
-            qrcVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:qrcVC animated:YES];
-        }
+        //创建参数对象
+        LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
+        style.centerUpOffset = 44;
+        style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
+        style.photoframeLineW = 6;
+        style.photoframeAngleW = 24;
+        style.photoframeAngleH = 24;
+        style.anmiationStyle = LBXScanViewAnimationStyle_LineMove;
+        style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_light_green"];
+        BXTQRCodeViewController *qrcVC = [[BXTQRCodeViewController alloc] init];
+        qrcVC.style = style;
+        qrcVC.isQQSimulator = YES;
+        qrcVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:qrcVC animated:YES];
     }];
     [logoImgView addSubview:scanBtn];
 
@@ -229,122 +225,95 @@
 
 - (void)pushMyOrdersIsRepair:(BOOL)isRepair
 {
-    if ([self is_verify])
+    // 我的工单
+    if (isRepair)
     {
-        // 我的工单
-        if (isRepair)
-        {
-            [BXTRemindNum sharedManager].timeStart_Repair = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
-            SaveValueTUD(@"timeStart_Repair", [BXTRemindNum sharedManager].timeStart_Repair);
-        }
-        else
-        {
-            [BXTRemindNum sharedManager].timeStart_Report = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
-            SaveValueTUD(@"timeStart_Report", [BXTRemindNum sharedManager].timeStart_Report);
-        }
-        
-        BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-        orderManagerVC.hidesBottomBarWhenPushed = YES;
-        orderManagerVC.isRepair = isRepair;
-        [self.navigationController pushViewController:orderManagerVC animated:YES];
+        [BXTRemindNum sharedManager].timeStart_Repair = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+        SaveValueTUD(@"timeStart_Repair", [BXTRemindNum sharedManager].timeStart_Repair);
     }
+    else
+    {
+        [BXTRemindNum sharedManager].timeStart_Report = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+        SaveValueTUD(@"timeStart_Report", [BXTRemindNum sharedManager].timeStart_Report);
+    }
+    
+    BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
+    orderManagerVC.hidesBottomBarWhenPushed = YES;
+    orderManagerVC.isRepair = isRepair;
+    [self.navigationController pushViewController:orderManagerVC animated:YES];
 }
 
 - (void)pushEvaluationList
 {
-    if ([self is_verify])
-    {
-        // 评价
-        BXTEvaluationListViewController *evaluationListVC = [[BXTEvaluationListViewController alloc] init];
-        evaluationListVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:evaluationListVC animated:YES];
-    }
+    // 评价
+    BXTEvaluationListViewController *evaluationListVC = [[BXTEvaluationListViewController alloc] init];
+    evaluationListVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:evaluationListVC animated:YES];
 }
 
 - (void)pushOtherAffair
 {
-    if ([self is_verify])
-    {
-        // 其他事务
-        [BXTRemindNum sharedManager].timeStart_Object = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
-        SaveValueTUD(@"timeStart_Object", [BXTRemindNum sharedManager].timeStart_Object);
-        
-        BXTOtherAffairViewController *affairVC = [[BXTOtherAffairViewController alloc] init];
-        affairVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:affairVC animated:YES];
-    }
+    // 其他事务
+    [BXTRemindNum sharedManager].timeStart_Object = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+    SaveValueTUD(@"timeStart_Object", [BXTRemindNum sharedManager].timeStart_Object);
+    
+    BXTOtherAffairViewController *affairVC = [[BXTOtherAffairViewController alloc] init];
+    affairVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:affairVC animated:YES];
 }
 
 - (void)pushStatistics
 {
-    if ([self is_verify])
-    {
-        // 业务统计
-        BXTStatisticsViewController *statisticsVC = [[BXTStatisticsViewController alloc] init];
-        statisticsVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:statisticsVC animated:YES];
-    }
+    // 业务统计
+    BXTStatisticsViewController *statisticsVC = [[BXTStatisticsViewController alloc] init];
+    statisticsVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:statisticsVC animated:YES];
 }
 
 - (void)pushExamination
 {
-    if ([self is_verify])
-    {
-        // 审批
-        BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
-        examinationVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:examinationVC animated:YES];
-    }
+    // 审批
+    BXTExaminationViewController *examinationVC = [[BXTExaminationViewController alloc] init];
+    examinationVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:examinationVC animated:YES];
 }
 
 - (void)pushNormalOrders
 {
-    if ([self is_verify])
-    {
-        //正常工单
-        [BXTRemindNum sharedManager].timeStart_Daily = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
-        SaveValueTUD(@"timeStart_Daily", [BXTRemindNum sharedManager].timeStart_Daily);
-        
-        BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:1];
-        reaciveVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:reaciveVC animated:YES];
-    }
+    //正常工单
+    [BXTRemindNum sharedManager].timeStart_Daily = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+    SaveValueTUD(@"timeStart_Daily", [BXTRemindNum sharedManager].timeStart_Daily);
+    
+    BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:1];
+    reaciveVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:reaciveVC animated:YES];
 }
 
 - (void)pushMaintenceOrders
 {
-    if ([self is_verify])
-    {
-        //维保工单
-        [BXTRemindNum sharedManager].timeStart_Inspection = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
-        SaveValueTUD(@"timeStart_Inspectio", [BXTRemindNum sharedManager].timeStart_Inspection);
-        
-        BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
-        reaciveVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:reaciveVC animated:YES];
-    }
+    //维保工单
+    [BXTRemindNum sharedManager].timeStart_Inspection = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+    SaveValueTUD(@"timeStart_Inspectio", [BXTRemindNum sharedManager].timeStart_Inspection);
+    
+    BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
+    reaciveVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:reaciveVC animated:YES];
 }
 
 - (void)pushMyIntegral
 {
-    if ([self is_verify])
-    {
-        // 我的积分
-        BXTMyIntegralViewController *myIntegralVC = [[BXTMyIntegralViewController alloc] init];
-        myIntegralVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:myIntegralVC animated:YES];
-    }
+    // 我的积分
+    BXTMyIntegralViewController *myIntegralVC = [[BXTMyIntegralViewController alloc] init];
+    myIntegralVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myIntegralVC animated:YES];
 }
 
 - (void)projectPhone
 {
-    if ([self is_verify])
-    {
-        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", @"400-893-7878"];
-        UIWebView *callWeb = [[UIWebView alloc] init];
-        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-        [self.view addSubview:callWeb];
-    }
+    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", @"400-893-7878"];
+    UIWebView *callWeb = [[UIWebView alloc] init];
+    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+    [self.view addSubview:callWeb];
 }
 
 #pragma mark - SDCycleScrollViewDelegate

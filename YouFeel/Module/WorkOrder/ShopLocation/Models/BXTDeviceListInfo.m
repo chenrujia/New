@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTDeviceList.h"
+#import "BXTDeviceListInfo.h"
 
-@implementation BXTDeviceList
+@implementation BXTDeviceListInfo
 
 @end

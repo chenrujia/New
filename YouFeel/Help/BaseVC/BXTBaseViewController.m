@@ -170,21 +170,4 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark -
-#pragma mark - cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-- (BOOL)is_verify
-{
-//    NSString *is_verify = [BXTGlobal getUserProperty:U_IS_VERIFY];
-//    if ([is_verify integerValue] != 1)
-//    {
-//        [BXTGlobal showText:@"您尚未验证，现在去验证" view:self.view completionBlock:^{
-//            BXTProjectInfromViewController *pivc = [[BXTProjectInfromViewController alloc] init];
-//            pivc.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:pivc animated:YES];
-//        }];
-//        return NO;
-//    }
-    return YES;
-}
-
 @end

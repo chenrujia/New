@@ -219,7 +219,7 @@
         {
             NSDictionary *userInfo = data[0];
             
-            [[BXTGlobal shareGlobal] reLoginWithDic:userInfo isPushToRootVC:YES];
+            [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
 }

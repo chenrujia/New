@@ -29,7 +29,6 @@ typedef NS_ENUM(NSInteger, HiddenType) {
 @property (nonatomic, strong) UITableView    *currentTableView;
 
 - (void)createLogoView;
-- (void)repairClick;
 
 /**
  *  我的维修工单

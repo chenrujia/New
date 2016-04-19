@@ -14,7 +14,7 @@
 #import "BXTRepairDetailView.h"
 #import "BXTCustomButton.h"
 #import "BXTChooseItemView.h"
-#import "BXTDeviceList.h"
+#import "BXTDeviceListInfo.h"
 #import "ANKeyValueTable.h"
 
 static NSInteger const DeviceButtonTag = 11;
@@ -23,14 +23,14 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 @interface BXTNewWorkOrderViewController ()<AttributeViewDelegate,BXTDataResponseDelegate,UITextFieldDelegate>
 
-@property (nonatomic, strong) BXTPlaceInfo          *placeInfo;
+@property (nonatomic, strong) BXTPlaceInfo      *placeInfo;
 @property (nonatomic, copy  ) NSString          *notes;
 @property (nonatomic, strong) BXTCustomButton   *deviceBtn;
 @property (nonatomic, strong) BXTCustomButton   *dateBtn;
 @property (nonatomic, strong) UIView            *blackBV;
 @property (nonatomic, strong) BXTChooseItemView *chooseView;
 @property (nonatomic, strong) NSMutableArray    *devicesArray;
-@property (nonatomic, strong) BXTDeviceList     *selectDeviceInfo;
+@property (nonatomic, strong) BXTDeviceListInfo *selectDeviceInfo;
 @property (nonatomic, strong) NSDictionary      *selectTimeDic;
 @property (nonatomic, strong) BXTOrderTypeInfo  *selectFaultInfo;
 @property (nonatomic, strong) NSString          *txt;
@@ -328,10 +328,10 @@ static CGFloat const ChooseViewHeight  = 328.f;
     else if (type == DeviceList)
     {
         [self.devicesArray removeAllObjects];
-        [BXTDeviceList mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        [BXTDeviceListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"deviceID":@"id"};
         }];
-        [self.devicesArray addObjectsFromArray:[BXTDeviceList mj_objectArrayWithKeyValuesArray:data]];
+        [self.devicesArray addObjectsFromArray:[BXTDeviceListInfo mj_objectArrayWithKeyValuesArray:data]];
         [self showDevicesList];
     }
     else if (type == CreateRepair)

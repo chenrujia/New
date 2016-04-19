@@ -9,19 +9,11 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, BoxSelectedType) {
-    DepartmentView,
-    ShopView,
-    PositionView,
-    GroupingView,
-    FloorInfoView,
-    AreaInfoView,
-    ShopInfoView,
-    SpecialOrderView,
-    CheckProjectsView,
+    CheckProjectsView,//
     OrderDeviceStateView,
     FaultTypeView,
     SpecialSeasonView,
-    Other
+    OtherView
 };
 
 @protocol BXTBoxSelectedTitleDelegate <NSObject>
@@ -35,7 +27,6 @@ typedef NS_ENUM(NSInteger, BoxSelectedType) {
     NSMutableArray *markArray;
     UILabel        *title_label;
     UITableView    *currentTableView;
-    NSString       *markID;
 }
 
 @property (nonatomic ,strong) NSArray *dataArray;
