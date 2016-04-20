@@ -163,6 +163,7 @@
     [cell updateConstraintsIfNeeded];
     self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
     
+    
     return cell;
 }
 
