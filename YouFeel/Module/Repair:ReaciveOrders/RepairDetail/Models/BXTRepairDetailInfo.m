@@ -17,7 +17,7 @@
              @"fault_pic":[BXTFaultPicInfo class],
              @"fixed_pic":[BXTFaultPicInfo class],
              @"evaluation_pic":[BXTFaultPicInfo class],
-             @"device_list":[BXTDeviceMMListInfo class],
+             @"device_lists":[BXTDeviceMMListInfo class],
              @"fault_user_arr":[BXTRepairPersonInfo class],
              @"progress":[BXTProgressInfo class],
              @"report":[BXTReportInfo class],

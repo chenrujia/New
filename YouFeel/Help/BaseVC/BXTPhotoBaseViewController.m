@@ -287,6 +287,10 @@
         imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
         //设置相机支持的类型，拍照和录像
         imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
+        if (self.isSettingVC)
+        {
+            imagePickerController.allowsEditing = YES;
+        }
     }
     [self presentViewController:imagePickerController animated:YES completion:nil];
 }
@@ -425,23 +429,40 @@
         [picker dismissViewControllerAnimated:YES completion:^{
             @strongify(self);
             [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-            [self.resultPhotos removeAllObjects];
-            [self.selectPhotos addObject:headImage];
-            [self selectImages];
+            if (self.isSettingVC)
+            {
+                [self showLoadingMBP:@"正在上传..."];
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request uploadHeaderImage:headImage];
+            }
+            else
+            {
+                [self.resultPhotos removeAllObjects];
+                [self.selectPhotos addObject:headImage];
+                [self selectImages];
+            }
         }];
     }
     else
     {
         NSURL *path = [info objectForKey:UIImagePickerControllerReferenceURL];
-        
         [self loadImageFromAssertByUrl:path completion:^(UIImage * img)
          {
              @weakify(self);
              [picker dismissViewControllerAnimated:YES completion:^{
                  @strongify(self);
                  [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-                 [self.selectPhotos addObject:img];
-                 [self selectImages];
+                 if (self.isSettingVC)
+                 {
+                     [self showLoadingMBP:@"正在上传..."];
+                     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                     [request uploadHeaderImage:img];
+                 }
+                 else
+                 {
+                     [self.selectPhotos addObject:img];
+                     [self selectImages];
+                 }
              }];
          }];
     }
@@ -491,6 +512,7 @@
 #pragma mark MLImageCropDelegate
 - (void)cropImage:(UIImage*)cropImage forOriginalImage:(UIImage*)originalImage
 {
+    [self showLoadingMBP:@"正在上传..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request uploadHeaderImage:cropImage];
 }
@@ -499,12 +521,14 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSLog(@"response:%@",dic);
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSLog(@"error:%@",[error localizedDescription]);
 }
 

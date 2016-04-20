@@ -186,7 +186,6 @@
                 requeseType:(RequestType)type
 {
     [self hideMBP];
-    
     NSDictionary *dic = response;
     if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
@@ -232,11 +231,6 @@
                 }
             });
             dispatch_async(concurrentQueue, ^{
-                /**更新头像**/
-                BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [pic_request updateHeadPic:abUserInfo.pic];
-            });
-            dispatch_async(concurrentQueue, ^{
                 /**分店登录**/
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request branchLogin];
@@ -248,23 +242,26 @@
             [self.navigationController pushViewController:authenticationVC animated:YES];
         }
     }
-    else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    else if (type == BranchLogin)
     {
-        NSArray *data = [dic objectForKey:@"data"];
-        if (data.count > 0)
+        if ([[dic objectForKey:@"returncode"] isEqualToString:@"0"])
         {
-            NSDictionary *userInfo = data[0];
-            [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
+            NSArray *data = [dic objectForKey:@"data"];
+            if (data.count > 0)
+            {
+                NSDictionary *userInfo = data[0];
+                [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
+            }
+        }
+        else
+        {
+            [BXTGlobal showText:@"登录失败，请仔细检查！" view:self.view completionBlock:nil];
         }
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
     {
         BXTProjectAddNewViewController *headVC = [[BXTProjectAddNewViewController alloc] initWithType:YES];
         [self.navigationController pushViewController:headVC animated:YES];
-    }
-    else if (type == UpdateHeadPic)
-    {
-        NSLog(@"Update success");
     }
     else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"044"])
     {
@@ -276,10 +273,6 @@
                 [self.view addSubview:callWeb];
             }
         } buttonsStatement:@"取消", @"联系客服", nil];
-    }
-    else
-    {
-        [BXTGlobal showText:@"登录失败，请仔细检查！" view:self.view completionBlock:nil];
     }
 }
 

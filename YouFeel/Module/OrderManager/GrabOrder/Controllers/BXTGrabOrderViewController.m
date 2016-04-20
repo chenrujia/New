@@ -39,7 +39,6 @@
 {
     [super viewDidLoad];
     ++[BXTGlobal shareGlobal].numOfPresented;
-    
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *timeStr in [BXTGlobal readFileWithfileName:@"arriveArray"])
     {
@@ -162,6 +161,15 @@
 
 #pragma mark -
 #pragma mark 事件
+- (void)reaciveOrder
+{
+    [self showLoadingMBP:@"抢单中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    NSInteger index = [BXTGlobal shareGlobal].numOfPresented - 1;
+    NSString *orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
+    [request reaciveOrderID:orderID];
+}
+
 - (void)navigationLeftButton
 {
     if ([BXTGlobal shareGlobal].newsOrderIDs.count >= [BXTGlobal shareGlobal].numOfPresented)
@@ -324,6 +332,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     if (type == ReaciveOrder)
     {
@@ -351,7 +360,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning
