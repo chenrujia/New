@@ -14,6 +14,7 @@
 #import "BXTMainTableViewCell.h"
 #import "BXTRepairInfo.h"
 #import "BXTDOFilterViewController.h"
+#import "BXTMaintenanceDetailViewController.h"
 
 @interface BXTDailyOrderListViewController () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate,BXTDataResponseDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>
 
@@ -164,8 +165,11 @@
 {
     BXTRepairInfo *repairInfo = self.dataArray[indexPath.section];
     
-    //    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:repairInfo.orderid workOrderID:nil];
-    //    [self.navigationController pushViewController:bookVC animated:YES];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+    SceneType sceneType = DailyType;
+    [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:sceneType];
+    [self.navigationController pushViewController:repairDetailVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

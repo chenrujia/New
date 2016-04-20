@@ -250,7 +250,6 @@
 		7893D9081C7AE62900F042D5 /* BXTMTCompletionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7893D9071C7AE62900F042D5 /* BXTMTCompletionViewController.m */; };
 		7893D90B1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7893D90A1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m */; };
 		7893D9141C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7893D9131C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m */; };
-		78A1B8651C83DB8E00F252BE /* BXTEPLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B8641C83DB8E00F252BE /* BXTEPLocationViewController.m */; };
 		78A1B86A1C8428CF00F252BE /* BXTEPSystemRateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B8681C8428CF00F252BE /* BXTEPSystemRateCell.m */; };
 		78A1B86B1C8428CF00F252BE /* BXTEPSystemRateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */; };
 		78A1B86E1C8430C000F252BE /* BXTEPSystemRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B86D1C8430C000F252BE /* BXTEPSystemRate.m */; };
@@ -874,8 +873,6 @@
 		7893D90A1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTProfessionViewController.m; sourceTree = "<group>"; };
 		7893D9121C7AE80C00F042D5 /* BXTEPAvailabilityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPAvailabilityViewController.h; sourceTree = "<group>"; };
 		7893D9131C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPAvailabilityViewController.m; sourceTree = "<group>"; };
-		78A1B8631C83DB8E00F252BE /* BXTEPLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPLocationViewController.h; sourceTree = "<group>"; };
-		78A1B8641C83DB8E00F252BE /* BXTEPLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPLocationViewController.m; sourceTree = "<group>"; };
 		78A1B8671C8428CF00F252BE /* BXTEPSystemRateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPSystemRateCell.h; sourceTree = "<group>"; };
 		78A1B8681C8428CF00F252BE /* BXTEPSystemRateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPSystemRateCell.m; sourceTree = "<group>"; };
 		78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPSystemRateCell.xib; sourceTree = "<group>"; };
@@ -1276,8 +1273,6 @@
 			children = (
 				78090B211C7DAF47003E1565 /* BXTEPFilterViewController.h */,
 				78090B221C7DAF47003E1565 /* BXTEPFilterViewController.m */,
-				78A1B8631C83DB8E00F252BE /* BXTEPLocationViewController.h */,
-				78A1B8641C83DB8E00F252BE /* BXTEPLocationViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -4683,7 +4678,6 @@
 				783E6C2B1C51BFF400DC13FB /* BXTFaultInfo.m in Sources */,
 				7837A59C1CAD0572000A1986 /* BXTMessageViewController.m in Sources */,
 				7893D8DB1C7ADA8000F042D5 /* BXTCompletionViewController.m in Sources */,
-				78A1B8651C83DB8E00F252BE /* BXTEPLocationViewController.m in Sources */,
 				78C55A651C47339700FFEB37 /* BXTCurrentOrderData.m in Sources */,
 				7818DBD41C0824D800DC22C6 /* BarChatItemView.m in Sources */,
 				96C684941BE76B4B0038A342 /* HCollectionViewCell.m in Sources */,

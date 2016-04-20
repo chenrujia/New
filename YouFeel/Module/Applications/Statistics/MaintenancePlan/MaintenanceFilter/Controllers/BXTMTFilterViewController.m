@@ -470,7 +470,7 @@
     {
         for (NSDictionary *dataDict in data)
         {
-            [self.faulttypeArray addObject:dataDict[@"faulttype_type"]];
+            [self.faulttypeArray addObject:dataDict[@"faulttype"]];
             [self.faulttypeIDArray addObject:dataDict[@"id"]];
         }
     }

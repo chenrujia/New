@@ -8,7 +8,8 @@
 
 #import "BXTEPFilterViewController.h"
 #import "BXTEPFilterCell.h"
-#import "BXTEPLocationViewController.h"
+#import "ANKeyValueTable.h"
+#import "BXTSearchPlaceViewController.h"
 
 @interface BXTEPFilterViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 {
@@ -89,7 +90,7 @@
     @weakify(self);
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-
+        
         if ([self.dataArray containsObject:@"待完善"]) {
             [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
                 
@@ -215,34 +216,30 @@
         [self createDatePickerWithIndex:indexPath.section];
     }
     else if (indexPath.section == 1) {
-        BXTEPLocationViewController *locationVC = [[BXTEPLocationViewController alloc] init];
-        locationVC.delegateSignal = [RACSubject subject];
-        @weakify(self);
-        [locationVC.delegateSignal subscribeNext:^(NSArray *array) {
-            @strongify(self);
-            
-            NSString *finalStr = array[1];
-            if (![BXTGlobal isBlankString:array[3]]) {
-                finalStr = [NSString stringWithFormat:@"%@-%@", array[1], array[3]];
-                
-                if (![BXTGlobal isBlankString:array[5]]) {
-                    finalStr = [NSString stringWithFormat:@"%@-%@-%@", array[1], array[3], array[5]];
-                }
-            }
-            
-            [self.dataArray replaceObjectAtIndex:1 withObject:finalStr];
-            [self.transArray replaceObjectAtIndex:1 withObject:array];
-            
-            [self.tableView reloadData];
-        }];
-        [self.navigationController pushViewController:locationVC animated:YES];
+        [self pushLocationViewController];
     }
     else {
         [self createTableViewWithIndex:indexPath.section];
     }
     
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)pushLocationViewController
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+    NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
+    @weakify(self);
+    [searchVC userChoosePlace:dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
+        @strongify(self);
+        BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
+        [self.dataArray replaceObjectAtIndex:1 withObject:placeInfo.place];
+        [self.transArray replaceObjectAtIndex:1 withObject:placeInfo.placeID];
+        
+        [self.tableView reloadData];
+    }];
+    [self.navigationController pushViewController:searchVC animated:YES];
 }
 
 #pragma mark -
