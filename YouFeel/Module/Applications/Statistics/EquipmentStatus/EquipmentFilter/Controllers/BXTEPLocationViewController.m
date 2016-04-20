@@ -385,16 +385,6 @@ typedef NS_ENUM(NSInteger, SelectedType) {
         self.addressSecondArray = secondArray;
         self.addressThirdArray = thirdArray;
     }
-    else if (type == UpdateShopAddress)
-    {
-        [BXTGlobal showText:@"更新成功" view:self.view completionBlock:^{
-            if (self.delegateSignal) {
-                [self.delegateSignal sendNext:nil];
-            }
-            [self.navigationController popViewControllerAnimated:YES];
-        }];
-    }
-    
 }
 
 - (void)createForthUI

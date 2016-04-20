@@ -561,23 +561,7 @@
 {
     self.requestType = UserInfo;
     NSDictionary *dic = @{@"id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
-    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=user_con",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)achievementsList:(NSInteger)months
-{
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"months_num":[NSString stringWithFormat:@"%ld",(long)months]};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=get_achievements",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)evaluationListWithType:(NSInteger)evaType
-{
-    NSDictionary *dic = @{@"faultid":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"repairstate":[NSString stringWithFormat:@"%ld",(long)evaType]};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=evaluation_list",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=user_info",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -608,17 +592,6 @@
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
                           @"shop_id":companyInfo.company_id};
     NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_type",KADMINBASEURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)updateTime:(NSString *)time
-       andRepairID:(NSString *)repairID
-{
-    self.requestType = UpdateTime;
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"id":repairID,
-                          @"receive_time":time};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=update_receive_time",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -685,19 +658,10 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)updateShopAddress:(NSString *)storeID
-{
-    self.requestType = UpdateShopAddress;
-    NSDictionary *dic = @{@"stores_id": storeID,
-                          @"id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
-    NSString *url = [NSString stringWithFormat:@"%@&module=User&opt=update_user",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
 - (void)startRepair:(NSString *)repairID
 {
     self.requestType = StartRepair;
-    NSDictionary *dic = @{@"id":repairID,
+    NSDictionary *dic = @{@"workorder_id":repairID,
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=start_repair",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -842,27 +806,20 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)specialOrderTypes
-{
-    self.requestType = SpecialOrderTypes;
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdata&opt=get_hq_collection",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:nil];
-}
-
 - (void)rejectOrder:(NSString *)orderID
           withNotes:(NSString *)notes
 {
-    NSDictionary *dic = @{@"id":orderID,
+    NSDictionary *dic = @{@"workorder_id":orderID,
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"reject_note":notes};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=reject_workorder",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=reject_dispatch_workorder",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
 - (void)closeOrder:(NSString *)orderID
          withNotes:(NSString *)notes
 {
-    NSDictionary *dic = @{@"id":orderID,
+    NSDictionary *dic = @{@"workorder_id":orderID,
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"close_cause":notes};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=close_workorder",[BXTGlobal shareGlobal].baseURL];
@@ -1087,7 +1044,7 @@
                           @"read_state": readState,
                           @"pagesize": pagesize,
                           @"page": page};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Announcement&opt=announcement_list",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Announcement&opt=announcement_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

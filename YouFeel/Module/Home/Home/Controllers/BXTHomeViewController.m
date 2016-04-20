@@ -20,7 +20,6 @@
 #import "BXTAdsInform.h"
 #import "BXTNoticeInformViewController.h"
 #import "BXTOrderManagerViewController.h"
-#import "BXTEvaluationListViewController.h"
 #import "BXTOtherAffairViewController.h"
 #import "BXTStatisticsViewController.h"
 #import "BXTExaminationViewController.h"
@@ -47,11 +46,6 @@
 @end
 
 @implementation BXTHomeViewController
-
-- (void)dealloc
-{
-    NSLog(@"执行了。。。。。");
-}
 
 - (void)viewDidLoad
 {
@@ -241,14 +235,6 @@
     orderManagerVC.hidesBottomBarWhenPushed = YES;
     orderManagerVC.isRepair = isRepair;
     [self.navigationController pushViewController:orderManagerVC animated:YES];
-}
-
-- (void)pushEvaluationList
-{
-    // 评价
-    BXTEvaluationListViewController *evaluationListVC = [[BXTEvaluationListViewController alloc] init];
-    evaluationListVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:evaluationListVC animated:YES];
 }
 
 - (void)pushOtherAffair

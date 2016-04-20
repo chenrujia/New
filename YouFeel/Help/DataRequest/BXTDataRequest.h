@@ -13,77 +13,74 @@ typedef NS_ENUM(NSInteger, RequestType) {
     LoginType = 0,
     BindingUser = 1,
     GetVerificationCode = 2,
-    ShopType = 4,
-    ShopLists = 6,
-    BranchResign = 7,
-    BranchLogin = 8,
-    FaultType = 10,
-    OrderFaultType = 11,
-    CreateRepair = 14,
-    RepairList = 15,
-    SubgroupLists = 16,
-    PlaceLists = 17,
-    OtherAffairLists = 18,
-    MyIntegral = 19,
-    IntegarlRanking = 20,
-    ModifyUserInform = 21,
-    MessageList = 22,
-    DeleteRepair = 23,
-    RepairDetail = 24,
-    DeviceList = 25,
-    ReaciveOrder = 26,
-    MaintenanceProcess = 28,
-    ManList = 29,
-    UploadHeadImage = 30,
-    UserInfo = 31,
-    LocationShop = 32,
-    UpdateTime = 33,
-    UserInfoForChatList = 34,
-    FindPassword = 35,
-    ChangePassWord = 36,
-    UpdateHeadPic = 37,
-    UpdateShopAddress = 38,
-    StartRepair = 39,
-    Device_AvailableStatics = 40,
-    Device_AvailableType = 41,
-    InspectionPlanOverview = 42,
-    Statistics_MTPlanList = 43,
-    Statistics_EPList = 44,
-    Statistics_DeviceTypeList = 45,
-    Statistics_MTComplete = 46,
-    Statistics_Complete = 47,
-    Statistics_Subgroup = 48,
-    Statistics_Faulttype = 49,
-    Statistics_Workload_day = 50,
-    Statistics_Workload_year = 51,
-    Statistics_Workload = 52,
-    Statistics_Praise = 53,
-    SpecialOrderTypes = 54,
-    Exit_Login = 55,
-    Device_Con = 56,
-    Device_Repair_List = 57,
-    Inspection_Record_List = 58,
-    Mail_Get_All = 59,
-    Mail_User_list = 60,
-    MaintenanceEquipmentList = 61,
-    Add_Inspection = 62,
-    Update_Inspection = 63,
-    Ads_Pics = 64,
-    Remind_Number = 65,
-    UserShopLists = 66,
-    AuthenticationDetail = 67,
-    HandlePermission = 68,
-    DepartmentLists = 69,
-    DutyLists = 70,
-    StoresList = 71,
-    AuthenticationApply = 72,
-    ModifyBindPlace = 73,
-    SpecialOrder =74,
-    DeviceState = 75,
-    AuthenticationVerify = 76,
-    DispatchOrAdd = 77,
-    AuthenticationModify = 78,
-    RepairState = 79,
+    ShopType = 3,
+    ShopLists = 4,
+    BranchResign = 5,
+    BranchLogin = 6,
+    FaultType = 7,
+    OrderFaultType = 8,
+    CreateRepair = 9,
+    RepairList = 10,
+    SubgroupLists = 11,
+    PlaceLists = 12,
+    OtherAffairLists = 13,
+    MyIntegral = 14,
+    IntegarlRanking = 15,
+    ModifyUserInform = 16,
+    MessageList = 17,
+    DeleteRepair = 18,
+    RepairDetail = 19,
+    DeviceList = 20,
+    ReaciveOrder = 21,
+    MaintenanceProcess = 22,
+    ManList = 23,
+    UploadHeadImage = 24,
+    UserInfo = 25,
+    LocationShop = 26,
+    UserInfoForChatList = 27,
+    FindPassword = 28,
+    ChangePassWord = 29,
+    UpdateHeadPic = 30,
+    StartRepair = 31,
+    Device_AvailableStatics = 32,
+    Device_AvailableType = 33,
+    InspectionPlanOverview = 34,
+    Statistics_MTPlanList = 35,
+    Statistics_EPList = 36,
+    Statistics_DeviceTypeList = 37,
+    Statistics_MTComplete = 38,
+    Statistics_Complete = 39,
+    Statistics_Subgroup = 40,
+    Statistics_Faulttype = 41,
+    Statistics_Workload_day = 42,
+    Statistics_Workload_year = 43,
+    Statistics_Workload = 44,
+    Statistics_Praise = 45,
+    Exit_Login = 46,
+    Device_Con = 47,
+    Device_Repair_List = 48,
+    Inspection_Record_List = 49,
+    Mail_Get_All = 50,
+    Mail_User_list = 51,
+    MaintenanceEquipmentList = 52,
+    Add_Inspection = 53,
+    Update_Inspection = 54,
+    Ads_Pics = 55,
+    Remind_Number = 56,
+    UserShopLists = 57,
+    AuthenticationDetail = 58,
+    HandlePermission = 59,
+    DepartmentLists = 60,
+    DutyLists = 61,
+    StoresList = 62,
+    AuthenticationApply = 63,
+    ModifyBindPlace = 64,
+    SpecialOrder = 65,
+    DeviceState = 66,
+    AuthenticationVerify = 67,
+    DispatchOrAdd = 68,
+    AuthenticationModify = 69,
+    RepairState = 70,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -367,16 +364,6 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)userInfo;
 
 /**
- *  绩效列表
- */
-- (void)achievementsList:(NSInteger)months;
-
-/**
- *  评价列表
- */
-- (void)evaluationListWithType:(NSInteger)evaType;
-
-/**
  *  获取附近商店
  */
 - (void)shopWithLatitude:(NSString *)latitude
@@ -391,12 +378,6 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  消息分类列表
  */
 - (void)messageList;
-
-/**
- *  更新到达现场时间
- */
-- (void)updateTime:(NSString *)time
-       andRepairID:(NSString *)repairID;
 
 /**
  *  意见反馈
@@ -435,11 +416,6 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  更新头像
  */
 - (void)updateHeadPic:(NSString *)pic;
-
-/**
- *  更新店铺地址
- */
-- (void)updateShopAddress:(NSString *)storeID;
 
 /**
  *  开始维修
@@ -528,11 +504,6 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)statisticsPraiseWithTimeStart:(NSString *)startTime
                               timeEnd:(NSString *)endTime
                                  Type:(NSString *)type;
-
-/**
- *  特殊工单类型
- */
-- (void)specialOrderTypes;
 
 /**
  *  驳回工单

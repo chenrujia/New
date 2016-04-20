@@ -34,7 +34,6 @@ typedef NS_ENUM(NSInteger, HiddenType) {
  *  我的维修工单
  */
 - (void)pushMyOrdersIsRepair:(BOOL)isRepair;
-- (void)pushEvaluationList;
 - (void)pushOtherAffair;
 - (void)pushStatistics;
 - (void)pushExamination;

@@ -38,18 +38,15 @@
 
 @implementation BXTEPFilterViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
-    
     self.titleArray = @[@"日期", @"安装位置", @"设备类型", @"设备状态"];
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", @"待完善", nil];
     self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", nil];
     self.deviceArray = [[NSMutableArray alloc] init];
     self.deviceIDArray = [[NSMutableArray alloc] init];
-    
     
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
@@ -59,7 +56,6 @@
     /**专业分组**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request deviceTypeList];
-    
     
     [self createUI];
 }
