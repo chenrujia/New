@@ -44,7 +44,6 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Device_AvailableStatics = 31,
     Device_AvailableType = 32,
     InspectionPlanOverview = 33,
-    Statistics_MTPlanList = 34,
     Statistics_EPList = 35,
     Statistics_DeviceTypeList = 36,
     Statistics_MTComplete = 37,
@@ -79,7 +78,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     AuthenticationVerify = 66,
     DispatchOrAdd = 67,
     AuthenticationModify = 68,
-    RepairState = 69
+    RepairState = 69,
+    InspectionTaskList = 70,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -430,6 +430,18 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  统计-设备分类统计
  */
 - (void)deviceTypeStaticsWithDate:(NSString *)date;
+
+/**
+ *  统计-维保任务列表
+ */
+- (void)statisticsInspectionTaskListWithStartTime:(NSString *)start_time
+                                          endTime:(NSString *)end_time
+                                      subgroupIDs:(NSString *)subgroup_ids
+                                 faulttypeTypeIDs:(NSString *)faulttype_type_ids
+                                            state:(NSString *)state
+                                            order:(NSString *)order
+                                         pagesize:(NSString *)pagesize
+                                             page:(NSString *)page;
 
 /**
  *  统计-维保设备列表

@@ -300,7 +300,7 @@
                                             shopID:(NSString *)shopID
 {
     self.requestType = AuthenticationDetail;
-
+    
     // 认证审批 -- 默认项目详情
     if ([BXTGlobal isBlankString:shopID])
     {
@@ -680,6 +680,29 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)statisticsInspectionTaskListWithStartTime:(NSString *)start_time
+                                          endTime:(NSString *)end_time
+                                      subgroupIDs:(NSString *)subgroup_ids
+                                 faulttypeTypeIDs:(NSString *)faulttype_type_ids
+                                            state:(NSString *)state
+                                            order:(NSString *)order
+                                         pagesize:(NSString *)pagesize
+                                             page:(NSString *)page
+{
+    self.requestType = InspectionTaskList;
+    
+    NSDictionary *dic = @{@"start_time": start_time,
+                          @"end_time": end_time,
+                          @"subgroup_ids": subgroup_ids,
+                          @"faulttype_type_ids": faulttype_type_ids,
+                          @"state": state,
+                          @"order": order,
+                          @"pagesize": pagesize,
+                          @"page": page};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=inspection_task_list",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)statisticsEPListWithTime:(NSString *)date
                            State:(NSString *)state
                            Order:(NSString *)order
@@ -777,10 +800,10 @@
                                    Type:(NSString *)type
 {
     self.requestType = Statistics_Workload;
-    NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime,
+    NSDictionary *dic = @{@"timestart":startTime,
+                          @"timeover":endTime,
                           @"task_type":type};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_workload",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_subgroup_user",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

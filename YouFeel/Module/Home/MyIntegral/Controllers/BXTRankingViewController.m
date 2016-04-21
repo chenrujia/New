@@ -144,7 +144,7 @@
         }
     }
     
-    self.timeStr = [NSString stringWithFormat:@"%ld年%ld月", year, month];
+    self.timeStr = [NSString stringWithFormat:@"%ld年%ld月", (long)year, (long)month];
     
     [self getResource];
     

@@ -42,10 +42,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
+    
+    NSArray *timeArray = [BXTGlobal dayStartAndEnd];
+    
     self.titleArray = @[@"日期", @"安装位置", @"设备类型", @"设备状态"];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", @"待完善", nil];
-    self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects: timeArray[0], @"待完善", @"待完善", @"待完善", nil];
+    self.transArray = [[NSMutableArray alloc] initWithObjects: timeArray[0], @"", @"", @"", nil];
     self.deviceArray = [[NSMutableArray alloc] init];
     self.deviceIDArray = [[NSMutableArray alloc] init];
     
@@ -87,26 +91,12 @@
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        int count = 0;
-        for (NSString *str in self.dataArray) {
-            if ([str isEqualToString:@"待完善"]) {
-                count++;
+        [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
+            if (self.delegateSignal) {
+                [self.delegateSignal sendNext:self.transArray];
+                [self.navigationController popViewControllerAnimated:YES];
             }
-        }
-        
-        if (count != self.dataArray.count) {
-            [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
-                if (self.delegateSignal) {
-                    [self.delegateSignal sendNext:self.transArray];
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
-            }];
-        }
-        else {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
-                
-            } buttonsStatement:@"确定", nil];
-        }
+        }];
         
     }];
     
@@ -255,7 +245,7 @@
         self.selectArray = self.deviceArray;
     }
     else if (index == 3) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"正常", @"故障", @"报废", nil];
+        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"正常", @"故障", @"停运", @"报废", nil];
     }
     
     selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];

@@ -55,7 +55,7 @@
     [cell.pieChartView addDataToRepresent:[dataDict[@"unover_per"] doubleValue] WithColor:colorWithHexString(@"#FD7070")];
     [cell.pieChartView addDataToRepresent:[dataDict[@"unstart_per"] doubleValue] WithColor:colorWithHexString(@"#DEE7E8")];
     
-    if ([dataDict[@"over_per"] doubleValue] == 0 && [dataDict[@"working_per"] doubleValue] == 0 && [dataDict[@"unover_per"] doubleValue] ==0 && [dataDict[@"unstart_per"] doubleValue] == 0) {
+    if ([dataDict[@"over_per"] doubleValue] == 0 && [dataDict[@"working_per"] doubleValue] == 0 && [dataDict[@"unover_per"] doubleValue] == 0 && [dataDict[@"unstart_per"] doubleValue] == 0) {
         [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#d9d9d9")];
     }
     

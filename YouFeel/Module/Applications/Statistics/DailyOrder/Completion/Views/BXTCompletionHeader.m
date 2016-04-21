@@ -13,18 +13,10 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    self.roundView1.layer.cornerRadius = 5;
-    self.roundView1.backgroundColor = colorWithHexString(@"#00D0C0");
-    
+    self.roundView1.layer.cornerRadius = 5;    
     self.roundView2.layer.cornerRadius = 5;
-    self.roundView2.backgroundColor = colorWithHexString(@"#00D0C0");
-    
     self.roundView3.layer.cornerRadius = 5;
-    self.roundView3.backgroundColor = colorWithHexString(@"#FD7070");
-    
     self.roundView4.layer.cornerRadius = 5;
-    self.roundView4.backgroundColor = colorWithHexString(@"#F9D063");
-    
 }
 
 - (IBAction)btnClick:(UIButton *)sender {

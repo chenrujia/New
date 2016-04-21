@@ -8,6 +8,7 @@
 
 #import "BXTHomeTableViewCell.h"
 #import "BXTGlobal.h"
+#import "BXTHeaderFile.h"
 
 @implementation BXTHomeTableViewCell
 
@@ -40,7 +41,7 @@
         self.numberLabel = ({
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, 20.f, 20)];
-            label.center = CGPointMake(label.center.x, _logoImgView.center.y);
+            label.center = CGPointMake(SCREEN_WIDTH - 45, _logoImgView.center.y);
             label.textColor = colorWithHexString(@"ffffff");
             label.textAlignment = NSTextAlignmentCenter;
             label.backgroundColor = [UIColor redColor];

@@ -136,13 +136,6 @@
     CGFloat labelX = rate < 0.2 ? 0 : ((SCREEN_WIDTH-30) * rate - 60) / 2;
     UILabel *persentLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, 12.5, 60, 20)];
     persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"over_per"] floatValue]];
-    if ([dataDict[@"over"] intValue] == 0) {
-        persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"working_per"] floatValue]];
-        
-        if ([dataDict[@"working"] intValue] == 0) {
-            persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"unover_per"] floatValue]];
-        }
-    }
     persentLabel.textColor = [UIColor whiteColor];
     persentLabel.textAlignment = NSTextAlignmentCenter;
     persentLabel.font = [UIFont systemFontOfSize:14];

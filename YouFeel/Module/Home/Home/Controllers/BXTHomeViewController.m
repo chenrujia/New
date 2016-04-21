@@ -191,7 +191,7 @@
         [self.navigationController pushViewController:qrcVC animated:YES];
     }];
     [logoImgView addSubview:scanBtn];
-
+    
     self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(logoImgView.frame) - KTABBARHEIGHT-5) style:UITableViewStyleGrouped];
     [_currentTableView registerClass:[BXTHomeTableViewCell class] forCellReuseIdentifier:@"HomeCell"];
     _currentTableView.rowHeight = 50;
@@ -381,8 +381,10 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.numberLabel.hidden = YES;
     
+    
     cell.logoImgView.image = [UIImage imageNamed:_imgNameArray[indexPath.section][indexPath.row]];
     cell.titleLabel.text = _titleNameArray[indexPath.section][indexPath.row];
+    
     
     if ([BXTGlobal shareGlobal].isRepair)
     {

@@ -104,7 +104,7 @@ typedef enum {
     
     // MYPieView
     NSDictionary *dataDict = self.percentArrat[0];
-    NSArray *pieArray = [[NSMutableArray alloc] initWithObjects:dataDict[@"yes_percent"], dataDict[@"collection_percent"], dataDict[@"no_percent"], nil];
+    NSArray *pieArray = [[NSMutableArray alloc] initWithObjects:dataDict[@"yes_percent"], dataDict[@"not_completed_percent"], dataDict[@"no_percent"], nil];
     
     // 1. create pieView
     self.headerView.pieView.backgroundColor = [UIColor whiteColor];
@@ -141,38 +141,38 @@ typedef enum {
     self.headerView.roundTitleView.text = [NSString stringWithFormat:@"报修总数:%@单", dataDict[@"sum_number"]];
     // Button
     NSString *allNumStr = [NSString stringWithFormat:@"报修总数:%@单", dataDict[@"sum_number"]];
-    NSString *downNumStr = [NSString stringWithFormat:@"已完成:%@单", dataDict[@"yes_number"]];
-    NSString *undownNumStr = [NSString stringWithFormat:@"未完成:%@单", dataDict[@"no_number"]];
-    NSString *specialNumStr = [NSString stringWithFormat:@"特殊工单:%@单", dataDict[@"collection_number"]];
-    self.headerView.sumLabelView.text = allNumStr;
-    self.headerView.downLabelView.text = downNumStr;
-    self.headerView.undownLabelView.attributedText = [self transToRichLabelOfIndex:4 String:undownNumStr];
-    self.headerView.specialLabelView.attributedText = [self transToRichLabelOfIndex:4 String:specialNumStr];
+    NSString *downNumStr = [NSString stringWithFormat:@"已修好:%@单", dataDict[@"yes_number"]];
+    NSString *undownNumStr = [NSString stringWithFormat:@"未修好:%@单", dataDict[@"no_number"]];
+    NSString *specialNumStr = [NSString stringWithFormat:@"未完成:%@单", dataDict[@"not_completed_num"]];
+    self.headerView.sumView.text = allNumStr;
+    self.headerView.goodJobView.attributedText = [self transToRichLabelOfIndex:4 String:downNumStr];
+    self.headerView.badJobView.attributedText = [self transToRichLabelOfIndex:4 String:undownNumStr];
+    self.headerView.unCompleteView.attributedText = [self transToRichLabelOfIndex:4 String:specialNumStr];
     __weak typeof(self) weakSelf = self;
     self.headerView.transBtnClick = ^(NSInteger tag) {
         // TODO: -----------------  调试  -----------------
-//        if (tag == 3333 || tag == 4444)
-//        {
-//            BXTAllOrdersViewController *allVC = [[BXTAllOrdersViewController alloc] init];
-//            if (tag == 3333)
-//            {
-//                allVC.transType = @"UNDOWN";
-//            }
-//            else
-//            {
-//                allVC.transType = @"SPECIAL";
-//            }
-//            NSString *startTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[0]];
-//            allVC.transStartTime = startTime;
-//            allVC.transEndTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[1]];
-//            NSTimeInterval timeSp = [startTime integerValue] + 86399;
-//            if ([weakSelf.transTimeArray[0] isEqualToString:weakSelf.transTimeArray[1]])
-//            {
-//                allVC.transEndTime = [NSString stringWithFormat:@"%.0f",timeSp];
-//            }
-//            allVC.isSpecialPush = YES;
-//            [weakSelf.navigationController pushViewController:allVC animated:YES];
-//        }
+        //        if (tag == 3333 || tag == 4444)
+        //        {
+        //            BXTAllOrdersViewController *allVC = [[BXTAllOrdersViewController alloc] init];
+        //            if (tag == 3333)
+        //            {
+        //                allVC.transType = @"UNDOWN";
+        //            }
+        //            else
+        //            {
+        //                allVC.transType = @"SPECIAL";
+        //            }
+        //            NSString *startTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[0]];
+        //            allVC.transStartTime = startTime;
+        //            allVC.transEndTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[1]];
+        //            NSTimeInterval timeSp = [startTime integerValue] + 86399;
+        //            if ([weakSelf.transTimeArray[0] isEqualToString:weakSelf.transTimeArray[1]])
+        //            {
+        //                allVC.transEndTime = [NSString stringWithFormat:@"%.0f",timeSp];
+        //            }
+        //            allVC.isSpecialPush = YES;
+        //            [weakSelf.navigationController pushViewController:allVC animated:YES];
+        //        }
     };
 }
 
@@ -221,7 +221,7 @@ typedef enum {
     for (NSDictionary *dict in finalArray)
     {
         NSString *downStr = [NSString stringWithFormat:@"%@", dict[@"yes_number"]];
-        NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"collection_number"]];
+        NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"not_completed_num"]];
         NSString *undownStr = [NSString stringWithFormat:@"%@", dict[@"no_number"]];
         NSNumber *downNum = [NSNumber numberWithInteger:[downStr integerValue]];
         NSNumber *specialNum = [NSNumber numberWithInteger:[specialStr integerValue]];
@@ -267,16 +267,16 @@ typedef enum {
     
     NSDictionary *firstDict = finalArray[0];
     NSString *downStr = [NSString stringWithFormat:@"%@", firstDict[@"yes_number"]];
-    NSString *specialStr = [NSString stringWithFormat:@"%@", firstDict[@"collection_number"]];
+    NSString *specialStr = [NSString stringWithFormat:@"%@", firstDict[@"not_completed_num"]];
     NSString *undownStr = [NSString stringWithFormat:@"%@", firstDict[@"no_number"]];
     
     NSString *typeStr = self.chooseType == year ? @"月" : @"日";
     self.footerView.titleView.text = [NSString stringWithFormat:@"1%@", typeStr];
     NSInteger sum = [downStr integerValue] + [specialStr integerValue] + [undownStr integerValue];
     self.footerView.sumView.text = [NSString stringWithFormat:@"共计：%ld单", (long)sum];
-    self.footerView.doneView.text = [NSString stringWithFormat:@"完成：%@单", downStr];
-    self.footerView.specialView.text = [NSString stringWithFormat:@"未完成：%@单", undownStr];
-    self.footerView.undownView.text = [NSString stringWithFormat:@"特殊工单：%@单", specialStr];
+    self.footerView.goodJobView.text = [NSString stringWithFormat:@"已修好:%@单", downStr];
+    self.footerView.badJobView.text = [NSString stringWithFormat:@"未修好:%@单", undownStr];
+    self.footerView.unCompleteView.text = [NSString stringWithFormat:@"未完成:%@单", specialStr];
 }
 
 #pragma mark -
@@ -302,9 +302,9 @@ typedef enum {
     self.footerView.titleView.text = [NSString stringWithFormat:@"%ld%@", (long)barIndex + 1, typeStr];
     NSInteger sum = [data.values[0] integerValue] + [data.values[1] integerValue] + [data.values[2] integerValue];
     self.footerView.sumView.text = [NSString stringWithFormat:@"共计：%ld单", (long)sum];
-    self.footerView.doneView.text = [NSString stringWithFormat:@"完成：%@单", data.values[0]];
-    self.footerView.undownView.text = [NSString stringWithFormat:@"特殊工单：%@单", data.values[1]];
-    self.footerView.specialView.text = [NSString stringWithFormat:@"未完成：%@单", data.values[2]];
+    self.footerView.goodJobView.text = [NSString stringWithFormat:@"已修好：%@单", data.values[0]];
+    self.footerView.badJobView.text = [NSString stringWithFormat:@"未修好：%@单", data.values[1]];
+    self.footerView.unCompleteView.text = [NSString stringWithFormat:@"未完成：%@单", data.values[2]];
     
     SPChartPopup * popup = [[SPChartPopup alloc] initWithContentView:label];
     [popup setPopupColor:colorWithHexString(@"#999999")];

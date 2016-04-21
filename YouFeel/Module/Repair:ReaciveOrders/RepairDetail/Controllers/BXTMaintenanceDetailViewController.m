@@ -691,7 +691,7 @@
     }
     else if (btnInfo.button_key == 2 || btnInfo.button_key == 12)
     {
-        [self showLoadingMBP:@"请稍候..."];
+        [BXTGlobal showLoadingMBP:@"努力加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:self.repairDetail.orderID];
     }
@@ -702,7 +702,7 @@
     }
     else if (btnInfo.button_key == 5)
     {
-        [self showLoadingMBP:@"请稍候..."];
+        [BXTGlobal showLoadingMBP:@"努力加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request startRepair:self.repairDetail.orderID];
     }
@@ -717,7 +717,7 @@
     }
     else if (btnInfo.button_key == 8)
     {
-        [self showLoadingMBP:@"请稍候..."];
+        [BXTGlobal showLoadingMBP:@"努力加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request isFixed:self.repairDetail.orderID confirmState:@"1" confirmNotes:@""];
     }

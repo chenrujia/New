@@ -129,7 +129,7 @@
     
     NSDictionary *dict = self.dataArray[0];
     self.footerView.groupView.text = [NSString stringWithFormat:@"%@", dict[@"subgroup"]];
-    self.footerView.doneView.text = [NSString stringWithFormat:@"共完成:%@", dict[@"sum_number"]];
+    self.footerView.doneView.text = [NSString stringWithFormat:@"已评价:%@", dict[@"sum_number"]];
     self.footerView.praiseView.text = [NSString stringWithFormat:@"好评:%@", dict[@"praise_number"]];
     self.footerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%@%@", dict[@"percent"], @"%"];
 }

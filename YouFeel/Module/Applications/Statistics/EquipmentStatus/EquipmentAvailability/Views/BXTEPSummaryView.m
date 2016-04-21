@@ -80,7 +80,7 @@
     }
     
     // 无参数处理
-    if ([pieArray[0] intValue] == 0 && [pieArray[1] intValue] == 0)
+    if ([pieArray[0] intValue] == 0 && [pieArray[1] intValue] == 0 && [pieArray[2] intValue] == 0)
     {
         MYPieElement *elem = [MYPieElement pieElementWithValue:1 color:colorWithHexString(colorArray[0])];
         elem.title = [NSString stringWithFormat:@"%@", @"暂无工单"];
