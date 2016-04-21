@@ -40,47 +40,46 @@ typedef NS_ENUM(NSInteger, RequestType) {
     UserInfoForChatList = 27,
     FindPassword = 28,
     ChangePassWord = 29,
-    UpdateHeadPic = 30,
-    StartRepair = 31,
-    Device_AvailableStatics = 32,
-    Device_AvailableType = 33,
-    InspectionPlanOverview = 34,
-    Statistics_MTPlanList = 35,
-    Statistics_EPList = 36,
-    Statistics_DeviceTypeList = 37,
-    Statistics_MTComplete = 38,
-    Statistics_Complete = 39,
-    Statistics_Subgroup = 40,
-    Statistics_Faulttype = 41,
-    Statistics_Workload_day = 42,
-    Statistics_Workload_year = 43,
-    Statistics_Workload = 44,
-    Statistics_Praise = 45,
-    Exit_Login = 46,
-    Device_Con = 47,
-    Device_Repair_List = 48,
-    Inspection_Record_List = 49,
-    Mail_Get_All = 50,
-    Mail_User_list = 51,
-    MaintenanceEquipmentList = 52,
-    Add_Inspection = 53,
-    Update_Inspection = 54,
-    Ads_Pics = 55,
-    Remind_Number = 56,
-    UserShopLists = 57,
-    AuthenticationDetail = 58,
-    HandlePermission = 59,
-    DepartmentLists = 60,
-    DutyLists = 61,
-    StoresList = 62,
-    AuthenticationApply = 63,
-    ModifyBindPlace = 64,
-    SpecialOrder = 65,
-    DeviceState = 66,
-    AuthenticationVerify = 67,
-    DispatchOrAdd = 68,
-    AuthenticationModify = 69,
-    RepairState = 70,
+    StartRepair = 30,
+    Device_AvailableStatics = 31,
+    Device_AvailableType = 32,
+    InspectionPlanOverview = 33,
+    Statistics_MTPlanList = 34,
+    Statistics_EPList = 35,
+    Statistics_DeviceTypeList = 36,
+    Statistics_MTComplete = 37,
+    Statistics_Complete = 38,
+    Statistics_Subgroup = 39,
+    Statistics_Faulttype = 40,
+    Statistics_Workload_day = 41,
+    Statistics_Workload_year = 42,
+    Statistics_Workload = 43,
+    Statistics_Praise = 44,
+    Exit_Login = 45,
+    Device_Con = 46,
+    Device_Repair_List = 47,
+    Inspection_Record_List = 48,
+    Mail_Get_All = 49,
+    Mail_User_list = 50,
+    MaintenanceEquipmentList = 51,
+    Add_Inspection = 52,
+    Update_Inspection = 53,
+    Ads_Pics = 54,
+    Remind_Number = 55,
+    UserShopLists = 56,
+    AuthenticationDetail = 57,
+    HandlePermission = 58,
+    DepartmentLists = 59,
+    DutyLists = 60,
+    StoresList = 61,
+    AuthenticationApply = 62,
+    ModifyBindPlace = 63,
+    SpecialOrder = 64,
+    DeviceState = 65,
+    AuthenticationVerify = 66,
+    DispatchOrAdd = 67,
+    AuthenticationModify = 68,
+    RepairState = 69
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -409,13 +408,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  重置密码
  */
 - (void)changePassWord:(NSString *)password
-             andWithID:(NSString *)pw_ID
+             andWithID:(NSString *)pwID
             andWithKey:(NSString *)key;
-
-/**
- *  更新头像
- */
-- (void)updateHeadPic:(NSString *)pic;
 
 /**
  *  开始维修

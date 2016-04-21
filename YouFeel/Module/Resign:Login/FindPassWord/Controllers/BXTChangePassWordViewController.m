@@ -206,11 +206,6 @@
                 }
             });
             dispatch_async(concurrentQueue, ^{
-                /**更新头像**/
-                BXTDataRequest *pic_request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [pic_request updateHeadPic:abUserInfo.pic];
-            });
-            dispatch_async(concurrentQueue, ^{
                 /**分店登录**/
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request branchLogin];
@@ -230,10 +225,6 @@
             NSDictionary *userInfo = data[0];
             [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
         }
-    }
-    else if (type == UpdateHeadPic)
-    {
-        NSLog(@"Update success");
     }
     else
     {

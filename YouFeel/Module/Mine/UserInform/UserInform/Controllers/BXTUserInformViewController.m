@@ -19,35 +19,24 @@
 @property (strong, nonatomic) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *detailArray;
-
 @property (copy, nonatomic) NSString *sexStr;
 
 @end
 
 @implementation BXTUserInformViewController
 
-- (void)dealloc
+- (void)viewDidLoad
 {
-    LogBlue(@"设置界面释放了！！！！！！");
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"个人信息" andRightTitle:nil andRightImage:nil];
-    
     [BXTGlobal shareGlobal].maxPics = 1;
     self.isSettingVC = YES;
     self.selectPhotos = [NSMutableArray array];
-    
     [self initContentViews];
     
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeNameSuccess" object:nil] subscribeNext:^(id x) {
         @strongify(self);
-        
         NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
         self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
         [self.tableView reloadData];
@@ -57,7 +46,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
     self.navigationController.navigationBar.hidden = YES;
 }
@@ -69,8 +57,6 @@
     self.titleArray = @[@[@"", @"姓   名", @"性   别", @"邮   箱"], @[@"手机号"], @[@"微信号"]];
     NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
-    
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -134,9 +120,7 @@
         return cell;
     }
     
-    
     BXTUserInformCell *cell = [BXTUserInformCell cellWithTableView:tableView];
-    
     cell.titleView.text = self.titleArray[indexPath.section][indexPath.row];
     cell.detailView.text = self.detailArray[indexPath.section][indexPath.row];
     
@@ -145,20 +129,30 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTChangeNameViewController *changeName = [[BXTChangeNameViewController alloc] init];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
-    BXTChangePhoneViewController *changePhone = [storyboard instantiateViewControllerWithIdentifier:@"BXTChangePhoneViewController"];
-    
-    if (indexPath.section == 0) {
-        switch (indexPath.row) {
-            case 0: [self addImages]; break;
-            case 1: [self.navigationController pushViewController:changeName animated:YES]; break;
-            case 2: [self changeSex]; break;
+    if (indexPath.section == 0)
+    {
+        switch (indexPath.row)
+        {
+            case 0:
+                [self addImages];
+                break;
+            case 1:
+            {
+                BXTChangeNameViewController *changeName = [[BXTChangeNameViewController alloc] init];
+                [self.navigationController pushViewController:changeName animated:YES];
+            }
+                break;
+            case 2:
+                [self changeSex];
+                break;
             case 3: break;
             default: break;
         }
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 1)
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
+        BXTChangePhoneViewController *changePhone = [storyboard instantiateViewControllerWithIdentifier:@"BXTChangePhoneViewController"];
         [self.navigationController pushViewController:changePhone animated:YES];
     }
     
@@ -168,8 +162,8 @@
 - (void)changeSex
 {
     [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
-        NSLog(@"---------------- %ld", buttonIdx);
-        if (buttonIdx == 1 || buttonIdx == 2) {
+        if (buttonIdx == 1 || buttonIdx == 2)
+        {
             /** 修改用户信息 **/
             BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
             [dataRequest modifyUserInformWithName:@""
@@ -184,23 +178,20 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dict = response;
     NSLog(@"response:%@",dict);
     if ([dict[@"returncode"] intValue] == 0 && type == UploadHeadImage)
     {
         [BXTGlobal setUserProperty:dict[@"pic"] withKey:U_HEADERIMAGE];
-        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"HEADERIMAGE" object:nil];
-        
         [self.tableView reloadData];
     }
     else if ([dict[@"returncode"] intValue] == 0 && type == ModifyUserInform)
     {
         [BXTGlobal setUserProperty:self.sexStr withKey:U_SEX];
-        
         [BXTGlobal showText:@"修改信息成功" view:self.view completionBlock:^{
             self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], self.sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
-            
             [self.tableView reloadData];
         }];
     }
@@ -208,22 +199,12 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    
+    [self hideMBP];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

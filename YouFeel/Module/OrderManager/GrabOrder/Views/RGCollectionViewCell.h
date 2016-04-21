@@ -21,8 +21,6 @@
 @property (strong, nonatomic) UILabel          *notes;
 @property (strong, nonatomic) UILabel          *level;
 @property (strong, nonatomic) UILabel          *remarks;
-//@property (strong, nonatomic) UIView           *backView;
-//@property (strong, nonatomic) UILabel          *coinLabel;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 

@@ -464,18 +464,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTRepairInfo *repairInfo = [self.ordersArray objectAtIndex:indexPath.section];
-    if ([BXTGlobal shareGlobal].isRepair && [repairInfo.repairstate integerValue] == 3)
-    {
-        [BXTGlobal showText:@"特殊工单不可点击" view:self completionBlock:nil];
-    }
-    else
-    {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-        SceneType sceneType = self.isRepair ? MyMaintenanceType : MyRepairType;
-        [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:sceneType];
-        [[self navigation] pushViewController:repairDetailVC animated:YES];
-    }
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+    SceneType sceneType = self.isRepair ? MyMaintenanceType : MyRepairType;
+    [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:sceneType];
+    [[self navigation] pushViewController:repairDetailVC animated:YES];
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

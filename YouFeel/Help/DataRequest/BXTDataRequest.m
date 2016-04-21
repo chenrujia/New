@@ -517,19 +517,18 @@
                           @"state":state,
                           @"faulttype_id":faultType,
                           @"place_id":placeID,
-                          @"collection_id":reasonID,
                           @"workprocess":mmLog};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_processed",[BXTGlobal shareGlobal].baseURL];
+    NSMutableDictionary *mutableDic = [NSMutableDictionary dictionaryWithDictionary:dic];
+    if (reasonID)
+    {
+        [mutableDic setObject:reasonID forKey:@"collection_id"];
+    }
     if (deviceState)
     {
-        NSMutableDictionary *muDic = [NSMutableDictionary dictionaryWithDictionary:dic];
-        [muDic setObject:deviceState forKey:@"device_state"];
-        [self uploadImageRequest:url withParameters:muDic withImages:images];
+        [mutableDic setObject:deviceState forKey:@"device_state"];
     }
-    else
-    {
-        [self uploadImageRequest:url withParameters:dic withImages:images];
-    }
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_processed",[BXTGlobal shareGlobal].baseURL];
+    [self uploadImageRequest:url withParameters:mutableDic withImages:images];
 }
 
 - (void)maintenanceManList
@@ -638,23 +637,14 @@
 }
 
 - (void)changePassWord:(NSString *)password
-             andWithID:(NSString *)pw_ID
+             andWithID:(NSString *)pwID
             andWithKey:(NSString *)key
 {
     self.requestType = ChangePassWord;
     NSDictionary *dic = @{@"key":key,
-                          @"id":pw_ID,
+                          @"id":pwID,
                           @"password":password};
     NSString *url = [NSString stringWithFormat:@"%@/opt/reset_pass/module/Account",KADMINBASEURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)updateHeadPic:(NSString *)pic
-{
-    self.requestType = UpdateHeadPic;
-    NSDictionary *dic = @{@"url":pic,
-                          @"id":[BXTGlobal getUserProperty:U_USERID]};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Login&opt=update_head",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
