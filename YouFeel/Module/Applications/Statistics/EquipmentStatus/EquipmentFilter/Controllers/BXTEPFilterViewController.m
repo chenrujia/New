@@ -39,28 +39,24 @@
 
 @implementation BXTEPFilterViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
-    
     self.titleArray = @[@"日期", @"安装位置", @"设备类型", @"设备状态"];
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", @"待完善", nil];
     self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", nil];
     self.deviceArray = [[NSMutableArray alloc] init];
     self.deviceIDArray = [[NSMutableArray alloc] init];
     
-    
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
     [self showLoadingMBP:@"数据加载中..."];
-    /**专业分组**/
+    /**设备类型**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request deviceTypeList];
-    
     
     [self createUI];
 }
@@ -91,12 +87,14 @@
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        if ([self.dataArray containsObject:@"待完善"]) {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
-                
-            } buttonsStatement:@"确定", nil];
+        int count = 0;
+        for (NSString *str in self.dataArray) {
+            if ([str isEqualToString:@"待完善"]) {
+                count++;
+            }
         }
-        else {
+        
+        if (count != self.dataArray.count) {
             [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
                 if (self.delegateSignal) {
                     [self.delegateSignal sendNext:self.transArray];
@@ -104,9 +102,15 @@
                 }
             }];
         }
+        else {
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
+                
+            } buttonsStatement:@"确定", nil];
+        }
+        
     }];
-    [footerView addSubview:doneBtn];
     
+    [footerView addSubview:doneBtn];
 }
 
 #pragma mark -

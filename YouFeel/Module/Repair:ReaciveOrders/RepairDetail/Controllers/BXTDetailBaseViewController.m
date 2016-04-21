@@ -234,7 +234,7 @@
     [[contact rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BXTMaintenanceManInfo *mainManInfo = self.repairDetail.repair_user_arr[i];
-        [self handleUserInfo:@{@"UserID":mainManInfo.mmID,
+        [self handleUserInfo:@{@"UserID":mainManInfo.out_userid,
                                @"UserName":mainManInfo.name,
                                @"HeadPic":mainManInfo.head_pic}];
     }];

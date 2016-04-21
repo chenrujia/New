@@ -13,14 +13,12 @@
 #import "BXTGroupInfo.h"
 #import "BXTDataRequest.h"
 #import "BXTHomeTableViewCell.h"
-#import "BXTAuthorityListViewController.h"
 #import "BXTQRCodeViewController.h"
 #import "SDCycleScrollView.h"
 #import "BXTProjectManageViewController.h"
 #import "BXTAdsInform.h"
 #import "BXTNoticeInformViewController.h"
 #import "BXTOrderManagerViewController.h"
-#import "BXTEvaluationListViewController.h"
 #import "BXTOtherAffairViewController.h"
 #import "BXTStatisticsViewController.h"
 #import "BXTExaminationViewController.h"
@@ -47,11 +45,6 @@
 @end
 
 @implementation BXTHomeViewController
-
-- (void)dealloc
-{
-    NSLog(@"执行了。。。。。");
-}
 
 - (void)viewDidLoad
 {
@@ -149,9 +142,9 @@
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         // 商铺列表
-        BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
-        alVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:alVC animated:YES];
+        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+        pivc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:pivc animated:YES];
         
     }];
     [logoImgView addSubview:branchBtn];
@@ -241,14 +234,6 @@
     orderManagerVC.hidesBottomBarWhenPushed = YES;
     orderManagerVC.isRepair = isRepair;
     [self.navigationController pushViewController:orderManagerVC animated:YES];
-}
-
-- (void)pushEvaluationList
-{
-    // 评价
-    BXTEvaluationListViewController *evaluationListVC = [[BXTEvaluationListViewController alloc] init];
-    evaluationListVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:evaluationListVC animated:YES];
 }
 
 - (void)pushOtherAffair

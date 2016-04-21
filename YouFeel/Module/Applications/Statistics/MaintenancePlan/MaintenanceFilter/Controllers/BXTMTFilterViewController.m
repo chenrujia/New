@@ -106,12 +106,14 @@
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        if ([self.dataArray containsObject:@"待完善"]) {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
-                
-            } buttonsStatement:@"确定", nil];
+        int count = 0;
+        for (NSString *str in self.dataArray) {
+            if ([str isEqualToString:@"待完善"]) {
+                count++;
+            }
         }
-        else {
+        
+        if (count != self.dataArray.count) {
             [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
                 if (self.delegateSignal) {
                     [self.delegateSignal sendNext:self.transArray];
@@ -119,9 +121,14 @@
                 }
             }];
         }
+        else {
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
+                
+            } buttonsStatement:@"确定", nil];
+        }
     }];
-    [footerView addSubview:doneBtn];
     
+    [footerView addSubview:doneBtn];
 }
 
 #pragma mark -

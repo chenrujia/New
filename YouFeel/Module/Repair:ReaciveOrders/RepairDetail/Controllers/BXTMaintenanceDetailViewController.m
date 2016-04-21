@@ -69,10 +69,10 @@
     @weakify(self);
     [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTRepairPersonInfo *rpInfo = self.repairDetail.fault_user_arr[0];
-        [self handleUserInfo:@{@"UserID":rpInfo.rpID,
-                               @"UserName":rpInfo.name,
-                               @"HeadPic":rpInfo.head_pic}];
+        BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];
+        [self handleUserInfo:@{@"UserID":repairPerson.out_userid,
+                               @"UserName":repairPerson.name,
+                               @"HeadPic":repairPerson.head_pic}];
     }];
     _orderType.layer.masksToBounds = YES;
     _orderType.layer.cornerRadius = 3.f;
@@ -115,7 +115,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBarHidden = NO;
 }
 

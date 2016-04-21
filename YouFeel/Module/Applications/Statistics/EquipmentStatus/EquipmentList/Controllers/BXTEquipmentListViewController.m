@@ -86,7 +86,15 @@
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsEPListWithTime:self.date State:self.state Order:self.order TypeID:self.typeID AreaID:self.areaID PlaceID:self.placeID StoresID:self.storesID Pagesize:@"5" Page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    [request statisticsEPListWithTime:self.date
+                                State:self.state
+                                Order:self.order
+                               TypeID:self.typeID
+                               AreaID:self.areaID
+                              PlaceID:self.placeID
+                             StoresID:self.storesID
+                             Pagesize:@"5"
+                                 Page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
 
 #pragma mark -

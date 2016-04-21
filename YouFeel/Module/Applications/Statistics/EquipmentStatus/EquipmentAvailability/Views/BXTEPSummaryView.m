@@ -36,6 +36,7 @@
     self.roundView1.layer.cornerRadius = 5;
     self.roundView2.layer.cornerRadius = 5;
     self.roundView3.layer.cornerRadius = 5;
+    self.roundView4.layer.cornerRadius = 5;
     
     //    [self showLoadingMBP:@"数据加载中..."];
     
@@ -61,7 +62,7 @@
 {
     //  ---------- 饼状图 ----------
     // MYPieView
-    NSArray *pieArray = [[NSMutableArray alloc] initWithObjects:self.percentDict[@"working_per"], self.percentDict[@"stop_per"], nil];
+    NSArray *pieArray = [[NSMutableArray alloc] initWithObjects:self.percentDict[@"working_per"], self.percentDict[@"fault_per"], self.percentDict[@"stop_per"], nil];
     
     
     // 1. create pieView
@@ -70,7 +71,7 @@
     [self.bgView addSubview:self.pieView];
     
     // 2. fill data
-    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#34B47E", @"#D6AD5B", nil];
+    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#34B47E", @"#EA3622", @"#D6AD5B", nil];
     for(int i=0; i<pieArray.count; i++)
     {
         MYPieElement *elem = [MYPieElement pieElementWithValue:[pieArray[i] floatValue] color:colorWithHexString(colorArray[i])];
@@ -103,8 +104,9 @@
     self.sumView.text = [NSString stringWithFormat:@"总计：%@", self.percentDict[@"total"]];
     self.allView.text = [NSString stringWithFormat:@"%@", self.percentDict[@"total"]];
     self.runningView.text = [NSString stringWithFormat:@"%@", self.percentDict[@"working"]];
+    self.faultView.text = [NSString stringWithFormat:@"%@", self.percentDict[@"fault"]];
     self.stopView.text = [NSString stringWithFormat:@"%@", self.percentDict[@"stop"]];
-    self.unableView.text = [NSString stringWithFormat:@"%@", self.percentDict[@"unused"]];
+    self.unableView.text = [NSString stringWithFormat:@"%@", self.percentDict[@"scrap"]];
 }
 
 - (IBAction)btnClick:(UIButton *)sender
@@ -118,6 +120,7 @@
         case 222: listVC.state = @"1"; break;
         case 333: listVC.state = @"2"; break;
         case 444: listVC.state = @"3"; break;
+        case 555: listVC.state = @"4"; break;
         default: break;
     }
     
