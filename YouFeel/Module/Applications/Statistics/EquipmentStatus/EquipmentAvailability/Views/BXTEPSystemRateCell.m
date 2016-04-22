@@ -26,8 +26,9 @@
     _epList = epList;
     
     self.sumView.text = [NSString stringWithFormat:@"设备共计：%@台", epList.total];
-    self.normalView.text = [NSString stringWithFormat:@"正常运行：%@台", epList.working];
-    self.unableView.text = [NSString stringWithFormat:@"故障待修：%@台", epList.stop];
+    self.normalView.text = [NSString stringWithFormat:@"运行：%@台", epList.working];
+    self.faultView.text = [NSString stringWithFormat:@"故障：%@台", epList.fault];
+    self.unableView.text = [NSString stringWithFormat:@"停运：%@台", epList.stop];
     
 }
 
@@ -36,7 +37,7 @@
     
     self.roundView.layer.cornerRadius = 5;
     self.roundView2.layer.cornerRadius = 5;
-    
+    self.roundView3.layer.cornerRadius = 5;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

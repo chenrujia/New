@@ -25,9 +25,7 @@
 
 @property (nonatomic, copy) NSString *order;
 @property (nonatomic, copy) NSString *typeID;
-@property (nonatomic, copy) NSString *areaID;
 @property (nonatomic, copy) NSString *placeID;
-@property (nonatomic, copy) NSString *storesID;
 
 @end
 
@@ -50,9 +48,7 @@
     }
     self.order = @"";
     self.typeID = @"";
-    self.areaID = @"";
     self.placeID = @"";
-    self.storesID = @"";
     
     [self createUI];
 }
@@ -61,18 +57,13 @@
 {
     BXTEPFilterViewController *filterVC = [[BXTEPFilterViewController alloc] init];
     filterVC.delegateSignal = [RACSubject subject];
+    @weakify(self);
     [filterVC.delegateSignal subscribeNext:^(NSArray *transArray) {
+        @strongify(self);
+        
         NSLog(@"transArray -= ---------- %@", transArray);
         self.date = transArray[0];
-        
-        if ([transArray[1] isKindOfClass:[NSArray class]]) {
-            NSArray *placeArray = transArray[1];
-            self.areaID = placeArray[0];
-            self.placeID = placeArray[2];
-            self.storesID = placeArray[4];
-        }
-        
-        
+        self.placeID = transArray[1];
         self.typeID = transArray[2];
         self.state = transArray[3];
         
@@ -86,7 +77,15 @@
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsEPListWithTime:self.date State:self.state Order:self.order TypeID:self.typeID AreaID:self.areaID PlaceID:self.placeID StoresID:self.storesID Pagesize:@"5" Page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
+    [request statisticsEPListWithTime:self.date
+                                State:self.state
+                                Order:self.order
+                               TypeID:self.typeID
+                               AreaID:@""
+                              PlaceID:self.placeID
+                             StoresID:@""
+                             Pagesize:@"5"
+                                 Page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
 
 #pragma mark -
@@ -162,6 +161,7 @@
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
     self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+    
     
     return cell;
 }

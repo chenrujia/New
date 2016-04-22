@@ -22,15 +22,15 @@ typedef void(^blockTbtnClick)(NSInteger tag);
 @property (weak, nonatomic) IBOutlet UIView *roundView3;
 @property (weak, nonatomic) IBOutlet UIView *roundView4;
 
-@property (weak, nonatomic) IBOutlet UILabel *sumLabelView;
-@property (weak, nonatomic) IBOutlet UILabel *downLabelView;
-@property (weak, nonatomic) IBOutlet UILabel *undownLabelView;
-@property (weak, nonatomic) IBOutlet UILabel *specialLabelView;
+@property (weak, nonatomic) IBOutlet UILabel *sumView;
+@property (weak, nonatomic) IBOutlet UILabel *goodJobView;
+@property (weak, nonatomic) IBOutlet UILabel *badJobView;
+@property (weak, nonatomic) IBOutlet UILabel *unCompleteView;
 
-@property (weak, nonatomic) IBOutlet UIButton *sumView;
-@property (weak, nonatomic) IBOutlet UIButton *downView;
-@property (weak, nonatomic) IBOutlet UIButton *undownView;
-@property (weak, nonatomic) IBOutlet UIButton *specialView;
+@property (weak, nonatomic) IBOutlet UIButton *sumBtn;
+@property (weak, nonatomic) IBOutlet UIButton *goodJobBtn;
+@property (weak, nonatomic) IBOutlet UIButton *badJobBtn;
+@property (weak, nonatomic) IBOutlet UIButton *unCompleteBtn;
 
 - (IBAction)btnClick:(UIButton *)sender;
 

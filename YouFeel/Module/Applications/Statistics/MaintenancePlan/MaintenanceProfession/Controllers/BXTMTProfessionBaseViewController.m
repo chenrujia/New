@@ -140,9 +140,9 @@
     NSDictionary *dataDict = self.percentDict[@"now"];
     
     [self.footerView.pieView clearChart];
-    [self.footerView.pieView addDataToRepresent:[dataDict[@"over"] intValue] WithColor:colorWithHexString(@"#0C88CC")];
-    [self.footerView.pieView addDataToRepresent:[dataDict[@"working"] intValue] WithColor:colorWithHexString(@"#FD7070")];
-    [self.footerView.pieView addDataToRepresent:[dataDict[@"unover"] intValue] WithColor:colorWithHexString(@"#DEE7E8")];
+    [self.footerView.pieView addDataToRepresent:[dataDict[@"over"] intValue] WithColor:colorWithHexString(@"#0FCCC0")];
+    [self.footerView.pieView addDataToRepresent:[dataDict[@"working"] intValue] WithColor:colorWithHexString(@"#0989CD")];
+    [self.footerView.pieView addDataToRepresent:[dataDict[@"unover"] intValue] WithColor:colorWithHexString(@"#FD7070")];
     self.footerView.pieView.userInteractionEnabled = NO;
     self.footerView.pieView.backgroundColor = colorWithHexString(@"#d9d9d9");
     
@@ -158,13 +158,6 @@
     CGFloat labelX = rate < 0.2 ? 0 : ((SCREEN_WIDTH-30) * rate - 60) / 2;
     UILabel *persentLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, 12.5, 60, 20)];
     persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"over_per"] floatValue]];
-    if ([dataDict[@"over"] intValue] == 0) {
-        persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"working_per"] floatValue]];
-        
-        if ([dataDict[@"working"] intValue] == 0) {
-            persentLabel.text = [NSString stringWithFormat:@"%.1f%%", [dataDict[@"unover_per"] floatValue]];
-        }
-    }
     persentLabel.textColor = [UIColor whiteColor];
     persentLabel.textAlignment = NSTextAlignmentCenter;
     persentLabel.font = [UIFont systemFontOfSize:14];

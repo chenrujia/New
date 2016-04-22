@@ -13,10 +13,12 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *sumView;
 @property (weak, nonatomic) IBOutlet UILabel *normalView;
+@property (weak, nonatomic) IBOutlet UILabel *faultView;
 @property (weak, nonatomic) IBOutlet UILabel *unableView;
 
 @property (weak, nonatomic) IBOutlet UIView *roundView;
 @property (weak, nonatomic) IBOutlet UIView *roundView2;
+@property (weak, nonatomic) IBOutlet UIView *roundView3;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

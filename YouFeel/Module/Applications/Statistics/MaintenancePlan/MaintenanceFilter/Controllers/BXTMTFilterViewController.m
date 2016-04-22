@@ -43,10 +43,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
-    self.titleArray = @[@"开始时间", @"结束时间", @"专业分组", @"系统分组", @"工单分类"];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", @"待完善", @"待完善", nil];
-    self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", nil];
+    
+    NSArray *timeArray = [BXTGlobal dayStartAndEnd];
+    
+    self.titleArray = @[@"开始时间", @"结束时间", @"专业分组", @"维保分类", @"工单分类"];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:timeArray[0], timeArray[0], @"待完善", @"待完善", @"待完善", nil];
+    self.transArray = [[NSMutableArray alloc] initWithObjects:timeArray[0], timeArray[0], @"", @"", @"", nil];
     
     self.subgroupArray = [[NSMutableArray alloc] init];
     self.subgroupIDArray = [[NSMutableArray alloc] init];
@@ -106,22 +110,16 @@
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        if ([self.dataArray containsObject:@"待完善"]) {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
-                
-            } buttonsStatement:@"确定", nil];
-        }
-        else {
-            [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
-                if (self.delegateSignal) {
-                    [self.delegateSignal sendNext:self.transArray];
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
-            }];
-        }
+        [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
+            if (self.delegateSignal) {
+                [self.delegateSignal sendNext:self.transArray];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+        
     }];
-    [footerView addSubview:doneBtn];
     
+    [footerView addSubview:doneBtn];
 }
 
 #pragma mark -
@@ -412,12 +410,14 @@
     NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
     NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
     NSString *weekStr = [weekdays objectAtIndex:theComponents.weekday];
+    NSLog(@"%@", weekStr);
     
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
     [formatter1 setDateFormat:@"yyyy/MM/dd"];
     NSString *dateStr = [formatter1 stringFromDate:inputDate];
     
-    return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];
+    //return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];
+    return dateStr;
 }
 
 
@@ -470,7 +470,7 @@
     {
         for (NSDictionary *dataDict in data)
         {
-            [self.faulttypeArray addObject:dataDict[@"faulttype_type"]];
+            [self.faulttypeArray addObject:dataDict[@"faulttype"]];
             [self.faulttypeIDArray addObject:dataDict[@"id"]];
         }
     }

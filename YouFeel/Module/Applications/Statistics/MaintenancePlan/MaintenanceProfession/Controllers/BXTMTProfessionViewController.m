@@ -295,7 +295,7 @@ static CGFloat const maxTitleScale = 1.3;
     {
         for (NSDictionary *dataDict in data)
         {
-            [self.subgroupArray addObject:dataDict[@"faulttype_type"]];
+            [self.subgroupArray addObject:dataDict[@"faulttype"]];
             [self.subgroupIDArray addObject:dataDict[@"id"]];
         }
     }

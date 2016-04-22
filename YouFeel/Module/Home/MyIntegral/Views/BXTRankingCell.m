@@ -25,7 +25,7 @@
         cell.backgroundColor = colorWithHexString(@"#E2E6E8");
     }
     else {
-        cell.rankingView.text = [NSString stringWithFormat:@"%ld", indexPath.row + 1];
+        cell.rankingView.text = [NSString stringWithFormat:@"%ld", (long)(indexPath.row + 1)];
     }
     
     return cell;

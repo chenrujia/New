@@ -9,10 +9,10 @@
 #import "BXTMaintenanceListViewController.h"
 #import "BXTMTFilterViewController.h"
 #import "DOPDropDownMenu.h"
-#import "BXTMainTableViewCell.h"
+#import "BXTMTPlanListCell.h"
+#import "BXTMTPlanList.h"
 #import <MJRefresh.h>
-#import "BXTRepairInfo.h"
-#import "BXTMaintenanceBookViewController.h"
+#import "BXTMaintenanceDetailViewController.h"
 
 @interface BXTMaintenanceListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -20,6 +20,8 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, strong) NSArray *typeArray;
+
+@property (nonatomic, assign) CGFloat cellHeight;
 
 @property (nonatomic, copy) NSString *order;
 @property (nonatomic, copy) NSString *startTime;
@@ -78,24 +80,14 @@
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request listOfRepairOrderWithTaskType:@"2"
-                            repairListType:OtherList
-                               faulttypeID:@""
-                                     order:@""
-                               dispatchUid:@""
-                              dailyTimeout:@""
-                         inspectionTimeout:@""
-                                  timeName:@"fault_time"
-                                  tmeStart:@""
-                                  timeOver:@""
-                                subgroupID:@""
-                                   placeID:@""
-                               repairState:@""
-                                     state:@""
-                         faultCarriedState:@""
-                        repairCarriedState:@""
-                                      page:self.currentPage];
-    
+    [request statisticsInspectionTaskListWithStartTime:self.startTime
+                                               endTime:self.endTime
+                                           subgroupIDs:self.subgroupIDs
+                                      faulttypeTypeIDs:self.faulttypeIDs
+                                                 state:self.stateStr
+                                                 order:self.order
+                                              pagesize:@"5"
+                                                  page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
 
 #pragma mark -
@@ -161,16 +153,20 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTMainTableViewCell *cell = [BXTMainTableViewCell cellWithTableView:tableView];
+    BXTMTPlanListCell *cell = [BXTMTPlanListCell cellWithTableView:tableView];
     
-    cell.repairInfo = self.dataArray[indexPath.section];
+    cell.planList = self.dataArray[indexPath.section];
+    
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    self.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 140;
+    return self.cellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -185,10 +181,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTRepairInfo *repairInfo = self.dataArray[indexPath.section];
+    BXTMTPlanList *repairInfo = self.dataArray[indexPath.section];
     
-    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:repairInfo.orderid workOrderID:nil];
-    [self.navigationController pushViewController:bookVC animated:YES];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+    SceneType sceneType = MaintainType;
+    [repairDetailVC dataWithRepairID:repairInfo.PlanID sceneType:sceneType];
+    [self.navigationController pushViewController:repairDetailVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -208,13 +207,13 @@
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == RepairList && data.count > 0)
+    if (type == InspectionTaskList && data.count > 0)
     {
-        [BXTRepairInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"repairID":@"id"};
-        }];
-        NSArray *repairs = [BXTRepairInfo mj_objectArrayWithKeyValuesArray:data];
-        [self.dataArray addObjectsFromArray:repairs];
+        for (NSDictionary *dataDict in data)
+        {
+            BXTMTPlanList *planModel = [BXTMTPlanList modelWithDict:dataDict];
+            [self.dataArray addObject:planModel];
+        }
         
         if (!IS_IOS_8)
         {

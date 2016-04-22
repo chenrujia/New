@@ -16,12 +16,14 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *allView;
 @property (weak, nonatomic) IBOutlet UILabel *runningView;
+@property (weak, nonatomic) IBOutlet UILabel *faultView;
 @property (weak, nonatomic) IBOutlet UILabel *stopView;
 @property (weak, nonatomic) IBOutlet UILabel *unableView;
 
 @property (weak, nonatomic) IBOutlet UIView *roundView1;
 @property (weak, nonatomic) IBOutlet UIView *roundView2;
 @property (weak, nonatomic) IBOutlet UIView *roundView3;
+@property (weak, nonatomic) IBOutlet UIView *roundView4;
 
 - (IBAction)btnClick:(UIButton *)sender;
 

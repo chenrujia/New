@@ -13,6 +13,8 @@
 @property (nonatomic, copy) NSString *stop;
 @property (nonatomic, copy) NSString *stop_per;
 @property (nonatomic, copy) NSString *working;
+@property (nonatomic, copy) NSString *fault_per;
+@property (nonatomic, copy) NSString *fault;
 @property (nonatomic, copy) NSString *working_per;
 @property (nonatomic, copy) NSString *type_name;
 @property (nonatomic, copy) NSString *total;

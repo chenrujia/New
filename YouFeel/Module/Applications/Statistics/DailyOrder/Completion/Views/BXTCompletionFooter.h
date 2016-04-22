@@ -15,10 +15,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *pointView2;
 
 @property (weak, nonatomic) IBOutlet UIView *roundView;
+@property (weak, nonatomic) IBOutlet UIView *roundView1;
+@property (weak, nonatomic) IBOutlet UIView *roundView2;
+@property (weak, nonatomic) IBOutlet UIView *roundView3;
+
 @property (weak, nonatomic) IBOutlet UILabel *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *sumView;
-@property (weak, nonatomic) IBOutlet UILabel *doneView;
-@property (weak, nonatomic) IBOutlet UILabel *undownView;
-@property (weak, nonatomic) IBOutlet UILabel *specialView;
+@property (weak, nonatomic) IBOutlet UILabel *goodJobView;
+@property (weak, nonatomic) IBOutlet UILabel *badJobView;
+@property (weak, nonatomic) IBOutlet UILabel *unCompleteView;
 
 @end

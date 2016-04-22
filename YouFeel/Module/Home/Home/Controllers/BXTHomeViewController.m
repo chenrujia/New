@@ -13,7 +13,6 @@
 #import "BXTGroupInfo.h"
 #import "BXTDataRequest.h"
 #import "BXTHomeTableViewCell.h"
-#import "BXTAuthorityListViewController.h"
 #import "BXTQRCodeViewController.h"
 #import "SDCycleScrollView.h"
 #import "BXTProjectManageViewController.h"
@@ -143,9 +142,9 @@
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         // 商铺列表
-        BXTAuthorityListViewController *alVC = [[BXTAuthorityListViewController alloc] init];
-        alVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:alVC animated:YES];
+        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+        pivc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:pivc animated:YES];
         
     }];
     [logoImgView addSubview:branchBtn];
@@ -192,7 +191,7 @@
         [self.navigationController pushViewController:qrcVC animated:YES];
     }];
     [logoImgView addSubview:scanBtn];
-
+    
     self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(logoImgView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(logoImgView.frame) - KTABBARHEIGHT-5) style:UITableViewStyleGrouped];
     [_currentTableView registerClass:[BXTHomeTableViewCell class] forCellReuseIdentifier:@"HomeCell"];
     _currentTableView.rowHeight = 50;
@@ -382,8 +381,10 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.numberLabel.hidden = YES;
     
+    
     cell.logoImgView.image = [UIImage imageNamed:_imgNameArray[indexPath.section][indexPath.row]];
     cell.titleLabel.text = _titleNameArray[indexPath.section][indexPath.row];
+    
     
     if ([BXTGlobal shareGlobal].isRepair)
     {

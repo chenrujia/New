@@ -67,7 +67,7 @@
         }
         NSDictionary *elemDict = self.dataArray[i];
         MYPieElement *elem = [MYPieElement pieElementWithValue:[elemDict[@"sum_percent"] floatValue] color:elemColor];
-        elem.title = [NSString stringWithFormat:@"%@ %@%%", elemDict[@"subgroup"], elemDict[@"sum_percent"]];
+        elem.title = [NSString stringWithFormat:@"%@ %@", elemDict[@"subgroup"], elemDict[@"sum_percent"]];
         [self.pieView.layer addValues:@[elem] animated:NO];
         
         [oldDataArray addObject:elem];
@@ -104,7 +104,7 @@
             weakSelf.headerView.roundView.backgroundColor = [BXTGlobal randomColor];
         }
         weakSelf.headerView.groupView.text = [NSString stringWithFormat:@"%@", selectedDict[@"subgroup"]];
-        weakSelf.headerView.percentView.text = [NSString stringWithFormat:@"%@%%", selectedDict[@"sum_percent"]];
+        weakSelf.headerView.percentView.text = [NSString stringWithFormat:@"%@", selectedDict[@"sum_percent"]];
         weakSelf.headerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selectedDict[@"sum_number"]];
     };
     
@@ -119,7 +119,7 @@
     NSDictionary *selectedDict = self.dataArray[0];
     self.headerView.roundView.backgroundColor = colorWithHexString(colorArray[0]);
     self.headerView.groupView.text = [NSString stringWithFormat:@"%@", selectedDict[@"subgroup"]];
-    self.headerView.percentView.text = [NSString stringWithFormat:@"%@%%", selectedDict[@"sum_percent"]];
+    self.headerView.percentView.text = [NSString stringWithFormat:@"%@", selectedDict[@"sum_percent"]];
     self.headerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selectedDict[@"sum_number"]];
 }
 

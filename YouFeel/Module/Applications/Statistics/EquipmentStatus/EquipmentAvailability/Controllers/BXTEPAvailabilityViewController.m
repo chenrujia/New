@@ -54,7 +54,7 @@
     
     
     // SegmentView
-    segment = [[SegmentView alloc] initWithFrame:CGRectMake(0.f, 55.f, SCREEN_WIDTH, 40.f) andTitles:@[@"概述", @"维保系统统计"] isWhiteBGColor:1];
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(0.f, 55.f, SCREEN_WIDTH, 40.f) andTitles:@[@"概述", @"设备分类统计"] isWhiteBGColor:1];
     segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
@@ -72,7 +72,7 @@
     // Views
     CGFloat scrollViewH = currentScrollView.frame.size.height;
     BXTEPSummaryView *firstView = [[[NSBundle mainBundle] loadNibNamed:@"BXTEPSummaryView" owner:nil options:nil] lastObject];
-    firstView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 512);
+    firstView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 557);
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, scrollViewH)];
     scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, firstView.frame.size.height + 30);
