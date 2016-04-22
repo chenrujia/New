@@ -101,6 +101,7 @@
                                      state:@""
                          faultCarriedState:@""
                         repairCarriedState:@""
+                              collectionID:@""
                                       page:self.currentPage];
 }
 
@@ -174,6 +175,7 @@
                                          state:@""
                              faultCarriedState:@""
                             repairCarriedState:@""
+                                  collectionID:@""
                                           page:1];
     });
     dispatch_async(concurrentQueue, ^{

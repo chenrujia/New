@@ -166,6 +166,7 @@
                                          state:@""
                              faultCarriedState:self.faultCarriedState
                             repairCarriedState:self.repairCarriedState
+                                  collectionID:@""
                                           page:1];
     });
     dispatch_async(concurrentQueue, ^{
@@ -208,6 +209,7 @@
                                      state:self.filterOfState
                          faultCarriedState:self.faultCarriedState
                         repairCarriedState:self.repairCarriedState
+                              collectionID:@""
                                       page:self.currentPage];
 }
 
@@ -469,7 +471,7 @@
     SceneType sceneType = self.isRepair ? MyMaintenanceType : MyRepairType;
     [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:sceneType];
     [[self navigation] pushViewController:repairDetailVC animated:YES];
-
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

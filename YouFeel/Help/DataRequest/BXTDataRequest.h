@@ -176,6 +176,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
                                 state:(NSString *)state // 维修状态 1已修好 2 未修好
                     faultCarriedState:(NSString *)fault_carried_state // 报修者的列表进度状态
                    repairCarriedState:(NSString *)repair_carried_state // 维修者的列表进度状态
+                         collectionID:(NSString *)collection_id
                                  page:(NSInteger)page;
 
 /**

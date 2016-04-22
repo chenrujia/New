@@ -144,7 +144,7 @@
     for (NSDictionary *dict in self.dataArray)
     {
         NSString *downStr = [NSString stringWithFormat:@"%@", dict[@"yes_number"] ];
-        NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"complete_number"]];
+        NSString *specialStr = [NSString stringWithFormat:@"%@", dict[@"not_completed_num"]];
         NSString *undownStr = [NSString stringWithFormat:@"%@", dict[@"no_number"] ];
         NSNumber *downNum = [NSNumber numberWithInteger:[downStr integerValue]];
         NSNumber *specialNum = [NSNumber numberWithInteger:[specialStr integerValue]];
@@ -181,8 +181,9 @@
     NSDictionary *selecteDict = self.dataArray[0];
     self.footerView.groupView.text = [NSString stringWithFormat:@"%@", selecteDict[@"subgroup"]];
     self.footerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selecteDict[@"sum_number"]];
-    self.footerView.downView.text = [NSString stringWithFormat:@"完成:%@单", selecteDict[@"yes_number"]];
-    self.footerView.undownView.text = [NSString stringWithFormat:@"未完成:%@单", selecteDict[@"no_number"]];
+    self.footerView.goodJobView.text = [NSString stringWithFormat:@"已修好:%@单", selecteDict[@"yes_number"]];
+    self.footerView.badJobView.text = [NSString stringWithFormat:@"未修好:%@单", selecteDict[@"no_number"]];
+    self.footerView.unCompleteView.text = [NSString stringWithFormat:@"未完成:%@单", selecteDict[@"not_completed_num"]];
 }
 
 #pragma mark -
@@ -204,8 +205,9 @@
     NSDictionary *selecteDict = self.dataArray[barIndex];
     self.footerView.groupView.text = [NSString stringWithFormat:@"%@", selecteDict[@"subgroup"]];
     self.footerView.sumView.text = [NSString stringWithFormat:@"共计:%@单", selecteDict[@"sum_number"]];
-    self.footerView.downView.text = [NSString stringWithFormat:@"完成:%@单", selecteDict[@"yes_number"]];
-    self.footerView.undownView.text = [NSString stringWithFormat:@"未完成:%@单", selecteDict[@"no_number"]];
+    self.footerView.goodJobView.text = [NSString stringWithFormat:@"已修好:%@单", selecteDict[@"yes_number"]];
+    self.footerView.badJobView.text = [NSString stringWithFormat:@"未修好:%@单", selecteDict[@"no_number"]];
+    self.footerView.unCompleteView.text = [NSString stringWithFormat:@"未完成:%@单", selecteDict[@"not_completed_num"]];
     
     SPChartPopup * popup = [[SPChartPopup alloc] initWithContentView:label];
     [popup setPopupColor:colorWithHexString(@"#999999")];

@@ -120,7 +120,7 @@
                         <constraint firstAttribute="height" constant="10" id="HgF-oD-Oo7"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="维修好:10单" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="USG-NX-JaI">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未修好:10单" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="USG-NX-JaI">
                     <rect key="frame" x="157" y="377" width="75.5" height="22"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="RSM-Ac-44M"/>
