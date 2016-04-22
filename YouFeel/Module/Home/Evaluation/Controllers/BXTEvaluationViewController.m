@@ -110,7 +110,8 @@
     [backView addSubview:lineViewOne];
     
     //图片视图
-    BXTPhotosView *photoView = [[BXTPhotosView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
+    BXTPhotosView *photoView = [[BXTPhotosView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineViewOne.frame) + 20.f, SCREEN_WIDTH, 100)];
+    photoView.backgroundColor = [UIColor orangeColor];
     [photoView.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
     [backView addSubview:photoView];
     

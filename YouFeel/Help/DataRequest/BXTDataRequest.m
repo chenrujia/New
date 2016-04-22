@@ -619,6 +619,7 @@
     [self postRequest:url withParameters:dic];
 }
 
+//TODO: 这个接口500错误
 - (void)userInfoForChatListWithID:(NSString *)userID
 {
     self.requestType = UserInfoForChatList;
@@ -1088,6 +1089,7 @@
    confirmState:(NSString *)confirmState
    confirmNotes:(NSString *)notes
 {
+    self.requestType = IsSure;
     NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"workorder_id": repairID,
                           @"confirm_state": confirmState,
