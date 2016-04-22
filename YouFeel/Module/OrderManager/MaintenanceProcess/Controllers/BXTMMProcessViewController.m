@@ -140,18 +140,27 @@
     if (!self.choosedPlaceInfo)
     {
         [self showMBP:@"请您确定维修位置" withBlock:nil];
+        return;
     }
     else if (self.deviceInfo && !self.choosedStateInfo)
     {
         [self showMBP:@"请您确定设备状态" withBlock:nil];
+        return;
     }
     else if (!self.choosedFaultInfo)
     {
         [self showMBP:@"请您确定故障类型" withBlock:nil];
+        return;
     }
     else if ([self.state isEqualToString:@"1"] && !self.choosedReasonInfo)
     {
         [self showMBP:@"请您确定未完成原因" withBlock:nil];
+        return;
+    }
+    else if (self.number && !self.choosedStateInfo)
+    {
+        [self showMBP:@"请您确定设备状态" withBlock:nil];
+        return;
     }
     
     [self showLoadingMBP:@"请稍后..."];
@@ -334,7 +343,14 @@
                 else if (indexPath.section == 2 && self.number)
                 {
                     normalCell.titleLabel.text = @"设备状态";
-                    normalCell.detailLable.text = self.deviceState;
+                    if (self.choosedStateInfo)
+                    {
+                        normalCell.detailLable.text = self.choosedStateInfo.param_value;
+                    }
+                    else
+                    {
+                        normalCell.detailLable.text = @"请选择";
+                    }
                 }
                 else if (indexPath.section == 1 + self.number)
                 {

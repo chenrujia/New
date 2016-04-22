@@ -92,6 +92,7 @@ static const CGFloat UserBackViewSpace = 20.f;
         }
     }
     
+    [self showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request maintenanceManList];
 }
@@ -133,6 +134,7 @@ static const CGFloat UserBackViewSpace = 20.f;
         [self.manIDArray addObject:manInfo.mmID];
     }
     NSString *data = [self.manIDArray componentsJoinedByString:@","];
+    [self showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request dispatchingMan:self.repairID andMans:data];
 }
@@ -326,6 +328,7 @@ static const CGFloat UserBackViewSpace = 20.f;
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == ManList)
@@ -384,7 +387,7 @@ static const CGFloat UserBackViewSpace = 20.f;
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning
