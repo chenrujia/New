@@ -371,7 +371,7 @@
     _evaluateNotes.text = self.repairDetail.evaluation_notes;
     [_contentView layoutIfNeeded];
     _ninth_bv_height.constant = CGRectGetMaxY(_evaluateNotes.frame) + 10.f;
-    [_ninthBV layoutIfNeeded];
+    [self.view layoutIfNeeded];
 }
 
 - (void)loadEvaluationPic

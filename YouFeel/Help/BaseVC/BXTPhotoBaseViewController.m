@@ -522,14 +522,11 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
-    NSDictionary *dic = (NSDictionary *)response;
-    NSLog(@"response:%@",dic);
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
-    NSLog(@"error:%@",[error localizedDescription]);
 }
 
 - (void)didReceiveMemoryWarning
