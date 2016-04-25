@@ -7,7 +7,6 @@
 //
 
 #import "BXTMaintenanceViewController.h"
-#import "BXTRemarksTableViewCell.h"
 #import "BXTSettingTableViewCell.h"
 #import <objc/runtime.h>
 #import "BXTHeaderForVC.h"
@@ -266,44 +265,46 @@
 {
     if (indexPath.section == self.maintenanceProes.count + 2)
     {
-        BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarksTableViewCell"];
-        if (!cell)
-        {
-            cell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RemarksTableViewCell"];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        cell.remarkTV.delegate = self;
-        cell.titleLabel.text = @"备   注";
-        cell.remarkTV.text = self.maintenceInfo.notes;
-        self.indexPath = indexPath;
-        
-        [cell handleImagesFrame:self.maintenceInfo.pic];
-        
-        @weakify(self);
-        UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
-        [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
-            @strongify(self);
-            //展示大图
-            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
-            [self loadMWPhotoBrowser:cell.imgViewOne.tag];
-        }];
-        [cell.imgViewOne addGestureRecognizer:tapGROne];
-        UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
-        [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
-            @strongify(self);
-            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
-            [self loadMWPhotoBrowser:cell.imgViewTwo.tag];
-        }];
-        [cell.imgViewTwo addGestureRecognizer:tapGRTwo];
-        UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
-        [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
-            @strongify(self);
-            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
-            [self loadMWPhotoBrowser:cell.imgViewThree.tag];
-        }];
-        [cell.imgViewThree addGestureRecognizer:tapGRThree];
-        
-        [cell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
+//        BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarksTableViewCell"];
+//        if (!cell)
+//        {
+//            cell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RemarksTableViewCell"];
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        }
+//        cell.remarkTV.delegate = self;
+//        cell.titleLabel.text = @"备   注";
+//        cell.remarkTV.text = self.maintenceInfo.notes;
+//        self.indexPath = indexPath;
+//        
+//        [cell handleImagesFrame:self.maintenceInfo.pic];
+//        
+//        @weakify(self);
+//        UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
+//        [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
+//            @strongify(self);
+//            //展示大图
+//            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
+//            [self loadMWPhotoBrowser:cell.imgViewOne.tag];
+//        }];
+//        [cell.imgViewOne addGestureRecognizer:tapGROne];
+//        UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
+//        [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
+//            @strongify(self);
+//            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
+//            [self loadMWPhotoBrowser:cell.imgViewTwo.tag];
+//        }];
+//        [cell.imgViewTwo addGestureRecognizer:tapGRTwo];
+//        UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
+//        [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
+//            @strongify(self);
+//            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
+//            [self loadMWPhotoBrowser:cell.imgViewThree.tag];
+//        }];
+//        [cell.imgViewThree addGestureRecognizer:tapGRThree];
+//        
+//        [cell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
+        //TODO: 处理下BXTRemarksTableViewCell的问题
+        UITableViewCell *cell = [UITableViewCell new];
         return cell;
     }
     else
