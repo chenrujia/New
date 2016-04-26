@@ -65,6 +65,7 @@
         [titleArray addObject:[NSString stringWithFormat:@"%@", dict[@"faulttype_name"]]];
     }
     
+    
     // 无参数处理
     if (self.dataArray.count == 0)
     {
