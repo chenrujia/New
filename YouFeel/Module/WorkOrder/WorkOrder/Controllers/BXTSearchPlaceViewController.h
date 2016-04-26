@@ -10,12 +10,20 @@
 #import "BXTPlaceInfo.h"
 #import "BXTAllDepartmentInfo.h"
 
-typedef void (^ChoosePlace)(BXTBaseClassifyInfo *classifyInfo);
+typedef NS_ENUM(NSInteger, SearchVCType)
+{
+    PlaceSearchType,//位置筛选
+    FaultSearchType,//故障类型筛选
+    DepartmentSearchType//部门筛选
+};
+
+typedef void (^ChoosePlace)(BXTBaseClassifyInfo *classifyInfo,NSString *name);
 
 @interface BXTSearchPlaceViewController : BXTBaseViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
+@property (nonatomic, assign) SearchVCType searchType;
 @property (nonatomic, copy) ChoosePlace selectPlace;
 
 /** ---- 标题 ---- */

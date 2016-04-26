@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSString            *deviceState;
 @property (nonatomic, strong) NSString            *state;
 @property (nonatomic, strong) NSString            *mmLog;
+@property (nonatomic, strong) NSString            *repairPlace;
 @property (nonatomic, assign) NSInteger           number;
 @property (nonatomic, strong) BXTSelectBoxView    *boxView;
 @property (nonatomic, strong) BXTDeviceMMListInfo *deviceInfo;
@@ -190,10 +191,11 @@
         BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
         NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
         @weakify(self);
-        [searchVC userChoosePlace:dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
+        [searchVC userChoosePlace:dataSource type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
             @strongify(self);
             BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
             self.choosedPlaceInfo = placeInfo;
+            self.repairPlace = name;
             [self.currentTable reloadData];
         }];
         [self.navigationController pushViewController:searchVC animated:YES];
@@ -204,7 +206,7 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
         @weakify(self);
-        [searchVC userChoosePlace:self.fau_dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
+        [searchVC userChoosePlace:self.fau_dataSource type:FaultSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
             @strongify(self);
             BXTFaultInfo *faultInfo = (BXTFaultInfo *)classifyInfo;
             self.choosedFaultInfo = faultInfo;
@@ -322,7 +324,7 @@
             normalCell.titleLabel.text = @"维修位置";
             if (self.choosedPlaceInfo)
             {
-                normalCell.detailLable.text = self.choosedPlaceInfo.name;
+                normalCell.detailLable.text = self.repairPlace;
             }
             else
             {

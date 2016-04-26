@@ -52,22 +52,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self navigationSetting:@"项目认证" andRightTitle:nil andRightImage:nil];
     
     self.titleArray = @[@"", @"机构类型"];
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"请选择", nil];
     self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"", nil];
-    
-    NSLog(@"transProjectInfo ----- %@", self.transProjectInfo.type);
-    if (self.transProjectInfo) {
-        if ([self.transProjectInfo.type integerValue] == 1) {
+    if (self.transProjectInfo)
+    {
+        if ([self.transProjectInfo.type integerValue] == 1)
+        {
             self.isCompanyType = YES;
             self.titleArray = @[@"", @"机构类型", @"部门", @"职位", @"本职专业", @"其他技能"];
             self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"项目管理公司", self.transProjectInfo.department, self.transProjectInfo.duty_name, self.transProjectInfo.subgroup, self.transProjectInfo.extra_subgroup, nil];
             self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"项目管理公司", self.transProjectInfo.department_id, self.transProjectInfo.duty_id, self.transProjectInfo.subgroup_id, self.transProjectInfo.have_subgroup_ids, nil];
         }
-        else {
+        else
+        {
             self.isCompanyType = NO;
             self.titleArray = @[@"", @"机构类型", @"所属", @"常用位置"];
             self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"客户组", @"请选择", @"请选择", nil];
@@ -84,7 +84,6 @@
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
-    
     
     [self showLoadingMBP:@"努力加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
@@ -269,38 +268,47 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.selectTableView) {
+    if (tableView == self.selectTableView)
+    {
         NSString *selectRow  = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
-        
-        
-        if (self.showSelectedRow == 1 || self.showSelectedRow == 4) {        // 单选
+        //单选
+        if (self.showSelectedRow == 1 || self.showSelectedRow == 4)
+        {
             //判断数组中有没有被选中行的行号,
-            if ([self.mulitSelectArray containsObject:selectRow]) {
+            if ([self.mulitSelectArray containsObject:selectRow])
+            {
                 [self.mulitSelectArray removeObject:selectRow];
             }
-            else {
-                if (self.mulitSelectArray.count == 1) {
+            else
+            {
+                if (self.mulitSelectArray.count == 1)
+                {
                     [self.mulitSelectArray replaceObjectAtIndex:0 withObject:selectRow];
-                } else {
+                }
+                else
+                {
                     [self.mulitSelectArray addObject:selectRow];
                 }
             }
         }
-        else {      // 多选
-            if ([self.mulitSelectArray containsObject:selectRow]) {
+        //多选
+        else
+        {
+            if ([self.mulitSelectArray containsObject:selectRow])
+            {
                 [self.mulitSelectArray removeObject:selectRow];
             }
-            else {
+            else
+            {
                 [self.mulitSelectArray addObject:selectRow];
             }
         }
-        
         [tableView reloadData];
+        
         return;
     }
-    
-    
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1)
+    {
         [self createTableViewWithIndex:indexPath.section];
     }
     
@@ -349,13 +357,12 @@
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
     NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
     @weakify(self);
-    [searchVC userChoosePlace:dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
+    [searchVC userChoosePlace:dataSource type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
         @strongify(self);
         BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
-        [self.detailArray replaceObjectAtIndex:3 withObject:placeInfo.place];
+        [self.detailArray replaceObjectAtIndex:3 withObject:name];
         [self.transArray replaceObjectAtIndex:3 withObject:placeInfo.placeID];
         [self.tableView reloadData];
-        
         [self showLoadingMBP:@"努力加载中..."];
         /**维修位置**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -370,7 +377,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
     @weakify(self);
-    [searchVC userChoosePlace:self.departmentArray block:^(BXTBaseClassifyInfo *classifyInfo) {
+    [searchVC userChoosePlace:self.departmentArray type:DepartmentSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
         @strongify(self);
         BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)classifyInfo;
         [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
@@ -486,13 +493,15 @@
 - (void)adjustStructureType
 {
     NSString *selected = [NSString stringWithFormat:@"%@", self.mulitSelectArray[0]];
-    if ([selected integerValue] == 0) {
+    if ([selected integerValue] == 0)
+    {
         self.isCompanyType = YES;
         self.titleArray = @[@"", @"机构类型", @"部门", @"职位", @"本职专业", @"其他技能"];
         self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"项目管理公司", @"请选择", @"请选择", @"请选择", @"请选择", nil];
         self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"项目管理公司", @"", @"", @"", @"", nil];
     }
-    else {
+    else
+    {
         self.isCompanyType = NO;
         self.titleArray = @[@"", @"机构类型", @"所属", @"常用位置"];
         self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"客户组", @"请选择", @"请选择", nil];
