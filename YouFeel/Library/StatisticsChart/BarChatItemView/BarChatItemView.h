@@ -26,4 +26,6 @@ typedef void (^blockT)(NSInteger index);
 @property(nonatomic,retain)NSArray *ItemArray;
 @property(nonatomic,retain)NSArray *dataArray;
 
+@property(nonatomic,retain)NSArray *titleArray;
+
 @end

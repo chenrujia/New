@@ -26,6 +26,7 @@
 #import "BXTMyIntegralViewController.h"
 #import "BXTMTProfessionViewController.h"
 #import "BXTRepairsListViewController.h"
+#import "BXTIncidenceViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -142,10 +143,14 @@
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         // 商铺列表
-        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+//        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+//        pivc.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:pivc animated:YES];
+        
+        BXTIncidenceViewController *pivc = [[BXTIncidenceViewController alloc] init];
         pivc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:pivc animated:YES];
-        
+
     }];
     [logoImgView addSubview:branchBtn];
     

@@ -52,12 +52,12 @@
     [self.rootScrollView addSubview:headerView];
     
     // 好评率
-    int downNum = [self.dataDict[@"sum_number"] intValue];
-    int pariseNum = [self.dataDict[@"praise_sum_number"] intValue];
+    int downNum = [self.dataDict[@"total_number"] intValue];
+    int pariseNum = [self.dataDict[@"praise_number"] intValue];
     headerView.doneView.text = [NSString stringWithFormat:@"共完成:%d", downNum];
     headerView.praiseView.text = [NSString stringWithFormat:@"好评:%d", pariseNum];
-    headerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%@%@", self.dataDict[@"praise_percent"], @"%"];
-    headerView.persentView.text = [NSString stringWithFormat:@"%@%@", self.dataDict[@"praise_percent"], @"%"];
+    headerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%@%@", self.dataDict[@"percent"], @"%"];
+    headerView.persentView.text = [NSString stringWithFormat:@"%@%@", self.dataDict[@"percent"], @"%"];
     
     [headerView.pieChartView clearChart];
     //straightPieChart.isVertical = YES;

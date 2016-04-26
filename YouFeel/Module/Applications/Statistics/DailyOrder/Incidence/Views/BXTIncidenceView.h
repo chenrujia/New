@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong) UILabel *titleView;
 @property (nonatomic, strong) UILabel *rangkingView;
-@property (nonatomic, strong) UILabel *groupView;
 @property (nonatomic, strong) UILabel *typeView;
 @property (nonatomic, strong) UILabel *repairView;
 @property (nonatomic, strong) UILabel *ratioView;

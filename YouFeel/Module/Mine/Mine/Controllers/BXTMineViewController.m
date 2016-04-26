@@ -20,6 +20,8 @@
 #import "BXTCommentListViewController.h"
 #import "BXTAboutUsViewController.h"
 
+#define SaveBranchID @"SaveBranchID"
+
 @interface BXTMineViewController () <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -30,6 +32,8 @@
 @property (strong, nonatomic) UIImageView *headImgView;
 @property (strong, nonatomic) UILabel *nameLabel;
 
+@property (strong, nonatomic) BXTMineDownView *downView;
+
 @end
 
 @implementation BXTMineViewController
@@ -38,6 +42,12 @@
 {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
+    
+    if (![ValueFUD(SaveBranchID) isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]]) {
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request userInfo];
+    }
+    
 }
 
 - (void)dealloc
@@ -53,6 +63,7 @@
     [self initContentViews];
     
     self.feebackSource = [NSMutableArray array];
+    
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestFeeback" object:nil] subscribeNext:^(id x) {
         @strongify(self);
@@ -73,6 +84,7 @@
     [self showLoadingMBP:@"请稍等..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request feedbackCommentList];
+    
 }
 
 #pragma mark -
@@ -125,9 +137,9 @@
     self.nameLabel.text = [BXTGlobal getUserProperty:U_NAME];
     [logoView addSubview:self.nameLabel];
     
-    BXTMineDownView *downView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMineDownView" owner:nil options:nil] lastObject];
-    downView.frame = CGRectMake((SCREEN_WIDTH-240)/2, CGRectGetMaxY(self.nameLabel.frame) + valueForDevice(12, 11, 8, 8), 240, 40);
-    [logoView addSubview:downView];
+    self.downView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMineDownView" owner:nil options:nil] lastObject];
+    self.downView.frame = CGRectMake((SCREEN_WIDTH-160)/2, CGRectGetMaxY(self.nameLabel.frame) + valueForDevice(12, 11, 8, 8), 160, 40);
+    [logoView addSubview:self.downView];
 }
 
 #pragma mark -
@@ -224,13 +236,24 @@
     [self hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
-    [BXTFeebackInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-        return @{@"feebackID":@"id"};
-    }];
-    [BXTCommentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-        return @{@"commentID":@"id"};
-    }];
-    [_feebackSource addObjectsFromArray:[BXTFeebackInfo mj_objectArrayWithKeyValuesArray:data]];
+    
+    if (type == UserInfo) {
+        SaveValueTUD(SaveBranchID, [BXTGlobal getUserProperty:U_BRANCHUSERID]);
+        
+        [BXTMineInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"mineID":@"id"};
+        }];
+        self.downView.mineInfo =  [BXTMineInfo mj_objectWithKeyValues:data[0]];
+    }
+    else {
+        [BXTFeebackInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"feebackID":@"id"};
+        }];
+        [BXTCommentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"commentID":@"id"};
+        }];
+        [_feebackSource addObjectsFromArray:[BXTFeebackInfo mj_objectArrayWithKeyValuesArray:data]];
+    }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

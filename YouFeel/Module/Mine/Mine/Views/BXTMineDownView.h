@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTMineInfo.h"
 
 @interface BXTMineDownView : UIView
 
 @property (weak, nonatomic) IBOutlet UIImageView *firstStarView;
-@property (weak, nonatomic) IBOutlet UIImageView *secondStarView;
 @property (weak, nonatomic) IBOutlet UIImageView *thirdStarView;
+
+@property (strong, nonatomic) BXTMineInfo *mineInfo;
 
 @end

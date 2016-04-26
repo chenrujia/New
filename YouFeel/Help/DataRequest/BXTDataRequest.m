@@ -96,20 +96,20 @@
     
     NSArray *array = [BXTGlobal getUserProperty:U_SHOPIDS];
     NSString *shopID = nil;
-    NSString *shortURL = nil;
+    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};;
+    NSString *url = nil;
     if (array && array.count)
     {
         shopID = [NSString stringWithFormat:@"%@", array[0]];
-        shortURL = [BXTGlobal shareGlobal].baseURL;
+        url = [NSString stringWithFormat:@"%@&module=user&opt=shop_login", [BXTGlobal shareGlobal].baseURL];
     }
     else
     {
         //TODO: 11是临时值
         shopID = @"11";
-        shortURL = KAPIBASEURL;
+        url = [NSString stringWithFormat:@"%@&shop_id=%@&module=user&opt=shop_login", KAPIBASEURL, shopID];
     }
-    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};
-    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&module=user&opt=shop_login",shortURL,shopID];
+    
     [self postRequest:url withParameters:dic];
 }
 

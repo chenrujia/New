@@ -74,6 +74,9 @@
     BXTBranchUserInfo *branchUser = [BXTBranchUserInfo mj_objectWithKeyValues:dic];
 
     [BXTGlobal setUserProperty:branchUser.userID withKey:U_BRANCHUSERID];
+    
+    NSLog(@"userID ------- %@", branchUser.userID);
+    
     BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
     roleInfo.role_id = branchUser.duty_id;
     roleInfo.duty_name = branchUser.duty_name;
