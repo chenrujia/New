@@ -125,6 +125,7 @@
         return cell;
     }
     
+    
     BXTUserInformCell *cell = [BXTUserInformCell cellWithTableView:tableView];
     cell.titleView.text = self.titleArray[indexPath.section][indexPath.row];
     cell.detailView.text = self.detailArray[indexPath.section][indexPath.row];
