@@ -233,6 +233,7 @@
         
         [self.tableView reloadData];
     }];
+    searchVC.titleStr = @"安装位置";
     [self.navigationController pushViewController:searchVC animated:YES];
 }
 

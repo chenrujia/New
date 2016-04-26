@@ -54,9 +54,14 @@
 #pragma mark 初始化视图
 - (void)initContentViews
 {
+    NSString *emailStr = ValueFUD(USEREMAIL);
+    if (!ValueFUD(USEREMAIL)) {
+        emailStr = @"";
+    }
+    
     self.titleArray = @[@[@"", @"姓   名", @"性   别", @"邮   箱"], @[@"手机号"], @[@"微信号"]];
     NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
-    self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
+    self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, emailStr], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;

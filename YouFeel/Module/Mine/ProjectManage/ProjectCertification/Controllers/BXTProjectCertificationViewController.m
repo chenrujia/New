@@ -361,6 +361,7 @@
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
         [fau_request modifyBindPlaceWithShopID:self.transMyProject.shop_id placeID:placeInfo.placeID];
     }];
+    searchVC.titleStr = @"常用位置";
     [self.navigationController pushViewController:searchVC animated:YES];
 }
 
@@ -376,7 +377,7 @@
         [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.departmentID];
         [self.tableView reloadData];
     }];
-    
+    searchVC.titleStr = @"部门";
     [self.navigationController pushViewController:searchVC animated:YES];
 }
 

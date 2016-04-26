@@ -53,7 +53,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"维修位置" andRightTitle:nil andRightImage:nil];
+    
+    if (!self.titleStr) {
+        self.titleStr = @"维修位置";
+    }
+
+    [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
+    
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.isOpen = YES;
     _commitBtn.layer.cornerRadius = 4.f;

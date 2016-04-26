@@ -18,6 +18,9 @@ typedef void (^ChoosePlace)(BXTBaseClassifyInfo *classifyInfo);
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
 @property (nonatomic, copy) ChoosePlace selectPlace;
 
+/** ---- 标题 ---- */
+@property (copy, nonatomic) NSString *titleStr;
+
 - (void)userChoosePlace:(NSArray *)array block:(ChoosePlace)place;
 
 - (IBAction)commitClick:(id)sender;
