@@ -17,21 +17,17 @@
     UIView *selectBgView;
 }
 
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, strong) UITableView    *tableView;
+@property (nonatomic, strong) NSArray        *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSMutableArray *transArray;
-
-@property (nonatomic, strong) UIDatePicker *datePicker;
-
-@property (nonatomic, strong) UITableView *selectTableView;
+@property (nonatomic, strong) UIDatePicker   *datePicker;
+@property (nonatomic, strong) UITableView    *selectTableView;
 @property (nonatomic, strong) NSMutableArray *selectArray;
 @property (nonatomic, strong) NSMutableArray *mulitSelectArray;
-@property (nonatomic, assign) int selectRow;
-@property (nonatomic, assign) NSInteger showSelectedRow;
-
-@property (nonatomic, strong) NSArray *transLocatArray;
-
+@property (nonatomic, assign) NSInteger      selectRow;
+@property (nonatomic, assign) NSInteger      showSelectedRow;
+@property (nonatomic, strong) NSArray        *transLocatArray;
 @property (nonatomic, strong) NSMutableArray *deviceArray;
 @property (nonatomic, strong) NSMutableArray *deviceIDArray;
 
@@ -123,10 +119,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.selectTableView) {
+    if (tableView == self.selectTableView)
+    {
         static NSString *cellID = @"cellSelect";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        if (cell == nil) {
+        if (cell == nil)
+        {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
         }
         
@@ -134,10 +132,12 @@
         NSString *selectRow = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
         
         //数组中包含当前行号，设置对号
-        if ([self.mulitSelectArray containsObject:selectRow]) {
+        if ([self.mulitSelectArray containsObject:selectRow])
+        {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
-        else {
+        else
+        {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
         
@@ -148,7 +148,8 @@
     
     static NSString *cellID = @"cell";
     BXTEPFilterCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEPFilterCell" owner:nil options:nil] lastObject];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
@@ -176,28 +177,37 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.selectTableView) {
+    if (tableView == self.selectTableView)
+    {
         NSString *selectRow  = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
-        
-        if (self.showSelectedRow != 2) {
+        if (self.showSelectedRow != 2)
+        {
             //判断数组中有没有被选中行的行号,
-            if ([self.mulitSelectArray containsObject:selectRow]) {
+            if ([self.mulitSelectArray containsObject:selectRow])
+            {
                 [self.mulitSelectArray removeObject:selectRow];
             }
-            else {
-                if (self.mulitSelectArray.count == 1) {
+            else
+            {
+                if (self.mulitSelectArray.count == 1)
+                {
                     [self.mulitSelectArray replaceObjectAtIndex:0 withObject:selectRow];
-                } else {
+                }
+                else
+                {
                     [self.mulitSelectArray addObject:selectRow];
                 }
             }
         }
-        else {
+        else
+        {
             //判断数组中有没有被选中行的行号,
-            if ([self.mulitSelectArray containsObject:selectRow]) {
+            if ([self.mulitSelectArray containsObject:selectRow])
+            {
                 [self.mulitSelectArray removeObject:selectRow];
             }
-            else {
+            else
+            {
                 [self.mulitSelectArray addObject:selectRow];
             }
         }
@@ -206,13 +216,16 @@
         return;
     }
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         [self createDatePickerWithIndex:indexPath.section];
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 1)
+    {
         [self pushLocationViewController];
     }
-    else {
+    else
+    {
         [self createTableViewWithIndex:indexPath.section];
     }
     
@@ -225,12 +238,11 @@
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
     NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
     @weakify(self);
-    [searchVC userChoosePlace:dataSource block:^(BXTBaseClassifyInfo *classifyInfo) {
+    [searchVC userChoosePlace:dataSource type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
         @strongify(self);
         BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
-        [self.dataArray replaceObjectAtIndex:1 withObject:placeInfo.place];
+        [self.dataArray replaceObjectAtIndex:1 withObject:name];
         [self.transArray replaceObjectAtIndex:1 withObject:placeInfo.placeID];
-        
         [self.tableView reloadData];
     }];
     [self.navigationController pushViewController:searchVC animated:YES];
@@ -241,10 +253,12 @@
 - (void)createTableViewWithIndex:(NSInteger)index
 {
     self.showSelectedRow = index;
-    if (index == 2) {
+    if (index == 2)
+    {
         self.selectArray = self.deviceArray;
     }
-    else if (index == 3) {
+    else if (index == 3)
+    {
         self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"正常", @"故障", @"停运", @"报废", nil];
     }
     
@@ -253,17 +267,16 @@
     selectBgView.tag = 102;
     [self.view addSubview:selectBgView];
     
-    
     // selectTableView
     CGFloat tableViewH = self.selectArray.count * 50 + 10;
-    if (self.selectArray.count >= 6) {
+    if (self.selectArray.count >= 6)
+    {
         tableViewH = 6 * 50 + 10;
     }
     self.selectTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - tableViewH-50, SCREEN_WIDTH, tableViewH) style:UITableViewStylePlain];
     self.selectTableView.delegate = self;
     self.selectTableView.dataSource = self;
     [self.view addSubview:self.selectTableView];
-    
     
     // toolView
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
@@ -278,20 +291,24 @@
     @weakify(self);
     [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
         NSString *finalStr =@"";
         NSString *finalNumStr = @"";
-        for (id object in self.mulitSelectArray) {
+        
+        for (id object in self.mulitSelectArray)
+        {
             finalStr = [finalStr stringByAppendingString:[NSString stringWithFormat:@" %@", self.selectArray[[object intValue]]]];
-            
-            if (index == 2) {
+            if (index == 2)
+            {
                 finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.deviceIDArray[[object intValue]]]];
             }
-            else if (index == 3) {
+            else if (index == 3)
+            {
                 finalNumStr = object;
             }
         }
-        if (index == 2 && finalNumStr.length >= 1) {
+        
+        if (index == 2 && finalNumStr.length >= 1)
+        {
             finalNumStr = [finalNumStr substringToIndex:finalNumStr.length - 1];
         }
         
@@ -302,7 +319,6 @@
             [self.transArray replaceObjectAtIndex:index withObject:finalNumStr];
             [self.tableView reloadData];
         }
-        
         
         // 清除
         [self.mulitSelectArray removeAllObjects];
@@ -332,7 +348,8 @@
     // titleLabel
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 80, 30)];
     titleLabel.text = @"开始时间";
-    if (index == 1) {
+    if (index == 1)
+    {
         titleLabel.text = @"结束时间";
     }
     titleLabel.font = [UIFont systemFontOfSize:16.f];
@@ -349,7 +366,6 @@
     timeLabel.textAlignment = NSTextAlignmentRight;
     [headerView addSubview:timeLabel];
     
-    
     // datePicker
     self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
     self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
@@ -361,7 +377,6 @@
         timeLabel.text = [self weekdayStringFromDate:self.datePicker.date];
     }];
     [bgView addSubview:self.datePicker];
-    
     
     // toolView
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
@@ -426,7 +441,8 @@
     }
     else if (view.tag == 102)
     {
-        if (_selectTableView) {
+        if (_selectTableView)
+        {
             [self.mulitSelectArray removeAllObjects];
             [_selectTableView removeFromSuperview];
             _selectTableView = nil;
@@ -460,19 +476,9 @@
     [self hideMBP];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

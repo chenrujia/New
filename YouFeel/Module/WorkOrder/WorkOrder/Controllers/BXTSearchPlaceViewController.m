@@ -17,7 +17,6 @@
 #define YUPIMAGE    [UIImage imageNamed:@"wo_up_arrow"]
 
 //!!!: 选择的时候有点小问题，到时候多测测
-
 @interface BXTSearchPlaceViewController ()
 
 @property (nonatomic, assign) BOOL isOpen;
@@ -35,6 +34,8 @@
 @property (nonatomic, strong) NSMutableArray *resultsArray;
 //筛选结果标记数组
 @property (nonatomic, strong) NSMutableArray *resultMarksArray;
+//筛选出来的标题（标题是一级一级拼接起来的）
+@property (nonatomic, strong) NSMutableArray *searchTitlesArray;
 //手动选择的结果
 @property (nonatomic, strong) BXTBaseClassifyInfo *manualClassifyInfo;
 //自动选择的结果
@@ -44,21 +45,33 @@
 
 @implementation BXTSearchPlaceViewController
 
-- (void)userChoosePlace:(NSArray *)array block:(ChoosePlace)place
+- (void)userChoosePlace:(NSArray *)array type:(SearchVCType)type block:(ChoosePlace)place
 {
     self.dataSource = array;
+    self.searchType = type;
     self.selectPlace = place;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"维修位置" andRightTitle:nil andRightImage:nil];
+    if (self.searchType == PlaceSearchType)
+    {
+        [self navigationSetting:@"维修位置" andRightTitle:nil andRightImage:nil];
+    }
+    else if (self.searchType == FaultSearchType)
+    {
+        [self navigationSetting:@"故障类型" andRightTitle:nil andRightImage:nil];
+    }
+    else if (self.searchType == DepartmentSearchType)
+    {
+        [self navigationSetting:@"部门" andRightTitle:nil andRightImage:nil];
+    }
     self.view.backgroundColor = [UIColor whiteColor];
     self.isOpen = YES;
-    _commitBtn.layer.cornerRadius = 4.f;
-    [_currentTable registerNib:[UINib nibWithNibName:@"BXTPlaceTableViewCell" bundle:nil] forCellReuseIdentifier:@"RowCell"];
-    [_currentTable setEstimatedRowHeight:50.f];
+    self.commitBtn.layer.cornerRadius = 4.f;
+    [self.currentTable registerNib:[UINib nibWithNibName:@"BXTPlaceTableViewCell" bundle:nil] forCellReuseIdentifier:@"RowCell"];
+    [self.currentTable setEstimatedRowHeight:50.f];
     
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     self.mutableArray = mutableArray;
@@ -68,27 +81,43 @@
     self.resultsArray = resultArray;
     NSMutableArray *resultMarkArray = [[NSMutableArray alloc] init];
     self.resultMarksArray = resultMarkArray;
+    NSMutableArray *titlesArray = [[NSMutableArray alloc] init];
+    self.searchTitlesArray = titlesArray;
     
     for (id obj in self.dataSource)
     {
         NSMutableArray *tempArray = [[NSMutableArray alloc] initWithObjects:obj, nil];
-        [_mutableArray addObject:tempArray];
+        [self.mutableArray addObject:tempArray];
         NSMutableArray *emptyArray = [[NSMutableArray alloc] init];
-        [_marksArray addObject:emptyArray];
+        [self.marksArray addObject:emptyArray];
     }
     
-    [_currentTable reloadData];
+    [self.currentTable reloadData];
 }
 
 - (IBAction)commitClick:(id)sender
 {
-    if (_isOpen)
+    if (self.isOpen)
     {
-        _selectPlace(_manualClassifyInfo);
+        NSString *prefixName = @"";
+        NSMutableArray *markArray = self.marksArray[self.lastSection];
+        NSMutableArray *tempArray = self.mutableArray[self.lastSection];
+        
+        for (NSInteger i = 0; i < markArray.count; i++)
+        {
+            NSString *markStr = markArray[i];
+            if ([markStr integerValue] == 1)
+            {
+                BXTBaseClassifyInfo *classifyInfo = tempArray[i];
+                prefixName = [NSString stringWithFormat:@"%@%@",prefixName,classifyInfo.name];
+            }
+        }
+        
+        self.selectPlace(self.manualClassifyInfo,prefixName);
     }
     else
     {
-        _selectPlace(_autoClassifyInfo);
+        self.selectPlace(self.autoClassifyInfo,self.searchTitlesArray[self.lastIndex]);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -96,23 +125,29 @@
 - (IBAction)switchValueChanged:(id)sender
 {
     UISwitch *swt = sender;
-    _isOpen = swt.isOn;
-    [_currentTable reloadData];
+    self.isOpen = swt.isOn;
+    [self.currentTable reloadData];
 }
 
+#pragma mark -
+#pragma mark UISearchBarDelegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    [_resultsArray removeAllObjects];
-    [_resultMarksArray removeAllObjects];
-    NSMutableArray *searchArray = [self filterItemsWithData:_dataSource searchString:searchText];
-    [_resultsArray addObjectsFromArray:searchArray];
-    for (NSInteger i = 0; i < _resultsArray.count; i++)
+    [self.resultsArray removeAllObjects];
+    [self.resultMarksArray removeAllObjects];
+    NSMutableArray *searchArray = [self filterItemsWithData:self.dataSource searchString:searchText lastLevelTitle:@""];
+    [self.resultsArray addObjectsFromArray:searchArray];
+    
+    for (NSInteger i = 0; i < self.resultsArray.count; i++)
     {
-        [_resultMarksArray addObject:@"0"];
+        [self.resultMarksArray addObject:@"0"];
     }
-    [_currentTable reloadData];
+    
+    [self.currentTable reloadData];
 }
 
+#pragma mark -
+#pragma mark UITableViewDelegate & UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 12.f;
@@ -126,57 +161,48 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 9)
-    {
-        return 12.f;
-    }
     return 0.1f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 9)
-    {
-        UIView *bv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 12.f)];
-        return bv;
-    }
     UIView *bv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
     return bv;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (_isOpen)
+    if (self.isOpen)
     {
-        return _dataSource.count;
+        return self.dataSource.count;
     }
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (_isOpen)
+    if (self.isOpen)
     {
-        NSMutableArray *tempArray = _mutableArray[section];
+        NSMutableArray *tempArray = self.mutableArray[section];
         return tempArray.count;
     }
-    return _resultsArray.count;
+    return self.resultsArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTPlaceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RowCell" forIndexPath:indexPath];
     NSString *content = nil;
-    if (_isOpen)
+    if (self.isOpen)
     {
-        NSMutableArray *tempArray = _mutableArray[indexPath.section];
+        NSMutableArray *tempArray = self.mutableArray[indexPath.section];
         BXTBaseClassifyInfo *classifyInfo = tempArray[indexPath.row];
         content = classifyInfo.name;
         cell.name_left.constant = [classifyInfo.level integerValue] * 15.f;
         //是否显示箭头
         cell.arrowImage.hidden = classifyInfo.lists.count == 0 ? YES : NO;
         
-        NSMutableArray *markArray = _marksArray[indexPath.section];
+        NSMutableArray *markArray = self.marksArray[indexPath.section];
         if (markArray.count > indexPath.row)
         {
             //颜色变换
@@ -191,12 +217,11 @@
     }
     else
     {
-        BXTBaseClassifyInfo *classifyInfo = _resultsArray[indexPath.row];
-        content = classifyInfo.name;
+        content = self.searchTitlesArray[indexPath.row];
         cell.name_left.constant = 15.f;
         cell.arrowImage.hidden = YES;
         //颜色变换
-        cell.nameLabel.textColor = [_resultMarksArray[indexPath.row] integerValue] ? YGREENCOLOR : YBLACKCOLOR;
+        cell.nameLabel.textColor = [self.resultMarksArray[indexPath.row] integerValue] ? YGREENCOLOR : YBLACKCOLOR;
     }
     [cell.nameLabel layoutIfNeeded];
     cell.nameLabel.text = content;
@@ -207,37 +232,38 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     //搜索结果的标记
-    if (!_isOpen)
+    if (!self.isOpen)
     {
-        if (_lastIndex != indexPath.row)
+        if (self.lastIndex != indexPath.row)
         {
-            [_resultMarksArray replaceObjectAtIndex:_lastIndex withObject:@"0"];
+            [self.resultMarksArray replaceObjectAtIndex:self.lastIndex withObject:@"0"];
         }
-        BXTBaseClassifyInfo *classifyInfo = _resultsArray[indexPath.row];
-        _autoClassifyInfo = classifyInfo;
-        [_resultMarksArray replaceObjectAtIndex:indexPath.row withObject:@"1"];
-        _lastIndex = indexPath.row;
+        BXTBaseClassifyInfo *classifyInfo = self.resultsArray[indexPath.row];
+        self.autoClassifyInfo = classifyInfo;
+        [self.resultMarksArray replaceObjectAtIndex:indexPath.row withObject:@"1"];
+        self.lastIndex = indexPath.row;
         [tableView reloadData];
         return;
     }
     
     //如果两次选择的不一样，则收起上次的选择
-    if (_lastSection != indexPath.section)
+    if (self.lastSection != indexPath.section)
     {
-        NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:0 inSection:_lastSection];
+        NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:0 inSection:self.lastSection];
         [self refreshTableForRemove:lastIndexPath];
-        NSMutableArray *markArray = _marksArray[lastIndexPath.section];
+        NSMutableArray *markArray = self.marksArray[lastIndexPath.section];
         if (markArray.count > 0)
         {
             [markArray replaceObjectAtIndex:0 withObject:@"0"];
         }
-        [_currentTable reloadData];
+        [self.currentTable reloadData];
     }
-    _lastSection = indexPath.section;
+    self.lastSection = indexPath.section;
     
     //改变标记数组的状态值
-    NSMutableArray *markArray = _marksArray[indexPath.section];
+    NSMutableArray *markArray = self.marksArray[indexPath.section];
     if (markArray.count < indexPath.row)
     {
         for (NSInteger i = 0; i < indexPath.row - markArray.count; i++)
@@ -270,6 +296,8 @@
     }
 }
 
+#pragma mark -
+#pragma mark 自定义方法
 - (void)refreshTableForAdd:(NSIndexPath *)indexPath
 {
     //如果placeInfe的lists有数据，则取出相应的数据，添加到tempArray数组里面
@@ -295,6 +323,7 @@
         //改变标记数组的状态值
         NSMutableArray *markArray = _marksArray[indexPath.section];
         NSMutableArray *items = [self searchItemsWithPlace:classifyInfo theIndexPath:indexPath];
+        
         for (BXTBaseClassifyInfo *tempClassifyInfo in items)
         {
             NSInteger index = [tempArray indexOfObject:tempClassifyInfo];
@@ -303,6 +332,7 @@
                 [markArray replaceObjectAtIndex:index withObject:@"0"];
             }
         }
+        
         [tempArray removeObjectsInArray:items];
     }
     [_currentTable reloadData];
@@ -314,6 +344,7 @@
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     NSMutableArray *tempArray = _mutableArray[indexPath.section];
     NSMutableArray *markArray = _marksArray[indexPath.section];
+    
     for (BXTBaseClassifyInfo *tempClassifyInfo in classifyInfo.lists)
     {
         [mutableArray addObject:tempClassifyInfo];
@@ -329,19 +360,21 @@
     return mutableArray;
 }
 
-- (NSMutableArray *)filterItemsWithData:(NSArray *)array searchString:(NSString *)searchStr
+- (NSMutableArray *)filterItemsWithData:(NSArray *)array searchString:(NSString *)searchStr lastLevelTitle:(NSString *)lastTitle
 {
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     
     for (BXTBaseClassifyInfo *classifyInfo in array)
     {
+        NSString *title = [NSString stringWithFormat:@"%@%@",lastTitle,classifyInfo.name];
         if ([classifyInfo.name containsString:searchStr])
         {
             [mutableArray addObject:classifyInfo];
+            [self.searchTitlesArray addObject:title];
         }
         if (classifyInfo.lists.count > 0)
         {
-            NSMutableArray *tempArray = [self filterItemsWithData:classifyInfo.lists searchString:searchStr];
+            NSMutableArray *tempArray = [self filterItemsWithData:classifyInfo.lists searchString:searchStr lastLevelTitle:title];
             [mutableArray addObjectsFromArray:tempArray];
         }
     }
@@ -353,6 +386,7 @@
 {
     NSMutableArray *tempArray = _mutableArray[indexPath.section];
     BXTBaseClassifyInfo *selectClassifyInfo = tempArray[indexPath.row];
+    
     for (NSInteger i = 0; i < tempArray.count; i++)
     {
         BXTBaseClassifyInfo *classifyInfo = tempArray[i];

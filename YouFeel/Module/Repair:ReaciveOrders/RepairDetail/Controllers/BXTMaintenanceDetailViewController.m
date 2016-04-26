@@ -488,9 +488,10 @@
             }
             else
             {
+                self.eighthBV.hidden = YES;
                 self.ninthBV.hidden = YES;
                 self.tenthBV.hidden = YES;
-                self.content_height.constant = CGRectGetMaxY(self.eighthBV.frame)+ 10.f + 12.f;
+                [self updateContentConstant:self.seventhBV];
             }
         }
     }
@@ -676,6 +677,19 @@
         self.fouthBV.hidden = YES;
         self.fifthBV.hidden = YES;
         self.sixth_top.constant = 12.f;
+        [self.sixthBV layoutIfNeeded];
+        //维修员相关
+        [self loadMMList];
+        [self loadAllOthers];
+        [self.contentView layoutIfNeeded];
+        return;
+    }
+    else if (self.repairDetail.fault_pic.count &&
+             self.repairDetail.device_lists.count == 0 &&
+             self.repairDetail.repair_user_arr.count)
+    {
+        self.fifthBV.hidden = YES;
+        self.sixth_top.constant = 147.f;
         [self.sixthBV layoutIfNeeded];
         //维修员相关
         [self loadMMList];
