@@ -245,7 +245,6 @@
         [self.transArray replaceObjectAtIndex:1 withObject:placeInfo.placeID];
         [self.tableView reloadData];
     }];
-    searchVC.titleStr = @"安装位置";
     [self.navigationController pushViewController:searchVC animated:YES];
 }
 

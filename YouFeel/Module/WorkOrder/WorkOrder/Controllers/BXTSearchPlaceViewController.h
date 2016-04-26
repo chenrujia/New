@@ -26,10 +26,7 @@ typedef void (^ChoosePlace)(BXTBaseClassifyInfo *classifyInfo,NSString *name);
 @property (nonatomic, assign) SearchVCType searchType;
 @property (nonatomic, copy) ChoosePlace selectPlace;
 
-/** ---- 标题 ---- */
-@property (copy, nonatomic) NSString *titleStr;
-
-- (void)userChoosePlace:(NSArray *)array block:(ChoosePlace)place;
+- (void)userChoosePlace:(NSArray *)array type:(SearchVCType)type block:(ChoosePlace)place;
 
 - (IBAction)commitClick:(id)sender;
 - (IBAction)switchValueChanged:(id)sender;

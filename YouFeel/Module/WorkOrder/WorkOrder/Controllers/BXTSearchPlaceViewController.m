@@ -55,14 +55,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    if (!self.titleStr) {
-        self.titleStr = @"维修位置";
+    if (self.searchType == PlaceSearchType)
+    {
+        [self navigationSetting:@"维修位置" andRightTitle:nil andRightImage:nil];
     }
-
-    [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
-    
-    
+    else if (self.searchType == FaultSearchType)
+    {
+        [self navigationSetting:@"故障类型" andRightTitle:nil andRightImage:nil];
+    }
+    else if (self.searchType == DepartmentSearchType)
+    {
+        [self navigationSetting:@"部门" andRightTitle:nil andRightImage:nil];
+    }
     self.view.backgroundColor = [UIColor whiteColor];
     self.isOpen = YES;
     self.commitBtn.layer.cornerRadius = 4.f;
