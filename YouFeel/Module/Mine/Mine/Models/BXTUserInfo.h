@@ -25,6 +25,7 @@
 #define U_USERSARRAY   @"usersArray"
 #define U_TOKEN        @"token"
 #define U_OPENID       @"openID"
+#define USEREMAIL     @"email"
 
 //存储用的Model
 @class BXTResignedShopInfo;

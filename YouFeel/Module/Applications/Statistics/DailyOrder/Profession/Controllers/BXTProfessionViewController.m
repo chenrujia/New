@@ -77,8 +77,15 @@
         sumNum += [elemDict[@"sum_number"] integerValue];
     }
     
+    BOOL isAllZero = YES;
+    for (NSString *elem in pieArray) {
+        if ([elem intValue] != 0) {
+            isAllZero = NO;
+            break;
+        }
+    }
     // 无参数处理
-    if ([pieArray[0] intValue] == 0 && [pieArray[1] intValue] == 0 && [pieArray[2] intValue] == 0)
+    if (isAllZero)
     {
         [self.pieView.layer deleteValues:oldDataArray animated:YES];
         MYPieElement *elem = [MYPieElement pieElementWithValue:1 color:colorWithHexString(colorArray[0])];

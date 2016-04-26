@@ -383,7 +383,6 @@
         [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.departmentID];
         [self.tableView reloadData];
     }];
-    
     [self.navigationController pushViewController:searchVC animated:YES];
 }
 

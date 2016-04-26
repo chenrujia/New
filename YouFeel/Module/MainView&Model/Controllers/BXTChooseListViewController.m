@@ -42,7 +42,7 @@
 {
     [super viewDidLoad];
     
-    [self navigationSetting:@"选择部门" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"所属" andRightTitle:nil andRightImage:nil];
     
     self.isSwitchOn = YES;
     self.dataArray = [NSMutableArray array];

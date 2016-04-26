@@ -19,6 +19,7 @@
     
     NSString *imageStr2 = mineInfo.binding_shop == 2 ? @"mine_star" : @"mine_stars";
     self.thirdStarView.image = [UIImage imageNamed:imageStr2];
+    
 }
 
 - (void)awakeFromNib {

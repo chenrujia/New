@@ -243,7 +243,10 @@
         [BXTMineInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"mineID":@"id"};
         }];
-        self.downView.mineInfo =  [BXTMineInfo mj_objectWithKeyValues:data[0]];
+        BXTMineInfo *mineInfo = [BXTMineInfo mj_objectWithKeyValues:data[0]];
+        SaveValueTUD(USEREMAIL, mineInfo.email);
+        
+        self.downView.mineInfo =  mineInfo;
     }
     else {
         [BXTFeebackInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
