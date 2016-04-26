@@ -52,6 +52,12 @@
 
 @implementation BXTOrderListView
 
+- (void)dealloc
+{
+    //TODO: 这个view无法释放
+    NSLog(@"。。。。。。。。。。。。。。。");
+}
+
 - (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andIsRepair:(BOOL)isRepair
 {
     self = [super initWithFrame:frame];
@@ -62,6 +68,8 @@
             @strongify(self);
             [self.ordersArray removeAllObjects];
             [self.tableView reloadData];
+            self.currentPage = 1;
+            [self requestData];
         }];
         
         self.stateStr = state;
@@ -77,6 +85,17 @@
             self.faultCarriedState = [self.stateStr isEqualToString:@"2"] ? @"1" : @"2" ;
         }
         [self createUIWithFrame:frame];
+        
+        self.currentPage = 1;
+        __block __typeof(self) weakSelf = self;
+        self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            weakSelf.currentPage = 1;
+            [weakSelf getResource];
+        }];
+        self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            weakSelf.currentPage++;
+            [weakSelf getResource];
+        }];
         [self requestData];
     }
     return self;
@@ -140,7 +159,7 @@
 }
 
 #pragma mark -
-#pragma mark - requestData
+#pragma mark - 数据请求
 - (void)requestData
 {
     [self showLoadingMBP:@"努力加载中..."];
@@ -172,17 +191,6 @@
         BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
         [location_request listOFPlaceIsAllPlace:NO];
     });
-    
-    self.currentPage = 1;
-    __block __typeof(self) weakSelf = self;
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        weakSelf.currentPage = 1;
-        [weakSelf getResource];
-    }];
-    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        weakSelf.currentPage++;
-        [weakSelf getResource];
-    }];
 }
 
 - (void)getResource

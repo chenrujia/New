@@ -80,6 +80,7 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UIImageView *evaluatePicThree;
 @property (weak, nonatomic) IBOutlet UIScrollView *mmScroller;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scroller_bottom;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *first_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fifth_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sixth_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *ninth_top;
