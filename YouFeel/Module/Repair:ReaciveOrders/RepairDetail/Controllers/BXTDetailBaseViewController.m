@@ -108,7 +108,7 @@
 - (NSMutableArray *)containAllPhotosForMWPhotoBrowser
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (BXTFaultPicInfo *picInfo in _repairDetail.fault_pic)
+    for (BXTFaultPicInfo *picInfo in self.repairDetail.fault_pic)
     {
         if (picInfo.photo_file)
         {
@@ -116,7 +116,7 @@
             [photos addObject:photo];
         }
     }
-    for (BXTFaultPicInfo *picInfo in _repairDetail.fixed_pic)
+    for (BXTFaultPicInfo *picInfo in self.repairDetail.fixed_pic)
     {
         if (picInfo.photo_file)
         {
@@ -124,7 +124,7 @@
             [photos addObject:photo];
         }
     }
-    for (BXTFaultPicInfo *picInfo in _repairDetail.evaluation_pic)
+    for (BXTFaultPicInfo *picInfo in self.repairDetail.evaluation_pic)
     {
         if (picInfo.photo_file)
         {
@@ -138,11 +138,11 @@
 - (NSMutableArray *)containAllPhotos:(NSArray *)picArray
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (NSDictionary *dictionary in picArray)
+    for (BXTFaultPicInfo *picInfo in picArray)
     {
-        if (![[dictionary objectForKey:@"photo_file"] isEqual:[NSNull null]])
+        if (picInfo.photo_file)
         {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_file"]]];
+            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:picInfo.photo_file]];
             [photos addObject:photo];
         }
     }

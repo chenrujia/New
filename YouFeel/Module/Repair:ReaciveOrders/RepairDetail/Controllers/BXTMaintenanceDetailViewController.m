@@ -61,21 +61,21 @@
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
     self.btnArray = buttons;
     isFirst = YES;
-    _connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    _connectTa.layer.borderWidth = 1.f;
-    _connectTa.layer.cornerRadius = 4.f;
+    self.connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+    self.connectTa.layer.borderWidth = 1.f;
+    self.connectTa.layer.cornerRadius = 4.f;
     
     //联系他
     @weakify(self);
-    [[_connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [[self.connectTa rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];
         [self handleUserInfo:@{@"UserID":repairPerson.out_userid,
                                @"UserName":repairPerson.name,
                                @"HeadPic":repairPerson.head_pic}];
     }];
-    _orderType.layer.masksToBounds = YES;
-    _orderType.layer.cornerRadius = 3.f;
+    self.orderType.layer.masksToBounds = YES;
+    self.orderType.layer.cornerRadius = 3.f;
     self.manIDArray = [[NSMutableArray alloc] init];
     
     //点击头像
@@ -89,7 +89,7 @@
         personVC.shopID = shopArray[0];
         [self.navigationController pushViewController:personVC animated:YES];
     }];
-    [_headImgView addGestureRecognizer:tapGesture];
+    [self.headImgView addGestureRecognizer:tapGesture];
     
     //给故障图片、维修完成图片、评论图片的点击事件
     [self addTapToImageView:self.faultPicOne];
@@ -143,8 +143,20 @@
     @weakify(self);
     [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
-        self.mwPhotosArray = [self containAllPhotosForMWPhotoBrowser];
-        [self loadMWPhotoBrowserForDetail:imageView.tag withFaultPicCount:self.repairDetail.fault_pic.count withFixedPicCount:self.repairDetail.fixed_pic.count withEvaluationPicCount:self.repairDetail.evaluation_pic.count];
+        UIView *supView = imageView.superview;
+        if (supView == self.fouthBV)
+        {
+            self.mwPhotosArray = [self containAllPhotos:self.repairDetail.fault_pic];
+        }
+        else if (supView == self.eighthBV)
+        {
+            self.mwPhotosArray = [self containAllPhotos:self.repairDetail.fixed_pic];
+        }
+        else if (supView == self.tenthBV)
+        {
+            self.mwPhotosArray = [self containAllPhotos:self.repairDetail.evaluation_pic];
+        }
+        [self loadMWPhotoBrowser:imageView.tag];
     }];
 }
 
@@ -191,7 +203,7 @@
     CGFloat secondHeight = 32.f + 63.f * deviceCount;
     if (deviceCount)
     {
-        _fifthBV.hidden = NO;
+        self.fifthBV.hidden = NO;
         //先清除，后添加
         for (UIView *subview in _fifthBV.subviews)
         {
@@ -202,20 +214,20 @@
             }
             [subview removeFromSuperview];
         }
-        _fifth_bv_height.constant = secondHeight;
-        [_fifthBV layoutIfNeeded];
+        self.fifth_bv_height.constant = secondHeight;
+        [self.fifthBV layoutIfNeeded];
         for (NSInteger i = 0; i < deviceCount; i++)
         {
             BOOL isLast = deviceCount == i + 1 ? YES : NO;
             UIView *deviceView = [self deviceLists:i comingFromDeviceInfo:self.isComingFromDeviceInfo isLast:isLast];
-            [_fifthBV addSubview:deviceView];
+            [self.fifthBV addSubview:deviceView];
         }
-        _sixth_top.constant = 159.f + secondHeight;
-        [_sixthBV layoutIfNeeded];
+        self.sixth_top.constant = 159.f + secondHeight;
+        [self.sixthBV layoutIfNeeded];
     }
     else
     {
-        _fifthBV.hidden = YES;
+        self.fifthBV.hidden = YES;
     }
 }
 
@@ -225,10 +237,10 @@
     NSInteger usersCount = self.repairDetail.repair_user_arr.count;
     if (usersCount)
     {
-        _sixthBV.hidden = NO;
-        _mmScroller.contentSize = CGSizeMake(113.f * usersCount, 0);
+        self.sixthBV.hidden = NO;
+        self.mmScroller.contentSize = CGSizeMake(113.f * usersCount, 0);
         //先清除，后添加
-        for (UIView *subview in _mmScroller.subviews)
+        for (UIView *subview in self.mmScroller.subviews)
         {
             [subview removeFromSuperview];
         }
@@ -239,18 +251,19 @@
             BXTMaintenanceManInfo *mmInfo = self.repairDetail.repair_user_arr[i];
             [self.manIDArray addObject:mmInfo.mmID];
             UIView *userBack = [self viewForUser:i andMaintenance:mmInfo];
-            [_mmScroller addSubview:userBack];
+            [self.mmScroller addSubview:userBack];
         }
     }
     else
     {
-        _sixthBV.hidden = YES;
+        self.sixthBV.hidden = YES;
     }
 }
 
 - (void)loadMaintenanceReports
 {
     //维修报告相关
+    self.seventhBV.hidden = NO;
     self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
     [self.contentScrollView layoutIfNeeded];
     self.endTime.text = [NSString stringWithFormat:@"结束时间：%@",self.repairDetail.report.end_time_name];
@@ -265,80 +278,83 @@
 
 - (void)loadFaultPic
 {
+    self.fouthBV.hidden = NO;
     switch (self.repairDetail.fault_pic.count)
     {
         case 1:
         {
             BXTFaultPicInfo *faultPic = self.repairDetail.fault_pic[0];
-            _faultPicOne.hidden = NO;
-            [_faultPicOne sd_setImageWithURL:[NSURL URLWithString:faultPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.faultPicOne.hidden = NO;
+            [self.faultPicOne sd_setImageWithURL:[NSURL URLWithString:faultPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         }
             break;
         case 2:
         {
             BXTFaultPicInfo *faultPicOne = self.repairDetail.fault_pic[0];
-            _faultPicOne.hidden = NO;
-            [_faultPicOne sd_setImageWithURL:[NSURL URLWithString:faultPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.faultPicOne.hidden = NO;
+            [self.faultPicOne sd_setImageWithURL:[NSURL URLWithString:faultPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             BXTFaultPicInfo *faultPicTwo = self.repairDetail.fault_pic[1];
-            _faultPicTwo.hidden = NO;
-            [_faultPicTwo sd_setImageWithURL:[NSURL URLWithString:faultPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.faultPicTwo.hidden = NO;
+            [self.faultPicTwo sd_setImageWithURL:[NSURL URLWithString:faultPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         }
             break;
         case 3:
         {
             BXTFaultPicInfo *faultPicOne = self.repairDetail.fault_pic[0];
-            _faultPicOne.hidden = NO;
-            [_faultPicOne sd_setImageWithURL:[NSURL URLWithString:faultPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.faultPicOne.hidden = NO;
+            [self.faultPicOne sd_setImageWithURL:[NSURL URLWithString:faultPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             BXTFaultPicInfo *faultPicTwo = self.repairDetail.fault_pic[1];
-            _faultPicTwo.hidden = NO;
-            [_faultPicTwo sd_setImageWithURL:[NSURL URLWithString:faultPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.faultPicTwo.hidden = NO;
+            [self.faultPicTwo sd_setImageWithURL:[NSURL URLWithString:faultPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             BXTFaultPicInfo *faultPicThree = self.repairDetail.fault_pic[2];
-            _faultPicThree.hidden = NO;
-            [_faultPicThree sd_setImageWithURL:[NSURL URLWithString:faultPicThree.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.faultPicThree.hidden = NO;
+            [self.faultPicThree sd_setImageWithURL:[NSURL URLWithString:faultPicThree.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         }
             break;
         default:
+            self.fouthBV.hidden = YES;
             break;
     }
-    
 }
 
 - (void)loadFixedPic
 {
     //维修后图片相关
+    self.eighthBV.hidden = NO;
     switch (self.repairDetail.fixed_pic.count)
     {
         case 1:
         {
             BXTFaultPicInfo *fixPic = self.repairDetail.fixed_pic[0];
-            _fixPicOne.hidden = NO;
-            [_fixPicOne sd_setImageWithURL:[NSURL URLWithString:fixPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.fixPicOne.hidden = NO;
+            [self.fixPicOne sd_setImageWithURL:[NSURL URLWithString:fixPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         }
             break;
         case 2:
         {
             BXTFaultPicInfo *fixPicOne = self.repairDetail.fixed_pic[0];
-            _fixPicOne.hidden = NO;
-            [_fixPicOne sd_setImageWithURL:[NSURL URLWithString:fixPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.fixPicOne.hidden = NO;
+            [self.fixPicOne sd_setImageWithURL:[NSURL URLWithString:fixPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             BXTFaultPicInfo *fixPicTwo = self.repairDetail.fixed_pic[1];
-            _fixPicTwo.hidden = NO;
-            [_fixPicTwo sd_setImageWithURL:[NSURL URLWithString:fixPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.fixPicTwo.hidden = NO;
+            [self.fixPicTwo sd_setImageWithURL:[NSURL URLWithString:fixPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         }
             break;
         case 3:
         {
             BXTFaultPicInfo *fixPicOne = self.repairDetail.fixed_pic[0];
-            _fixPicOne.hidden = NO;
-            [_fixPicOne sd_setImageWithURL:[NSURL URLWithString:fixPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.fixPicOne.hidden = NO;
+            [self.fixPicOne sd_setImageWithURL:[NSURL URLWithString:fixPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             BXTFaultPicInfo *fixPicTwo = self.repairDetail.fixed_pic[1];
-            _fixPicTwo.hidden = NO;
-            [_fixPicTwo sd_setImageWithURL:[NSURL URLWithString:fixPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.fixPicTwo.hidden = NO;
+            [self.fixPicTwo sd_setImageWithURL:[NSURL URLWithString:fixPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             BXTFaultPicInfo *fixPicThree = self.repairDetail.fixed_pic[2];
-            _fixPicThree.hidden = NO;
-            [_fixPicThree sd_setImageWithURL:[NSURL URLWithString:fixPicThree.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.fixPicThree.hidden = NO;
+            [self.fixPicThree sd_setImageWithURL:[NSURL URLWithString:fixPicThree.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         }
             break;
         default:
+            self.eighthBV.hidden = YES;
             break;
     }
 }
@@ -346,7 +362,8 @@
 - (void)loadEvaluationContent
 {
     //评价相关
-    for (UIView *subview in _ninthBV.subviews)
+    self.ninthBV.hidden = NO;
+    for (UIView *subview in self.ninthBV.subviews)
     {
         if (subview.tag == 10 || subview.tag == 11 || subview.tag == 12)
         {
@@ -364,52 +381,54 @@
         imagesRatingControl.tag = 10 + i;
         imagesRatingControl.rating = 5;
         imagesRatingControl.userInteractionEnabled = NO;
-        [_ninthBV addSubview:imagesRatingControl];
+        [self.ninthBV addSubview:imagesRatingControl];
     }
     self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
     [self.contentScrollView layoutIfNeeded];
-    _evaluateNotes.text = self.repairDetail.evaluation_notes;
-    [_contentView layoutIfNeeded];
-    _ninth_bv_height.constant = CGRectGetMaxY(_evaluateNotes.frame) + 10.f;
+    self.evaluateNotes.text = self.repairDetail.evaluation_notes;
+    [self.contentView layoutIfNeeded];
+    self.ninth_bv_height.constant = CGRectGetMaxY(self.evaluateNotes.frame) + 10.f;
     [self.view layoutIfNeeded];
 }
 
 - (void)loadEvaluationPic
 {
     //评价图片相关
+    self.tenthBV.hidden = NO;
     switch (self.repairDetail.evaluation_pic.count)
     {
         case 1:
         {
             BXTFaultPicInfo *evaluationPic = self.repairDetail.evaluation_pic[0];
-            _evaluatePicOne.hidden = NO;
-            [_evaluatePicOne sd_setImageWithURL:[NSURL URLWithString:evaluationPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.evaluatePicOne.hidden = NO;
+            [self.evaluatePicOne sd_setImageWithURL:[NSURL URLWithString:evaluationPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         }
             break;
         case 2:
         {
             BXTFaultPicInfo *evaluationPic = self.repairDetail.evaluation_pic[0];
-            _evaluatePicOne.hidden = NO;
-            [_evaluatePicOne sd_setImageWithURL:[NSURL URLWithString:evaluationPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.evaluatePicOne.hidden = NO;
+            [self.evaluatePicOne sd_setImageWithURL:[NSURL URLWithString:evaluationPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             BXTFaultPicInfo *evaluationPicTwo = self.repairDetail.evaluation_pic[1];
-            _evaluatePicTwo.hidden = NO;
-            [_evaluatePicTwo sd_setImageWithURL:[NSURL URLWithString:evaluationPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.evaluatePicTwo.hidden = NO;
+            [self.evaluatePicTwo sd_setImageWithURL:[NSURL URLWithString:evaluationPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         }
             break;
         case 3:
         {
             BXTFaultPicInfo *evaluationPic = self.repairDetail.evaluation_pic[0];
-            _evaluatePicOne.hidden = NO;
-            [_evaluatePicOne sd_setImageWithURL:[NSURL URLWithString:evaluationPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.evaluatePicOne.hidden = NO;
+            [self.evaluatePicOne sd_setImageWithURL:[NSURL URLWithString:evaluationPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             BXTFaultPicInfo *evaluationPicTwo = self.repairDetail.evaluation_pic[1];
-            _evaluatePicTwo.hidden = NO;
-            [_evaluatePicTwo sd_setImageWithURL:[NSURL URLWithString:evaluationPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.evaluatePicTwo.hidden = NO;
+            [self.evaluatePicTwo sd_setImageWithURL:[NSURL URLWithString:evaluationPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             BXTFaultPicInfo *evaluationPicThree = self.repairDetail.evaluation_pic[2];
-            _evaluatePicThree.hidden = NO;
-            [_evaluatePicThree sd_setImageWithURL:[NSURL URLWithString:evaluationPicThree.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+            self.evaluatePicThree.hidden = NO;
+            [self.evaluatePicThree sd_setImageWithURL:[NSURL URLWithString:evaluationPicThree.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         }
             break;
         default:
+            self.tenthBV.hidden = YES;
             break;
     }
 }
@@ -571,6 +590,10 @@
     NSString *headURL = repairPerson.head_pic;
     [self.headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     self.repairerName.text = repairPerson.name;
+    if ([repairPerson.rpID isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]])
+    {
+        self.connectTa.hidden = YES;
+    }
     self.departmentName.text = [NSString stringWithFormat:@"部门：%@",repairPerson.department_name];
     self.positionName.text = [NSString stringWithFormat:@"职位：%@",repairPerson.duty_name];
     self.repairID.text = [NSString stringWithFormat:@"工单编号:%@",self.repairDetail.orderid];

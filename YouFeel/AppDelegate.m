@@ -600,6 +600,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
             dispatch_async(concurrentQueue, ^{
                 /**请求位置列表**/
+                //TODO: 一周更新一次
                 if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
                 {
                     BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];

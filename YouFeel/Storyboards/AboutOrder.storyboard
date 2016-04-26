@@ -1364,23 +1364,23 @@
                                                     </mask>
                                                     <mask key="constraints">
                                                         <exclude reference="wkt-ve-1IK"/>
-                                                        <exclude reference="qE2-v6-gay"/>
-                                                        <exclude reference="sgV-Oy-kDX"/>
                                                         <exclude reference="FFH-8v-cMV"/>
                                                         <exclude reference="IOT-0S-hf2"/>
                                                         <exclude reference="stP-mW-nyA"/>
-                                                        <exclude reference="bUj-bN-6Db"/>
-                                                        <exclude reference="eHo-1e-HID"/>
-                                                        <exclude reference="lOs-hs-w1o"/>
                                                         <exclude reference="MYM-Wm-UGX"/>
                                                         <exclude reference="Zwd-uM-cFK"/>
                                                         <exclude reference="dbn-tk-pmv"/>
-                                                        <exclude reference="JJr-BI-hR0"/>
-                                                        <exclude reference="jfv-xd-6iB"/>
-                                                        <exclude reference="lrU-Aw-6fM"/>
                                                         <exclude reference="cj1-ev-qgb"/>
                                                         <exclude reference="uoJ-2U-ieM"/>
                                                         <exclude reference="wil-YJ-bqg"/>
+                                                        <exclude reference="qE2-v6-gay"/>
+                                                        <exclude reference="sgV-Oy-kDX"/>
+                                                        <exclude reference="JJr-BI-hR0"/>
+                                                        <exclude reference="jfv-xd-6iB"/>
+                                                        <exclude reference="lrU-Aw-6fM"/>
+                                                        <exclude reference="bUj-bN-6Db"/>
+                                                        <exclude reference="eHo-1e-HID"/>
+                                                        <exclude reference="lOs-hs-w1o"/>
                                                     </mask>
                                                 </variation>
                                                 <variation key="heightClass=regular-widthClass=compact">
@@ -1394,23 +1394,23 @@
                                                     </mask>
                                                     <mask key="constraints">
                                                         <include reference="wkt-ve-1IK"/>
-                                                        <include reference="qE2-v6-gay"/>
-                                                        <include reference="sgV-Oy-kDX"/>
                                                         <include reference="FFH-8v-cMV"/>
                                                         <include reference="IOT-0S-hf2"/>
                                                         <include reference="stP-mW-nyA"/>
-                                                        <include reference="bUj-bN-6Db"/>
-                                                        <include reference="eHo-1e-HID"/>
-                                                        <include reference="lOs-hs-w1o"/>
                                                         <include reference="MYM-Wm-UGX"/>
                                                         <include reference="Zwd-uM-cFK"/>
                                                         <include reference="dbn-tk-pmv"/>
-                                                        <include reference="JJr-BI-hR0"/>
-                                                        <include reference="jfv-xd-6iB"/>
-                                                        <include reference="lrU-Aw-6fM"/>
                                                         <include reference="cj1-ev-qgb"/>
                                                         <include reference="uoJ-2U-ieM"/>
                                                         <include reference="wil-YJ-bqg"/>
+                                                        <include reference="qE2-v6-gay"/>
+                                                        <include reference="sgV-Oy-kDX"/>
+                                                        <include reference="JJr-BI-hR0"/>
+                                                        <include reference="jfv-xd-6iB"/>
+                                                        <include reference="lrU-Aw-6fM"/>
+                                                        <include reference="bUj-bN-6Db"/>
+                                                        <include reference="eHo-1e-HID"/>
+                                                        <include reference="lOs-hs-w1o"/>
                                                     </mask>
                                                 </variation>
                                             </view>
@@ -1670,6 +1670,7 @@
                         <outlet property="fifth_top" destination="nBu-AY-np9" id="PpB-xG-dzc"/>
                         <outlet property="firstBV" destination="8wz-ml-7cR" id="xXf-pk-GAQ"/>
                         <outlet property="first_bv_height" destination="Qka-SN-tc6" id="7pG-TB-kvs"/>
+                        <outlet property="first_top" destination="Rg0-Dl-Tnp" id="pob-yl-KWZ"/>
                         <outlet property="fixPicOne" destination="bwq-Ki-Zc1" id="t8S-Fu-XFS"/>
                         <outlet property="fixPicThree" destination="ja9-YR-rMx" id="I32-yW-584"/>
                         <outlet property="fixPicTwo" destination="6kF-dB-szo" id="uFc-NW-7W8"/>
