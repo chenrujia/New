@@ -12,13 +12,14 @@
 #define Max_Height  250
 
 #define BAR_SPACES_DEFAULT 10
-#define VERTICALE_DATA_SPACES 10
+#define VERTICALE_DATA_SPACES 40
 
 @implementation BarChatItemView
 
 @synthesize dateArray;
 @synthesize ItemArray;
 @synthesize dataArray;
+@synthesize titleArray;
 
 #pragma mark -
 #pragma mark - init
@@ -100,6 +101,12 @@
         }
         CGFloat height= [[ItemArray objectAtIndex:i] intValue]*Max_Height/maxEv;
         
+        // 条目标题
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, y-30, Max_Height+view_width, 25)];
+        titleLabel.text = titleArray[i];
+        titleLabel.font = [UIFont systemFontOfSize:14];
+        [contentView addSubview:titleLabel];
+        
         //底色
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(40, y, height, view_width)];
         view.backgroundColor = [UIColor colorWithRed:50/255.0 green:143/255.0 blue:222/255.0 alpha:1];
@@ -155,7 +162,7 @@
     //添加最值
     UILabel *maxLabel = [[UILabel alloc]init];
     maxLabel.bounds = CGRectMake(0, 0, view_width, view_width);
-    maxLabel.center = CGPointMake(25+Max_Height+view_width, self.frame.origin.y+view_width/2-VERTICALE_DATA_SPACES/2-5);
+    maxLabel.center = CGPointMake(25+Max_Height+view_width, self.frame.origin.y+view_width/2-VERTICALE_DATA_SPACES/2+25);
     maxLabel.font = [UIFont systemFontOfSize:10.0f];
     maxLabel.textAlignment = NSTextAlignmentCenter;
     maxLabel.text = [ItemArray objectAtIndex:maxIndex];

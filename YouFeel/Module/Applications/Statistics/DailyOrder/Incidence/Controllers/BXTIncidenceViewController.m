@@ -27,6 +27,7 @@
     // Do any additional setup after loading the view.
     
     self.dataArray = [[NSMutableArray alloc] init];
+    self.titleStr = @"每日排名";
     
     [self showLoadingMBP:@"数据加载中..."];
     
@@ -55,11 +56,13 @@
     // 故障发生率
     NSMutableArray *xArray = [[NSMutableArray alloc] init];
     NSMutableArray *yArray = [[NSMutableArray alloc] init];
+    NSMutableArray *titleArray = [[NSMutableArray alloc] init];
     int count = 1;
     for (NSDictionary *dict in self.dataArray)
     {
         [xArray addObject:[NSString stringWithFormat:@"%d", count++]];
         [yArray addObject:[NSString stringWithFormat:@"%@%%", dict[@"percent"]]];
+        [titleArray addObject:[NSString stringWithFormat:@"%@", dict[@"faulttype_name"]]];
     }
     
     // 无参数处理
@@ -69,13 +72,15 @@
         {
             [xArray addObject:[NSString stringWithFormat:@"%d", count++]];
             [yArray addObject:[NSString stringWithFormat:@"%@%%", @"0"]];
+            [titleArray addObject:@""];
         }
     }
     
     NSArray *dataArray = [NSArray arrayWithObjects:xArray, yArray, nil];
     
-    self.bciv = [[BarChatItemView alloc]initWithFrame:CGRectMake(0, 35, SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT-70)];
+    self.bciv = [[BarChatItemView alloc]initWithFrame:CGRectMake(0, 25, SCREEN_WIDTH, SCREEN_HEIGHT-KNAVIVIEWHEIGHT-80)];
     self.bciv.dataArray = dataArray;
+    self.bciv.titleArray = titleArray;
     __weak typeof(self)weakSelf = self;
     self.bciv.transSelected2 = ^(NSInteger index) {
         //NSLog(@"index --- %ld", index);
@@ -101,7 +106,7 @@
     }];
     
     
-    BXTIncidenceView *view = [[BXTIncidenceView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-250, SCREEN_WIDTH, 250)];
+    BXTIncidenceView *view = [[BXTIncidenceView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-225, SCREEN_WIDTH, 225)];
     view.transClick = ^ {
         [UIView animateWithDuration:0.5 animations:^{
             self.backgroundView.alpha = 0;
@@ -113,14 +118,10 @@
     
     NSDictionary *dict = self.dataArray[index];
     
-    NSString *faulttypeStr = [NSString stringWithFormat:@"%@", dict[@"faulttype"]];
-    NSRange range = [faulttypeStr rangeOfString:@"-"];
-    NSString *groupStr = [faulttypeStr substringToIndex:range.location];
     
     view.titleView.text = self.titleStr;
     view.rangkingView.text = [NSString stringWithFormat:@"排名：%@", dict[@"rank"]];
-    view.groupView.text = [NSString stringWithFormat:@"故障分类：%@", groupStr];
-    view.typeView.text = [NSString stringWithFormat:@"故障类型：%@", dict[@"faulttype"]];
+    view.typeView.text = [NSString stringWithFormat:@"故障类型：%@", dict[@"faulttype_name"]];
     view.repairView.text = [NSString stringWithFormat:@"报修：%@单", dict[@"number"]];
     view.ratioView.text = [NSString stringWithFormat:@"比例：%@%@", dict[@"percent"], @"%"];
 }

@@ -96,20 +96,20 @@
     
     NSArray *array = [BXTGlobal getUserProperty:U_SHOPIDS];
     NSString *shopID = nil;
-    NSString *shortURL = nil;
+    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};;
+    NSString *url = nil;
     if (array && array.count)
     {
         shopID = [NSString stringWithFormat:@"%@", array[0]];
-        shortURL = [BXTGlobal shareGlobal].baseURL;
+        url = [NSString stringWithFormat:@"%@&module=user&opt=shop_login", [BXTGlobal shareGlobal].baseURL];
     }
     else
     {
         //TODO: 11是临时值
         shopID = @"11";
-        shortURL = KAPIBASEURL;
+        url = [NSString stringWithFormat:@"%@&shop_id=%@&module=user&opt=shop_login", KAPIBASEURL, shopID];
     }
-    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};
-    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&module=user&opt=shop_login",shortURL,shopID];
+    
     [self postRequest:url withParameters:dic];
 }
 
@@ -154,6 +154,7 @@
                                 state:(NSString *)state
                     faultCarriedState:(NSString *)fault_carried_state
                    repairCarriedState:(NSString *)repair_carried_state
+                         collectionID:(NSString *)collection_id
                                  page:(NSInteger)page
 {
     self.requestType = RepairList;
@@ -172,6 +173,7 @@
                           @"state": state,
                           @"fault_carried_state": fault_carried_state,
                           @"repair_carried_state": repair_carried_state,
+                          @"collection_id": collection_id,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
     NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] initWithDictionary:dic];
@@ -751,8 +753,8 @@
                                 timeEnd:(NSString *)endTime
 {
     self.requestType = Statistics_Complete;
-    NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime,
+    NSDictionary *dic = @{@"timestart":startTime,
+                          @"timeover":endTime,
                           @"task_type":@"1"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_complete",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -772,8 +774,8 @@
                                  timeEnd:(NSString *)endTime
 {
     self.requestType = Statistics_Faulttype;
-    NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime};
+    NSDictionary *dic = @{@"timestart":startTime,
+                          @"timeover":endTime};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_faulttype",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -813,9 +815,9 @@
                                  Type:(NSString *)type
 {
     self.requestType = Statistics_Praise;
-    NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime,
-                          @"task_type":type};
+    NSDictionary *dic = @{@"timestart":startTime,
+                          @"timeover":endTime,
+                          @"timeover":type};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_praise",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

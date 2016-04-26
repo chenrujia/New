@@ -10,14 +10,19 @@
 
 @interface BXTProfessionFooter : UIView
 
-@property (weak, nonatomic) IBOutlet UILabel *groupView;
 @property (weak, nonatomic) IBOutlet UILabel *pointView;
 @property (weak, nonatomic) IBOutlet UILabel *pointView1;
 @property (weak, nonatomic) IBOutlet UILabel *pointView2;
 
-@property (weak, nonatomic) IBOutlet UILabel *sumView;
-@property (weak, nonatomic) IBOutlet UILabel *downView;
-@property (weak, nonatomic) IBOutlet UILabel *undownView;
 @property (weak, nonatomic) IBOutlet UIView *roundView;
+@property (weak, nonatomic) IBOutlet UIView *roundView1;
+@property (weak, nonatomic) IBOutlet UIView *roundView2;
+@property (weak, nonatomic) IBOutlet UIView *roundView3;
+
+@property (weak, nonatomic) IBOutlet UILabel *groupView;
+@property (weak, nonatomic) IBOutlet UILabel *sumView;
+@property (weak, nonatomic) IBOutlet UILabel *goodJobView;
+@property (weak, nonatomic) IBOutlet UILabel *badJobView;
+@property (weak, nonatomic) IBOutlet UILabel *unCompleteView;
 
 @end

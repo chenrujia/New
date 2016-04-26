@@ -32,31 +32,26 @@
         CGFloat viewY = 60;
         
         self.rangkingView = [[UILabel alloc] initWithFrame:CGRectMake(viewX, viewY, viewW, viewH)];
-        self.rangkingView.text = @"排名：2";
+        self.rangkingView.text = @"排名：";
         self.rangkingView.textColor = [UIColor darkGrayColor];
         self.rangkingView.font = [UIFont systemFontOfSize:14];
         [self addSubview:self.rangkingView];
         
-        self.groupView = [[UILabel alloc] initWithFrame:CGRectMake(viewX, viewY+viewH*1, viewW, viewH)];
-        self.groupView.text = @"故障分类：2";
-        self.groupView.textColor = [UIColor darkGrayColor];
-        self.groupView.font = [UIFont systemFontOfSize:14];
-        [self addSubview:self.groupView];
         
-        self.typeView = [[UILabel alloc] initWithFrame:CGRectMake(viewX, viewY+viewH*2, viewW, viewH)];
-        self.typeView.text = @"故障类型：2";
+        self.typeView = [[UILabel alloc] initWithFrame:CGRectMake(viewX, viewY+viewH*1, viewW, viewH)];
+        self.typeView.text = @"故障类型：";
         self.typeView.textColor = [UIColor darkGrayColor];
         self.typeView.font = [UIFont systemFontOfSize:14];
         [self addSubview:self.typeView];
         
-        self.repairView = [[UILabel alloc] initWithFrame:CGRectMake(viewX, viewY+viewH*3, viewW, viewH)];
-        self.repairView.text = @"报修：2";
+        self.repairView = [[UILabel alloc] initWithFrame:CGRectMake(viewX, viewY+viewH*2, viewW, viewH)];
+        self.repairView.text = @"报修：";
         self.repairView.textColor = [UIColor darkGrayColor];
         self.repairView.font = [UIFont systemFontOfSize:14];
         [self addSubview:self.repairView];
         
-        self.ratioView = [[UILabel alloc] initWithFrame:CGRectMake(viewX, viewY+viewH*4, viewW, viewH)];
-        self.ratioView.text = @"比例：2";
+        self.ratioView = [[UILabel alloc] initWithFrame:CGRectMake(viewX, viewY+viewH*3, viewW, viewH)];
+        self.ratioView.text = @"比例：";
         self.ratioView.textColor = [UIColor darkGrayColor];
         self.ratioView.font = [UIFont systemFontOfSize:14];
         [self addSubview:self.ratioView];

@@ -10,12 +10,20 @@
 
 @implementation BXTMineDownView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (void)setMineInfo:(BXTMineInfo *)mineInfo
+{
+    _mineInfo = mineInfo;
+    
+    NSString *imageStr1 = mineInfo.binding_weixin == 2 ? @"mine_star" : @"mine_stars";
+    self.firstStarView.image = [UIImage imageNamed:imageStr1];
+    
+    NSString *imageStr2 = mineInfo.binding_shop == 2 ? @"mine_star" : @"mine_stars";
+    self.thirdStarView.image = [UIImage imageNamed:imageStr2];
 }
-*/
+
+- (void)awakeFromNib {
+    // Initialization code
+    
+}
 
 @end

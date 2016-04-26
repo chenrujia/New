@@ -74,6 +74,9 @@
     BXTBranchUserInfo *branchUser = [BXTBranchUserInfo mj_objectWithKeyValues:dic];
 
     [BXTGlobal setUserProperty:branchUser.userID withKey:U_BRANCHUSERID];
+    
+    NSLog(@"userID ------- %@", branchUser.userID);
+    
     BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
     roleInfo.role_id = branchUser.duty_id;
     roleInfo.duty_name = branchUser.duty_name;
@@ -297,6 +300,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     return [NSArray arrayWithObjects:dateStr, dateStr, nil];
 }
 
+// 获取几天前及今天的数组
 + (NSArray *)dayOfCountStartAndEnd:(NSInteger)count
 {
     NSInteger timeInterval = (count - 1) * 24 * 60 * 60;
@@ -313,6 +317,20 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     return [NSArray arrayWithObjects:beforeDateStr, dateStr, nil];
 }
 
+// 获取周一到今天的数组
++ (NSArray *)weekdayStartAndEnd
+{
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
+    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+    [calendar setTimeZone: timeZone];
+    NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+    NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:[NSDate date]];
+    NSLog(@"%ld", theComponents.weekday-1);
+    
+    return [self dayOfCountStartAndEnd:theComponents.weekday-1];
+}
+
+// 获取年月日数组
 + (NSArray *)yearAndmonthAndDay
 {
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];

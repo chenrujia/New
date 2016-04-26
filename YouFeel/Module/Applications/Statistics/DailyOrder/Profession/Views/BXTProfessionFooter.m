@@ -14,15 +14,17 @@
 - (void)awakeFromNib {
     // Initialization code
     self.roundView.layer.cornerRadius = 5;
-    self.roundView.backgroundColor = colorWithHexString(@"#00D0C0");
+    self.roundView1.layer.cornerRadius = 5;
+    self.roundView2.layer.cornerRadius = 5;
+    self.roundView3.layer.cornerRadius = 5;
     
     self.pointView.layer.cornerRadius = 10.25;
     self.pointView.layer.masksToBounds = YES;
-    self.pointView.backgroundColor = colorWithHexString(@"#FD7070");
+    self.pointView.backgroundColor = colorWithHexString(@"#F9D063");
     
     self.pointView1.layer.cornerRadius = 10.25;
     self.pointView1.layer.masksToBounds = YES;
-    self.pointView1.backgroundColor = colorWithHexString(@"#F9D063");
+    self.pointView1.backgroundColor = colorWithHexString(@"#FD7070");
     
     self.pointView2.layer.cornerRadius = 10.25;
     self.pointView2.layer.masksToBounds = YES;

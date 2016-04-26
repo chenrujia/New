@@ -25,6 +25,17 @@
 
 @property (nonatomic, copy) NSString *order;
 
+/** ---- 时间数组 ---- */
+@property (strong, nonatomic) NSMutableArray *transTimeArray;
+/** ---- 专业分组 ---- */
+@property (copy, nonatomic) NSString *transGroupStr;
+/** ---- 工单状态 1未接单 2 待维修 3 维修中 4待确认 5待评价 6已评价 ---- */
+@property (copy, nonatomic) NSString *transRepairStateStr;
+/** ---- 维修状态 1已修好 2 未修好 ---- */
+@property (copy, nonatomic) NSString *transStateStr;
+/** ---- 未修好原因ID ---- */
+@property (copy, nonatomic) NSString *transCollectionID;
+
 @end
 
 @implementation BXTDailyOrderListViewController
@@ -39,6 +50,12 @@
     self.dataArray = [[NSMutableArray alloc] init];
     self.currentPage = 1;
     
+    self.transTimeArray = [[NSMutableArray alloc] initWithObjects:@"", @"", nil];
+    self.transGroupStr = @"";
+    self.transRepairStateStr = @"";
+    self.transStateStr = @"";
+    self.transCollectionID = @"";
+    
     [self createUI];
 }
 
@@ -48,6 +65,15 @@
     doFilterVC.delegateSignal = [RACSubject subject];
     [doFilterVC.delegateSignal subscribeNext:^(NSArray *transArray) {
         NSLog(@"transArray --- %@", transArray);
+        self.transTimeArray = transArray[0];
+        self.transGroupStr = transArray[1];
+        self.transRepairStateStr = transArray[2];
+        self.transStateStr = transArray[3];
+        if (transArray.count == 5) {
+            self.transCollectionID = transArray[4];
+        }
+        
+        [self getResource];
     }];
     [self.navigationController pushViewController:doFilterVC animated:YES];
 }
@@ -59,19 +85,20 @@
     [request listOfRepairOrderWithTaskType:@"1"
                             repairListType:OtherList
                                faulttypeID:@""
-                                     order:@""
+                                     order:self.order
                                dispatchUid:@""
                               dailyTimeout:@""
                          inspectionTimeout:@""
                                   timeName:@"fault_time"
-                                  tmeStart:@""
-                                  timeOver:@""
-                                subgroupID:@""
+                                  tmeStart:self.transTimeArray[0]
+                                  timeOver:self.transTimeArray[1]
+                                subgroupID:self.transGroupStr
                                    placeID:@""
-                               repairState:@""
-                                     state:@""
+                               repairState:self.transRepairStateStr
+                                     state:self.transStateStr
                          faultCarriedState:@""
                         repairCarriedState:@""
+                              collectionID:self.transCollectionID
                                       page:self.currentPage];
     
 }

@@ -14,7 +14,7 @@
 @interface BXTDOFilterViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, strong) NSMutableArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSMutableArray *transArray;
 @property (nonatomic, strong) UIView *selectBgView;
@@ -25,10 +25,15 @@
 @property (nonatomic, assign) NSInteger showSelectedRow;
 
 // 存值参数
+/** ---- 专业分组 ---- */
 @property (nonatomic, strong) NSMutableArray *subgroupArray;
 @property (nonatomic, strong) NSMutableArray *subgroupIDArray;
+/** ---- 工单状态 ---- */
 @property (nonatomic, strong) NSMutableArray *repairStateArray;
 @property (nonatomic, strong) NSMutableArray *repairStateIDArray;
+/** ---- 未修好原因 ---- */
+@property (nonatomic, strong) NSMutableArray *specialOrderArray;
+@property (nonatomic, strong) NSMutableArray *specialOrderIDArray;
 
 @end
 
@@ -39,14 +44,16 @@
     // Do any additional setup after loading the view.
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray = @[@"时间范围", @"专业分组", @"工单分类"];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"待完善", @"待完善", @"待完善", nil];
-    self.transArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", nil];
+    self.titleArray =[[NSMutableArray alloc] initWithObjects:@"时间范围", @"专业分组", @"工单状态", @"维修状况", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"待完善", @"待完善", @"待完善", nil];
+    self.transArray = [[NSMutableArray alloc] initWithObjects:@[@"", @""], @"", @"", @"", nil];
     
     self.subgroupArray = [[NSMutableArray alloc] init];
     self.subgroupIDArray = [[NSMutableArray alloc] init];
     self.repairStateArray = [[NSMutableArray alloc] init];
     self.repairStateIDArray = [[NSMutableArray alloc] init];
+    self.specialOrderArray = [[NSMutableArray alloc] init];
+    self.specialOrderIDArray = [[NSMutableArray alloc] init];
     
     
     //设置初始值，不要默认选中第0行
@@ -62,9 +69,14 @@
         [request listOFSubgroup];
     });
     dispatch_async(concurrentQueue, ^{
-        /**工单分类**/
+        /**工单状态**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request repairStates];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**未修好原因**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request specialWorkOrder];
     });
     
     [self createUI];
@@ -96,25 +108,18 @@
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        int count = 0;
-        for (NSString *str in self.dataArray) {
-            if ([str isEqualToString:@"待完善"]) {
-                count++;
-            }
+        if (self.transArray.count == 5 && [BXTGlobal isBlankString:self.transArray[4]]) {
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请选择维修好原因" chooseBlock:^(NSInteger buttonIdx) {
+                
+            } buttonsStatement:@"确定", nil];
         }
-        
-        if (count != self.dataArray.count) {
+        else {
             [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
                 if (self.delegateSignal) {
                     [self.delegateSignal sendNext:self.transArray];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }];
-        }
-        else {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写筛选条件" chooseBlock:^(NSInteger buttonIdx) {
-                
-            } buttonsStatement:@"确定", nil];
         }
     }];
     
@@ -251,6 +256,12 @@
     else if (index == 2) {
         self.selectArray = self.repairStateArray;
     }
+    else if (index == 3) {
+        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"已修好", @"未修好", nil];
+    }
+    else if (index == 4) {
+        self.selectArray = self.specialOrderArray;
+    }
     
     self.selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.selectBgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
@@ -297,16 +308,32 @@
             else if (index == 2) {
                 finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.repairStateIDArray[[object intValue]]]];
             }
+            else if (index == 3) {
+                [self refreshTableView:[object intValue]];
+                
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", object]];
+            }
+            else if (index == 4) {
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.specialOrderIDArray[[object intValue]]]];
+            }
         }
         if (finalNumStr.length >= 1) {
             finalNumStr = [finalNumStr substringToIndex:finalNumStr.length - 1];
         }
+        
+        
         
         // 赋值
         if (![BXTGlobal isBlankString:finalStr])
         {
             [self.dataArray replaceObjectAtIndex:index withObject:finalStr];
             [self.transArray replaceObjectAtIndex:index withObject:finalNumStr];
+            
+            // 时间范围转化
+            if (index == 0) {
+                [self.transArray replaceObjectAtIndex:index withObject:[self transTime:finalNumStr]];
+            }
+            
             [self.tableView reloadData];
         }
         
@@ -371,8 +398,79 @@
             [self.repairStateIDArray addObject:repairStateInfo.param_key];
         }
     }
+    else if (type == SpecialOrder && data.count > 0)
+    {
+        NSMutableArray *specialOrderArray = [[NSMutableArray alloc] init];
+        [BXTRepairStateInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"repairStateID":@"id"};
+        }];
+        [specialOrderArray addObjectsFromArray:[BXTRepairStateInfo mj_objectArrayWithKeyValuesArray:data]];
+        
+        for (BXTRepairStateInfo *repairStateInfo in specialOrderArray) {
+            [self.specialOrderArray addObject:repairStateInfo.param_value];
+            [self.specialOrderIDArray addObject:repairStateInfo.param_key];
+        }
+    }
+    
     
     [self.selectTableView reloadData];
+}
+
+#pragma mark -
+#pragma mark - 刷新列表
+- (void)refreshTableView:(BOOL)isMore
+{
+    if (isMore) {
+        if (self.titleArray.count == 4) {
+            [self.titleArray addObject:@"未修好原因"];
+            [self.dataArray addObject:@"待完善"];
+            [self.transArray addObject:@""];
+        }
+    }
+    else {
+        if (self.titleArray.count == 5) {
+            [self.titleArray removeLastObject];
+            [self.dataArray removeLastObject];
+            [self.transArray removeLastObject];
+        }
+    }
+    
+    [self.tableView reloadData];
+}
+
+//- (NSArray *)transTimeToWhatWeNeed:(NSArray *)timeArray
+//{
+//    NSString *begainTime = [NSString stringWithFormat:@"%@ 00:00:00", timeArray[0]];
+//    NSString *endTime = [NSString stringWithFormat:@"%@ 23:59:59", timeArray[1]];
+//    
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//    
+//    NSDate *begainDate = [dateFormatter dateFromString:begainTime];
+//    NSString *filterOfTimeBegain = [NSString stringWithFormat:@"%ld", (long)[begainDate timeIntervalSince1970]];
+//    NSDate *endDate = [dateFormatter dateFromString:endTime];
+//    NSString *filterOfTimeEnd = [NSString stringWithFormat:@"%ld", (long)[endDate timeIntervalSince1970]];
+//    
+//    return @[filterOfTimeBegain, filterOfTimeEnd];
+//}
+
+- (NSArray *)transTime:(NSString *)timeStr
+{
+    // 全部 - 今天 - 本周 - 本月- 本年
+    if ([timeStr integerValue] == 1) {
+        return [BXTGlobal dayStartAndEnd];
+    }
+    else if ([timeStr integerValue] == 2) {
+        return [BXTGlobal weekdayStartAndEnd];
+    }
+    else if ([timeStr integerValue] == 3) {
+        return [BXTGlobal monthStartAndEnd];
+    }
+    else if ([timeStr integerValue] == 4) {
+        return [BXTGlobal yearStartAndEnd];
+    }
+    
+    return @[@"", @""];
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
