@@ -99,6 +99,7 @@
                          faultCarriedState:@""
                         repairCarriedState:@""
                               collectionID:self.transCollectionID
+                                  deviceID:@""
                                       page:self.currentPage];
     
 }

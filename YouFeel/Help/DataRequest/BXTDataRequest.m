@@ -155,9 +155,11 @@
                     faultCarriedState:(NSString *)fault_carried_state
                    repairCarriedState:(NSString *)repair_carried_state
                          collectionID:(NSString *)collection_id
+                             deviceID:(NSString *)device_id
                                  page:(NSInteger)page
 {
     self.requestType = RepairList;
+    
     NSDictionary *dic = @{@"task_type": task_type,
                           @"faulttype_id": faulttype_id,
                           @"order": order,
@@ -174,6 +176,7 @@
                           @"fault_carried_state": fault_carried_state,
                           @"repair_carried_state": repair_carried_state,
                           @"collection_id": collection_id,
+                          @"device_id": device_id,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
     NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] initWithDictionary:dic];
@@ -817,7 +820,7 @@
     self.requestType = Statistics_Praise;
     NSDictionary *dic = @{@"timestart":startTime,
                           @"timeover":endTime,
-                          @"timeover":type};
+                          @"task_type":type};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_praise",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -855,30 +858,6 @@
     self.requestType = Device_Con;
     NSDictionary *dic = @{@"id":deviceID};
     NSString *url = [NSString stringWithFormat:@"%@&module=Device&opt=device_con",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)deviceRepairListWithOrder:(NSString *)order
-                         deviceID:(NSString *)device_id
-                        timestart:(NSString *)startTime
-                         timeover:(NSString *)endTime
-                         pagesize:(NSString *)pagesize
-                             page:(NSString *)page
-{
-    self.requestType = Device_Repair_List;
-    NSString *timeName = @"";
-    if (startTime.length > 0)
-    {
-        timeName = @"repair_time";
-    }
-    NSDictionary *dic = @{@"order": order,
-                          @"timestart": startTime,
-                          @"timeover": endTime,
-                          @"timename":timeName,
-                          @"pagesize": pagesize,
-                          @"page": page,
-                          @"device_id":device_id};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Device_repair&opt=device_repair_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

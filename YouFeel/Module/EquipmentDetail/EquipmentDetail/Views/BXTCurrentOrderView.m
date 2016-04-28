@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
 @property (nonatomic, strong) UITableView     *tableView;
 @property (nonatomic, assign) CGFloat         cellHeight;
 @property (nonatomic, copy  ) NSString        *typeStr;
-@property (nonatomic, strong) NSArray         *chooseTimeArray;;
+@property (nonatomic, strong) NSMutableArray  *chooseTimeArray;;
 
 @end
 
@@ -62,6 +62,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     
     self.titleArray = @[@"未接优先", @"日常工单优先", @"维保工单优先", @"自定义排序/筛选"];
     self.dataArray = [[NSMutableArray alloc] init];
+    self.chooseTimeArray = [[NSMutableArray alloc] initWithObjects:@"", @"", nil];
     
     // 添加下拉菜单
     self.DDMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
@@ -124,18 +125,26 @@ typedef NS_ENUM(NSInteger, OrderType) {
 
 - (void)getResource
 {
-    [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    
-    if ([self.typeStr isEqualToString:@""])
-    {
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request deviceRepairListWithOrder:@"" deviceID:self.deviceID timestart:self.chooseTimeArray[0] timeover:_chooseTimeArray[1] pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
-    }
-    else
-    {
-        [request deviceRepairListWithOrder:self.typeStr deviceID:self.deviceID timestart:@"" timeover:@"" pagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
-    }
+    [request listOfRepairOrderWithTaskType:@"1"
+                            repairListType:OtherList
+                               faulttypeID:@""
+                                     order:@""
+                               dispatchUid:@""
+                              dailyTimeout:@""
+                         inspectionTimeout:@""
+                                  timeName:@"fault_time"
+                                  tmeStart:self.chooseTimeArray[0]
+                                  timeOver:self.chooseTimeArray[1]
+                                subgroupID:@""
+                                   placeID:@""
+                               repairState:@""
+                                     state:@""
+                         faultCarriedState:@""
+                        repairCarriedState:@""
+                              collectionID:@""
+                                  deviceID:self.deviceID
+                                      page:self.currentPage];
 }
 
 #pragma mark -
@@ -172,24 +181,24 @@ typedef NS_ENUM(NSInteger, OrderType) {
     self.currentPage = 1;
     
     if (indexPath.row != 3) {
-        [self showLoadingMBP:@"数据加载中..."];
         dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
         dispatch_async(concurrentQueue, ^{
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request deviceRepairListWithOrder:self.typeStr deviceID:self.deviceID timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
+            
+            [self getResource];
         });
-    } else {
+    }
+    else {
         BXTTimeFilterViewController *tfvc = [[BXTTimeFilterViewController alloc] init];
         tfvc.delegateSignal = [RACSubject subject];
         @weakify(self);
         [tfvc.delegateSignal subscribeNext:^(NSArray *timeArray) {
             @strongify(self);
-            self.chooseTimeArray = [[NSArray alloc] initWithArray:timeArray];
-            [self showLoadingMBP:@"数据加载中..."];
+            self.chooseTimeArray = (NSMutableArray *)timeArray;
+            
             dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
             dispatch_async(concurrentQueue, ^{
-                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request deviceRepairListWithOrder:@"" deviceID:self.deviceID timestart:timeArray[0] timeover:timeArray[1] pagesize:@"5" page:@"1"];
+                
+                [self getResource];
             });
         }];
         [[self navigation] pushViewController:tfvc animated:YES];
@@ -216,7 +225,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     [[cell.receiveOrderView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         self.orderID = cell.orderList.dataIdentifier;
-        [self showLoadingMBP:@"请稍候..."];
+        
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:self.orderID];
     }];
@@ -264,7 +273,6 @@ typedef NS_ENUM(NSInteger, OrderType) {
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
     
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
@@ -275,7 +283,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == Device_Repair_List && data.count > 0)
+    if (type == RepairList && data.count > 0)
     {
         for (NSDictionary *dataDict in data)
         {
@@ -294,15 +302,13 @@ typedef NS_ENUM(NSInteger, OrderType) {
     }
     else if (type == ReaciveOrder)
     {
-        [self showLoadingMBP:@"数据加载中..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request deviceRepairListWithOrder:self.typeStr deviceID:self.deviceID timestart:@"" timeover:@"" pagesize:@"5" page:@"1"];
+        self.currentPage = 1;
+        [self getResource];
     }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
 }

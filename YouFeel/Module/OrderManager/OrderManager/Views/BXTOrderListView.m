@@ -185,6 +185,7 @@
                              faultCarriedState:self.faultCarriedState
                             repairCarriedState:self.repairCarriedState
                                   collectionID:@""
+                                      deviceID:@""
                                           page:1];
     });
     dispatch_async(concurrentQueue, ^{
@@ -217,6 +218,7 @@
                          faultCarriedState:self.faultCarriedState
                         repairCarriedState:self.repairCarriedState
                               collectionID:@""
+                                  deviceID:@""
                                       page:self.currentPage];
 }
 

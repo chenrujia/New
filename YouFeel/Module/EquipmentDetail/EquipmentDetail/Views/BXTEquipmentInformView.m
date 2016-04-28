@@ -116,6 +116,23 @@
         cell.statusView.text = self.stateName;
     }
     
+    if (indexPath.section == 0 && indexPath.row == 1) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(SCREEN_WIDTH-115, 10, 100, 30);
+        button.titleLabel.font = [UIFont systemFontOfSize:14];
+        [button setTitle:@"查看操作规范" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        button.layer.borderColor = [[UIColor blackColor] CGColor];
+        button.layer.borderWidth = 0.5;
+        button.layer.cornerRadius = 5;
+        [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MYAlertAction showAlertWithTitle:nil msg:ValueFUD(@"OPERATINGDESC")  chooseBlock:^(NSInteger buttonIdx) {
+                
+            } buttonsStatement:@"确定", nil];
+        }];
+        [cell.contentView addSubview:button];
+    }
+    
     return cell;
 }
 
@@ -194,6 +211,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

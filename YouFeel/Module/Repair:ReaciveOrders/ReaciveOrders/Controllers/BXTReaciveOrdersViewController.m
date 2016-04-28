@@ -102,6 +102,7 @@
                          faultCarriedState:@""
                         repairCarriedState:@""
                               collectionID:@""
+                                  deviceID:@""
                                       page:self.currentPage];
 }
 
@@ -176,6 +177,7 @@
                              faultCarriedState:@""
                             repairCarriedState:@""
                                   collectionID:@""
+                                      deviceID:@""
                                           page:1];
     });
     dispatch_async(concurrentQueue, ^{

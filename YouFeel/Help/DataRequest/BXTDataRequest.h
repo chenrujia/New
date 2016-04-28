@@ -178,6 +178,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
                     faultCarriedState:(NSString *)fault_carried_state // 报修者的列表进度状态
                    repairCarriedState:(NSString *)repair_carried_state // 维修者的列表进度状态
                          collectionID:(NSString *)collection_id
+                             deviceID:(NSString *)device_id
                                  page:(NSInteger)page;
 
 /**
@@ -534,16 +535,6 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  设备详情
  */
 - (void)equipmentInformation:(NSString *)deviceID;
-
-/**
- *  当前工单
- */
-- (void)deviceRepairListWithOrder:(NSString *)order
-                         deviceID:(NSString *)device_id
-                        timestart:(NSString *)startTime
-                         timeover:(NSString *)endTime
-                         pagesize:(NSString *)pagesize
-                             page:(NSString *)page;
 
 /**
  *  维保档案
