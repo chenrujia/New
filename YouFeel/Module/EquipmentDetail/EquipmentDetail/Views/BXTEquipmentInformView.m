@@ -212,25 +212,22 @@
         self.titleArray = [[NSMutableArray alloc] initWithArray:@[@[@"设备名称", @"设备编号"],  @[@"设备型号", @"设备分类", @"设备品牌", @"安装位置", @"服务区域", @"接管日期", @"启用日期"], @[@"品牌", @"厂家", @"地址", @"联系人", @"联系电话"], @[@"设备参数"], @[@"负责人"], @[@"状态记录"]]];
         
         BXTEquipmentData *equipmentModel = [BXTEquipmentData modelObjectWithDictionary:dataDict];
+        
         // section == 0
         NSMutableArray *equipArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.name, equipmentModel.code_number, nil];
         self.stateName = equipmentModel.state_name;
         
         // section == 1
-        NSArray *adsNameArray = dataDict[@"ads_name"];
-        BXTEquipmentAdsName *adsNameModel = [BXTEquipmentAdsName modelObjectWithDictionary:adsNameArray[0]];
-        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.model_number, equipmentModel.type_name, equipmentModel.brand, adsNameModel.place_name, equipmentModel.server_area, equipmentModel.install_time, equipmentModel.start_time, nil];
+        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.model_number, equipmentModel.type_name, equipmentModel.brand, equipmentModel.place_name, equipmentModel.server_area, equipmentModel.install_time, equipmentModel.start_time, nil];
         
         // section == 2
-        NSArray *factoryArray = dataDict[@"factory_info"];
+        NSDictionary *factoryDict = dataDict[@"factory_info"];
         NSMutableArray *companyArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", nil];
-        if (factoryArray.count != 0) {
-            BXTEquipmentFactoryInfo *factoryInfoModel = [BXTEquipmentFactoryInfo modelObjectWithDictionary:factoryArray[0]];
-            companyArray = (NSMutableArray *)@[factoryInfoModel.bread, factoryInfoModel.factory_name, factoryInfoModel.address, factoryInfoModel.linkman, factoryInfoModel.mobile];
-        }
+        BXTEquipmentFactoryInfo *factoryInfoModel = [BXTEquipmentFactoryInfo modelObjectWithDictionary:factoryDict];
+        companyArray = (NSMutableArray *)@[factoryInfoModel.bread, factoryInfoModel.factory_name, factoryInfoModel.address, factoryInfoModel.linkman, factoryInfoModel.mobile];
         
         // section == 3
-        NSArray *paramsArray0 = dataDict[@"params"];
+        NSArray *paramsArray0 = dataDict[@"params_info"];
         NSMutableArray *paramsArray = [[NSMutableArray alloc] init];
         NSMutableArray *paramsTitleArray = [[NSMutableArray alloc] init];
         for (NSDictionary *paramsDict in paramsArray0) {
@@ -240,7 +237,7 @@
         }
         
         // section == 4
-        NSArray *authorArray0 = dataDict[@"control_user_arr"];
+        NSArray *authorArray0 = dataDict[@"control_users_info"];
         NSMutableArray *authorArray = [[NSMutableArray alloc] init];
         NSMutableArray *authorTitleArray = [[NSMutableArray alloc] init];
         for (NSDictionary *authorDict in authorArray0) {
@@ -260,12 +257,8 @@
         }
         
         // 存储 设备操作规范
-        NSArray *conditionArray = dataDict[@"operating_condition"];
-        if (conditionArray.count)
-        {
-            NSDictionary *conditionDict = conditionArray[0];
-            SaveValueTUD(@"conditionDict", conditionDict);
-        }
+        SaveValueTUD(@"OPERATINGDESC", dataDict[@"operating_desc"]);
+        
         
         // 更新数组
         [self.titleArray replaceObjectAtIndex:3 withObject:paramsTitleArray];
@@ -299,7 +292,7 @@
     if ([userInfo.userId isEqualToString:my_userID]) return;
     
     userInfo.name = model.name;
-    userInfo.portraitUri = model.head_pic;
+    userInfo.portraitUri = model.headMedium;
     
     NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
     if (usersArray)

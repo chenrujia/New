@@ -26,7 +26,7 @@
 {
     _userList = userList;
     
-    NSString *head_pic = userList.head_pic;
+    NSString *head_pic = userList.headMedium;
     NSString *iconPic = [head_pic stringByReplacingOccurrencesOfString:@"\\" withString:@""];
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:iconPic] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
     self.nameView.text = [NSString stringWithFormat:@"负责人：%@", userList.name];

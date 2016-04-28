@@ -171,7 +171,7 @@
             [[self navigation] pushViewController:sdvc animated:YES];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
         }
-
+        
         
         
     }];
@@ -354,7 +354,6 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Inspection_Record_List)
     {
-        LogRed(@"维保记录接口.....%@",dic);
         [_tableView.mj_header endRefreshing];
         [_tableView.mj_footer endRefreshing];
         if (_currentPage == 1)
@@ -373,7 +372,6 @@
         }
         NSArray *states = [dic objectForKey:@"device_state_list"];
         self.deviceStates = states;
-        LogBlue(@"开始作业接口.....%@",dic);
     }
     
     [BXTDeviceMaintenceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{

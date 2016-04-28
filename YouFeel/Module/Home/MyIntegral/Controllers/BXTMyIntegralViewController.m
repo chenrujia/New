@@ -12,6 +12,7 @@
 #import "BXTMyIntegralThirdCell.h"
 #import "BXTRankingViewController.h"
 #import "BXTMyIntegralData.h"
+#import "BMDatePickerView.h"
 
 @interface BXTMyIntegralViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -86,6 +87,23 @@
         
         // sameMonthBtn
         [firstCell.sameMonthBtn setTitle:self.timeStr forState:UIControlStateNormal];
+        [[firstCell.sameMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @weakify(self);
+            BMDatePickerView *datePickerView = [BMDatePickerView BMDatePickerViewCertainActionBlock:^(NSString *selectYearMonthString) {
+                @strongify(self);
+                NSLog(@"选择的时间是: %@", selectYearMonthString);
+                
+                self.timeStr = selectYearMonthString;
+                [firstCell.sameMonthBtn setTitle:self.timeStr forState:UIControlStateNormal];
+                firstCell.nextMonthBtn.enabled = YES;
+                if ([self.timeStr isEqualToString:self.nowTimeStr]) {
+                    firstCell.nextMonthBtn.enabled = NO;
+                }
+                [self getResource];
+                
+            }];
+            [datePickerView show];
+        }];
         
         // lastMonthBtn
         [[firstCell.lastMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {

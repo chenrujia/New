@@ -20,10 +20,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"设备维保操作规范" andRightTitle:nil andRightImage:nil];
-    
-    NSDictionary *dict = ValueFUD(@"conditionDict");
-    NSLog(@"title -- %@", dict[@"title"]);
-    NSLog(@"content -- %@", dict[@"content"]);
+
     
     [self createUI];
 }
@@ -56,13 +53,13 @@
     [self.view addSubview:self.scrollView];
     
     // 取值
-    NSDictionary *dict = ValueFUD(@"conditionDict");
+    NSString *contentStr = ValueFUD(@"OPERATINGDESC");
     
-    CGSize size = MB_MULTILINE_TEXTSIZE(dict[@"content"], [UIFont systemFontOfSize:16], CGSizeMake(SCREEN_WIDTH-30, CGFLOAT_MAX), NSLineBreakByWordWrapping);
+    CGSize size = MB_MULTILINE_TEXTSIZE(contentStr, [UIFont systemFontOfSize:16], CGSizeMake(SCREEN_WIDTH-30, CGFLOAT_MAX), NSLineBreakByWordWrapping);
     self.scrollView.contentSize = CGSizeMake(size.width, size.height + 20);
     
     UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, SCREEN_WIDTH-30, size.height)];
-    contentLabel.text = dict[@"content"];
+    contentLabel.text = contentStr;
     contentLabel.font = [UIFont systemFontOfSize:16];
     contentLabel.numberOfLines = 0;
     [self.scrollView addSubview:contentLabel];

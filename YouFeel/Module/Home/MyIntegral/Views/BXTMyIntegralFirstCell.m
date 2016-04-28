@@ -25,6 +25,10 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    [self.sameMonthBtn setImage:[UIImage imageNamed:@"down_arrow_gray"] forState:UIControlStateNormal];
+    [self.sameMonthBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [self.sameMonthBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 100, 0, -100)];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

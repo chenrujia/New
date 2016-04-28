@@ -11,10 +11,10 @@
 
 @property (nonatomic, copy) NSString *mobile;
 @property (nonatomic, copy) NSString *controlUserArrIdentifier;
-@property (nonatomic, copy) NSString *role;
-@property (nonatomic, copy) NSString *head_pic;
+@property (nonatomic, copy) NSString *duty_id;
+@property (nonatomic, copy) NSString *headMedium;
 @property (nonatomic, copy) NSString *out_userid;
-@property (nonatomic, copy) NSString *department;
+@property (nonatomic, copy) NSString *department_id;
 @property (nonatomic, copy) NSString *name;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;

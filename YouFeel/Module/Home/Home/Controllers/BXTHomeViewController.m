@@ -26,7 +26,7 @@
 #import "BXTMyIntegralViewController.h"
 #import "BXTMTProfessionViewController.h"
 #import "BXTRepairsListViewController.h"
-#import "BXTIncidenceViewController.h"
+#import "BXTEquipmentListViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -147,7 +147,7 @@
 //        pivc.hidesBottomBarWhenPushed = YES;
 //        [self.navigationController pushViewController:pivc animated:YES];
         
-        BXTIncidenceViewController *pivc = [[BXTIncidenceViewController alloc] init];
+        BXTEquipmentListViewController *pivc = [[BXTEquipmentListViewController alloc] init];
         pivc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:pivc animated:YES];
 
@@ -324,6 +324,10 @@
 {
     if (section == 0)
     {
+        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+        if (![companyInfo.company_id isEqualToString:@"4"]) {
+            return valueForDevice(240, 145, 123, 123);//section头部高度
+        }
         return valueForDevice(240, 145, 123, 123) + 37;//section头部高度
     }
     return 0.1f;//section头部高度
@@ -355,13 +359,24 @@
         [button setTitle:@"现处于虚拟项目中,如有真实报修请选具体项目  >>" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:13];
+        @weakify(self);
         [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            NSLog(@"哈哈哈哈哈哈");
+            @strongify(self);
+            // 商铺列表
+            BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+            pivc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:pivc animated:YES];
+            
         }];
-        [bgView addSubview:button];
+        
+        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+        if ([companyInfo.company_id isEqualToString:@"4"]) {
+            [bgView addSubview:button];
+        }
         
         return bgView;
     }
+    
     return [UIView new];
 }
 

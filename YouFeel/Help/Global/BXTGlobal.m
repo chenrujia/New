@@ -72,7 +72,7 @@
         return @{@"userID":@"id"};
     }];
     BXTBranchUserInfo *branchUser = [BXTBranchUserInfo mj_objectWithKeyValues:dic];
-
+    
     [BXTGlobal setUserProperty:branchUser.userID withKey:U_BRANCHUSERID];
     
     NSLog(@"userID ------- %@", branchUser.userID);
@@ -325,7 +325,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     [calendar setTimeZone: timeZone];
     NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
     NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:[NSDate date]];
-    NSLog(@"%ld", theComponents.weekday-1);
+    NSLog(@"%ld", (long)theComponents.weekday-1);
     
     return [self dayOfCountStartAndEnd:theComponents.weekday-1];
 }
