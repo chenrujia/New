@@ -28,15 +28,15 @@
     self.orderIDView.text = [NSString stringWithFormat:@"工单号：%@", orderList.orderid];
     self.groupView.text = [NSString stringWithFormat:@"  %@  ", orderList.subgroup_name];
     
-    self.locationView.text = [NSString stringWithFormat:@"位置：%@", orderList.place];
-    self.repairPersonView.text = [NSString stringWithFormat:@"报修人：%@", orderList.fault];
+    self.locationView.text = [NSString stringWithFormat:@"位置：%@", orderList.place_name];
+    self.repairPersonView.text = [NSString stringWithFormat:@"报修人：%@", orderList.repair_user];
     self.typeView.text = [NSString stringWithFormat:@"故障类型：%@", orderList.faulttype_name];
     self.describeView.text = [NSString stringWithFormat:@"故障描述：%@", orderList.cause];
     
-    self.endTimeView.text = [NSString stringWithFormat:@"截止时间：%@", orderList.repair_time];
-    self.timeView.text =  [NSString stringWithFormat:@"报修时间：%@", orderList.repair_time];
+    self.endTimeView.text = [NSString stringWithFormat:@"截止时间：%@", orderList.inspection_end_time_name];
+    self.timeView.text =  [NSString stringWithFormat:@"报修时间：%@", orderList.fault_time_name];
     
-    if ([orderList.is_receive integerValue] == 2) {
+    if ([orderList.repairstate integerValue] == 2) {
         [self.receiveOrderView setTitle:@"已接单" forState:UIControlStateNormal];
         self.receiveOrderView.backgroundColor = colorWithHexString(@"#d9d9d9");
         self.receiveOrderView.userInteractionEnabled = NO;
