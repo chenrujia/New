@@ -10,4 +10,13 @@
 
 @interface BXTRankingData : NSObject
 
+@property (nonatomic, assign) NSInteger score;
+
+@property (nonatomic, assign) NSInteger is_self;
+
+@property (nonatomic, assign) NSInteger user_id;
+
+@property (nonatomic, assign) NSInteger ranking;
+
+
 @end

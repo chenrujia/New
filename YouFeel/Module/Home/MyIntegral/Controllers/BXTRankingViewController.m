@@ -15,9 +15,7 @@
 @interface BXTRankingViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *titleArray;
-
-@property (strong, nonatomic) BXTRankingData *rankingData;
+@property (strong, nonatomic) NSMutableArray *dataArray;
 
 @property (copy, nonatomic) NSString *nowTimeStr;
 @property (copy, nonatomic) NSString *timeStr;
@@ -32,10 +30,7 @@
     
     [self navigationSetting:@"排名" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray = @[@[@""],
-                        @[@""],
-                        @[@"好评率", @"响应速度", @"服务态度", @"维修质量", @"总计", @"好评率", @"响应速度", @"服务态度", @"维修质量", @"总计"]
-                        ];
+    self.dataArray = [[NSMutableArray alloc] init];
     
     NSArray *timeArray = [BXTGlobal yearAndmonthAndDay];
     self.nowTimeStr = [NSString stringWithFormat:@"%@年%@月", timeArray[0], timeArray[1]];
@@ -65,12 +60,16 @@
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.titleArray.count;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.titleArray[section] count];
+    if (section == 2) {
+        return self.dataArray.count;
+    }
+    
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -120,6 +119,9 @@
     
     BXTRankingCell *cell = [BXTRankingCell cellWithTableView:tableView cellForRowAtIndexPath:indexPath];
     
+    if (indexPath.section == 2) {
+        cell.ranking = self.dataArray[indexPath.row];
+    }
     
     return cell;
 }
@@ -178,7 +180,7 @@
     
     if (type == IntegarlRanking)
     {
-        self.rankingData = [BXTRankingData mj_objectWithKeyValues:dic];
+        self.dataArray = [BXTRankingData mj_objectArrayWithKeyValuesArray:dic[@"data"]];
         
         [self.tableView reloadData];
     }
