@@ -22,7 +22,7 @@
         tv.backgroundColor = colorWithHexString(@"C3E6FF");
         tv.text = @"请输入详情描述";
         tv.textColor = colorWithHexString(@"3cafff");
-        tv.font = [UIFont systemFontOfSize:17];
+        tv.font = [UIFont systemFontOfSize:17.f];
         tv.layer.cornerRadius = 3.f;
         tv.delegate = self;
         [self addSubview:tv];

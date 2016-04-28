@@ -865,6 +865,7 @@
                          pagesize:(NSString *)pagesize
                              page:(NSString *)page
 {
+    //!!!: 001错误
     self.requestType = Device_Repair_List;
     NSString *timeName = @"";
     if (startTime.length > 0)
@@ -960,6 +961,7 @@
                 andLatitude:(CGFloat)latitude
                     andDesc:(NSString *)desc
 {
+    //!!!: 004错误
     self.requestType = Add_Inspection;
     NSDictionary *dic = @{@"workorder_id":workorderID,
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
@@ -1188,9 +1190,10 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *result = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [result JSONValue];
-        [_delegate requestResponseData:dictionary requeseType:_requestType];
+        LogBlue(@"\n\n---------------------response---------------------> of type:%ld    \n\n%@\n\n<---------------------response---------------------\n\n",(long)self.requestType,dictionary);
+        [self.delegate requestResponseData:dictionary requeseType:self.requestType];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [_delegate requestError:error requeseType:_requestType];
+        [self.delegate requestError:error requeseType:self.requestType];
     }];
 }
 

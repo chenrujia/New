@@ -19,23 +19,23 @@
 //!!!: 选择的时候有点小问题，到时候多测测
 @interface BXTSearchPlaceViewController ()
 
-@property (nonatomic, assign) BOOL isOpen;
+@property (nonatomic, assign) BOOL                isOpen;
 //资源数据
-@property (nonatomic, strong) NSArray *dataSource;
+@property (nonatomic, strong) NSArray             *dataSource;
 //变动的数据
-@property (nonatomic, strong) NSMutableArray *mutableArray;
+@property (nonatomic, strong) NSMutableArray      *mutableArray;
 //标记数组
-@property (nonatomic, strong) NSMutableArray *marksArray;
+@property (nonatomic, strong) NSMutableArray      *marksArray;
 //当前选择的区
-@property (nonatomic, strong) NSIndexPath *lastIndexPath;
+@property (nonatomic, strong) NSIndexPath         *lastIndexPath;
 //当前选择的行
-@property (nonatomic, assign) NSInteger lastIndex;
+@property (nonatomic, assign) NSInteger           lastIndex;
 //筛选结果数组
-@property (nonatomic, strong) NSMutableArray *resultsArray;
+@property (nonatomic, strong) NSMutableArray      *resultsArray;
 //筛选结果标记数组
-@property (nonatomic, strong) NSMutableArray *resultMarksArray;
+@property (nonatomic, strong) NSMutableArray      *resultMarksArray;
 //筛选出来的标题（标题是一级一级拼接起来的）
-@property (nonatomic, strong) NSMutableArray *searchTitlesArray;
+@property (nonatomic, strong) NSMutableArray      *searchTitlesArray;
 //手动选择的结果
 @property (nonatomic, strong) BXTBaseClassifyInfo *manualClassifyInfo;
 //自动选择的结果
@@ -139,6 +139,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self.resultsArray removeAllObjects];
+    [self.searchTitlesArray removeAllObjects];
     [self.resultMarksArray removeAllObjects];
     NSMutableArray *searchArray = [self filterItemsWithData:self.dataSource searchString:searchText lastLevelTitle:@""];
     [self.resultsArray addObjectsFromArray:searchArray];
@@ -218,6 +219,7 @@
         else
         {
             cell.nameLabel.textColor = YBLACKCOLOR;
+            cell.arrowImage.image = YDOWNIMAGE;
         }
     }
     else
@@ -261,7 +263,6 @@
         [markArray removeAllObjects];
         [tableView reloadData];
     }
-    self.lastIndexPath = indexPath;
     
     //改变标记数组的状态值
     NSMutableArray *markArray = self.marksArray[indexPath.section];
@@ -292,18 +293,35 @@
         {
             NSInteger count = [self singleSelectionWithArray:markArray indexPath:indexPath];
             NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:indexPath.row - count inSection:indexPath.section];
+            //如果两次选择的level一致，则取消上次点击的选中状态。
+            NSMutableArray *tempArray = self.mutableArray[self.lastIndexPath.section];
+            BXTBaseClassifyInfo *lastClassifyInfo = tempArray[self.lastIndexPath.row];
             if (indexPath.row > self.lastIndexPath.row)
             {
+                BXTBaseClassifyInfo *currentClassifyInfo = tempArray[newIndexPath.row];
+                if ([lastClassifyInfo.level isEqualToString:currentClassifyInfo.level])
+                {
+                    [markArray replaceObjectAtIndex:self.lastIndexPath.row withObject:@"0"];
+                }
                 [markArray replaceObjectAtIndex:newIndexPath.row withObject:@"1"];
                 [self refreshTableForAdd:newIndexPath];
+                self.lastIndexPath = newIndexPath;
+                return;
             }
             else
             {
+                BXTBaseClassifyInfo *currentClassifyInfo = tempArray[indexPath.row];
+                if ([lastClassifyInfo.level isEqualToString:currentClassifyInfo.level])
+                {
+                    [markArray replaceObjectAtIndex:self.lastIndexPath.row withObject:@"0"];
+                }
                 [markArray replaceObjectAtIndex:indexPath.row withObject:@"1"];
                 [self refreshTableForAdd:indexPath];
             }
         }
     }
+    
+    self.lastIndexPath = indexPath;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -349,9 +367,7 @@
     {
         //改变标记数组的状态值
         NSMutableArray *markArray = self.marksArray[indexPath.section];
-        LogRed(@"删除前....%lu",(unsigned long)markArray.count);
         NSArray *items = [self searchItemsWithPlace:classifyInfo indexPath:indexPath];
-        NSLog(@"%lu",(unsigned long)items.count);
         for (BXTBaseClassifyInfo *tempClassifyInfo in items)
         {
             NSInteger index = [tempArray indexOfObject:tempClassifyInfo];
@@ -361,8 +377,6 @@
                 [markArray removeObjectAtIndex:index];
             }
         }
-        LogBlue(@"删除后....%lu",(unsigned long)markArray.count);
-        
         [tempArray removeObjectsInArray:items];
     }
     [self.currentTable reloadData];
@@ -385,6 +399,7 @@
         if (markArray.count > index && [markArray[index] integerValue] && tempClassifyInfo.lists.count > 0)
         {
             NSArray *array = [self searchItemsWithPlace:tempClassifyInfo indexPath:indexPath];
+            array = [[array reverseObjectEnumerator] allObjects];
             [mutableArray addObjectsFromArray:array];
         }
     }

@@ -24,15 +24,11 @@
 @property (nonatomic, strong) NSMutableArray *maintenanceProes;
 @property (nonatomic, assign) CGFloat longitude;
 @property (nonatomic, assign) CGFloat latitude;
+@property (nonatomic, strong) UIView  *notesBV;
 
 @end
 
 @implementation BXTMaintenanceViewController
-
-- (void)dealloc
-{
-    LogBlue(@"被释放了。。。。。");
-}
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil
                          bundle:(NSBundle *)nibBundleOrNil
@@ -256,7 +252,7 @@
 {
     if (indexPath.section == self.maintenanceProes.count + 2)
     {
-        return 170;
+        return 188;
     }
     return 50.f;
 }
@@ -265,46 +261,52 @@
 {
     if (indexPath.section == self.maintenanceProes.count + 2)
     {
-//        BXTRemarksTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RemarksTableViewCell"];
-//        if (!cell)
-//        {
-//            cell = [[BXTRemarksTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RemarksTableViewCell"];
-//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        }
-//        cell.remarkTV.delegate = self;
-//        cell.titleLabel.text = @"备   注";
-//        cell.remarkTV.text = self.maintenceInfo.notes;
-//        self.indexPath = indexPath;
-//        
-//        [cell handleImagesFrame:self.maintenceInfo.pic];
-//        
-//        @weakify(self);
-//        UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
-//        [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
-//            @strongify(self);
-//            //展示大图
-//            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
-//            [self loadMWPhotoBrowser:cell.imgViewOne.tag];
-//        }];
-//        [cell.imgViewOne addGestureRecognizer:tapGROne];
-//        UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
-//        [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
-//            @strongify(self);
-//            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
-//            [self loadMWPhotoBrowser:cell.imgViewTwo.tag];
-//        }];
-//        [cell.imgViewTwo addGestureRecognizer:tapGRTwo];
-//        UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
-//        [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
-//            @strongify(self);
-//            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
-//            [self loadMWPhotoBrowser:cell.imgViewThree.tag];
-//        }];
-//        [cell.imgViewThree addGestureRecognizer:tapGRThree];
-//        
-//        [cell.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
-        //TODO: 处理下BXTRemarksTableViewCell的问题
-        UITableViewCell *cell = [UITableViewCell new];
+        static NSString *cellIdentifier = @"NotesAndPhotosCell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            if (!self.notesBV)
+            {
+                self.notesBV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200)];
+                [cell.contentView addSubview:self.notesBV];
+                
+                UITextView *tv = [[UITextView alloc] initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 40.f, 90)];
+                tv.text = @"请输入维保内容";
+                tv.font = [UIFont systemFontOfSize:17.f];
+                tv.layer.cornerRadius = 3.f;
+                tv.delegate = self;
+                [self.notesBV addSubview:tv];
+                
+                //图片视图
+                BXTPhotosView *photoView = [[BXTPhotosView alloc] initWithFrame:CGRectMake(0, 112, SCREEN_WIDTH, 64)];
+                [photoView.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
+                [self.notesBV addSubview:photoView];
+                
+                //添加图片点击事件
+                @weakify(self);
+                UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
+                [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
+                    @strongify(self);
+                    [self loadMWPhotoBrowser:photoView.imgViewOne.tag];
+                }];
+                [photoView.imgViewOne addGestureRecognizer:tapGROne];
+                UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
+                [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
+                    @strongify(self);
+                    [self loadMWPhotoBrowser:photoView.imgViewTwo.tag];
+                }];
+                [photoView.imgViewTwo addGestureRecognizer:tapGRTwo];
+                UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
+                [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
+                    @strongify(self);
+                    [self loadMWPhotoBrowser:photoView.imgViewThree.tag];
+                }];
+                [photoView.imgViewThree addGestureRecognizer:tapGRThree];
+                self.photosView = photoView;
+            }
+        }
+        
         return cell;
     }
     else
