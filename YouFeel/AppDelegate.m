@@ -601,11 +601,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             dispatch_async(concurrentQueue, ^{
                 /**请求位置列表**/
                 //TODO: 一周更新一次
-                if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
-                {
-                    BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-                    [location_request listOFPlaceIsAllPlace:YES];
-                }
+//                if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
+//                {
+//                    BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+//                    [location_request listOFPlaceIsAllPlace:YES];
+//                }
+                BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [location_request listOFPlaceIsAllPlace:YES];
             });
             dispatch_async(concurrentQueue, ^{
                 /**分店登录**/

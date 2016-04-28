@@ -709,6 +709,13 @@
         [self.contentView layoutIfNeeded];
         return;
     }
+    else if (self.repairDetail.fault_pic.count == 0 &&
+             self.repairDetail.device_lists.count &&
+             self.repairDetail.repair_user_arr.count)
+    {
+        //TODO: 处理这种情况
+        return;
+    }
     
     //设备列表相关
     [self loadDeviceList];
