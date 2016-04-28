@@ -10,6 +10,7 @@
 #import "BXTMyIntegralFirstCell.h"
 #import "BXTRankingCell.h"
 #import "BXTRankingData.h"
+#import "BMDatePickerView.h"
 
 @interface BXTRankingViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -83,6 +84,23 @@
         
         // sameMonthBtn
         [firstCell.sameMonthBtn setTitle:self.timeStr forState:UIControlStateNormal];
+        [[firstCell.sameMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @weakify(self);
+            BMDatePickerView *datePickerView = [BMDatePickerView BMDatePickerViewCertainActionBlock:^(NSString *selectYearMonthString) {
+                @strongify(self);
+                NSLog(@"选择的时间是: %@", selectYearMonthString);
+                
+                self.timeStr = selectYearMonthString;
+                [firstCell.sameMonthBtn setTitle:self.timeStr forState:UIControlStateNormal];
+                firstCell.nextMonthBtn.enabled = YES;
+                if ([self.timeStr isEqualToString:self.nowTimeStr]) {
+                    firstCell.nextMonthBtn.enabled = NO;
+                }
+                [self getResource];
+                
+            }];
+            [datePickerView show];
+        }];
         
         // lastMonthBtn
         [[firstCell.lastMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -157,9 +175,8 @@
 {
     [self hideMBP];
     NSDictionary *dic = response;
-    NSArray *dataArray = dic[@"data"];
     
-    if (type == IntegarlRanking && dataArray.count != 0)
+    if (type == IntegarlRanking)
     {
         self.rankingData = [BXTRankingData mj_objectWithKeyValues:dic];
         

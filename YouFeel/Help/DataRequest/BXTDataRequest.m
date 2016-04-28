@@ -900,7 +900,7 @@
                           @"timeover": endTime,
                           @"timename":timeName,
                           @"device_id":device_id};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=inspection_record_list",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=inspection_record_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

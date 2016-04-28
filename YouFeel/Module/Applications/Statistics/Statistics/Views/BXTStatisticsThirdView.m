@@ -40,22 +40,28 @@
     
     cell.titleView.text = self.dataArray[indexPath.section];
     cell.detailView.text = self.detailArray[indexPath.section];
+
     
-    NSArray *transArray = ValueFUD(@"thirdViewEPStateArray");
-    NSDictionary *dataDict = transArray[0];
-    
-    [cell.pieChartView clearChart];
-    [cell.pieChartView addDataToRepresent:[dataDict[@"working_per"] doubleValue] WithColor:colorWithHexString(@"#34B47E")];
-    [cell.pieChartView addDataToRepresent:[dataDict[@"fault_per"] doubleValue] WithColor:colorWithHexString(@"#EA3622")];
-    [cell.pieChartView addDataToRepresent:[dataDict[@"stop_per"] doubleValue] WithColor:colorWithHexString(@"#D6AD5B")];
-    
-    if ([dataDict[@"working_per"] doubleValue] == 0 && [dataDict[@"fault_per"] doubleValue] == 0 && [dataDict[@"stop_per"] doubleValue] == 0) {
+    if (indexPath.section == 0) {
+        NSArray *transArray = ValueFUD(@"thirdViewEPStateArray");
+        NSDictionary *dataDict = transArray[0];
+        
+        [cell.pieChartView clearChart];
+        [cell.pieChartView addDataToRepresent:[dataDict[@"working_per"] doubleValue] WithColor:colorWithHexString(@"#34B47E")];
+        [cell.pieChartView addDataToRepresent:[dataDict[@"fault_per"] doubleValue] WithColor:colorWithHexString(@"#EA3622")];
+        [cell.pieChartView addDataToRepresent:[dataDict[@"stop_per"] doubleValue] WithColor:colorWithHexString(@"#D6AD5B")];
+        
+        if ([dataDict[@"working_per"] doubleValue] == 0 && [dataDict[@"fault_per"] doubleValue] == 0 && [dataDict[@"stop_per"] doubleValue] == 0) {
+            [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#d9d9d9")];
+        }
+        
+        cell.pieChartView.userInteractionEnabled = NO;
+        
+        cell.persentView.text = [NSString stringWithFormat:@"%@%%", dataDict[@"working_per"]];
+    }
+    else {
         [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#d9d9d9")];
     }
-    
-    cell.pieChartView.userInteractionEnabled = NO;
-    
-    cell.persentView.text = [NSString stringWithFormat:@"%@%%", dataDict[@"working_per"]];
     
     return cell;
 }

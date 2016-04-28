@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString *mobile;
 @property (nonatomic, copy) NSString *linkman;
 @property (nonatomic, copy) NSString *factory_name;
+@property (nonatomic, copy) NSString *del_state;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
