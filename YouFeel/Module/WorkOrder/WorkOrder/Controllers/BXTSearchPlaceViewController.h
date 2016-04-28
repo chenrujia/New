@@ -23,6 +23,7 @@ typedef void (^ChoosePlace)(BXTBaseClassifyInfo *classifyInfo,NSString *name);
 
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBarView;
 @property (nonatomic, assign) SearchVCType searchType;
 @property (nonatomic, copy) ChoosePlace selectPlace;
 

@@ -222,7 +222,8 @@
             UIView *deviceView = [self deviceLists:i comingFromDeviceInfo:self.isComingFromDeviceInfo isLast:isLast];
             [self.fifthBV addSubview:deviceView];
         }
-        self.sixth_top.constant = 159.f + secondHeight;
+        CGFloat space = self.fouthBV.hidden ? 24.f : 159.f;
+        self.sixth_top.constant = space + secondHeight;
         [self.sixthBV layoutIfNeeded];
     }
     else
@@ -695,6 +696,19 @@
         [self loadMMList];
         [self loadAllOthers];
         [self.contentView layoutIfNeeded];
+        return;
+    }
+    else if (self.repairDetail.fault_pic.count == 0 &&
+             self.repairDetail.device_lists.count &&
+             self.repairDetail.repair_user_arr.count)
+    {
+        self.fouthBV.hidden = YES;
+        self.fifth_top.constant = 12.f;
+        [self.fifthBV layoutIfNeeded];
+        //设备列表相关
+        [self loadDeviceList];
+        [self loadMMList];
+        [self loadAllOthers];
         return;
     }
     else if (self.repairDetail.fault_pic.count &&

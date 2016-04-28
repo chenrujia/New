@@ -44,10 +44,10 @@ static CGFloat const ChooseViewHeight  = 328.f;
     [super viewDidLoad];
     
     [self navigationSetting:@"我要报修" andRightTitle:nil andRightImage:nil];
-    _commitBtn.layer.cornerRadius = 4.f;
-    [_placeTF setValue:colorWithHexString(@"#3cafff") forKeyPath:@"_placeholderLabel.textColor"];
-    _placeTF.layer.cornerRadius = 3.f;
-    _placeTF.delegate = self;
+    self.commitBtn.layer.cornerRadius = 4.f;
+    [self.placeTF setValue:colorWithHexString(@"#3cafff") forKeyPath:@"_placeholderLabel.textColor"];
+    self.placeTF.layer.cornerRadius = 3.f;
+    self.placeTF.delegate = self;
     self.devicesArray = [NSMutableArray array];
     self.txt = @"";
     
@@ -85,7 +85,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }];
     [self.notesBV addSubview:repairDetail];
     
-    [self showLoadingMBP:@"请稍候..."];
+    [BXTGlobal showLoadingMBP:@"请稍候..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /** 工单类型 **/
@@ -210,7 +210,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (IBAction)commitOrder:(id)sender
 {
-    [self showLoadingMBP:@"请稍候..."];
+    [BXTGlobal showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     NSString *appointmentTime = @"";
     NSString *deviceID = @"";
@@ -298,7 +298,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
         self.placeTF.text = name;
         self.placeInfo = placeInfo;
-        [self showLoadingMBP:@"请稍候..."];
+        [BXTGlobal showLoadingMBP:@"请稍候..."];
         /** 设备列表 **/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request devicesWithPlaceID:self.placeInfo.placeID];
@@ -309,7 +309,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == OrderFaultType)
@@ -351,7 +351,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning
