@@ -24,11 +24,19 @@
     if (indexPath.section == 1) {
         cell.backgroundColor = colorWithHexString(@"#E2E6E8");
     }
-    else {
-        cell.rankingView.text = [NSString stringWithFormat:@"%ld", (long)(indexPath.row + 1)];
-    }
     
     return cell;
+}
+
+- (void)setRanking:(BXTRankingData *)ranking
+{
+    _ranking = ranking;
+    
+    self.rankingView.text = [NSString stringWithFormat:@"%ld", ranking.ranking];
+    self.integralView.text = [NSString stringWithFormat:@"%ld", ranking.score];
+    if (ranking.is_self == 1) {
+        self.backgroundColor = colorWithHexString(@"#5CAFF8");
+    }
 }
 
 - (void)awakeFromNib {
@@ -37,7 +45,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
