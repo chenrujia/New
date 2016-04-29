@@ -160,8 +160,7 @@
 {
     self.requestType = RepairList;
     
-    NSDictionary *dic = @{@"task_type": task_type,
-                          @"faulttype_id": faulttype_id,
+    NSDictionary *dic = @{@"faulttype_id": faulttype_id,
                           @"order": order,
                           @"dispatch_uid": dispatch_uid,
                           @"daily_timeout": daily_timeout,
@@ -697,14 +696,14 @@
 {
     self.requestType = InspectionTaskList;
     
-    NSDictionary *dic = @{@"start_time": start_time,
-                          @"end_time": end_time,
-                          @"subgroup_ids": subgroup_ids,
-                          @"faulttype_type_ids": faulttype_type_ids,
-                          @"state": state,
-                          @"order": order,
-                          @"pagesize": pagesize,
-                          @"page": page};
+    NSDictionary *dic = @{@"start_time":start_time,
+                          @"end_time":end_time,
+                          @"subgroup_ids":subgroup_ids,
+                          @"faulttype_type_ids":faulttype_type_ids,
+                          @"state":state,
+                          @"order":order,
+                          @"pagesize":pagesize,
+                          @"page":page};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=inspection_task_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

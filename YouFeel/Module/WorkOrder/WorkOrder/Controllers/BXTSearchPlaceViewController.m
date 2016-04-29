@@ -16,7 +16,6 @@
 #define YDOWNIMAGE  [UIImage imageNamed:@"wo_down_arrow"]
 #define YUPIMAGE    [UIImage imageNamed:@"wo_up_arrow"]
 
-//!!!: 选择的时候有点小问题，到时候多测测
 @interface BXTSearchPlaceViewController ()
 
 @property (nonatomic, assign) BOOL                isOpen;
@@ -113,6 +112,26 @@
             }
         }
         
+        if (self.searchType == FaultSearchType && [self.manualClassifyInfo.level integerValue] == 1)
+        {
+            if (IS_IOS_8)
+            {
+                UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"请选择具体的故障类型" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+                [alertCtr addAction:cancelAction];
+                [self presentViewController:alertCtr animated:YES completion:nil];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请选择具体的故障类型"
+                                                                message:nil
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"确定"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            return;
+        }
         self.selectPlace(self.manualClassifyInfo,prefixName);
     }
     else

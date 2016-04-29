@@ -849,38 +849,8 @@
 
 - (void)endMaintence
 {
-    if (IS_IOS_8)
-    {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"您是否确定当前工单已结束？" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"再看看" style:UIAlertActionStyleCancel handler:nil];
-        [alertCtr addAction:cancelAction];
-        @weakify(self);
-        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            @strongify(self);
-            BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_lists];
-            [self.navigationController pushViewController:procossVC animated:YES];
-        }];
-        [alertCtr addAction:doneAction];
-        [self presentViewController:alertCtr animated:YES completion:nil];
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您是否确定当前工单已结束？"
-                                                        message:nil
-                                                       delegate:nil
-                                              cancelButtonTitle:@"再看看"
-                                              otherButtonTitles:@"确定",nil];
-        @weakify(self);
-        [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
-            @strongify(self);
-            if ([x integerValue] == 1)
-            {
-                BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_lists];
-                [self.navigationController pushViewController:procossVC animated:YES];
-            }
-        }];
-        [alert show];
-    }
+    BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_lists];
+    [self.navigationController pushViewController:procossVC animated:YES];
 }
 
 #pragma mark -
@@ -929,19 +899,14 @@
     else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-        __weak typeof(self) weakSelf = self;
-        [self showMBP:@"已经开始！" withBlock:^(BOOL hidden) {
-            [weakSelf.navigationController popViewControllerAnimated:YES];
-        }];
+        [self.navigationController popViewControllerAnimated:YES];
     }
     else if (type == ReaciveOrder)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
-            [self showMBP:@"接单成功！" withBlock:^(BOOL hidden) {
-                [self.navigationController popViewControllerAnimated:YES];
-            }];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
+            [self requestDetail];
         }
     }
     else if (type == DeleteRepair)
@@ -949,18 +914,13 @@
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-            [self showMBP:@"删除成功!" withBlock:^(BOOL hidden) {
-                [self.navigationController popViewControllerAnimated:YES];
-            }];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }
     else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-        __weak typeof(self) weakSelf = self;
-        [self showMBP:@"维修开始！" withBlock:^(BOOL hidden) {
-            [weakSelf.navigationController popViewControllerAnimated:YES];
-        }];
+        [self.navigationController popViewControllerAnimated:YES];
     }
     else if (type == IsSure && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {

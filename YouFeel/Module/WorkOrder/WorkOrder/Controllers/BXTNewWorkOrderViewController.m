@@ -124,9 +124,9 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (void)navigationLeftButton
 {
-    [BXTGlobal shareGlobal].presentNav = nil;
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [BXTGlobal shareGlobal].presentNav = nil;
+    }];
 }
 
 - (void)showDevicesList
@@ -341,9 +341,9 @@ static CGFloat const ChooseViewHeight  = 328.f;
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestRepairList" object:nil];
             [self showMBP:@"新工单已创建！" withBlock:^(BOOL hidden) {
-                
-                [BXTGlobal shareGlobal].presentNav = nil;
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [self dismissViewControllerAnimated:YES completion:^{
+                    [BXTGlobal shareGlobal].presentNav = nil;
+                }];
             }];
         }
     }

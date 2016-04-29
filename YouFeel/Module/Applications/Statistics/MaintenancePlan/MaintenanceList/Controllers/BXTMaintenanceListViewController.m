@@ -31,27 +31,31 @@
 
 @implementation BXTMaintenanceListViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     [self navigationSetting:@"全部维保任务" andRightTitle:@"  筛选" andRightImage:nil];
     
     self.typeArray = [[NSArray alloc] initWithObjects:@"时间逆序", @"时间正序", nil];
     self.dataArray = [[NSMutableArray alloc] init];
     self.currentPage = 1;
-    self.order = @"desc";
+    self.order = @"2";
     self.startTime = @"";
-    if (!self.endTime) {
+    if (!self.endTime)
+    {
         self.endTime = @"";
     }
-    if (!self.subgroupIDs) {
+    if (!self.subgroupIDs)
+    {
         self.subgroupIDs = @"";
     }
-    if (!self.faulttypeIDs) {
+    if (!self.faulttypeIDs)
+    {
         self.faulttypeIDs = @"";
     }
-    if (!self.stateStr) {
+    if (!self.stateStr)
+    {
         self.stateStr = @"";
     }
     
@@ -134,7 +138,7 @@
 {
     self.currentPage = 1;
     
-    self.order = indexPath.row == 0 ? @"desc" : @"asc";
+    self.order = indexPath.row == 0 ? @"2" : @"1";
     
     [self getResource];
 }

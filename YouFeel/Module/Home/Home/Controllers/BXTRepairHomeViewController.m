@@ -77,28 +77,53 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    switch (indexPath.section) {
-        case 0: {
-            switch (indexPath.row) {
-                case 0: [self pushNormalOrders]; break;
-                case 1: [self pushMaintenceOrders]; break;
-                default: break;
+    switch (indexPath.section)
+    {
+        case 0:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                    [self pushNormalOrders];
+                    break;
+                case 1:
+                    [self pushMaintenceOrders];
+                    break;
+                default:
+                    break;
             }
-        } break;
-        case 1: {
-            switch (indexPath.row) {
-                case 0: [self pushMyOrdersIsRepair:YES]; break;
-                case 1: [self pushMyOrdersIsRepair:NO]; break;
-                default: break;
+        }
+            break;
+        case 1:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                    [self pushMyOrdersIsRepair:YES];
+                    break;
+                case 1:
+                    [self pushMyOrdersIsRepair:NO];
+                    break;
+                default:
+                    break;
             }
-        } break;
-        case 2: [self pushOtherAffair]; break;
-        case 3: [self pushMyIntegral]; break;
-        case 4: [self pushStatistics]; break;
-        case 5: [self projectPhone]; break;
-        default: break;
+        }
+            break;
+        case 2:
+            [self pushOtherAffair];
+            break;
+        case 3:
+            [self pushMyIntegral];
+            break;
+        case 4:
+            [self pushStatistics];
+            break;
+        case 5:
+            [self projectPhone];
+            break;
+        default:
+            break;
     }
-    
 }
 
 - (void)didReceiveMemoryWarning
