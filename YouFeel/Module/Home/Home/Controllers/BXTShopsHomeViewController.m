@@ -25,21 +25,32 @@
     logoImgView.image = [UIImage imageNamed:@"Nav_Bar"];
     [logo_Btn setImage:[UIImage imageNamed:@"WarrantyIcon"] forState:UIControlStateNormal];
     title_label.text = @"我要报修";
+
+    self.imgNameArray = [NSMutableArray array];
+    [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_lights",nil]];
+    [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_notepad_ok",nil]];
+    [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_statistics",nil]];
+    [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_phone",nil]];
     
+    self.titleNameArray = [NSMutableArray array];
+    [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"我的报修工单",nil]];
+    [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"其他事务",nil]];
+    [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"业务统计",nil]];
+    [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"项目热线",nil]];
     
-    self.imgNameArray = [NSMutableArray arrayWithObjects:@[@"home_calendar_add",@"home_Work_Order"],
-                         @[@"home_my", @"home_lights"],
-                         @[@"home_notepad_ok"],
-                         @[@"home_integral"],
-                         @[@"home_statistics"],
-                         @[@"home_phone"] ,nil];
-    self.titleNameArray = [NSMutableArray arrayWithObjects:@[@"日常工单",@"维保工单"],
-                           @[@"我的维修工单", @"我的报修工单"],
-                           @[@"其他事务"],
-                           @[@"我的积分"],
-                           @[@"业务统计"],
-                           @[@"项目热线"], nil];
-    
+    NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
+    //如果不包含业务统计
+    if (![permissonKeys containsString:@"9995"])
+    {
+        [self.imgNameArray removeObjectAtIndex:2];
+        [self.titleNameArray removeObjectAtIndex:2];
+    }
+    //如果不包含其他事物
+    if (![permissonKeys containsString:@"9994"])
+    {
+        [self.imgNameArray removeObjectAtIndex:1];
+        [self.titleNameArray removeObjectAtIndex:1];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -51,30 +62,37 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-        case 0: {
-            switch (indexPath.row) {
-                case 0: [self pushNormalOrders]; break;
-                case 1: [self pushMaintenceOrders]; break;
-                default: break;
-            }
-        } break;
-        case 1: {
-            switch (indexPath.row) {
-                case 0: [self pushMyOrdersIsRepair:YES]; break;
-                case 1: [self pushMyOrdersIsRepair:NO]; break;
-                default: break;
-            }
-        } break;
-        case 2: [self pushOtherAffair]; break;
-        case 3: [self pushMyIntegral]; break;
-        case 4: [self pushStatistics]; break;
-        case 5: [self projectPhone]; break;
-        default: break;
-    }
-    
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
+    if (indexPath.section == 0)
+    {
+        [self pushMyOrdersIsRepair:NO];
+    }
+    else if (indexPath.section == 1 && [permissonKeys containsString:@"9994"])
+    {
+        [self pushOtherAffair];
+    }
+    else if (indexPath.section == 1 && ![permissonKeys containsString:@"9994"] && [permissonKeys containsString:@"9995"])
+    {
+        [self pushStatistics];
+    }
+    else if (indexPath.section == 1 && ![permissonKeys containsString:@"9995"] && ![permissonKeys containsString:@"9995"])
+    {
+        [self projectPhone];
+    }
+    else if (indexPath.section == 2 && [permissonKeys containsString:@"9995"])
+    {
+        [self pushStatistics];
+    }
+    else if (indexPath.section == 2 && ![permissonKeys containsString:@"9995"])
+    {
+        [self projectPhone];
+    }
+    else if (indexPath.section == 3)
+    {
+        [self projectPhone];
+    }
 }
 
 - (void)didReceiveMemoryWarning

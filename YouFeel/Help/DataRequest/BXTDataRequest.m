@@ -322,6 +322,7 @@
 }
 
 - (void)projectAuthenticationVerifyWithApplicantID:(NSString *)applicantID
+                                        affairs_id:(NSString *)affairs_id
                                           isVerify:(NSString *)is_verify
 {
     self.requestType = AuthenticationVerify;
@@ -330,6 +331,7 @@
     NSDictionary *dic = @{@"out_userid": applicantID,
                           @"shop_id": companyInfo.company_id,
                           @"is_verify": is_verify,
+                          @"affairs_id":affairs_id,
                           @"verify_user_id": [BXTGlobal getUserProperty:U_USERID]};
     
     NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, companyInfo.company_id, [BXTGlobal getUserProperty:U_TOKEN]];
@@ -621,7 +623,6 @@
     [self postRequest:url withParameters:dic];
 }
 
-//TODO: 这个接口500错误
 - (void)userInfoForChatListWithID:(NSString *)userID
 {
     self.requestType = UserInfoForChatList;
@@ -938,11 +939,11 @@
                 andLatitude:(CGFloat)latitude
                     andDesc:(NSString *)desc
 {
-    //!!!: 004错误
     self.requestType = Add_Inspection;
     NSDictionary *dic = @{@"workorder_id":workorderID,
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"device_id":device_id,
+                          @"inspection_item_id":inspectionID,
                           @"inspection_info":inspectionData,
                           @"device_state":state,
                           @"notes":notes,

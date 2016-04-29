@@ -227,12 +227,27 @@
         cell.workInstuction.text = [NSString stringWithFormat:@"作业指示%ld",(long)number];
         BXTDeviceInspectionInfo *inspectionInfo = self.maintenceInfo.inspection_info[indexPath.row];
         cell.maintenceProject.text = inspectionInfo.check_item;
-        BXTDeviceCheckInfo *checkProOne = inspectionInfo.check_arr[0];
-        cell.nowState.text = checkProOne.default_description;
-        BXTDeviceCheckInfo *checkProTwo = inspectionInfo.check_arr[1];
-        cell.repairNotes.text = checkProTwo.default_description;
-        BXTDeviceCheckInfo *checkProThree = inspectionInfo.check_arr[2];
-        cell.repairResult.text = checkProThree.default_description;
+        if (inspectionInfo.check_arr.count == 1)
+        {
+            BXTDeviceCheckInfo *checkProOne = inspectionInfo.check_arr[0];
+            cell.nowState.text = checkProOne.default_description;
+        }
+        else if (inspectionInfo.check_arr.count == 2)
+        {
+            BXTDeviceCheckInfo *checkProOne = inspectionInfo.check_arr[0];
+            cell.nowState.text = checkProOne.default_description;
+            BXTDeviceCheckInfo *checkProTwo = inspectionInfo.check_arr[1];
+            cell.repairNotes.text = checkProTwo.default_description;
+        }
+        else if (inspectionInfo.check_arr.count == 3)
+        {
+            BXTDeviceCheckInfo *checkProOne = inspectionInfo.check_arr[0];
+            cell.nowState.text = checkProOne.default_description;
+            BXTDeviceCheckInfo *checkProTwo = inspectionInfo.check_arr[1];
+            cell.repairNotes.text = checkProTwo.default_description;
+            BXTDeviceCheckInfo *checkProThree = inspectionInfo.check_arr[2];
+            cell.repairResult.text = checkProThree.default_description;
+        }
         
         return cell;
     }

@@ -25,7 +25,8 @@
 #define U_USERSARRAY   @"usersArray"
 #define U_TOKEN        @"token"
 #define U_OPENID       @"openID"
-#define USEREMAIL     @"email"
+#define USEREMAIL      @"email"
+#define PERMISSIONKEYS @"permission_keys"
 
 //存储用的Model
 @class BXTResignedShopInfo;
@@ -47,6 +48,7 @@
 @property (nonatomic ,strong) NSMutableArray      *usersArray;
 @property (nonatomic, copy  ) NSString            *token;
 @property (nonatomic, copy  ) NSString            *openID;
+@property (nonatomic, copy  ) NSString            *permission_keys;
 
 @end
 

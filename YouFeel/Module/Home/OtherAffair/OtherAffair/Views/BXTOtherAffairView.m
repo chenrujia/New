@@ -105,6 +105,7 @@
     
     BXTCertificationManageViewController *cmvc = [[BXTCertificationManageViewController alloc] init];
     cmvc.transID = affairModel.about_id;
+    cmvc.affairs_id = affairModel.messageID;
     cmvc.delegateSignal = [RACSubject subject];
     @weakify(self);
     [cmvc.delegateSignal subscribeNext:^(id x) {

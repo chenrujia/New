@@ -236,19 +236,18 @@
     [self hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
-    
-    if (type == UserInfo) {
+    if (type == UserInfo)
+    {
         SaveValueTUD(SaveBranchID, [BXTGlobal getUserProperty:U_BRANCHUSERID]);
-        
         [BXTMineInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"mineID":@"id"};
         }];
         BXTMineInfo *mineInfo = [BXTMineInfo mj_objectWithKeyValues:data[0]];
         SaveValueTUD(USEREMAIL, mineInfo.email);
-        
         self.downView.mineInfo =  mineInfo;
     }
-    else {
+    else
+    {
         [BXTFeebackInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"feebackID":@"id"};
         }];
