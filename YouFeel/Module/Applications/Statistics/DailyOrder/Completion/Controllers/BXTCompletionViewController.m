@@ -40,18 +40,25 @@ typedef enum {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self showLoadingMBP:@"数据加载中..."];
-    
     /**饼状图**/
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     self.transTimeArray = [[NSMutableArray alloc] initWithArray:dateArray];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsCompleteWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
+    [self getResourceWithArray:dateArray];
+    
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:Not_First_Launch])
     {
         [self createIntroductionView];
     }
+}
+
+- (void)getResourceWithArray:(NSArray *)timeArray
+{
+    NSArray *finalTimeArray = [BXTGlobal transTimeToWhatWeNeed:timeArray];
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statisticsCompleteWithTimeStart:finalTimeArray[0] timeEnd:finalTimeArray[1]];
 }
 
 - (void)createIntroductionView
@@ -352,12 +359,11 @@ typedef enum {
     [self.transTimeArray addObject:dateArray[0]];
     [self.transTimeArray addObject:dateArray[1]];
     
-    [self showLoadingMBP:@"数据加载中..."];
+    
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**饼状图**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statisticsCompleteWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
+        [self getResourceWithArray:dateArray];
     });
     dispatch_async(concurrentQueue, ^{
         /**柱状图**/
@@ -395,10 +401,9 @@ typedef enum {
         [self.transTimeArray addObject:todayStr];
         [self.transTimeArray addObject:todayStr];
         
-        [self showLoadingMBP:@"数据加载中..."];
+        
         /**饼状图**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statisticsCompleteWithTimeStart:todayStr timeEnd:todayStr];
+        [self getResourceWithArray:@[todayStr, todayStr]];
     }
     [super datePickerBtnClick:button];
 }

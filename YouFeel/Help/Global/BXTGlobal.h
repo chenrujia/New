@@ -116,6 +116,11 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
 + (UIColor *)randomColor;
 
 /**
+ *  获取开始时间与结束时间 时间戳
+ */
++ (NSArray *)transTimeToWhatWeNeed:(NSArray *)timeArray;
+
+/**
  *  获取当月第一天最后一天的数组
  */
 + (NSArray *)monthStartAndEnd;

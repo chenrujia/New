@@ -259,6 +259,23 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
 }
 
+// 获取开始时间与结束时间 时间戳
++ (NSArray *)transTimeToWhatWeNeed:(NSArray *)timeArray
+{
+    NSString *begainTime = [NSString stringWithFormat:@"%@ 00:00:00", timeArray[0]];
+    NSString *endTime = [NSString stringWithFormat:@"%@ 23:59:59", timeArray[1]];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    NSDate *begainDate = [dateFormatter dateFromString:begainTime];
+    NSString *filterOfTimeBegain = [NSString stringWithFormat:@"%ld", (long)[begainDate timeIntervalSince1970]];
+    NSDate *endDate = [dateFormatter dateFromString:endTime];
+    NSString *filterOfTimeEnd = [NSString stringWithFormat:@"%ld", (long)[endDate timeIntervalSince1970]];
+    
+    return [NSArray arrayWithObjects:filterOfTimeBegain, filterOfTimeEnd, nil];
+}
+
 // 获取当月第一天最后一天的数组
 + (NSArray *)monthStartAndEnd
 {

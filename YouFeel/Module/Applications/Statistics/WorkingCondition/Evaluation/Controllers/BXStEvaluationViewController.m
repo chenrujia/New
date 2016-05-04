@@ -157,12 +157,17 @@
     
     self.rootSegmentedCtr.selectedSegmentIndex = 2;
     
+    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
+    [self getResourceWithArray:dateArray];
+}
+
+- (void)getResourceWithArray:(NSArray *)timeArray
+{
+    NSArray *finalTimeArray = [BXTGlobal transTimeToWhatWeNeed:timeArray];
     
     [self showLoadingMBP:@"数据加载中..."];
-    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
-    
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsPraiseWithTimeStart:dateArray[0] timeEnd:dateArray[1] Type:self.typeStr];
+    [request statisticsPraiseWithTimeStart:finalTimeArray[0] timeEnd:finalTimeArray[1] Type:self.typeStr];
 }
 
 #pragma mark -
@@ -209,9 +214,8 @@
             break;
     }
     
-    [self showLoadingMBP:@"数据加载中..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsPraiseWithTimeStart:dateArray[0] timeEnd:dateArray[1] Type:self.typeStr];
+    
+    [self getResourceWithArray:dateArray];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button
@@ -219,7 +223,6 @@
     if (button.tag == 10001)
     {
         self.rootSegmentedCtr.selectedSegmentIndex = 2;
-        [self showLoadingMBP:@"数据加载中..."];
         
         if (!selectedDate)
         {
@@ -228,9 +231,9 @@
         [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
         
         NSString *todayStr = [self transTimeWithDate:selectedDate];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statisticsPraiseWithTimeStart:todayStr timeEnd:todayStr Type:self.typeStr];
+        [self getResourceWithArray:@[todayStr, todayStr]];
     }
+    
     [super datePickerBtnClick:button];
 }
 

@@ -97,7 +97,7 @@
                                   timeOver:self.filterOfTimeEnd
                                 subgroupID:self.filterOfGroupID
                                    placeID:self.filterOfAreasID
-                               repairState:@""
+                               repairState:@"1"
                                      state:@""
                          faultCarriedState:@""
                         repairCarriedState:@""
@@ -172,7 +172,7 @@
                                       timeOver:@""
                                     subgroupID:@""
                                        placeID:@""
-                                   repairState:@""
+                                   repairState:@"1"
                                          state:@""
                              faultCarriedState:@""
                             repairCarriedState:@""
@@ -339,28 +339,31 @@
         //时间
         else if (indexPath.column == 3)
         {
+            NSMutableArray *allTimeArray = [[NSMutableArray alloc] init];
             switch (indexPath.row) {
                 case 0: {
-                    self.filterOfTimeBegain = @"";
-                    self.filterOfTimeEnd = @"";
+                    allTimeArray = (NSMutableArray *)@[@"", @""];
                 } break;
                 case 1: {
-                    [self transTimeToWhatWeNeed:[BXTGlobal dayStartAndEnd]];
+                    allTimeArray = (NSMutableArray *)[BXTGlobal transTimeToWhatWeNeed:[BXTGlobal dayStartAndEnd]];
                 } break;
                 case 2: {
-                    [self transTimeToWhatWeNeed:[BXTGlobal dayOfCountStartAndEnd:3]];
+                    allTimeArray = (NSMutableArray *)[BXTGlobal transTimeToWhatWeNeed:[BXTGlobal dayOfCountStartAndEnd:3]];
                 } break;
                 case 3: {
-                    [self transTimeToWhatWeNeed:[BXTGlobal dayOfCountStartAndEnd:7]];
+                    allTimeArray = (NSMutableArray *)[BXTGlobal transTimeToWhatWeNeed:[BXTGlobal dayOfCountStartAndEnd:7]];
                 } break;
                 case 4: {
-                    [self transTimeToWhatWeNeed:[BXTGlobal monthStartAndEnd]];
+                    allTimeArray = (NSMutableArray *)[BXTGlobal transTimeToWhatWeNeed:[BXTGlobal monthStartAndEnd]];
                 } break;
                 case 5: {
-                    [self transTimeToWhatWeNeed:[BXTGlobal yearStartAndEnd]];
+                    allTimeArray = (NSMutableArray *)[BXTGlobal transTimeToWhatWeNeed:[BXTGlobal yearStartAndEnd]];
                 } break;
                 default: break;
             }
+            
+            self.filterOfTimeBegain = allTimeArray[0];
+            self.filterOfTimeEnd = allTimeArray[1];
         }
     }
     
@@ -369,19 +372,6 @@
     [self getResource];
 }
 
-- (void)transTimeToWhatWeNeed:(NSArray *)timeArray
-{
-    NSString *begainTime = [NSString stringWithFormat:@"%@ 00:00:00", timeArray[0]];
-    NSString *endTime = [NSString stringWithFormat:@"%@ 23:59:59", timeArray[1]];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    
-    NSDate *begainDate = [dateFormatter dateFromString:begainTime];
-    self.filterOfTimeBegain = [NSString stringWithFormat:@"%ld", (long)[begainDate timeIntervalSince1970]];
-    NSDate *endDate = [dateFormatter dateFromString:endTime];
-    self.filterOfTimeEnd = [NSString stringWithFormat:@"%ld", (long)[endDate timeIntervalSince1970]];
-}
 
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDatasource
