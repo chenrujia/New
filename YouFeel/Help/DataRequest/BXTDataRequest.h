@@ -296,9 +296,9 @@ typedef NS_ENUM(NSInteger, RepairListType)
           faultCause:(NSString *)cause
              placeID:(NSString *)placeID
            deviceIDs:(NSString *)deviceID
-              adsTxt:(NSString *)adsTxt
           imageArray:(NSArray *)images
-     repairUserArray:(NSArray *)userArray;
+     repairUserArray:(NSArray *)userArray
+            isMySelf:(NSString *)isMySelf;
 
 /**
  *  删除工单

@@ -22,7 +22,7 @@
 #import "CYLTabBarControllerConfig.h"
 #import "UIViewController+Swizzled.h"
 #import "BXTProjectAddNewViewController.h"
-#import "BXTMaintenanceDetailViewController.h"
+#import "BXTNewOrderViewController.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -433,32 +433,28 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     }
                 }
             }
-            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 2)//收到派工或者维修邀请
+            else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 5)//收到派工或者维修邀请
             {
                 [[BXTGlobal shareGlobal].assignOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
-                //TODO: 改回原来的新工单
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-                BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-                SceneType sceneType = MaintainType;
-                [repairDetailVC dataWithRepairID:[taskInfo objectForKey:@"about_id"] sceneType:sceneType];
-                repairDetailVC.hidesBottomBarWhenPushed = YES;
+                BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithOrderID:nil];
+                newOrderVC.hidesBottomBarWhenPushed = YES;
                 
                 if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
                 {
                     if ([BXTGlobal shareGlobal].presentNav)
                     {
-                        [[BXTGlobal shareGlobal].presentNav pushViewController:repairDetailVC animated:YES];
+                        [[BXTGlobal shareGlobal].presentNav pushViewController:newOrderVC animated:YES];
                     }
                     else if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
                     {
                         UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
-                        [nav pushViewController:repairDetailVC animated:YES];
+                        [nav pushViewController:newOrderVC animated:YES];
                     }
                     else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
                     {
                         CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
                         UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
-                        [nav pushViewController:repairDetailVC animated:YES];
+                        [nav pushViewController:newOrderVC animated:YES];
                     }
                 }
             }
@@ -497,9 +493,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     if (IS_IOS_8)
     {
         UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            
-        }];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
         [alertCtr addAction:doneAction];
         [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
     }
@@ -658,7 +652,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    LogBlue(@"type:%ld",(long)type);
     [self loadingLoginVC];
 }
 

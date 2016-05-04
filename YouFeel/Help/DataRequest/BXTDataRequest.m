@@ -424,9 +424,9 @@
           faultCause:(NSString *)cause
              placeID:(NSString *)placeID
            deviceIDs:(NSString *)deviceID
-              adsTxt:(NSString *)adsTxt
           imageArray:(NSArray *)images
      repairUserArray:(NSArray *)userArray
+            isMySelf:(NSString *)isMySelf
 {
     self.requestType = CreateRepair;
     NSString *faultID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
@@ -436,7 +436,7 @@
                           @"cause":cause,
                           @"place_id":placeID,
                           @"device_ids":deviceID,
-                          @"ads_txt":adsTxt};
+                          @"is_myself":isMySelf};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_fault",[BXTGlobal shareGlobal].baseURL];
     if (images.count)
     {

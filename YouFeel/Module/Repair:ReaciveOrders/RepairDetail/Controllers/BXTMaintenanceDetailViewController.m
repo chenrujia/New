@@ -514,7 +514,7 @@
         case 1:
         {
             BXTButtonInfo *btnInfo = self.btnArray[0];
-            UIButton *btn = [self initialButton];
+            UIButton *btn = [self initialButton:NO];
             [btn setTitle:btnInfo.button_name forState:UIControlStateNormal];
             @weakify(self);
             [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -533,7 +533,7 @@
         case 2:
         {
             BXTButtonInfo *leftBtnInfo = self.btnArray[0];
-            UIButton *leftBtn = [self initialButton];
+            UIButton *leftBtn = [self initialButton:YES];
             [leftBtn setTitle:leftBtnInfo.button_name forState:UIControlStateNormal];
             @weakify(self);
             [[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -541,7 +541,7 @@
                 [self actionWithButtonInfo:leftBtnInfo];
             }];
             BXTButtonInfo *rightBtnInfo = self.btnArray[1];
-            UIButton *rightBtn = [self initialButton];
+            UIButton *rightBtn = [self initialButton:NO];
             [rightBtn setTitle:rightBtnInfo.button_name forState:UIControlStateNormal];
             [[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 @strongify(self);
@@ -567,14 +567,23 @@
     }
 }
 
-- (UIButton *)initialButton
+- (UIButton *)initialButton:(BOOL)isLeft
 {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    btn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    btn.layer.borderWidth = 1.f;
+    if (isLeft)
+    {
+        btn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+        btn.layer.borderWidth = 1.f;
+        [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+    }
+    else
+    {
+        btn.backgroundColor = colorWithHexString(@"3cafff");
+        [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    }
     btn.layer.cornerRadius = 4.f;
-    [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
     [self.buttonBV addSubview:btn];
+    
     return btn;
 }
 
