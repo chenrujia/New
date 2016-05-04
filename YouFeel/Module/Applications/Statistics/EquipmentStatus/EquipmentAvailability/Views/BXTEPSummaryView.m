@@ -40,6 +40,7 @@
     
     //    [self showLoadingMBP:@"数据加载中..."];
     
+    
     /**饼状图**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request deviceAvailableStaticsWithDate:@""];
