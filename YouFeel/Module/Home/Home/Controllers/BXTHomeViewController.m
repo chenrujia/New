@@ -24,9 +24,7 @@
 #import "BXTExaminationViewController.h"
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTMyIntegralViewController.h"
-#import "BXTMTProfessionViewController.h"
 #import "BXTRepairsListViewController.h"
-#import "BXTEquipmentListViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -146,11 +144,6 @@
         BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
         pivc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:pivc animated:YES];
-        
-        //        BXTEquipmentListViewController *pivc = [[BXTEquipmentListViewController alloc] init];
-        //        pivc.hidesBottomBarWhenPushed = YES;
-        //        [self.navigationController pushViewController:pivc animated:YES];
-        
     }];
     [logoImgView addSubview:branchBtn];
     

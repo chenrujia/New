@@ -16,6 +16,7 @@
 #import "BXTChooseItemView.h"
 #import "BXTDeviceListInfo.h"
 #import "ANKeyValueTable.h"
+#import "UIView+SDAutoLayout.h"
 
 static NSInteger const DeviceButtonTag = 11;
 static NSInteger const DateButtonTag   = 12;
@@ -33,7 +34,6 @@ static CGFloat const ChooseViewHeight  = 328.f;
 @property (nonatomic, strong) BXTDeviceListInfo *selectDeviceInfo;
 @property (nonatomic, strong) NSDictionary      *selectTimeDic;
 @property (nonatomic, strong) BXTOrderTypeInfo  *selectFaultInfo;
-@property (nonatomic, strong) NSString          *txt;
 
 @end
 
@@ -49,7 +49,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
     self.placeTF.layer.cornerRadius = 3.f;
     self.placeTF.delegate = self;
     self.devicesArray = [NSMutableArray array];
-    self.txt = @"";
+    self.notes = @"";
     
     //图片视图
     BXTPhotosView *photoView = [[BXTPhotosView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
@@ -85,6 +85,52 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }];
     [self.notesBV addSubview:repairDetail];
     
+    if ([BXTGlobal shareGlobal].isRepair)
+    {
+        UIButton *leftBtn = [self initialButton:YES];
+        [leftBtn setTitle:@"我来修" forState:UIControlStateNormal];
+        @weakify(self);
+        [[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self commitOrder:@"2"];
+        }];
+
+        UIButton *rightBtn = [self initialButton:NO];
+        [rightBtn setTitle:@"提交" forState:UIControlStateNormal];
+        [[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self commitOrder:@"1"];
+        }];
+        
+        leftBtn.sd_layout
+        .leftSpaceToView(self.buttonBV,20)
+        .topSpaceToView(self.buttonBV,12)
+        .rightSpaceToView(self.buttonBV,SCREEN_WIDTH/2.f + 10.f)
+        .heightIs(44);
+        rightBtn.sd_layout
+        .leftSpaceToView(leftBtn,20)
+        .topEqualToView(leftBtn)
+        .rightSpaceToView(self.buttonBV,20)
+        .heightIs(44);
+    }
+    else
+    {
+        UIButton *btn = [self initialButton:NO];
+        [btn setTitle:@"提交" forState:UIControlStateNormal];
+        @weakify(self);
+        [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self commitOrder:@"1"];
+        }];
+        
+        CGFloat space = IS_IPHONE6 ? 100.f : 60.f;
+        btn.sd_layout
+        .leftSpaceToView(self.buttonBV,space)
+        .rightSpaceToView(self.buttonBV,space)
+        .topSpaceToView(self.buttonBV,12)
+        .heightIs(44);
+    }
+    
     [BXTGlobal showLoadingMBP:@"请稍候..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
@@ -100,6 +146,26 @@ static CGFloat const ChooseViewHeight  = 328.f;
     [self updateContentView];
 }
 
+- (UIButton *)initialButton:(BOOL)isLeft
+{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    if (isLeft)
+    {
+        btn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
+        btn.layer.borderWidth = 1.f;
+        [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+    }
+    else
+    {
+        btn.backgroundColor = colorWithHexString(@"3cafff");
+        [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    }
+    btn.layer.cornerRadius = 4.f;
+    [self.buttonBV addSubview:btn];
+    
+    return btn;
+}
+
 - (void)updateContentView
 {
     UIView *subview = nil;
@@ -113,13 +179,13 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }
     if (CGRectGetMaxY(subview.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
     {
-        _content_height.constant = CGRectGetMaxY(subview.frame) + 20.f;
+        self.content_height.constant = CGRectGetMaxY(subview.frame) + 20.f;
     }
     else
     {
-        _content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
+        self.content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f;
     }
-    [_contentView layoutIfNeeded];
+    [self.contentView layoutIfNeeded];
 }
 
 - (void)navigationLeftButton
@@ -208,8 +274,25 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }];
 }
 
-- (IBAction)commitOrder:(id)sender
+- (void)commitOrder:(NSString *)isMySelf
 {
+    if (self.notes.length == 0)
+    {
+        if (IS_IOS_8)
+        {
+            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"请输入故障详情描述" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+            [alertCtr addAction:doneAction];
+            [self presentViewController:alertCtr animated:YES completion:nil];
+        }
+        else
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请输入故障详情描述" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+        }
+        return;
+    }
+    
     [BXTGlobal showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     NSString *appointmentTime = @"";
@@ -227,9 +310,9 @@ static CGFloat const ChooseViewHeight  = 328.f;
                faultCause:self.notes
                   placeID:self.placeInfo.placeID
                 deviceIDs:deviceID
-                   adsTxt:self.txt
                imageArray:self.resultPhotos
-          repairUserArray:[NSArray array]];
+          repairUserArray:[NSArray array]
+                 isMySelf:isMySelf];
 }
 
 - (IBAction)switchValueChanged:(id)sender
@@ -318,7 +401,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
             return @{@"orderTypeID":@"id"};
         }];
         NSMutableArray *orderListArray = [NSMutableArray array];
-        [orderListArray addObjectsFromArray:[[[BXTOrderTypeInfo mj_objectArrayWithKeyValuesArray:data] reverseObjectEnumerator] allObjects]];
+        [orderListArray addObjectsFromArray:[BXTOrderTypeInfo mj_objectArrayWithKeyValuesArray:data]];
         //工单类型
         BXTAttributeView *attView = [BXTAttributeView attributeViewWithTitleFont:[UIFont boldSystemFontOfSize:17] attributeTexts:orderListArray viewWidth:SCREEN_WIDTH delegate:self];
         attView.y = 0;
