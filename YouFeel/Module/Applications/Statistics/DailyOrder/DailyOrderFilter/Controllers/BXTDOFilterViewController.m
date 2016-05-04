@@ -438,22 +438,6 @@
     [self.tableView reloadData];
 }
 
-//- (NSArray *)transTimeToWhatWeNeed:(NSArray *)timeArray
-//{
-//    NSString *begainTime = [NSString stringWithFormat:@"%@ 00:00:00", timeArray[0]];
-//    NSString *endTime = [NSString stringWithFormat:@"%@ 23:59:59", timeArray[1]];
-//    
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    
-//    NSDate *begainDate = [dateFormatter dateFromString:begainTime];
-//    NSString *filterOfTimeBegain = [NSString stringWithFormat:@"%ld", (long)[begainDate timeIntervalSince1970]];
-//    NSDate *endDate = [dateFormatter dateFromString:endTime];
-//    NSString *filterOfTimeEnd = [NSString stringWithFormat:@"%ld", (long)[endDate timeIntervalSince1970]];
-//    
-//    return @[filterOfTimeBegain, filterOfTimeEnd];
-//}
-
 - (NSArray *)transTime:(NSString *)timeStr
 {
     // 全部 - 今天 - 本周 - 本月- 本年

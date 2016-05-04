@@ -187,6 +187,10 @@
     {
         [mutableDic setObject:[BXTGlobal getUserProperty:U_BRANCHUSERID] forKey:@"fault_id"];
     }
+    else if (listType == OtherList)
+    {
+        [mutableDic setObject:task_type forKey:@"task_type"];
+    }
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:mutableDic];
