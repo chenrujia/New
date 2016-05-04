@@ -32,8 +32,8 @@
 {
     _ranking = ranking;
     
-    self.rankingView.text = [NSString stringWithFormat:@"%ld", ranking.ranking];
-    self.integralView.text = [NSString stringWithFormat:@"%ld", ranking.score];
+    self.rankingView.text = [NSString stringWithFormat:@"%ld", (long)ranking.ranking];
+    self.integralView.text = [NSString stringWithFormat:@"%ld", (long)ranking.score];
     if (ranking.is_self == 1) {
         self.backgroundColor = colorWithHexString(@"#5CAFF8");
     }

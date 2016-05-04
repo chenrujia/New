@@ -14,7 +14,8 @@
 {
     return @{@"inspection_info":[BXTDeviceInspectionInfo class],
              @"repair_arr":[BXTControlUserInfo class],
-             @"device_con":[BXTDeviceConfigInfo class]};
+             @"device_con":[BXTDeviceConfigInfo class],
+             @"pic":[BXTFaultPicInfo class]};
 }
 
 @end

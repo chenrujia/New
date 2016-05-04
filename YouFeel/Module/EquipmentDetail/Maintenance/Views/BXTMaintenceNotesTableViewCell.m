@@ -30,36 +30,35 @@
     else if (maintenceInfo.pic.count == 1)
     {
         self.imageOne.hidden = NO;
-        NSDictionary *picOne = maintenceInfo.pic[0];
-        [self.imageOne sd_setImageWithURL:[NSURL URLWithString:[picOne objectForKey:@"photo_thumb_file"]]];
+        BXTFaultPicInfo *faultInfo = maintenceInfo.pic[0];
+        [self.imageOne sd_setImageWithURL:[NSURL URLWithString:faultInfo.photo_thumb_file]];
     }
     else if (maintenceInfo.pic.count == 2)
     {
         self.imageOne.hidden = NO;
         self.imageTwo.hidden = NO;
-        NSDictionary *picOne = maintenceInfo.pic[0];
-        [self.imageOne sd_setImageWithURL:[NSURL URLWithString:[picOne objectForKey:@"photo_thumb_file"]]];
-        NSDictionary *picTwo = maintenceInfo.pic[1];
-        [self.imageTwo sd_setImageWithURL:[NSURL URLWithString:[picTwo objectForKey:@"photo_thumb_file"]]];
+        BXTFaultPicInfo *faultInfoOne = maintenceInfo.pic[0];
+        [self.imageOne sd_setImageWithURL:[NSURL URLWithString:faultInfoOne.photo_thumb_file]];
+        BXTFaultPicInfo *faultInfoTwo = maintenceInfo.pic[1];
+        [self.imageTwo sd_setImageWithURL:[NSURL URLWithString:faultInfoTwo.photo_thumb_file]];
     }
     else if (maintenceInfo.pic.count == 3)
     {
         self.imageOne.hidden = NO;
         self.imageTwo.hidden = NO;
         self.imageThree.hidden = NO;
-        NSDictionary *picOne = maintenceInfo.pic[0];
-        [self.imageOne sd_setImageWithURL:[NSURL URLWithString:[picOne objectForKey:@"photo_thumb_file"]]];
-        NSDictionary *picTwo = maintenceInfo.pic[1];
-        [self.imageTwo sd_setImageWithURL:[NSURL URLWithString:[picTwo objectForKey:@"photo_thumb_file"]]];
-        NSDictionary *picThree = maintenceInfo.pic[2];
-        [self.imageThree sd_setImageWithURL:[NSURL URLWithString:[picThree objectForKey:@"photo_thumb_file"]]];
+        BXTFaultPicInfo *faultInfoOne = maintenceInfo.pic[0];
+        [self.imageOne sd_setImageWithURL:[NSURL URLWithString:faultInfoOne.photo_thumb_file]];
+        BXTFaultPicInfo *faultInfoTwo = maintenceInfo.pic[1];
+        [self.imageTwo sd_setImageWithURL:[NSURL URLWithString:faultInfoTwo.photo_thumb_file]];
+        BXTFaultPicInfo *faultInfoThree = maintenceInfo.pic[2];
+        [self.imageThree sd_setImageWithURL:[NSURL URLWithString:faultInfoThree.photo_thumb_file]];
     }
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
-
-    
 }
 
 @end
