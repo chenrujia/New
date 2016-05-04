@@ -143,14 +143,14 @@
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         // 商铺列表
-//        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
-//        pivc.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:pivc animated:YES];
-        
-        BXTEquipmentListViewController *pivc = [[BXTEquipmentListViewController alloc] init];
+        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
         pivc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:pivc animated:YES];
-
+        
+        //        BXTEquipmentListViewController *pivc = [[BXTEquipmentListViewController alloc] init];
+        //        pivc.hidesBottomBarWhenPushed = YES;
+        //        [self.navigationController pushViewController:pivc animated:YES];
+        
     }];
     [logoImgView addSubview:branchBtn];
     
