@@ -148,7 +148,7 @@
 {
     self.currentPage = 1;
     
-    self.order = indexPath.row == 0 ? @"desc" : @"asc";
+    self.order = indexPath.row == 0 ? @"2" : @"1";
     
     [self getResource];
 }

@@ -251,6 +251,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  is_verify - 认证审核：1通过 0不通过
  */
 - (void)projectAuthenticationVerifyWithApplicantID:(NSString *)applicantID
+                                        affairs_id:(NSString *)affairs_id
                                           isVerify:(NSString *)is_verify;
 
 /**

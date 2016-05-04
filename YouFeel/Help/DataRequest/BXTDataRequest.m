@@ -160,8 +160,7 @@
 {
     self.requestType = RepairList;
     
-    NSDictionary *dic = @{@"task_type": task_type,
-                          @"faulttype_id": faulttype_id,
+    NSDictionary *dic = @{@"faulttype_id": faulttype_id,
                           @"order": order,
                           @"dispatch_uid": dispatch_uid,
                           @"daily_timeout": daily_timeout,
@@ -323,6 +322,7 @@
 }
 
 - (void)projectAuthenticationVerifyWithApplicantID:(NSString *)applicantID
+                                        affairs_id:(NSString *)affairs_id
                                           isVerify:(NSString *)is_verify
 {
     self.requestType = AuthenticationVerify;
@@ -331,6 +331,7 @@
     NSDictionary *dic = @{@"out_userid": applicantID,
                           @"shop_id": companyInfo.company_id,
                           @"is_verify": is_verify,
+                          @"affairs_id":affairs_id,
                           @"verify_user_id": [BXTGlobal getUserProperty:U_USERID]};
     
     NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, companyInfo.company_id, [BXTGlobal getUserProperty:U_TOKEN]];
@@ -622,7 +623,6 @@
     [self postRequest:url withParameters:dic];
 }
 
-//TODO: 这个接口500错误
 - (void)userInfoForChatListWithID:(NSString *)userID
 {
     self.requestType = UserInfoForChatList;
@@ -697,14 +697,14 @@
 {
     self.requestType = InspectionTaskList;
     
-    NSDictionary *dic = @{@"start_time": start_time,
-                          @"end_time": end_time,
-                          @"subgroup_ids": subgroup_ids,
-                          @"faulttype_type_ids": faulttype_type_ids,
-                          @"state": state,
-                          @"order": order,
-                          @"pagesize": pagesize,
-                          @"page": page};
+    NSDictionary *dic = @{@"start_time":start_time,
+                          @"end_time":end_time,
+                          @"subgroup_ids":subgroup_ids,
+                          @"faulttype_type_ids":faulttype_type_ids,
+                          @"state":state,
+                          @"order":order,
+                          @"pagesize":pagesize,
+                          @"page":page};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=inspection_task_list",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -939,11 +939,11 @@
                 andLatitude:(CGFloat)latitude
                     andDesc:(NSString *)desc
 {
-    //!!!: 004错误
     self.requestType = Add_Inspection;
     NSDictionary *dic = @{@"workorder_id":workorderID,
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"device_id":device_id,
+                          @"inspection_item_id":inspectionID,
                           @"inspection_info":inspectionData,
                           @"device_state":state,
                           @"notes":notes,

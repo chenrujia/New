@@ -493,17 +493,21 @@
             cycleScrollView.imageURLStringsGroup = self.logosArray;
         }
         self.adsArray = modelArray;
+        [_currentTableView reloadData];
     }
     else if (type == UserInfoForChatList)
     {
-        NSDictionary *dictionary = array[0];
-        RCUserInfo *userInfo = [[RCUserInfo alloc] init];
-        userInfo.userId = [dictionary objectForKey:@"user_id"];
-        userInfo.name = [dictionary objectForKey:@"name"];
-        userInfo.portraitUri = [dictionary objectForKey:@"pic"];
-        [_usersArray addObject:userInfo];
-        [BXTGlobal setUserProperty:_usersArray withKey:U_USERSARRAY];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMailList" object:nil];
+        if (array.count)
+        {
+            NSDictionary *dictionary = array[0];
+            RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+            userInfo.userId = [dictionary objectForKey:@"user_id"];
+            userInfo.name = [dictionary objectForKey:@"name"];
+            userInfo.portraitUri = [dictionary objectForKey:@"pic"];
+            [self.usersArray addObject:userInfo];
+            [BXTGlobal setUserProperty:self.usersArray withKey:U_USERSARRAY];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMailList" object:nil];
+        }
     }
     else if (type == Remind_Number && [dic[@"returncode"] integerValue] == 0)
     {
@@ -521,16 +525,17 @@
         [BXTRemindNum sharedManager].index_show = [index_show boolValue];
         
         // “应用”是否显示气泡：1是 0否
-        if ([BXTRemindNum sharedManager].app_show) {
+        if ([BXTRemindNum sharedManager].app_show)
+        {
             UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:2];
             tController.tabBarItem.badgeValue = @" ";
         }
         // “首页”是否显示气泡：1是 0否
-        if ([BXTRemindNum sharedManager].index_show) {
+        if ([BXTRemindNum sharedManager].index_show)
+        {
             UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:0];
             tController.tabBarItem.badgeValue = @" ";
         }
-        
         [_currentTableView reloadData];
     }
     else
@@ -544,7 +549,6 @@
         {
             [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
         }
-        
         [_currentTableView reloadData];
     }
 }

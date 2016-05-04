@@ -20,12 +20,10 @@
 
 @implementation BXTCertificationManageViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"认证审批" andRightTitle:nil andRightImage:nil];
-    
     [self createUI];
     
     [self showLoadingMBP:@"努力加载中..."];
@@ -44,12 +42,10 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     
-    
     // footerView
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 70, SCREEN_WIDTH, 70)];
     footerView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:footerView];
-    
     
     // disagree
     CGFloat btnW = (SCREEN_WIDTH - 2 * 15 - 30) / 2;
@@ -66,7 +62,7 @@
         [self showLoadingMBP:@"努力加载中..."];
         /** 项目认证详情 **/
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-        [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid isVerify:@"0"];
+        [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid affairs_id:self.affairs_id isVerify:@"0"];
     }];
     [footerView addSubview:switchBtn];
     
@@ -81,7 +77,7 @@
         [self showLoadingMBP:@"努力加载中..."];
         /** 项目认证详情 **/
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-        [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid isVerify:@"1"];
+        [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid affairs_id:self.affairs_id isVerify:@"1"];
     }];
     [footerView addSubview:changeBtn];
 }

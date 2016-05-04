@@ -211,10 +211,6 @@
             [_imageView setImage:placeImage];
         }
         
-        //???: 这个时间没了
-//        NSString *content = [NSString stringWithFormat:@"工单响应截止时间%@", [self transTimeStampToTime:repairDetail.long_time]];
-//        _repairTime.text = content;
-        
         NSString *subgroup_name = @"其他";
         if (![BXTGlobal isBlankString:repairDetail.subgroup_name])
         {

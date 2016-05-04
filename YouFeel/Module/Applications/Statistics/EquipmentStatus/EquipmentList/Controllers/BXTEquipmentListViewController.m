@@ -133,8 +133,8 @@
 {
     self.currentPage = 1;
     switch (indexPath.row) {
-        case 0: self.order = @"desc"; break;
-        case 1: self.order = @"asc"; break;
+        case 0: self.order = @"2"; break;
+        case 1: self.order = @"1"; break;
         default: break;
     }
     [self getResource];

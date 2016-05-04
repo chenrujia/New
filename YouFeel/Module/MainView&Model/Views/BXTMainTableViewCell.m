@@ -37,7 +37,8 @@
     // 日常工单 - 时间、位置、内容
     if ([repairInfo.task_type integerValue] == 1)
     {
-        if ([repairInfo.is_appointment isEqualToString:@"2"]) {
+        if ([repairInfo.is_appointment isEqualToString:@"2"])
+        {
             self.alertView.hidden = NO;
         }
         self.secondView.text = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
