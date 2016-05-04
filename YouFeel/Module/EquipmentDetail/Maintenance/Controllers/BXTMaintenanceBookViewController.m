@@ -278,27 +278,27 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"MaintenceNotesCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        cell.notes.text = _maintenceInfo.notes;
-        [cell handleImages:_maintenceInfo];
+        cell.notes.text = self.maintenceInfo.notes;
+        [cell handleImages:self.maintenceInfo];
         @weakify(self);
         UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
         [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
-            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
+            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imageOne.tag];
         }];
         [cell.imageOne addGestureRecognizer:tapGROne];
         UITapGestureRecognizer *tapGRTwo = [[UITapGestureRecognizer alloc] init];
         [[tapGRTwo rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
-            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
+            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imageTwo.tag];
         }];
         [cell.imageTwo addGestureRecognizer:tapGRTwo];
         UITapGestureRecognizer *tapGRThree = [[UITapGestureRecognizer alloc] init];
         [[tapGRThree rac_gestureSignal] subscribeNext:^(id x) {
             @strongify(self);
-            self.mwPhotosArray = [self containAllPhotos:_maintenceInfo.pic];
+            self.mwPhotosArray = [self containAllPhotos:self.maintenceInfo.pic];
             [self loadMWPhotoBrowser:cell.imageThree.tag];
         }];
         [cell.imageThree addGestureRecognizer:tapGRThree];

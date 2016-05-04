@@ -325,10 +325,12 @@
     if (section == 0)
     {
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        if (![companyInfo.company_id isEqualToString:@"4"]) {
-            return valueForDevice(240, 145, 123, 123);//section头部高度
+        CGFloat scale = 123.f/320.f;
+        if (![companyInfo.company_id isEqualToString:@"4"])
+        {
+            return SCREEN_WIDTH * scale;//section头部高度
         }
-        return valueForDevice(240, 145, 123, 123) + 37;//section头部高度
+        return SCREEN_WIDTH * scale + 37;//section头部高度
     }
     return 0.1f;//section头部高度
 }
@@ -337,15 +339,17 @@
 {
     if (section == 0)
     {
+        CGFloat scale = 123.f/320.f;
+
         // bgView
-        CGFloat bgViewH = valueForDevice(240, 145, 123, 123) + 37;
+        CGFloat bgViewH = SCREEN_WIDTH * scale + 37;
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, bgViewH)];
         
         // cycleScrollView
-        CGFloat adsViewH = valueForDevice(240, 145, 123, 123);
+        CGFloat adsViewH = SCREEN_WIDTH * scale;
         if (!cycleScrollView)
         {
-            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, adsViewH ) delegate:self placeholderImage:[UIImage imageNamed:@"allDefault"]];
+            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, adsViewH) delegate:self placeholderImage:[UIImage imageNamed:@"allDefault"]];
         }
         if (cycleScrollView.imageURLStringsGroup.count == 0)
         {

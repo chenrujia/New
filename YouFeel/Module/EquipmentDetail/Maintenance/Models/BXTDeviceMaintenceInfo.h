@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BXTRepairDetailInfo.h"
 @class BXTDeviceInspectionInfo,BXTDeviceCheckInfo,BXTDeviceConfigInfo,BXTControlUserInfo;
 
 @interface BXTDeviceMaintenceInfo : NSObject
@@ -32,7 +33,7 @@
 @property (nonatomic, copy) NSString *inspection_title;
 
 //+设备维护记录详情相关
-@property (nonatomic, copy) NSArray  *pic;
+@property (nonatomic, strong) NSArray<BXTFaultPicInfo *> *pic;
 @property (nonatomic, copy) NSString *inspection_state;
 
 //+设备维护记录详情相关

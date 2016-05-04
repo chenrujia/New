@@ -84,7 +84,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 2)
+    if ((self.isLoginByWX && section == 3) || (!self.isLoginByWX && section == 2))
     {
         return 100.f;
     }
@@ -93,7 +93,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 2)
+    if ((self.isLoginByWX && section == 3) || (!self.isLoginByWX && section == 2))
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100.f)];
         view.backgroundColor = [UIColor clearColor];
@@ -178,6 +178,10 @@ static NSString *cellIndentify = @"resignCellIndentify";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (self.isLoginByWX)
+    {
+        return 4;
+    }
     return 3;
 }
 
