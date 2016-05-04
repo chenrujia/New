@@ -34,8 +34,12 @@
     self.stateView.text = [self transVertifyState:projectInfo.verify_state];
     self.typeView.text = [projectInfo.type integerValue] == 1 ? @"项目管理公司" : @"客户组";
     self.apartmentView.text = projectInfo.department;
-    self.professionView.text = projectInfo.subgroup;
-    self.skillView.text = projectInfo.extra_subgroup;
+    if ([projectInfo.type integerValue] == 1) {
+        self.professionTitleView.text = @"专业组：";
+        self.skillTitleView.text = @"专业技能：";
+        self.professionView.text = projectInfo.subgroup;
+        self.skillView.text = projectInfo.extra_subgroup;
+    }
 }
 
 - (NSString *)transVertifyState:(NSString *)state

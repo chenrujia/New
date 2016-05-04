@@ -15,9 +15,11 @@
 
 @interface BXTProjectInformViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
-@property (strong, nonatomic) UITableView    *currentTableView;
-@property (strong, nonatomic) NSArray        *dataArray;
+@property (strong, nonatomic) UITableView *currentTableView;
+@property (strong, nonatomic) NSMutableArray *dataArray;
 @property (strong, nonatomic) BXTProjectInfo *projectInfo;
+
+@property (assign, nonatomic) BOOL isCompany;
 
 @end
 
@@ -27,9 +29,9 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"项目详情" andRightTitle:nil andRightImage:nil];
-    self.dataArray = @[@[@"项目名", @"详情"],
-                       @[@"常用位置"],
-                       @[@"审核人"] ];
+    self.dataArray = [[NSMutableArray alloc] initWithArray:@[@[@"项目名", @"详情"],
+                                                             @[@"常用位置"],
+                                                             @[@"审核人"] ]];
     
     [self createUI];
     
@@ -137,7 +139,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2)
+    if (indexPath.section == 2 - self.isCompany)
     {
         BXTProjectInformAuthorCell *cell = [BXTProjectInformAuthorCell cellWithTableView:tableView];
         cell.projectInfo = self.projectInfo;
@@ -161,7 +163,7 @@
         cell.titleView.text = @"项目名：";
         cell.descView.text = self.transMyProject.name;
     }
-    else if (indexPath.section == 1)
+    else if (indexPath.section == 1 && !self.isCompany)
     {
         cell.titleView.text = @"常用位置：";
         cell.descView.text = self.projectInfo.stores_name;
@@ -174,9 +176,12 @@
 {
     if (indexPath.section == 0 && indexPath.row == 1)
     {
-        return 140;
+        if (self.isCompany) {
+            return 140;
+        }
+        return 90;
     }
-    if (indexPath.section == 2)
+    if (indexPath.section == 2 - self.isCompany)
     {
         return 117;
     }
@@ -211,6 +216,14 @@
             return @{@"projectID": @"id"};
         }];
         self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
+        
+        // [self.projectInfo.type integerValue] == 1 ? @"项目管理公司" : @"客户组";
+        self.isCompany = [self.projectInfo.type integerValue] == 1;
+        if (self.isCompany) {
+            [self.dataArray removeObjectAtIndex:1];
+        }
+        
+        
         [self.currentTableView reloadData];
     }
     else if (type == BranchLogin)

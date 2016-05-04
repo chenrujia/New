@@ -120,7 +120,7 @@
 #define kTextColor [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1]
 #define kSeparatorColor [UIColor colorWithRed:219/255.0 green:219/255.0 blue:219/255.0 alpha:1]
 #define kCellBgColor [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1]
-#define kTextSelectColor [UIColor colorWithRed:246/255.0 green:79/255.0 blue:0/255.0 alpha:1]
+#define kTextSelectColor [UIColor colorWithRed:60/255.0 green:175/255.0 blue:255/255.0 alpha:1]
 
 @implementation DOPDropDownMenu
 

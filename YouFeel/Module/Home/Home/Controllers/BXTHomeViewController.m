@@ -43,6 +43,8 @@
 @property (nonatomic, strong) NSMutableArray *usersArray;
 @property (nonatomic, strong) NSMutableArray *adsArray;
 
+@property (copy, nonatomic) NSString *projPhone;
+
 @end
 
 @implementation BXTHomeViewController
@@ -54,6 +56,7 @@
     [self createLogoView];
     [self loginRongCloud];
     
+    self.projPhone = @"";
     self.adsArray = [[NSMutableArray alloc] init];
     self.logosArray = [[NSMutableArray alloc] init];
     NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
@@ -66,9 +69,17 @@
         self.usersArray = [NSMutableArray array];
     }
     
-    /** 广告页 **/
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request advertisementPages];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /** 广告页 **/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request advertisementPages];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**请求维保列表**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request shopConfig];
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -137,7 +148,7 @@
     
     //项目列表
     UIButton *branchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    branchBtn.frame = CGRectMake(5, 20, 47, 47);
+    branchBtn.frame = CGRectMake(0, 20, 47, 47);
     [branchBtn setBackgroundImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
     @weakify(self);
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -300,7 +311,7 @@
 
 - (void)projectPhone
 {
-    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", @"400-893-7878"];
+    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", self.projPhone];
     UIWebView *callWeb = [[UIWebView alloc] init];
     [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
     [self.view addSubview:callWeb];
@@ -340,7 +351,7 @@
     if (section == 0)
     {
         CGFloat scale = 123.f/320.f;
-
+        
         // bgView
         CGFloat bgViewH = SCREEN_WIDTH * scale + 37;
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, bgViewH)];
@@ -542,6 +553,15 @@
         }
         [_currentTableView reloadData];
     }
+    else if (type == ShopConfig && [dic[@"returncode"] integerValue] == 0)
+    {
+        NSDictionary *infoDict = array[0];
+        if (![BXTGlobal isBlankString:infoDict[@"shop_tel"]]) {
+            [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"项目热线",nil]];
+            self.projPhone = infoDict[@"shop_tel"];
+            [self.currentTableView reloadData];
+        }
+    }
     else
     {
         unreadNumber = [[dic objectForKey:@"unread_number"] integerValue];
@@ -555,6 +575,7 @@
         }
         [_currentTableView reloadData];
     }
+    
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

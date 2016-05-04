@@ -57,7 +57,7 @@
         
         cell.pieChartView.userInteractionEnabled = NO;
         
-        cell.persentView.text = [NSString stringWithFormat:@"%@%%", dataDict[@"working_per"]];
+        cell.persentView.text = [NSString stringWithFormat:@"运行:%@%%", dataDict[@"working_per"]];
     }
     else {
         [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#d9d9d9")];

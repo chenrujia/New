@@ -17,6 +17,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *professionView;
 @property (weak, nonatomic) IBOutlet UILabel *skillView;
 
+@property (weak, nonatomic) IBOutlet UILabel *professionTitleView;
+@property (weak, nonatomic) IBOutlet UILabel *skillTitleView;
+
 @property (strong, nonatomic) BXTProjectInfo *projectInfo;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;

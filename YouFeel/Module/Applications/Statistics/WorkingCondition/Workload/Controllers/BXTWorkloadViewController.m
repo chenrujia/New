@@ -95,21 +95,6 @@
     }
     
     CGFloat bgViewY = 20;
-    
-    
-    UILabel *lineY = [[UILabel alloc] initWithFrame:CGRectMake(85, 10, SCREEN_WIDTH-120, 1)];
-    lineY.backgroundColor = colorWithHexString(@"#d9d9d9");
-    [newCell.contentView addSubview:lineY];
-    UILabel *lineYMax = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-33, 5, 33, 15)];
-    lineYMax.text = [NSString stringWithFormat:@"%@", maxNum];
-    lineYMax.textColor = colorWithHexString(@"#666666");
-    lineYMax.font = [UIFont systemFontOfSize:12];
-    [newCell addSubview:lineYMax];
-    UILabel *lineX = [[UILabel alloc] initWithFrame:CGRectMake(84, 10, 1, workloadArray.count*(bgViewH+Margin)+15)];
-    lineX.backgroundColor = colorWithHexString(@"#d9d9d9");
-    [newCell.contentView addSubview:lineX];
-    
-    
     for (int i=0; i<workloadArray.count; i++)
     {
         NSDictionary *dict = workloadArray[i];
