@@ -500,6 +500,15 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)reaciveDispatchedOrderID:(NSString *)repairID
+{
+    self.requestType = ReaciveOrder;
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"workorder_id":repairID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=accept_dispatch_workorder",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)dispatchingMan:(NSString *)repairID
                andMans:(NSString *)mans
 {

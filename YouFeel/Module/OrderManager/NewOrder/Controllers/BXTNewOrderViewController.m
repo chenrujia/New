@@ -65,7 +65,7 @@
     ++[BXTGlobal shareGlobal].assignNumber;
     NSInteger index = [BXTGlobal shareGlobal].assignNumber;
     self.currentOrderID = [[BXTGlobal shareGlobal].assignOrderIDs objectAtIndex:index - 1];
-    [request repairDetail:[NSString stringWithFormat:@"%@",_currentOrderID]];
+    [request repairDetail:[NSString stringWithFormat:@"%@",self.currentOrderID]];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
@@ -209,7 +209,7 @@
         @strongify(self);
         [self showLoadingMBP:@"请稍候..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveOrderID:self.repairDetail.orderID];
+        [request reaciveDispatchedOrderID:self.repairDetail.orderID];
     }];
     [backView addSubview:grabOrderBtn];
     
@@ -378,6 +378,7 @@
             [self showMBP:@"接单成功！" withBlock:^(BOOL hidden) {
                 [self.navigationController popViewControllerAnimated:YES];
                 --[BXTGlobal shareGlobal].assignNumber;
+                [[BXTGlobal shareGlobal].assignOrderIDs removeObject:self.currentOrderID];
             }];
         }
     }

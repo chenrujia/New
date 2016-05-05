@@ -85,6 +85,7 @@
         
         if (self.notes.length)
         {
+            [self showLoadingMBP:@"请稍候..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             if (self.vcType == ExamineVCType)
             {
@@ -178,6 +179,7 @@
 #pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [self hideMBP];
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
@@ -192,6 +194,7 @@
             [self showMBP:@"已拒接" withBlock:^(BOOL hidden) {
                 [self.navigationController popToRootViewControllerAnimated:YES];
                 --[BXTGlobal shareGlobal].assignNumber;
+                [[BXTGlobal shareGlobal].assignOrderIDs removeObject:self.currentOrderID];
             }];
         }
         else if (self.vcType == RejectType)
