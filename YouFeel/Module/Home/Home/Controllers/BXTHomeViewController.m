@@ -419,6 +419,10 @@ typedef NS_ENUM(NSInteger, CellType) {
     cell.logoImgView.image = [UIImage imageNamed:self.imgNameArray[indexPath.section][indexPath.row]];
     cell.titleLabel.text = self.titleNameArray[indexPath.section][indexPath.row];
     
+    cell.logoImgView.image = [UIImage imageNamed:_imgNameArray[indexPath.section][indexPath.row]];
+    cell.titleLabel.text = _titleNameArray[indexPath.section][indexPath.row];
+    
+    
     NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
     if ([BXTGlobal shareGlobal].isRepair) {
         if (indexPath.section == 0) {
