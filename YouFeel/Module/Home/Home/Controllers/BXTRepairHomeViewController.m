@@ -32,7 +32,6 @@
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_notepad_ok",nil]];
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_integral",nil]];
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_statistics",nil]];
-    [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_phone",nil]];
     
     self.titleNameArray = [NSMutableArray array];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"日常工单",@"维保工单",nil]];
@@ -40,7 +39,6 @@
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"其他事务",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"我的积分",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"业务统计",nil]];
-    
     
     NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
     //如果不包含业务统计
@@ -54,6 +52,28 @@
     {
         [self.imgNameArray removeObjectAtIndex:2];
         [self.titleNameArray removeObjectAtIndex:2];
+    }
+    //如果日常工单和维保工单都不包含
+    if (![permissonKeys containsString:@"9991"] && ![permissonKeys containsString:@"9992"])
+    {
+        [self.imgNameArray removeObjectAtIndex:0];
+        [self.titleNameArray removeObjectAtIndex:0];
+    }
+    //如果不包含维保工单
+    else if ([permissonKeys containsString:@"9991"] && ![permissonKeys containsString:@"9992"])
+    {
+        NSMutableArray *imageNameArray = self.imgNameArray[0];
+        [imageNameArray removeObjectAtIndex:1];
+        NSMutableArray *titleNameArray = self.titleNameArray[0];
+        [titleNameArray removeObjectAtIndex:1];
+    }
+    //如果不包含日常工单
+    else if (![permissonKeys containsString:@"9991"] && [permissonKeys containsString:@"9992"])
+    {
+        NSMutableArray *imageNameArray = self.imgNameArray[0];
+        [imageNameArray removeObjectAtIndex:0];
+        NSMutableArray *titleNameArray = self.titleNameArray[0];
+        [titleNameArray removeObjectAtIndex:0];
     }
 }
 
@@ -94,62 +114,36 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
-    if (indexPath.section == 0)
+    NSString *title = self.titleNameArray[indexPath.section][indexPath.row];
+    if ([title isEqualToString:@"日常工单"])
     {
-        if (indexPath.row == 0)
-        {
-            [self pushNormalOrders];
-        }
-        else if (indexPath.row == 1)
-        {
-            [self pushMaintenceOrders];
-        }
+        [self pushNormalOrders];
     }
-    else if (indexPath.section == 1)
+    else if ([title isEqualToString:@"维保工单"])
     {
-        if (indexPath.row == 0)
-        {
-            [self pushMyOrdersIsRepair:YES];
-        }
-        else if (indexPath.row == 1)
-        {
-            [self pushMyOrdersIsRepair:NO];
-        }
+        [self pushMaintenceOrders];
     }
-    else if (indexPath.section == 2 && [permissonKeys containsString:@"9994"])
+    else if ([title isEqualToString:@"我的维修工单"])
+    {
+        [self pushMyOrdersIsRepair:YES];
+    }
+    else if ([title isEqualToString:@"我的报修工单"])
+    {
+        [self pushMyOrdersIsRepair:NO];
+    }
+    else if ([title isEqualToString:@"其他事务"])
     {
         [self pushOtherAffair];
     }
-    else if (indexPath.section == 2 && ![permissonKeys containsString:@"9994"])
+    else if ([title isEqualToString:@"我的积分"])
     {
         [self pushMyIntegral];
     }
-    else if (indexPath.section == 3 && [permissonKeys containsString:@"9994"])
-    {
-        [self pushMyIntegral];
-    }
-    else if (indexPath.section == 3 && ![permissonKeys containsString:@"9994"] && [permissonKeys containsString:@"9995"])
+    else if ([title isEqualToString:@"业务统计"])
     {
         [self pushStatistics];
     }
-    else if (indexPath.section == 3 && ![permissonKeys containsString:@"9994"] && ![permissonKeys containsString:@"9995"])
-    {
-        [self projectPhone];
-    }
-    else if (indexPath.section == 4 && [permissonKeys containsString:@"9994"] && [permissonKeys containsString:@"9995"])
-    {
-        [self pushStatistics];
-    }
-    else if (indexPath.section == 4 && [permissonKeys containsString:@"9994"] && ![permissonKeys containsString:@"9995"])
-    {
-        [self projectPhone];
-    }
-    else if (indexPath.section == 4 && ![permissonKeys containsString:@"9994"])
-    {
-        [self projectPhone];
-    }
-    else if (indexPath.section == 5)
+    else if ([title isEqualToString:@"项目热线"])
     {
         [self projectPhone];
     }

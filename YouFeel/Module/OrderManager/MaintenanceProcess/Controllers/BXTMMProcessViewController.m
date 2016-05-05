@@ -169,7 +169,7 @@
     NSString *deviceState = nil;
     if (self.choosedStateInfo)
     {
-        deviceState = self.choosedStateInfo.stateID;
+        deviceState = self.choosedStateInfo.param_key;
     }
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request maintenanceState:self.repairID
@@ -177,7 +177,7 @@
                   deviceState:deviceState
                    orderState:self.state
                     faultType:self.choosedFaultInfo.fault_id
-                     reasonID:self.choosedReasonInfo.specialOrderID
+                     reasonID:self.choosedReasonInfo.param_key
                         mmLog:self.mmLog
                        images:self.resultPhotos];
 }

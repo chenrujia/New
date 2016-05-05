@@ -28,6 +28,7 @@
 @property (nonatomic ,strong) NSMutableArray         *assignOrderIDs;
 @property (nonatomic ,copy  ) NSString               *newsShopID;
 @property (nonatomic ,assign) BOOL                   isRepair;//Yes是维修员，No是报修者
+@property (nonatomic, assign) BOOL                   isLogin;//判断是否已经处于登录状态，处理推送使用的。
 @property (nonatomic, copy  ) NSString               *openID;
 @property (nonatomic, copy  ) NSString               *wxHeadImage;
 @property (nonatomic, assign) NSInteger              numOfPresented;

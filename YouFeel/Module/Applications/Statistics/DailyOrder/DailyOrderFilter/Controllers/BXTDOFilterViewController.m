@@ -39,9 +39,9 @@
 
 @implementation BXTDOFilterViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
     
     self.titleArray =[[NSMutableArray alloc] initWithObjects:@"时间范围", @"专业分组", @"工单状态", @"维修状况", nil];
@@ -279,7 +279,6 @@
     self.selectTableView.dataSource = self;
     [self.view addSubview:self.selectTableView];
     
-    
     // toolView
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
     toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
@@ -296,33 +295,38 @@
         
         NSString *finalStr =@"";
         NSString *finalNumStr = @"";
-        for (id object in self.mulitSelectArray) {
+        for (id object in self.mulitSelectArray)
+        {
             finalStr = [finalStr stringByAppendingString:[NSString stringWithFormat:@" %@", self.selectArray[[object intValue]]]];
             
-            if (index == 0) {
+            if (index == 0)
+            {
                 finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", object]];
             }
-            else if (index == 1) {
+            else if (index == 1)
+            {
                 finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.subgroupIDArray[[object intValue]]]];
             }
-            else if (index == 2) {
+            else if (index == 2)
+            {
                 finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.repairStateIDArray[[object intValue]]]];
             }
-            else if (index == 3) {
+            else if (index == 3)
+            {
                 [self refreshTableView:[object intValue]];
                 
                 finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", object]];
             }
-            else if (index == 4) {
+            else if (index == 4)
+            {
                 finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.specialOrderIDArray[[object intValue]]]];
             }
         }
-        if (finalNumStr.length >= 1) {
+        if (finalNumStr.length >= 1)
+        {
             finalNumStr = [finalNumStr substringToIndex:finalNumStr.length - 1];
         }
-        
-        
-        
+
         // 赋值
         if (![BXTGlobal isBlankString:finalStr])
         {
@@ -330,10 +334,10 @@
             [self.transArray replaceObjectAtIndex:index withObject:finalNumStr];
             
             // 时间范围转化
-            if (index == 0) {
+            if (index == 0)
+            {
                 [self.transArray replaceObjectAtIndex:index withObject:[self transTime:finalNumStr]];
             }
-            
             [self.tableView reloadData];
         }
         
@@ -379,11 +383,11 @@
         }];
         [subgroupArray addObjectsFromArray:[BXTSubgroupInfo mj_objectArrayWithKeyValuesArray:data]];
         
-        for (BXTSubgroupInfo *subgroupInfo in subgroupArray) {
+        for (BXTSubgroupInfo *subgroupInfo in subgroupArray)
+        {
             [self.subgroupArray addObject:subgroupInfo.subgroup];
             [self.subgroupIDArray addObject:subgroupInfo.subgroupID];
         }
-        
     }
     else if (type == RepairState && data.count > 0)
     {
@@ -393,7 +397,8 @@
         }];
         [repairStateArray addObjectsFromArray:[BXTRepairStateInfo mj_objectArrayWithKeyValuesArray:data]];
         
-        for (BXTRepairStateInfo *repairStateInfo in repairStateArray) {
+        for (BXTRepairStateInfo *repairStateInfo in repairStateArray)
+        {
             [self.repairStateArray addObject:repairStateInfo.param_value];
             [self.repairStateIDArray addObject:repairStateInfo.param_key];
         }
@@ -406,13 +411,13 @@
         }];
         [specialOrderArray addObjectsFromArray:[BXTRepairStateInfo mj_objectArrayWithKeyValuesArray:data]];
         
-        for (BXTRepairStateInfo *repairStateInfo in specialOrderArray) {
+        for (BXTRepairStateInfo *repairStateInfo in specialOrderArray)
+        {
             [self.specialOrderArray addObject:repairStateInfo.param_value];
             [self.specialOrderIDArray addObject:repairStateInfo.param_key];
         }
     }
-    
-    
+
     [self.selectTableView reloadData];
 }
 
@@ -420,15 +425,19 @@
 #pragma mark - 刷新列表
 - (void)refreshTableView:(BOOL)isMore
 {
-    if (isMore) {
-        if (self.titleArray.count == 4) {
+    if (isMore)
+    {
+        if (self.titleArray.count == 4)
+        {
             [self.titleArray addObject:@"未修好原因"];
             [self.dataArray addObject:@"待完善"];
             [self.transArray addObject:@""];
         }
     }
-    else {
-        if (self.titleArray.count == 5) {
+    else
+    {
+        if (self.titleArray.count == 5)
+        {
             [self.titleArray removeLastObject];
             [self.dataArray removeLastObject];
             [self.transArray removeLastObject];
@@ -441,16 +450,20 @@
 - (NSArray *)transTime:(NSString *)timeStr
 {
     // 全部 - 今天 - 本周 - 本月- 本年
-    if ([timeStr integerValue] == 1) {
+    if ([timeStr integerValue] == 1)
+    {
         return [BXTGlobal dayStartAndEnd];
     }
-    else if ([timeStr integerValue] == 2) {
+    else if ([timeStr integerValue] == 2)
+    {
         return [BXTGlobal weekdayStartAndEnd];
     }
-    else if ([timeStr integerValue] == 3) {
+    else if ([timeStr integerValue] == 3)
+    {
         return [BXTGlobal monthStartAndEnd];
     }
-    else if ([timeStr integerValue] == 4) {
+    else if ([timeStr integerValue] == 4)
+    {
         return [BXTGlobal yearStartAndEnd];
     }
     
@@ -462,20 +475,9 @@
     [self hideMBP];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 
 @end

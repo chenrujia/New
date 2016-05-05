@@ -40,8 +40,7 @@
 @property (nonatomic, strong) NSMutableArray *logosArray;
 @property (nonatomic, strong) NSMutableArray *usersArray;
 @property (nonatomic, strong) NSMutableArray *adsArray;
-
-@property (copy, nonatomic) NSString *projPhone;
+@property (nonatomic, copy  ) NSString       *projPhone;
 
 @end
 
@@ -395,12 +394,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return _titleNameArray.count;
+    return self.titleNameArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_titleNameArray[section] count];
+    return [self.titleNameArray[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -409,10 +408,8 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.numberLabel.hidden = YES;
     
-    
-    cell.logoImgView.image = [UIImage imageNamed:_imgNameArray[indexPath.section][indexPath.row]];
-    cell.titleLabel.text = _titleNameArray[indexPath.section][indexPath.row];
-    
+    cell.logoImgView.image = [UIImage imageNamed:self.imgNameArray[indexPath.section][indexPath.row]];
+    cell.titleLabel.text = self.titleNameArray[indexPath.section][indexPath.row];
     
     if ([BXTGlobal shareGlobal].isRepair)
     {
@@ -549,7 +546,9 @@
     else if (type == ShopConfig && [dic[@"returncode"] integerValue] == 0)
     {
         NSDictionary *infoDict = array[0];
-        if (![BXTGlobal isBlankString:infoDict[@"shop_tel"]]) {
+        if (![BXTGlobal isBlankString:infoDict[@"shop_tel"]])
+        {
+            [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_phone",nil]];
             [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"项目热线",nil]];
             self.projPhone = infoDict[@"shop_tel"];
             [self.currentTableView reloadData];
