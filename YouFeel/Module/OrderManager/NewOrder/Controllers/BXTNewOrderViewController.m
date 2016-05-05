@@ -327,6 +327,7 @@
         self.identifyName.text = repairPerson.duty_name;
         self.repairID.text = [NSString stringWithFormat:@"工单号:%@",self.repairDetail.orderid];
         self.timeLabel.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
+        //TODO: 适配名字长度
         self.groupName.text = self.repairDetail.faulttype_name;
         self.placeLabel.text = [NSString stringWithFormat:@"位置:%@",self.repairDetail.place_name];
         

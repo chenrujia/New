@@ -182,8 +182,6 @@
 		7867DD721C4CBEA1000749F1 /* BXTGrabOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD3A1C4CBEA1000749F1 /* BXTGrabOrderViewController.m */; };
 		7867DD731C4CBEA1000749F1 /* sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7867DD3C1C4CBEA1000749F1 /* sound.wav */; };
 		7867DD741C4CBEA1000749F1 /* MDRadialProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD3F1C4CBEA1000749F1 /* MDRadialProgressView.m */; };
-		7867DD751C4CBEA1000749F1 /* RGCardViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD411C4CBEA1000749F1 /* RGCardViewLayout.m */; };
-		7867DD761C4CBEA1000749F1 /* RGCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD431C4CBEA1000749F1 /* RGCollectionViewCell.m */; };
 		7867DD771C4CBEA1000749F1 /* WZFlashButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD451C4CBEA1000749F1 /* WZFlashButton.m */; };
 		7867DD791C4CBEA1000749F1 /* BXTMaintenanceProcessTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD4C1C4CBEA1000749F1 /* BXTMaintenanceProcessTableViewCell.m */; };
 		7867DD7A1C4CBEA1000749F1 /* BXTMMLogTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DD4E1C4CBEA1000749F1 /* BXTMMLogTableViewCell.m */; };
@@ -746,10 +744,6 @@
 		7867DD3C1C4CBEA1000749F1 /* sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sound.wav; sourceTree = "<group>"; };
 		7867DD3E1C4CBEA1000749F1 /* MDRadialProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDRadialProgressView.h; sourceTree = "<group>"; };
 		7867DD3F1C4CBEA1000749F1 /* MDRadialProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDRadialProgressView.m; sourceTree = "<group>"; };
-		7867DD401C4CBEA1000749F1 /* RGCardViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGCardViewLayout.h; sourceTree = "<group>"; };
-		7867DD411C4CBEA1000749F1 /* RGCardViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGCardViewLayout.m; sourceTree = "<group>"; };
-		7867DD421C4CBEA1000749F1 /* RGCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGCollectionViewCell.h; sourceTree = "<group>"; };
-		7867DD431C4CBEA1000749F1 /* RGCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGCollectionViewCell.m; sourceTree = "<group>"; };
 		7867DD441C4CBEA1000749F1 /* WZFlashButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZFlashButton.h; sourceTree = "<group>"; };
 		7867DD451C4CBEA1000749F1 /* WZFlashButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZFlashButton.m; sourceTree = "<group>"; };
 		7867DD4B1C4CBEA1000749F1 /* BXTMaintenanceProcessTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenanceProcessTableViewCell.h; sourceTree = "<group>"; };
@@ -2480,10 +2474,6 @@
 			children = (
 				7867DD3E1C4CBEA1000749F1 /* MDRadialProgressView.h */,
 				7867DD3F1C4CBEA1000749F1 /* MDRadialProgressView.m */,
-				7867DD401C4CBEA1000749F1 /* RGCardViewLayout.h */,
-				7867DD411C4CBEA1000749F1 /* RGCardViewLayout.m */,
-				7867DD421C4CBEA1000749F1 /* RGCollectionViewCell.h */,
-				7867DD431C4CBEA1000749F1 /* RGCollectionViewCell.m */,
 				7867DD441C4CBEA1000749F1 /* WZFlashButton.h */,
 				7867DD451C4CBEA1000749F1 /* WZFlashButton.m */,
 			);
@@ -4352,7 +4342,6 @@
 				9652ABEF1BC90DCC009A666D /* ANKeyValueData.m in Sources */,
 				7893D8DC1C7ADA8000F042D5 /* BXTCompletionFooter.m in Sources */,
 				7893D8981C7AA8A000F042D5 /* BXTStatisticsFirstView.m in Sources */,
-				7867DD761C4CBEA1000749F1 /* RGCollectionViewCell.m in Sources */,
 				78FFB9991CB5F77B00309339 /* BXTProjectAddNewCell.m in Sources */,
 				783E6C2D1C51BFF400DC13FB /* BXTCustomImageView.m in Sources */,
 				7867DC271C4CBA5B000749F1 /* BXTCustomerServiceViewController.m in Sources */,
@@ -4472,7 +4461,6 @@
 				7867DC961C4CBB47000749F1 /* MYPieElement.m in Sources */,
 				782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */,
 				967C3D4A1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.m in Sources */,
-				7867DD751C4CBEA1000749F1 /* RGCardViewLayout.m in Sources */,
 				7818DBDD1C0824D800DC22C6 /* PNChartLabel.m in Sources */,
 				782AD4D91C5A12BD00A1C4D8 /* GTMBase64.m in Sources */,
 				7867DCF51C4CBDAA000749F1 /* BXTExaminationViewController.m in Sources */,

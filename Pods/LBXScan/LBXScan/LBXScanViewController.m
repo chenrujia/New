@@ -170,13 +170,13 @@
     
     __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     
-    if (!image){
+    if (!image)
+    {
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     
     __weak __typeof(self) weakSelf = self;
     [LBXScanWrapper recognizeImage:image success:^(NSArray<LBXScanResult *> *array) {
-        
         [weakSelf scanResultWithArray:array];
     }];
     

@@ -14,10 +14,9 @@
 
 @implementation BXTQRBaseViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)])
     {
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -29,9 +28,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     [self drawScanView];
-    
     [self performSelector:@selector(startScan) withObject:nil afterDelay:0.2];
 }
 
@@ -43,7 +40,6 @@
         self.qRScanView = [[LBXScanView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64) style:_style];
         [self.view addSubview:_qRScanView];
     }
-    
     [_qRScanView startDeviceReadyingWithText:@"相机启动中"];
 }
 
@@ -63,19 +59,14 @@
         return;
     }
     
-    
     if (!_scanObj )
     {
         __weak __typeof(self) weakSelf = self;
-        // AVMetadataObjectTypeQRCode   AVMetadataObjectTypeEAN13Code
-        
         CGRect cropRect = CGRectZero;
-        
         if (_isOpenInterestRect)
         {
             cropRect = [LBXScanView getScanRectWithPreView:self.view style:_style];
         }
-        
         self.scanObj = [[LBXScanWrapper alloc]initWithPreView:self.view
                                               ArrayObjectType:nil
                                                      cropRect:cropRect
@@ -85,20 +76,15 @@
     }
     [_scanObj startScan];
     
-    
     [_qRScanView stopDeviceReadying];
-    
     [_qRScanView startScanAnimation];
-    
     self.view.backgroundColor = [UIColor clearColor];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    
     [_scanObj stopScan];
     [_qRScanView stopScanAnimation];
 }
@@ -138,8 +124,8 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     
     __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
-    
-    if (!image){
+    if (!image)
+    {
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     

@@ -85,6 +85,7 @@
     {
         [BXTGlobal shareGlobal].isRepair = YES;
     }
+    [BXTGlobal shareGlobal].isLogin = YES;
     if (isPushToRootVC)
     {
         CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];

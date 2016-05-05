@@ -423,6 +423,18 @@
     if (headImage != nil)
     {
         headImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+        UIImageOrientation imageOrientation = headImage.imageOrientation;
+        if(imageOrientation != UIImageOrientationUp)
+        {
+            // 原始图片可以根据照相时的角度来显示，但UIImage无法判定，于是出现获取的图片会向左转９０度的现象。
+            // 以下为调整图片角度的部分
+            UIGraphicsBeginImageContext(headImage.size);
+            [headImage drawInRect:CGRectMake(0, 0, headImage.size.width, headImage.size.height)];
+            headImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            // 调整图片角度完毕
+        }
+        
         @weakify(self);
         [picker dismissViewControllerAnimated:YES completion:^{
             @strongify(self);

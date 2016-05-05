@@ -354,6 +354,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSString *dicStr = [record substringWithRange:NSMakeRange(startRange.location, endRange.location - startRange.location + 1)];
     NSDictionary *taskInfo = [dicStr JSONValue];
     LogRed(@"通知:%@",taskInfo);
+    //如果处于非登录状态，则不处理任何消息。
+    if (![BXTGlobal shareGlobal].isLogin) return;
     
     NSString *shop_id = [NSString stringWithFormat:@"%@", [taskInfo objectForKey:@"shop_id"]];
     [BXTGlobal shareGlobal].newsShopID = shop_id;

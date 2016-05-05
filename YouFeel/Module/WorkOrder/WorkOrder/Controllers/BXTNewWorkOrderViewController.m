@@ -429,6 +429,10 @@ static CGFloat const ChooseViewHeight  = 328.f;
                 }];
             }];
         }
+        else if ([[dic objectForKey:@"returncode"] isEqualToString:@"049"])
+        {
+            [self showMBP:[dic objectForKey:@"returnmsg"] withBlock:nil];
+        }
     }
 }
 
