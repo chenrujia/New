@@ -29,6 +29,8 @@
 @property (assign, nonatomic) BOOL app_show;
 /** ---- “首页”是否显示气泡：1是 0否 ---- */
 @property (assign, nonatomic) BOOL index_show;
+/** ---- “首页”是否显示消息气泡：1是 0否 ---- */
+@property (assign, nonatomic) BOOL notice_show;
 
 
 /** ---- 点击阅读时间-日常 ---- */

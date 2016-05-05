@@ -506,7 +506,7 @@ static NSString * const _animationValuesKey = @"animationValues";
 - (void)drawValuesText:(CGContextRef)ctx sumValues:(float)sum
 {
     NSArray *values = self.presentValues?: self.values;
-    CGContextSetShadowWithColor(ctx, CGSizeMake(0,1), 3, [UIColor blackColor].CGColor);
+//    CGContextSetShadowWithColor(ctx, CGSizeMake(0,1), 3, [UIColor blackColor].CGColor);
     
     float angleStart = self.startAngle * M_PI / 180.0;
     float angleInterval = (self.endAngle - self.startAngle) * M_PI / 180.0;
@@ -529,7 +529,7 @@ static NSString * const _animationValuesKey = @"animationValues";
         NSString* text = self.transformTitleBlock? self.transformTitleBlock(elem, percent) : [NSString stringWithFormat:@"%.2f", elem.val];
         float maxRadius = elem.maxRadius ? elem.maxRadius.floatValue : self.maxRadius;
         float radius = maxRadius + elem.centrOffset;
-        [self drawText:text angle:-angle radius:radius color:[UIColor whiteColor] context:ctx];
+        [self drawText:text angle:-angle radius:radius color:[UIColor colorWithRed:130/255 green:130/255 blue:130/255 alpha:1] context:ctx];
         
         angleStart = angleEnd;
     }

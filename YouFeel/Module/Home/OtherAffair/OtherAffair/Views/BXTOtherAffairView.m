@@ -15,6 +15,7 @@
 #import "UIView+Nav.h"
 #import "AppDelegate.h"
 #import "BXTCertificationManageViewController.h"
+#import "BXTMaintenanceDetailViewController.h"
 
 @interface BXTOtherAffairView () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
@@ -103,17 +104,28 @@
 {
     BXTOtherAffair *affairModel = self.dataArray[indexPath.section];
     
-    BXTCertificationManageViewController *cmvc = [[BXTCertificationManageViewController alloc] init];
-    cmvc.transID = affairModel.about_id;
-    cmvc.affairs_id = affairModel.messageID;
-    cmvc.delegateSignal = [RACSubject subject];
-    @weakify(self);
-    [cmvc.delegateSignal subscribeNext:^(id x) {
-        @strongify(self);
-        self.currentPage = 1;
-        [self.tableView.mj_header beginRefreshing];
-    }];
-    [[self navigation] pushViewController:cmvc animated:YES];
+    /** ---- 事件类别 1.认证审批 11.维修确认 12待评价工单 ---- */
+    if ([affairModel.affairs_type isEqualToString:@"1"])
+    {
+        BXTCertificationManageViewController *cmvc = [[BXTCertificationManageViewController alloc] init];
+        cmvc.transID = affairModel.about_id;
+        cmvc.affairs_id = affairModel.messageID;
+        cmvc.delegateSignal = [RACSubject subject];
+        @weakify(self);
+        [cmvc.delegateSignal subscribeNext:^(id x) {
+            @strongify(self);
+            self.currentPage = 1;
+            [self.tableView.mj_header beginRefreshing];
+        }];
+        [[self navigation] pushViewController:cmvc animated:YES];
+    }
+    else
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+        [repairDetailVC dataWithRepairID:affairModel.about_id sceneType:OtherAffairType];
+        [[self navigation] pushViewController:repairDetailVC animated:YES];
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

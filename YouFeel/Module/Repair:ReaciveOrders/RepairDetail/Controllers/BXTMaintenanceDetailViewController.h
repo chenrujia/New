@@ -15,7 +15,8 @@ typedef NS_ENUM (NSInteger, SceneType)
     DailyType = 3,//日常工单接单池
     MaintainType = 4,//维保工单接单池
     MessageType = 5,//从消息列表进入
-    AllOrderType = 6//全部工单
+    AllOrderType = 6,//全部工单
+    OtherAffairType = 7,//其他事物
 };
 
 @interface BXTMaintenanceDetailViewController : BXTDetailBaseViewController

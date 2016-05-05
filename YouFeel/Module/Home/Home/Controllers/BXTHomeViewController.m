@@ -29,6 +29,14 @@
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
 
+typedef NS_ENUM(NSInteger, CellType) {
+    CellType_DailyOrder = 1,
+    CellType_InspectionOrder,
+    CellType_RepairOrder,
+    CellType_ReportOrder,
+    CellType_OtherAffair,
+};
+
 @interface BXTHomeViewController ()<BXTDataResponseDelegate, SDCycleScrollViewDelegate>
 {
     NSInteger         unreadNumber;
@@ -414,37 +422,63 @@
     cell.titleLabel.text = _titleNameArray[indexPath.section][indexPath.row];
     
     
-    if ([BXTGlobal shareGlobal].isRepair)
-    {
+    NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
+    if ([BXTGlobal shareGlobal].isRepair) {
         if (indexPath.section == 0) {
-            if (indexPath.row == 0 && [[BXTRemindNum sharedManager].dailyNum integerValue] != 0) {
-                cell.numberLabel.hidden = NO;
-                cell.numberLabel.text = [BXTRemindNum sharedManager].dailyNum;
+            if (indexPath.row == 0) {
+                [self judgeRemindInfo:CellType_DailyOrder tableViewCell:cell];
             }
-            if (indexPath.row == 1 && [[BXTRemindNum sharedManager].inspectionNum integerValue] != 0) {
-                cell.numberLabel.hidden = NO;
-                cell.numberLabel.text = [BXTRemindNum sharedManager].inspectionNum;
+            else if (indexPath.row == 1) {
+                [self judgeRemindInfo:CellType_InspectionOrder tableViewCell:cell];
             }
         }
         else if (indexPath.section == 1) {
-            if (indexPath.row == 0 && [[BXTRemindNum sharedManager].repairNum integerValue] != 0) {
-                cell.numberLabel.hidden = NO;
-                cell.numberLabel.text = [BXTRemindNum sharedManager].repairNum;
+            if (indexPath.row == 0) {
+                [self judgeRemindInfo:CellType_RepairOrder tableViewCell:cell];
             }
-            if (indexPath.row == 1 && [[BXTRemindNum sharedManager].reportNum integerValue] != 0) {
-                cell.numberLabel.hidden = NO;
-                cell.numberLabel.text = [BXTRemindNum sharedManager].reportNum;
+            else if (indexPath.row == 1) {
+                [self judgeRemindInfo:CellType_ReportOrder tableViewCell:cell];
             }
         }
-        else if (indexPath.section == 2) {
-            if (indexPath.row == 0 && [[BXTRemindNum sharedManager].objectNum integerValue] != 0) {
-                cell.numberLabel.hidden = NO;
-                cell.numberLabel.text = [BXTRemindNum sharedManager].objectNum;
-            }
+        else if (indexPath.section == 2 && [permissonKeys containsString:@"9994"]) {
+            [self judgeRemindInfo:CellType_OtherAffair tableViewCell:cell];
+        }
+        
+    }
+    else {
+        if (indexPath.section == 0) {
+            [self judgeRemindInfo:CellType_ReportOrder tableViewCell:cell];
+        }
+        else if (indexPath.section == 1 && [permissonKeys containsString:@"9994"]) {
+            [self judgeRemindInfo:CellType_OtherAffair tableViewCell:cell];
         }
     }
     
     return cell;
+}
+
+- (void)judgeRemindInfo:(CellType)cellType tableViewCell:(BXTHomeTableViewCell *)cell
+{
+    if (cellType == CellType_DailyOrder && [[BXTRemindNum sharedManager].dailyNum integerValue] != 0) {
+        cell.numberLabel.hidden = NO;
+        cell.numberLabel.text = [BXTRemindNum sharedManager].dailyNum;
+    }
+    if (cellType == CellType_InspectionOrder && [[BXTRemindNum sharedManager].inspectionNum integerValue] != 0) {
+        cell.numberLabel.hidden = NO;
+        cell.numberLabel.text = [BXTRemindNum sharedManager].inspectionNum;
+    }
+    if (cellType == CellType_RepairOrder && [[BXTRemindNum sharedManager].repairNum integerValue] != 0) {
+        cell.numberLabel.hidden = NO;
+        cell.numberLabel.text = [BXTRemindNum sharedManager].repairNum;
+    }
+    if (cellType == CellType_ReportOrder && [[BXTRemindNum sharedManager].reportNum integerValue] != 0) {
+        cell.numberLabel.hidden = NO;
+        cell.numberLabel.text = [BXTRemindNum sharedManager].reportNum;
+    }
+    if (cellType == CellType_OtherAffair && [[BXTRemindNum sharedManager].objectNum integerValue] != 0) {
+        cell.numberLabel.hidden = NO;
+        cell.numberLabel.text = [BXTRemindNum sharedManager].objectNum;
+    }
 }
 
 #pragma mark -
@@ -529,8 +563,10 @@
         
         NSString *appShow = [NSString stringWithFormat:@"%@", numDict[@"app_show"]];
         NSString *index_show = [NSString stringWithFormat:@"%@", numDict[@"index_show"]];
+        NSString *notice_show = [NSString stringWithFormat:@"%@", numDict[@"notice_show"]];
         [BXTRemindNum sharedManager].app_show = [appShow boolValue];
         [BXTRemindNum sharedManager].index_show = [index_show boolValue];
+        [BXTRemindNum sharedManager].notice_show = [notice_show boolValue];
         
         // “应用”是否显示气泡：1是 0否
         if ([BXTRemindNum sharedManager].app_show)
@@ -544,6 +580,13 @@
             UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:0];
             tController.tabBarItem.badgeValue = @" ";
         }
+        // “首页”是否显示消息气泡：1是 0否
+        if ([BXTRemindNum sharedManager].index_show) {
+            [messageBtn setBackgroundImage:[UIImage imageNamed:@"news_unread"] forState:UIControlStateNormal];
+        } else {
+            [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
+        }
+        
         [_currentTableView reloadData];
     }
     else if (type == ShopConfig && [dic[@"returncode"] integerValue] == 0)
