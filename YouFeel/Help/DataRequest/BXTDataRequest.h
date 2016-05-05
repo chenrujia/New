@@ -330,6 +330,11 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)reaciveOrderID:(NSString *)repairID;
 
 /**
+ *  接指派过来的工单
+ */
+- (void)reaciveDispatchedOrderID:(NSString *)repairID;
+
+/**
  *  派工or增员
  */
 - (void)dispatchingMan:(NSString *)repairID
