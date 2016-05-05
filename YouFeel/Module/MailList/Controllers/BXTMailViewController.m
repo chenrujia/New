@@ -58,8 +58,7 @@
     
     
     UIButton * nav_rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    nav_rightButton.frame = CGRectMake(SCREEN_WIDTH - 60, 20, 60, 44);
-    nav_rightButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    nav_rightButton.frame = CGRectMake(SCREEN_WIDTH - 30, 20, 44, 44);
     [nav_rightButton setImage:[UIImage imageNamed:@"mail_address_book"] forState:UIControlStateNormal];
     [nav_rightButton setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     @weakify(self);

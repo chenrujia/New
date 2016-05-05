@@ -1044,6 +1044,14 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)shopConfig
+{
+    self.requestType = ShopConfig;
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=shop_config",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:nil];
+}
+
 - (void)announcementListWithReadState:(NSString *)readState
                              pagesize:(NSString *)pagesize
                                  page:(NSString *)page

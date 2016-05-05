@@ -19,6 +19,7 @@
     if (cell == nil) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEquipmentInform_PersonCell" owner:nil options:nil] lastObject];
     }
+    
     return cell;
 }
 

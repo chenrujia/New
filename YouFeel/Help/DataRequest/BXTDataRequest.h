@@ -80,7 +80,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     AuthenticationModify = 67,
     RepairState = 68,
     InspectionTaskList = 69,
-    IsSure = 70
+    IsSure = 70,
+    ShopConfig = 71,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -615,6 +616,11 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  首页广告页
  */
 - (void)advertisementPages;
+
+/**
+ *  分店获取设置信息
+ */
+- (void)shopConfig;
 
 /**
  *  广告位图片展示

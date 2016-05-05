@@ -40,7 +40,7 @@
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"其他事务",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"我的积分",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"业务统计",nil]];
-    [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"项目热线",nil]];
+    
     
     NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
     //如果不包含业务统计

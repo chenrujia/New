@@ -307,7 +307,10 @@
     userInfo.userId = model.out_userid;
     
     NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
-    if ([userInfo.userId isEqualToString:my_userID]) return;
+    if ([userInfo.userId isEqualToString:my_userID]) {
+        [BXTGlobal showText:@"温馨提示：不可与自己对话" view:self completionBlock:nil];
+        return ;
+    }
     
     userInfo.name = model.name;
     userInfo.portraitUri = model.headMedium;
