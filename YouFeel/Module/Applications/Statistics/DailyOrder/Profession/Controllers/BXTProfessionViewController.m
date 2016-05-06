@@ -30,12 +30,18 @@
     [super viewDidLoad];
     self.dataArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"数据加载中..."];
-    
-    NSArray *dateArray = [BXTGlobal dayStartAndEnd];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsSubgroupWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
+    [self getResourceWithArray:[BXTGlobal dayStartAndEnd]];
 }
+
+- (void)getResourceWithArray:(NSArray *)timeArray
+{
+    NSArray *finalTimeArray = [BXTGlobal transTimeToWhatWeNeed:timeArray];
+    
+    [self showLoadingMBP:@"数据加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request statisticsSubgroupWithTimeStart:finalTimeArray[0] timeEnd:finalTimeArray[1]];
+}
+
 
 #pragma mark -
 #pragma mark - createUI
@@ -54,20 +60,23 @@
     [self.headerView addSubview:self.pieView];
     
     // 2. fill data
-    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#f1a161", @"#74bde9", @"#93c322", @"#a17bb5", nil];
+    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#f4c5d4", @"#c3d0f0", @"#ffcc99", @"#ffdbce", @"#cfc4f1", @"#ffe099", @"#dbb2dd", @"#bcebed", @"#ffcdc7", nil];
     NSMutableArray *oldDataArray = [[NSMutableArray alloc] init];
     NSMutableArray *pieArray = [[NSMutableArray alloc] init];
     NSInteger sumNum = 0;
     for(int i=0; i<self.dataArray.count; i++)
     {
         UIColor *elemColor = [BXTGlobal randomColor];
-        if (i<4)
+        if (i<9)
         {
             elemColor = colorWithHexString(colorArray[i]);
         }
         NSDictionary *elemDict = self.dataArray[i];
         MYPieElement *elem = [MYPieElement pieElementWithValue:[elemDict[@"sum_percent"] floatValue] color:elemColor];
         elem.title = [NSString stringWithFormat:@"%@ %@", elemDict[@"subgroup"], elemDict[@"sum_percent"]];
+        if ([elemDict[@"sum_percent"] isEqualToString:@"0%"]) {
+            elem.title = @"";
+        }
         [self.pieView.layer addValues:@[elem] animated:NO];
         
         [oldDataArray addObject:elem];
@@ -256,9 +265,8 @@
             break;
     }
     
-    [self showLoadingMBP:@"数据加载中..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request statisticsSubgroupWithTimeStart:dateArray[0] timeEnd:dateArray[1]];
+    
+    [self getResourceWithArray:dateArray];
 }
 
 - (void)datePickerBtnClick:(UIButton *)button
@@ -276,9 +284,7 @@
         [self.rootCenterButton setTitle:[self weekdayStringFromDate:selectedDate] forState:UIControlStateNormal];
         
         NSString *todayStr = [self transTimeWithDate:selectedDate];
-        [self showLoadingMBP:@"数据加载中..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request statisticsSubgroupWithTimeStart:todayStr timeEnd:todayStr];
+        [self getResourceWithArray:@[todayStr, todayStr]];
     }
     [super datePickerBtnClick:button];
 }

@@ -31,6 +31,8 @@ typedef enum {
 
 @property (nonatomic, strong) NSMutableArray *transTimeArray;
 
+@property (assign, nonatomic) NSInteger segementedIndex;
+
 @end
 
 @implementation BXTCompletionViewController
@@ -40,6 +42,8 @@ typedef enum {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.segementedIndex = 2;
+    
     /**饼状图**/
     NSArray *dateArray = [BXTGlobal dayStartAndEnd];
     self.transTimeArray = [[NSMutableArray alloc] initWithArray:dateArray];
@@ -48,7 +52,7 @@ typedef enum {
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:Not_First_Launch])
     {
-        [self createIntroductionView];
+        //[self createIntroductionView];
     }
 }
 
@@ -56,7 +60,6 @@ typedef enum {
 {
     NSArray *finalTimeArray = [BXTGlobal transTimeToWhatWeNeed:timeArray];
     
-    [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statisticsCompleteWithTimeStart:finalTimeArray[0] timeEnd:finalTimeArray[1]];
 }
@@ -158,28 +161,30 @@ typedef enum {
     __weak typeof(self) weakSelf = self;
     self.headerView.transBtnClick = ^(NSInteger tag) {
         // TODO: -----------------  调试  -----------------
-        //        if (tag == 3333 || tag == 4444)
-        //        {
-        //            BXTAllOrdersViewController *allVC = [[BXTAllOrdersViewController alloc] init];
-        //            if (tag == 3333)
-        //            {
-        //                allVC.transType = @"UNDOWN";
-        //            }
-        //            else
-        //            {
-        //                allVC.transType = @"SPECIAL";
-        //            }
-        //            NSString *startTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[0]];
-        //            allVC.transStartTime = startTime;
-        //            allVC.transEndTime = [weakSelf transDateToTimeStamp:weakSelf.transTimeArray[1]];
-        //            NSTimeInterval timeSp = [startTime integerValue] + 86399;
-        //            if ([weakSelf.transTimeArray[0] isEqualToString:weakSelf.transTimeArray[1]])
-        //            {
-        //                allVC.transEndTime = [NSString stringWithFormat:@"%.0f",timeSp];
-        //            }
-        //            allVC.isSpecialPush = YES;
-        //            [weakSelf.navigationController pushViewController:allVC animated:YES];
-        //        }
+        if (tag == 2222 || tag == 3333 || tag == 4444) {
+            BXTDailyOrderListViewController *dyListVC = [[BXTDailyOrderListViewController alloc] init];
+            
+            if (tag == 2222) {
+                dyListVC.transStateStr = @"1";
+                dyListVC.transFaultCarriedState = @"2";
+            } else if (tag == 3333) {
+                dyListVC.transStateStr = @"2";
+                dyListVC.transFaultCarriedState = @"2";
+            } else if (tag == 4444) {
+                dyListVC.transFaultCarriedState = @"1";
+            }
+            
+            NSMutableArray *timeArray = [[NSMutableArray alloc] init];
+            if (self.segementedIndex == 0) {
+                timeArray = (NSMutableArray *)[BXTGlobal yearStartAndEnd];
+            } else if (self.segementedIndex == 1) {
+                timeArray = (NSMutableArray *)[BXTGlobal monthStartAndEnd];
+            } else if (self.segementedIndex == 2) {
+                timeArray = (NSMutableArray *)[BXTGlobal dayStartAndEnd];
+            }
+            dyListVC.transTimeArray = (NSMutableArray *)[BXTGlobal transTimeToWhatWeNeed:timeArray];
+            [weakSelf.navigationController pushViewController:dyListVC animated:YES];
+        }
     };
 }
 
@@ -339,6 +344,7 @@ typedef enum {
 - (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
 {
     [self.footerView removeFromSuperview];
+    self.segementedIndex = index;
     
     NSMutableArray *dateArray;
     switch (index)

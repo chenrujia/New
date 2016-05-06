@@ -780,8 +780,9 @@
                                 timeEnd:(NSString *)endTime
 {
     self.requestType = Statistics_Subgroup;
-    NSDictionary *dic = @{@"time_start":startTime,
-                          @"time_end":endTime};
+    NSDictionary *dic = @{@"task_type":@"1",
+                          @"timestart":startTime,
+                          @"timeover":endTime};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=statistics_subgroup",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

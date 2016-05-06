@@ -79,7 +79,7 @@
 {
     BXTMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
     
-    BXTMessageInfo *messageInfo = self.dataArray[indexPath.section];
+    BXTMessageInfo *messageInfo = self.dataArray[indexPath.row];
     cell.headImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_%@",messageInfo.notice_type,messageInfo.event_type]];
     cell.titleLabel.text = messageInfo.notice_title;
     cell.detailLabel.text = messageInfo.notice_desc;
@@ -91,7 +91,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    BXTMessageInfo *messageInfo = self.dataArray[indexPath.section];
+    
+    BXTMessageInfo *messageInfo = self.dataArray[indexPath.row];
     if ([messageInfo.notice_type integerValue] == 1)
     {
         BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
@@ -152,7 +153,7 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == MessageList)
     {
-        if (self.currentPage == 1 && self.self.dataArray.count != 0)
+        if (self.currentPage == 1 && self.dataArray.count != 0)
         {
             [self.dataArray removeAllObjects];
         }

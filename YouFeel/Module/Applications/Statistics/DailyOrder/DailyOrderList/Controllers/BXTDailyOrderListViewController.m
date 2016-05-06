@@ -25,14 +25,10 @@
 
 @property (nonatomic, copy) NSString *order;
 
-/** ---- 时间数组 ---- */
-@property (strong, nonatomic) NSMutableArray *transTimeArray;
 /** ---- 专业分组 ---- */
 @property (copy, nonatomic) NSString *transGroupStr;
 /** ---- 工单状态 1未接单 2 待维修 3 维修中 4待确认 5待评价 6已评价 ---- */
 @property (copy, nonatomic) NSString *transRepairStateStr;
-/** ---- 维修状态 1已修好 2 未修好 ---- */
-@property (copy, nonatomic) NSString *transStateStr;
 /** ---- 未修好原因ID ---- */
 @property (copy, nonatomic) NSString *transCollectionID;
 
@@ -50,11 +46,18 @@
     self.dataArray = [[NSMutableArray alloc] init];
     self.currentPage = 1;
     
-    self.transTimeArray = [[NSMutableArray alloc] initWithObjects:@"", @"", nil];
     self.transGroupStr = @"";
     self.transRepairStateStr = @"";
-    self.transStateStr = @"";
     self.transCollectionID = @"";
+    if (!self.transTimeArray) {
+        self.transTimeArray = [[NSMutableArray alloc] initWithObjects:@"", @"", nil];
+    }
+    if (!self.transStateStr) {
+        self.transStateStr = @"";
+    }
+    if (!self.transFaultCarriedState) {
+        self.transFaultCarriedState = @"";
+    }
     
     [self createUI];
 }
@@ -96,7 +99,7 @@
                                    placeID:@""
                                repairState:self.transRepairStateStr
                                      state:self.transStateStr
-                         faultCarriedState:@""
+                         faultCarriedState:self.transFaultCarriedState
                         repairCarriedState:@""
                               collectionID:self.transCollectionID
                                   deviceID:@""
