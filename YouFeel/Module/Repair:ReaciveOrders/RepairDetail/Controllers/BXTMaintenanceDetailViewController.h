@@ -69,15 +69,17 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UILabel      *doneNotes;
 
 @property (weak, nonatomic) IBOutlet UILabel      *evaluateNotes;
-@property (weak, nonatomic) IBOutlet UIImageView *faultPicOne;
-@property (weak, nonatomic) IBOutlet UIImageView *faultPicTwo;
-@property (weak, nonatomic) IBOutlet UIImageView *faultPicThree;
-@property (weak, nonatomic) IBOutlet UIImageView *fixPicOne;
-@property (weak, nonatomic) IBOutlet UIImageView *fixPicTwo;
-@property (weak, nonatomic) IBOutlet UIImageView *fixPicThree;
-@property (weak, nonatomic) IBOutlet UIImageView *evaluatePicOne;
-@property (weak, nonatomic) IBOutlet UIImageView *evaluatePicTwo;
-@property (weak, nonatomic) IBOutlet UIImageView *evaluatePicThree;
+@property (weak, nonatomic) IBOutlet UILabel      *orderStyle;
+@property (weak, nonatomic) IBOutlet UIImageView  *alarm;
+@property (weak, nonatomic) IBOutlet UIImageView  *faultPicOne;
+@property (weak, nonatomic) IBOutlet UIImageView  *faultPicTwo;
+@property (weak, nonatomic) IBOutlet UIImageView  *faultPicThree;
+@property (weak, nonatomic) IBOutlet UIImageView  *fixPicOne;
+@property (weak, nonatomic) IBOutlet UIImageView  *fixPicTwo;
+@property (weak, nonatomic) IBOutlet UIImageView  *fixPicThree;
+@property (weak, nonatomic) IBOutlet UIImageView  *evaluatePicOne;
+@property (weak, nonatomic) IBOutlet UIImageView  *evaluatePicTwo;
+@property (weak, nonatomic) IBOutlet UIImageView  *evaluatePicThree;
 @property (weak, nonatomic) IBOutlet UIScrollView *mmScroller;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scroller_bottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *first_top;

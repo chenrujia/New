@@ -346,7 +346,7 @@
                                                         <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="200" id="7y7-dL-ARC">
-                                                                <variation key="heightClass=regular-widthClass=compact" constant="215"/>
+                                                                <variation key="heightClass=regular-widthClass=compact" constant="220"/>
                                                             </constraint>
                                                             <constraint firstAttribute="height" constant="20" id="X3y-yO-0HX"/>
                                                         </constraints>
@@ -384,7 +384,7 @@
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alarm" translatesAutoresizingMaskIntoConstraints="NO" id="8HX-Mq-Tn4">
+                                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alarm" translatesAutoresizingMaskIntoConstraints="NO" id="8HX-Mq-Tn4">
                                                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="12" id="JZD-fb-TFC">
@@ -1672,6 +1672,7 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="alarm" destination="8HX-Mq-Tn4" id="GyY-To-sxC"/>
                         <outlet property="buttonBV" destination="Cbt-Pw-Z7u" id="WmK-Zh-GJP"/>
                         <outlet property="cause" destination="vWB-Nm-Xo4" id="GdW-Ij-VuE"/>
                         <outlet property="connectTa" destination="y2U-o7-ftq" id="ch8-7l-SlX"/>
@@ -1709,6 +1710,7 @@
                         <outlet property="ninth_bv_height" destination="3Zo-vV-pps" id="mgv-c0-NmH"/>
                         <outlet property="ninth_top" destination="Lzn-jQ-72s" id="0dx-t2-SdH"/>
                         <outlet property="orderState" destination="VwJ-Hc-4EP" id="lSF-Ds-MVy"/>
+                        <outlet property="orderStyle" destination="GHf-ss-gV0" id="Hma-OS-b5u"/>
                         <outlet property="orderType" destination="GHf-ss-gV0" id="hql-gQ-fGx"/>
                         <outlet property="place" destination="ZGn-SO-KBg" id="KtR-Kq-Wgz"/>
                         <outlet property="positionName" destination="ays-Zx-zNY" id="fOe-nm-paU"/>
@@ -1727,7 +1729,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dHq-PU-arC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-796.5" y="464.25"/>
+            <point key="canvasLocation" x="-1020" y="420.75"/>
         </scene>
         <!--New Work Order View Controller-->
         <scene sceneID="Mcn-It-1lA">

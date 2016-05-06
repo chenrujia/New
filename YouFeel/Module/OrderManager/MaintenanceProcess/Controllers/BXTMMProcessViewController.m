@@ -26,12 +26,13 @@
 @property (nonatomic, strong) NSMutableArray      *specialOrderArray;
 @property (nonatomic, strong) NSMutableArray      *deviceStateArray;
 @property (nonatomic, strong) NSArray             *stateArray;
-@property (nonatomic, strong) NSString            *maintenanceState;
-@property (nonatomic, strong) NSString            *repairID;
-@property (nonatomic, strong) NSString            *deviceState;
-@property (nonatomic, strong) NSString            *state;
-@property (nonatomic, strong) NSString            *mmLog;
-@property (nonatomic, strong) NSString            *repairPlace;
+@property (nonatomic, copy  ) NSString            *maintenanceState;
+@property (nonatomic, copy  ) NSString            *repairID;
+@property (nonatomic, copy  ) NSString            *deviceState;
+@property (nonatomic, copy  ) NSString            *state;
+@property (nonatomic, copy  ) NSString            *mmLog;
+@property (nonatomic, copy  ) NSString            *repairPlace;
+@property (nonatomic, copy  ) NSString            *faultTypeID;
 @property (nonatomic, assign) NSInteger           number;
 @property (nonatomic, strong) BXTSelectBoxView    *boxView;
 @property (nonatomic, strong) BXTDeviceMMListInfo *deviceInfo;
@@ -44,7 +45,14 @@
 
 @implementation BXTMMProcessViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil repairID:(NSString *)repairID deviceList:(NSArray *)devices
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil
+                       repairID:(NSString *)repairID
+                        placeID:(NSString *)placeID
+                      placeName:(NSString *)placeName
+                    faultTypeID:(NSString *)faultTypeID
+                  faultTypeName:(NSString *)faultTypeName
+                     deviceList:(NSArray *)devices
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
@@ -60,6 +68,13 @@
         self.state = @"2";
         self.maintenanceState = @"已修好";
         self.mmLog = @"";
+        self.faultTypeID = faultTypeID;
+        
+        BXTPlaceInfo *placeInfo = [BXTPlaceInfo new];
+        placeInfo.placeID = placeID;
+        placeInfo.place = placeName;
+        self.repairPlace = placeName;
+        self.choosedPlaceInfo = placeInfo;
     }
     return self;
 }
@@ -205,6 +220,7 @@
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+        searchVC.faultTypeID = self.faultTypeID;
         @weakify(self);
         [searchVC userChoosePlace:self.fau_dataSource type:FaultSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
             @strongify(self);

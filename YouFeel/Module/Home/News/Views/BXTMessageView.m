@@ -16,6 +16,8 @@
 #import "AppDelegate.h"
 #import "BXTMaintenanceDetailViewController.h"
 #import "BXTProjectManageViewController.h"
+#import "BXTReaciveOrdersViewController.h"
+#import "BXTRemindNum.h"
 
 @interface BXTMessageView () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
@@ -97,10 +99,34 @@
     }
     else if ([messageInfo.notice_type integerValue] == 2)
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-        [repairDetailVC dataWithRepairID:messageInfo.about_id sceneType:MessageType];
-        [[self navigation] pushViewController:repairDetailVC animated:YES];
+        //2.1 用户上传了一条新的工单 2.2 已接单通知 2.3 已到场通知 2.4 已修完通知 2.5 被指派工单通知 2.6 客户确认通知 2.7 指派驳回通知 2.8 工单取消通知 2.9 客户驳回通知 2.10 超时工单通知 2.11 默认评价 2.12新维保的通知 2.13 维保将要过期 2.14已过期维保通知
+        if ([messageInfo.event_type isEqualToString:@"2.1"] || [messageInfo.event_type isEqualToString:@"2.10"])
+        {
+            //日常工单
+            [BXTRemindNum sharedManager].timeStart_Daily = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+            SaveValueTUD(@"timeStart_Daily", [BXTRemindNum sharedManager].timeStart_Daily);
+            
+            BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:1];
+            reaciveVC.hidesBottomBarWhenPushed = YES;
+            [self.navigation pushViewController:reaciveVC animated:YES];
+        }
+        else if ([messageInfo.event_type isEqualToString:@"2.13"] || [messageInfo.event_type isEqualToString:@"2.14"])
+        {
+            //维保工单
+            [BXTRemindNum sharedManager].timeStart_Inspection = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+            SaveValueTUD(@"timeStart_Inspectio", [BXTRemindNum sharedManager].timeStart_Inspection);
+            
+            BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
+            reaciveVC.hidesBottomBarWhenPushed = YES;
+            [self.navigation pushViewController:reaciveVC animated:YES];
+        }
+        else if (![messageInfo.event_type isEqualToString:@"2.12"])
+        {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+            BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
+            [repairDetailVC dataWithRepairID:messageInfo.about_id sceneType:MessageType];
+            [[self navigation] pushViewController:repairDetailVC animated:YES];
+        }
     }
 }
 

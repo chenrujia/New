@@ -21,6 +21,12 @@
     self.name = faulttype;
 }
 
+- (void)setFault_id:(NSString *)fault_id
+{
+    _fault_id = [fault_id copy];
+    self.itemID = fault_id;
+}
+
 @end
 
 

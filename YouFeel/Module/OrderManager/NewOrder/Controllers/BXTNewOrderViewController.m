@@ -153,29 +153,38 @@
     self.groupName.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.groupName];
     
+    //时间
     self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.repairID.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     self.timeLabel.textColor = colorWithHexString(@"000000");
     self.timeLabel.font = [UIFont systemFontOfSize:17.f];
     self.timeLabel.text = @"报修时间:";
     [self.view addSubview:self.timeLabel];
     
+    //报修位置
     self.placeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.timeLabel.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
     self.placeLabel.textColor = colorWithHexString(@"000000");
     self.placeLabel.font = [UIFont systemFontOfSize:17.f];
     self.placeLabel.text = @"位置:";
     self.placeLabel.numberOfLines = 0;
+    self.placeLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self.view addSubview:self.placeLabel];
     
+    //故障类型
     self.faultType = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.placeLabel.frame) + 10.f, CGRectGetWidth(self.faultType.frame), 20)];
     self.faultType.textColor = colorWithHexString(@"000000");
     self.faultType.font = [UIFont systemFontOfSize:17.f];
     self.faultType.text = @"故障类型:";
+    self.faultType.numberOfLines = 0;
+    self.faultType.lineBreakMode = NSLineBreakByWordWrapping;
     [self.view addSubview:self.faultType];
     
+    //报修内容
     self.cause = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.faultType.frame) + 10.f, CGRectGetWidth(self.faultType.frame), 20)];
     self.cause.textColor = colorWithHexString(@"000000");
     self.cause.font = [UIFont systemFontOfSize:17.f];
     self.cause.text = @"故障描述:";
+    self.cause.numberOfLines = 0;
+    self.cause.lineBreakMode = NSLineBreakByWordWrapping;
     [self.view addSubview:self.cause];
     
     CGFloat bv_height = IS_IPHONE6 ? 80.f : 70.f;
@@ -226,7 +235,7 @@
 
 - (void)connectTa
 {
-    BXTMaintenanceManInfo *repairPerson = self.repairDetail.repair_user_arr[0];
+    BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];
     RCUserInfo *userInfo = [[RCUserInfo alloc] init];
     userInfo.userId = repairPerson.out_userid;
     
@@ -327,17 +336,32 @@
         self.identifyName.text = repairPerson.duty_name;
         self.repairID.text = [NSString stringWithFormat:@"工单号:%@",self.repairDetail.orderid];
         self.timeLabel.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
-        //TODO: 适配名字长度
-        self.groupName.text = self.repairDetail.faulttype_name;
-        self.placeLabel.text = [NSString stringWithFormat:@"位置:%@",self.repairDetail.place_name];
+       
+        //根据分组名字的长度动态调整groupName的宽度
+        NSString *group_name = self.repairDetail.faulttype_name;
+        CGSize group_size = MB_MULTILINE_TEXTSIZE(group_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
+        group_size.width += 10.f;
+        group_size.height = CGRectGetHeight(self.groupName.frame);
+        self.groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(self.groupName.frame), group_size.width, group_size.height);
+        self.groupName.text = group_name;
         
-        CGSize cause_size = MB_MULTILINE_TEXTSIZE(self.placeLabel.text, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
-        // 更新所有控件位置 1
-        self.placeLabel.frame = CGRectMake(15.f, CGRectGetMaxY(self.timeLabel.frame) + 10.f, SCREEN_WIDTH - 30.f, cause_size.height);
-        self.faultType.frame = CGRectMake(15.f, CGRectGetMaxY(self.placeLabel.frame) + 10.f, CGRectGetWidth(self.placeLabel.frame), 20);
-        self.faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
-        self.cause.frame = CGRectMake(15.f, CGRectGetMaxY(self.faultType.frame) + 10.f, CGRectGetWidth(self.faultType.frame), 20);
-        self.cause.text = [NSString stringWithFormat:@"故障描述:%@",self.repairDetail.cause];
+        //根据位置的长度动态调整placeLabel的高度
+        NSString *place_str = [NSString stringWithFormat:@"位置:%@",self.repairDetail.place_name];
+        CGSize place_size = MB_MULTILINE_TEXTSIZE(place_str, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+        self.placeLabel.frame = CGRectMake(15.f, CGRectGetMaxY(self.timeLabel.frame) + 10.f, SCREEN_WIDTH - 30.f, place_size.height);
+        self.placeLabel.text = place_str;
+
+        //根据故障类型的长度动态调整faultType的高度
+        NSString *faultType_str = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
+        CGSize faultType_size = MB_MULTILINE_TEXTSIZE(faultType_str, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+        self.faultType.frame = CGRectMake(15.f, CGRectGetMaxY(self.placeLabel.frame) + 10.f, CGRectGetWidth(self.placeLabel.frame), faultType_size.height);
+        self.faultType.text = faultType_str;
+        
+        //根据报修内容的长度动态调整cause的高度
+        NSString *cause_str = [NSString stringWithFormat:@"报修内容:%@",self.repairDetail.cause];
+        CGSize cause_size = MB_MULTILINE_TEXTSIZE(cause_str, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
+        self.cause.frame = CGRectMake(15.f, CGRectGetMaxY(self.faultType.frame) + 10.f, CGRectGetWidth(self.faultType.frame), cause_size.height);
+        self.cause.text = cause_str;
         
         NSArray *imgArray = [self containAllArray];
         if (imgArray.count > 0)

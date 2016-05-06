@@ -21,5 +21,11 @@
     self.name = place;
 }
 
+- (void)setPlaceID:(NSString *)placeID
+{
+    _placeID = [placeID copy];
+    self.itemID = placeID;
+}
+
 @end
 

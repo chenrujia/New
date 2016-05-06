@@ -605,6 +605,12 @@
     {
         self.connectTa.hidden = YES;
     }
+    if ([self.repairDetail.is_appointment isEqualToString:@"2"])
+    {
+        self.alarm.hidden = NO;
+    }
+    self.orderStyle.text = [self.repairDetail.task_type intValue] == 1 ? @"日常" : @"维保";
+    self.orderStyle.backgroundColor = [self.repairDetail.task_type intValue] == 1 ? colorWithHexString(@"#F0B660") : colorWithHexString(@"#7EC86E");
     self.departmentName.text = [NSString stringWithFormat:@"部门：%@",repairPerson.department_name];
     self.positionName.text = [NSString stringWithFormat:@"职位：%@",repairPerson.duty_name];
     self.repairID.text = [NSString stringWithFormat:@"工单编号:%@",self.repairDetail.orderid];
@@ -858,7 +864,14 @@
 
 - (void)endMaintence
 {
-    BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController" bundle:nil repairID:self.repairDetail.orderID deviceList:self.repairDetail.device_lists];
+    BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController"
+                                                                                         bundle:nil
+                                                                                       repairID:self.repairDetail.orderID
+                                                                                        placeID:self.repairDetail.place_id
+                                                                                      placeName:self.repairDetail.place_name
+                                                                                    faultTypeID:self.repairDetail.faulttype_id
+                                                                                  faultTypeName:self.repairDetail.faulttype_name
+                                                                                     deviceList:self.repairDetail.device_lists];
     [self.navigationController pushViewController:procossVC animated:YES];
 }
 
@@ -908,13 +921,15 @@
     else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-        [self.navigationController popViewControllerAnimated:YES];
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+        {
+            [self requestDetail];
+        }
     }
     else if (type == ReaciveOrder)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
             [self requestDetail];
         }
     }
@@ -925,11 +940,6 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
             [self.navigationController popViewControllerAnimated:YES];
         }
-    }
-    else if (type == StartRepair && [[dic objectForKey:@"returncode"] integerValue] == 0)
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-        [self.navigationController popViewControllerAnimated:YES];
     }
     else if (type == IsSure && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
