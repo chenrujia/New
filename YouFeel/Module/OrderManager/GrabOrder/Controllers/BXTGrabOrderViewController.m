@@ -233,7 +233,7 @@
         self.faultType.text = fault_str;
         
         //故障描述
-        NSString *cause_str = [NSString stringWithFormat:@"故障描述:%@",repairDetail.cause];
+        NSString *cause_str = [NSString stringWithFormat:@"报修内容:%@",repairDetail.cause];
         CGSize cause_size = MB_MULTILINE_TEXTSIZE(cause_str, [UIFont systemFontOfSize:17.f], CGSizeMake(width, 100), NSLineBreakByWordWrapping);
         CGRect cause_rect = self.cause.frame;
         cause_rect.size = cause_size;

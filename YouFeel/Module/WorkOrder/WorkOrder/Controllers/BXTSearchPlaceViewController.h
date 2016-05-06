@@ -21,14 +21,14 @@ typedef void (^ChoosePlace)(BXTBaseClassifyInfo *classifyInfo,NSString *name);
 
 @interface BXTSearchPlaceViewController : BXTBaseViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *commitBtn;
-@property (weak, nonatomic) IBOutlet UITableView *currentTable;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBarView;
+@property (nonatomic, copy  ) NSString              *faultTypeID;
+@property (weak, nonatomic  ) IBOutlet UIButton     *commitBtn;
+@property (weak, nonatomic  ) IBOutlet UITableView  *currentTable;
+@property (weak, nonatomic  ) IBOutlet UISearchBar  *searchBarView;
 @property (nonatomic, assign) SearchVCType searchType;
-@property (nonatomic, copy) ChoosePlace selectPlace;
+@property (nonatomic, copy  ) ChoosePlace  selectPlace;
 
 - (void)userChoosePlace:(NSArray *)array type:(SearchVCType)type block:(ChoosePlace)place;
-
 - (IBAction)commitClick:(id)sender;
 - (IBAction)switchValueChanged:(id)sender;
 

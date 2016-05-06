@@ -17,6 +17,7 @@
 @property (nonatomic, strong) BXTReportInfo                    *report;
 @property (nonatomic, copy  ) NSString                         *repairstate;
 @property (nonatomic, copy  ) NSString                         *device_ids;
+@property (nonatomic, copy)   NSString                         *place_id;
 @property (nonatomic, copy  ) NSString                         *place_name;
 @property (nonatomic, strong) NSArray<BXTFaultPicInfo *>       *fixed_pic;
 @property (nonatomic, copy  ) NSString                         *repair_user;
@@ -28,6 +29,7 @@
 @property (nonatomic, strong) NSArray<BXTMaintenanceManInfo *> *repair_user_arr;
 @property (nonatomic, copy  ) NSString                         *orderid;
 @property (nonatomic, copy  ) NSString                         *is_appointment;
+@property (nonatomic, copy)   NSString                         *faulttype_id;
 @property (nonatomic, copy  ) NSString                         *faulttype_name;
 @property (nonatomic, copy  ) NSString                         *department_id;
 @property (nonatomic, copy  ) NSString                         *orderID;

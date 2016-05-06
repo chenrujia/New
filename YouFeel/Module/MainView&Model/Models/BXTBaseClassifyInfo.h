@@ -11,6 +11,7 @@
 @interface BXTBaseClassifyInfo : NSObject
 
 @property (nonatomic, copy  ) NSString *name;
+@property (nonatomic, copy  ) NSString *itemID;
 @property (nonatomic, strong) NSArray  *lists;
 @property (nonatomic, copy  ) NSString *level;
 

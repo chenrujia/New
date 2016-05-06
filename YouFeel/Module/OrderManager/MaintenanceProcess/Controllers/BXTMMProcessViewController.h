@@ -13,7 +13,14 @@
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
 @property (weak, nonatomic) IBOutlet UIButton *doneBtn;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil repairID:(NSString *)repairID deviceList:(NSArray *)devices;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil
+                       repairID:(NSString *)repairID
+                        placeID:(NSString *)placeID
+                      placeName:(NSString *)placeName
+                    faultTypeID:(NSString *)faultTypeID
+                  faultTypeName:(NSString *)faultTypeName
+                     deviceList:(NSArray *)devices;
 
 - (IBAction)doneClick:(id)sender;
 

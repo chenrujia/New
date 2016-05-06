@@ -405,8 +405,8 @@ static CGFloat const ChooseViewHeight  = 328.f;
         //工单类型
         BXTAttributeView *attView = [BXTAttributeView attributeViewWithTitleFont:[UIFont boldSystemFontOfSize:17] attributeTexts:orderListArray viewWidth:SCREEN_WIDTH delegate:self];
         attView.y = 0;
-        _order_type_height.constant = attView.height;
-        [_orderTypeBV layoutIfNeeded];
+        self.order_type_height.constant = attView.height;
+        [self.orderTypeBV layoutIfNeeded];
         [self.orderTypeBV addSubview:attView];
     }
     else if (type == DeviceList)

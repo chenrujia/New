@@ -83,12 +83,24 @@
     NSMutableArray *titlesArray = [[NSMutableArray alloc] init];
     self.searchTitlesArray = titlesArray;
     
-    for (id obj in self.dataSource)
+    for (NSInteger i = 0; i < self.dataSource.count; i++)
     {
-        NSMutableArray *tempArray = [[NSMutableArray alloc] initWithObjects:obj, nil];
+        BXTBaseClassifyInfo *classifyInfo = self.dataSource[i];
+        NSMutableArray *tempArray = [[NSMutableArray alloc] initWithObjects:classifyInfo, nil];
         [self.mutableArray addObject:tempArray];
-        NSMutableArray *emptyArray = [[NSMutableArray alloc] init];
-        [self.marksArray addObject:emptyArray];
+        if (self.searchType == FaultSearchType && [classifyInfo.itemID isEqualToString:self.faultTypeID])
+        {
+            NSMutableArray *emptyArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
+            [self.marksArray addObject:emptyArray];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:i];
+            self.lastIndexPath = indexPath;
+            [self refreshTableForAdd:indexPath refreshNow:NO];
+        }
+        else
+        {
+            NSMutableArray *emptyArray = [[NSMutableArray alloc] init];
+            [self.marksArray addObject:emptyArray];
+        }
     }
     
     [self.currentTable reloadData];
@@ -293,13 +305,13 @@
         }
         [self singleSelectionWithArray:markArray indexPath:indexPath];
         [markArray addObject:@"1"];
-        [self refreshTableForAdd:indexPath];
+        [self refreshTableForAdd:indexPath refreshNow:YES];
     }
     else if (markArray.count == indexPath.row)
     {
         [self singleSelectionWithArray:markArray indexPath:indexPath];
         [markArray addObject:@"1"];
-        [self refreshTableForAdd:indexPath];
+        [self refreshTableForAdd:indexPath refreshNow:YES];
     }
     else
     {
@@ -323,7 +335,7 @@
                     [markArray replaceObjectAtIndex:self.lastIndexPath.row withObject:@"0"];
                 }
                 [markArray replaceObjectAtIndex:newIndexPath.row withObject:@"1"];
-                [self refreshTableForAdd:newIndexPath];
+                [self refreshTableForAdd:newIndexPath refreshNow:YES];
                 self.lastIndexPath = newIndexPath;
                 return;
             }
@@ -335,7 +347,7 @@
                     [markArray replaceObjectAtIndex:self.lastIndexPath.row withObject:@"0"];
                 }
                 [markArray replaceObjectAtIndex:indexPath.row withObject:@"1"];
-                [self refreshTableForAdd:indexPath];
+                [self refreshTableForAdd:indexPath refreshNow:YES];
             }
         }
     }
@@ -350,7 +362,7 @@
 
 #pragma mark -
 #pragma mark 自定义方法
-- (void)refreshTableForAdd:(NSIndexPath *)indexPath
+- (void)refreshTableForAdd:(NSIndexPath *)indexPath refreshNow:(BOOL)refresh
 {
     //如果placeInfe的lists有数据，则取出相应的数据，添加到tempArray数组里面
     NSMutableArray *tempArray = self.mutableArray[indexPath.section];
@@ -372,8 +384,11 @@
         }
         [markArray insertObjects:data atIndexes:indexes];
     }
-    //不管有没有下级都要刷新
-    [self.currentTable reloadData];
+    if (refresh)
+    {
+        //不管有没有下级都要刷新
+        [self.currentTable reloadData];
+    }
 }
 
 - (NSInteger)refreshTableForRemove:(NSIndexPath *)indexPath

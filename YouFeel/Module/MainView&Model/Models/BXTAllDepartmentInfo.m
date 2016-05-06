@@ -20,6 +20,12 @@
     self.name = department;
 }
 
+- (void)setDepartmentID:(NSString *)departmentID
+{
+    _departmentID = [departmentID copy];
+    self.itemID = departmentID;
+}
+
 @end
 
 
