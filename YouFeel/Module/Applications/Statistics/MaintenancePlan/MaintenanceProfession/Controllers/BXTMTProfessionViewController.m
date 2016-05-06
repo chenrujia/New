@@ -182,7 +182,7 @@ static CGFloat const maxTitleScale = 1.3;
     [self.selTitleButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.selTitleButton.transform = CGAffineTransformIdentity;
     
-    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btn setTitleColor:colorWithHexString(@"#63B2F8") forState:UIControlStateNormal];
     btn.transform = CGAffineTransformMakeScale(maxTitleScale, maxTitleScale);
     
     self.selTitleButton = btn;
@@ -245,16 +245,20 @@ static CGFloat const maxTitleScale = 1.3;
         rightButton = self.buttons[rightIndex];
     }
     
-    CGFloat scaleR = offsetX / YCKScreenW - leftIndex;
-    CGFloat scaleL = 1 - scaleR;
-    CGFloat transScale = maxTitleScale - 1;
-    leftButton.transform = CGAffineTransformMakeScale(scaleL * transScale + 1, scaleL * transScale + 1);
-    rightButton.transform = CGAffineTransformMakeScale(scaleR * transScale + 1, scaleR * transScale + 1);
+    //    CGFloat scaleR = offsetX / YCKScreenW - leftIndex;
+    //    CGFloat scaleL = 1 - scaleR;
+    //    CGFloat transScale = maxTitleScale - 1;
+    //    leftButton.transform = CGAffineTransformMakeScale(scaleL * transScale + 1, scaleL * transScale + 1);
+    //    rightButton.transform = CGAffineTransformMakeScale(scaleR * transScale + 1, scaleR * transScale + 1);
+    //
+    //    UIColor *rightColor = [UIColor colorWithRed:138/255 green:196/255 blue:scaleR alpha:1];
+    //    UIColor *leftColor = [UIColor colorWithRed:138/255 green:196/255 blue:scaleL alpha:1];
+    //    [leftButton setTitleColor:leftColor forState:UIControlStateNormal];
+    //    [rightButton setTitleColor:rightColor forState:UIControlStateNormal];
     
-    UIColor *rightColor = [UIColor colorWithRed:scaleR green:0 blue:0 alpha:1];
-    UIColor *leftColor = [UIColor colorWithRed:scaleL green:0 blue:0 alpha:1];
-    [leftButton setTitleColor:leftColor forState:UIControlStateNormal];
-    [rightButton setTitleColor:rightColor forState:UIControlStateNormal];
+    [leftButton setTitleColor:colorWithHexString(@"#63B2F8") forState:UIControlStateNormal];
+    [rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
 }
 
 #pragma mark -

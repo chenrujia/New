@@ -38,6 +38,13 @@
     [self postRequest:url withParameters:parameters];
 }
 
+- (void)unbundlingUser:(NSDictionary *)parameters
+{
+    self.requestType = UnBundingUser;
+    NSString *url = [NSString stringWithFormat:@"%@/module/Account/opt/remove_binding",KADMINBASEURL];
+    [self postRequest:url withParameters:parameters];
+}
+
 - (void)loginUser:(NSDictionary *)parameters
 {
     self.requestType = LoginType;
@@ -928,7 +935,8 @@
 
 - (void)scanResultWithContent:(NSString *)content
 {
-    NSDictionary *dic = @{@"content": content};
+    NSDictionary *dic = @{@"content": content,
+                          @"scann_type": @"1"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Qrcode&opt=resolu_qr",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

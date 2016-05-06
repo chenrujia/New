@@ -599,11 +599,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             dispatch_async(concurrentQueue, ^{
                 /**请求位置列表**/
                 //TODO: 一周更新一次
-//                if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
-//                {
-//                    BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-//                    [location_request listOFPlaceIsAllPlace:YES];
-//                }
+                //                if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
+                //                {
+                //                    BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+                //                    [location_request listOFPlaceIsAllPlace:YES];
+                //                }
                 BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [location_request listOFPlaceIsAllPlace:YES];
             });
@@ -645,6 +645,27 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         NSMutableArray *dataSource = [[NSMutableArray alloc] init];
         [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
         [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
+    }
+    else if (type == BindingUser && [[dic objectForKey:@"returncode"] integerValue] == 0)
+    {
+        [BXTGlobal showText:@"绑定微信号成功" view:self.window completionBlock:nil];
+        SaveValueTUD(BindingWeixin, @"2");
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"BindingWeixinNotify" object:nil];
+    }
+    else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
+    {
+        //        BXTNickNameViewController *nickNameVC = [[BXTNickNameViewController alloc] init];
+        //        [nickNameVC isLoginByWeiXin:self.isLoginByWX];
+        //        [self.navigationController pushViewController:nickNameVC animated:YES];
+    }
+    else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"004"])
+    {
+        [BXTGlobal showText:@"该手机已经绑定了其他微信号，请更换手机号" view:self.window completionBlock:nil];
+    }
+    else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"014"])
+    {
+        [BXTGlobal showText:@"该手机号已绑定其他微信账户" view:self.window completionBlock:nil];
     }
     else
     {
@@ -704,6 +725,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         if ([[RCIMClient sharedRCIMClient] getTotalUnreadCount] == 0) {
             mailController.tabBarItem.badgeValue = nil;
         }
+        
     });
 }
 
@@ -826,15 +848,28 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 appdelegate.headimgurl = [dic objectForKey:@"headimgurl"]; // 传递头像地址
                 appdelegate.nickname = [dic objectForKey:@"nickname"]; // 传递昵称
                 
-                isLoginByWX = YES;
-                NSDictionary *userInfoDic = @{@"username":@"",
-                                              @"password":@"",
-                                              @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
-                                              @"type":@"2",
-                                              @"flat_id":@"1",
-                                              @"only_code":openID};
-                BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-                [dataRequest loginUser:userInfoDic];
+                
+                if ([BXTGlobal shareGlobal].isBindingWeiXin)
+                {
+                    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                    NSDictionary *dic = @{@"only_code":[BXTGlobal shareGlobal].openID,
+                                          @"mobile":[BXTGlobal getUserProperty:U_USERNAME],
+                                          @"flat_id":@"1"};
+                    [request bindingUser:dic];
+                }
+                else
+                {
+                    isLoginByWX = YES;
+                    NSDictionary *userInfoDic = @{@"username":@"",
+                                                  @"password":@"",
+                                                  @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
+                                                  @"type":@"2",
+                                                  @"flat_id":@"1",
+                                                  @"only_code":openID};
+                    BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+                    [dataRequest loginUser:userInfoDic];
+                }
+                
             }
         });
     });

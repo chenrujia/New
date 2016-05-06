@@ -165,18 +165,9 @@
     }
     else
     {
-        if (IS_IOS_8)
-        {
-            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"您未安装微信" message:@"请使用其他方式登录" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
-            [alertCtr addAction:doneAction];
-            [self presentViewController:alertCtr animated:YES completion:nil];
-        }
-        else
-        {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您未安装微信" message:@"请使用其他方式登录" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-        }
+        [MYAlertAction showAlertWithTitle:@"您未安装微信" msg:@"请使用其他方式登录" chooseBlock:^(NSInteger buttonIdx) {
+            
+        } buttonsStatement:@"确定", nil];
     }
 }
 

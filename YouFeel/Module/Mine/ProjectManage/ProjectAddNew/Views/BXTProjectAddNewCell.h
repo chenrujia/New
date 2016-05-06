@@ -12,6 +12,7 @@
 
 @property (nonatomic ,strong) UILabel *nameLabel;
 @property (nonatomic ,strong) UIImageView *rightImageView;
+@property (nonatomic ,strong) UIImageView *rightAddView;
 @property (nonatomic ,strong) UISwitch *switchbtn;
 
 @end

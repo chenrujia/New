@@ -82,6 +82,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     InspectionTaskList = 69,
     IsSure = 70,
     ShopConfig = 71,
+    UnBundingUser = 72,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -118,6 +119,11 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  绑定
  */
 - (void)bindingUser:(NSDictionary *)parameters;
+
+/**
+ *  解绑
+ */
+- (void)unbundlingUser:(NSDictionary *)parameters;
 
 /**
  *  登录

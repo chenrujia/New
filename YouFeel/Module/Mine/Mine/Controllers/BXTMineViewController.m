@@ -20,8 +20,6 @@
 #import "BXTCommentListViewController.h"
 #import "BXTAboutUsViewController.h"
 
-#define SaveBranchID @"SaveBranchID"
-
 @interface BXTMineViewController () <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -43,10 +41,8 @@
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
     
-    if (![ValueFUD(SaveBranchID) isEqualToString:[BXTGlobal getUserProperty:U_BRANCHUSERID]]) {
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request userInfo];
-    }
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request userInfo];
     
 }
 
@@ -238,12 +234,15 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == UserInfo)
     {
-        SaveValueTUD(SaveBranchID, [BXTGlobal getUserProperty:U_BRANCHUSERID]);
         [BXTMineInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"mineID":@"id"};
         }];
         BXTMineInfo *mineInfo = [BXTMineInfo mj_objectWithKeyValues:data[0]];
+        
+        NSString *bindingWeixin = [NSString stringWithFormat:@"%ld", mineInfo.binding_weixin];
+        SaveValueTUD(BindingWeixin, bindingWeixin);
         SaveValueTUD(USEREMAIL, mineInfo.email);
+        
         self.downView.mineInfo =  mineInfo;
     }
     else

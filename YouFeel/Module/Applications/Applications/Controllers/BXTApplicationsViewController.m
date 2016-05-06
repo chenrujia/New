@@ -17,6 +17,7 @@
 #import "BXTProjectManageViewController.h"
 #import "ANKeyValueTable.h"
 #import "BXTMailUserListSimpleInfo.h"
+#import "UITabBar+badge.h"
 
 @interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -37,9 +38,10 @@
     
     [self.itemsCollectionView reloadData];
     
-    if ([[BXTRemindNum sharedManager].announcementNum isEqualToString:@"0"])
-    {
-        self.navigationController.tabBarItem.badgeValue = nil;
+    if ([BXTRemindNum sharedManager].app_show) {
+        [self.tabBarController.tabBar showBadgeOnItemIndex:3];
+    } else {
+        [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
@@ -156,7 +158,7 @@
                 
                 nlvc.delegateSignal = [RACSubject subject];
                 [nlvc.delegateSignal subscribeNext:^(id x) {
-                    self.navigationController.tabBarItem.badgeValue = nil;
+                    [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
                 }];
                 
                 [self.navigationController pushViewController:nlvc animated:YES];

@@ -329,6 +329,7 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.switchbtn.hidden = YES;
     cell.rightImageView.hidden = YES;
+    cell.rightAddView.hidden = YES;
     
     if (indexPath.section == 0)
     {
@@ -363,7 +364,7 @@
         } else {
             BXTHeadquartersInfo *company = shopsArray[indexPath.row-1];
             cell.nameLabel.text = company.name;
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.rightAddView.hidden = NO;
         }
     }
     

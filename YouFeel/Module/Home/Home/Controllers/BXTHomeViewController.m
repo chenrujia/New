@@ -25,6 +25,7 @@
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTMyIntegralViewController.h"
 #import "BXTRepairsListViewController.h"
+#import "UITabBar+badge.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -337,7 +338,7 @@ typedef NS_ENUM(NSInteger, CellType) {
     {
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
         CGFloat scale = 123.f/320.f;
-        if (![companyInfo.company_id isEqualToString:@"4"])
+        if (![companyInfo.company_id isEqualToString:@"11"])
         {
             return SCREEN_WIDTH * scale;//section头部高度
         }
@@ -385,7 +386,7 @@ typedef NS_ENUM(NSInteger, CellType) {
         }];
         
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        if ([companyInfo.company_id isEqualToString:@"4"]) {
+        if ([companyInfo.company_id isEqualToString:@"11"]) {
             [bgView addSubview:button];
         }
         
@@ -570,16 +571,19 @@ typedef NS_ENUM(NSInteger, CellType) {
         [BXTRemindNum sharedManager].notice_show = [notice_show boolValue];
         
         // “应用”是否显示气泡：1是 0否
-        if ([BXTRemindNum sharedManager].app_show)
-        {
-            UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:2];
-            tController.tabBarItem.badgeValue = @" ";
+        if ([BXTRemindNum sharedManager].app_show) {
+            //            UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:2];
+            //            tController.tabBarItem.badgeValue = @" ";
+            
+            [self.tabBarController.tabBar showBadgeOnItemIndex:3];
+        } else {
+            [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
         }
         // “首页”是否显示气泡：1是 0否
-        if ([BXTRemindNum sharedManager].index_show)
-        {
-            UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:0];
-            tController.tabBarItem.badgeValue = @" ";
+        if ([BXTRemindNum sharedManager].index_show) {
+            [self.tabBarController.tabBar showBadgeOnItemIndex:0];
+        } else {
+            [self.tabBarController.tabBar hideBadgeOnItemIndex:0];
         }
         // “首页”是否显示消息气泡：1是 0否
         if ([BXTRemindNum sharedManager].index_show) {

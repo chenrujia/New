@@ -52,7 +52,7 @@
         [cell.pieChartView addDataToRepresent:[dataDict[@"stop_per"] doubleValue] WithColor:colorWithHexString(@"#D6AD5B")];
         
         if ([dataDict[@"working_per"] doubleValue] == 0 && [dataDict[@"fault_per"] doubleValue] == 0 && [dataDict[@"stop_per"] doubleValue] == 0) {
-            [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#d9d9d9")];
+            [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#DEE7E8")];
         }
         
         cell.pieChartView.userInteractionEnabled = NO;
@@ -60,7 +60,7 @@
         cell.persentView.text = [NSString stringWithFormat:@"运行:%@%%", dataDict[@"working_per"]];
     }
     else {
-        [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#d9d9d9")];
+        [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#DEE7E8")];
     }
     
     return cell;

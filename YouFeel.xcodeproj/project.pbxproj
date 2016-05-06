@@ -125,6 +125,7 @@
 		783E6C271C51BFF400DC13FB /* BXTFloorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C121C51BFF400DC13FB /* BXTFloorInfo.m */; };
 		783E6C2B1C51BFF400DC13FB /* BXTFaultInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C1D1C51BFF400DC13FB /* BXTFaultInfo.m */; };
 		783E6C2D1C51BFF400DC13FB /* BXTCustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C221C51BFF400DC13FB /* BXTCustomImageView.m */; };
+		784177DE1CDC977900CCA953 /* UITabBar+badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 784177DD1CDC977900CCA953 /* UITabBar+badge.m */; };
 		78426B511C7C389F00BAE0F4 /* BXTMTStatisticsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78426B4F1C7C389F00BAE0F4 /* BXTMTStatisticsCell.m */; };
 		78426B521C7C389F00BAE0F4 /* BXTMTStatisticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78426B501C7C389F00BAE0F4 /* BXTMTStatisticsCell.xib */; };
 		78426B551C7C404900BAE0F4 /* BXTMTPlanHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78426B541C7C404900BAE0F4 /* BXTMTPlanHeaderView.m */; };
@@ -643,6 +644,8 @@
 		783E6C1D1C51BFF400DC13FB /* BXTFaultInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFaultInfo.m; sourceTree = "<group>"; };
 		783E6C211C51BFF400DC13FB /* BXTCustomImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomImageView.h; sourceTree = "<group>"; };
 		783E6C221C51BFF400DC13FB /* BXTCustomImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCustomImageView.m; sourceTree = "<group>"; };
+		784177DC1CDC977900CCA953 /* UITabBar+badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+badge.h"; sourceTree = "<group>"; };
+		784177DD1CDC977900CCA953 /* UITabBar+badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+badge.m"; sourceTree = "<group>"; };
 		78426B4E1C7C389F00BAE0F4 /* BXTMTStatisticsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTStatisticsCell.h; sourceTree = "<group>"; };
 		78426B4F1C7C389F00BAE0F4 /* BXTMTStatisticsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMTStatisticsCell.m; sourceTree = "<group>"; };
 		78426B501C7C389F00BAE0F4 /* BXTMTStatisticsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMTStatisticsCell.xib; sourceTree = "<group>"; };
@@ -3565,6 +3568,8 @@
 		960221331BC9201400010072 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				784177DC1CDC977900CCA953 /* UITabBar+badge.h */,
+				784177DD1CDC977900CCA953 /* UITabBar+badge.m */,
 				7823D2041C3231A000E3641C /* MYAlertAction.h */,
 				7823D2051C3231A000E3641C /* MYAlertAction.m */,
 				964DE5EE1CA930490064D5D6 /* UIView+Extnesion.h */,
@@ -4457,6 +4462,7 @@
 				7823D20A1C3231A000E3641C /* MYAlertAction.m in Sources */,
 				7893D90B1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m in Sources */,
 				7818DBE01C0824D800DC22C6 /* PNGenericChart.m in Sources */,
+				784177DE1CDC977900CCA953 /* UITabBar+badge.m in Sources */,
 				7893D8A11C7AA8CC00F042D5 /* BXTStatisticsForthView.m in Sources */,
 				7867DC961C4CBB47000749F1 /* MYPieElement.m in Sources */,
 				782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */,

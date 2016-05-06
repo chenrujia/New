@@ -24,6 +24,10 @@
         _rightImageView.image = [UIImage imageNamed:@"Locate"];
         [self.contentView addSubview:_rightImageView];
         
+        _rightAddView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 20.f - 15.f, 15.f, 20.f, 20.f)];
+        _rightAddView.image = [UIImage imageNamed:@"add_to"];
+        [self.contentView addSubview:_rightAddView];
+        
         _switchbtn = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 60.f - 10.f, 10, 60.f, 30.f)];
         _switchbtn.on = YES;
         [self.contentView addSubview:_switchbtn];

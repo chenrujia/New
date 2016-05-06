@@ -56,6 +56,7 @@
     [quitBtn setTitle:@"退出登录" forState:UIControlStateNormal];
     quitBtn.backgroundColor = colorWithHexString(@"#36AFFD");
     quitBtn.layer.cornerRadius = 5;
+    quitBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     @weakify(self);
     [[quitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);

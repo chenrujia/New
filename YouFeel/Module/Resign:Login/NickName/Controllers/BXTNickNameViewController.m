@@ -264,7 +264,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
     NSDictionary *dic = response;
     if (type == BranchResign)
     {
-        LogBlue(@"dic:%@",dic);
+
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];

@@ -13,6 +13,8 @@
 #import "UIImageView+WebCache.h"
 #import "BXTChangeNameViewController.h"
 #import "BXTChangePhoneViewController.h"
+#import "BXTNickNameViewController.h"
+#import "WXApi.h"
 
 @interface BXTUserInformViewController () <UITableViewDataSource,UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -37,8 +39,15 @@
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeNameSuccess" object:nil] subscribeNext:^(id x) {
         @strongify(self);
-        NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
-        self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
+        
+        [self refreshDetailArray];
+        [self.tableView reloadData];
+    }];
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BindingWeixinNotify" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        [self refreshDetailArray];
         [self.tableView reloadData];
     }];
 }
@@ -54,19 +63,26 @@
 #pragma mark 初始化视图
 - (void)initContentViews
 {
-    NSString *emailStr = ValueFUD(USEREMAIL);
-    if (!ValueFUD(USEREMAIL)) {
-        emailStr = @"";
-    }
-    
     self.titleArray = @[@[@"", @"姓   名", @"性   别", @"邮   箱"], @[@"手机号"], @[@"微信号"]];
-    NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
-    self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, emailStr], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
+    [self refreshDetailArray];
+    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableView];
+}
+
+- (void)refreshDetailArray
+{
+    NSString *emailStr = ValueFUD(USEREMAIL);
+    if (!ValueFUD(USEREMAIL)) {
+        emailStr = @"";
+    }
+    
+    NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
+    NSString *isBindingWX = [ValueFUD(BindingWeixin) integerValue] == 2 ? @"已绑定" :@"未绑定";
+    self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, emailStr], @[[BXTGlobal getUserProperty:U_USERNAME]], @[isBindingWX], nil];
 }
 
 #pragma mark -
@@ -161,6 +177,33 @@
         BXTChangePhoneViewController *changePhone = [storyboard instantiateViewControllerWithIdentifier:@"BXTChangePhoneViewController"];
         [self.navigationController pushViewController:changePhone animated:YES];
     }
+    else if (indexPath.section == 2)
+    {
+        if ([ValueFUD(BindingWeixin) integerValue] == 1)    // 未绑定 - 去绑定
+        {
+            if ([WXApi isWXAppInstalled])
+            {
+                [BXTGlobal shareGlobal].isBindingWeiXin = YES;
+                
+                //授权登录
+                SendAuthReq *req =[[SendAuthReq alloc ] init];
+                req.scope = @"snsapi_userinfo"; // 此处不能随意改
+                req.state = @"123"; // 这个貌似没影响
+                [WXApi sendReq:req];
+            }
+        }
+        else    // 已绑定 - 去解绑
+        {
+            [MYAlertAction showAlertWithTitle:nil msg:@"您确定解除微信绑定？" chooseBlock:^(NSInteger buttonIdx) {
+                if (buttonIdx == 1) {
+                    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
+                                          @"type":@"1"};
+                    [request unbundlingUser:dic];
+                }
+            } buttonsStatement:@"取消", @"确定", nil];
+        }
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -186,7 +229,7 @@
 {
     [self hideMBP];
     NSDictionary *dict = response;
-    NSLog(@"response:%@",dict);
+    
     if ([dict[@"returncode"] intValue] == 0 && type == UploadHeadImage)
     {
         [BXTGlobal setUserProperty:dict[@"pic"] withKey:U_HEADERIMAGE];
@@ -196,11 +239,21 @@
     else if ([dict[@"returncode"] intValue] == 0 && type == ModifyUserInform)
     {
         [BXTGlobal setUserProperty:self.sexStr withKey:U_SEX];
+        
         [BXTGlobal showText:@"修改信息成功" view:self.view completionBlock:^{
-            self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], self.sexStr, [BXTGlobal getUserProperty:U_USERNAME]], @[[BXTGlobal getUserProperty:U_USERNAME]], @[@"cccc"], nil];
+            [self refreshDetailArray];
             [self.tableView reloadData];
         }];
     }
+    if ([dict[@"returncode"] intValue] == 0 && type == UnBundingUser)
+    {
+        [BXTGlobal showText:@"微信解绑成功" view:self.view completionBlock:nil];
+        SaveValueTUD(BindingWeixin, @"1");
+        
+        [self refreshDetailArray];
+        [self.tableView reloadData];
+    }
+    
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
