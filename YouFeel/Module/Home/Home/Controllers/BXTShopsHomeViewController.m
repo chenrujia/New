@@ -42,14 +42,14 @@
     //如果不包含业务统计
     if (![permissonKeys containsString:@"9995"])
     {
-        [self.imgNameArray removeObjectAtIndex:2];
-        [self.titleNameArray removeObjectAtIndex:2];
+        [self.imgNameArray removeObjectAtIndex:3];
+        [self.titleNameArray removeObjectAtIndex:3];
     }
     //如果不包含其他事物
     if (![permissonKeys containsString:@"9994"])
     {
-        [self.imgNameArray removeObjectAtIndex:1];
-        [self.titleNameArray removeObjectAtIndex:1];
+        [self.imgNameArray removeObjectAtIndex:2];
+        [self.titleNameArray removeObjectAtIndex:2];
     }
     //如果日常工单和维保工单都不包含
     if (![permissonKeys containsString:@"9991"] && ![permissonKeys containsString:@"9992"])

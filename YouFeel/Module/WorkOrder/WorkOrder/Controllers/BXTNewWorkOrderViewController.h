@@ -10,22 +10,24 @@
 
 @interface BXTNewWorkOrderViewController : BXTPhotoBaseViewController
 
-@property (weak, nonatomic) IBOutlet UIView *contentView;
-@property (weak, nonatomic) IBOutlet UIButton *commitBtn;
-@property (weak, nonatomic) IBOutlet UIView *orderTypeBV;
-@property (weak, nonatomic) IBOutlet UITextField *placeTF;
-@property (weak, nonatomic) IBOutlet UIView *photosBV;
-@property (weak, nonatomic) IBOutlet UIView *deviceSelectBtnBV;
-@property (weak, nonatomic) IBOutlet UIView *dateSelectBtnBV;
-@property (weak, nonatomic) IBOutlet UIView *notesBV;
-@property (weak, nonatomic) IBOutlet UISwitch *openSwitch;
-@property (weak, nonatomic) IBOutlet UIImageView *notes_image;
-@property (weak, nonatomic) IBOutlet UIView *buttonBV;
+@property (nonatomic, strong) NSDictionary         *dataDic;//来自维保工单的当前设备
+@property (weak, nonatomic  ) IBOutlet UIView      *contentView;
+@property (weak, nonatomic  ) IBOutlet UIView      *orderTypeBV;
+@property (weak, nonatomic  ) IBOutlet UITextField *placeTF;
+@property (weak, nonatomic  ) IBOutlet UIView      *photosBV;
+@property (weak, nonatomic  ) IBOutlet UIView      *deviceSelectBtnBV;
+@property (weak, nonatomic  ) IBOutlet UIView      *dateSelectBtnBV;
+@property (weak, nonatomic  ) IBOutlet UIView      *notesBV;
+@property (weak, nonatomic  ) IBOutlet UISwitch    *openSwitch;
+@property (weak, nonatomic  ) IBOutlet UIImageView *notes_image;
+@property (weak, nonatomic  ) IBOutlet UIView      *buttonBV;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *content_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *order_type_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *notes_image_top;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *first_image_top;
 
 - (IBAction)switchValueChanged:(id)sender;
+- (void)deviceInfoWithDictionary:(NSDictionary *)dic;
 
 @end

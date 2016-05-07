@@ -26,8 +26,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
 @interface BXTCurrentOrderView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 {
     NSArray *comeTimeArray;
-    NSDate *originDate;
-    
+    NSDate  *originDate;
 }
 
 @property (nonatomic, assign) NSInteger       currentPage;
@@ -60,6 +59,13 @@ typedef NS_ENUM(NSInteger, OrderType) {
     [timeArray addObject:@"自定义"];
     comeTimeArray = timeArray;
     
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshDeviceCurrentOrders" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        self.currentPage = 1;
+        [self getResource];
+    }];
+    
     self.titleArray = @[@"未接优先", @"日常工单优先", @"维保工单优先", @"自定义排序/筛选"];
     self.dataArray = [[NSMutableArray alloc] init];
     self.chooseTimeArray = [[NSMutableArray alloc] initWithObjects:@"", @"", nil];
@@ -78,8 +84,7 @@ typedef NS_ENUM(NSInteger, OrderType) {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self addSubview:self.tableView];
-    
-    
+
     self.currentPage = 1;
     __block __typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -99,13 +104,8 @@ typedef NS_ENUM(NSInteger, OrderType) {
     UIButton *newOrderBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 13, SCREEN_WIDTH-80, 40)];
     newOrderBtn.backgroundColor = [UIColor whiteColor];
     newOrderBtn.layer.cornerRadius = 5;
-    @weakify(self);
     [[newOrderBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
-        newVC.isNewWorkOrder = YES;
-        [[self navigation] pushViewController:newVC animated:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PresentCreateNewOrder" object:nil];
     }];
     [downBgView addSubview:newOrderBtn];
     

@@ -17,6 +17,7 @@
 #import "BXTDeviceListInfo.h"
 #import "ANKeyValueTable.h"
 #import "UIView+SDAutoLayout.h"
+#import "BXTProjectManageViewController.h"
 
 static NSInteger const DeviceButtonTag = 11;
 static NSInteger const DateButtonTag   = 12;
@@ -39,26 +40,60 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 @implementation BXTNewWorkOrderViewController
 
+- (void)deviceInfoWithDictionary:(NSDictionary *)dic
+{
+    self.dataDic = dic;
+    BXTDeviceListInfo *deviceInfo = [BXTDeviceListInfo new];
+    deviceInfo.deviceID = [dic objectForKey:@"deviceID"];
+    self.selectDeviceInfo = deviceInfo;
+    
+    BXTPlaceInfo *placeInfo = [BXTPlaceInfo new];
+    placeInfo.place = [dic objectForKey:@"placeName"];
+    placeInfo.placeID = [dic objectForKey:@"placeID"];
+    self.placeInfo = placeInfo;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     [self navigationSetting:@"我要报修" andRightTitle:nil andRightImage:nil];
-    self.commitBtn.layer.cornerRadius = 4.f;
     [self.placeTF setValue:colorWithHexString(@"#3cafff") forKeyPath:@"_placeholderLabel.textColor"];
     self.placeTF.layer.cornerRadius = 3.f;
     self.placeTF.delegate = self;
     self.devicesArray = [NSMutableArray array];
     self.notes = @"";
     
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    if ([companyInfo.company_id isEqualToString:@"11"])
+    {
+        self.first_image_top.constant = 45.f;
+        [self.contentView layoutIfNeeded];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(0, 0, SCREEN_WIDTH, 37);
+        button.backgroundColor = colorWithHexString(@"F0EFF5");
+        [button setTitle:@"现处于虚拟项目中,如有真实报修请选具体项目  >>" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:13];
+        @weakify(self);
+        [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            // 商铺列表
+            BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+            pivc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:pivc animated:YES];
+        }];
+        [self.contentView addSubview:button];
+    }
+
     //图片视图
     BXTPhotosView *photoView = [[BXTPhotosView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
     [photoView.addBtn addTarget:self action:@selector(addImages) forControlEvents:UIControlEventTouchUpInside];
     [self.photosBV addSubview:photoView];
     
     //添加图片点击事件
-    @weakify(self);
     UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
+    @weakify(self);
     [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
         [self loadMWPhotoBrowser:photoView.imgViewOne.tag];
@@ -84,7 +119,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         self.notes = notes;
     }];
     [self.notesBV addSubview:repairDetail];
-    
+
     if ([BXTGlobal shareGlobal].isRepair)
     {
         UIButton *leftBtn = [self initialButton:YES];
@@ -143,6 +178,14 @@ static CGFloat const ChooseViewHeight  = 328.f;
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+    if (self.dataDic && !self.deviceBtn)
+    {
+        [self initailButtonWithTitle:[self.dataDic objectForKey:@"deviceName"]];
+        self.notes_image_top.constant = 76.f;
+        [self.notes_image layoutIfNeeded];
+        
+        self.placeTF.text = self.placeInfo.place;
+    }
     [self updateContentView];
 }
 
@@ -190,31 +233,25 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (void)navigationLeftButton
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [BXTGlobal shareGlobal].presentNav = nil;
-    }];
+    if ([BXTGlobal shareGlobal].presentNav)
+    {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [BXTGlobal shareGlobal].presentNav = nil;
+        }];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)showDevicesList
 {
     if (self.devicesArray.count > 0)
     {
-        self.deviceSelectBtnBV.hidden = NO;
         if (!self.deviceBtn)
         {
-            //设备选择按钮
-            self.deviceBtn = [[BXTCustomButton alloc] initWithType:SelectBtnType];
-            self.deviceBtn.tag = DeviceButtonTag;
-            [self.deviceBtn setFrame:CGRectMake(20.f, 0, SCREEN_WIDTH - 40.f, 46.f)];
-            self.deviceBtn.layer.borderColor = colorWithHexString(@"#CCCCCC").CGColor;
-            self.deviceBtn.layer.borderWidth = 0.6f;
-            self.deviceBtn.layer.cornerRadius = 3.f;
-            [self.deviceBtn addTarget:self action:@selector(showSelectedView:) forControlEvents:UIControlEventTouchUpInside];
-            self.deviceBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-            [self.deviceBtn setTitle:@"选择设备" forState:UIControlStateNormal];
-            [self.deviceBtn setTitleColor:colorWithHexString(@"#6E6E6E") forState:UIControlStateNormal];
-            [self.deviceBtn setImage:[UIImage imageNamed:@"wo_down_arrow"] forState:UIControlStateNormal];
-            [self.deviceSelectBtnBV addSubview:self.deviceBtn];
+            [self initailButtonWithTitle:@"选择设备"];
         }
         self.notes_image_top.constant = 76.f;
     }
@@ -226,6 +263,24 @@ static CGFloat const ChooseViewHeight  = 328.f;
     
     [self.notes_image layoutIfNeeded];
     [self updateContentView];
+}
+
+- (void)initailButtonWithTitle:(NSString *)title
+{
+    //设备选择按钮
+    self.deviceSelectBtnBV.hidden = NO;
+    self.deviceBtn = [[BXTCustomButton alloc] initWithType:SelectBtnType];
+    self.deviceBtn.tag = DeviceButtonTag;
+    [self.deviceBtn setFrame:CGRectMake(20.f, 0, SCREEN_WIDTH - 40.f, 46.f)];
+    self.deviceBtn.layer.borderColor = colorWithHexString(@"#CCCCCC").CGColor;
+    self.deviceBtn.layer.borderWidth = 0.6f;
+    self.deviceBtn.layer.cornerRadius = 3.f;
+    [self.deviceBtn addTarget:self action:@selector(showSelectedView:) forControlEvents:UIControlEventTouchUpInside];
+    self.deviceBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+    [self.deviceBtn setTitle:title forState:UIControlStateNormal];
+    [self.deviceBtn setTitleColor:colorWithHexString(@"#6E6E6E") forState:UIControlStateNormal];
+    [self.deviceBtn setImage:[UIImage imageNamed:@"wo_down_arrow"] forState:UIControlStateNormal];
+    [self.deviceSelectBtnBV addSubview:self.deviceBtn];
 }
 
 - (void)showSelectedView:(UIButton *)btn
@@ -416,17 +471,28 @@ static CGFloat const ChooseViewHeight  = 328.f;
             return @{@"deviceID":@"id"};
         }];
         [self.devicesArray addObjectsFromArray:[BXTDeviceListInfo mj_objectArrayWithKeyValuesArray:data]];
-        [self showDevicesList];
+        if (!self.dataDic)
+        {
+            [self showDevicesList];
+        }
     }
     else if (type == CreateRepair)
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestRepairList" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshDeviceCurrentOrders" object:nil];
             [self showMBP:@"新工单已创建！" withBlock:^(BOOL hidden) {
-                [self dismissViewControllerAnimated:YES completion:^{
-                    [BXTGlobal shareGlobal].presentNav = nil;
-                }];
+                if ([BXTGlobal shareGlobal].presentNav)
+                {
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        [BXTGlobal shareGlobal].presentNav = nil;
+                    }];
+                }
+                else
+                {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
             }];
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"049"])

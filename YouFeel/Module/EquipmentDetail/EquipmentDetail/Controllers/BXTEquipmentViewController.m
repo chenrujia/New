@@ -48,7 +48,6 @@
 {
     [super viewDidLoad];
     [self navigationSetting];
-    
 }
 
 #pragma mark -
@@ -87,7 +86,8 @@
     [currentScrollView addSubview:epfView];
     
     // 跳转类型判断
-    if (self.pushType == PushType_StartMaintain) {
+    if (self.pushType == PushType_StartMaintain)
+    {
         [segment segemtBtnChange:2];
         [currentScrollView setContentOffset:CGPointMake(2 * SCREEN_WIDTH, 0) animated:YES];
     }
@@ -95,10 +95,12 @@
 
 - (void)navigationLeftButton
 {
-    if (self.pushType == PushType_Scan)    {
+    if (self.pushType == PushType_Scan)
+    {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    else {
+    else
+    {
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

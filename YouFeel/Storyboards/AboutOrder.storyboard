@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="XAS-0g-nwr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="XAS-0g-nwr">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--Maintenance Detail View Controller-->
@@ -2443,6 +2443,7 @@
                         <outlet property="content_height" destination="zBr-ed-w23" id="F7h-Ne-Ckn"/>
                         <outlet property="dateSelectBtnBV" destination="98c-Rk-Qle" id="Bxb-wC-CbG"/>
                         <outlet property="deviceSelectBtnBV" destination="Wfa-ze-hJu" id="QNT-Oo-3Ip"/>
+                        <outlet property="first_image_top" destination="83j-Nd-WFg" id="GKX-Op-bJ6"/>
                         <outlet property="notesBV" destination="Q1N-XS-lsq" id="tCb-TZ-Ljf"/>
                         <outlet property="notes_image" destination="0OM-up-MJW" id="3j1-Vl-22j"/>
                         <outlet property="notes_image_top" destination="mdT-pb-RTE" id="uYx-Dw-FWS"/>

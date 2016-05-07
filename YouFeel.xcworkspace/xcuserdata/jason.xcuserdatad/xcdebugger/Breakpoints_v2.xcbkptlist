@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YouFeel/Module/EquipmentDetail/EquipmentDetail/Views/BXTCurrentOrderView.m"
-            timestampString = "483607343.232282"
+            filePath = "YouFeel/Module/Applications/Statistics/EquipmentStatus/EquipmentList/Controllers/BXTEquipmentListViewController.m"
+            timestampString = "484298470.072112"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
-            landmarkName = "-initial"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
