@@ -26,7 +26,7 @@
 #define U_TOKEN        @"token"
 #define U_OPENID       @"openID"
 #define USEREMAIL      @"email"
-#define BindingWeixin     @"binding_weixin"
+#define BINDINGWEIXIN     @"binding_weixin"
 #define PERMISSIONKEYS @"permission_keys"
 
 //存储用的Model

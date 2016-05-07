@@ -81,7 +81,7 @@
     }
     
     NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
-    NSString *isBindingWX = [ValueFUD(BindingWeixin) integerValue] == 2 ? @"已绑定" :@"未绑定";
+    NSString *isBindingWX = [ValueFUD(BINDINGWEIXIN) integerValue] == 2 ? @"已绑定" :@"未绑定";
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@[@"", [BXTGlobal getUserProperty:U_NAME], sexStr, emailStr], @[[BXTGlobal getUserProperty:U_USERNAME]], @[isBindingWX], nil];
 }
 
@@ -179,7 +179,7 @@
     }
     else if (indexPath.section == 2)
     {
-        if ([ValueFUD(BindingWeixin) integerValue] == 1)    // 未绑定 - 去绑定
+        if ([ValueFUD(BINDINGWEIXIN) integerValue] == 1)    // 未绑定 - 去绑定
         {
             if ([WXApi isWXAppInstalled])
             {
@@ -248,7 +248,7 @@
     if ([dict[@"returncode"] intValue] == 0 && type == UnBundingUser)
     {
         [BXTGlobal showText:@"微信解绑成功" view:self.view completionBlock:nil];
-        SaveValueTUD(BindingWeixin, @"1");
+        SaveValueTUD(BINDINGWEIXIN, @"1");
         
         [self refreshDetailArray];
         [self.tableView reloadData];

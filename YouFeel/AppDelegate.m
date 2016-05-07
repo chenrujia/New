@@ -649,7 +649,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     else if (type == BindingUser && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [BXTGlobal showText:@"绑定微信号成功" view:self.window completionBlock:nil];
-        SaveValueTUD(BindingWeixin, @"2");
+        SaveValueTUD(BINDINGWEIXIN, @"2");
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"BindingWeixinNotify" object:nil];
     }
