@@ -77,7 +77,7 @@
         is_binding = YES;
     }
     
-    [self navigationSetting:@"添加新项目" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"添加项目" andRightTitle:nil andRightImage:nil];
     
     [self createTableView];
     
