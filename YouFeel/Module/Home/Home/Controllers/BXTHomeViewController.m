@@ -388,7 +388,6 @@ typedef NS_ENUM(NSInteger, CellType) {
             BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
             pivc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:pivc animated:YES];
-            
         }];
         
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];

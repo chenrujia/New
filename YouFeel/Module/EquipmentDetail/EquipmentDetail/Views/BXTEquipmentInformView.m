@@ -13,21 +13,22 @@
 #import "BXTEquipmentInformCell.h"
 #import "BXTEquipmentInform_PersonCell.h"
 #import "BXTEPStateCell.h"
+#import "BXTNewWorkOrderViewController.h"
 
 @interface BXTEquipmentInformView () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 {
     UIImageView *arrow;
 }
 
-@property (nonatomic, strong) UITableView    *tableView;
-@property (nonatomic, strong) NSArray        *dataArray;
-@property (nonatomic, strong) NSArray        *headerTitleArray;
-@property (nonatomic, strong) NSMutableArray *titleArray;
-@property (nonatomic, strong) NSMutableArray *detailArray;
-@property (nonatomic, strong) NSMutableArray *isShowArray;
-
-@property (nonatomic, copy) NSString *stateName;
-@property (nonatomic, assign) CGFloat cellHeight;
+@property (nonatomic, strong) BXTEquipmentData *equipmentModel;
+@property (nonatomic, strong) UITableView      *tableView;
+@property (nonatomic, strong) NSArray          *dataArray;
+@property (nonatomic, strong) NSArray          *headerTitleArray;
+@property (nonatomic, strong) NSMutableArray   *titleArray;
+@property (nonatomic, strong) NSMutableArray   *detailArray;
+@property (nonatomic, strong) NSMutableArray   *isShowArray;
+@property (nonatomic, copy  ) NSString         *stateName;
+@property (nonatomic, assign) CGFloat          cellHeight;
 
 @end
 
@@ -45,7 +46,20 @@
         [self.isShowArray addObject:@"0"];
     }
     [self.isShowArray replaceObjectAtIndex:1 withObject:@"1"];
-    
+    //侦听，跳转到新建报修
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"PresentCreateNewOrder" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
+        newVC.isNewWorkOrder = YES;
+        NSDictionary *dic = @{@"deviceName":self.equipmentModel.name,
+                              @"deviceID":self.deviceID,
+                              @"placeName":self.equipmentModel.server_area,
+                              @"placeID":self.equipmentModel.place_id};
+        [newVC deviceInfoWithDictionary:dic];
+        [[self navigation] pushViewController:newVC animated:YES];
+    }];
     
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -66,7 +80,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return 2;
     }
     if ([self.isShowArray[section] isEqualToString:@"1"])
@@ -79,7 +94,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 5) {
+    if (indexPath.section == 5)
+    {
         BXTEPStateCell *cell = [BXTEPStateCell cellWithTableView:tableView];
         
         cell.stateList = self.detailArray[indexPath.section][indexPath.row];
@@ -91,7 +107,8 @@
         return cell;
     }
     
-    if (indexPath.section == 4) {
+    if (indexPath.section == 4)
+    {
         BXTEquipmentInform_PersonCell *cell = [BXTEquipmentInform_PersonCell cellWithTableView:tableView];
         
         cell.userList = self.detailArray[indexPath.section][indexPath.row];
@@ -107,16 +124,19 @@
     BXTEquipmentInformCell *cell = [BXTEquipmentInformCell cellWithTableView:tableView];
     
     cell.titleView.text = [NSString stringWithFormat:@"%@:", self.titleArray[indexPath.section][indexPath.row]];
-    if (self.detailArray.count != 0) {
+    if (self.detailArray.count != 0)
+    {
         cell.detailView.text = self.detailArray[indexPath.section][indexPath.row];
     }
     
-    if (indexPath.section == 0 && indexPath.row == 0) {
+    if (indexPath.section == 0 && indexPath.row == 0)
+    {
         cell.statusView.hidden = NO;
         cell.statusView.text = self.stateName;
     }
     
-    if (indexPath.section == 0 && indexPath.row == 1) {
+    if (indexPath.section == 0 && indexPath.row == 1)
+    {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(SCREEN_WIDTH-115, 10, 100, 30);
         button.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -151,7 +171,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return 0.1;
     }
     return 50;
@@ -169,7 +190,8 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return [UIView new];
     }
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -182,9 +204,12 @@
     [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         // 改变组的显示状态
-        if ([self.isShowArray[btn.tag] isEqualToString:@"1"]) {
+        if ([self.isShowArray[btn.tag] isEqualToString:@"1"])
+        {
             [self.isShowArray replaceObjectAtIndex:btn.tag withObject:@"0"];
-        } else  {
+        }
+        else
+        {
             [self.isShowArray replaceObjectAtIndex:btn.tag withObject:@"1"];
         }
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:btn.tag] withRowAnimation:UITableViewRowAnimationFade];
@@ -226,17 +251,15 @@
     if (type == Device_Con && data.count > 0 && [dic[@"returncode"] integerValue] == 0)
     {
         NSDictionary *dataDict = data[0];
-        
         self.titleArray = [[NSMutableArray alloc] initWithArray:@[@[@"设备名称", @"设备编号"],  @[@"设备型号", @"设备分类", @"设备品牌", @"安装位置", @"服务区域", @"接管日期", @"启用日期"], @[@"品牌", @"厂家", @"地址", @"联系人", @"联系电话"], @[@"设备参数"], @[@"负责人"], @[@"状态记录"]]];
-        
-        BXTEquipmentData *equipmentModel = [BXTEquipmentData modelObjectWithDictionary:dataDict];
+        self.equipmentModel = [BXTEquipmentData modelObjectWithDictionary:dataDict];
         
         // section == 0
-        NSMutableArray *equipArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.name, equipmentModel.code_number, nil];
-        self.stateName = equipmentModel.state_name;
+        NSMutableArray *equipArray = [[NSMutableArray alloc] initWithObjects:self.equipmentModel.name, self.equipmentModel.code_number, nil];
+        self.stateName = self.equipmentModel.state_name;
         
         // section == 1
-        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:equipmentModel.model_number, equipmentModel.type_name, equipmentModel.brand, equipmentModel.place_name, equipmentModel.server_area, equipmentModel.install_time, equipmentModel.start_time, nil];
+        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:self.equipmentModel.model_number, self.equipmentModel.type_name, self.equipmentModel.brand, self.equipmentModel.place_name, self.equipmentModel.server_area, self.equipmentModel.install_time, self.equipmentModel.start_time, nil];
         
         // section == 2
         NSDictionary *factoryDict = dataDict[@"factory_info"];
@@ -248,7 +271,8 @@
         NSArray *paramsArray0 = dataDict[@"params_info"];
         NSMutableArray *paramsArray = [[NSMutableArray alloc] init];
         NSMutableArray *paramsTitleArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *paramsDict in paramsArray0) {
+        for (NSDictionary *paramsDict in paramsArray0)
+        {
             BXTEquipmentParams *paramsModel = [BXTEquipmentParams modelObjectWithDictionary:paramsDict];
             [paramsTitleArray addObject:paramsModel.param_key];
             [paramsArray addObject:paramsModel.param_value];
@@ -258,7 +282,8 @@
         NSArray *authorArray0 = dataDict[@"control_users_info"];
         NSMutableArray *authorArray = [[NSMutableArray alloc] init];
         NSMutableArray *authorTitleArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *authorDict in authorArray0) {
+        for (NSDictionary *authorDict in authorArray0)
+        {
             BXTEquipmentControlUserArr *controlUserModel = [BXTEquipmentControlUserArr modelObjectWithDictionary:authorDict];
             [authorTitleArray addObject:@"负责人"];
             [authorArray addObject:controlUserModel];
@@ -268,7 +293,8 @@
         NSArray *stateArray0 = dataDict[@"state_record_list"];
         NSMutableArray *stateArray = [[NSMutableArray alloc] init];
         NSMutableArray *stateTitleArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *stateDict in stateArray0) {
+        for (NSDictionary *stateDict in stateArray0)
+        {
             BXTEquipmentState *stateRecordModel = [BXTEquipmentState modelObjectWithDictionary:stateDict];
             [stateTitleArray addObject:@"状态记录"];
             [stateArray addObject:stateRecordModel];
@@ -276,7 +302,6 @@
         
         // 存储 设备操作规范
         SaveValueTUD(@"OPERATINGDESC", dataDict[@"operating_desc"]);
-        
         
         // 更新数组
         [self.titleArray replaceObjectAtIndex:3 withObject:paramsTitleArray];
@@ -307,11 +332,11 @@
     userInfo.userId = model.out_userid;
     
     NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
-    if ([userInfo.userId isEqualToString:my_userID]) {
+    if ([userInfo.userId isEqualToString:my_userID])
+    {
         [BXTGlobal showText:@"温馨提示：不可与自己对话" view:self completionBlock:nil];
         return ;
     }
-    
     userInfo.name = model.name;
     userInfo.portraitUri = model.headMedium;
     
@@ -342,8 +367,6 @@
     conversationVC.conversationType =ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
     conversationVC.title = userInfo.name;
-    // 删除位置功能
-    //[conversationVC.pluginBoardView removeItemAtIndex:2];
     [[self navigation] pushViewController:conversationVC animated:YES];
 }
 @end
