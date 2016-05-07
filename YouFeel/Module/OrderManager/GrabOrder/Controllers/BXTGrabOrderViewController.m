@@ -25,6 +25,7 @@
 @property (nonatomic, strong) UILabel     *location;
 @property (nonatomic, strong) UILabel     *faultType;
 @property (nonatomic, strong) UILabel     *cause;
+@property (nonatomic, strong) UILabel     *group;
 
 @end
 
@@ -131,6 +132,18 @@
     [grab_button setBackgroundImage:[UIImage imageNamed:@"Grab_btn"] forState:UIControlStateNormal];
     [grab_button addTarget:self action:@selector(reaciveOrder) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:grab_button];
+    
+    self.group = ({
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20.f, grab_buttonH-28, SCREEN_WIDTH-40, 25)];
+        label.textColor = colorWithHexString(@"ffffff");
+        label.font = [UIFont systemFontOfSize:16.f];
+        label.textAlignment = NSTextAlignmentCenter;
+        [grab_button addSubview:label];
+        label;
+        
+    });
+    
 }
 
 #pragma mark -
@@ -213,9 +226,9 @@
         {
             [self.imageView setImage:placeImage];
         }
-
+        
         self.repairID.text = [NSString stringWithFormat:@"工单号:%@",repairDetail.orderid];
-       
+        
         //位置
         NSString *place_str = [NSString stringWithFormat:@"位置:%@",repairDetail.place_name];
         CGSize place_size = MB_MULTILINE_TEXTSIZE(place_str, [UIFont systemFontOfSize:17.f], CGSizeMake(width, 100), NSLineBreakByWordWrapping);
@@ -223,7 +236,7 @@
         place_rect.size = place_size;
         self.location.frame = place_rect;
         self.location.text = place_str;
-
+        
         //故障类型
         NSString *fault_str = [NSString stringWithFormat:@"故障类型:%@",repairDetail.faulttype_name];
         CGSize fault_size = MB_MULTILINE_TEXTSIZE(fault_str, [UIFont systemFontOfSize:17.f], CGSizeMake(width, 100), NSLineBreakByWordWrapping);
@@ -239,6 +252,8 @@
         cause_rect.size = cause_size;
         self.cause.frame = cause_rect;
         self.cause.text = cause_str;
+        
+        self.group.text = [NSString stringWithFormat:@"%@", repairDetail.faulttype_name];
     }
     else if (type == ReaciveOrder)
     {

@@ -183,6 +183,7 @@ typedef NS_ENUM(NSInteger, CellType) {
         BXTMessageViewController *newsVC = [[BXTMessageViewController alloc] init];
         newsVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:newsVC animated:YES];
+        
     }];
     [logoImgView addSubview:messageBtn];
     
@@ -365,7 +366,12 @@ typedef NS_ENUM(NSInteger, CellType) {
         }
         if (cycleScrollView.imageURLStringsGroup.count == 0)
         {
-            cycleScrollView.imageURLStringsGroup = self.logosArray;
+            if (self.logosArray.count != 0) {
+                cycleScrollView.imageURLStringsGroup = self.logosArray;
+            }
+            else {
+                cycleScrollView.placeholderImage = [UIImage imageNamed:@"allDefault"];
+            }
         }
         [bgView addSubview:cycleScrollView];
         
@@ -423,36 +429,26 @@ typedef NS_ENUM(NSInteger, CellType) {
     cell.titleLabel.text = _titleNameArray[indexPath.section][indexPath.row];
     
     
-    NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
-    if ([BXTGlobal shareGlobal].isRepair) {
-        if (indexPath.section == 0) {
-            if (indexPath.row == 0) {
-                [self judgeRemindInfo:CellType_DailyOrder tableViewCell:cell];
-            }
-            else if (indexPath.row == 1) {
-                [self judgeRemindInfo:CellType_InspectionOrder tableViewCell:cell];
-            }
-        }
-        else if (indexPath.section == 1) {
-            if (indexPath.row == 0) {
-                [self judgeRemindInfo:CellType_RepairOrder tableViewCell:cell];
-            }
-            else if (indexPath.row == 1) {
-                [self judgeRemindInfo:CellType_ReportOrder tableViewCell:cell];
-            }
-        }
-        else if (indexPath.section == 2 && [permissonKeys containsString:@"9994"]) {
-            [self judgeRemindInfo:CellType_OtherAffair tableViewCell:cell];
-        }
-        
+    NSString *title = self.titleNameArray[indexPath.section][indexPath.row];
+    if ([title isEqualToString:@"日常工单"])
+    {
+        [self judgeRemindInfo:CellType_DailyOrder tableViewCell:cell];
     }
-    else {
-        if (indexPath.section == 0) {
-            [self judgeRemindInfo:CellType_ReportOrder tableViewCell:cell];
-        }
-        else if (indexPath.section == 1 && [permissonKeys containsString:@"9994"]) {
-            [self judgeRemindInfo:CellType_OtherAffair tableViewCell:cell];
-        }
+    else if ([title isEqualToString:@"维保工单"])
+    {
+        [self judgeRemindInfo:CellType_InspectionOrder tableViewCell:cell];
+    }
+    else if ([title isEqualToString:@"我的报修工单"])
+    {
+        [self judgeRemindInfo:CellType_ReportOrder tableViewCell:cell];
+    }
+    else if ([title isEqualToString:@"我的维修工单"])
+    {
+        [self judgeRemindInfo:CellType_RepairOrder tableViewCell:cell];
+    }
+    else if ([title isEqualToString:@"其他事务"])
+    {
+        [self judgeRemindInfo:CellType_OtherAffair tableViewCell:cell];
     }
     
     return cell;
