@@ -105,7 +105,7 @@ static NSString * const _animationValuesKey = @"animationValues";
     self.endAngle = 360.0;
     self.animationDuration = 0.6;
     self.showTitles = ShowTitlesNever;
-    self.font = [UIFont systemFontOfSize:15];
+    self.font = [UIFont systemFontOfSize:13];
     if ([self respondsToSelector:@selector(setContentsScale:)]){
         self.contentsScale = [[UIScreen mainScreen] scale];
     }
@@ -529,7 +529,7 @@ static NSString * const _animationValuesKey = @"animationValues";
         NSString* text = self.transformTitleBlock? self.transformTitleBlock(elem, percent) : [NSString stringWithFormat:@"%.2f", elem.val];
         float maxRadius = elem.maxRadius ? elem.maxRadius.floatValue : self.maxRadius;
         float radius = maxRadius + elem.centrOffset;
-        [self drawText:text angle:-angle radius:radius color:[UIColor colorWithRed:130/255 green:130/255 blue:130/255 alpha:1] context:ctx];
+        [self drawText:text angle:-angle radius:radius color:[UIColor colorWithRed:0.46 green:0.46 blue:0.46 alpha:1] context:ctx];
         
         angleStart = angleEnd;
     }

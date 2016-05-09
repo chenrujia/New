@@ -60,7 +60,7 @@
     [self.headerView addSubview:self.pieView];
     
     // 2. fill data
-    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#f3a7bf", @"#a5baef", @"#fbbb7a", @"#fbb196", @"#b49ff5", @"#fbd171", @"#d785db", @"#8be8ec", @"#fca69c", @"#fddb97", @"#81bfcd", nil];
+    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#f484a8", @"#7a9cef", @"#f8a049", @"#f86b3d", @"#9171f3", @"#f9bd34", @"#d251d8", @"#49e3ea", @"#d8505c", @"#52b7ce", @"#81bfcd", nil];
     NSMutableArray *oldDataArray = [[NSMutableArray alloc] init];
     NSMutableArray *pieArray = [[NSMutableArray alloc] init];
     NSInteger sumNum = 0;

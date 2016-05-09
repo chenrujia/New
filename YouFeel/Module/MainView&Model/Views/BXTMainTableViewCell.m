@@ -26,7 +26,7 @@
 
 - (void)setRepairInfo:(BXTRepairInfo *)repairInfo
 {
-    self.orderNumView.text = [NSString stringWithFormat:@"编号:%@", repairInfo.orderid];
+    self.orderNumView.text = [NSString stringWithFormat:@"编号：%@", repairInfo.orderid];
     self.orderTypeView.text = [repairInfo.task_type intValue] == 1 ? @"日常" : @"维保";
     self.orderTypeView.backgroundColor = [repairInfo.task_type intValue] == 1 ? colorWithHexString(@"#F0B660") : colorWithHexString(@"#7EC86E");
     self.orderGroupView.text = [NSString stringWithFormat:@"%@  ", repairInfo.subgroup_name];

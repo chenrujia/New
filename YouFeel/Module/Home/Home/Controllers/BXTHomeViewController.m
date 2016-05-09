@@ -189,7 +189,7 @@ typedef NS_ENUM(NSInteger, CellType) {
     
     //扫描
     UIButton *scanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [scanBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 50, 20, 44.f, 44.f)];
+    [scanBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 45, 20, 44.f, 44.f)];
     [scanBtn setBackgroundImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
     [[scanBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -581,7 +581,7 @@ typedef NS_ENUM(NSInteger, CellType) {
             [self.tabBarController.tabBar hideBadgeOnItemIndex:0];
         }
         // “首页”是否显示消息气泡：1是 0否
-        if ([BXTRemindNum sharedManager].index_show) {
+        if ([BXTRemindNum sharedManager].notice_show) {
             [messageBtn setBackgroundImage:[UIImage imageNamed:@"news_unread"] forState:UIControlStateNormal];
         } else {
             [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
