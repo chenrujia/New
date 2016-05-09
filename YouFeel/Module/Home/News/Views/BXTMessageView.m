@@ -14,10 +14,11 @@
 #import <MJRefresh.h>
 #import "UIView+Nav.h"
 #import "AppDelegate.h"
+#import "BXTRemindNum.h"
 #import "BXTMaintenanceDetailViewController.h"
 #import "BXTProjectManageViewController.h"
 #import "BXTReaciveOrdersViewController.h"
-#import "BXTRemindNum.h"
+#import "BXTNewOrderViewController.h"
 
 @interface BXTMessageView () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
@@ -120,6 +121,16 @@
             BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
             reaciveVC.hidesBottomBarWhenPushed = YES;
             [self.navigation pushViewController:reaciveVC animated:YES];
+        }
+        else if ([messageInfo.event_type isEqualToString:@"2.5"])
+        {
+            [[BXTGlobal shareGlobal].assignOrderIDs addObject:messageInfo.about_id];
+            BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithOrderID:nil];
+            newOrderVC.hidesBottomBarWhenPushed = YES;
+            if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
+            {
+                [[self navigation] pushViewController:newOrderVC animated:YES];
+            }
         }
         else if (![messageInfo.event_type isEqualToString:@"2.12"])
         {

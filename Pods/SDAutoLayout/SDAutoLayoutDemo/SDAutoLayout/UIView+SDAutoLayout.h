@@ -177,10 +177,16 @@ typedef void (^SpaceToSuperView)(UIEdgeInsets insets);
 /** 设置Cell的高度自适应，也可用于设置普通view内容自适应（应用于当你不确定哪个view在自动布局之后会排布在最下方最为bottomView的时候可以调用次方法将所有可能在最下方的view都传过去） */
 - (void)setupAutoHeightWithBottomViewsArray:(NSArray *)bottomViewsArray bottomMargin:(CGFloat)bottomMargin;
 
-/** 主动刷新布局（如果你需要设置完布局代码就获得view的frame请调用此方法） */
+/** 更新布局（主动刷新布局，如果你需要设置完布局代码就获得view的frame请调用此方法） */
 - (void)updateLayout;
 
+/** 更新cell内部的控件的布局（cell内部控件专属的更新约束方法,如果启用了cell frame缓存则会自动清除缓存再更新约束） */
+- (void)updateLayoutWithCellContentView:(UIView *)cellContentView;
+
+/** 清空高度自适应设置  */
 - (void)clearAutoHeigtSettings;
+
+/** 清空宽度自适应设置  */
 - (void)clearAutoWidthSettings;
 
 @property (nonatomic) CGFloat autoHeight;
@@ -215,6 +221,12 @@ typedef void (^SpaceToSuperView)(UIEdgeInsets insets);
 /** 设置等宽子view（子view需要在同一水平方向） */
 @property (nonatomic, strong) NSArray *sd_equalWidthSubviews;
 
+/** 设置类似collectionView效果的固定间距自动宽度浮动子view */
+- (void)setupAutoWidthFlowItems:(NSArray *)viewsArray withPerRowItemsCount:(NSInteger)perRowItemsCount verticalMargin:(CGFloat)verticalMargin horizontalMargin:(CGFloat)horizontalMagin;
+
+/** 设置类似collectionView效果的固定宽带自动间距浮动子view */
+- (void)setupAutoMarginFlowItems:(NSArray *)viewsArray withPerRowItemsCount:(NSInteger)perRowItemsCount itemWidth:(CGFloat)itemWidth verticalMargin:(CGFloat)verticalMargin;
+
 @end
 
 
@@ -235,22 +247,23 @@ typedef void (^SpaceToSuperView)(UIEdgeInsets insets);
 /** 将自身frame清零（一般在cell内部控件重用前调用）  */
 - (void)sd_clearViewFrameCache;
 
-/** 将自己的需要自动布局的subviews的frame清零（一般在cell内部控件重用前调用）  */
+/** 将自己的需要自动布局的subviews的frame(或者frame缓存)清零  */
 - (void)sd_clearSubviewsAutoLayoutFrameCaches;
 
 /** 设置固定宽度保证宽度不在自动布局过程再做中调整  */
-@property (nonatomic, strong) NSNumber *fixedWith;
+@property (nonatomic, strong) NSNumber *fixedWidth;
 
 /** 设置固定高度保证高度不在自动布局过程中再做调整  */
 @property (nonatomic, strong) NSNumber *fixedHeight;
 
+/** 启用cell frame缓存（可以提高cell滚动的流畅度, 目前为cell专用方法，后期会扩展到其他view） */
+- (void)useCellFrameCacheWithIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableview;
 
 /** 所属tableview（目前为cell专用属性，后期会扩展到其他view） */
 @property (nonatomic) UITableView *sd_tableView;
 
 /** cell的indexPath（目前为cell专用属性，后期会扩展到cell的其他子view） */
 @property (nonatomic) NSIndexPath *sd_indexPath;
-
 
 // -------------------库内部使用-----------------------
 - (NSMutableArray *)autoLayoutModelsArray;
@@ -282,9 +295,10 @@ typedef void (^SpaceToSuperView)(UIEdgeInsets insets);
 /** 设置单行文本label宽度自适应 */
 - (void)setSingleLineAutoResizeWithMaxWidth:(CGFloat)maxWidth;
 
+/** 设置label最多可以显示多少行，如果传0则显示所有行文字 */
+- (void)setMaxNumberOfLinesToShow:(NSInteger)lineCount;
+
 @end
-
-
 
 
 
@@ -356,6 +370,24 @@ typedef void (^SpaceToSuperView)(UIEdgeInsets insets);
 
 @property (nonatomic, weak) UITableView *sd_tableView;
 @property (nonatomic, strong) NSIndexPath *sd_indexPath;
+
+@property (nonatomic, assign) BOOL hasSetFrameWithCache;
+
+
+
+/** 设置类似collectionView效果的固定间距自动宽度浮动子view */
+
+@property (nonatomic, strong) NSArray *flowItems;
+@property (nonatomic, assign) CGFloat verticalMargin;
+@property (nonatomic, assign) CGFloat horizontalMargin;
+@property (nonatomic, assign) NSInteger perRowItemsCount;
+@property (nonatomic, assign) CGFloat lastWidth;
+
+
+/** 设置类似collectionView效果的固定宽带自动间距浮动子view */
+
+@property (nonatomic, assign) CGFloat flowItemWidth;
+@property (nonatomic, assign) BOOL shouldShowAsAutoMarginViews;
 
 @end
 

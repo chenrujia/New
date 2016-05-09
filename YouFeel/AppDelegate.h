@@ -25,7 +25,7 @@
     BOOL     isLoginByWX;
 }
 @property (strong, nonatomic) UIWindow  *window;
-@property (strong, nonatomic) NSString  *payloadId;
+//@property (strong, nonatomic) NSString  *payloadId;
 @property (assign, nonatomic) NSInteger lastPayloadIndex;
 @property (assign, nonatomic) SdkStatus sdkStatus;
 @property (strong, nonatomic) NSString  *access_token;

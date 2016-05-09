@@ -48,6 +48,13 @@
     _isNeedCaputureImage = isNeedCaputureImg;
 }
 
++ (CGFloat)getCameraVideoMaxScale
+{
+    
+    
+    return 50.0;
+}
+
 - (id)initWithPreView:(UIView*)preView ObjectType:(NSArray*)objType cropRect:(CGRect)cropRect success:(void(^)(NSArray<LBXScanResult*> *array))block
 {
     if (self = [super init]) {
@@ -149,8 +156,10 @@
     
  
     
-//    AVCaptureConnection *videoConnection = [AVCamUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[[self stillImageOutput] connections]];
+    AVCaptureConnection *videoConnection = [self connectionWithMediaType:AVMediaTypeVideo fromConnections:[[self stillImageOutput] connections]];
 //    CGFloat maxScale = videoConnection.videoMaxScaleAndCropFactor;
+     CGFloat scale = videoConnection.videoScaleAndCropFactor;
+    NSLog(@"%f",scale);
 //    CGFloat zoom = maxScale / 50;
 //    if (zoom < 1.0f || zoom > maxScale)
 //    {
@@ -171,6 +180,32 @@
     }
 }
 
+- (CGFloat)getVideoMaxScale
+{
+    [_input.device lockForConfiguration:nil];
+    AVCaptureConnection *videoConnection = [self connectionWithMediaType:AVMediaTypeVideo fromConnections:[[self stillImageOutput] connections]];
+    CGFloat maxScale = videoConnection.videoMaxScaleAndCropFactor;
+    [_input.device unlockForConfiguration];
+    
+    return maxScale;
+}
+
+- (void)setVideoScale:(CGFloat)scale
+{
+    [_input.device lockForConfiguration:nil];
+    
+    AVCaptureConnection *videoConnection = [self connectionWithMediaType:AVMediaTypeVideo fromConnections:[[self stillImageOutput] connections]];
+    
+    CGFloat zoom = scale / videoConnection.videoScaleAndCropFactor;
+    
+    videoConnection.videoScaleAndCropFactor = scale;
+    
+    [_input.device unlockForConfiguration];
+    
+    CGAffineTransform transform = _videoPreView.transform;
+    
+    _videoPreView.transform = CGAffineTransformScale(transform, zoom, zoom);
+}
 
 - (void)setScanRect:(CGRect)scanRect
 {
@@ -248,11 +283,9 @@
 }
 
 
--(UIImage *)getImageFromLayer:(CALayer *)layer{
-    
-    //CGSize size = layer.frame.size;
-    
-    UIGraphicsBeginImageContext(layer.frame.size);
+-(UIImage *)getImageFromLayer:(CALayer *)layer size:(CGSize)size
+{
+    UIGraphicsBeginImageContextWithOptions(size, YES, [[UIScreen mainScreen]scale]);
     [layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -287,26 +320,18 @@
              NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
              
              UIImage *img = [UIImage imageWithData:imageData];
-            
-             if (_blockScanResult)
-             {
-                 for (LBXScanResult* result in _arrayResult) {
-                     
-                     result.imgScanned = img;
-                 }
+             
+             for (LBXScanResult* result in _arrayResult) {
                  
-                 _blockScanResult(_arrayResult);
+                 result.imgScanned = img;
              }
-             
-             
          }
-         else
+         
+         if (_blockScanResult)
          {
-             if (_blockScanResult)
-             {
-                 _blockScanResult(_arrayResult);
-             }
+             _blockScanResult(_arrayResult);
          }
+         
      }];
 }
 
@@ -384,7 +409,6 @@
             _blockScanResult(_arrayResult);
         }
     }
-    
 }
 
 

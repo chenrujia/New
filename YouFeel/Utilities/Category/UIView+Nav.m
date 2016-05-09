@@ -29,7 +29,7 @@
     else if ([rootVC isKindOfClass:[CYLTabBarController class]])
     {
         CYLTabBarController *tempVC = (CYLTabBarController *)rootVC;
-        nav = [tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
+        nav = (UINavigationController *)[tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
     }
     
     return nav;

@@ -268,7 +268,7 @@
     browser.zoomPhotosToFill = YES;
     browser.enableSwipeToDismiss = YES;
     [browser setCurrentPhotoIndex:index];
-    browser.titlePreNumStr = [NSString stringWithFormat:@"%ld%ld%ld", (long)faultPicCount, (long)fixedPicCount, (long)evaluationPicCount];
+//    browser.titlePreNumStr = [NSString stringWithFormat:@"%ld%ld%ld", (long)faultPicCount, (long)fixedPicCount, (long)evaluationPicCount];
     [self.navigationController pushViewController:browser animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }

@@ -25,7 +25,7 @@ static NSMutableDictionary * cachedOptions;
 
     // Saving options per owner (View Controller address)
     if ( owner && options) {
-        [cachedOptions setObject:options forKey:[NSString stringWithFormat:@"%@", owner]];
+        [cachedOptions setObject:options forKey:[NSString stringWithFormat:@"%0x", owner]];
     }
 
     NSArray *items = [self _swizzledInstantiateWithOwner:owner options:options];
@@ -34,7 +34,7 @@ static NSMutableDictionary * cachedOptions;
 
 
 + (NSDictionary *)optionsByOwner:(id)owner {
-    NSString * optionsKey = [NSString stringWithFormat:@"%@", owner];
+    NSString * optionsKey = [NSString stringWithFormat:@"%0x", owner];
     return cachedOptions[optionsKey];
 }
 

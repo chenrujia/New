@@ -329,21 +329,17 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 /**
  *  SDK收到透传消息回调
  */
-- (void)GeTuiSdkDidReceivePayload:(NSString *)payloadId
-                        andTaskId:(NSString *)taskId
-                     andMessageId:(NSString *)aMsgId
-                       andOffLine:(BOOL)offLine
-                  fromApplication:(NSString *)appId
+- (void)GeTuiSdkDidReceivePayloadData:(NSData *)payloadData
+                            andTaskId:(NSString *)taskId
+                             andMsgId:(NSString *)msgId
+                           andOffLine:(BOOL)offLine
+                          fromGtAppId:(NSString *)appId
 {
-    _payloadId = payloadId;
-    
-    NSData *payload = [GeTuiSdk retrivePayloadById:payloadId]; //根据payloadId取回Payload
     NSString *payloadMsg = nil;
-    
-    if (payload)
+    if (payloadData)
     {
-        payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
-                                              length:payload.length
+        payloadMsg = [[NSString alloc] initWithBytes:payloadData.bytes
+                                              length:payloadData.length
                                             encoding:NSUTF8StringEncoding];
     }
     
@@ -430,7 +426,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
                     {
                         CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
-                        UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
+                        UINavigationController *nav = (UINavigationController *)[tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
                         [nav pushViewController:grabOrderVC animated:YES];
                     }
                 }
@@ -455,7 +451,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
                     {
                         CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
-                        UINavigationController *nav = [tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
+                        UINavigationController *nav = (UINavigationController *)[tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
                         [nav pushViewController:newOrderVC animated:YES];
                     }
                 }
