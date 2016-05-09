@@ -7,17 +7,27 @@
 //
 
 #import "CYLTabBarController.h"
-
 #import "CYLTabBar.h"
+#import "CYLPlusButton.h"
 #import <objc/runtime.h>
-NSUInteger CYLTabbarItemsCount = 0;
 
-@interface UIViewController (CYLTabBarControllerItemInternal)
+NSString *const CYLTabBarItemTitle = @"CYLTabBarItemTitle";
+NSString *const CYLTabBarItemImage = @"CYLTabBarItemImage";
+NSString *const CYLTabBarItemSelectedImage = @"CYLTabBarItemSelectedImage";
+
+NSUInteger CYLTabbarItemsCount = 0;
+NSUInteger CYLPlusButtonIndex = 0;
+CGFloat CYLTabBarItemWidth = 0.0f;
+NSString *const CYLTabBarItemWidthDidChangeNotification = @"CYLTabBarItemWidthDidChangeNotification";
+
+@interface NSObject (CYLTabBarControllerItemInternal)
 
 - (void)cyl_setTabBarController:(CYLTabBarController *)tabBarController;
 
 @end
+@interface CYLTabBarController () <UITabBarControllerDelegate>
 
+@end
 @implementation CYLTabBarController
 
 @synthesize viewControllers = _viewControllers;
@@ -29,6 +39,45 @@ NSUInteger CYLTabbarItemsCount = 0;
     [super viewDidLoad];
     // 处理tabBar，使用自定义 tabBar 添加 发布按钮
     [self setUpTabBar];
+    self.delegate = self;
+}
+
+#pragma mark -
+#pragma mark - public Methods
+
++ (BOOL)havePlusButton {
+    if (CYLExternPlusButton) {
+        return YES;
+    }
+    return NO;
+}
+
++ (NSUInteger)allItemsInTabBarCount {
+    NSUInteger allItemsInTabBar = CYLTabbarItemsCount;
+    if ([CYLTabBarController havePlusButton]) {
+        allItemsInTabBar += 1;
+    }
+    return allItemsInTabBar;
+}
+
+- (id<UIApplicationDelegate>)appDelegate {
+    return [UIApplication sharedApplication].delegate;
+}
+
+- (UIWindow *)rootWindow {
+    UIWindow *result = nil;
+    
+    do {
+        if ([self.appDelegate respondsToSelector:@selector(window)]) {
+            result = [self.appDelegate window];
+        }
+        
+        if (result) {
+            break;
+        }
+    } while (NO);
+    
+    return result;
 }
 
 #pragma mark -
@@ -50,19 +99,36 @@ NSUInteger CYLTabbarItemsCount = 0;
         }
     }
     if (viewControllers && [viewControllers isKindOfClass:[NSArray class]]) {
-        _viewControllers = [viewControllers copy];
-        if (_tabBarItemsAttributes) {
-            if (_tabBarItemsAttributes.count != _viewControllers.count) {
-                [NSException raise:@"CYLTabBarController" format:@"The count of CYLTabBarControllers is not equal to the count of tabBarItemsAttributes.【中文】设置_tabBarItemsAttributes属性时，请确保元素个数与控制器的个数相同，并在方法`-setViewControllers:`之前设置"];
-            }
+        if ((!_tabBarItemsAttributes) || (_tabBarItemsAttributes.count != viewControllers.count)) {
+            [NSException raise:@"CYLTabBarController" format:@"The count of CYLTabBarControllers is not equal to the count of tabBarItemsAttributes.【Chinese】设置_tabBarItemsAttributes属性时，请确保元素个数与控制器的个数相同，并在方法`-setViewControllers:`之前设置"];
+        }
+        
+        if (CYLPlusChildViewController) {
+            NSMutableArray *viewControllersWithPlusButton = [NSMutableArray arrayWithArray:viewControllers];
+            [viewControllersWithPlusButton insertObject:CYLPlusChildViewController atIndex:CYLPlusButtonIndex];
+            _viewControllers = [viewControllersWithPlusButton copy];
+        } else {
+            _viewControllers = [viewControllers copy];
         }
         CYLTabbarItemsCount = [viewControllers count];
+        CYLTabBarItemWidth = ([UIScreen mainScreen].bounds.size.width - CYLPlusButtonWidth) / (CYLTabbarItemsCount);
         NSUInteger idx = 0;
-        for (UIViewController *viewController in viewControllers) {
+        for (UIViewController *viewController in _viewControllers) {
+            NSString *title = nil;
+            NSString *normalImageName = nil;
+            NSString *selectedImageName = nil;
+            if (viewController != CYLPlusChildViewController) {
+                title = _tabBarItemsAttributes[idx][CYLTabBarItemTitle];
+                normalImageName = _tabBarItemsAttributes[idx][CYLTabBarItemImage];
+                selectedImageName = _tabBarItemsAttributes[idx][CYLTabBarItemSelectedImage];
+            } else {
+                idx--;
+            }
+            
             [self addOneChildViewController:viewController
-                                  WithTitle:_tabBarItemsAttributes[idx][CYLTabBarItemTitle]
-                            normalImageName:_tabBarItemsAttributes[idx][CYLTabBarItemImage]
-                          selectedImageName:_tabBarItemsAttributes[idx][CYLTabBarItemSelectedImage]];
+                                  WithTitle:title
+                            normalImageName:normalImageName
+                          selectedImageName:selectedImageName];
             [viewController cyl_setTabBarController:self];
             idx++;
         }
@@ -88,21 +154,37 @@ NSUInteger CYLTabbarItemsCount = 0;
                 selectedImageName:(NSString *)selectedImageName {
     
     viewController.tabBarItem.title = title;
-    UIImage *normalImage = [UIImage imageNamed:normalImageName];
-    normalImage = [normalImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    viewController.tabBarItem.image = normalImage;
-    UIImage *selectedImage = [UIImage imageNamed:selectedImageName];
-    selectedImage = [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    viewController.tabBarItem.selectedImage = selectedImage;
-    
+    if (normalImageName) {
+        UIImage *normalImage = [UIImage imageNamed:normalImageName];
+        normalImage = [normalImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        viewController.tabBarItem.image = normalImage;
+    }
+    if (selectedImageName) {
+        UIImage *selectedImage = [UIImage imageNamed:selectedImageName];
+        selectedImage = [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        viewController.tabBarItem.selectedImage = selectedImage;
+    }
     [self addChildViewController:viewController];
+}
+
+#pragma mark - delegate
+
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController*)viewController {
+    NSUInteger selectedIndex = tabBarController.selectedIndex;
+    UIButton *plusButton = CYLExternPlusButton;
+    if (CYLPlusChildViewController) {
+        if ((selectedIndex == CYLPlusButtonIndex) && (viewController != CYLPlusChildViewController)) {
+            plusButton.selected = NO;
+        } 
+    }
+    return YES;
 }
 
 @end
 
-#pragma mark - UIViewController+CYLTabBarControllerItem
+#pragma mark - NSObject+CYLTabBarControllerItem
 
-@implementation UIViewController (CYLTabBarControllerItemInternal)
+@implementation NSObject (CYLTabBarControllerItemInternal)
 
 - (void)cyl_setTabBarController:(CYLTabBarController *)tabBarController {
     objc_setAssociatedObject(self, @selector(cyl_tabBarController), tabBarController, OBJC_ASSOCIATION_ASSIGN);
@@ -110,12 +192,20 @@ NSUInteger CYLTabbarItemsCount = 0;
 
 @end
 
-@implementation UIViewController (CYLTabBarController)
+@implementation NSObject (CYLTabBarController)
 
 - (CYLTabBarController *)cyl_tabBarController {
     CYLTabBarController *tabBarController = objc_getAssociatedObject(self, @selector(cyl_tabBarController));
-    if (!tabBarController && self.parentViewController) {
-        tabBarController = [self.parentViewController cyl_tabBarController];
+    if (!tabBarController ) {
+        if ([self isKindOfClass:[UIViewController class]] && [(UIViewController *)self parentViewController]) {
+            tabBarController = [[(UIViewController *)self parentViewController] cyl_tabBarController];
+        } else {
+            id<UIApplicationDelegate> delegate = ((id<UIApplicationDelegate>)[[UIApplication sharedApplication] delegate]);
+            UIWindow *window = delegate.window;
+            if ([window.rootViewController isKindOfClass:[CYLTabBarController class]]) {
+                tabBarController = (CYLTabBarController *)window.rootViewController;
+            }
+        }
     }
     return tabBarController;
 }

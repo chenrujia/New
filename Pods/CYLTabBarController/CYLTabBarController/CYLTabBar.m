@@ -7,15 +7,23 @@
 //
 
 #import "CYLTabBar.h"
+#import "CYLPlusButton.h"
+#import "CYLTabBarController.h"
+
+static void *const CYLTabBarContext = (void*)&CYLTabBarContext;
 
 @interface CYLTabBar ()
 
 /** 发布按钮 */
 @property (nonatomic, strong) UIButton<CYLPlusButtonSubclassing> *plusButton;
+@property (nonatomic, assign) CGFloat tabBarItemWidth;
 
 @end
 
 @implementation CYLTabBar
+
+#pragma mark -
+#pragma mark - LifeCycle Method
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -34,24 +42,81 @@
 }
 
 - (instancetype)sharedInit {
-    if (CYLExternPushlishButton) {
-        self.plusButton = CYLExternPushlishButton;
+    if (CYLExternPlusButton) {
+        self.plusButton = CYLExternPlusButton;
         [self addSubview:(UIButton *)self.plusButton];
     }
-    [self setBackgroundImage:[self imageWithColor:[UIColor whiteColor]]];
+    // KVO注册监听
+    _tabBarItemWidth = CYLTabBarItemWidth;
+    [self addObserver:self forKeyPath:@"tabBarItemWidth" options:NSKeyValueObservingOptionNew context:CYLTabBarContext];
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    if (!CYLExternPushlishButton) {
+    CGFloat barWidth = self.bounds.size.width;
+    CGFloat barHeight = self.bounds.size.height;
+    CYLTabBarItemWidth = (barWidth - CYLPlusButtonWidth) / CYLTabbarItemsCount;
+    self.tabBarItemWidth = CYLTabBarItemWidth;
+    if (!CYLExternPlusButton) {
         return;
     }
-    CGFloat barWidth = self.frame.size.width;
-    CGFloat barHeight = self.frame.size.height;
-    
-    CGFloat tabBarButtonW = (CGFloat) barWidth / (CYLTabbarItemsCount + 1);
-    NSInteger buttonIndex = 0;
+    CGFloat multiplerInCenterY = [self multiplerInCenterY];
+    self.plusButton.center = CGPointMake(barWidth * 0.5, barHeight * multiplerInCenterY);
+    NSUInteger plusButtonIndex = [self plusButtonIndex];
+    NSArray *sortedSubviews = [self sortedSubviews];
+    NSArray *tabBarButtonArray = [self tabBarButtonFromTabBarSubviews:sortedSubviews];
+    [tabBarButtonArray enumerateObjectsUsingBlock:^(UIView * _Nonnull childView, NSUInteger buttonIndex, BOOL * _Nonnull stop) {
+        //调整UITabBarItem的位置
+        CGFloat childViewX;
+        if (buttonIndex >= plusButtonIndex) {
+            childViewX = buttonIndex * CYLTabBarItemWidth + CYLPlusButtonWidth;
+        } else {
+            childViewX = buttonIndex * CYLTabBarItemWidth;
+        }
+        //仅修改childView的x和宽度,yh值不变
+        childView.frame = CGRectMake(childViewX,
+                                     CGRectGetMinY(childView.frame),
+                                     CYLTabBarItemWidth,
+                                     CGRectGetHeight(childView.frame)
+                                     );
+    }];
+    //bring the plus button to top
+    [self bringSubviewToFront:self.plusButton];
+}
+
+#pragma mark -
+#pragma mark - Private Methods
+
+// KVO监听执行
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if(context != CYLTabBarContext) {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        return;
+    }
+    if(context == CYLTabBarContext) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CYLTabBarItemWidthDidChangeNotification object:self];
+    }
+}
+
+- (void)dealloc {
+    // KVO反注册
+    [self removeObserver:self forKeyPath:@"tabBarItemWidth"];
+}
+
+- (void)setTabBarItemWidth:(CGFloat )tabBarItemWidth {
+    if (_tabBarItemWidth != tabBarItemWidth) {
+        [self willChangeValueForKey:@"tabBarItemWidth"];
+        _tabBarItemWidth = tabBarItemWidth;
+        [self didChangeValueForKey:@"tabBarItemWidth"];
+    }
+}
+
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
+    return NO;
+}
+
+- (CGFloat)multiplerInCenterY {
     CGFloat multiplerInCenterY;
     if ([[self.plusButton class] respondsToSelector:@selector(multiplerInCenterY)]) {
         multiplerInCenterY = [[self.plusButton class] multiplerInCenterY];
@@ -66,28 +131,34 @@
             multiplerInCenterY = center.y / self.bounds.size.height;
         }
     }
-    
-    self.plusButton.center = CGPointMake(barWidth * 0.5, barHeight * multiplerInCenterY);
-    
+    return multiplerInCenterY;
+}
+
+- (NSUInteger)plusButtonIndex {
     NSUInteger plusButtonIndex;
     if ([[self.plusButton class] respondsToSelector:@selector(indexOfPlusButtonInTabBar)]) {
-        if (CYLTabbarItemsCount % 2 == 0) {
-            [NSException raise:@"CYLTabBarController" format:@"If the count of CYLTabbarControllers is not odd,there's no need to realizse `+indexOfPlusButtonInTabBar` in your custom plusButton class.【中文】如果CYLTabbarControllers的个数不是奇数，会自动居中，你无需在你自定义的plusButton中实现`+indexOfPlusButtonInTabBar`，来指定plusButton的位置"];
-        }
         plusButtonIndex = [[self.plusButton class] indexOfPlusButtonInTabBar];
         //仅修改self.plusButton的x,ywh值不变
-        self.plusButton.frame = CGRectMake(plusButtonIndex * tabBarButtonW,
+        self.plusButton.frame = CGRectMake(plusButtonIndex * CYLTabBarItemWidth,
                                            CGRectGetMinY(self.plusButton.frame),
                                            CGRectGetWidth(self.plusButton.frame),
                                            CGRectGetHeight(self.plusButton.frame)
                                            );
     } else {
         if (CYLTabbarItemsCount % 2 != 0) {
-            [NSException raise:@"CYLTabBarController" format:@"If the count of CYLTabbarControllers is odd,you must realizse `+indexOfPlusButtonInTabBar` in your custom plusButton class.【中文】如果CYLTabbarControllers的个数是奇数，你必须在你自定义的plusButton中实现`+indexOfPlusButtonInTabBar`，来指定plusButton的位置"];
+            [NSException raise:@"CYLTabBarController" format:@"If the count of CYLTabbarControllers is odd,you must realizse `+indexOfPlusButtonInTabBar` in your custom plusButton class.【Chinese】如果CYLTabbarControllers的个数是奇数，你必须在你自定义的plusButton中实现`+indexOfPlusButtonInTabBar`，来指定plusButton的位置"];
         }
         plusButtonIndex = CYLTabbarItemsCount / 2.0;
     }
-    /* NOTE: If the `self.title of ViewController` and `the correct title of tabBarItemsAttributes` are different, Apple will delete the correct tabBarItem from subViews, and then trigger `-layoutSubviews`, therefore subViews will be in disorder. So we need to rearrange them.*/
+    CYLPlusButtonIndex = plusButtonIndex;
+    return plusButtonIndex;
+}
+
+/*!
+ *  Deal with some trickiness by Apple, You do not need to understand this method, somehow, it works.
+ *  NOTE: If the `self.title of ViewController` and `the correct title of tabBarItemsAttributes` are different, Apple will delete the correct tabBarItem from subViews, and then trigger `-layoutSubviews`, therefore subViews will be in disorder. So we need to rearrange them.
+*/
+- (NSArray *)sortedSubviews {
     NSArray *sortedSubviews = [self.subviews sortedArrayUsingComparator:^NSComparisonResult(UIView * view1, UIView * view2) {
         CGFloat view1_x = view1.frame.origin.x;
         CGFloat view2_x = view2.frame.origin.x;
@@ -97,29 +168,26 @@
             return NSOrderedAscending;
         }
     }];
-    for (UIView *childView in sortedSubviews) {
-        //调整加号按钮后面的UITabBarItem的位置
-        if ([childView isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
-            if (buttonIndex == plusButtonIndex) {
-                buttonIndex++;
-            }
-            //仅修改childView的x和宽度,yh值不变
-            childView.frame = CGRectMake(buttonIndex * tabBarButtonW,
-                                         CGRectGetMinY(childView.frame),
-                                         tabBarButtonW,
-                                         CGRectGetHeight(childView.frame)
-                                         );
-            buttonIndex++;
-        }
-    }
-    //bring the plus button to top
-    [self bringSubviewToFront:self.plusButton];
+    return sortedSubviews;
 }
 
-/*
- *
- Capturing touches on a subview outside the frame of its superview
- *
+- (NSArray *)tabBarButtonFromTabBarSubviews:(NSArray *)tabBarSubviews {
+    NSArray *tabBarButtonArray = [NSArray array];
+    NSMutableArray *tabBarButtonMutableArray = [NSMutableArray arrayWithCapacity:tabBarSubviews.count - 1];
+    [tabBarSubviews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
+            [tabBarButtonMutableArray addObject:obj];
+        }
+    }];
+    if (CYLPlusChildViewController) {
+        [tabBarButtonMutableArray removeObjectAtIndex:CYLPlusButtonIndex];
+    }
+    tabBarButtonArray = [tabBarButtonMutableArray copy];
+    return tabBarButtonArray;
+}
+
+/**
+ *  Capturing touches on a subview outside the frame of its superview
  */
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     if (!self.clipsToBounds && !self.hidden && self.alpha > 0) {
@@ -137,19 +205,6 @@
         }
     }
     return nil;
-}
-
-- (UIImage *)imageWithColor:(UIColor *)color {
-    NSParameterAssert(color != nil);
-    
-    CGRect rect = CGRectMake(0, 0, 1, 1);
-    // Create a 1 by 1 pixel context
-    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
-    [color setFill];
-    UIRectFill(rect);   // Fill it with your color
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
 }
 
 @end

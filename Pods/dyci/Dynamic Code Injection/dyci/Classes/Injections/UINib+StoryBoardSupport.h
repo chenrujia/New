@@ -17,7 +17,6 @@
  */
 @interface UINib (StoryBoardSupport)
 
-- (NSArray *)_swizzledInstantiateWithOwner:(id)owner options:(NSDictionary *)options;
 
 /*
 Returns options, saved for the owner

@@ -64,6 +64,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     _previousLayoutBounds = CGRectZero;
     _currentPageIndex = 0;
     _previousPageIndex = NSUIntegerMax;
+    _currentVideoIndex = NSUIntegerMax;
     _displayActionButton = YES;
     _displayNavArrows = NO;
     _zoomPhotosToFill = YES;
@@ -368,6 +369,9 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     if (_currentPageIndex != _pageIndexBeforeRotation) {
         [self jumpToPageAtIndex:_pageIndexBeforeRotation animated:NO];
     }
+    
+    // Layout
+    [self.view setNeedsLayout];
 
 }
 
@@ -394,12 +398,14 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     // Detect if rotation occurs while we're presenting a modal
     _pageIndexBeforeRotation = _currentPageIndex;
     
-    // Check that we're being popped for good
-    if ([self.navigationController.viewControllers objectAtIndex:0] != self &&
-        ![self.navigationController.viewControllers containsObject:self]) {
-        
+    // Check that we're disappearing for good
+    // self.isMovingFromParentViewController just doesn't work, ever. Or self.isBeingDismissed
+    if ((_doneButton && self.navigationController.isBeingDismissed) ||
+        ([self.navigationController.viewControllers objectAtIndex:0] != self && ![self.navigationController.viewControllers containsObject:self])) {
+
         // State
         _viewIsActive = NO;
+        [self clearCurrentVideo]; // Clear current playing video
         
         // Bar state / appearance
         [self restorePreviousNavBarAppearance:animated];
@@ -914,7 +920,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     }
     
     // Handle video on page change
-    if (!_rotating || index != _currentVideoIndex) {
+    if (!_rotating && index != _currentVideoIndex) {
         [self clearCurrentVideo];
     }
     
@@ -1091,34 +1097,11 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         if ([_delegate respondsToSelector:@selector(photoBrowser:titleForPhotoAtIndex:)]) {
             self.title = [_delegate photoBrowser:self titleForPhotoAtIndex:_currentPageIndex];
         } else {
-            if (!self.titlePreNumStr) {
-                self.title = [NSString stringWithFormat:@"%lu %@ %lu", (unsigned long)(_currentPageIndex+1), NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), (unsigned long)numberOfPhotos];
-            } else {
-                
-                int titlePreNum = [self.titlePreNumStr intValue];
-                NSString *titlePre;
-                int number;
-                int indexOfNumber;
-                if (_currentPageIndex+1 <= titlePreNum/100) {
-                    titlePre = @"故障图";
-                    number = titlePreNum/100;
-                    indexOfNumber = (int)_currentPageIndex+1;
-                } else if (_currentPageIndex+1 <= titlePreNum%100/10+titlePreNum/100) {
-                    titlePre = @"已修复";
-                    number = titlePreNum%100/10;
-                    indexOfNumber = (int)_currentPageIndex+1-titlePreNum/100;
-                } else {
-                    titlePre = @"已评价";
-                    number = titlePreNum%10;
-                    indexOfNumber = (int)_currentPageIndex+1-titlePreNum/100-titlePreNum%100/10;
-                }
-                
-                self.title = [NSString stringWithFormat:@"%@ %d %@ %lu",  titlePre, indexOfNumber, NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), (unsigned long)number];
-            }
+            self.title = [NSString stringWithFormat:@"%lu %@ %lu", (unsigned long)(_currentPageIndex+1), NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), (unsigned long)numberOfPhotos];
         }
-    } else {
-        self.title = nil;
-    }
+	} else {
+		self.title = nil;
+	}
 	
 	// Buttons
 	_previousButton.enabled = (_currentPageIndex > 0);
@@ -1183,7 +1166,19 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 }
 
 - (void)playButtonTapped:(id)sender {
-    UIButton *playButton = (UIButton *)sender;
+    // Ignore if we're already playing a video
+    if (_currentVideoIndex != NSUIntegerMax) {
+        return;
+    }
+    NSUInteger index = [self indexForPlayButton:sender];
+    if (index != NSUIntegerMax) {
+        if (!_currentVideoPlayerViewController) {
+            [self playVideoAtIndex:index];
+        }
+    }
+}
+
+- (NSUInteger)indexForPlayButton:(UIView *)playButton {
     NSUInteger index = NSUIntegerMax;
     for (MWZoomingScrollView *page in _visiblePages) {
         if (page.playButton == playButton) {
@@ -1191,11 +1186,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
             break;
         }
     }
-    if (index != NSUIntegerMax) {
-        if (!_currentVideoPlayerViewController) {
-            [self playVideoAtIndex:index];
-        }
-    }
+    return index;
 }
 
 #pragma mark - Video
@@ -1205,19 +1196,26 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     if ([photo respondsToSelector:@selector(getVideoURL:)]) {
         
         // Valid for playing
-        _currentVideoIndex = index;
         [self clearCurrentVideo];
+        _currentVideoIndex = index;
         [self setVideoLoadingIndicatorVisible:YES atPageIndex:index];
-        
+
         // Get video and play
+        typeof(self) __weak weakSelf = self;
         [photo getVideoURL:^(NSURL *url) {
-            if (url) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self _playVideo:url atPhotoIndex:index];
-                });
-            } else {
-                [self setVideoLoadingIndicatorVisible:NO atPageIndex:index];
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // If the video is not playing anymore then bail
+                typeof(self) strongSelf = weakSelf;
+                if (!strongSelf) return;
+                if (strongSelf->_currentVideoIndex != index || !strongSelf->_viewIsActive) {
+                    return;
+                }
+                if (url) {
+                    [weakSelf _playVideo:url atPhotoIndex:index];
+                } else {
+                    [weakSelf setVideoLoadingIndicatorVisible:NO atPageIndex:index];
+                }
+            });
         }];
         
     }
@@ -1271,10 +1269,11 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 }
 
 - (void)clearCurrentVideo {
-    if (!_currentVideoPlayerViewController) return;
+    [_currentVideoPlayerViewController.moviePlayer stop];
     [_currentVideoLoadingIndicator removeFromSuperview];
     _currentVideoPlayerViewController = nil;
     _currentVideoLoadingIndicator = nil;
+    [[self pageDisplayedAtIndex:_currentVideoIndex] playButton].hidden = NO;
     _currentVideoIndex = NSUIntegerMax;
 }
 
@@ -1282,12 +1281,14 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     if (_currentVideoLoadingIndicator && !visible) {
         [_currentVideoLoadingIndicator removeFromSuperview];
         _currentVideoLoadingIndicator = nil;
+        [[self pageDisplayedAtIndex:pageIndex] playButton].hidden = NO;
     } else if (!_currentVideoLoadingIndicator && visible) {
         _currentVideoLoadingIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
         [_currentVideoLoadingIndicator sizeToFit];
         [_currentVideoLoadingIndicator startAnimating];
         [_pagingScrollView addSubview:_currentVideoLoadingIndicator];
         [self positionVideoLoadingIndicator];
+        [[self pageDisplayedAtIndex:pageIndex] playButton].hidden = YES;
     }
 }
 
@@ -1307,6 +1308,9 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 - (void)showGrid:(BOOL)animated {
 
     if (_gridController) return;
+    
+    // Clear video
+    [self clearCurrentVideo];
     
     // Init grid controller
     _gridController = [[MWGridViewController alloc] init];
