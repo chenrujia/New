@@ -15,7 +15,7 @@
 @property (nonatomic, assign) NSInteger row;
 @property (nonatomic, assign) NSInteger item;
 - (instancetype)initWithColumn:(NSInteger)column row:(NSInteger)row;
-// default item = -1 
+// default item = -1
 + (instancetype)indexPathWithCol:(NSInteger)col row:(NSInteger)row;
 + (instancetype)indexPathWithCol:(NSInteger)col row:(NSInteger)row item:(NSInteger)item;
 @end
@@ -107,4 +107,4 @@
 
 // 版权属于原作者
 // http://code4app.com (cn) http://code4app.net (en)
-// 发布代码于最专业的源码分享网站: Code4App.com 
+// 发布代码于最专业的源码分享网站: Code4App.com
