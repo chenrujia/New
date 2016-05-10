@@ -433,7 +433,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
     NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
     @weakify(self);
-    [searchVC userChoosePlace:[NSArray array] type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
+    [searchVC userChoosePlace:dataSource type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
         @strongify(self);
         if (classifyInfo)
         {

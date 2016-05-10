@@ -160,7 +160,10 @@
         }
         else
         {
-            self.selectPlace(nil,self.searchBarView.text);
+            if (self.searchBarView.text.length > 0)
+            {
+                self.selectPlace(nil,self.searchBarView.text);
+            }
         }
     }
     [self.navigationController popViewControllerAnimated:YES];
