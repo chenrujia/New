@@ -50,6 +50,7 @@ typedef NS_ENUM(NSInteger, CellType) {
 @property (nonatomic, strong) NSMutableArray *usersArray;
 @property (nonatomic, strong) NSMutableArray *adsArray;
 @property (nonatomic, copy  ) NSString       *projPhone;
+@property (strong, nonatomic) UIView *redView;
 
 @end
 
@@ -186,6 +187,11 @@ typedef NS_ENUM(NSInteger, CellType) {
         
     }];
     [logoImgView addSubview:messageBtn];
+    // 红点
+    self.redView = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 20.f, 30, 10, 10)];
+    self.redView.backgroundColor = [UIColor redColor];
+    self.redView.layer.cornerRadius = 5;
+    [logoImgView addSubview:self.redView];
     
     //扫描
     UIButton *scanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -582,9 +588,9 @@ typedef NS_ENUM(NSInteger, CellType) {
         }
         // “首页”是否显示消息气泡：1是 0否
         if ([BXTRemindNum sharedManager].notice_show) {
-            [messageBtn setBackgroundImage:[UIImage imageNamed:@"news_unread"] forState:UIControlStateNormal];
+            self.redView.hidden = NO;
         } else {
-            [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
+            self.redView.hidden = YES;
         }
         
         [_currentTableView reloadData];
@@ -605,11 +611,11 @@ typedef NS_ENUM(NSInteger, CellType) {
         unreadNumber = [[dic objectForKey:@"unread_number"] integerValue];
         if (unreadNumber > 0)
         {
-            [messageBtn setBackgroundImage:[UIImage imageNamed:@"news_unread"] forState:UIControlStateNormal];
+            self.redView.hidden = NO;
         }
         else
         {
-            [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
+            self.redView.hidden = YES;
         }
         [_currentTableView reloadData];
     }

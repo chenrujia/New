@@ -191,6 +191,12 @@
                 req.state = @"123"; // 这个貌似没影响
                 [WXApi sendReq:req];
             }
+            else
+            {
+                [MYAlertAction showAlertWithTitle:@"手机未安装微信客户端" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+                    
+                } buttonsStatement:@"确定", nil];
+            }
         }
         else    // 已绑定 - 去解绑
         {

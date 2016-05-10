@@ -138,9 +138,9 @@
     if (indexPath.section == 0 && indexPath.row == 1)
     {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(SCREEN_WIDTH-115, 10, 100, 30);
+        button.frame = CGRectMake(SCREEN_WIDTH-90, 10, 75, 30);
         button.titleLabel.font = [UIFont systemFontOfSize:14];
-        [button setTitle:@"查看操作规范" forState:UIControlStateNormal];
+        [button setTitle:@"操作规范" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         button.layer.borderColor = [[UIColor blackColor] CGColor];
         button.layer.borderWidth = 0.5;
