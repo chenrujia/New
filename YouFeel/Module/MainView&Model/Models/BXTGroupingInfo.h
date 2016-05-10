@@ -24,7 +24,7 @@
 @property (nonatomic, copy  ) NSString  *manID;
 @property (nonatomic, assign) NSInteger work_number;
 @property (nonatomic, copy  ) NSString  *name;
-@property (nonatomic, assign) NSInteger is_work;
+@property (nonatomic, copy  ) NSString  *on_duty;
 @property (nonatomic, copy  ) NSString  *head_pic;
 
 @end

@@ -99,7 +99,7 @@ static NSInteger const DoneBtnTag = 12;
 {
     self.viewType = cvType;
     self.devicesArray = array;
-    if (_viewType == DeviceListType)
+    if (self.viewType == DeviceListType)
     {
         self.titleLabel.text = @"选择设备";
         self.currentDatePicker.hidden = YES;
@@ -113,7 +113,7 @@ static NSInteger const DoneBtnTag = 12;
             [self loadTableView];
         }
     }
-    else if (_viewType == DatePickerType)
+    else if (self.viewType == DatePickerType)
     {
         self.titleLabel.text = @"选择预约时间";
         self.currentDatePicker.hidden = NO;
@@ -163,10 +163,10 @@ static NSInteger const DoneBtnTag = 12;
     BXTItemTableViewCell *cell = (BXTItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"DeviceListCell" forIndexPath:indexPath];
     BXTDeviceListInfo *deviceInfo = self.devicesArray[indexPath.row];
     cell.nameLabel.text = deviceInfo.name;
-    cell.nameLabel.textColor = [_markArray[indexPath.row] integerValue] ? colorWithHexString(@"3cafff") : [UIColor blackColor];
+    cell.nameLabel.textColor = [self.markArray[indexPath.row] integerValue] ? colorWithHexString(@"3cafff") : [UIColor blackColor];
     cell.detailLabel.text = deviceInfo.code_number;
-    cell.detailLabel.textColor = [_markArray[indexPath.row] integerValue] ? colorWithHexString(@"3cafff") : colorWithHexString(@"6b6b6b");
-    cell.checkImage.hidden = [_markArray[indexPath.row] integerValue] ? NO : YES;
+    cell.detailLabel.textColor = [self.markArray[indexPath.row] integerValue] ? colorWithHexString(@"3cafff") : colorWithHexString(@"6b6b6b");
+    cell.checkImage.hidden = [self.markArray[indexPath.row] integerValue] ? NO : YES;
     
     return cell;
 }
@@ -175,7 +175,13 @@ static NSInteger const DoneBtnTag = 12;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectDeviceInfo = self.devicesArray[indexPath.row];
-    [_markArray replaceObjectAtIndex:indexPath.row withObject:@"1"];
+    NSInteger i = 0;
+    while (i < self.markArray.count)
+    {
+        [self.markArray replaceObjectAtIndex:i withObject:@"0"];
+        i++;
+    }
+    [self.markArray replaceObjectAtIndex:indexPath.row withObject:@"1"];
     [tableView reloadData];
 }
 
