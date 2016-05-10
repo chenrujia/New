@@ -60,14 +60,14 @@
     [self.headerView addSubview:self.pieView];
     
     // 2. fill data
-    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#f484a8", @"#7a9cef", @"#f8a049", @"#f86b3d", @"#9171f3", @"#f9bd34", @"#d251d8", @"#49e3ea", @"#d8505c", @"#52b7ce", @"#81bfcd", nil];
+    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#f484a8", @"#7a9cef", @"#f8a049", @"#f86b3d", @"#9171f3", @"#f9bd34", @"#d251d8", @"#49e3ea", @"#d8505c", @"#f25a8b", @"#45a74f", @"#52b7ce", @"#fd6468", @"#48d2be", @"#5b91d3", nil];
     NSMutableArray *oldDataArray = [[NSMutableArray alloc] init];
     NSMutableArray *pieArray = [[NSMutableArray alloc] init];
     NSInteger sumNum = 0;
     for(int i=0; i<self.dataArray.count; i++)
     {
         UIColor *elemColor = [BXTGlobal randomColor];
-        if (i<11)
+        if (i<15)
         {
             elemColor = colorWithHexString(colorArray[i]);
         }

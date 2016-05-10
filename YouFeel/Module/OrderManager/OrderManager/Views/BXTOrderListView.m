@@ -119,27 +119,27 @@
         // 工单状态 - stateStr  2进行中  1已完成
         if ([self.stateStr intValue] == 2)
         {
-            stateArray = [NSMutableArray arrayWithObjects:@"状态的", @"已接单", @"指派中", @"维修中", @"待确认", nil];
+            stateArray = [NSMutableArray arrayWithObjects:@"状态", @"已接单", @"指派中", @"维修中", @"待确认", nil];
         }
         else
         {
-            stateArray = [NSMutableArray arrayWithObjects:@"状态的", @"未修好", nil];
+            stateArray = [NSMutableArray arrayWithObjects:@"状态", @"未修好", nil];
         }
     }
     else
     {
         if ([self.stateStr intValue] == 2)
         {
-            stateArray = [NSMutableArray arrayWithObjects:@"状态的", @"待维修", @"维修中", @"待确认", nil];
+            stateArray = [NSMutableArray arrayWithObjects:@"状态", @"待维修", @"维修中", @"待确认", nil];
         }
         else
         {
-            stateArray = [NSMutableArray arrayWithObjects:@"状态的", @"待评价", @"已评价", @"未修好", @"已修好", nil];
+            stateArray = [NSMutableArray arrayWithObjects:@"状态", @"待评价", @"已评价", @"未修好", @"已修好", nil];
         }
     }
     groupArray = [NSMutableArray arrayWithObjects:@"类型", @"日常工单", @"维保工单", nil];
-    areasArray = [NSMutableArray arrayWithObjects:@"位置地点", nil];
-    timesArray = [NSMutableArray arrayWithObjects:@"时间大大大",@"今天",@"3天内",@"7天内",@"本月",@"本年", nil];
+    areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
+    timesArray = [NSMutableArray arrayWithObjects:@"时间",@"今天",@"3天内",@"7天内",@"本月",@"本年", nil];
     
     // 添加下拉菜单
     DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
