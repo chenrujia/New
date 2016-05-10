@@ -54,7 +54,7 @@
     [super viewDidLoad];
     [self navigationSetting:@"项目认证" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray = @[@"", @"机构类型"];
+    self.titleArray = @[@"", @"身份类型"];
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"请选择", nil];
     self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"", nil];
     if (self.transProjectInfo)
@@ -62,16 +62,16 @@
         if ([self.transProjectInfo.type integerValue] == 1)
         {
             self.isCompanyType = YES;
-            self.titleArray = @[@"", @"机构类型", @"部门", @"职位", @"本职专业", @"其他技能"];
-            self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"项目管理公司", self.transProjectInfo.department, self.transProjectInfo.duty_name, self.transProjectInfo.subgroup, self.transProjectInfo.extra_subgroup, nil];
-            self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"项目管理公司", self.transProjectInfo.department_id, self.transProjectInfo.duty_id, self.transProjectInfo.subgroup_id, self.transProjectInfo.have_subgroup_ids, nil];
+            self.titleArray = @[@"", @"身份类型", @"部门", @"职位", @"本职专业", @"其他技能"];
+            self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"物业员工", self.transProjectInfo.department, self.transProjectInfo.duty_name, self.transProjectInfo.subgroup, self.transProjectInfo.extra_subgroup, nil];
+            self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"物业员工", self.transProjectInfo.department_id, self.transProjectInfo.duty_id, self.transProjectInfo.subgroup_id, self.transProjectInfo.have_subgroup_ids, nil];
         }
         else
         {
             self.isCompanyType = NO;
-            self.titleArray = @[@"", @"机构类型", @"所属", @"常用位置"];
-            self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"客户组", @"请选择", @"请选择", nil];
-            self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"客户组", @"", @"", nil];
+            self.titleArray = @[@"", @"身份类型", @"所属", @"常用位置"];
+            self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"客户", @"请选择", @"请选择", nil];
+            self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"客户", @"", @"", nil];
         }
     }
     
@@ -312,7 +312,7 @@
         [self createTableViewWithIndex:indexPath.section];
     }
     
-    // 项目管理公司
+    // 物业员工
     if (self.isCompanyType)
     {
         if (indexPath.section == 2)
@@ -392,7 +392,7 @@
 {
     self.showSelectedRow = index;
     if (index == 1) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"项目管理公司", @"客户组", nil];
+        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"物业员工", @"客户", nil];
     }
     else if (index == 3) {
         self.selectArray = self.positionArray;
@@ -435,7 +435,7 @@
     [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        // 选择机构类型  -  改变结构
+        // 选择身份类型  -  改变结构
         if (index == 1) {
             [self adjustStructureType];
         }
@@ -494,16 +494,16 @@
     if ([selected integerValue] == 0)
     {
         self.isCompanyType = YES;
-        self.titleArray = @[@"", @"机构类型", @"部门", @"职位", @"本职专业", @"其他技能"];
-        self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"项目管理公司", @"请选择", @"请选择", @"请选择", @"请选择", nil];
-        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"项目管理公司", @"", @"", @"", @"", nil];
+        self.titleArray = @[@"", @"身份类型", @"部门", @"职位", @"本职专业", @"其他技能"];
+        self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"物业员工", @"请选择", @"请选择", @"请选择", @"请选择", nil];
+        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"物业员工", @"", @"", @"", @"", nil];
     }
     else
     {
         self.isCompanyType = NO;
-        self.titleArray = @[@"", @"机构类型", @"所属", @"常用位置"];
-        self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"客户组", @"请选择", @"请选择", nil];
-        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"客户组", @"", @" ", nil];
+        self.titleArray = @[@"", @"身份类型", @"所属", @"常用位置"];
+        self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"客户", @"请选择", @"请选择", nil];
+        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"客户", @"", @" ", nil];
     }
     
     [self.tableView reloadData];

@@ -88,8 +88,8 @@
     // 跳转类型判断
     if (self.pushType == PushType_StartMaintain)
     {
-        [segment segemtBtnChange:2];
-        [currentScrollView setContentOffset:CGPointMake(2 * SCREEN_WIDTH, 0) animated:YES];
+        [segment segemtBtnChange:1];
+        [currentScrollView setContentOffset:CGPointMake(1 * SCREEN_WIDTH, 0) animated:YES];
     }
 }
 

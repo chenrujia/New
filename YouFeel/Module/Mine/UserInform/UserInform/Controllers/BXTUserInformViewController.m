@@ -192,7 +192,7 @@
             }
             else
             {
-                [MYAlertAction showAlertWithTitle:@"手机未安装微信客户端" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+                [MYAlertAction showAlertWithTitle:@"您未安装微信客户端" msg:nil chooseBlock:^(NSInteger buttonIdx) {
                     
                 } buttonsStatement:@"确定", nil];
             }

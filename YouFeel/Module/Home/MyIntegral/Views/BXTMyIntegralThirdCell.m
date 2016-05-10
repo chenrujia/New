@@ -47,7 +47,7 @@
     _complate = complate;
     
     self.orderView.text = [NSString stringWithFormat:@"%@/%@", complate.over, complate.total];
-    self.percentView.text = [NSString stringWithFormat:@"%@", complate.percent];
+    self.percentView.text = [NSString stringWithFormat:@"%.2f", [complate.percent doubleValue]];
     self.rankingView.text = [NSString stringWithFormat:@"%@", complate.score];
 }
 

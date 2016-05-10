@@ -23,7 +23,9 @@
 @property (nonatomic, copy) NSString *qrcode;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *install_time;
+@property (nonatomic, copy) NSString *start_data;
 @property (nonatomic, copy) NSString *take_over_time;
+@property (nonatomic, copy) NSString *take_over_data;
 @property (nonatomic, copy) NSString *state;
 @property (nonatomic, copy) NSString *dataIdentifier;
 @property (nonatomic, copy) NSString *place_true_name;

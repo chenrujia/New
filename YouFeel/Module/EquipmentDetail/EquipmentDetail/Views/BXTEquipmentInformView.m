@@ -259,7 +259,7 @@
         self.stateName = self.equipmentModel.state_name;
         
         // section == 1
-        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:self.equipmentModel.model_number, self.equipmentModel.type_name, self.equipmentModel.brand, self.equipmentModel.place_name, self.equipmentModel.server_area, self.equipmentModel.install_time, self.equipmentModel.start_time, nil];
+        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:self.equipmentModel.model_number, self.equipmentModel.type_name, self.equipmentModel.brand, self.equipmentModel.place_name, self.equipmentModel.server_area, self.equipmentModel.take_over_data, self.equipmentModel.start_data, nil];
         
         // section == 2
         NSDictionary *factoryDict = dataDict[@"factory_info"];

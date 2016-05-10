@@ -172,6 +172,7 @@
     {
         BXTProjectInformViewController *pivc = [[BXTProjectInformViewController alloc] init];
         pivc.transMyProject = myProjectInform;
+        NSLog(@"verify_state ----- %@", myProjectInform.verify_state);
         [self.navigationController pushViewController:pivc animated:YES];
     }
     

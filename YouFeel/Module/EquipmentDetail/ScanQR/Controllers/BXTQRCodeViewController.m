@@ -200,25 +200,23 @@
             NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
             
             [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
-                if (buttonIdx == 2) {
+                if (buttonIdx == 1) {
                     BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_content"]];
                     epvc.pushType = PushType_Scan;
                     [self.navigationController pushViewController:epvc animated:YES];
                 }
-                else if (buttonIdx == 1) {
-//                    UINavigationController *nav;
+                else if (buttonIdx == 2) {
                     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
                     BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
                     newVC.isNewWorkOrder = YES;
+                    NSArray *qr_moreArray = dict[@"qr_content"];
+//                    newVC.transDict = qr_moreArray[0];
                     [self.navigationController pushViewController:newVC animated:YES];
-//                    nav = [[UINavigationController alloc] initWithRootViewController:newVC];
-//                    
-//                    [BXTGlobal shareGlobal].presentNav = nav;
-//                    [nav setEnableBackGesture:YES];
-//                    nav.navigationBarHidden = YES;
-//                    [[AppDelegate appdelegete].window.rootViewController presentViewController:nav animated:YES completion:nil];
                 }
-            } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"查看设备详情", @"设备保修", nil];
+                else {
+                    [self reStartDevice];
+                }
+            } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"查看设备详情", @"设备报修", nil];
         }
     }
     else
