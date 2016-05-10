@@ -184,9 +184,13 @@ static CGFloat const ChooseViewHeight  = 328.f;
         [self initailButtonWithTitle:[self.dataDic objectForKey:@"deviceName"]];
         self.notes_image_top.constant = 76.f;
         [self.notes_image layoutIfNeeded];
-        
         self.placeTF.text = self.placeInfo.place;
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [self updateContentView];
 }
 
@@ -276,6 +280,8 @@ static CGFloat const ChooseViewHeight  = 328.f;
     self.deviceBtn.layer.borderColor = colorWithHexString(@"#CCCCCC").CGColor;
     self.deviceBtn.layer.borderWidth = 0.6f;
     self.deviceBtn.layer.cornerRadius = 3.f;
+    self.deviceBtn.titleLabel.numberOfLines = 0;
+    self.deviceBtn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self.deviceBtn addTarget:self action:@selector(showSelectedView:) forControlEvents:UIControlEventTouchUpInside];
     self.deviceBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
     [self.deviceBtn setTitle:title forState:UIControlStateNormal];
@@ -305,7 +311,8 @@ static CGFloat const ChooseViewHeight  = 328.f;
             if (item && chooseType == DeviceListType && isDone)
             {
                 self.selectDeviceInfo = item;
-                [self.deviceBtn setTitle:self.selectDeviceInfo.name forState:UIControlStateNormal];
+                NSString *title = [NSString stringWithFormat:@"%@\r%@",self.selectDeviceInfo.name,self.selectDeviceInfo.code_number];
+                [self.deviceBtn setTitle:title forState:UIControlStateNormal];
             }
             else if (item && chooseType == DatePickerType && isDone)
             {
@@ -509,7 +516,18 @@ static CGFloat const ChooseViewHeight  = 328.f;
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"049"])
         {
-            [self showMBP:[dic objectForKey:@"returnmsg"] withBlock:nil];
+            if (IS_IOS_8)
+            {
+                UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"报修失败" message:@"请到“项目管理”中进行验证" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+                [alertCtr addAction:cancelAction];
+                [self presentViewController:alertCtr animated:YES completion:nil];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"报修失败" message:@"请到“项目管理”中进行验证" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }
         }
     }
 }

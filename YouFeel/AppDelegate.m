@@ -591,21 +591,30 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
             NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
             [BXTGlobal shareGlobal].baseURL = url;
-            
-            dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-            dispatch_async(concurrentQueue, ^{
-                /**请求位置列表**/
-                if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
+            if (![[ANKeyValueTable userDefaultTable] valueWithKey:YSAVEDSHOPID] || ![[[ANKeyValueTable userDefaultTable] valueWithKey:YSAVEDSHOPID] isEqualToString:shopID])
+            {
+                /**位置列表**/
+                BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [location_request listOFPlaceIsAllPlace:YES];
+            }
+            else
+            {
+                NSTimeInterval nowTime = [[NSDate date] timeIntervalSince1970];
+                NSInteger now = nowTime;
+                NSInteger ago = [[[ANKeyValueTable userDefaultTable] valueWithKey:YSAVEDTIME] integerValue];
+                //超过7天
+                if (now - ago > 604800)
                 {
+                    /**位置列表**/
                     BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
                     [location_request listOFPlaceIsAllPlace:YES];
                 }
-            });
-            dispatch_async(concurrentQueue, ^{
-                /**分店登录**/
-                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request branchLogin];
-            });
+            }
+            [[ANKeyValueTable userDefaultTable] setValue:shopID withKey:YSAVEDSHOPID];
+            
+            /**分店登录**/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request branchLogin];
         }
         else
         {
@@ -639,6 +648,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         NSMutableArray *dataSource = [[NSMutableArray alloc] init];
         [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
         [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
+        NSTimeInterval nowTime = [[NSDate date] timeIntervalSince1970];
+        NSInteger now = nowTime;
+        [[ANKeyValueTable userDefaultTable] setValue:[NSNumber numberWithInteger:now] withKey:YSAVEDTIME];
     }
     else if (type == PlaceLists && ![[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
@@ -704,7 +716,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您的帐号在别的设备上登录，您被迫下线！" delegate:nil
                                               cancelButtonTitle:@"知道了"
-                                              otherButtonTitles:nil, nil];
+                                              otherButtonTitles:nil];
         [alert show];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
         UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTLoginViewController"];

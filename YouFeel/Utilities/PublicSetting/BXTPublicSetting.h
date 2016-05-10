@@ -72,8 +72,10 @@
 #define KADMINBASEURL            @"http://admin.helloufu.com/?r=port/Get_iPhone_v2_Port"
 #define KAPIBASEURL              @"http://api.helloufu.com/?c=Port&m=actionGet_iPhone_v2_Port"
 
-#define YPLACESAVE              @"PlaceSave"
-#define YMAILLISTSAVE              @"MailListSave"
+#define YPLACESAVE               @"PlaceSave"
+#define YMAILLISTSAVE            @"MailListSave"
+#define YSAVEDSHOPID             @"SavedShopID"
+#define YSAVEDTIME               @"SavedTime"
 
 //  动态计算高度
 #define MB_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text \
