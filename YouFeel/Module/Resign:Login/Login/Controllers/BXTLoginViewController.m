@@ -12,6 +12,7 @@
 #import "BXTDataRequest.h"
 #import "BXTHeadquartersInfo.h"
 #import "AppDelegate.h"
+#import "BXTPlaceInfo.h"
 #import "ANKeyValueTable.h"
 #import "BXTResignViewController.h"
 #import "BXTProjectAddNewViewController.h"
@@ -265,11 +266,31 @@
             }
         } buttonsStatement:@"取消", @"联系客服", nil];
     }
+    else if (type == PlaceLists && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        NSArray *data = [dic objectForKey:@"data"];
+        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"placeID":@"id"};
+        }];
+        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+        [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
+        [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
+    }
+    else if (type == PlaceLists && ![[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace:YES];
+    }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
+    if (type == PlaceLists)
+    {
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning

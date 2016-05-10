@@ -301,6 +301,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
          faultTypeID:(NSString *)faultTypeID
           faultCause:(NSString *)cause
              placeID:(NSString *)placeID
+             adsText:(NSString *)adsText
            deviceIDs:(NSString *)deviceID
           imageArray:(NSArray *)images
      repairUserArray:(NSArray *)userArray

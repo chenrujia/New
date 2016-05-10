@@ -31,7 +31,7 @@
             UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(110.f, 7.f, SCREEN_WIDTH - 110.f - 10.f, 96.f)];
             textView.font = [UIFont systemFontOfSize:16.];
             textView.textColor = colorWithHexString(@"909497");
-            textView.text = @"请输入维修日志";
+            textView.text = @"请输入维修日志（少于200字）";
             [self addSubview:textView];
             textView;
         

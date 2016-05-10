@@ -106,10 +106,16 @@
     [self.currentTable reloadData];
 }
 
+#pragma mark -
+#pragma mark 提交按钮
 - (IBAction)commitClick:(id)sender
 {
     if (self.isOpen)
     {
+        if (self.mutableArray.count == 0)
+        {
+            return;
+        }
         NSString *prefixName = @"";
         NSMutableArray *markArray = self.marksArray[self.lastIndexPath.section];
         NSMutableArray *tempArray = self.mutableArray[self.lastIndexPath.section];
@@ -148,11 +154,23 @@
     }
     else
     {
-        self.selectPlace(self.autoClassifyInfo,self.searchTitlesArray[self.lastIndex]);
+        if (self.searchTitlesArray.count && self.autoClassifyInfo)
+        {
+            self.selectPlace(self.autoClassifyInfo,self.searchTitlesArray[self.lastIndex]);
+        }
+        else
+        {
+            if (self.searchBarView.text.length > 0)
+            {
+                self.selectPlace(nil,self.searchBarView.text);
+            }
+        }
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark -
+#pragma mark 开关
 - (IBAction)switchValueChanged:(id)sender
 {
     UISwitch *swt = sender;

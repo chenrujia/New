@@ -26,6 +26,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
 @interface BXTNewWorkOrderViewController ()<AttributeViewDelegate,BXTDataResponseDelegate,UITextFieldDelegate>
 
 @property (nonatomic, strong) BXTPlaceInfo      *placeInfo;
+@property (nonatomic, strong) NSString          *adsText;//手动输入的位置
 @property (nonatomic, copy  ) NSString          *notes;
 @property (nonatomic, strong) BXTCustomButton   *deviceBtn;
 @property (nonatomic, strong) BXTCustomButton   *dateBtn;
@@ -364,6 +365,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
               faultTypeID:self.selectFaultInfo.orderTypeID
                faultCause:self.notes
                   placeID:self.placeInfo.placeID
+                  adsText:self.adsText
                 deviceIDs:deviceID
                imageArray:self.resultPhotos
           repairUserArray:[NSArray array]
@@ -433,18 +435,28 @@ static CGFloat const ChooseViewHeight  = 328.f;
     @weakify(self);
     [searchVC userChoosePlace:dataSource type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
         @strongify(self);
-        BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
-        self.placeTF.text = name;
-        self.placeInfo = placeInfo;
-        [BXTGlobal showLoadingMBP:@"请稍候..."];
-        /** 设备列表 **/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request devicesWithPlaceID:self.placeInfo.placeID];
+        if (classifyInfo)
+        {
+            self.adsText = nil;
+            BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
+            self.placeTF.text = name;
+            self.placeInfo = placeInfo;
+            [BXTGlobal showLoadingMBP:@"请稍候..."];
+            /** 设备列表 **/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request devicesWithPlaceID:self.placeInfo.placeID];
+        }
+        else
+        {
+            self.adsText = name;
+        }
     }];
     [self.navigationController pushViewController:searchVC animated:YES];
     return NO;
 }
 
+#pragma mark -
+#pragma mark 数据请求代理
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
