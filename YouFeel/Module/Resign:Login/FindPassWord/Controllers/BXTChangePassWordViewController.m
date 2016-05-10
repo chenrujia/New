@@ -11,6 +11,7 @@
 #import "BXTResignTableViewCell.h"
 #import "BXTProjectAddNewViewController.h"
 #import "ANKeyValueTable.h"
+#import "BXTPlaceInfo.h"
 
 @interface BXTChangePassWordViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,BXTDataResponseDelegate>
 
@@ -226,6 +227,21 @@
             [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
+    else if (type == PlaceLists && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        NSArray *data = [dic objectForKey:@"data"];
+        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"placeID":@"id"};
+        }];
+        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+        [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
+        [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
+    }
+    else if (type == PlaceLists && ![[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace:YES];
+    }
     else
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
@@ -261,6 +277,11 @@
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
+    if (type == PlaceLists)
+    {
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning

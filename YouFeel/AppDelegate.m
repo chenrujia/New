@@ -23,6 +23,7 @@
 #import "UIViewController+Swizzled.h"
 #import "BXTProjectAddNewViewController.h"
 #import "BXTNewOrderViewController.h"
+#import "BXTNickNameViewController.h"
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -594,14 +595,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
             dispatch_async(concurrentQueue, ^{
                 /**请求位置列表**/
-                //TODO: 一周更新一次
-                //                if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
-                //                {
-                //                    BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-                //                    [location_request listOFPlaceIsAllPlace:YES];
-                //                }
-                BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [location_request listOFPlaceIsAllPlace:YES];
+                if (![[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE])
+                {
+                    BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+                    [location_request listOFPlaceIsAllPlace:YES];
+                }
             });
             dispatch_async(concurrentQueue, ^{
                 /**分店登录**/
@@ -632,7 +630,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
-    else if (type == PlaceLists)
+    else if (type == PlaceLists && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
         NSArray *data = [dic objectForKey:@"data"];
         [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
@@ -642,18 +640,17 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
         [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
     }
+    else if (type == PlaceLists && ![[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace:YES];
+    }
     else if (type == BindingUser && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [BXTGlobal showText:@"绑定微信号成功" view:self.window completionBlock:nil];
         SaveValueTUD(BINDINGWEIXIN, @"2");
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"BindingWeixinNotify" object:nil];
-    }
-    else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
-    {
-        //        BXTNickNameViewController *nickNameVC = [[BXTNickNameViewController alloc] init];
-        //        [nickNameVC isLoginByWeiXin:self.isLoginByWX];
-        //        [self.navigationController pushViewController:nickNameVC animated:YES];
     }
     else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"004"])
     {
@@ -671,7 +668,15 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self loadingLoginVC];
+    if (type == LoginType)
+    {
+        [self loadingLoginVC];
+    }
+    else if (type == PlaceLists)
+    {
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace:YES];
+    }
 }
 
 - (NSString*)formateTime:(NSDate*)date
@@ -734,7 +739,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [GeTuiSdk resume];  // 恢复个推SDK运行
-    //    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application

@@ -479,7 +479,7 @@
 #pragma mark UITextViewDelegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:@"请输入维修日志"])
+    if ([textView.text isEqualToString:@"请输入维修日志（少于200字）"])
     {
         textView.text = @"";
     }
@@ -491,7 +491,7 @@
     self.mmLog = textView.text;
     if (textView.text.length < 1)
     {
-        textView.text = @"请输入维修日志";
+        textView.text = @"请输入维修日志（少于200字）";
     }
 }
 

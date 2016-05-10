@@ -13,6 +13,7 @@
 #import "BXTResignTableViewCell.h"
 #import "BXTDataRequest.h"
 #import "ANKeyValueTable.h"
+#import "BXTPlaceInfo.h"
 #import "BXTProjectAddNewViewController.h"
 
 @interface BXTResignViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
@@ -115,7 +116,7 @@
             else
             {
                 [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
-                if (_isLoginByWX)
+                if (self.isLoginByWX)
                 {
                     [self showLoadingMBP:@"请稍后..."];
                     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -127,9 +128,8 @@
                 else
                 {
                     [BXTGlobal setUserProperty:self.passWord withKey:U_PASSWORD];
-                    
                     BXTNickNameViewController *nickNameVC = [[BXTNickNameViewController alloc] init];
-                    [nickNameVC isLoginByWeiXin:self.isLoginByWX];
+                    [nickNameVC isLoginByWeiXin:NO];
                     [self.navigationController pushViewController:nickNameVC animated:YES];
                 }
             }
@@ -329,11 +329,31 @@
         self.returncode = [NSString stringWithFormat:@"%@", [dic objectForKey:@"verification_code"]];
         [self updateTime];
     }
+    else if (type == PlaceLists && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        NSArray *data = [dic objectForKey:@"data"];
+        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"placeID":@"id"};
+        }];
+        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+        [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
+        [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
+    }
+    else if (type == PlaceLists && ![[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    {
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace:YES];
+    }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
+    if (type == PlaceLists)
+    {
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace:YES];
+    }
 }
 
 - (void)updateTime

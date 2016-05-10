@@ -86,13 +86,12 @@
 {
     self.requestType = BranchResign;
     NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};
-    //TODO:shop_id=11这是测试值
-    NSString *url = [NSString stringWithFormat:@"%@&shop_id=11&module=user&opt=add_user",KAPIBASEURL];
-    
+    //TODO:shop_id=6这是测试值
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=6&module=user&opt=add_user",KAPIBASEURL];
     // 不给baseURL赋值，注册后URL无前缀
-    [BXTGlobal shareGlobal].baseURL = [NSString stringWithFormat:@"%@&shop_id=11", KAPIBASEURL];
+    [BXTGlobal shareGlobal].baseURL = [NSString stringWithFormat:@"%@&shop_id=6", KAPIBASEURL];
     // 更新U_SHOPIDS
-    [BXTGlobal setUserProperty:@[@"11"] withKey:U_SHOPIDS];
+    [BXTGlobal setUserProperty:@[@"6"] withKey:U_SHOPIDS];
     
     [self postRequest:url withParameters:dic];
 }
@@ -112,8 +111,8 @@
     }
     else
     {
-        //TODO: 11是临时值
-        shopID = @"11";
+        //TODO: 6是临时值
+        shopID = @"6";
         url = [NSString stringWithFormat:@"%@&shop_id=%@&module=user&opt=shop_login", KAPIBASEURL, shopID];
     }
     
@@ -430,6 +429,7 @@
          faultTypeID:(NSString *)faultTypeID
           faultCause:(NSString *)cause
              placeID:(NSString *)placeID
+             adsText:(NSString *)adsText
            deviceIDs:(NSString *)deviceID
           imageArray:(NSArray *)images
      repairUserArray:(NSArray *)userArray
@@ -437,13 +437,28 @@
 {
     self.requestType = CreateRepair;
     NSString *faultID = [BXTGlobal getUserProperty:U_BRANCHUSERID];
-    NSDictionary *dic = @{@"fault_id":faultID,
-                          @"fault_appointment_time":reserveTime,
-                          @"faulttype_id":faultTypeID,
-                          @"cause":cause,
-                          @"place_id":placeID,
-                          @"device_ids":deviceID,
-                          @"is_myself":isMySelf};
+    NSDictionary *dic;
+    if (adsText)
+    {
+        dic = @{@"fault_id":faultID,
+                @"fault_appointment_time":reserveTime,
+                @"faulttype_id":faultTypeID,
+                @"cause":cause,
+                @"ads_txt":adsText,
+                @"device_ids":deviceID,
+                @"is_myself":isMySelf};
+    }
+    else
+    {
+        dic = @{@"fault_id":faultID,
+                @"fault_appointment_time":reserveTime,
+                @"faulttype_id":faultTypeID,
+                @"cause":cause,
+                @"place_id":placeID,
+                @"device_ids":deviceID,
+                @"is_myself":isMySelf};
+    }
+    
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_fault",[BXTGlobal shareGlobal].baseURL];
     if (images.count)
     {

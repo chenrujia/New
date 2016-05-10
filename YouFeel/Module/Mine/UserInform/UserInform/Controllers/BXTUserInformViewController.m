@@ -13,7 +13,6 @@
 #import "UIImageView+WebCache.h"
 #import "BXTChangeNameViewController.h"
 #import "BXTChangePhoneViewController.h"
-#import "BXTNickNameViewController.h"
 #import "WXApi.h"
 
 @interface BXTUserInformViewController () <UITableViewDataSource,UITableViewDelegate, BXTDataResponseDelegate>

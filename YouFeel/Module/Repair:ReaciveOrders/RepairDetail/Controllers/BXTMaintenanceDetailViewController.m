@@ -769,7 +769,7 @@
 #pragma mark 底部按钮事件处理
 - (void)actionWithButtonInfo:(BXTButtonInfo *)btnInfo
 {
-    //1.取消按钮 2.接单按钮 3.派工按钮 4.增援按钮 5.开始维修 6.结束维修 7.确认驳回 8.确认工单 9.评价工单 10.已评价 11.派工驳回 12.派工确认
+    //1.取消按钮 2.接单按钮 3.派工按钮 4.增援按钮 5.开始维修 6.结束维修 7.确认驳回 8.确认工单 9.评价工单 11.派工驳回 12.派工确认
     if (btnInfo.button_key == 1)
     {
         [self cancelTheRepair];
