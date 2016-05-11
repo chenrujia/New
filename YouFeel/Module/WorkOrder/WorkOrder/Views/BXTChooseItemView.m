@@ -58,11 +58,23 @@ static NSInteger const DoneBtnTag = 12;
         UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(frame) - 56.f, SCREEN_WIDTH, 56)];
         toolView.backgroundColor = colorWithHexString(@"ffffff");
         [self addSubview:toolView];
+        // cancel
+        UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 56)];
+        [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        @weakify(self);
+        [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            self.chooseBlock(nil,self.viewType,NO);
+        }];
+        cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+        cancelBtn.layer.borderWidth = 0.5;
+        cancelBtn.tag = CancelBtnTag;
+        [toolView addSubview:cancelBtn];
         // sure
-        UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, 56)];
+        UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 56)];
         [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
         [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        @weakify(self);
         [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
             if (self.viewType == DeviceListType)
@@ -78,19 +90,6 @@ static NSInteger const DoneBtnTag = 12;
         sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
         sureBtn.layer.borderWidth = 0.5;
         [toolView addSubview:sureBtn];
-        // cancel
-        UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, 56)];
-        [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-        [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        
-        [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            @strongify(self);
-            self.chooseBlock(nil,self.viewType,NO);
-        }];
-        cancelBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
-        cancelBtn.layer.borderWidth = 0.5;
-        cancelBtn.tag = CancelBtnTag;
-        [toolView addSubview:cancelBtn];
     }
     return self;
 }
@@ -141,7 +140,14 @@ static NSInteger const DoneBtnTag = 12;
     self.currentDatePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     self.currentDatePicker.backgroundColor = colorWithHexString(@"ffffff");
     self.currentDatePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    NSTimeInterval minTime = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval maxTime = minTime + 60 * 60 * 24 * 30;
+    NSTimeInterval appointmentTime = minTime + 60 * 60;
+    NSDate *maxDate = [NSDate dateWithTimeIntervalSince1970:maxTime];
+    NSDate *appointmentDate = [NSDate dateWithTimeIntervalSince1970:appointmentTime];
     self.currentDatePicker.minimumDate = [NSDate date];
+    self.currentDatePicker.maximumDate = maxDate;
+    self.currentDatePicker.date = appointmentDate;
     @weakify(self);
     [[self.currentDatePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
         @strongify(self);

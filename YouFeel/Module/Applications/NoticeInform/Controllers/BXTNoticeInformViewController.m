@@ -28,7 +28,7 @@
         [self navigationSetting:@"公告详情" andRightTitle:nil andRightImage:nil];
     }
     
-    [self showLoadingMBP:@"努力加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
     NSString *urlStr = self.urlStr;
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];

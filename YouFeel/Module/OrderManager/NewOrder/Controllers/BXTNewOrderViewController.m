@@ -24,7 +24,7 @@
 @property (nonatomic, strong) UILabel        *repairerName;
 @property (nonatomic, strong) UILabel        *detailName;
 @property (nonatomic, strong) UILabel        *identifyName;
-@property (nonatomic, strong) UILabel        *groupName;
+@property (nonatomic, strong) UILabel        *orderType;
 @property (nonatomic, strong) UILabel        *repairID;
 @property (nonatomic, strong) UILabel        *timeLabel;
 @property (nonatomic, strong) UILabel        *placeLabel;
@@ -32,17 +32,18 @@
 @property (nonatomic, strong) UILabel        *cause;
 @property (nonatomic ,strong) NSString       *currentOrderID;
 @property (nonatomic ,strong) NSMutableArray *manIDArray;
+@property (nonatomic, assign) BOOL           isVoice;
 
 @end
 
 @implementation BXTNewOrderViewController
 
-- (instancetype)initWithOrderID:(NSString *)orderID
+- (instancetype)initWithIsVoice:(BOOL)isVoice
 {
     self = [super init];
     if (self)
     {
-        self.currentOrderID = orderID;
+        self.isVoice = isVoice;
     }
     return self;
 }
@@ -50,17 +51,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"新工单" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"新工单" andRightTitle:@"" andRightImage:nil];
+
     self.manIDArray = [NSMutableArray array];
-    
-    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
-    player.volume = 0.8f;
-    player.numberOfLoops = -1;
-    [self afterTime];
+    if (self.isVoice)
+    {
+        player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
+        player.volume = 0.8f;
+        player.numberOfLoops = -1;
+        [self afterTime];
+    }
     [self createSubviews];
     
     /**获取详情**/
-    [self showLoadingMBP:@"努力加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     ++[BXTGlobal shareGlobal].assignNumber;
     NSInteger index = [BXTGlobal shareGlobal].assignNumber;
@@ -144,14 +148,14 @@
     [self.view addSubview:self.repairID];
     
     //工单所属部门
-    self.groupName = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 50.f - 15.f, CGRectGetMaxY(line.frame) + 12.f, 50.f, 26.3f)];
-    self.groupName.textColor = colorWithHexString(@"ffffff");
-    self.groupName.backgroundColor = colorWithHexString(@"AFB3BB");
-    self.groupName.layer.cornerRadius = 3.f;
-    self.groupName.layer.masksToBounds = YES;
-    self.groupName.font = [UIFont systemFontOfSize:16.f];
-    self.groupName.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:self.groupName];
+    self.orderType = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 50.f - 15.f, CGRectGetMaxY(line.frame) + 12.f, 40.f, 20.f)];
+    self.orderType.textColor = colorWithHexString(@"ffffff");
+    self.orderType.backgroundColor = colorWithHexString(@"AFB3BB");
+    self.orderType.layer.cornerRadius = 2.f;
+    self.orderType.layer.masksToBounds = YES;
+    self.orderType.font = [UIFont systemFontOfSize:16.f];
+    self.orderType.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.orderType];
     
     //时间
     self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.repairID.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
@@ -229,8 +233,15 @@
 #pragma mark 事件
 - (void)navigationLeftButton
 {
-    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID viewControllerType:AssignVCType];
-    [self.navigationController pushViewController:rejectVC animated:YES];
+    if (self.isVoice)
+    {
+        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID viewControllerType:AssignVCType];
+        [self.navigationController pushViewController:rejectVC animated:YES];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)connectTa
@@ -337,13 +348,8 @@
         self.repairID.text = [NSString stringWithFormat:@"工单号:%@",self.repairDetail.orderid];
         self.timeLabel.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
        
-        //根据分组名字的长度动态调整groupName的宽度
-        NSString *group_name = self.repairDetail.faulttype_name;
-        CGSize group_size = MB_MULTILINE_TEXTSIZE(group_name, [UIFont systemFontOfSize:16.f], CGSizeMake(SCREEN_WIDTH, 40.f), NSLineBreakByWordWrapping);
-        group_size.width += 10.f;
-        group_size.height = CGRectGetHeight(self.groupName.frame);
-        self.groupName.frame = CGRectMake(SCREEN_WIDTH - group_size.width - 15.f, CGRectGetMinY(self.groupName.frame), group_size.width, group_size.height);
-        self.groupName.text = group_name;
+        self.orderType.text = [self.repairDetail.task_type intValue] == 1 ? @"日常" : @"维保";
+        self.orderType.backgroundColor = [self.repairDetail.task_type intValue] == 1 ? colorWithHexString(@"#F0B660") : colorWithHexString(@"#7EC86E");
         
         //根据位置的长度动态调整placeLabel的高度
         NSString *place_str = [NSString stringWithFormat:@"位置:%@",self.repairDetail.place_name];

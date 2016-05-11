@@ -188,12 +188,6 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self updateContentView];
-}
-
 - (UIButton *)initialButton:(BOOL)isLeft
 {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -219,10 +213,12 @@ static CGFloat const ChooseViewHeight  = 328.f;
     UIView *subview = nil;
     if (self.openSwitch.on)
     {
+        [self.dateSelectBtnBV layoutIfNeeded];
         subview = self.dateSelectBtnBV;
     }
     else
     {
+        [self.openSwitch layoutIfNeeded];
         subview = self.openSwitch;
     }
     if (CGRectGetMaxY(subview.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
@@ -265,7 +261,6 @@ static CGFloat const ChooseViewHeight  = 328.f;
         self.deviceSelectBtnBV.hidden = YES;
         self.notes_image_top.constant = 20.f;
     }
-    
     [self.notes_image layoutIfNeeded];
     [self updateContentView];
 }
@@ -339,6 +334,22 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (void)commitOrder:(NSString *)isMySelf
 {
+    if (!self.placeInfo)
+    {
+        if (IS_IOS_8)
+        {
+            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"请确定报修位置" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+            [alertCtr addAction:doneAction];
+            [self presentViewController:alertCtr animated:YES completion:nil];
+        }
+        else
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请确定报修位置" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+        }
+        return;
+    }
     if (self.notes.length == 0)
     {
         if (IS_IOS_8)
@@ -482,6 +493,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         self.order_type_height.constant = attView.height;
         [self.orderTypeBV layoutIfNeeded];
         [self.orderTypeBV addSubview:attView];
+        [self updateContentView];
     }
     else if (type == DeviceList)
     {

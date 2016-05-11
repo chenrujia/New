@@ -48,7 +48,7 @@
     {
         self.orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
         /**获取详情**/
-        [self showLoadingMBP:@"努力加载中..."];
+        [self showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request repairDetail:self.orderID];
     }

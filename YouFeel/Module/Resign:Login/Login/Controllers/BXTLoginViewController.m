@@ -114,6 +114,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [BXTGlobal shareGlobal].isLogin = NO;
     self.navigationController.navigationBar.hidden = YES;
 }
 
