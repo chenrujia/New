@@ -8,6 +8,11 @@
 //
 
 #import "DOPDropDownMenu.h"
+#import "BXTPublicSetting.h"
+
+@interface DOPDropDownMenu ()
+
+@end
 
 @implementation DOPIndexPath
 
@@ -109,7 +114,7 @@
 
 //layers array
 @property (nonatomic, copy) NSArray *titles;
-@property (nonatomic, copy) NSArray *indicators;
+@property (nonatomic, strong) NSMutableArray *indicatorsArray;
 @property (nonatomic, copy) NSArray *bgLayers;
 
 @end
@@ -203,7 +208,7 @@
     }
     
     _dataSource = dataSource;
-
+    
     //configure view
     if ([_dataSource respondsToSelector:@selector(numberOfColumnsInMenu:)]) {
         
@@ -253,13 +258,20 @@
             titleString =[_dataSource menu:self titleForRowAtIndexPath:[DOPIndexPath indexPathWithCol:i row:0]];
             
         }
-
+        
         CATextLayer *title = [self createTextLayerWithNSString:titleString withColor:self.textColor andPosition:titlePosition];
         [self.layer addSublayer:title];
         [tempTitles addObject:title];
         
+        // TODO: -----------------  调试  -----------------
+        CGFloat indicatorX = titleString.length <= 3 ? titleString.length * 10 : 30;
+        if (IS_IPHONE6P) {
+            indicatorX = titleString.length <= 5 ? titleString.length * 6 : 30;
+        } else if (IS_IPHONE6) {
+            indicatorX = titleString.length <= 4 ? titleString.length * 7 : 28;
+        }
         //indicator
-        CAShapeLayer *indicator = [self createIndicatorWithColor:self.indicatorColor andPosition:CGPointMake((i + 1)*separatorLineInterval - 10, self.frame.size.height / 2)];
+        CAShapeLayer *indicator = [self createIndicatorWithColor:self.indicatorColor andPosition:CGPointMake((i + 1)*separatorLineInterval - 40 + indicatorX, self.frame.size.height / 2)];
         [self.layer addSublayer:indicator];
         [tempIndicators addObject:indicator];
         
@@ -271,11 +283,11 @@
             [self.layer addSublayer:separator];
             
         }
-
+        
     }
     
     _titles = [tempTitles copy];
-    _indicators = [tempIndicators copy];
+    _indicatorsArray = [[NSMutableArray alloc] initWithArray:tempIndicators];
     _bgLayers = [tempBgLayers copy];
     
 }
@@ -447,12 +459,12 @@
     
     //calculate index
     NSInteger tapIndex = touchPoint.x / (self.frame.size.width / _numOfMenu);
- 
+    
     for (int i = 0; i < _numOfMenu; i++) {
         
         if (i != tapIndex) {
             
-            [self animateIndicator:_indicators[i] Forward:NO complete:^{
+            [self animateIndicator:_indicatorsArray[i] Forward:NO complete:^{
                 
                 [self animateTitle:_titles[i] show:NO complete:^{
                     
@@ -467,7 +479,7 @@
     
     if (tapIndex == _currentSelectedMenudIndex && _show) {
         
-        [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
+        [self animateIdicator:_indicatorsArray[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
             
             _currentSelectedMenudIndex = tapIndex;
             _show = NO;
@@ -484,7 +496,7 @@
             
         }
         
-        [self animateIdicator:_indicators[tapIndex] background:_backGroundView tableView:_leftTableView title:_titles[tapIndex] forward:YES complecte:^{
+        [self animateIdicator:_indicatorsArray[tapIndex] background:_backGroundView tableView:_leftTableView title:_titles[tapIndex] forward:YES complecte:^{
             
             _show = YES;
             
@@ -497,12 +509,12 @@
 - (void)backgroundTapped:(UITapGestureRecognizer *)paramSender
 {
     
-    [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
+    [self animateIdicator:_indicatorsArray[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
         
         _show = NO;
         
     }];
-
+    
 }
 
 #pragma mark - animation method
@@ -561,7 +573,7 @@
         
         [UIView animateWithDuration:0.2 animations:^{
             
-             view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+            view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
             
         } completion:^(BOOL finished) {
             
@@ -579,7 +591,7 @@
 {
     
     BOOL haveItems = NO;
-
+    
     if (_dataSource) {
         
         NSInteger num = [_leftTableView numberOfRowsInSection:0];
@@ -625,7 +637,7 @@
             
             if (haveItems) {
                 
-                 _leftTableView.frame = CGRectMake(self.origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width/2, tableViewHeight);
+                _leftTableView.frame = CGRectMake(self.origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width/2, tableViewHeight);
                 
                 _rightTableView.frame = CGRectMake(self.origin.x + self.frame.size.width/2, self.frame.origin.y + self.frame.size.height, self.frame.size.width/2, tableViewHeight);
                 
@@ -728,7 +740,7 @@
         if (_dataSourceFlags.numberOfRowsInColumn) {
             
             return [_dataSource menu:self
-                    numberOfRowsInColumn:_currentSelectedMenudIndex];
+                numberOfRowsInColumn:_currentSelectedMenudIndex];
             
         } else {
             
@@ -742,7 +754,7 @@
         if (_dataSourceFlags.numberOfItemsInRow) {
             
             return [_dataSource menu:self
-                    numberOfItemsInRow:_currentSelectedMenudRow column:_currentSelectedMenudIndex];
+                  numberOfItemsInRow:_currentSelectedMenudRow column:_currentSelectedMenudIndex];
             
         } else {
             
@@ -786,7 +798,7 @@
         
         if ([cell.textLabel.text isEqualToString:[(CATextLayer *)[_titles objectAtIndex:_currentSelectedMenudIndex] string]]) {
             
-           [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+            [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
             
         }
         
@@ -898,16 +910,45 @@
     } else {
         
         title.string = [_dataSource menu:self titleForRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:row]];
-        [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
+        
+        // TODO: -----------------  调试  -----------------
+        [self refreshTheInfo];
+        
+        [self animateIdicator:_indicatorsArray[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
             
             _show = NO;
             
         }];
         
         return YES;
-        
     }
+}
+
+- (void)refreshTheInfo
+{
+    for (CAShapeLayer *layer in _indicatorsArray) {
+        [layer removeFromSuperlayer];
+    }
+    [_indicatorsArray removeAllObjects];
     
+    CGFloat separatorLineInterval = self.frame.size.width / _numOfMenu;
+    for (int i=0; i<_titles.count; i++) {
+        CATextLayer *layer = _titles[i];
+        NSString *titleString = @"";
+        if (layer.string) {
+            titleString = layer.string;
+        }
+        CGFloat indicatorX = titleString.length <= 3 ? titleString.length * 10 : 30;
+        if (IS_IPHONE6P) {
+            indicatorX = titleString.length <= 5 ? titleString.length * 6 : 30;
+        } else if (IS_IPHONE6) {
+            indicatorX = titleString.length <= 4 ? titleString.length * 7 : 28;
+        }
+        //indicator
+        CAShapeLayer *indicator = [self createIndicatorWithColor:self.indicatorColor andPosition:CGPointMake((i + 1)*separatorLineInterval - 40 + indicatorX, self.frame.size.height / 2)];
+        [self.layer addSublayer:indicator];
+        [_indicatorsArray addObject:indicator];
+    }
 }
 
 - (void)confiMenuWithSelectItem:(NSInteger)item
@@ -915,18 +956,22 @@
     
     CATextLayer *title = (CATextLayer *)_titles[_currentSelectedMenudIndex];
     title.string = [_dataSource menu:self titleForItemsInRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:_currentSelectedMenudRow item:item]];
-    [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
+    
+    // TODO: -----------------  调试  -----------------
+    [self refreshTheInfo];
+    
+    [self animateIdicator:_indicatorsArray[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
         
         _show = NO;
         
     }];
-
+    
 }
 
 /// reloadData
 - (void)reloadData
 {
-
+    
     id<DOPDropDownMenuDataSource> tempDataSource = _dataSource;
     self.dataSource = nil;
     self.dataSource = tempDataSource;
@@ -938,11 +983,11 @@
         [_leftTableView reloadData];
         
     }
-
+    
 }
 
 @end
 
 // 版权属于原作者
 // http://code4app.com (cn) http://code4app.net (en)
-// 发布代码于最专业的源码分享网站: Code4App.com 
+// 发布代码于最专业的源码分享网站: Code4App.com

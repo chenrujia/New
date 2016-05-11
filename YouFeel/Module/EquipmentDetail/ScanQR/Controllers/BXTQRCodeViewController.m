@@ -10,6 +10,7 @@
 #import "MYAlertAction.h"
 #import "BXTDataRequest.h"
 #import "BXTEquipmentViewController.h"
+#import "BXTNewWorkOrderViewController.h"
 
 @interface BXTQRBaseViewController () <BXTDataResponseDelegate>
 
@@ -198,9 +199,24 @@
             NSDictionary *dict = data[0];
             NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
             
-            BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_content"]];
-            epvc.pushType = PushType_Scan;
-            [self.navigationController pushViewController:epvc animated:YES];
+            [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
+                if (buttonIdx == 1) {
+                    BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_content"]];
+                    epvc.pushType = PushType_Scan;
+                    [self.navigationController pushViewController:epvc animated:YES];
+                }
+                else if (buttonIdx == 2) {
+                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+                    BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
+                    newVC.isNewWorkOrder = YES;
+                    NSArray *qr_moreArray = dict[@"qr_content"];
+//                    newVC.transDict = qr_moreArray[0];
+                    [self.navigationController pushViewController:newVC animated:YES];
+                }
+                else {
+                    [self reStartDevice];
+                }
+            } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"查看设备详情", @"设备报修", nil];
         }
     }
     else

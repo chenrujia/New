@@ -154,6 +154,8 @@
         BXTProjectInformContentCell *cell = [BXTProjectInformContentCell cellWithTableView:tableView];
         cell.projectInfo = self.projectInfo;
         
+        [self transVertifyState:self.transMyProject.verify_state Cell:cell];
+        
         return cell;
     }
     
@@ -217,7 +219,7 @@
         }];
         self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
         
-        // [self.projectInfo.type integerValue] == 1 ? @"项目管理公司" : @"客户组";
+        // [self.projectInfo.type integerValue] == 1 ? @"物业员工" : @"客户";
         self.isCompany = [self.projectInfo.type integerValue] == 1;
         if (self.isCompany) {
             [self.dataArray removeObjectAtIndex:1];
@@ -240,6 +242,26 @@
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
+}
+
+- (void)transVertifyState:(NSString *)state Cell:(BXTProjectInformContentCell *)cell
+{
+    // verify_state 状态：0未认证 1申请中 2已认证，没有状态3（不通过），如果审核的时候选择了不通过，则将状态直接设置为0
+    switch ([state integerValue]) {
+        case 0: {
+            cell.stateView.text = @"未认证";
+            cell.stateView.textColor = colorWithHexString(@"#696869");
+        } break;
+        case 1: {
+            cell.stateView.text = @"申请中";
+            cell.stateView.textColor = colorWithHexString(@"#D2564D");
+        } break;
+        case 2: {
+            cell.stateView.text = @"已认证";
+            cell.stateView.textColor = colorWithHexString(@"#5BB0F7");
+        } break;
+        default: break;
+    }
 }
 
 - (void)didReceiveMemoryWarning

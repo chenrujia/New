@@ -48,7 +48,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self navigationSetting:@"通讯录(商铺)" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"通讯录" andRightTitle:nil andRightImage:nil];
     
     self.dataArray = [[NSMutableArray alloc] init];
     
@@ -367,6 +367,13 @@
             [request mailListOfUserListWithShopIDs:idStr];
         }
         SaveValueTUD(@"user_lists_shop_ids", idStr);
+        
+        if (self.dataArray.count == 1) {
+            BXTMailListViewController *mlvc = [[BXTMailListViewController alloc] init];
+            mlvc.transMailInfo = self.dataArray[0];
+            mlvc.isSinglePush = YES;
+            [self.navigationController pushViewController:mlvc animated:YES];
+        }
         
         [self.tableView reloadData];
     }

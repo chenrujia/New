@@ -94,6 +94,7 @@
     // 根据当前的x坐标和页宽度计算出当前页数
     NSInteger page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     
+    
     if (page == currentPage) return;
     currentPage = page;
     

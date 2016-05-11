@@ -60,7 +60,7 @@
     [backView setBackgroundColor:colorWithHexString(@"ffffff")];
     [self.view addSubview:backView];
     
-    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息",@"设备工单",@"维保档案"] isWhiteBGColor:1];
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 5.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"设备信息", @"维保档案"] isWhiteBGColor:1];
     
     segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     segment.layer.masksToBounds = YES;
@@ -71,7 +71,7 @@
     
     currentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, navBarHeight + 40.f, SCREEN_WIDTH, SCREEN_HEIGHT - navBarHeight - 40.f)];
     currentScrollView.delegate = self;
-    currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
+    currentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 2, 0);
     currentScrollView.pagingEnabled = YES;
     currentScrollView.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:currentScrollView];
@@ -79,17 +79,17 @@
     BXTEquipmentInformView *epiView = [[BXTEquipmentInformView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
     [currentScrollView addSubview:epiView];
     
-    BXTCurrentOrderView *codView = [[BXTCurrentOrderView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
-    [currentScrollView addSubview:codView];
+//    BXTCurrentOrderView *codView = [[BXTCurrentOrderView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
+//    [currentScrollView addSubview:codView];
     
-    BXTEquipmentFilesView *epfView = [[BXTEquipmentFilesView alloc] initWithFrame:CGRectMake(2*SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
+    BXTEquipmentFilesView *epfView = [[BXTEquipmentFilesView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
     [currentScrollView addSubview:epfView];
     
     // 跳转类型判断
     if (self.pushType == PushType_StartMaintain)
     {
-        [segment segemtBtnChange:2];
-        [currentScrollView setContentOffset:CGPointMake(2 * SCREEN_WIDTH, 0) animated:YES];
+        [segment segemtBtnChange:1];
+        [currentScrollView setContentOffset:CGPointMake(1 * SCREEN_WIDTH, 0) animated:YES];
     }
 }
 

@@ -138,9 +138,9 @@
     if (indexPath.section == 0 && indexPath.row == 1)
     {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(SCREEN_WIDTH-115, 10, 100, 30);
+        button.frame = CGRectMake(SCREEN_WIDTH-90, 10, 75, 30);
         button.titleLabel.font = [UIFont systemFontOfSize:14];
-        [button setTitle:@"查看操作规范" forState:UIControlStateNormal];
+        [button setTitle:@"操作规范" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         button.layer.borderColor = [[UIColor blackColor] CGColor];
         button.layer.borderWidth = 0.5;
@@ -259,7 +259,7 @@
         self.stateName = self.equipmentModel.state_name;
         
         // section == 1
-        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:self.equipmentModel.model_number, self.equipmentModel.type_name, self.equipmentModel.brand, self.equipmentModel.place_name, self.equipmentModel.server_area, self.equipmentModel.install_time, self.equipmentModel.start_time, nil];
+        NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:self.equipmentModel.model_number, self.equipmentModel.type_name, self.equipmentModel.brand, self.equipmentModel.place_name, self.equipmentModel.server_area, self.equipmentModel.take_over_data, self.equipmentModel.start_data, nil];
         
         // section == 2
         NSDictionary *factoryDict = dataDict[@"factory_info"];

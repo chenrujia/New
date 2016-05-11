@@ -13,4 +13,7 @@
 
 @property (strong, nonatomic) BXTMailRootInfo *transMailInfo;
 
+/** ---- 是否为直接跳转，是返回首页 ---- */
+@property (assign, nonatomic) BOOL isSinglePush;
+
 @end

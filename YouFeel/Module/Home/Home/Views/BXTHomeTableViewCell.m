@@ -40,13 +40,13 @@
         
         self.numberLabel = ({
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, 20.f, 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, 17.f, 17.f)];
             label.center = CGPointMake(SCREEN_WIDTH - 45, _logoImgView.center.y);
             label.textColor = colorWithHexString(@"ffffff");
             label.textAlignment = NSTextAlignmentCenter;
             label.backgroundColor = [UIColor redColor];
             label.font = [UIFont systemFontOfSize:11];
-            label.layer.cornerRadius = 10;
+            label.layer.cornerRadius = 8.5f;
             label.layer.masksToBounds = YES;
             [self addSubview:label];
             label;
