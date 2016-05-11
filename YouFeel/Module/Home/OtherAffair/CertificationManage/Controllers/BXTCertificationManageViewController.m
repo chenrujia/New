@@ -26,7 +26,7 @@
     [self navigationSetting:@"认证审批" andRightTitle:nil andRightImage:nil];
     [self createUI];
     
-    [self showLoadingMBP:@"努力加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     /** 项目认证详情 **/
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
     [dataRequest projectAuthenticationDetailWithApplicantID:self.transID shopID:@""];
@@ -59,7 +59,7 @@
     @weakify(self);
     [[switchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self showLoadingMBP:@"努力加载中..."];
+        [self showLoadingMBP:@"加载中..."];
         /** 项目认证详情 **/
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
         [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid affairs_id:self.affairs_id isVerify:@"0"];
@@ -74,7 +74,7 @@
     changeBtn.layer.cornerRadius = 5;
     [[changeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self showLoadingMBP:@"努力加载中..."];
+        [self showLoadingMBP:@"加载中..."];
         /** 项目认证详情 **/
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
         [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid affairs_id:self.affairs_id isVerify:@"1"];

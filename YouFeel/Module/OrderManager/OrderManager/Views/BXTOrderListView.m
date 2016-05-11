@@ -162,7 +162,7 @@
 #pragma mark - 数据请求
 - (void)requestData
 {
-    [self showLoadingMBP:@"努力加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         RepairListType listType = self.isRepair ? MyMaintenanceList : MyRepairList;
@@ -197,7 +197,7 @@
 
 - (void)getResource
 {
-    [self showLoadingMBP:@"努力加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     /**获取报修列表**/
     RepairListType listType = self.isRepair ? MyMaintenanceList : MyRepairList;
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];

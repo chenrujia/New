@@ -52,6 +52,7 @@
                       placeName:(NSString *)placeName
                     faultTypeID:(NSString *)faultTypeID
                   faultTypeName:(NSString *)faultTypeName
+                 maintenceNotes:(NSString *)notes
                      deviceList:(NSArray *)devices
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -67,7 +68,7 @@
         isDone = YES;
         self.state = @"2";
         self.maintenanceState = @"已修好";
-        self.mmLog = @"";
+        self.mmLog = notes;
         self.faultTypeID = faultTypeID;
         
         BXTPlaceInfo *placeInfo = [BXTPlaceInfo new];
@@ -294,6 +295,10 @@
         
         logCell.titleLabel.text = @"维修记录";
         logCell.remarkTV.delegate = self;
+        if (self.mmLog.length)
+        {
+            logCell.remarkTV.text = self.mmLog;
+        }
         
         return logCell;
     }

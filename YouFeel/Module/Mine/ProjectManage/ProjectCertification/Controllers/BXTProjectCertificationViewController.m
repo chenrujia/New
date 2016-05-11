@@ -85,7 +85,7 @@
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"努力加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**请求故障类型列表**/
@@ -135,7 +135,7 @@
             [MYAlertAction showAlertWithTitle:@"请填写完整" msg:nil chooseBlock:nil buttonsStatement:@"确定", nil];
         }
         else {
-            [self showLoadingMBP:@"努力加载中..."];
+            [self showLoadingMBP:@"加载中..."];
             BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
             
             if (self.transProjectInfo) {
@@ -363,7 +363,7 @@
         [self.detailArray replaceObjectAtIndex:3 withObject:name];
         [self.transArray replaceObjectAtIndex:3 withObject:placeInfo.placeID];
         [self.tableView reloadData];
-        [self showLoadingMBP:@"努力加载中..."];
+        [self showLoadingMBP:@"加载中..."];
         /**维修位置**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
         [fau_request modifyBindPlaceWithShopID:self.transMyProject.shop_id placeID:placeInfo.placeID];

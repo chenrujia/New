@@ -81,7 +81,7 @@
     
     [self createTableView];
     
-    [self showLoadingMBP:@"努力加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     /**请求分店位置**/
     BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [dep_request shopLists:nil];

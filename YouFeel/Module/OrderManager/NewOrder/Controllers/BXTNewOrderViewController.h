@@ -11,6 +11,6 @@
 
 @interface BXTNewOrderViewController : BXTDetailBaseViewController
 
-- (instancetype)initWithOrderID:(NSString *)orderID;
+- (instancetype)initWithIsVoice:(BOOL)isVoice;
 
 @end

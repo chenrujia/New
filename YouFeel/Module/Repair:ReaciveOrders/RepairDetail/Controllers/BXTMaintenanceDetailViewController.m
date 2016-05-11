@@ -164,7 +164,7 @@
 #pragma mark 请求数据
 - (void)requestDetail
 {
-    [BXTGlobal showLoadingMBP:@"努力加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**请求控制按钮显示**/
@@ -776,7 +776,7 @@
     }
     else if (btnInfo.button_key == 2 || btnInfo.button_key == 12)
     {
-        [BXTGlobal showLoadingMBP:@"努力加载中..."];
+        [BXTGlobal showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request reaciveOrderID:self.repairDetail.orderID];
     }
@@ -787,7 +787,7 @@
     }
     else if (btnInfo.button_key == 5)
     {
-        [BXTGlobal showLoadingMBP:@"努力加载中..."];
+        [BXTGlobal showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request startRepair:self.repairDetail.orderID];
     }
@@ -802,7 +802,7 @@
     }
     else if (btnInfo.button_key == 8)
     {
-        [BXTGlobal showLoadingMBP:@"努力加载中..."];
+        [BXTGlobal showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request isFixed:self.repairDetail.orderID confirmState:@"1" confirmNotes:@""];
     }
@@ -864,6 +864,7 @@
 
 - (void)endMaintence
 {
+    NSString *mmLog = self.repairDetail.report.workprocess.length ? self.repairDetail.report.workprocess : @"";
     BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController"
                                                                                          bundle:nil
                                                                                        repairID:self.repairDetail.orderID
@@ -871,6 +872,7 @@
                                                                                       placeName:self.repairDetail.place_name
                                                                                     faultTypeID:self.repairDetail.faulttype_id
                                                                                   faultTypeName:self.repairDetail.faulttype_name
+                                                                                 maintenceNotes:mmLog
                                                                                      deviceList:self.repairDetail.device_lists];
     [self.navigationController pushViewController:procossVC animated:YES];
 }

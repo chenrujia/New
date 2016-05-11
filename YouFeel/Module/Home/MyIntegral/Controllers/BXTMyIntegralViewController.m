@@ -58,7 +58,7 @@
     NSString *timeStr = [self.timeStr stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
     timeStr = [timeStr stringByReplacingOccurrencesOfString:@"月" withString:@""];
     
-    [self showLoadingMBP:@"努力加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     /**获取我的积分**/
     BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [dep_request listOFMyIntegralWithDate:timeStr];

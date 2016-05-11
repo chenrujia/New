@@ -20,6 +20,7 @@
                       placeName:(NSString *)placeName
                     faultTypeID:(NSString *)faultTypeID
                   faultTypeName:(NSString *)faultTypeName
+                 maintenceNotes:(NSString *)notes
                      deviceList:(NSArray *)devices;
 
 - (IBAction)doneClick:(id)sender;

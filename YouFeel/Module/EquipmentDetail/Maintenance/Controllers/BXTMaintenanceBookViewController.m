@@ -40,7 +40,7 @@
     [super viewDidLoad];
     [self navigationSetting:@"维保作业书" andRightTitle:nil andRightImage:nil];
     [_currentTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
-    [self showLoadingMBP:@"努力加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     //请求详情
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request inspectionRecordInfo:self.deviceID andWorkID:self.workID];

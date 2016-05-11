@@ -63,7 +63,7 @@
 
 - (void)getResource
 {
-    [self showLoadingMBP:@"努力加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOFOtherAffairWithHandleState:self.stateStr page:self.currentPage];
