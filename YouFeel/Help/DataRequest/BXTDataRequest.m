@@ -182,6 +182,7 @@
                           @"repair_carried_state": repair_carried_state,
                           @"collection_id": collection_id,
                           @"device_id": device_id,
+                          @"close_state": @"1",
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
     NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] initWithDictionary:dic];
@@ -1095,6 +1096,7 @@
                        reportTimestart:(NSString *)report_timestart
                        objectTimestart:(NSString *)object_timestart
                  announcementTimestart:(NSString *)announcement_timestart
+                       noticeTimestart:(NSString *)notice_timestart
 {
     self.requestType = Remind_Number;
     
@@ -1104,7 +1106,8 @@
                           @"repair_timestart": repair_timestart,
                           @"report_timestart": report_timestart,
                           @"object_timestart": object_timestart,
-                          @"announcement_timestart": announcement_timestart};
+                          @"announcement_timestart": announcement_timestart,
+                          @"notice_timestart": notice_timestart};
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=remind_number",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];

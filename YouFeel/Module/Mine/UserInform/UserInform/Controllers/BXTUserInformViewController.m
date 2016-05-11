@@ -76,7 +76,7 @@
 {
     NSString *emailStr = ValueFUD(USEREMAIL);
     if (!ValueFUD(USEREMAIL)) {
-        emailStr = @"";
+        emailStr = @"未绑定";
     }
     
     NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;

@@ -100,7 +100,8 @@ typedef NS_ENUM(NSInteger, CellType) {
                             repairTimestart:[BXTRemindNum sharedManager].timeStart_Repair
                             reportTimestart:[BXTRemindNum sharedManager].timeStart_Report
                             objectTimestart:[BXTRemindNum sharedManager].timeStart_Object
-                      announcementTimestart:[BXTRemindNum sharedManager].timeStart_Announcement];
+                      announcementTimestart:[BXTRemindNum sharedManager].timeStart_Announcement
+                            noticeTimestart:[BXTRemindNum sharedManager].timeStart_Notice];
     
 }
 
@@ -181,10 +182,12 @@ typedef NS_ENUM(NSInteger, CellType) {
     [messageBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
     [[messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
+        [BXTRemindNum sharedManager].timeStart_Notice = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+        SaveValueTUD(@"timeStart_Notice", [BXTRemindNum sharedManager].timeStart_Notice);
+        
         BXTMessageViewController *newsVC = [[BXTMessageViewController alloc] init];
         newsVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:newsVC animated:YES];
-        
     }];
     [logoImgView addSubview:messageBtn];
     // 红点

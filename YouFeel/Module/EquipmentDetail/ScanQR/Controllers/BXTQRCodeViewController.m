@@ -209,8 +209,14 @@
                     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
                     BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
                     newVC.isNewWorkOrder = YES;
-                    NSArray *qr_moreArray = dict[@"qr_content"];
-//                    newVC.transDict = qr_moreArray[0];
+                    NSArray *qr_moreArray = dict[@"qr_more"];
+                    NSDictionary *transDict = qr_moreArray[0];
+                    NSDictionary *finalDict = @{
+                                                @"deviceName":  [NSString stringWithFormat:@"%@", transDict[@"name"]],
+                                                @"deviceID": [NSString stringWithFormat:@"%@", transDict[@"id"]],
+                                                @"placeName": [NSString stringWithFormat:@"%@", transDict[@"place_name"]],
+                                                @"placeID": [NSString stringWithFormat:@"%@", transDict[@"place_id"]]};
+                    [newVC deviceInfoWithDictionary:finalDict];
                     [self.navigationController pushViewController:newVC animated:YES];
                 }
                 else {

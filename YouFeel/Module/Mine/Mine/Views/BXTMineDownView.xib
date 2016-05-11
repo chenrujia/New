@@ -21,7 +21,7 @@
                                 <constraint firstAttribute="width" constant="0.5" id="gCD-8f-knd"/>
                             </constraints>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mine_star" translatesAutoresizingMaskIntoConstraints="NO" id="sSQ-fa-Ul0">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mine_stars" translatesAutoresizingMaskIntoConstraints="NO" id="sSQ-fa-Ul0">
                             <rect key="frame" x="32" y="0.0" width="17" height="16"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="16" id="fFe-60-cA2"/>
@@ -98,7 +98,6 @@
         </view>
     </objects>
     <resources>
-        <image name="mine_star" width="16" height="15"/>
         <image name="mine_stars" width="16" height="15"/>
     </resources>
 </document>

@@ -47,4 +47,7 @@
 /** ---- 点击阅读时间-公告 ---- */
 @property (nonatomic, copy) NSString *timeStart_Announcement;
 
+/** ---- 点击阅读时间-消息 ---- */
+@property (nonatomic, copy) NSString *timeStart_Notice;
+
 @end
