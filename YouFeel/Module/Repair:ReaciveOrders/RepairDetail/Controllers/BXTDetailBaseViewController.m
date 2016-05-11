@@ -282,22 +282,21 @@
         }
 
         //如果是报修者身份，或者是维修员还没有到达现场（点击开始维修），或者是正常工单，则只提供查看权限
-        //TODO: 测试测试
-        if (([self.repairDetail.repairstate integerValue] == 1 || [self.repairDetail.repairstate integerValue] == 2) || ![BXTGlobal shareGlobal].isRepair || [self.repairDetail.task_type integerValue] == 1)
-        {
-            [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
-        }
-        else if ([deviceMMInfo.inspection_state integerValue] == 0)
+        if ([self.repairDetail.task_type integerValue] == 2 && [deviceMMInfo.inspection_state integerValue] == 0)
         {
             [maintenaceBtn setTitle:@"开始保养" forState:UIControlStateNormal];
         }
-        else if ([deviceMMInfo.inspection_state integerValue] == 1)
+        else if ([self.repairDetail.task_type integerValue] == 2 && [deviceMMInfo.inspection_state integerValue] == 1)
         {
             [maintenaceBtn setTitle:@"维保中" forState:UIControlStateNormal];
         }
-        else if ([deviceMMInfo.inspection_state integerValue] == 2)
+        else if ([self.repairDetail.task_type integerValue] == 2 && [deviceMMInfo.inspection_state integerValue] == 2)
         {
             [maintenaceBtn setTitle:@"已完成" forState:UIControlStateNormal];
+        }
+        else
+        {
+            [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
         }
         
         [maintenaceBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];

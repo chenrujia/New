@@ -391,11 +391,6 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)newsListWithPage:(NSInteger)page;
 
 /**
- *  消息分类列表
- */
-- (void)messageList;
-
-/**
  *  意见反馈
  */
 - (void)feedback:(NSString *)notes;

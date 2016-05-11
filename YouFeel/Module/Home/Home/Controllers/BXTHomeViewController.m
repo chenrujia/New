@@ -40,7 +40,6 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 @interface BXTHomeViewController ()<BXTDataResponseDelegate, SDCycleScrollViewDelegate>
 {
-    NSInteger         unreadNumber;
     BOOL              isConfigInfoSuccess;
     UIButton          *messageBtn;
     SDCycleScrollView *cycleScrollView;
@@ -50,7 +49,7 @@ typedef NS_ENUM(NSInteger, CellType) {
 @property (nonatomic, strong) NSMutableArray *usersArray;
 @property (nonatomic, strong) NSMutableArray *adsArray;
 @property (nonatomic, copy  ) NSString       *projPhone;
-@property (strong, nonatomic) UIView *redView;
+@property (nonatomic, strong) UIView         *redView;
 
 @end
 
@@ -120,12 +119,7 @@ typedef NS_ENUM(NSInteger, CellType) {
         @strongify(self);
         NSNotification *notification = x;
         NSString *str = notification.object;
-        if ([str isEqualToString:@"1"])
-        {
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request messageList];
-        }
-        else if ([str isEqualToString:@"2"])
+        if ([str isEqualToString:@"2"])
         {
             [self.currentTableView reloadData];
         }
@@ -187,6 +181,7 @@ typedef NS_ENUM(NSInteger, CellType) {
         
     }];
     [logoImgView addSubview:messageBtn];
+    
     // 红点
     self.redView = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 20.f, 30, 10, 10)];
     self.redView.backgroundColor = [UIColor redColor];
@@ -372,10 +367,12 @@ typedef NS_ENUM(NSInteger, CellType) {
         }
         if (cycleScrollView.imageURLStringsGroup.count == 0)
         {
-            if (self.logosArray.count != 0) {
+            if (self.logosArray.count != 0)
+            {
                 cycleScrollView.imageURLStringsGroup = self.logosArray;
             }
-            else {
+            else
+            {
                 cycleScrollView.placeholderImage = [UIImage imageNamed:@"allDefault"];
             }
         }
@@ -462,23 +459,28 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (void)judgeRemindInfo:(CellType)cellType tableViewCell:(BXTHomeTableViewCell *)cell
 {
-    if (cellType == CellType_DailyOrder && [[BXTRemindNum sharedManager].dailyNum integerValue] != 0) {
+    if (cellType == CellType_DailyOrder && [[BXTRemindNum sharedManager].dailyNum integerValue] != 0)
+    {
         cell.numberLabel.hidden = NO;
         cell.numberLabel.text = [BXTRemindNum sharedManager].dailyNum;
     }
-    if (cellType == CellType_InspectionOrder && [[BXTRemindNum sharedManager].inspectionNum integerValue] != 0) {
+    if (cellType == CellType_InspectionOrder && [[BXTRemindNum sharedManager].inspectionNum integerValue] != 0)
+    {
         cell.numberLabel.hidden = NO;
         cell.numberLabel.text = [BXTRemindNum sharedManager].inspectionNum;
     }
-    if (cellType == CellType_RepairOrder && [[BXTRemindNum sharedManager].repairNum integerValue] != 0) {
+    if (cellType == CellType_RepairOrder && [[BXTRemindNum sharedManager].repairNum integerValue] != 0)
+    {
         cell.numberLabel.hidden = NO;
         cell.numberLabel.text = [BXTRemindNum sharedManager].repairNum;
     }
-    if (cellType == CellType_ReportOrder && [[BXTRemindNum sharedManager].reportNum integerValue] != 0) {
+    if (cellType == CellType_ReportOrder && [[BXTRemindNum sharedManager].reportNum integerValue] != 0)
+    {
         cell.numberLabel.hidden = NO;
         cell.numberLabel.text = [BXTRemindNum sharedManager].reportNum;
     }
-    if (cellType == CellType_OtherAffair && [[BXTRemindNum sharedManager].objectNum integerValue] != 0) {
+    if (cellType == CellType_OtherAffair && [[BXTRemindNum sharedManager].objectNum integerValue] != 0)
+    {
         cell.numberLabel.hidden = NO;
         cell.numberLabel.text = [BXTRemindNum sharedManager].objectNum;
     }
@@ -572,24 +574,30 @@ typedef NS_ENUM(NSInteger, CellType) {
         [BXTRemindNum sharedManager].notice_show = [notice_show boolValue];
         
         // “应用”是否显示气泡：1是 0否
-        if ([BXTRemindNum sharedManager].app_show) {
-            //            UIViewController *tController = [self.tabBarController.viewControllers objectAtIndex:2];
-            //            tController.tabBarItem.badgeValue = @" ";
-            
+        if ([BXTRemindNum sharedManager].app_show)
+        {
             [self.tabBarController.tabBar showBadgeOnItemIndex:3];
-        } else {
+        }
+        else
+        {
             [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
         }
         // “首页”是否显示气泡：1是 0否
-        if ([BXTRemindNum sharedManager].index_show) {
+        if ([BXTRemindNum sharedManager].index_show)
+        {
             [self.tabBarController.tabBar showBadgeOnItemIndex:0];
-        } else {
+        }
+        else
+        {
             [self.tabBarController.tabBar hideBadgeOnItemIndex:0];
         }
         // “首页”是否显示消息气泡：1是 0否
-        if ([BXTRemindNum sharedManager].notice_show) {
+        if ([BXTRemindNum sharedManager].notice_show)
+        {
             self.redView.hidden = NO;
-        } else {
+        }
+        else
+        {
             self.redView.hidden = YES;
         }
         
@@ -606,20 +614,6 @@ typedef NS_ENUM(NSInteger, CellType) {
             [self.currentTableView reloadData];
         }
     }
-    else
-    {
-        unreadNumber = [[dic objectForKey:@"unread_number"] integerValue];
-        if (unreadNumber > 0)
-        {
-            self.redView.hidden = NO;
-        }
-        else
-        {
-            self.redView.hidden = YES;
-        }
-        [_currentTableView reloadData];
-    }
-    
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
