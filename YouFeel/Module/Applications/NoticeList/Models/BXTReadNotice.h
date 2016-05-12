@@ -12,7 +12,7 @@
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *summary;
-@property (nonatomic, copy) NSString *update_time;
+@property (nonatomic, copy) NSString *update_time_name;
 @property (nonatomic, copy) NSString *noticeID;
 @property (nonatomic, copy) NSString *view_url;
 

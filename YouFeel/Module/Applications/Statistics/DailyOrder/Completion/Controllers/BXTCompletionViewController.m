@@ -160,15 +160,14 @@ typedef enum {
     self.headerView.unCompleteView.attributedText = [self transToRichLabelOfIndex:4 String:specialNumStr];
     __weak typeof(self) weakSelf = self;
     self.headerView.transBtnClick = ^(NSInteger tag) {
-        // TODO: -----------------  调试  -----------------
         if (tag == 2222 || tag == 3333 || tag == 4444) {
             BXTDailyOrderListViewController *dyListVC = [[BXTDailyOrderListViewController alloc] init];
             
             if (tag == 2222) {
-                dyListVC.transStateStr = @"1";
+                dyListVC.transStateStr = @"2";
                 dyListVC.transFaultCarriedState = @"2";
             } else if (tag == 3333) {
-                dyListVC.transStateStr = @"2";
+                dyListVC.transStateStr = @"1";
                 dyListVC.transFaultCarriedState = @"2";
             } else if (tag == 4444) {
                 dyListVC.transFaultCarriedState = @"1";

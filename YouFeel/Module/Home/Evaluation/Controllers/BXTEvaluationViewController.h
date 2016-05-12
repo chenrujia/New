@@ -14,4 +14,9 @@
 
 - (instancetype)initWithRepairID:(NSString *)reID;
 
+/**
+ *  其他事物 -- affairID
+ */
+@property (copy, nonatomic) NSString *affairID;
+
 @end

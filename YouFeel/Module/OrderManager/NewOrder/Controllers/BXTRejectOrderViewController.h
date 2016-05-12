@@ -21,4 +21,9 @@ typedef NS_ENUM(NSInteger, ViewControllType)
 
 - (instancetype)initWithOrderID:(NSString *)orderID viewControllerType:(ViewControllType)type;
 
+/**
+ *  其他事物 -- affairID (驳回维修结果 时需要)
+ */
+@property (copy, nonatomic) NSString *affairID;
+
 @end

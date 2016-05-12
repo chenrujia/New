@@ -49,6 +49,7 @@
     
     self.textField = [[UITextField alloc] initWithFrame:CGRectMake(15, 0, SCREEN_WIDTH-30, 50)];
     self.textField.placeholder = @"请填写真实姓名";
+    self.textField.text = self.transName;
     self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [bgView addSubview:self.textField];
 }

@@ -44,7 +44,6 @@
         [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
 }
 
 - (void)viewDidLoad

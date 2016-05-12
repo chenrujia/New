@@ -32,6 +32,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (!self.affairID) {
+        self.affairID = @"";
+    }
+    
     if (_vcType == ExamineVCType)
     {
        [self navigationSetting:@"审批说明" andRightTitle:nil andRightImage:nil];
@@ -97,7 +102,7 @@
             }
             else if (self.vcType == RejectType)
             {
-                [request isFixed:self.currentOrderID confirmState:@"2" confirmNotes:self.notes];
+                [request isFixed:self.currentOrderID confirmState:@"2" confirmNotes:self.notes affairsID:self.affairID];
             }
         }
         else

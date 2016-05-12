@@ -12,6 +12,7 @@
 
 // 透明view 点击效果
 @property (weak, nonatomic) IBOutlet UIView *clearTapClick;
+@property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickView;
 
 @property (nonatomic,strong)NSArray *citiesArray;
@@ -95,6 +96,10 @@
 
 - (void)show {
     
+    self.bgView.layer.cornerRadius = 5;
+    self.certainButton.layer.cornerRadius = 5;
+    self.cancelButton.layer.cornerRadius = 5;
+    
     UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
     [window addSubview:self];
     
@@ -102,11 +107,11 @@
     
     NSInteger maxRow2 = [self.citiesArray.lastObject[@"cities"] count]-1;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.pickView selectRow:maxRow1 inComponent:0 animated:YES];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self pickerView:self.pickView didSelectRow:maxRow2 inComponent:0];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.pickView selectRow:maxRow2 inComponent:1 animated:YES];
                 NSInteger i = [self.pickView selectedRowInComponent:0];
                 NSInteger j = [self.pickView selectedRowInComponent:1];

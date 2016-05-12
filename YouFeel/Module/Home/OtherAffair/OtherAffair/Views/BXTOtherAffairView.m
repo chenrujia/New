@@ -124,6 +124,14 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
         [repairDetailVC dataWithRepairID:affairModel.about_id sceneType:OtherAffairType];
+        repairDetailVC.affairID = affairModel.messageID;
+        repairDetailVC.delegateSignal = [RACSubject subject];
+        @weakify(self);
+        [repairDetailVC.delegateSignal subscribeNext:^(id x) {
+            @strongify(self);
+            self.currentPage = 1;
+            [self.tableView.mj_header beginRefreshing];
+        }];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }
     

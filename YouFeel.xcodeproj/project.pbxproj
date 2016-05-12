@@ -2114,7 +2114,6 @@
 			isa = PBXGroup;
 			children = (
 				7867DC121C4CBA5B000749F1 /* Controllers */,
-				7867DC1B1C4CBA5B000749F1 /* Models */,
 				7867DC221C4CBA5B000749F1 /* Views */,
 			);
 			path = Home;
@@ -2145,12 +2144,14 @@
 				7867DC201C4CBA5B000749F1 /* BXTRemindNum.h */,
 				7867DC211C4CBA5B000749F1 /* BXTRemindNum.m */,
 			);
-			path = Models;
+			name = Models;
+			path = ../Models;
 			sourceTree = "<group>";
 		};
 		7867DC221C4CBA5B000749F1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7867DC1B1C4CBA5B000749F1 /* Models */,
 				7867DC231C4CBA5B000749F1 /* BXTHomeCollectionViewCell.h */,
 				7867DC241C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m */,
 				7867DC251C4CBA5B000749F1 /* BXTHomeTableViewCell.h */,

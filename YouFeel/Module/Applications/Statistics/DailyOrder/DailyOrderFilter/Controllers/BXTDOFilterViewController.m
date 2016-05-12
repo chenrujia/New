@@ -315,7 +315,7 @@
             {
                 [self refreshTableView:[object intValue]];
                 
-                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%d,", [object intValue]+1]];
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%d,", 2 - [object intValue]]];
             }
             else if (index == 4)
             {

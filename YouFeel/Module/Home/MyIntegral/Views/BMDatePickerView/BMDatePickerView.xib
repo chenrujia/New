@@ -16,7 +16,7 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kAC-qu-cih" userLabel="白色背景view">
-                    <rect key="frame" x="0.0" y="203" width="375" height="262"/>
+                    <rect key="frame" x="10" y="203" width="355" height="262"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="日期：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDj-tu-rBZ">
                             <rect key="frame" x="10" y="10" width="51" height="32"/>
@@ -29,7 +29,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016年02月16日" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdR-TP-l9b">
-                            <rect key="frame" x="64" y="10" width="301" height="32"/>
+                            <rect key="frame" x="64" y="10" width="281" height="32"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="32" id="lYd-Qs-3rt"/>
                             </constraints>
@@ -38,7 +38,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6bJ-up-WUa">
-                            <rect key="frame" x="0.0" y="52" width="375" height="160"/>
+                            <rect key="frame" x="0.0" y="52" width="355" height="160"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="160" id="IuE-FT-8wD"/>
                             </constraints>
@@ -48,7 +48,7 @@
                             </connections>
                         </pickerView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ufw-cg-ZBD">
-                            <rect key="frame" x="203" y="217" width="152" height="35"/>
+                            <rect key="frame" x="192.5" y="217" width="142.5" height="35"/>
                             <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <state key="normal" title="确  定">
@@ -59,7 +59,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rIJ-Hj-YY9">
-                            <rect key="frame" x="20" y="217" width="153" height="35"/>
+                            <rect key="frame" x="20" y="217" width="142.5" height="35"/>
                             <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="AYI-9f-vzQ"/>
@@ -96,16 +96,17 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="kAC-qu-cih" secondAttribute="trailing" id="3Iq-Ff-4HD"/>
+                <constraint firstAttribute="trailing" secondItem="kAC-qu-cih" secondAttribute="trailing" constant="10" id="3Iq-Ff-4HD"/>
                 <constraint firstItem="kAC-qu-cih" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="IJy-8J-V1K"/>
                 <constraint firstItem="AoQ-mr-DSe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="PhN-P1-4Ty"/>
-                <constraint firstItem="kAC-qu-cih" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="SRJ-iR-bJV"/>
+                <constraint firstItem="kAC-qu-cih" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="SRJ-iR-bJV"/>
                 <constraint firstItem="AoQ-mr-DSe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="j1p-hf-fOk"/>
                 <constraint firstAttribute="bottom" secondItem="AoQ-mr-DSe" secondAttribute="bottom" id="l3D-dP-Dho"/>
                 <constraint firstAttribute="trailing" secondItem="AoQ-mr-DSe" secondAttribute="trailing" id="sUU-gL-6RZ"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <connections>
+                <outlet property="bgView" destination="kAC-qu-cih" id="N6P-D3-lyF"/>
                 <outlet property="cancelButton" destination="Ufw-cg-ZBD" id="4wC-yI-uRV"/>
                 <outlet property="certainButton" destination="rIJ-Hj-YY9" id="w9g-8P-vHH"/>
                 <outlet property="clearTapClick" destination="AoQ-mr-DSe" id="OZg-iK-iYU"/>

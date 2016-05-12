@@ -62,7 +62,7 @@
         [self showLoadingMBP:@"加载中..."];
         /** 项目认证详情 **/
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-        [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid affairs_id:self.affairs_id isVerify:@"0"];
+        [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid affairsID:self.affairs_id isVerify:@"0"];
     }];
     [footerView addSubview:switchBtn];
     
@@ -77,7 +77,7 @@
         [self showLoadingMBP:@"加载中..."];
         /** 项目认证详情 **/
         BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-        [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid affairs_id:self.affairs_id isVerify:@"1"];
+        [dataRequest projectAuthenticationVerifyWithApplicantID:self.projectInfo.out_userid affairsID:self.affairs_id isVerify:@"1"];
     }];
     [footerView addSubview:changeBtn];
 }

@@ -56,6 +56,7 @@
         case 2: imageStr = @"list_overtime"; break;
         case 3: imageStr = @"list_expiring"; break;
         case 4: imageStr = @"list_expired"; break;
+        case 5: imageStr = @"list_Emergency_Services"; break;
         default: break;
     }
     self.stateImageView.image = [UIImage imageNamed:imageStr];

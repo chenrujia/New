@@ -96,4 +96,11 @@ typedef NS_ENUM (NSInteger, SceneType)
 
 - (void)dataWithRepairID:(NSString *)repairID sceneType:(SceneType)type;
 
+/**
+ *  其他事物 -- affairID
+ */
+@property (copy, nonatomic) NSString *affairID;
+
+@property (strong, nonatomic) RACSubject *delegateSignal;
+
 @end

@@ -31,7 +31,7 @@
     self.systemView.text = [NSString stringWithFormat:@"维保系统：%@", inspectionList.faulttype_type_name];
     self.projectView.text = [NSString stringWithFormat:@"维保项目：%@", inspectionList.inspection_item_name];
     self.planView.text = [NSString stringWithFormat:@"维保计划：%@", inspectionList.inspection_time];
-    self.repairManView.text = [NSString stringWithFormat:@"维修人：%@", inspectionList.repair_user];
+    self.repairManView.text = [NSString stringWithFormat:@"维保人：%@", inspectionList.repair_user];
     self.endTimeView.text = [NSString stringWithFormat:@"完成时间：%@", inspectionList.create_time];
 }
 

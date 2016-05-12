@@ -79,27 +79,8 @@
 
 - (void)createUI
 {
-    // 设备操作规范
-    UIButton *topBtnView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
-    topBtnView.backgroundColor = [UIColor whiteColor];
-    @weakify(self);
-    [[topBtnView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] init];
-        [[self navigation] pushViewController:sdvc animated:YES];
-    }];
-    [self addSubview:topBtnView];
-    UILabel *titleView = [[UILabel alloc] initWithFrame:CGRectMake(15, 7, 150, 30)];
-    titleView.text = @"设备操作规范";
-    titleView.textColor = colorWithHexString(@"#333333");
-    titleView.font = [UIFont systemFontOfSize:15];
-    [topBtnView addSubview:titleView];
-    UIImageView *arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-30, 15, 9, 15)];
-    arrowView.image = [UIImage imageNamed:@"Arrow-right"];
-    [topBtnView addSubview:arrowView];
-    
     // 添加下拉菜单
-    self.DDMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 55) andHeight:44];
+    self.DDMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
     self.DDMenu.delegate = self;
     self.DDMenu.dataSource = self;
     self.DDMenu.layer.borderWidth = 0.5;
@@ -139,6 +120,7 @@
     [maintenanceBtn setTitle:@"维保作业" forState:UIControlStateNormal];
     [maintenanceBtn setTitleColor:colorWithHexString(@"#3AB0FE") forState:UIControlStateNormal];
     maintenanceBtn.layer.cornerRadius = 5;
+    @weakify(self);
     [[maintenanceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BOOL haveInspection = [[NSUserDefaults standardUserDefaults] boolForKey:@"FirstInspection"];
@@ -172,6 +154,7 @@
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
         }
     }];
+    
     [downBgView addSubview:maintenanceBtn];
 }
 
