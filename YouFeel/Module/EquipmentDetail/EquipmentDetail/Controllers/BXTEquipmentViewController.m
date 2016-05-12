@@ -10,7 +10,6 @@
 #import "BXTHeaderFile.h"
 #import "SegmentView.h"
 #import "BXTEquipmentInformView.h"
-#import "BXTCurrentOrderView.h"
 #import "BXTEquipmentFilesView.h"
 #import "UIImageView+WebCache.h"
 
@@ -78,9 +77,6 @@
     
     BXTEquipmentInformView *epiView = [[BXTEquipmentInformView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
     [currentScrollView addSubview:epiView];
-    
-//    BXTCurrentOrderView *codView = [[BXTCurrentOrderView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
-//    [currentScrollView addSubview:codView];
     
     BXTEquipmentFilesView *epfView = [[BXTEquipmentFilesView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
     [currentScrollView addSubview:epfView];

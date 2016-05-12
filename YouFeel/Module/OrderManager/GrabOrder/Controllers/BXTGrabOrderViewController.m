@@ -200,7 +200,23 @@
         BXTRepairDetailInfo *repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
         
         NSArray *imgArray = repairDetail.fault_pic;
-        UIImage *placeImage = [UIImage imageNamed:@"grabIphone"];
+        UIImage *placeImage;
+        if (IS_IPHONE6P)
+        {
+            placeImage = [UIImage imageNamed:@"grabIphoneplus"];
+        }
+        else if (IS_IPHONE6)
+        {
+            placeImage = [UIImage imageNamed:@"grabIphone6"];
+        }
+        else if (IS_IPHONE5)
+        {
+            placeImage = [UIImage imageNamed:@"grabIphone5s"];
+        }
+        else
+        {
+            placeImage = [UIImage imageNamed:@"grabIphone4s"];
+        }
        
         if (imgArray.count > 0)
         {

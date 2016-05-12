@@ -43,7 +43,7 @@
         for (int i = kMIN_YEAR; i <= year; i++) {
             NSMutableDictionary *dict = [NSMutableDictionary dictionary];
             dict[@"name"] = [NSString stringWithFormat:@"%d年",i];
-
+            
             NSMutableArray *arr = [NSMutableArray array];
             if (i == year) {
                 
@@ -97,7 +97,7 @@
     
     UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
     [window addSubview:self];
-
+    
     NSInteger maxRow1 = self.citiesArray.count-1;
     
     NSInteger maxRow2 = [self.citiesArray.lastObject[@"cities"] count]-1;
@@ -162,12 +162,7 @@
 - (IBAction)cancelAction:(id)sender {
     
     [self clearTapClickclearTapClick];
-}
-
-//确定按钮
-- (IBAction)certainAction:(id)sender {
     
-    [self clearTapClickclearTapClick];
     if (self.selectActionBlock) {
         NSInteger i = [self.pickView selectedRowInComponent:0];
         NSInteger j = [self.pickView selectedRowInComponent:1];
@@ -178,16 +173,22 @@
         
         NSString *string = @"";
         
-//        if (ind2 < 9) {
-//            string = [NSString stringWithFormat:@"%ld年0%ld月",str1.integerValue,ind2];
-//        }else{
-//            string = [NSString stringWithFormat:@"%ld年%ld月",str1.integerValue,ind2];
-//        }
+        //        if (ind2 < 9) {
+        //            string = [NSString stringWithFormat:@"%ld年0%ld月",str1.integerValue,ind2];
+        //        }else{
+        //            string = [NSString stringWithFormat:@"%ld年%ld月",str1.integerValue,ind2];
+        //        }
         
         string = [NSString stringWithFormat:@"%ld年%ld月",(long)str1.integerValue,(long)ind2];
         
         self.selectActionBlock(string);
     }
+}
+
+//确定按钮
+- (IBAction)certainAction:(id)sender {
+    
+    [self clearTapClickclearTapClick];
 }
 
 @end
