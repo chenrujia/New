@@ -598,8 +598,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  修改设备维护记录
  */
 - (void)updateInspectionRecordID:(NSString *)recordID
-                        deviceID:(NSString *)device_id
-                 andInspectionID:(NSString *)inspectionID
+             andInspectionItemID:(NSString *)inspectionItemID
                andInspectionData:(NSString *)inspectionData
                         andNotes:(NSString *)notes
                         andState:(NSString *)state
@@ -611,8 +610,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
 /**
  *  设备维护记录详情
  */
-- (void)inspectionRecordInfo:(NSString *)deviceID
-                   andWorkID:(NSString *)workID;
+- (void)inspectionRecordInfo:(NSString *)recordID;
 
 /**
  *  首页广告页

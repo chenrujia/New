@@ -644,6 +644,10 @@
     {
         self.alarm.hidden = NO;
     }
+    if ([self.repairDetail.task_type integerValue] == 2)
+    {
+        self.time_width.constant = 290.f;
+    }
     self.orderStyle.text = [self.repairDetail.task_type intValue] == 1 ? @"日常" : @"维保";
     self.orderStyle.backgroundColor = [self.repairDetail.task_type intValue] == 1 ? colorWithHexString(@"#F0B660") : colorWithHexString(@"#7EC86E");
     self.departmentName.text = [NSString stringWithFormat:@"部门：%@",repairPerson.department_name];
@@ -967,6 +971,7 @@
     {
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
             [self requestDetail];
         }
     }

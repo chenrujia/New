@@ -74,9 +74,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
     
     self.currentTableView = self.currentTable;
-    for (NSDictionary *imgDic in _maintenceInfo.pic)
+    for (BXTFaultPicInfo *picInfo in self.maintenceInfo.pic)
     {
-        NSString *img_url_str = [imgDic objectForKey:@"photo_file"];
+        NSString *img_url_str = picInfo.photo_file;
         @weakify(self);
         [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:img_url_str] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             
@@ -90,9 +90,9 @@
             }
         }];
     }
-    _commitBtn.layer.cornerRadius = 4.f;
+    self.commitBtn.layer.cornerRadius = 4.f;
     @weakify(self);
-    [[_commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [[self.commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         for (BXTDeviceInspectionInfo *inspectionInfo in self.maintenanceProes)
@@ -110,8 +110,7 @@
         if (self.isUpdate)
         {
             [request updateInspectionRecordID:self.maintenceInfo.maintenceID
-                                     deviceID:self.deviceID
-                              andInspectionID:self.maintenceInfo.inspection_item_id
+                          andInspectionItemID:self.maintenceInfo.inspection_item_id
                             andInspectionData:jsonStr
                                      andNotes:self.notes
                                      andState:self.state

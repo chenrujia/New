@@ -22,6 +22,7 @@
 @property (nonatomic, copy) NSString *faulttype_type_name;
 @property (nonatomic, strong) NSArray<BXTDeviceInspectionInfo *> *inspection_info;
 @property (nonatomic, copy) NSString *inspection_item_id;
+@property (nonatomic, copy) NSString *inspection_record_id;
 @property (nonatomic, copy) NSString *user_id;
 @property (nonatomic, copy) NSString *notes;
 @property (nonatomic, copy) NSString *task_id;

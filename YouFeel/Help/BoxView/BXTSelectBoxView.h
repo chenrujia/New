@@ -29,10 +29,10 @@ typedef NS_ENUM(NSInteger, BoxSelectedType) {
     UITableView    *currentTableView;
 }
 
-@property (nonatomic ,strong) NSArray *dataArray;
-@property (nonatomic, strong) id choosedItem;
-@property (nonatomic ,assign) BoxSelectedType boxType;
-@property (nonatomic ,weak) id <BXTBoxSelectedTitleDelegate> delegate;
+@property (nonatomic ,strong) NSArray                     *dataArray;
+@property (nonatomic ,strong) id                          choosedItem;
+@property (nonatomic ,assign) BoxSelectedType             boxType;
+@property (nonatomic ,weak  ) id <BXTBoxSelectedTitleDelegate> delegate;
 
 - (instancetype)initWithFrame:(CGRect)rect boxTitle:(NSString *)title boxSelectedViewType:(BoxSelectedType)type listDataSource:(NSArray *)array markID:(NSString *)mark actionDelegate:(id <BXTBoxSelectedTitleDelegate>)delegate;
 - (void)boxTitle:(NSString *)title boxSelectedViewType:(BoxSelectedType)type listDataSource:(NSArray *)array;

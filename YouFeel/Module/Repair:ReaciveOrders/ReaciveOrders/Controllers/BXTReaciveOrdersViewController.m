@@ -121,8 +121,7 @@
     }
     areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
     timesArray = [NSMutableArray arrayWithObjects:@"时间",@"今天",@"3天内",@"7天内",@"本月",@"本年", nil];
-    
-    
+
     // 添加下拉菜单
     DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
     menu.delegate = self;
@@ -149,7 +148,8 @@
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ReaciveOrderSuccess" object:nil] subscribeNext:^(id x) {
         @strongify(self);
-        [self.tableView reloadData];
+        self.currentPage = 1;
+        [self requestData];
     }];
 }
 
@@ -298,10 +298,12 @@
         // 分组
         if (indexPath.column == 0)
         {
-            if (indexPath.row == 0) {
+            if (indexPath.row == 0)
+            {
                 self.filterOfGroupID = @"";
             }
-            else {
+            else
+            {
                 BXTSubgroupInfo *subgroup = groupArray[indexPath.row];
                 self.filterOfGroupID = subgroup.subgroupID;
             }
@@ -331,10 +333,10 @@
         }
         else if (indexPath.column == 2)
         {
-            if (!indexPath.row) {
+            if (!indexPath.row)
+            {
                 self.filterOfAreasID = @"";
             }
-            
         }
         //时间
         else if (indexPath.column == 3)
@@ -433,20 +435,17 @@
 {
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
-    
-    
+
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     
     if (type == RepairList)
     {
         [self hideMBP];
-        
-        if (self.currentPage == 1 && self.ordersArray.count != 0)
+        if (self.currentPage == 1 && self.ordersArray.count > 0)
         {
             [self.ordersArray removeAllObjects];
         }
-        
         if (data.count)
         {
             [BXTRepairInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
@@ -456,7 +455,6 @@
             [self.ordersArray addObjectsFromArray:repairs];
         }
         [self.tableView reloadData];
-        
     }
     else if (type == PlaceLists)
     {
@@ -485,17 +483,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

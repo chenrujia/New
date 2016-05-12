@@ -70,7 +70,10 @@
     self.isOpen = YES;
     self.commitBtn.layer.cornerRadius = 4.f;
     [self.currentTable registerNib:[UINib nibWithNibName:@"BXTPlaceTableViewCell" bundle:nil] forCellReuseIdentifier:@"RowCell"];
-    [self.currentTable setEstimatedRowHeight:50.f];
+    if (IS_IOS_8)
+    {
+        [self.currentTable setEstimatedRowHeight:50.f];
+    }
     
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     self.mutableArray = mutableArray;
@@ -223,6 +226,23 @@
 {
     UIView *bv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
     return bv;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *content = nil;
+    if (self.isOpen)
+    {
+        NSMutableArray *tempArray = self.mutableArray[indexPath.section];
+        BXTBaseClassifyInfo *classifyInfo = tempArray[indexPath.row];
+        content = classifyInfo.name;
+    }
+    else
+    {
+        content = self.searchTitlesArray[indexPath.row];
+    }
+    CGSize size = MB_MULTILINE_TEXTSIZE(content, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 75.f, 500.f), NSLineBreakByWordWrapping);
+    return size.height + 30.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

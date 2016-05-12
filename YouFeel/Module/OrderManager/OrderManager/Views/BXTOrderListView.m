@@ -28,25 +28,20 @@
     NSMutableArray    *timesArray;
 }
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UITableView    *tableView;
 @property (nonatomic, strong) NSMutableArray *ordersArray;
-/** ---- 工单状态 - stateStr  2进行中  1已完成 ---- */
-@property (nonatomic, copy) NSString *stateStr;
-/** ---- 我的维修工单 - isRepair == YES ---- */
-@property (nonatomic, assign) BOOL isRepair;
-@property (nonatomic, assign) NSInteger currentPage;
-@property (nonatomic, copy) NSString *filterOfTaskType;
-@property (nonatomic, copy) NSString *filterOfRepairState;
-// 指派中
-@property (nonatomic, copy) NSString *filterOfDispatchUID;
-@property (nonatomic, copy) NSString *filterOfState;
-@property (nonatomic, copy) NSString *filterOfAreasID;
-@property (nonatomic, copy) NSString *filterOfTimeBegain;
-@property (nonatomic, copy) NSString *filterOfTimeEnd;
-/** ---- 报修者的列表进度状态 1进行中 2 已完成 ---- */
-@property (nonatomic, copy) NSString *faultCarriedState;
-/** ---- 维修者的列表进度状态 1进行中 2 已完成 ---- */
-@property (nonatomic, copy) NSString *repairCarriedState;
+@property (nonatomic, copy  ) NSString       *stateStr;//1已完成 2进行中
+@property (nonatomic, assign) BOOL           isRepair;//我的维修工单 - isRepair == YES
+@property (nonatomic, assign) NSInteger      currentPage;
+@property (nonatomic, copy  ) NSString       *filterOfTaskType;
+@property (nonatomic, copy  ) NSString       *filterOfRepairState;
+@property (nonatomic, copy  ) NSString       *filterOfDispatchUID;//指派中
+@property (nonatomic, copy  ) NSString       *filterOfState;
+@property (nonatomic, copy  ) NSString       *filterOfAreasID;
+@property (nonatomic, copy  ) NSString       *filterOfTimeBegain;
+@property (nonatomic, copy  ) NSString       *filterOfTimeEnd;
+@property (nonatomic, copy  ) NSString       *faultCarriedState;//报修者的列表进度状态 1进行中 2 已完成
+@property (nonatomic, copy  ) NSString       *repairCarriedState;//维修者的列表进度状态 1进行中 2 已完成
 
 @end
 
