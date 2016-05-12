@@ -627,15 +627,6 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)messageList
-{
-    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_USERID],
-                          @"shop_id":companyInfo.company_id};
-    NSString *url = [NSString stringWithFormat:@"%@/module/Letter/opt/letter_type",KADMINBASEURL];
-    [self postRequest:url withParameters:dic];
-}
-
 - (void)feedback:(NSString *)notes
 {
     NSDictionary *dic = @{@"send_user":[BXTGlobal getUserProperty:U_USERID],
@@ -1245,7 +1236,8 @@
 #pragma mark 字典转成JSon
 - (NSString *)dictionaryToJson:(NSDictionary *)dic
 {
-    if (dic) {
+    if (dic)
+    {
         NSError *parseError = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
         return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

@@ -532,21 +532,55 @@
             break;
         case 2:
         {
-            BXTButtonInfo *leftBtnInfo = self.btnArray[0];
+            BOOL isContain = NO;
+            NSInteger index = 0;
+            for (NSInteger i = 0; i < 2; i++)
+            {
+                BXTButtonInfo *btnInfo = self.btnArray[i];
+                if (btnInfo.button_key == 2)
+                {
+                    isContain = YES;
+                    index = i;
+                    break;
+                }
+            }
+            
             UIButton *leftBtn = [self initialButton:YES];
-            [leftBtn setTitle:leftBtnInfo.button_name forState:UIControlStateNormal];
-            @weakify(self);
-            [[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                @strongify(self);
-                [self actionWithButtonInfo:leftBtnInfo];
-            }];
-            BXTButtonInfo *rightBtnInfo = self.btnArray[1];
             UIButton *rightBtn = [self initialButton:NO];
-            [rightBtn setTitle:rightBtnInfo.button_name forState:UIControlStateNormal];
-            [[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                @strongify(self);
-                [self actionWithButtonInfo:rightBtnInfo];
-            }];
+            if (isContain && index == 0)
+            {
+                BXTButtonInfo *leftBtnInfo = self.btnArray[1];
+                [leftBtn setTitle:leftBtnInfo.button_name forState:UIControlStateNormal];
+                @weakify(self);
+                [[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                    @strongify(self);
+                    [self actionWithButtonInfo:leftBtnInfo];
+                }];
+                
+                BXTButtonInfo *rightBtnInfo = self.btnArray[0];
+                [rightBtn setTitle:rightBtnInfo.button_name forState:UIControlStateNormal];
+                [[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                    @strongify(self);
+                    [self actionWithButtonInfo:rightBtnInfo];
+                }];
+            }
+            else
+            {
+                BXTButtonInfo *leftBtnInfo = self.btnArray[0];
+                [leftBtn setTitle:leftBtnInfo.button_name forState:UIControlStateNormal];
+                @weakify(self);
+                [[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                    @strongify(self);
+                    [self actionWithButtonInfo:leftBtnInfo];
+                }];
+                
+                BXTButtonInfo *rightBtnInfo = self.btnArray[1];
+                [rightBtn setTitle:rightBtnInfo.button_name forState:UIControlStateNormal];
+                [[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                    @strongify(self);
+                    [self actionWithButtonInfo:rightBtnInfo];
+                }];
+            }
             
             leftBtn.sd_layout
             .leftSpaceToView(self.buttonBV,20)
@@ -558,6 +592,7 @@
             .topEqualToView(leftBtn)
             .rightSpaceToView(self.buttonBV,20)
             .heightIs(44);
+            
         }
             break;
         default:

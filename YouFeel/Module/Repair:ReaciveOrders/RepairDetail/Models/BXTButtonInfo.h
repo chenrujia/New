@@ -11,6 +11,6 @@
 @interface BXTButtonInfo : NSObject
 
 @property (nonatomic, assign) NSInteger button_key;
-@property (nonatomic, copy) NSString *button_name;
+@property (nonatomic, copy  ) NSString  *button_name;
 
 @end
