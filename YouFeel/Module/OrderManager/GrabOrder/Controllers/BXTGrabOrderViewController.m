@@ -217,6 +217,7 @@
         {
             placeImage = [UIImage imageNamed:@"grabIphone4s"];
         }
+       
         if (imgArray.count > 0)
         {
             BXTFaultPicInfo *picInfo = imgArray[0];

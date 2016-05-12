@@ -651,7 +651,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
                        repairTimestart:(NSString *)repair_timestart
                        reportTimestart:(NSString *)report_timestart
                        objectTimestart:(NSString *)object_timestart
-                 announcementTimestart:(NSString *)announcement_timestart;
+                 announcementTimestart:(NSString *)announcement_timestart
+                       noticeTimestart:(NSString *)notice_timestart;
 
 /**
  *  报修者确认是否修好
