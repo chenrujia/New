@@ -10,4 +10,6 @@
 
 @interface BXTChangeNameViewController : BXTBaseViewController
 
+@property (copy, nonatomic) NSString *transName;
+
 @end

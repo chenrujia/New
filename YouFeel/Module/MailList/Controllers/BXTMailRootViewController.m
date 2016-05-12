@@ -18,12 +18,11 @@
 #import "BXTPersonInfromViewController.h"
 #import "UIScrollView+EmptyDataSet.h"
 
-@interface BXTMailRootViewController () <BXTDataResponseDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, MBProgressHUDDelegate>
+@interface BXTMailRootViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, MBProgressHUDDelegate>
 
 @property(nonatomic, strong) UISearchBar *searchBar;
 
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray *dataArray;
 
 @property (nonatomic, strong) UITableView *tableView_Search;
 @property (nonatomic, strong) NSMutableArray *searchArray;
@@ -50,16 +49,7 @@
     
     [self navigationSetting:@"通讯录" andRightTitle:nil andRightImage:nil];
     
-    self.dataArray = [[NSMutableArray alloc] init];
-    
-    
     [self createUI];
-    
-    
-    [self showLoadingMBP:@"数据加载中..."];
-    /** 通讯录列表 **/
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request mailListOfAllPerson];
 }
 
 #pragma mark -
@@ -178,7 +168,7 @@
         }
     }
     
-
+    
     NSMutableArray *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text])
     {
@@ -338,72 +328,6 @@
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName:[UIColor blackColor]};
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
-}
-
-#pragma mark -
-#pragma mark - getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
-{
-    [self hideMBP];
-    
-    NSDictionary *dic = (NSDictionary *)response;
-    NSArray *data = [dic objectForKey:@"data"];
-    
-    if (type == Mail_Get_All && data.count > 0)
-    {
-        NSMutableArray *shopIDsArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *dict in data) {
-            BXTMailRootInfo *mail = [BXTMailRootInfo modelWithDict:dict];
-            [self.dataArray addObject:mail];
-            
-            [shopIDsArray addObject:mail.shop_id];
-        }
-        
-        
-        NSString *idStr = [shopIDsArray componentsJoinedByString:@","];
-        if (![ValueFUD(@"user_lists_shop_ids") isEqualToString:idStr]) {
-            /** 通讯录列表 **/
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request mailListOfUserListWithShopIDs:idStr];
-        }
-        SaveValueTUD(@"user_lists_shop_ids", idStr);
-        
-        if (self.dataArray.count == 1) {
-            BXTMailListViewController *mlvc = [[BXTMailListViewController alloc] init];
-            mlvc.transMailInfo = self.dataArray[0];
-            mlvc.isSinglePush = YES;
-            [self.navigationController pushViewController:mlvc animated:YES];
-        }
-        
-        [self.tableView reloadData];
-    }
-    else if (type == Mail_User_list && data.count > 0)
-    {
-        [[ANKeyValueTable userDefaultTable] setValue:data withKey:YMAILLISTSAVE];
-    }
-}
-
-- (void)requestError:(NSError *)error requeseType:(RequestType)type
-{
-    [self hideMBP];
-}
-
-#pragma mark -
-#pragma mark - 方法
-- (void)showLoadingMBP:(NSString *)text
-{
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = text;
-    hud.margin = 10.f;
-    hud.delegate = self;
-    hud.removeFromSuperViewOnHide = YES;
-    [hud show:YES];
-}
-
-- (void)hideMBP
-{
-    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
 }
 
 // 列表和搜索列表显示类

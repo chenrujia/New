@@ -76,7 +76,7 @@
 {
     NSString *emailStr = ValueFUD(USEREMAIL);
     if (!ValueFUD(USEREMAIL)) {
-        emailStr = @"未绑定";
+        emailStr = @"未设置";
     }
     
     NSString *sexStr = [[BXTGlobal getUserProperty:U_SEX] isEqualToString:@"1"] ? @"男" : @"女" ;
@@ -160,6 +160,7 @@
             case 1:
             {
                 BXTChangeNameViewController *changeName = [[BXTChangeNameViewController alloc] init];
+                changeName.transName = self.detailArray[indexPath.section][indexPath.row];
                 [self.navigationController pushViewController:changeName animated:YES];
             }
                 break;

@@ -35,7 +35,11 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"评价" andRightTitle:nil andRightImage:nil];
+    
     self.notes = @"";
+    if (!self.affairID) {
+        self.affairID = @"";
+    }
     self.rateArray = [NSMutableArray arrayWithObjects:@"5",@"5",@"5", nil];
     //侦听删除事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
@@ -108,7 +112,8 @@
             [request evaluateRepair:self.rateArray
                     evaluationNotes:self.notes
                            repairID:self.repairID
-                         imageArray:self.resultPhotos];
+                         imageArray:self.resultPhotos
+                          affairsID:self.affairID];
         }];
         [view addSubview:nextTapBtn];
         return view;

@@ -10,4 +10,6 @@
 
 @interface BXTMailRootViewController : UIViewController
 
+@property (strong, nonatomic) NSMutableArray *dataArray;
+
 @end

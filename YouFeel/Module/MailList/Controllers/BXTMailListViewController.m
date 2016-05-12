@@ -138,11 +138,7 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     @weakify(self);
     [[navi_leftButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if (self.isSinglePush) {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        } else {
-            [self.navigationController popViewControllerAnimated:YES];
-        }        
+        [self.navigationController popViewControllerAnimated:YES];
     }];
     [naviView addSubview:navi_leftButton];
     

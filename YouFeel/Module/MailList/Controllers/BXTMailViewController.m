@@ -11,8 +11,14 @@
 #import "BXTMailRootViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 #import "BXTProjectManageViewController.h"
+#import "BXTHeaderForVC.h"
+#import "BXTMailRootInfo.h"
+#import "ANKeyValueTable.h"
+#import "BXTMailListViewController.h"
 
-@interface BXTMailViewController ()
+@interface BXTMailViewController () <BXTDataResponseDelegate>
+
+@property (strong, nonatomic) NSMutableArray *dataArray;
 
 @end
 
@@ -26,6 +32,7 @@
     self.navigationController.navigationBarHidden = NO;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
+    
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@" " object:nil] subscribeNext:^(id x) {
         @strongify(self);
@@ -64,9 +71,18 @@
     @weakify(self);
     [[nav_rightButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTMailRootViewController *mlvc = [[BXTMailRootViewController alloc] init];
-        mlvc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:mlvc animated:YES];
+        if (self.dataArray.count == 1) {
+            BXTMailListViewController *mlvc = [[BXTMailListViewController alloc] init];
+            mlvc.hidesBottomBarWhenPushed = YES;
+            mlvc.transMailInfo = self.dataArray[0];
+            [self.navigationController pushViewController:mlvc animated:YES];
+        }
+        else {
+            BXTMailRootViewController *mlvc = [[BXTMailRootViewController alloc] init];
+            mlvc.hidesBottomBarWhenPushed = YES;
+            mlvc.dataArray = self.dataArray;
+            [self.navigationController pushViewController:mlvc animated:YES];
+        }
     }];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:nav_rightButton];
     
@@ -74,6 +90,54 @@
     spaceItem.width = -10;
     
     self.navigationItem.rightBarButtonItems = @[spaceItem, rightItem];
+    
+    
+    self.dataArray = [[NSMutableArray alloc] init];
+    
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    /** 通讯录列表 **/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request mailListOfAllPerson];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    
+    if (type == Mail_Get_All && data.count > 0)
+    {
+        NSMutableArray *shopIDsArray = [[NSMutableArray alloc] init];
+        for (NSDictionary *dict in data) {
+            BXTMailRootInfo *mail = [BXTMailRootInfo modelWithDict:dict];
+            [self.dataArray addObject:mail];
+            
+            [shopIDsArray addObject:mail.shop_id];
+        }
+        
+        
+        NSString *idStr = [shopIDsArray componentsJoinedByString:@","];
+        if (![ValueFUD(@"user_lists_shop_ids") isEqualToString:idStr]) {
+            /** 通讯录列表 **/
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request mailListOfUserListWithShopIDs:idStr];
+        }
+        SaveValueTUD(@"user_lists_shop_ids", idStr);
+        
+    }
+    else if (type == Mail_User_list && data.count > 0)
+    {
+        [[ANKeyValueTable userDefaultTable] setValue:data withKey:YMAILLISTSAVE];
+    }
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
 }
 
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType conversationModel:(RCConversationModel *)model atIndexPath:(NSIndexPath *)indexPath

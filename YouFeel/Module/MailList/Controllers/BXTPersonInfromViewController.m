@@ -26,6 +26,8 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (strong, nonatomic) BXTPersonInform *informModel;
+
 @end
 
 @implementation BXTPersonInfromViewController
@@ -189,7 +191,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (indexPath.row == 1) {
+        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", self.informModel.mobile];
+        UIWebView *callWeb = [[UIWebView alloc] init];
+        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+        [self.view addSubview:callWeb];
+    }
+   
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -207,15 +215,15 @@
         [BXTPersonInform mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"personID":@"id"};
         }];
-        BXTPersonInform *informModel = [BXTPersonInform mj_objectWithKeyValues:infoDict];
+       self.informModel  = [BXTPersonInform mj_objectWithKeyValues:infoDict];
         // 完善信息
-        [iconView sd_setImageWithURL:[NSURL URLWithString:informModel.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-        nameLabel.text = informModel.name;
+        [iconView sd_setImageWithURL:[NSURL URLWithString:self.informModel.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+        nameLabel.text = self.informModel.name;
         
         CGSize size = MB_MULTILINE_TEXTSIZE(nameLabel.text, [UIFont systemFontOfSize:17], CGSizeMake(SCREEN_WIDTH - 30.f, 21), NSLineBreakByWordWrapping);
         sexView.center = CGPointMake(SCREEN_WIDTH/2.f + size.width/2 + 20, nameLabel.center.y);
         
-        if ([informModel.gender_name isEqualToString:@"男"])
+        if ([self.informModel.gender_name isEqualToString:@"男"])
         {
             sexView.image = [UIImage imageNamed:@"boy"];
         }
@@ -223,26 +231,26 @@
         {
             sexView.image = [UIImage imageNamed:@"grill"];
         }
-        positionLabel.text = [NSString stringWithFormat:@"%@ %@", informModel.department_name,informModel.duty_name];
+        positionLabel.text = [NSString stringWithFormat:@"%@ %@", self.informModel.department_name,self.informModel.duty_name];
         
         @weakify(self);
         [[messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            [self connectTaWithOutID:informModel];
+            [self connectTaWithOutID:self.informModel];
         }];
         
         [[phoneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", informModel.mobile];
+            NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", self.informModel.mobile];
             UIWebView *callWeb = [[UIWebView alloc] init];
             [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
             [self.view addSubview:callWeb];
         }];
         
-        NSString *nameStr = [NSString stringWithFormat:@"姓名：%@", informModel.name];
-        NSString *phoneStr = [NSString stringWithFormat:@"手机号：%@", informModel.mobile];
-        NSString *departmentStr = [NSString stringWithFormat:@"部门：%@", informModel.department_name];
-        NSString *roleStr = [NSString stringWithFormat:@"职位：%@", informModel.duty_name];
+        NSString *nameStr = [NSString stringWithFormat:@"姓名：%@", self.informModel.name];
+        NSString *phoneStr = [NSString stringWithFormat:@"手机号：%@", self.informModel.mobile];
+        NSString *departmentStr = [NSString stringWithFormat:@"部门：%@", self.informModel.department_name];
+        NSString *roleStr = [NSString stringWithFormat:@"职位：%@", self.informModel.duty_name];
         self.dataArray = [[NSMutableArray alloc] initWithObjects:nameStr, phoneStr, departmentStr, roleStr, nil];
         
         [self.tableView reloadData];

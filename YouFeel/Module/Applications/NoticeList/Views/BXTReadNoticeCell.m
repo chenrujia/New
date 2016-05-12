@@ -27,7 +27,7 @@
     
     self.titleView.text = noticeModel.title;
     self.introView.text = noticeModel.summary;
-    self.timeView.text = [NSString stringWithFormat:@"发送时间：%@", noticeModel.update_time];
+    self.timeView.text = [NSString stringWithFormat:@"发送时间：%@", noticeModel.update_time_name];
 }
 
 - (void)awakeFromNib {

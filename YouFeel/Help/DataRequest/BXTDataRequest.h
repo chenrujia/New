@@ -258,7 +258,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  is_verify - 认证审核：1通过 0不通过
  */
 - (void)projectAuthenticationVerifyWithApplicantID:(NSString *)applicantID
-                                        affairs_id:(NSString *)affairs_id
+                                         affairsID:(NSString *)affairs_id
                                           isVerify:(NSString *)is_verify;
 
 /**
@@ -329,7 +329,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)evaluateRepair:(NSArray *)rateArray
        evaluationNotes:(NSString *)notes
               repairID:(NSString *)reID
-            imageArray:(NSArray *)images;
+            imageArray:(NSArray *)images
+             affairsID:(NSString *)affairs_id;
 
 /**
  *  接单
@@ -659,7 +660,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
  */
 - (void)isFixed:(NSString *)repairID
    confirmState:(NSString *)confirmState
-   confirmNotes:(NSString *)notes;
+   confirmNotes:(NSString *)notes
+      affairsID:(NSString *)affairs_id;
 
 /**
  *  特殊工单 & 设备状态 & 维修状态

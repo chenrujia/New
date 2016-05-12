@@ -39,7 +39,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
     
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request userInfo];

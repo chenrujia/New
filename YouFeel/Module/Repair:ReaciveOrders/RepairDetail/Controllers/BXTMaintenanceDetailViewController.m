@@ -36,6 +36,11 @@
 @property (nonatomic ,strong) UIView           *evaBackView;
 @property (nonatomic ,strong) NSMutableArray   *btnArray;
 
+/**
+ *  确认工单 - 驳回工单 - 评价 三者点击返回后需要刷新列表
+ */
+@property (assign, nonatomic) BOOL isNeedRefresh;
+
 @end
 
 @implementation BXTMaintenanceDetailViewController
@@ -57,6 +62,9 @@
     else
     {
         [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
+    }
+    if (!self.affairID) {
+        self.affairID = @"";
     }
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
     self.btnArray = buttons;
@@ -128,6 +136,18 @@
 {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden = NO;
+}
+
+- (void)navigationLeftButton
+{
+    if (self.sceneType == OtherAffairType)
+    {
+        if (self.delegateSignal && self.isNeedRefresh)
+        {
+            [self.delegateSignal sendNext:nil];
+        }
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -832,18 +852,26 @@
     }
     else if (btnInfo.button_key == 7)
     {
+        self.isNeedRefresh = YES;
+        
         BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID viewControllerType:RejectType];
+        rejectVC.affairID = self.affairID;
         [self.navigationController pushViewController:rejectVC animated:YES];
     }
     else if (btnInfo.button_key == 8)
     {
+        self.isNeedRefresh = YES;
+        
         [BXTGlobal showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request isFixed:self.repairDetail.orderID confirmState:@"1" confirmNotes:@""];
+        [request isFixed:self.repairDetail.orderID confirmState:@"1" confirmNotes:@"" affairsID:self.affairID];
     }
     else if (btnInfo.button_key == 9)
     {
+        self.isNeedRefresh = YES;
+        
         BXTEvaluationViewController *evaVC = [[BXTEvaluationViewController alloc] initWithRepairID:self.repairDetail.orderID];
+        evaVC.affairID = self.affairID;
         [self.navigationController pushViewController:evaVC animated:YES];
     }
     else if (btnInfo.button_key == 11)

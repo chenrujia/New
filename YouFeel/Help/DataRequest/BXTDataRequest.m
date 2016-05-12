@@ -333,7 +333,7 @@
 }
 
 - (void)projectAuthenticationVerifyWithApplicantID:(NSString *)applicantID
-                                        affairs_id:(NSString *)affairs_id
+                                         affairsID:(NSString *)affairs_id
                                           isVerify:(NSString *)is_verify
 {
     self.requestType = AuthenticationVerify;
@@ -503,13 +503,15 @@
        evaluationNotes:(NSString *)notes
               repairID:(NSString *)reID
             imageArray:(NSArray *)images
+             affairsID:(NSString *)affairs_id
 {
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"workorder_id":reID,
                           @"serve_result":rateArray[2],
                           @"speed_result":rateArray[0],
                           @"professional_result":rateArray[1],
-                          @"praise_notes":notes};
+                          @"praise_notes":notes,
+                          @"affairs_id":affairs_id};
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_praise",[BXTGlobal shareGlobal].baseURL];
     [self uploadImageRequest:url withParameters:dic withImages:images];
 }
@@ -1107,12 +1109,14 @@
 - (void)isFixed:(NSString *)repairID
    confirmState:(NSString *)confirmState
    confirmNotes:(NSString *)notes
+      affairsID:(NSString *)affairs_id
 {
     self.requestType = IsSure;
     NSDictionary *dic = @{@"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"workorder_id": repairID,
                           @"confirm_state": confirmState,
-                          @"fault_confirm_notes": notes};
+                          @"fault_confirm_notes": notes,
+                          @"affairs_id": affairs_id};
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=fault_confirm",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
