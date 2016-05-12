@@ -132,7 +132,7 @@
                 //已在维保中，不需要再次新建维保作业
                 if ([maintenceInfo.inspection_state integerValue] > 0)
                 {
-                    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID workOrderID:maintenceInfo.maintenceID];
+                    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.inspection_record_id];
                     [[self navigation] pushViewController:bookVC animated:YES];
                 }
                 else
@@ -178,9 +178,9 @@
 - (void)showList
 {
     self.bgView = [[UIView alloc] initWithFrame:ApplicationWindow.bounds];
-    _bgView.backgroundColor = [UIColor blackColor];
-    _bgView.alpha = 0.6f;
-    _bgView.tag = 101;
+    self.bgView.backgroundColor = [UIColor blackColor];
+    self.bgView.alpha = 0.6f;
+    self.bgView.tag = 101;
     [ApplicationWindow addSubview:_bgView];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
     @weakify(self);
@@ -191,11 +191,11 @@
     }];
     [self.bgView addGestureRecognizer:tapGesture];
     
-    self.boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 180.f) boxTitle:@"请选择维保项目" boxSelectedViewType:CheckProjectsView listDataSource:_maintencesArray markID:nil actionDelegate:self];
-    [ApplicationWindow addSubview:_boxView];
+    self.boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 260.f) boxTitle:@"请选择维保项目" boxSelectedViewType:CheckProjectsView listDataSource:self.maintencesArray markID:nil actionDelegate:self];
+    [ApplicationWindow addSubview:self.boxView];
     
     [UIView animateWithDuration:0.3f animations:^{
-        [_boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 180.f, SCREEN_WIDTH, 180.f)];
+        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 260.f, SCREEN_WIDTH, 260.f)];
     }];
 }
 
@@ -213,7 +213,7 @@
     //已在维保中，不需要再次新建维保作业
     if ([maintenceInfo.inspection_state integerValue] > 0)
     {
-        BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID workOrderID:maintenceInfo.maintenceID];
+        BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.maintenceID];
         [[self navigation] pushViewController:bookVC animated:YES];
     }
     else
@@ -318,10 +318,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTDeviceMaintenceInfo *mainInfo = _dataArray[indexPath.section];
-    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:mainInfo.maintenceID workOrderID:nil];
+    BXTDeviceMaintenceInfo *mainInfo = self.dataArray[indexPath.section];
+    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:mainInfo.device_id recordID:mainInfo.maintenceID];
     [[self navigation] pushViewController:bookVC animated:YES];
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -334,11 +333,11 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Inspection_Record_List)
     {
-        [_tableView.mj_header endRefreshing];
-        [_tableView.mj_footer endRefreshing];
-        if (_currentPage == 1)
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        if (self.currentPage == 1)
         {
-            [_dataArray removeAllObjects];
+            [self.dataArray removeAllObjects];
         }
     }
     else if (type == MaintenanceEquipmentList)
@@ -363,11 +362,11 @@
         BXTDeviceMaintenceInfo *dmInfo = [BXTDeviceMaintenceInfo mj_objectWithKeyValues:dic];
         if (type == MaintenanceEquipmentList)
         {
-            [_maintencesArray addObject:dmInfo];
+            [self.maintencesArray addObject:dmInfo];
         }
         else if (type == Inspection_Record_List)
         {
-            [_dataArray addObject:dmInfo];
+            [self.dataArray addObject:dmInfo];
         }
     }
     

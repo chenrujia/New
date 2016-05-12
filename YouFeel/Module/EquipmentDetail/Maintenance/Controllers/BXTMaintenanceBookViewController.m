@@ -24,13 +24,18 @@
 
 @implementation BXTMaintenanceBookViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID workOrderID:(NSString *)work_id
+- (void)dealloc
+{
+    LogRed(@"释放了..................................................................");
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID recordID:(NSString *)recordID
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
         self.deviceID = devID;
-        self.workID = work_id;
+        self.recordID = recordID;
     }
     return self;
 }
@@ -39,17 +44,13 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"维保作业书" andRightTitle:nil andRightImage:nil];
-    [_currentTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
-    [self showLoadingMBP:@"加载中..."];
-    //请求详情
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request inspectionRecordInfo:self.deviceID andWorkID:self.workID];
+    [self.currentTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshTable" object:nil] subscribeNext:^(id x) {
         @strongify(self);
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request inspectionRecordInfo:self.deviceID andWorkID:self.workID];
+        [self requestDate];
     }];
+    [self requestDate];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -59,11 +60,18 @@
     self.navigationController.navigationBarHidden = NO;
 }
 
+- (void)requestDate
+{
+    [self showLoadingMBP:@"加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request inspectionRecordInfo:self.recordID];
+}
+
 #pragma mark -
 #pragma mark 事件处理
 - (void)navigationRightButton
 {
-    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:_maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
+    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:self.maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
     mainVC.isUpdate = YES;
     [self.navigationController pushViewController:mainVC animated:YES];
 }
@@ -348,10 +356,12 @@
     [self hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
-    LogRed(@"dic...%@",dic);
+    if (data.count == 0)
+    {
+        return;
+    }
     NSArray *states = [dic objectForKey:@"device_state_list"];
     self.deviceStates = states;
-    
     NSDictionary *dictionary = data[0];
     [BXTDeviceMaintenceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         return @{@"maintenceID":@"id"};
@@ -364,7 +374,7 @@
         [navView removeFromSuperview];
         [self navigationSetting:@"维保作业书" andRightTitle:@"修改" andRightImage:nil];
     }
-    [_currentTable reloadData];
+    [self.currentTable reloadData];
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

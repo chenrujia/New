@@ -1725,11 +1725,12 @@
                         <outlet property="sixth_top" destination="u4l-bQ-K3d" id="RxW-yx-giv"/>
                         <outlet property="tenthBV" destination="zTz-Cg-Cr1" id="mc9-rD-FDy"/>
                         <outlet property="thirdBV" destination="1xG-Ml-wze" id="Cd0-7w-IrK"/>
+                        <outlet property="time_width" destination="7y7-dL-ARC" id="OKD-H4-1XR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dHq-PU-arC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1020" y="420.75"/>
+            <point key="canvasLocation" x="-850.5" y="464.25"/>
         </scene>
         <!--New Work Order View Controller-->
         <scene sceneID="Mcn-It-1lA">

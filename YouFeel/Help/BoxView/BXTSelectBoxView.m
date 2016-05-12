@@ -29,7 +29,6 @@
         {
             [markArray addObject:@"0"];
         }
-        
         UIView *titleBV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
         titleBV.backgroundColor = [UIColor whiteColor];
         title_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200.f, 20.f)];

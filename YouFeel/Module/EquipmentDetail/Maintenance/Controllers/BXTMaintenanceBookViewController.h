@@ -13,8 +13,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *currentTable;
 @property (nonatomic, strong) NSArray  *deviceStates;
 @property (nonatomic, strong) NSString *deviceID;
-@property (nonatomic, strong) NSString *workID;
+@property (nonatomic, strong) NSString *recordID;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID workOrderID:(NSString *)work_id;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID recordID:(NSString *)recordID;
 
 @end
