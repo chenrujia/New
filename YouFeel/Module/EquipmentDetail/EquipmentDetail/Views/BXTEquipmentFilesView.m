@@ -100,7 +100,7 @@
     [self addSubview:self.tableView];
     
     self.currentPage = 1;
-    __block __typeof(self) weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
         [weakSelf getResource];
@@ -124,7 +124,14 @@
     [[maintenanceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BOOL haveInspection = [[NSUserDefaults standardUserDefaults] boolForKey:@"FirstInspection"];
-        if (haveInspection)
+        // 第一次 且 有数据
+        if (!haveInspection && ValueFUD(@"OPERATINGDESC"))
+        {
+            BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] init];
+            [[self navigation] pushViewController:sdvc animated:YES];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
+        }
+        else
         {
             if (self.maintencesArray.count == 1)
             {
@@ -146,12 +153,6 @@
             {
                 [self showList];
             }
-        }
-        else
-        {
-            BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] init];
-            [[self navigation] pushViewController:sdvc animated:YES];
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
         }
     }];
     

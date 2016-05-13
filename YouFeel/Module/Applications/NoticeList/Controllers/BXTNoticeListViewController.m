@@ -8,8 +8,7 @@
 
 #import "BXTNoticeListViewController.h"
 #import "SegmentView.h"
-#import "BXTReadNoticeView.h"
-#import "BXTUnReadNoticeView.h"
+#import "BXTMainReadNoticeView.h"
 
 @interface BXTNoticeListViewController () <SegmentViewDelegate, UIScrollViewDelegate>
 {
@@ -64,13 +63,10 @@
     currentSrcoller.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:currentSrcoller];
     
-    // BXTUnReadNoticeView
-    BXTUnReadNoticeView *unReadView = [[BXTUnReadNoticeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(backView.frame))];
-    [currentSrcoller addSubview:unReadView];
-    
-    // BXTReadNoticeView
-    BXTReadNoticeView *readView = [[BXTReadNoticeView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(backView.frame))];
-    [currentSrcoller addSubview:readView];
+    for (NSInteger i=1; i<3; i++) {
+        BXTMainReadNoticeView *readView = [[BXTMainReadNoticeView alloc] initWithFrame:CGRectMake((i - 1) *SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(backView.frame)) type:i];
+        [currentSrcoller addSubview:readView];
+    }
 }
 
 #pragma mark -

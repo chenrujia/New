@@ -9,41 +9,60 @@
 #import "BXTMainReadNoticeView.h"
 #import "UIView+Nav.h"
 #import "UIScrollView+EmptyDataSet.h"
+#import "BXTHeaderFile.h"
+#import "BXTReadNoticeCell.h"
+#import "MJRefresh.h"
+#import "MBProgressHUD.h"
+#import "CYLTabBarController.h"
+#import "AppDelegate.h"
+#import "BXTReadNotice.h"
+#import "BXTNoticeInformViewController.h"
 
-@interface BXTMainReadNoticeView () <DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>
+#define REFRESHMAINREADNOTICEVIEW @"refreshMainReadNoticeView"
+
+@interface BXTMainReadNoticeView () <DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate, BXTDataResponseDelegate>
+
+@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign) NSInteger currentPage;
+
+@property (assign, nonatomic) NSInteger readStr;
 
 @end
 
 @implementation BXTMainReadNoticeView
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark -
 #pragma mark - 初始化
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame type:(NSInteger)readState
 {
     self = [super initWithFrame:frame];
     if (self)
     {
-        [self initial];
+        self.dataArray = [[NSMutableArray alloc] init];
+        self.currentPage = 1;
+        self.readStr = readState;
+        
+        [self createUI];
+        
+        [self requestNetResourceWithReadState:readState];
+        
+        @weakify(self);
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:REFRESHMAINREADNOTICEVIEW object:nil] subscribeNext:^(id x) {
+            @strongify(self);
+            
+            if (self.readStr == 2) {
+                self.currentPage = 1;
+                [self.tableView.mj_header beginRefreshing];
+            }
+        }];
     }
     return self;
-}
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self)
-    {
-        [self initial];
-    }
-    return self;
-}
-
-- (void)initial
-{
-    self.dataArray = [[NSMutableArray alloc] init];
-    self.currentPage = 1;
-    
-    [self createUI];
 }
 
 - (void)createUI
@@ -63,7 +82,7 @@
 {
     NSString *readStateStr = [NSString stringWithFormat:@"%ld", (long)readState];
     
-    __block __typeof(self) weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
         [weakSelf getResourcereadWithReadState:readStateStr];
@@ -121,6 +140,18 @@
     
     BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
     nivc.urlStr = model.view_url;
+    nivc.delegateSignal = [RACSubject subject];
+    @weakify(self);
+    [nivc.delegateSignal subscribeNext:^(id x) {
+        @strongify(self);
+        
+        if (self.readStr == 1) {
+            self.currentPage = 1;
+            [self.tableView.mj_header beginRefreshing];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHMAINREADNOTICEVIEW object:nil];
+        }
+    }];
     [[self navigation] pushViewController:nivc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

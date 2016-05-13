@@ -257,8 +257,6 @@
 		78C55AFE1C47AC0800FFEB37 /* BXTNoticeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55AFD1C47AC0800FFEB37 /* BXTNoticeListViewController.m */; };
 		78C55B011C47ACCE00FFEB37 /* BXTNoticeInformViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55B001C47ACCE00FFEB37 /* BXTNoticeInformViewController.m */; };
 		78C55B041C47BF7000FFEB37 /* BXTMainReadNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55B031C47BF7000FFEB37 /* BXTMainReadNoticeView.m */; };
-		78C55B071C47C11700FFEB37 /* BXTReadNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55B061C47C11700FFEB37 /* BXTReadNoticeView.m */; };
-		78C55B0A1C47C12700FFEB37 /* BXTUnReadNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55B091C47C12700FFEB37 /* BXTUnReadNoticeView.m */; };
 		78C55B0E1C47C50C00FFEB37 /* BXTReadNoticeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55B0C1C47C50C00FFEB37 /* BXTReadNoticeCell.m */; };
 		78C55B0F1C47C50C00FFEB37 /* BXTReadNoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78C55B0D1C47C50C00FFEB37 /* BXTReadNoticeCell.xib */; };
 		78EFEECB1CAE24B20011F9E9 /* BXTProjectManageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78EFEECA1CAE24B20011F9E9 /* BXTProjectManageViewController.m */; };
@@ -881,10 +879,6 @@
 		78C55B001C47ACCE00FFEB37 /* BXTNoticeInformViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNoticeInformViewController.m; sourceTree = "<group>"; };
 		78C55B021C47BF7000FFEB37 /* BXTMainReadNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMainReadNoticeView.h; sourceTree = "<group>"; };
 		78C55B031C47BF7000FFEB37 /* BXTMainReadNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMainReadNoticeView.m; sourceTree = "<group>"; };
-		78C55B051C47C11700FFEB37 /* BXTReadNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTReadNoticeView.h; sourceTree = "<group>"; };
-		78C55B061C47C11700FFEB37 /* BXTReadNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTReadNoticeView.m; sourceTree = "<group>"; };
-		78C55B081C47C12700FFEB37 /* BXTUnReadNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTUnReadNoticeView.h; sourceTree = "<group>"; };
-		78C55B091C47C12700FFEB37 /* BXTUnReadNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTUnReadNoticeView.m; sourceTree = "<group>"; };
 		78C55B0B1C47C50C00FFEB37 /* BXTReadNoticeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTReadNoticeCell.h; sourceTree = "<group>"; };
 		78C55B0C1C47C50C00FFEB37 /* BXTReadNoticeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTReadNoticeCell.m; sourceTree = "<group>"; };
 		78C55B0D1C47C50C00FFEB37 /* BXTReadNoticeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTReadNoticeCell.xib; sourceTree = "<group>"; };
@@ -3366,10 +3360,6 @@
 			children = (
 				78C55B021C47BF7000FFEB37 /* BXTMainReadNoticeView.h */,
 				78C55B031C47BF7000FFEB37 /* BXTMainReadNoticeView.m */,
-				78C55B081C47C12700FFEB37 /* BXTUnReadNoticeView.h */,
-				78C55B091C47C12700FFEB37 /* BXTUnReadNoticeView.m */,
-				78C55B051C47C11700FFEB37 /* BXTReadNoticeView.h */,
-				78C55B061C47C11700FFEB37 /* BXTReadNoticeView.m */,
 				78C55B0B1C47C50C00FFEB37 /* BXTReadNoticeCell.h */,
 				78C55B0C1C47C50C00FFEB37 /* BXTReadNoticeCell.m */,
 				78C55B0D1C47C50C00FFEB37 /* BXTReadNoticeCell.xib */,
@@ -4450,7 +4440,6 @@
 				78090B1C1C7DAEEC003E1565 /* BXTMTFilterViewController.m in Sources */,
 				7867DDAB1C4CBEE9000749F1 /* BXTRepairInfo.m in Sources */,
 				7893D8E31C7ADA8000F042D5 /* BXTProfessionFooter.m in Sources */,
-				78C55B071C47C11700FFEB37 /* BXTReadNoticeView.m in Sources */,
 				96C4910A1CB7B75C00D14C9B /* BXTBaseClassifyInfo.m in Sources */,
 				781EF20A1C3D382C0027FE72 /* BXTEquipmentFilesCell.m in Sources */,
 				7827D0481C85736400E9E29E /* BXTMTProfessionTopView.m in Sources */,
@@ -4609,7 +4598,6 @@
 				96C684941BE76B4B0038A342 /* HCollectionViewCell.m in Sources */,
 				7818DBE11C0824D800DC22C6 /* PNLineChart.m in Sources */,
 				9690366B1CBF2E850036A33A /* BXTMenViewController.m in Sources */,
-				78C55B0A1C47C12700FFEB37 /* BXTUnReadNoticeView.m in Sources */,
 				7867DDAD1C4CBEE9000749F1 /* BXTDetailBaseViewController.m in Sources */,
 				783DDA5E1C3FD45C0035B927 /* BXTQRCodeViewController.m in Sources */,
 				78C55B011C47ACCE00FFEB37 /* BXTNoticeInformViewController.m in Sources */,
