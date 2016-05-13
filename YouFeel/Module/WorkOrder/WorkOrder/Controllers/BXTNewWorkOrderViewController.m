@@ -16,26 +16,33 @@
 #import "BXTChooseItemView.h"
 #import "BXTDeviceListInfo.h"
 #import "ANKeyValueTable.h"
+#import "BXTFaultInfo.h"
 #import "UIView+SDAutoLayout.h"
 #import "BXTProjectManageViewController.h"
+#import "BXTSelectBoxView.h"
 
 static NSInteger const DeviceButtonTag = 11;
 static NSInteger const DateButtonTag   = 12;
 static CGFloat const ChooseViewHeight  = 328.f;
 
-@interface BXTNewWorkOrderViewController ()<AttributeViewDelegate,BXTDataResponseDelegate,UITextFieldDelegate>
+@interface BXTNewWorkOrderViewController ()<AttributeViewDelegate,BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate,UITextFieldDelegate>
 
 @property (nonatomic, strong) BXTPlaceInfo      *placeInfo;
 @property (nonatomic, strong) NSString          *adsText;//手动输入的位置
 @property (nonatomic, copy  ) NSString          *notes;
 @property (nonatomic, strong) BXTCustomButton   *deviceBtn;
 @property (nonatomic, strong) BXTCustomButton   *dateBtn;
+@property (nonatomic, strong) BXTCustomButton   *urgentBtn;
 @property (nonatomic, strong) UIView            *blackBV;
 @property (nonatomic, strong) BXTChooseItemView *chooseView;
+@property (nonatomic, strong) NSMutableArray    *faultTypeArray;
 @property (nonatomic, strong) NSMutableArray    *devicesArray;
 @property (nonatomic, strong) BXTDeviceListInfo *selectDeviceInfo;
 @property (nonatomic, strong) NSDictionary      *selectTimeDic;
-@property (nonatomic, strong) BXTOrderTypeInfo  *selectFaultInfo;
+@property (nonatomic, strong) BXTOrderTypeInfo  *selectOrderInfo;
+@property (nonatomic, strong) BXTFaultInfo      *selectFaultInfo;
+@property (nonatomic, strong) UIView            *bgView;
+@property (nonatomic, strong) BXTSelectBoxView  *boxView;
 
 @end
 
@@ -167,12 +174,18 @@ static CGFloat const ChooseViewHeight  = 328.f;
         .heightIs(44);
     }
     
+    self.faultTypeArray = [NSMutableArray array];
     [BXTGlobal showLoadingMBP:@"请稍候..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /** 工单类型 **/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request orderTypeList];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /** 紧急类型 **/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request urgentFaultType];
     });
 }
 
@@ -285,6 +298,30 @@ static CGFloat const ChooseViewHeight  = 328.f;
     [self.deviceSelectBtnBV addSubview:self.deviceBtn];
 }
 
+- (void)selectUrgentView
+{
+    self.bgView = [[UIView alloc] initWithFrame:ApplicationWindow.bounds];
+    self.bgView.backgroundColor = [UIColor blackColor];
+    self.bgView.alpha = 0.6f;
+    self.bgView.tag = 101;
+    [ApplicationWindow addSubview:_bgView];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
+    @weakify(self);
+    [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.bgView removeFromSuperview];
+        [self.boxView removeFromSuperview];
+    }];
+    [self.bgView addGestureRecognizer:tapGesture];
+    
+    self.boxView = [[BXTSelectBoxView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 260.f) boxTitle:@"请选择紧急类型" boxSelectedViewType:FaultTypeView listDataSource:self.faultTypeArray markID:nil actionDelegate:self];
+    [ApplicationWindow addSubview:self.boxView];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        [self.boxView setFrame:CGRectMake(0, SCREEN_HEIGHT - 260.f, SCREEN_WIDTH, 260.f)];
+    }];
+}
+
 - (void)showSelectedView:(UIButton *)btn
 {
     self.blackBV = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -379,8 +416,17 @@ static CGFloat const ChooseViewHeight  = 328.f;
     {
         deviceID = self.selectDeviceInfo.deviceID;
     }
+    NSString *faultTypeID;
+    if (self.selectFaultInfo)
+    {
+        faultTypeID = self.selectFaultInfo.fault_id;
+    }
+    else
+    {
+        faultTypeID = self.selectOrderInfo.orderTypeID;
+    }
     [request createRepair:appointmentTime
-              faultTypeID:self.selectFaultInfo.orderTypeID
+              faultTypeID:faultTypeID
                faultCause:self.notes
                   placeID:self.placeInfo.placeID
                   adsText:self.adsText
@@ -425,6 +471,8 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    [self.bgView removeFromSuperview];
+    [self.boxView removeFromSuperview];
     UITouch *touch = [touches anyObject];
     UIView *view = touch.view;
     if (view.tag == 101)
@@ -437,10 +485,59 @@ static CGFloat const ChooseViewHeight  = 328.f;
 }
 
 #pragma mark -
+#pragma mark BXTBoxSelectedTitleDelegate
+- (void)boxSelectedObj:(id)obj selectedType:(BoxSelectedType)type
+{
+    [self.bgView removeFromSuperview];
+    [self.boxView removeFromSuperview];
+    if (!obj)
+    {
+        return;
+    }
+    BXTFaultInfo *faultTypeInfo = obj;
+    self.selectFaultInfo = faultTypeInfo;
+    [self.urgentBtn setTitle:faultTypeInfo.faulttype forState:UIControlStateNormal];
+}
+
+#pragma mark -
 #pragma mark AttributeViewDelegate
 - (void)attributeViewSelectType:(BXTOrderTypeInfo *)selectType
 {
-    self.selectFaultInfo = selectType;
+    self.selectOrderInfo = selectType;
+    self.selectFaultInfo = nil;
+    if ([self.selectOrderInfo.faulttype isEqualToString:@"紧急"])
+    {
+        self.urgentBV.hidden = NO;
+        //紧急类型选择按钮
+        if (!self.urgentBtn)
+        {
+            self.urgentBtn = [[BXTCustomButton alloc] initWithType:SelectBtnType];
+            self.urgentBtn.tag = DateButtonTag;
+            [self.urgentBtn setFrame:CGRectMake(20.f, 0, SCREEN_WIDTH - 40.f, 46.f)];
+            self.urgentBtn.layer.borderColor = colorWithHexString(@"#CCCCCC").CGColor;
+            self.urgentBtn.layer.borderWidth = 0.6f;
+            self.urgentBtn.layer.cornerRadius = 3.f;
+            [self.urgentBtn addTarget:self action:@selector(selectUrgentView) forControlEvents:UIControlEventTouchUpInside];
+            self.urgentBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+            [self.urgentBtn setTitle:@"选择紧急类型" forState:UIControlStateNormal];
+            [self.urgentBtn setTitleColor:colorWithHexString(@"FF0000") forState:UIControlStateNormal];
+            [self.urgentBtn setImage:[UIImage imageNamed:@"wo_down_arrow"] forState:UIControlStateNormal];
+            [self.urgentBV addSubview:self.urgentBtn];
+        }
+        else
+        {
+            [self.urgentBtn setTitle:@"选择紧急类型" forState:UIControlStateNormal];
+        }
+        self.repair_image_top.constant = 66.f;
+        [self.repair_image layoutIfNeeded];
+    }
+    else
+    {
+        self.urgentBV.hidden = YES;
+        self.repair_image_top.constant = 0.f;
+        [self.repair_image layoutIfNeeded];
+    }
+    [self updateContentView];
 }
 
 #pragma mark -
@@ -487,6 +584,10 @@ static CGFloat const ChooseViewHeight  = 328.f;
         }];
         NSMutableArray *orderListArray = [NSMutableArray array];
         [orderListArray addObjectsFromArray:[BXTOrderTypeInfo mj_objectArrayWithKeyValuesArray:data]];
+        BXTOrderTypeInfo *orderType = [[BXTOrderTypeInfo alloc] init];
+        orderType.faulttype = @"紧急";
+        [orderListArray addObject:orderType];
+        
         //工单类型
         BXTAttributeView *attView = [BXTAttributeView attributeViewWithTitleFont:[UIFont boldSystemFontOfSize:17] attributeTexts:orderListArray viewWidth:SCREEN_WIDTH delegate:self];
         attView.y = 0;
@@ -494,6 +595,13 @@ static CGFloat const ChooseViewHeight  = 328.f;
         [self.orderTypeBV layoutIfNeeded];
         [self.orderTypeBV addSubview:attView];
         [self updateContentView];
+    }
+    else if (type == FaultType)
+    {
+        [BXTFaultInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"fault_id":@"id"};
+        }];
+        [self.faultTypeArray addObjectsFromArray:[BXTFaultInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     else if (type == DeviceList)
     {

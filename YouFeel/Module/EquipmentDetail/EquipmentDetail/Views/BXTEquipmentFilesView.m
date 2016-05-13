@@ -47,9 +47,6 @@
     self.titleArray = @[@"全部", @"时间范围"];
     self.dataArray = [[NSMutableArray alloc] init];
     self.maintencesArray = [[NSMutableArray alloc] init];
-    [self showLoadingMBP:@"数据加载中..."];
-    [self requestData];
-    
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshTable" object:nil] subscribeNext:^(id x) {
         @strongify(self);
@@ -60,20 +57,23 @@
     }];
     
     [self createUI];
+    [self showLoadingMBP:@"加载中..."];
+    [self requestData];
 }
 
 - (void)requestData
 {
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
-        /**请求维保档案**/
+        /**请求维保记录**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request inspectionRecordListWithPagesize:@"5" page:@"1" deviceID:self.deviceID timestart:@"" timeover:@""];
     });
     dispatch_async(concurrentQueue, ^{
-        /**请求维保列表**/
+        /**请求维保项目列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request maintenanceEquipmentList:self.deviceID];
+        [request maintenanceEquipmentList:self.deviceID
+                                  orderID:self.orderID];
     });
 }
 
@@ -161,7 +161,7 @@
 
 - (void)getResource
 {
-    [self showLoadingMBP:@"数据加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     
     if (self.choosTimeArray.count == 0)
@@ -214,7 +214,7 @@
     //已在维保中，不需要再次新建维保作业
     if ([maintenceInfo.inspection_state integerValue] > 0)
     {
-        BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.maintenceID];
+        BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.inspection_record_id];
         [[self navigation] pushViewController:bookVC animated:YES];
     }
     else
@@ -245,14 +245,13 @@
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {
     self.currentPage = 1;
-    
     if (self.count != 0)
     {
         if (indexPath.row == 0)
         {
             [self.choosTimeArray removeAllObjects];
             
-            [self showLoadingMBP:@"数据加载中..."];
+            [self showLoadingMBP:@"加载中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] deviceID:self.deviceID timestart:@"" timeover:@""];
         }
@@ -264,7 +263,7 @@
             [tfvc.delegateSignal subscribeNext:^(NSArray *timeArray) {
                 @strongify(self);
                 self.choosTimeArray = [[NSMutableArray alloc] initWithArray:timeArray];
-                [self showLoadingMBP:@"数据加载中..."];
+                [self showLoadingMBP:@"加载中..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] deviceID:self.deviceID timestart:timeArray[0] timeover:timeArray[1]];
             }];
@@ -373,7 +372,7 @@
     
     if (type == Inspection_Record_List)
     {
-        [_tableView reloadData];
+        [self.tableView reloadData];
         if (!IS_IOS_8)
         {
             double delayInSeconds = 0.5;

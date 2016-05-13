@@ -8,6 +8,7 @@
 
 #import "BXTPhotosView.h"
 #import "BXTGlobal.h"
+#import "BXTRepairDetailInfo.h"
 #import "UIImageView+WebCache.h"
 
 @implementation BXTPhotosView
@@ -84,34 +85,39 @@
 
 - (void)handleImagesFrame:(NSArray *)array
 {
-    CGFloat x = 10 + GImageHeight;
-    CGFloat y = 170.f - GImageHeight - 10.f;
+    CGFloat x = CGRectGetMaxX(self.addBtn.frame);
+    CGFloat y = CGRectGetMinY(self.addBtn.frame);
     if (array.count == 1)
     {
-        NSDictionary *picDic = array[0];
-        [self.imgViewOne sd_setImageWithURL:[NSURL URLWithString:[picDic objectForKey:@"photo_thumb_file"]]];
+        BXTFaultPicInfo *picDic = array[0];
+        [self.imgViewOne sd_setImageWithURL:[NSURL URLWithString:picDic.photo_thumb_file]];
         [self.imgViewOne setFrame:CGRectMake(x + 10.f, y, GImageHeight, GImageHeight)];
     }
     else if (array.count == 2)
     {
         [self.imgViewOne setFrame:CGRectMake(x + 10.f, y, GImageHeight, GImageHeight)];
-        NSDictionary *picDic = array[0];
-        [self.imgViewOne sd_setImageWithURL:[NSURL URLWithString:[picDic objectForKey:@"photo_thumb_file"]]];
+        BXTFaultPicInfo *picDic = array[0];
+        [self.imgViewOne sd_setImageWithURL:[NSURL URLWithString:picDic.photo_thumb_file]];
         [self.imgViewTwo setFrame:CGRectMake(CGRectGetMaxX(self.imgViewOne.frame) + 10.f, y, GImageHeight, GImageHeight)];
-        NSDictionary *picDicTwo = array[1];
-        [self.imgViewTwo sd_setImageWithURL:[NSURL URLWithString:[picDicTwo objectForKey:@"photo_thumb_file"]]];
+        
+        BXTFaultPicInfo *picDicTwo = array[1];
+        [self.imgViewTwo sd_setImageWithURL:[NSURL URLWithString:picDicTwo.photo_thumb_file]];
+        [self.imgViewTwo setFrame:CGRectMake(CGRectGetMaxX(self.imgViewOne.frame) + 10.f, y, GImageHeight, GImageHeight)];
     }
     else if (array.count == 3)
     {
         [self.imgViewOne setFrame:CGRectMake(x + 10.f, y, GImageHeight, GImageHeight)];
-        NSDictionary *picDic = array[0];
-        [self.imgViewOne sd_setImageWithURL:[NSURL URLWithString:[picDic objectForKey:@"photo_thumb_file"]]];
+        BXTFaultPicInfo *picDic = array[0];
+        [self.imgViewOne sd_setImageWithURL:[NSURL URLWithString:picDic.photo_thumb_file]];
         [self.imgViewTwo setFrame:CGRectMake(CGRectGetMaxX(self.imgViewOne.frame) + 10.f, y, GImageHeight, GImageHeight)];
-        NSDictionary *picDicTwo = array[1];
-        [self.imgViewTwo sd_setImageWithURL:[NSURL URLWithString:[picDicTwo objectForKey:@"photo_thumb_file"]]];
+        
+        BXTFaultPicInfo *picDicTwo = array[1];
+        [self.imgViewTwo sd_setImageWithURL:[NSURL URLWithString:picDicTwo.photo_thumb_file]];
         [self.imgViewThree setFrame:CGRectMake(CGRectGetMaxX(self.imgViewTwo.frame) + 10.f, y, GImageHeight, GImageHeight)];
-        NSDictionary *picDicThree = array[2];
-        [self.imgViewThree sd_setImageWithURL:[NSURL URLWithString:[picDicThree objectForKey:@"photo_thumb_file"]]];
+        
+        BXTFaultPicInfo *picDicThree = array[2];
+        [self.imgViewThree sd_setImageWithURL:[NSURL URLWithString:picDicThree.photo_thumb_file]];
+        [self.imgViewThree setFrame:CGRectMake(CGRectGetMaxX(self.imgViewTwo.frame) + 10.f, y, GImageHeight, GImageHeight)];
     }
 }
 

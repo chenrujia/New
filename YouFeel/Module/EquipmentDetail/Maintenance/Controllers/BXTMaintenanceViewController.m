@@ -14,6 +14,7 @@
 #import "BXTChangeStateViewController.h"
 #import "SDWebImageManager.h"
 #import "BXTDeviceStateViewController.h"
+#import "UIImageView+WebCache.h"
 
 @interface BXTMaintenanceViewController ()<BXTDataResponseDelegate,CLLocationManagerDelegate>
 {
@@ -110,6 +111,7 @@
         if (self.isUpdate)
         {
             [request updateInspectionRecordID:self.maintenceInfo.maintenceID
+                                     deviceID:self.deviceID
                           andInspectionItemID:self.maintenceInfo.inspection_item_id
                             andInspectionData:jsonStr
                                      andNotes:self.notes
@@ -303,6 +305,8 @@
                 }];
                 [photoView.imgViewThree addGestureRecognizer:tapGRThree];
                 self.photosView = photoView;
+                
+                [photoView handleImagesFrame:self.maintenceInfo.pic];
             }
         }
         
@@ -369,30 +373,27 @@
         }];
         [self.navigationController pushViewController:stateVC animated:YES];
     }
-    else
+    else if (indexPath.section != self.maintenanceProes.count + 2)
     {
         //维保项目
-        if (indexPath.row != self.maintenanceProes.count + 2)
-        {
-            BXTDeviceInspectionInfo *inspectionInfo = self.maintenanceProes[indexPath.section - 2];
-            BXTDeviceCheckInfo *checkProject = inspectionInfo.check_arr[indexPath.row];
-            BXTChangeStateViewController *changeStateVC = [[BXTChangeStateViewController alloc] initWithNibName:@"BXTChangeStateViewController" bundle:nil withNotes:checkProject.default_description withTitle:inspectionInfo.check_item withDetail:checkProject.check_con];
-            @weakify(self);
-            [changeStateVC valueChanged:^(NSString *text) {
-                @strongify(self);
-                
-                checkProject.default_description = text;
-                NSMutableArray *tempIns = [NSMutableArray arrayWithArray:inspectionInfo.check_arr];
-                [tempIns replaceObjectAtIndex:indexPath.row withObject:checkProject];
-                inspectionInfo.check_arr = tempIns;
-                NSMutableArray *tempInsInfos = [NSMutableArray arrayWithArray:self.maintenanceProes];
-                [tempInsInfos replaceObjectAtIndex:indexPath.section - 2 withObject:inspectionInfo];
-                self.maintenanceProes = tempInsInfos;
-                
-                [self.currentTable reloadData];
-            }];
-            [self.navigationController pushViewController:changeStateVC animated:YES];
-        }
+        BXTDeviceInspectionInfo *inspectionInfo = self.maintenanceProes[indexPath.section - 2];
+        BXTDeviceCheckInfo *checkProject = inspectionInfo.check_arr[indexPath.row];
+        BXTChangeStateViewController *changeStateVC = [[BXTChangeStateViewController alloc] initWithNibName:@"BXTChangeStateViewController" bundle:nil withNotes:checkProject.default_description withTitle:inspectionInfo.check_item withDetail:checkProject.check_con];
+        @weakify(self);
+        [changeStateVC valueChanged:^(NSString *text) {
+            @strongify(self);
+            
+            checkProject.default_description = text;
+            NSMutableArray *tempIns = [NSMutableArray arrayWithArray:inspectionInfo.check_arr];
+            [tempIns replaceObjectAtIndex:indexPath.row withObject:checkProject];
+            inspectionInfo.check_arr = tempIns;
+            NSMutableArray *tempInsInfos = [NSMutableArray arrayWithArray:self.maintenanceProes];
+            [tempInsInfos replaceObjectAtIndex:indexPath.section - 2 withObject:inspectionInfo];
+            self.maintenanceProes = tempInsInfos;
+            
+            [self.currentTable reloadData];
+        }];
+        [self.navigationController pushViewController:changeStateVC animated:YES];
     }
 }
 
@@ -427,14 +428,68 @@
         if (type == Add_Inspection)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshTable" object:nil];
-            [self showMBP:@"新建维保作业成功！" withBlock:^(BOOL hidden) {
-                [self.navigationController popViewControllerAnimated:YES];
-            }];
+            if ([[dic objectForKey:@"last_state"] integerValue] == 2)
+            {
+                if (IS_IOS_8)
+                {
+                    UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"提交工单" message:@"此维保工单中的设备已全部完成维保，是否提交整个工单？" preferredStyle:UIAlertControllerStyleAlert];
+                    @weakify(self);
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"稍后提交" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        @strongify(self);
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+                    [alertCtr addAction:cancelAction];
+                    UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"直接提交" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                        @strongify(self);
+                        [self showLoadingMBP:@"加载中..."];
+                        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                        [request endMaintenceOrder:self.maintenceInfo.maintenceID];
+                    }];
+                    [alertCtr addAction:doneAction];
+                    [self presentViewController:alertCtr animated:YES completion:nil];
+                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您确定要取消此工单?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+                    @weakify(self);
+                    [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
+                        @strongify(self);
+                        if ([x integerValue] == 0)
+                        {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
+                            [self.navigationController popViewControllerAnimated:YES];
+                        }
+                        else if ([x integerValue] == 1)
+                        {
+                            [self showLoadingMBP:@"加载中..."];
+                            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                            [request endMaintenceOrder:self.maintenceInfo.maintenceID];
+                        }
+                    }];
+                    [alert show];
+                }
+            }
+            else
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
+                [self showMBP:@"新建维保作业成功！" withBlock:^(BOOL hidden) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+            }
         }
         else if (type == Update_Inspection)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshTable" object:nil];
             [self showMBP:@"更新维保作业成功！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+        }
+        else if (type == EndMaintenceOrder)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
+            [self showMBP:@"维保任务已结束！" withBlock:^(BOOL hidden) {
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         }

@@ -289,10 +289,20 @@
     self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
     [self.contentScrollView layoutIfNeeded];
     self.endTime.text = [NSString stringWithFormat:@"结束时间：%@",self.repairDetail.report.end_time_name];
-    self.maintencePlace.text = [NSString stringWithFormat:@"维修位置：%@",self.repairDetail.report.real_place_name];
-    self.doneFaultType.text = [NSString stringWithFormat:@"故障类型：%@",self.repairDetail.report.real_faulttype_name];
-    self.doneState.text = [NSString stringWithFormat:@"维修状态：%@",self.repairDetail.report.real_repairstate_name];
-    self.doneNotes.text = [NSString stringWithFormat:@"维修记录：%@",self.repairDetail.report.workprocess];
+    if ([self.repairDetail.task_type integerValue] == 2)
+    {
+        self.maintencePlace.text = [NSString stringWithFormat:@"维保位置：%@",self.repairDetail.report.real_place_name];
+        self.doneFaultType.text = [NSString stringWithFormat:@"维保项目：%@",self.repairDetail.report.real_faulttype_name];
+        self.doneState.text = [NSString stringWithFormat:@"维保状态：%@",self.repairDetail.report.real_repairstate_name];
+        self.doneNotes.text = [NSString stringWithFormat:@"维保记录：%@",self.repairDetail.report.workprocess];
+    }
+    else
+    {
+        self.maintencePlace.text = [NSString stringWithFormat:@"维修位置：%@",self.repairDetail.report.real_place_name];
+        self.doneFaultType.text = [NSString stringWithFormat:@"故障类型：%@",self.repairDetail.report.real_faulttype_name];
+        self.doneState.text = [NSString stringWithFormat:@"维修状态：%@",self.repairDetail.report.real_repairstate_name];
+        self.doneNotes.text = [NSString stringWithFormat:@"维修记录：%@",self.repairDetail.report.workprocess];
+    }
     [self.view layoutIfNeeded];
     self.seventh_bv_height.constant = CGRectGetMaxY(self.doneNotes.frame) + 10.f;
     [self.view layoutIfNeeded];
@@ -674,10 +684,20 @@
     self.departmentName.text = [NSString stringWithFormat:@"部门：%@",repairPerson.department_name];
     self.positionName.text = [NSString stringWithFormat:@"职位：%@",repairPerson.duty_name];
     self.repairID.text = [NSString stringWithFormat:@"工单编号:%@",self.repairDetail.orderid];
-    self.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
-    self.place.text = [NSString stringWithFormat:@"报修位置:%@",self.repairDetail.place_name];
-    self.faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
-    self.cause.text = [NSString stringWithFormat:@"故障描述:%@",self.repairDetail.cause];
+    if ([self.repairDetail.task_type integerValue] == 2)
+    {
+        self.repairTime.text = [NSString stringWithFormat:@"时间范围:%@",self.repairDetail.fault_time_name];
+        self.place.text = [NSString stringWithFormat:@"维保位置:%@",self.repairDetail.place_name];
+        self.faultType.text = [NSString stringWithFormat:@"维保项目:%@",self.repairDetail.faulttype_name];
+        self.cause.text = [NSString stringWithFormat:@"维保内容:%@",self.repairDetail.cause];
+    }
+    else
+    {
+        self.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
+        self.place.text = [NSString stringWithFormat:@"报修位置:%@",self.repairDetail.place_name];
+        self.faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
+        self.cause.text = [NSString stringWithFormat:@"故障描述:%@",self.repairDetail.cause];
+    }
     [self.contentView layoutIfNeeded];
     self.first_bv_height.constant = CGRectGetMaxY(self.cause.frame) + 10.f;
     [self.firstBV layoutIfNeeded];
@@ -853,7 +873,16 @@
     }
     else if (btnInfo.button_key == 6)
     {
-        [self endMaintence];
+        if ([self.repairDetail.task_type integerValue] == 2)
+        {
+            [self showLoadingMBP:@"加载中..."];
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request endMaintenceOrder:self.repairDetail.orderID];
+        }
+        else
+        {
+            [self endMaintence];
+        }
     }
     else if (btnInfo.button_key == 7)
     {
@@ -1015,6 +1044,13 @@
     else if (type == IsSure && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [self requestDetail];
+    }
+    else if (type == EndMaintenceOrder)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+        [self showMBP:@"维保任务已结束！" withBlock:^(BOOL hidden) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
     }
 }
 

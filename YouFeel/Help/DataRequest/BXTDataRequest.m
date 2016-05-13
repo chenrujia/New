@@ -92,7 +92,6 @@
     [BXTGlobal shareGlobal].baseURL = [NSString stringWithFormat:@"%@&shop_id=6", KAPIBASEURL];
     // 更新U_SHOPIDS
     [BXTGlobal setUserProperty:@[@"6"] withKey:U_SHOPIDS];
-    
     [self postRequest:url withParameters:dic];
 }
 
@@ -133,6 +132,14 @@
     {
         dic = @{@"task_type":taskType};
     }
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)urgentFaultType
+{
+    self.requestType = FaultType;
+    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=faulttype_lists",[BXTGlobal shareGlobal].baseURL];
+    NSDictionary *dic = @{@"urgent_state": @"2"};
     [self postRequest:url withParameters:dic];
 }
 
@@ -951,12 +958,18 @@
 }
 
 - (void)maintenanceEquipmentList:(NSString *)deviceID
+                         orderID:(NSString *)orderID
 {
     self.requestType = MaintenanceEquipmentList;
-    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
-                          @"device_id":deviceID};
+    NSMutableDictionary *mudic = [NSMutableDictionary dictionary];
+    [mudic setObject:[BXTGlobal getUserProperty:U_BRANCHUSERID] forKey:@"user_id"];
+    [mudic setObject:deviceID forKey:@"device_id"];
+    if (orderID)
+    {
+        [mudic setObject:orderID forKey:@"workorder_id"];
+    }
     NSString *url = [NSString stringWithFormat:@"%@&module=Inspection&opt=structure_inspection",[BXTGlobal shareGlobal].baseURL];
-    [self postRequest:url withParameters:dic];
+    [self postRequest:url withParameters:mudic];
 }
 
 - (void)addInspectionRecord:(NSString *)workorderID
@@ -993,6 +1006,7 @@
 }
 
 - (void)updateInspectionRecordID:(NSString *)recordID
+                        deviceID:(NSString *)deviceID
              andInspectionItemID:(NSString *)inspectionItemID
                andInspectionData:(NSString *)inspectionData
                         andNotes:(NSString *)notes
@@ -1005,6 +1019,7 @@
     self.requestType = Update_Inspection;
     NSDictionary *dic = @{@"id":recordID,
                           @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"device_id":deviceID,
                           @"inspection_item_id":inspectionItemID,
                           @"inspection_info":inspectionData,
                           @"device_state":state,
@@ -1021,6 +1036,15 @@
     {
         [self postRequest:url withParameters:dic];
     }
+}
+
+- (void)endMaintenceOrder:(NSString *)workOrderID
+{
+    self.requestType = EndMaintenceOrder;
+    NSDictionary *dic = @{@"workorder_id":workOrderID,
+                          @"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=add_processed_inspection",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)inspectionRecordInfo:(NSString *)recordID
