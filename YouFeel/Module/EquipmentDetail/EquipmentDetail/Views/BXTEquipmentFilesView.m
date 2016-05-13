@@ -124,7 +124,6 @@
     [[maintenanceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BOOL haveInspection = [[NSUserDefaults standardUserDefaults] boolForKey:@"FirstInspection"];
-        
         // 第一次 且 有数据
         if (!haveInspection && ValueFUD(@"OPERATINGDESC"))
         {
