@@ -293,7 +293,6 @@
         {
             [maintenaceBtn setTitle:@"已完成" forState:UIControlStateNormal];
         }
-        //如果是报修者身份，或者是维修员还没有到达现场（点击开始维修），或者是正常工单，则只提供查看权限
         else
         {
             [maintenaceBtn setTitle:@"查看" forState:UIControlStateNormal];
@@ -304,7 +303,7 @@
         [[maintenaceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
             BXTDeviceMMListInfo *dmInfo = self.repairDetail.device_lists[i];
-            BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dmInfo.deviceMMID];
+            BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dmInfo.deviceMMID orderID:self.repairDetail.orderID];
             epvc.pushType = PushType_StartMaintain;
             epvc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:epvc animated:YES];

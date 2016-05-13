@@ -83,6 +83,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     IsSure = 70,
     ShopConfig = 71,
     UnBundingUser = 72,
+    EndMaintenceOrder = 73
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -159,6 +160,11 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  故障类型
  */
 - (void)faultTypeListWithRTaskType:(NSString *)taskType more:(NSString *)more;
+
+/**
+ *  紧急类型
+ */
+- (void)urgentFaultType;
 
 /**
  *  工单类型
@@ -579,7 +585,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
 /**
  *  维保设备列表
  */
-- (void)maintenanceEquipmentList:(NSString *)deviceID;
+- (void)maintenanceEquipmentList:(NSString *)deviceID
+                         orderID:(NSString *)orderID;
 
 /**
  *  添加设备维护记录
@@ -599,6 +606,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  修改设备维护记录
  */
 - (void)updateInspectionRecordID:(NSString *)recordID
+                        deviceID:(NSString *)deviceID
              andInspectionItemID:(NSString *)inspectionItemID
                andInspectionData:(NSString *)inspectionData
                         andNotes:(NSString *)notes
@@ -607,6 +615,11 @@ typedef NS_ENUM(NSInteger, RepairListType)
                     andLongitude:(CGFloat)longitude
                      andLatitude:(CGFloat)latitude
                          andDesc:(NSString *)desc;
+
+/**
+ *  结束维保工单
+ */
+- (void)endMaintenceOrder:(NSString *)workOrderID;
 
 /**
  *  设备维护记录详情

@@ -21,6 +21,7 @@
 }
 
 @property (nonatomic, strong) NSString *deviceID;
+@property (nonatomic, strong) NSString *orderID;
 
 @end
 
@@ -33,12 +34,13 @@
     self.navigationController.navigationBar.translucent = NO;
 }
 
-- (instancetype)initWithDeviceID:(NSString *)device_id
+- (instancetype)initWithDeviceID:(NSString *)device_id orderID:(NSString *)orderID
 {
     self = [super init];
     if (self)
     {
         self.deviceID = device_id;
+        self.orderID = orderID;
     }
     return self;
 }
@@ -75,10 +77,10 @@
     currentScrollView.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:currentScrollView];
     
-    BXTEquipmentInformView *epiView = [[BXTEquipmentInformView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
+    BXTEquipmentInformView *epiView = [[BXTEquipmentInformView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID orderID:self.orderID];
     [currentScrollView addSubview:epiView];
     
-    BXTEquipmentFilesView *epfView = [[BXTEquipmentFilesView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID];
+    BXTEquipmentFilesView *epfView = [[BXTEquipmentFilesView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(currentScrollView.bounds)) deviceID:self.deviceID orderID:self.orderID];
     [currentScrollView addSubview:epfView];
     
     // 跳转类型判断

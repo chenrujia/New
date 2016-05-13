@@ -17,6 +17,9 @@
 #import "UIImageView+WebCache.h"
 
 @interface BXTMaintenanceBookViewController ()<BXTDataResponseDelegate>
+{
+    BOOL isFirst;
+}
 
 @property (nonatomic, strong) BXTDeviceMaintenceInfo *maintenceInfo;
 
@@ -24,16 +27,12 @@
 
 @implementation BXTMaintenanceBookViewController
 
-- (void)dealloc
-{
-    LogRed(@"释放了..................................................................");
-}
-
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID recordID:(NSString *)recordID
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        isFirst = YES;
         self.deviceID = devID;
         self.recordID = recordID;
     }
@@ -50,7 +49,6 @@
         @strongify(self);
         [self requestDate];
     }];
-    [self requestDate];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -58,6 +56,16 @@
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBarHidden = NO;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if (isFirst)
+    {
+        [self requestDate];
+        isFirst = NO;
+    }
 }
 
 - (void)requestDate
@@ -172,14 +180,13 @@
     }
     else if (indexPath.section == 4)
     {
-        BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
         UIFont *font = [UIFont systemFontOfSize:17.f];
-        CGSize size = MB_MULTILINE_TEXTSIZE(deviceInfo.notes, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000), NSLineBreakByWordWrapping);
-        if (_maintenceInfo.pic.count > 0)
+        CGSize size = MB_MULTILINE_TEXTSIZE(self.maintenceInfo.notes, font, CGSizeMake(SCREEN_WIDTH - 30.f, 1000), NSLineBreakByWordWrapping);
+        if (self.maintenceInfo.pic.count > 0)
         {
-            return 12.f + size.height + 12.f + 73.f + 90.f;
+            return 12.f + size.height + 12.f + 73.f + 26.f;
         }
-        return 12.f + size.height + 12.f + 56.f;
+        return 12.f + size.height + 8.f;
     }
     return 97.f;
 }
@@ -196,20 +203,20 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
-        if (_maintenceInfo)
+        if (self.maintenceInfo)
         {
-            BXTDeviceConfigInfo *deviceInfo = _maintenceInfo.device_con[0];
+            BXTDeviceConfigInfo *deviceInfo = self.maintenceInfo.device_con[0];
             cell.deviceName.text = [NSString stringWithFormat:@"设备名称：%@",deviceInfo.name];
             cell.deviceNumber.text = [NSString stringWithFormat:@"设备编号：%@",deviceInfo.code_number];
-            cell.deviceSystem.text = [NSString stringWithFormat:@"系统：%@",_maintenceInfo.faulttype_type_name];
-            cell.maintenanceProject.text = [NSString stringWithFormat:@"维保项目：%@",_maintenceInfo.inspection_item_name];
-            cell.maintenancePlane.text = [NSString stringWithFormat:@"维保计划：%@",_maintenceInfo.inspection_time];
+            cell.deviceSystem.text = [NSString stringWithFormat:@"系统：%@",self.maintenceInfo.faulttype_type_name];
+            cell.maintenanceProject.text = [NSString stringWithFormat:@"维保项目：%@",self.maintenceInfo.inspection_item_name];
+            cell.maintenancePlane.text = [NSString stringWithFormat:@"维保计划：%@",self.maintenceInfo.inspection_time];
             NSString *str = [NSString stringWithFormat:@"设备当前状态：%@",self.maintenceInfo.device_state_name];
             NSRange range = [str rangeOfString:self.maintenceInfo.device_state_name];
             NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
             [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"2FAEFF") range:range];
             cell.deviceState.attributedText = attributeStr;
-            if ([_maintenceInfo.state integerValue] == 1)
+            if ([self.maintenceInfo.state integerValue] == 1)
             {
                 cell.orderState.text = @"维修中";
             }
@@ -268,11 +275,11 @@
         }
         if (indexPath.section == 2)
         {
-            cell.textLabel.text = _maintenceInfo.device_state_name;
+            cell.textLabel.text = self.maintenceInfo.device_state_name;
         }
         else
         {
-            cell.textLabel.text = _maintenceInfo.create_time;
+            cell.textLabel.text = self.maintenceInfo.create_time;
         }
         
         return cell;
@@ -322,9 +329,9 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"ManagerUserCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        if (_maintenceInfo.repair_arr.count > 0)
+        if (self.maintenceInfo.repair_arr.count > 0)
         {
-            BXTControlUserInfo *userInfo = _maintenceInfo.repair_arr[0];
+            BXTControlUserInfo *userInfo = self.maintenceInfo.repair_arr[0];
             [cell.headImage sd_setImageWithURL:[NSURL URLWithString:userInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
             cell.userName.text = userInfo.name;
             cell.userJob.text = userInfo.role;
@@ -339,7 +346,14 @@
                 [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, 11)];
                 cell.userMoblie.attributedText = attributedString;
             }
-            [cell.connactTa addTarget:self action:@selector(connactBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+            if ([userInfo.out_userid isEqualToString:[BXTGlobal getUserProperty:U_USERID]])
+            {
+                cell.connactTa.hidden = YES;
+            }
+            else
+            {
+                [cell.connactTa addTarget:self action:@selector(connactBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+            }
         }
         
         return cell;

@@ -16,8 +16,8 @@ typedef  NS_ENUM(NSInteger, PushType) {
 
 @interface BXTEquipmentViewController : BXTBaseViewController
 
-
 @property (nonatomic, assign) NSInteger pushType;
-- (instancetype)initWithDeviceID:(NSString *)device_id;
+
+- (instancetype)initWithDeviceID:(NSString *)device_id orderID:(NSString *)orderID;
 
 @end

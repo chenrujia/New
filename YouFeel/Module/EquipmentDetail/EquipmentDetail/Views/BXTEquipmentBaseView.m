@@ -16,12 +16,13 @@
 
 #pragma mark -
 #pragma mark - 初始化
-- (instancetype)initWithFrame:(CGRect)frame deviceID:(NSString *)device_id
+- (instancetype)initWithFrame:(CGRect)frame deviceID:(NSString *)device_id orderID:(NSString *)orderID
 {
     self = [super initWithFrame:frame];
     if (self)
     {
         self.deviceID = device_id;
+        self.orderID = orderID;
         [self initial];
     }
     return self;

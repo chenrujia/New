@@ -185,7 +185,7 @@
 {
     BXTEPList *list = self.dataArray[indexPath.section];
     
-    BXTEquipmentViewController *epVC = [[BXTEquipmentViewController alloc] initWithDeviceID:list.EPID];
+    BXTEquipmentViewController *epVC = [[BXTEquipmentViewController alloc] initWithDeviceID:list.EPID orderID:nil];
     [self.navigationController pushViewController:epVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

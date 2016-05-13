@@ -201,7 +201,7 @@
             
             [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
                 if (buttonIdx == 1) {
-                    BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_content"]];
+                    BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_content"] orderID:nil];
                     epvc.pushType = PushType_Scan;
                     [self.navigationController pushViewController:epvc animated:YES];
                 }
