@@ -193,7 +193,7 @@
     
     
     self.currentPage = 1;
-    __block __typeof(self) weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
         [weakSelf getResource];

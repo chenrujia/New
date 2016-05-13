@@ -124,7 +124,7 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     
-    __block __typeof(self) weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
         [weakSelf getResource];

@@ -17,6 +17,8 @@
 #import "BXTCertificationManageViewController.h"
 #import "BXTMaintenanceDetailViewController.h"
 
+#define REFRESHOTHERAFFAIRVIEW @"refreshOtherAffairView "
+
 @interface BXTOtherAffairView () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
@@ -29,6 +31,11 @@
 @end
 
 @implementation BXTOtherAffairView
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (instancetype)initWithFrame:(CGRect)frame HandleState:(NSString *)handle_state
 {
@@ -46,7 +53,7 @@
         [self addSubview:self.tableView];
         
         self.currentPage = 1;
-        __block __typeof(self) weakSelf = self;
+        __weak __typeof(self) weakSelf = self;
         self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             weakSelf.currentPage = 1;
             [weakSelf getResource];
@@ -54,6 +61,17 @@
         self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             weakSelf.currentPage++;
             [weakSelf getResource];
+        }];
+        
+        // 进行中页面刷新后 - 已完成刷新
+        @weakify(self);
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:REFRESHOTHERAFFAIRVIEW object:nil] subscribeNext:^(id x) {
+            @strongify(self);
+            
+            if ([self.stateStr integerValue] == 2) {
+                self.currentPage = 1;
+                [self.tableView.mj_header beginRefreshing];
+            }
         }];
         
         [self.tableView.mj_header beginRefreshing];
@@ -114,8 +132,13 @@
         @weakify(self);
         [cmvc.delegateSignal subscribeNext:^(id x) {
             @strongify(self);
-            self.currentPage = 1;
-            [self.tableView.mj_header beginRefreshing];
+            
+            if ([self.stateStr integerValue] == 1) {
+                self.currentPage = 1;
+                [self.tableView.mj_header beginRefreshing];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHOTHERAFFAIRVIEW object:nil];
+            }
         }];
         [[self navigation] pushViewController:cmvc animated:YES];
     }
@@ -129,8 +152,13 @@
         @weakify(self);
         [repairDetailVC.delegateSignal subscribeNext:^(id x) {
             @strongify(self);
-            self.currentPage = 1;
-            [self.tableView.mj_header beginRefreshing];
+            
+            if ([self.stateStr integerValue] == 1) {
+                self.currentPage = 1;
+                [self.tableView.mj_header beginRefreshing];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHOTHERAFFAIRVIEW object:nil];
+            }
         }];
         [[self navigation] pushViewController:repairDetailVC animated:YES];
     }

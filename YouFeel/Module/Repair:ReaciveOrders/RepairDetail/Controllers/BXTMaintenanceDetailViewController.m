@@ -147,6 +147,7 @@
             [self.delegateSignal sendNext:nil];
         }
     }
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 

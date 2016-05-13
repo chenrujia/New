@@ -19,7 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"设备维保操作规范" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"安全指引" andRightTitle:nil andRightImage:nil];
 
     
     [self createUI];

@@ -211,8 +211,7 @@
                     newVC.isNewWorkOrder = YES;
                     NSArray *qr_moreArray = dict[@"qr_more"];
                     NSDictionary *transDict = qr_moreArray[0];
-                    NSDictionary *finalDict = @{
-                                                @"deviceName":  [NSString stringWithFormat:@"%@", transDict[@"name"]],
+                    NSDictionary *finalDict = @{@"deviceName":  [NSString stringWithFormat:@"%@\r%@", transDict[@"name"], transDict[@"code_number"]],
                                                 @"deviceID": [NSString stringWithFormat:@"%@", transDict[@"id"]],
                                                 @"placeName": [NSString stringWithFormat:@"%@", transDict[@"place_name"]],
                                                 @"placeID": [NSString stringWithFormat:@"%@", transDict[@"place_id"]]};
