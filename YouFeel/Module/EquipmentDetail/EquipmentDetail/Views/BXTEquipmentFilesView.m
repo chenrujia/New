@@ -111,12 +111,13 @@
     }];
     
     // 新建工单
-    UIView *downBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-66, SCREEN_WIDTH, 66)];
+    UIView *downBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 66, SCREEN_WIDTH, 66)];
     downBgView.backgroundColor = colorWithHexString(@"#DFE0E1");
     [self addSubview:downBgView];
     
-    maintenanceBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 13, SCREEN_WIDTH-80, 40)];
+    maintenanceBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 11, SCREEN_WIDTH - 80, 44)];
     maintenanceBtn.backgroundColor = [UIColor whiteColor];
+    maintenanceBtn.titleLabel.font = [UIFont systemFontOfSize:18.f];
     [maintenanceBtn setTitle:@"维保作业" forState:UIControlStateNormal];
     [maintenanceBtn setTitleColor:colorWithHexString(@"#3AB0FE") forState:UIControlStateNormal];
     maintenanceBtn.layer.cornerRadius = 5;
@@ -139,12 +140,12 @@
                 //已在维保中，不需要再次新建维保作业
                 if ([maintenceInfo.inspection_state integerValue] > 0)
                 {
-                    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.inspection_record_id];
+                    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.inspection_record_id safetyGuidelines:maintenceInfo.operating_condition_content];
                     [[self navigation] pushViewController:bookVC animated:YES];
                 }
                 else
                 {
-                    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
+                    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates safetyGuidelines:maintenceInfo.operating_condition_content];
                     mainVC.isUpdate = NO;
                     [[self navigation] pushViewController:mainVC animated:YES];
                 }
@@ -214,12 +215,12 @@
     //已在维保中，不需要再次新建维保作业
     if ([maintenceInfo.inspection_state integerValue] > 0)
     {
-        BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.inspection_record_id];
+        BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.inspection_record_id safetyGuidelines:maintenceInfo.operating_condition_content];
         [[self navigation] pushViewController:bookVC animated:YES];
     }
     else
     {
-        BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
+        BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates safetyGuidelines:maintenceInfo.operating_condition_content];
         mainVC.isUpdate = NO;
         [[self navigation] pushViewController:mainVC animated:YES];
     }
@@ -319,7 +320,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTDeviceMaintenceInfo *mainInfo = self.dataArray[indexPath.section];
-    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:mainInfo.device_id recordID:mainInfo.maintenceID];
+    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:mainInfo.device_id recordID:mainInfo.maintenceID safetyGuidelines:mainInfo.operating_condition_content];
     [[self navigation] pushViewController:bookVC animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

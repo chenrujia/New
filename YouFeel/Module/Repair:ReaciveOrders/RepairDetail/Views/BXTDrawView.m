@@ -23,6 +23,7 @@
         self.backgroundColor = [UIColor whiteColor];
         self.isShow = show;
         self.progress = progresses;
+        self.fontSize = IS_IPHONE6 ? 16.f : 15.f;
     }
     return self;
 }
@@ -33,14 +34,14 @@
     [grayColor setStroke];
     [grayColor setFill];
     
-    if (_isShow)
+    if (self.isShow)
     {
         [self drawTextInRect:CGRectMake(15.f, 10, 40.f, 20.f) Contents:@"状态" contentFont:[UIFont systemFontOfSize:16.f] contentColor:colorWithHexString(@"000000")];
     }
     
     [grayColor setStroke];
     [grayColor setFill];
-    CGFloat x = 40.f;
+    CGFloat x = 30.f;
     CGFloat y = 20.f;
     //最下面那个灰色长条
     [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(rect.size.width - x, y) withLineWidth:10.f];
@@ -49,7 +50,7 @@
     [orangeColor setStroke];
     [orangeColor setFill];
     
-    if (_progress.count == 0) return;
+    if (self.progress.count == 0) return;
     BXTProgressInfo *progressOne = _progress[0];
     BXTProgressInfo *progressTwo = _progress[1];
     BXTProgressInfo *progressThree = _progress[2];
@@ -147,19 +148,19 @@
     }
 
     CGSize oneSize = MB_MULTILINE_TEXTSIZE(progressOne.word, [UIFont systemFontOfSize:15.f], CGSizeMake(1000, 100), NSLineBreakByWordWrapping);
-    [self drawTextInRect:CGRectMake(x - oneSize.width/2.f, y + 20.f, oneSize.width, oneSize.height) Contents:progressOne.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x - oneSize.width/2.f, y + 20.f, oneSize.width, oneSize.height) Contents:progressOne.word contentFont:[UIFont systemFontOfSize:self.fontSize] contentColor:colorWithHexString(@"909497")];
     
     CGSize twoSize = MB_MULTILINE_TEXTSIZE(progressTwo.word, [UIFont systemFontOfSize:15.f], CGSizeMake(1000, 100), NSLineBreakByWordWrapping);
-    [self drawTextInRect:CGRectMake(x + space - twoSize.width/2.f, y + 20.f, twoSize.width, twoSize.height) Contents:progressTwo.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space - twoSize.width/2.f, y + 20.f, twoSize.width, twoSize.height) Contents:progressTwo.word contentFont:[UIFont systemFontOfSize:self.fontSize] contentColor:colorWithHexString(@"909497")];
     
     CGSize threeSize = MB_MULTILINE_TEXTSIZE(progressThree.word, [UIFont systemFontOfSize:15.f], CGSizeMake(1000, 100), NSLineBreakByWordWrapping);
-    [self drawTextInRect:CGRectMake(x + space * 2 - threeSize.width/2.f, y + 20.f, threeSize.width, threeSize.height) Contents:progressThree.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 2 - threeSize.width/2.f, y + 20.f, threeSize.width, threeSize.height) Contents:progressThree.word contentFont:[UIFont systemFontOfSize:self.fontSize] contentColor:colorWithHexString(@"909497")];
     
     CGSize fourSize = MB_MULTILINE_TEXTSIZE(progressFour.word, [UIFont systemFontOfSize:15.f], CGSizeMake(1000, 100), NSLineBreakByWordWrapping);
-    [self drawTextInRect:CGRectMake(x + space * 3 - fourSize.width/2.f, y + 20.f, fourSize.width, fourSize.height) Contents:progressFour.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 3 - fourSize.width/2.f, y + 20.f, fourSize.width, fourSize.height) Contents:progressFour.word contentFont:[UIFont systemFontOfSize:self.fontSize] contentColor:colorWithHexString(@"909497")];
     
     CGSize fiveSize = MB_MULTILINE_TEXTSIZE(progressFive.word, [UIFont systemFontOfSize:15.f], CGSizeMake(1000, 100), NSLineBreakByWordWrapping);
-    [self drawTextInRect:CGRectMake(x + space * 4 - fiveSize.width/2.f, y + 20.f, fiveSize.width, fiveSize.height) Contents:progressFive.word contentFont:[UIFont systemFontOfSize:15.f] contentColor:colorWithHexString(@"909497")];
+    [self drawTextInRect:CGRectMake(x + space * 4 - fiveSize.width/2.f, y + 20.f, fiveSize.width, fiveSize.height) Contents:progressFive.word contentFont:[UIFont systemFontOfSize:self.fontSize] contentColor:colorWithHexString(@"909497")];
 }
 
 @end

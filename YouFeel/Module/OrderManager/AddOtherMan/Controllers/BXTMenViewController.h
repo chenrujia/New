@@ -12,10 +12,12 @@
 
 @property (nonatomic, strong) NSMutableArray *manIDArray;
 
+@property (weak, nonatomic) IBOutlet UIView *peopleList;
 @property (weak, nonatomic) IBOutlet UILabel *choosedLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollerView;
 @property (weak, nonatomic) IBOutlet UITableView *currentTableView;
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *table_top;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil repairID:(NSString *)orderID repairUserList:(NSArray *)repairUserArray dispatchUserList:(NSArray *)dispatchUserArray;
 

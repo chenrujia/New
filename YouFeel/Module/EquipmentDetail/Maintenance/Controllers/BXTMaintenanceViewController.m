@@ -23,9 +23,10 @@
 
 //维保项目列表
 @property (nonatomic, strong) NSMutableArray *maintenanceProes;
-@property (nonatomic, assign) CGFloat longitude;
-@property (nonatomic, assign) CGFloat latitude;
-@property (nonatomic, strong) UIView  *notesBV;
+@property (nonatomic, assign) CGFloat        longitude;
+@property (nonatomic, assign) CGFloat        latitude;
+@property (nonatomic, strong) UIView         *notesBV;
+@property (nonatomic, copy  ) NSString       *safetyGuidelines;
 
 @end
 
@@ -36,12 +37,23 @@
                       maintence:(BXTDeviceMaintenceInfo *)maintence
                        deviceID:(NSString *)devID
                 deviceStateList:(NSArray *)states
+               safetyGuidelines:(NSString *)safety
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.state = @"1";
-        self.name = @"正常";
+        if (states.count)
+        {
+            NSDictionary *stateDic = states[0];
+            self.state = [stateDic objectForKey:@"id"];
+            self.name = [stateDic objectForKey:@"state"];
+        }
+        else
+        {
+            self.state = @"1";
+            self.name = @"正常";
+        }
+        self.safetyGuidelines = safety;
         self.notes = @"";
         self.instruction = @"";
         self.maintenceInfo = maintence;
@@ -91,6 +103,7 @@
             }
         }];
     }
+    self.commitBtn.titleLabel.font = [UIFont systemFontOfSize:18.f];
     self.commitBtn.layer.cornerRadius = 4.f;
     @weakify(self);
     [[self.commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -327,7 +340,7 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.checkImgView.hidden = YES;
             cell.detailLable.hidden = YES;
-            cell.titleLabel.text = @"设备操作规范";
+            cell.titleLabel.text = @"安全指引";
         }
         else if (indexPath.section == 1)
         {
@@ -355,10 +368,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //操作规范
+    //安全指引
     if (indexPath.section == 0)
     {
-        BXTStandardViewController *standardVC = [[BXTStandardViewController alloc] init];
+        BXTStandardViewController *standardVC = [[BXTStandardViewController alloc] initWithSafetyGuidelines:self.safetyGuidelines];
         [self.navigationController pushViewController:standardVC animated:YES];
     }
     else if (indexPath.section == 1)

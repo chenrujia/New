@@ -32,6 +32,7 @@
 @property (nonatomic, copy) NSString *workorder_id;
 @property (nonatomic, copy) NSString *time_name;
 @property (nonatomic, copy) NSString *inspection_title;
+@property (nonatomic, copy) NSString *operating_condition_content;
 
 //+设备维护记录详情相关
 @property (nonatomic, strong) NSArray<BXTFaultPicInfo *> *pic;

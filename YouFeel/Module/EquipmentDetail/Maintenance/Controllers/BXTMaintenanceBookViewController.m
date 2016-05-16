@@ -22,12 +22,17 @@
 }
 
 @property (nonatomic, strong) BXTDeviceMaintenceInfo *maintenceInfo;
+@property (nonatomic, copy) NSString *safetyGuidelines;
 
 @end
 
 @implementation BXTMaintenanceBookViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID recordID:(NSString *)recordID
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil
+                       deviceID:(NSString *)devID
+                       recordID:(NSString *)recordID
+               safetyGuidelines:(NSString *)safety
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
@@ -35,6 +40,7 @@
         isFirst = YES;
         self.deviceID = devID;
         self.recordID = recordID;
+        self.safetyGuidelines = safety;
     }
     return self;
 }
@@ -79,7 +85,7 @@
 #pragma mark 事件处理
 - (void)navigationRightButton
 {
-    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:self.maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
+    BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:self.maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates safetyGuidelines:self.safetyGuidelines];
     mainVC.isUpdate = YES;
     [self.navigationController pushViewController:mainVC animated:YES];
 }

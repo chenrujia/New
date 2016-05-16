@@ -15,6 +15,10 @@
 @property (nonatomic, strong) NSString *deviceID;
 @property (nonatomic, strong) NSString *recordID;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil deviceID:(NSString *)devID recordID:(NSString *)recordID;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil
+                       deviceID:(NSString *)devID
+                       recordID:(NSString *)recordID
+               safetyGuidelines:(NSString *)safety;
 
 @end

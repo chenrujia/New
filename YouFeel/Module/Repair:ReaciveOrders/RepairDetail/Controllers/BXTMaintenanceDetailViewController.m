@@ -295,6 +295,9 @@
         self.doneFaultType.text = [NSString stringWithFormat:@"维保项目：%@",self.repairDetail.report.real_faulttype_name];
         self.doneState.text = [NSString stringWithFormat:@"维保状态：%@",self.repairDetail.report.real_repairstate_name];
         self.doneNotes.text = [NSString stringWithFormat:@"维保记录：%@",self.repairDetail.report.workprocess];
+        [self.view layoutIfNeeded];
+        self.seventh_bv_height.constant = CGRectGetMaxY(self.doneNotes.frame) + 10.f;
+        [self.view layoutIfNeeded];
     }
     else
     {
@@ -302,10 +305,21 @@
         self.doneFaultType.text = [NSString stringWithFormat:@"故障类型：%@",self.repairDetail.report.real_faulttype_name];
         self.doneState.text = [NSString stringWithFormat:@"维修状态：%@",self.repairDetail.report.real_repairstate_name];
         self.doneNotes.text = [NSString stringWithFormat:@"维修记录：%@",self.repairDetail.report.workprocess];
+        if (self.repairDetail.instructions_info.opt_content.length > 0)
+        {
+            self.commentContent.hidden = NO;
+            self.commentContent.text = [NSString stringWithFormat:@"批注内容：%@  %@\r%@",self.repairDetail.instructions_info.opt_name,self.repairDetail.instructions_info.opt_data,self.repairDetail.instructions_info.opt_content];
+            [self.view layoutIfNeeded];
+            self.seventh_bv_height.constant = CGRectGetMaxY(self.commentContent.frame) + 10.f;
+            [self.view layoutIfNeeded];
+        }
+        else
+        {
+            [self.view layoutIfNeeded];
+            self.seventh_bv_height.constant = CGRectGetMaxY(self.doneNotes.frame) + 10.f;
+            [self.view layoutIfNeeded];
+        }
     }
-    [self.view layoutIfNeeded];
-    self.seventh_bv_height.constant = CGRectGetMaxY(self.doneNotes.frame) + 10.f;
-    [self.view layoutIfNeeded];
 }
 
 - (void)loadFaultPic
@@ -647,6 +661,7 @@
         btn.backgroundColor = colorWithHexString(@"3cafff");
         [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     }
+    btn.titleLabel.font = [UIFont systemFontOfSize:18.f];
     btn.layer.cornerRadius = 4.f;
     [self.buttonBV addSubview:btn];
     

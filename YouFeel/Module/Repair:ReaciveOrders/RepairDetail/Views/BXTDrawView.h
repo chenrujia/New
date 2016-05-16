@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSArray *progress;
 @property (nonatomic ,assign) BOOL    isShow;
+@property (nonatomic, assign) CGFloat fontSize;
 
 - (instancetype)initWithFrame:(CGRect)frame
                  withProgress:(NSArray *)progresses

@@ -71,6 +71,7 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UILabel      *doneFaultType;
 @property (weak, nonatomic) IBOutlet UILabel      *doneState;
 @property (weak, nonatomic) IBOutlet UILabel      *doneNotes;
+@property (weak, nonatomic) IBOutlet UILabel      *commentContent;
 
 @property (weak, nonatomic) IBOutlet UILabel      *evaluateNotes;
 @property (weak, nonatomic) IBOutlet UILabel      *orderStyle;
