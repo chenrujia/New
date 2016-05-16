@@ -300,11 +300,9 @@
             [stateTitleArray addObject:@"状态记录"];
             [stateArray addObject:stateRecordModel];
         }
-        
-        
+
         // 存储 设备操作规范
         SaveValueTUD(@"OPERATINGDESC", dataDict[@"operating_desc"]);
-        
         
         // 更新数组
         [self.titleArray replaceObjectAtIndex:3 withObject:paramsTitleArray];
