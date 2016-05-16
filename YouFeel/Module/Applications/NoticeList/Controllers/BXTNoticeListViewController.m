@@ -56,7 +56,6 @@
     self.segmentView.delegate = self;
     [backView addSubview:self.segmentView];
     
-    
     // UIScrollView
     currentSrcoller = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 50.f, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 50.f)];
     currentSrcoller.delegate = self;
@@ -64,7 +63,6 @@
     currentSrcoller.pagingEnabled = YES;
     currentSrcoller.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:currentSrcoller];
-    
     
     for (NSInteger i=1; i<3; i++) {
         BXTMainReadNoticeView *readView = [[BXTMainReadNoticeView alloc] initWithFrame:CGRectMake((i - 1) *SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(backView.frame)) type:i];
