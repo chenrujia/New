@@ -201,7 +201,7 @@
             {
                 /**位置列表**/
                 BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [location_request listOFPlaceIsAllPlace:YES];
+                [location_request listOFPlaceIsAllPlace];
             }
             else
             {
@@ -213,7 +213,7 @@
                 {
                     /**位置列表**/
                     BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-                    [location_request listOFPlaceIsAllPlace:YES];
+                    [location_request listOFPlaceIsAllPlace];
                 }
             }
             [[ANKeyValueTable userDefaultTable] setValue:shopID withKey:YSAVEDSHOPID];
@@ -253,7 +253,7 @@
     else if (type == PlaceLists && ![[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
         BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlaceIsAllPlace:YES];
+        [location_request listOFPlaceIsAllPlace];
     }
     else
     {
@@ -293,7 +293,7 @@
     if (type == PlaceLists)
     {
         BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlaceIsAllPlace:YES];
+        [location_request listOFPlaceIsAllPlace];
     }
 }
 

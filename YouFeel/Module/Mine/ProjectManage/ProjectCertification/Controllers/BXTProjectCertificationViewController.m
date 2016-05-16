@@ -438,7 +438,9 @@
         
         // 选择身份类型  -  改变结构
         if (index == 1) {
-            [self adjustStructureType];
+            if (self.mulitSelectArray.count != 0) {
+                [self adjustStructureType];
+            }
         }
         
         if (index == 3) {
