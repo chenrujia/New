@@ -10,4 +10,6 @@
 
 @interface BXTStandardViewController : BXTBaseViewController
 
+- (instancetype)initWithSafetyGuidelines:(NSString *)safety;
+
 @end

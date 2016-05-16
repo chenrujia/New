@@ -26,6 +26,7 @@
                          bundle:(NSBundle *)nibBundleOrNil
                       maintence:(BXTDeviceMaintenceInfo *)maintence
                        deviceID:(NSString *)devID
-                deviceStateList:(NSArray *)states;
+                deviceStateList:(NSArray *)states
+               safetyGuidelines:(NSString *)safety;
 
 @end

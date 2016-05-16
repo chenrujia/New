@@ -66,12 +66,21 @@ static const CGFloat UserBackViewSpace = 20.f;
     self.peoplesArray = peopleArray;
     peoplesCount = self.peoplesArray.count;
     
-    NSString *str = [NSString stringWithFormat:@"已选中：%ld人",(long)peoplesCount];
-    NSRange range = [str rangeOfString:[NSString stringWithFormat:@"%ld人",(long)peoplesCount]];
-    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
-    [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:range];
-    self.choosedLabel.attributedText = attributeStr;
-    
+    if (peoplesCount == 0)
+    {
+        self.peopleList.hidden = YES;
+        self.table_top.constant = KNAVIVIEWHEIGHT;
+        [self.currentTableView layoutIfNeeded];
+    }
+    else
+    {
+        NSString *str = [NSString stringWithFormat:@"已选中：%ld人",(long)peoplesCount];
+        NSRange range = [str rangeOfString:[NSString stringWithFormat:@"%ld人",(long)peoplesCount]];
+        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:range];
+        self.choosedLabel.attributedText = attributeStr;
+    }
+
     if (peoplesCount > 0)
     {
         CGFloat length = 10 + (UserBackViewWidth + UserBackViewSpace) * (peoplesCount - 1) + UserBackViewWidth + 10;
@@ -209,6 +218,8 @@ static const CGFloat UserBackViewSpace = 20.f;
     }
 }
 
+#pragma mark -
+#pragma mark UITableViewDelegate && UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 40.f;
@@ -218,38 +229,41 @@ static const CGFloat UserBackViewSpace = 20.f;
 {
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40.f)];
     backView.backgroundColor = [UIColor whiteColor];
-    if (self.groupsArray.count > section)
+    
+    BXTGroupingInfo *groupInfo = self.groupsArray[section];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 0, SCREEN_WIDTH - 30.f, 40.f)];
+    titleLabel.userInteractionEnabled = YES;
+    titleLabel.font = [UIFont systemFontOfSize:17.f];
+    titleLabel.text = groupInfo.subgroup;
+    [backView addSubview:titleLabel];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 40, 18, 15, 9)];
+    NSString *markStr = self.markArray[section];
+    if ([markStr integerValue])
     {
-        BXTGroupingInfo *groupInfo = self.groupsArray[section];
-        BXTCustomButton *btn = [[BXTCustomButton alloc] initWithType:GroupBtnType];
-        [btn setFrame:CGRectMake(15.f, 0, SCREEN_WIDTH - 30.f, 40.f)];
-        [btn setTitle:groupInfo.subgroup forState:UIControlStateNormal];
-        NSString *markStr = self.markArray[section];
+        imageView.image = [UIImage imageNamed:@"wo_up_arrow"];
+    }
+    else
+    {
+        imageView.image = [UIImage imageNamed:@"wo_down_arrow"];
+    }
+    [backView addSubview:imageView];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
+    @weakify(self);
+    [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
         if ([markStr integerValue])
         {
-            [btn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-            [btn setImage:[UIImage imageNamed:@"wo_up_arrow"] forState:UIControlStateNormal];
+            [self.markArray replaceObjectAtIndex:section withObject:@"0"];
         }
         else
         {
-            [btn setTitleColor:colorWithHexString(@"000000") forState:UIControlStateNormal];
-            [btn setImage:[UIImage imageNamed:@"wo_down_arrow"] forState:UIControlStateNormal];
+            [self.markArray replaceObjectAtIndex:section withObject:@"1"];
         }
-        @weakify(self);
-        [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            @strongify(self);
-            if ([markStr integerValue])
-            {
-                [self.markArray replaceObjectAtIndex:section withObject:@"0"];
-            }
-            else
-            {
-                [self.markArray replaceObjectAtIndex:section withObject:@"1"];
-            }
-            [self.currentTableView reloadData];
-        }];
-        [backView addSubview:btn];
-    }
+        [self.currentTableView reloadData];
+    }];
+    [titleLabel addGestureRecognizer:tapGesture];
     
     return backView;
 }
@@ -257,6 +271,14 @@ static const CGFloat UserBackViewSpace = 20.f;
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 12.f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 12.f)];
+    backView.backgroundColor = colorWithHexString(@"EFEFF4");
+    
+    return backView;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -277,14 +299,20 @@ static const CGFloat UserBackViewSpace = 20.f;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTManTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell" forIndexPath:indexPath];
-    
+    BXTManTableViewCell *cell = (BXTManTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"UserCell" forIndexPath:indexPath];
     BXTGroupingInfo *groupInfo = self.groupsArray[indexPath.section];
     BXTManInfo *manInfo = groupInfo.user_lists[indexPath.row];
     [cell.headImage sd_setImageWithURL:[NSURL URLWithString:manInfo.head_pic]];
     cell.nameLabel.text = manInfo.name;
     cell.stateLabel.text = manInfo.on_duty;
-    cell.numberLabel.text = [NSString stringWithFormat:@"当前有%ld单",(long)manInfo.work_number];
+    if (manInfo.work_number == 0)
+    {
+        cell.numberLabel.text = @"当班";
+    }
+    else
+    {
+        cell.numberLabel.text = [NSString stringWithFormat:@"当前有%ld单",(long)manInfo.work_number];
+    }
     NSMutableArray *tempCheckArray = self.checkArray[indexPath.section];
     NSString *checkStr = tempCheckArray[indexPath.row];
     if ([checkStr isEqualToString:@"0"])

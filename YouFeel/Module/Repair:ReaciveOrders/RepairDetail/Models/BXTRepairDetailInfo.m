@@ -21,12 +21,17 @@
              @"fault_user_arr":[BXTRepairPersonInfo class],
              @"progress":[BXTProgressInfo class],
              @"report":[BXTReportInfo class],
-             @"praise":[BXTPraiseInfo class]};
+             @"praise":[BXTPraiseInfo class],
+             @"instructions_info":[BXTInstructionInfo class]};
 }
 
 @end
 
 @implementation BXTReportInfo
+
+@end
+
+@implementation BXTInstructionInfo
 
 @end
 
