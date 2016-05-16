@@ -46,6 +46,7 @@
     backView.layer.borderWidth = 0.5;
     [self.view addSubview:backView];
     
+    
     // SegmentView
     self.segmentView = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 10.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"未读", @"已读"] isWhiteBGColor:1];
     self.segmentView.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
@@ -54,6 +55,7 @@
     self.segmentView.layer.borderWidth = 1.f;
     self.segmentView.delegate = self;
     [backView addSubview:self.segmentView];
+    
     
     // UIScrollView
     currentSrcoller = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 50.f, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 50.f)];
