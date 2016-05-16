@@ -647,6 +647,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         NSMutableArray *dataSource = [[NSMutableArray alloc] init];
         [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
         [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
+        [[ANKeyValueTable userDefaultTable] synchronize:YES];
         NSTimeInterval nowTime = [[NSDate date] timeIntervalSince1970];
         NSInteger now = nowTime;
         [[ANKeyValueTable userDefaultTable] setValue:[NSNumber numberWithInteger:now] withKey:YSAVEDTIME];
