@@ -47,6 +47,9 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UIButton     *connectTa;
 @property (weak, nonatomic) IBOutlet UILabel      *orderType;
 @property (weak, nonatomic) IBOutlet UILabel      *orderState;
+@property (weak, nonatomic) IBOutlet UILabel      *repairPerson;
+@property (weak, nonatomic) IBOutlet UILabel      *repairUsers;
+@property (weak, nonatomic) IBOutlet UILabel      *maintenceRecord;
 @property (weak, nonatomic) IBOutlet UILabel      *repairID;
 @property (weak, nonatomic) IBOutlet UILabel      *repairTime;
 @property (weak, nonatomic) IBOutlet UILabel      *place;

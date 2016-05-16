@@ -686,6 +686,9 @@
     self.repairID.text = [NSString stringWithFormat:@"工单编号:%@",self.repairDetail.orderid];
     if ([self.repairDetail.task_type integerValue] == 2)
     {
+        self.repairPerson.text = @"计划人:";
+        self.repairUsers.text = @"维保员:";
+        self.maintenceRecord.text = @"维保报告:";
         self.repairTime.text = [NSString stringWithFormat:@"时间范围:%@",self.repairDetail.fault_time_name];
         self.place.text = [NSString stringWithFormat:@"维保位置:%@",self.repairDetail.place_name];
         self.faultType.text = [NSString stringWithFormat:@"维保项目:%@",self.repairDetail.faulttype_name];
@@ -693,6 +696,9 @@
     }
     else
     {
+        self.repairPerson.text = @"报修人:";
+        self.repairUsers.text = @"维修员:";
+        self.maintenceRecord.text = @"维修报告:";
         self.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
         self.place.text = [NSString stringWithFormat:@"报修位置:%@",self.repairDetail.place_name];
         self.faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];

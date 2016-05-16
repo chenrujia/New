@@ -157,7 +157,7 @@
     }
     else
     {
-        if (self.searchTitlesArray.count && self.autoClassifyInfo)
+        if (self.searchTitlesArray.count > 0 && self.autoClassifyInfo)
         {
             self.selectPlace(self.autoClassifyInfo,self.searchTitlesArray[self.lastIndex]);
         }
