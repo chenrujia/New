@@ -65,6 +65,7 @@
     currentSrcoller.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:currentSrcoller];
     
+    
     for (NSInteger i=1; i<3; i++) {
         BXTMainReadNoticeView *readView = [[BXTMainReadNoticeView alloc] initWithFrame:CGRectMake((i - 1) *SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(backView.frame)) type:i];
         [currentSrcoller addSubview:readView];
