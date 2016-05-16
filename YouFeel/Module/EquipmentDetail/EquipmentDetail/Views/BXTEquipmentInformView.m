@@ -150,6 +150,7 @@
                 
             } buttonsStatement:@"确定", nil];
         }];
+        
         [cell.contentView addSubview:button];
     }
     
@@ -299,7 +300,7 @@
             [stateTitleArray addObject:@"状态记录"];
             [stateArray addObject:stateRecordModel];
         }
-        
+
         // 存储 设备操作规范
         SaveValueTUD(@"OPERATINGDESC", dataDict[@"operating_desc"]);
         

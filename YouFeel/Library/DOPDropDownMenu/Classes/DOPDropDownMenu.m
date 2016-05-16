@@ -270,6 +270,10 @@
         } else if (IS_IPHONE6) {
             indicatorX = titleString.length <= 4 ? titleString.length * 7 : 28;
         }
+        if (_numOfMenu == 1) {
+            separatorLineInterval = self.frame.size.width / 2;
+            indicatorX = titleString.length * 7 + 50;
+        }
         //indicator
         CAShapeLayer *indicator = [self createIndicatorWithColor:self.indicatorColor andPosition:CGPointMake((i + 1)*separatorLineInterval - 40 + indicatorX, self.frame.size.height / 2)];
         [self.layer addSublayer:indicator];
@@ -943,6 +947,10 @@
             indicatorX = titleString.length <= 5 ? titleString.length * 6 : 30;
         } else if (IS_IPHONE6) {
             indicatorX = titleString.length <= 4 ? titleString.length * 7 : 28;
+        }
+        if (_numOfMenu == 1) {
+            separatorLineInterval = self.frame.size.width / 2;
+            indicatorX = titleString.length * 7 + 50;
         }
         //indicator
         CAShapeLayer *indicator = [self createIndicatorWithColor:self.indicatorColor andPosition:CGPointMake((i + 1)*separatorLineInterval - 40 + indicatorX, self.frame.size.height / 2)];

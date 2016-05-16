@@ -131,6 +131,7 @@
             BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] init];
             [[self navigation] pushViewController:sdvc animated:YES];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
+            
         }
         else
         {
@@ -142,12 +143,14 @@
                 {
                     BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.inspection_record_id safetyGuidelines:maintenceInfo.operating_condition_content];
                     [[self navigation] pushViewController:bookVC animated:YES];
+                    
                 }
                 else
                 {
                     BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates safetyGuidelines:maintenceInfo.operating_condition_content];
                     mainVC.isUpdate = NO;
                     [[self navigation] pushViewController:mainVC animated:YES];
+                    
                 }
             }
             else if (self.maintencesArray.count > 1)

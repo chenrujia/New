@@ -38,7 +38,7 @@
 #pragma mark - createUI
 - (void)createUI
 {
-    self.dataArray = @[@[@"修改密码"], @[@"清除缓存", @"清除聊天记录"], @[@"关于我们"]];
+    self.dataArray = @[@[@"修改密码"], @[@"清除缓存", @"清除聊天记录"]];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
     self.tableView.rowHeight = 50.f;
@@ -160,11 +160,7 @@
         }
         
     }
-    else
-    {
-        BXTAboutUsViewController *auvc = [[BXTAboutUsViewController alloc] init];
-        [self.navigationController pushViewController:auvc animated:YES];
-    }
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
