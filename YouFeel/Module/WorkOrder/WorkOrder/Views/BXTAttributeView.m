@@ -11,7 +11,7 @@
 #import "BXTCustomButton.h"
 #import "BXTPublicSetting.h"
 
-#define marginW 40
+#define marginW 44
 #define marginH 15
 
 @interface BXTAttributeView ()
@@ -36,7 +36,7 @@
         BXTCustomButton *btn = [[BXTCustomButton alloc] initWithType:FaultTypeType];
         btn.tag = i;
         [btn addTarget:view action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        btn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+        btn.titleLabel.font = [UIFont boldSystemFontOfSize:16];
         BXTOrderTypeInfo *orderTypeInfo = texts[i];
         [btn setTitle:orderTypeInfo.faulttype forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

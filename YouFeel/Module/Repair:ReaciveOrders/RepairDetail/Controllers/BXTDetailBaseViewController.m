@@ -273,13 +273,8 @@
         maintenaceBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
         maintenaceBtn.layer.borderWidth = 1.f;
         maintenaceBtn.layer.cornerRadius = 4.f;
-        [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 83.f - 15.f, 11.f, 83.f, 40.f)];
+        [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 77.f - 15.f, 16.f, 77.f, 30.f)];
         maintenaceBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-        if (!IS_IPHONE6)
-        {
-            [maintenaceBtn setFrame:CGRectMake(SCREEN_WIDTH - 70.f - 15.f, 11.f, 70.f, 35.f)];
-            maintenaceBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-        }
 
         if ([self.repairDetail.task_type integerValue] == 2 && [self.repairDetail.repairstate integerValue] > 1 && [deviceMMInfo.inspection_state integerValue] == 0)
         {
