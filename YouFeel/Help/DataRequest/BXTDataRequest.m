@@ -217,15 +217,11 @@
     [self postRequest:url withParameters:nil];
 }
 
-- (void)listOFPlaceIsAllPlace:(BOOL)isAllPlace
+- (void)listOFPlaceIsAllPlace
 {
     self.requestType = PlaceLists;
-    NSString *isMore = @"";
-    if (isAllPlace)
-    {
-        isMore = @"1";
-    }
-    NSDictionary *dic = @{@"more": isMore};
+
+    NSDictionary *dic = @{@"more": @"1"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=place_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

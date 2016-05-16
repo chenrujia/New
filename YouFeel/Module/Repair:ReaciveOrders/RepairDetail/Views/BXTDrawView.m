@@ -23,7 +23,7 @@
         self.backgroundColor = [UIColor whiteColor];
         self.isShow = show;
         self.progress = progresses;
-        self.fontSize = IS_IPHONE6 ? 16.f : 15.f;
+        self.fontSize = IS_IPHONE6 ? 15.f : 14.f;
     }
     return self;
 }
@@ -41,7 +41,7 @@
     
     [grayColor setStroke];
     [grayColor setFill];
-    CGFloat x = 30.f;
+    CGFloat x = 40.f;
     CGFloat y = 20.f;
     //最下面那个灰色长条
     [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(rect.size.width - x, y) withLineWidth:10.f];

@@ -203,7 +203,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  获取位置数组
  *  isAllPlace - YES获取全部位置
  */
-- (void)listOFPlaceIsAllPlace:(BOOL)isAllPlace;
+- (void)listOFPlaceIsAllPlace;
 
 /**
  *  获取部门列表

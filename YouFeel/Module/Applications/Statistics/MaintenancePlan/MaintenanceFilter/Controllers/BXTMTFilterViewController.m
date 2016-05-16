@@ -414,6 +414,7 @@
     [formatter1 setDateFormat:@"yyyy/MM/dd"];
     NSString *dateStr = [formatter1 stringFromDate:inputDate];
     
+    NSLog(@"%@ - %@", theComponents, weekdays);
     //return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];
     return dateStr;
 }

@@ -15,7 +15,7 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import "BXTMaintenanceDetailViewController.h"
 #import <MJRefresh.h>
-
+#import "ANKeyValueTable.h"
 #import "BXTMainTableViewCell.h"
 
 @interface BXTReaciveOrdersViewController ()<DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDelegate,UITableViewDataSource,BXTDataResponseDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
@@ -120,8 +120,9 @@
         stateArray = [NSMutableArray arrayWithObjects:@"状态", @"未到期", @"即将到期", @"已过期", nil];
     }
     areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
+    [areasArray addObjectsFromArray:[[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE]];
     timesArray = [NSMutableArray arrayWithObjects:@"时间",@"今天",@"3天内",@"7天内",@"本月",@"本年", nil];
-
+    
     // 添加下拉菜单
     DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
     menu.delegate = self;
@@ -179,11 +180,6 @@
                                   collectionID:@""
                                       deviceID:@""
                                           page:1];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**请求位置**/
-        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlaceIsAllPlace:NO];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求故障类型列表**/
@@ -435,7 +431,7 @@
 {
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
-
+    
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     
@@ -456,13 +452,13 @@
         }
         [self.tableView reloadData];
     }
-    else if (type == PlaceLists)
-    {
-        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"placeID": @"id"};
-        }];
-        [areasArray addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
-    }
+    //    else if (type == PlaceLists)
+    //    {
+    //        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+    //            return @{@"placeID": @"id"};
+    //        }];
+    //
+    //    }
     else if (type == SubgroupLists)
     {
         [BXTSubgroupInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{

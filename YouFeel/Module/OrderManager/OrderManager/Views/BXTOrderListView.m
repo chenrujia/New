@@ -18,6 +18,7 @@
 #import "DOPDropDownMenu.h"
 #import "BXTMainTableViewCell.h"
 #import "BXTPlaceInfo.h"
+#import "ANKeyValueTable.h"
 
 @interface BXTOrderListView () <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
 {
@@ -136,6 +137,7 @@
     }
     groupArray = [NSMutableArray arrayWithObjects:@"类型", @"日常工单", @"维保工单", nil];
     areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
+    [areasArray addObjectsFromArray:[[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE]];
     timesArray = [NSMutableArray arrayWithObjects:@"时间",@"今天",@"3天内",@"7天内",@"本月",@"本年", nil];
     
     // 添加下拉菜单
@@ -184,11 +186,6 @@
                                   collectionID:@""
                                       deviceID:@""
                                           page:1];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**请求位置**/
-        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlaceIsAllPlace:NO];
     });
 }
 
@@ -501,13 +498,6 @@
             [self.ordersArray addObjectsFromArray:repairs];
         }
         [self.tableView reloadData];
-    }
-    else if (type == PlaceLists)
-    {
-        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"placeID": @"id"};
-        }];
-        [areasArray addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
     }
 }
 
