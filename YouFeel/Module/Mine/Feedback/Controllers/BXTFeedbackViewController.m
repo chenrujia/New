@@ -51,6 +51,7 @@
     commitBtn.titleLabel.font = [UIFont systemFontOfSize:20];
     [commitBtn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     [commitBtn setBackgroundColor:colorWithHexString(@"3cafff")];
+    commitBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     commitBtn.layer.masksToBounds = YES;
     commitBtn.layer.cornerRadius = 4.f;
     @weakify(self);

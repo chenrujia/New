@@ -56,6 +56,7 @@ static const CGFloat UserBackViewSpace = 20.f;
     [super viewDidLoad];
     [self navigationSetting:@"人员列表" andRightTitle:nil andRightImage:nil];
     self.view.backgroundColor = colorWithHexString(@"EFEFF4");
+    self.commitBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     self.commitBtn.layer.cornerRadius = 4.f;
     [self.currentTableView registerNib:[UINib nibWithNibName:@"BXTManTableViewCell" bundle:nil] forCellReuseIdentifier:@"UserCell"];
     [self.currentTableView setRowHeight:50.f];

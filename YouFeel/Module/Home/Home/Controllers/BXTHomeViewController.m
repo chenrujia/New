@@ -343,7 +343,7 @@ typedef NS_ENUM(NSInteger, CellType) {
     {
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
         CGFloat scale = 123.f/320.f;
-        if (![companyInfo.company_id isEqualToString:@"11"])
+        if (![companyInfo.company_id isEqualToString:@"4"])
         {
             return SCREEN_WIDTH * scale;//section头部高度
         }
@@ -397,7 +397,7 @@ typedef NS_ENUM(NSInteger, CellType) {
         }];
         
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        if ([companyInfo.company_id isEqualToString:@"11"]) {
+        if ([companyInfo.company_id isEqualToString:@"4"]) {
             [bgView addSubview:button];
         }
         

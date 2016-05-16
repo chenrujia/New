@@ -409,8 +409,6 @@
     [calendar setTimeZone: timeZone];
     NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
     NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
-    NSString *weekStr = [weekdays objectAtIndex:theComponents.weekday];
-    NSLog(@"%@", weekStr);
     
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
     [formatter1 setDateFormat:@"yyyy/MM/dd"];

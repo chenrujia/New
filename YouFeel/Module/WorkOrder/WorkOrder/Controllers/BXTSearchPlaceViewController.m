@@ -68,6 +68,7 @@
     }
     self.view.backgroundColor = [UIColor whiteColor];
     self.isOpen = YES;
+    self.commitBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     self.commitBtn.layer.cornerRadius = 4.f;
     [self.currentTable registerNib:[UINib nibWithNibName:@"BXTPlaceTableViewCell" bundle:nil] forCellReuseIdentifier:@"RowCell"];
     if (IS_IOS_8)

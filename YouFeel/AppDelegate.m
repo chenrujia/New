@@ -510,8 +510,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)GeTuiSdkDidSendMessage:(NSString *)messageId
                         result:(int)result
 {
-    NSString *record = [NSString stringWithFormat:@"Received sendmessage:%@ result:%d", messageId, result];
-    LogRed(@"record  %@",record);
+    
 }
 
 /**

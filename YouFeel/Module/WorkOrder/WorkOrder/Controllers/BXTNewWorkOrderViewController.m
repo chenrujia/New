@@ -73,7 +73,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
     self.notes = @"";
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    if ([companyInfo.company_id isEqualToString:@"11"])
+    if ([companyInfo.company_id isEqualToString:@"4"])
     {
         self.first_image_top.constant = 45.f;
         [self.contentView layoutIfNeeded];
