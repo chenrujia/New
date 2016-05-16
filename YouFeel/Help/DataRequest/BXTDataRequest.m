@@ -86,12 +86,12 @@
 {
     self.requestType = BranchResign;
     NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};
-    //TODO:shop_id=6这是测试值
-    NSString *url = [NSString stringWithFormat:@"%@&shop_id=6&module=user&opt=add_user",KAPIBASEURL];
+    //TODO:shop_id=4这是测试值
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=4&module=user&opt=add_user",KAPIBASEURL];
     // 不给baseURL赋值，注册后URL无前缀
-    [BXTGlobal shareGlobal].baseURL = [NSString stringWithFormat:@"%@&shop_id=6", KAPIBASEURL];
+    [BXTGlobal shareGlobal].baseURL = [NSString stringWithFormat:@"%@&shop_id=4", KAPIBASEURL];
     // 更新U_SHOPIDS
-    [BXTGlobal setUserProperty:@[@"6"] withKey:U_SHOPIDS];
+    [BXTGlobal setUserProperty:@[@"4"] withKey:U_SHOPIDS];
     [self postRequest:url withParameters:dic];
 }
 
@@ -110,8 +110,8 @@
     }
     else
     {
-        //TODO: 6是临时值
-        shopID = @"6";
+        //TODO: 4是临时值
+        shopID = @"4";
         url = [NSString stringWithFormat:@"%@&shop_id=%@&module=user&opt=shop_login", KAPIBASEURL, shopID];
     }
     

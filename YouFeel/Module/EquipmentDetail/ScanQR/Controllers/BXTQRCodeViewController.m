@@ -135,12 +135,6 @@
         return;
     }
     
-    //经测试，可以同时识别2个二维码，不能同时识别二维码和条形码
-    for (LBXScanResult *result in array)
-    {
-        NSLog(@"scanResult:%@",result.strScanned);
-    }
-    
     LBXScanResult *scanResult = array[0];
     NSString*strResult = scanResult.strScanned;
     self.scanImage = scanResult.imgScanned;

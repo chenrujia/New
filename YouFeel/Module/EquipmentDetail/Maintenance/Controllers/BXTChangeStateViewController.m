@@ -39,7 +39,8 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"作业" andRightTitle:nil andRightImage:nil];
-    _commitBtn.layer.cornerRadius = 4.f;
+    self.commitBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    self.commitBtn.layer.cornerRadius = 4.f;
     self.textview.text = self.notes;
     self.titleLabel.text = _titleText;
     self.detailLabel.text = _detailText;

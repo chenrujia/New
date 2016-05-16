@@ -123,6 +123,7 @@
     
     UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     commitBtn.frame = CGRectMake((SCREEN_WIDTH - 180) / 2, 10, 180, 50);
+    commitBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     [commitBtn setTitle:@"提交" forState:UIControlStateNormal];
     commitBtn.backgroundColor = colorWithHexString(@"#5DAEF9");
     commitBtn.layer.cornerRadius = 5;
