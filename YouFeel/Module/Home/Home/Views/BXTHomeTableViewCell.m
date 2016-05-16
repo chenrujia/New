@@ -18,13 +18,13 @@
     if (self)
     {
         self.backgroundColor = colorWithHexString(@"ffffff");
-
-        self.logoImgView = ({
         
+        self.logoImgView = ({
+            
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, 10.f, 30.f, 30.f)];
             [self addSubview:imageView];
             imageView;
-        
+            
         });
         
         self.titleLabel = ({
