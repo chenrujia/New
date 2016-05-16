@@ -215,6 +215,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         btn.backgroundColor = colorWithHexString(@"3cafff");
         [btn setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
     }
+    btn.titleLabel.font = [UIFont systemFontOfSize:18.f];
     btn.layer.cornerRadius = 4.f;
     [self.buttonBV addSubview:btn];
     
