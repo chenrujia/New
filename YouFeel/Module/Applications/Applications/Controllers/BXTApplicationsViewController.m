@@ -35,38 +35,46 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self.itemsCollectionView reloadData];
-    
-    if ([BXTRemindNum sharedManager].app_show) {
+    if ([BXTRemindNum sharedManager].app_show)
+    {
         [self.tabBarController.tabBar showBadgeOnItemIndex:3];
-    } else {
+    }
+    else
+    {
         [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
     }
-    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self navigationSetting:@"应用" andRightTitle:nil andRightImage:nil];
-    
-    self.titleArray = @[@"项目公告", @"业务统计", @"敬请期待", @""];
-    self.imageArray = @[@"app_book", @"app_statistics", @"app_symbol", @""];
+    NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
+    //如果不包含业务统计
+    if ([permissonKeys containsString:@"9995"])
+    {
+        self.titleArray = @[@"项目公告", @"业务统计", @"敬请期待"];
+        self.imageArray = @[@"app_book", @"app_statistics", @"app_symbol"];
+    }
+    else
+    {
+        self.titleArray = @[@"项目公告", @"敬请期待"];
+        self.imageArray = @[@"app_book", @"app_symbol"];
+    }
     
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request appVCAdvertisement];
     
     [self createUI];
-    
     NSArray *listArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
-    
     NSMutableArray *dataArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *listDict in listArray) {
-        for (NSDictionary *subListDict in listDict[@"lists"]) {
+    for (NSDictionary *listDict in listArray)
+    {
+        for (NSDictionary *subListDict in listDict[@"lists"])
+        {
             BXTMailUserListSimpleInfo *userInfo = [BXTMailUserListSimpleInfo modelWithDict:subListDict];
             [dataArray addObject:userInfo];
-            NSLog(@"\n\n\n\n %@", userInfo.name);
         }
     }
 }
@@ -99,20 +107,19 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 4;
+    return [self.titleArray count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTHomeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
     cell.backgroundColor = colorWithHexString(@"ffffff");
-    
     cell.namelabel.text = self.titleArray[indexPath.row];
     cell.iconImage = [UIImage imageNamed:self.imageArray[indexPath.row]];
-    
     [cell newsRedNumber:0];
     
-    if (indexPath.section == 0 && indexPath.row == 0) {
+    if (indexPath.section == 0 && indexPath.row == 0)
+    {
         [cell newsRedNumber:[[BXTRemindNum sharedManager].announcementNum integerValue]];
     }
     
@@ -139,16 +146,13 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTNoticeListViewController *nlvc = [[BXTNoticeListViewController alloc] init];
-    nlvc.hidesBottomBarWhenPushed = YES;
-    BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
-    epvc.hidesBottomBarWhenPushed = YES;
-    
     if (indexPath.section == 0)
     {
         switch (indexPath.row) {
             case 0:
             {
+                BXTNoticeListViewController *nlvc = [[BXTNoticeListViewController alloc] init];
+                nlvc.hidesBottomBarWhenPushed = YES;
                 // 点击去掉参数
                 [BXTRemindNum sharedManager].announcementNum = @"0";
                 // 存储点击时间
@@ -161,16 +165,18 @@
                 }];
                 
                 [self.navigationController pushViewController:nlvc animated:YES];
-            } break;
+            }
+                break;
             case 1:
             {
+                BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
+                epvc.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:epvc animated:YES];
-            } break;
+            }
+                break;
             default: break;
         }
     }
-    
-    NSLog(@"%ld -- %ld", (long)indexPath.section, (long)indexPath.row);
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 
@@ -183,7 +189,6 @@
     if (data.count > 0)
     {
         NSDictionary *dict = data[0];
-        
         [self.headImageView sd_setBackgroundImageWithURL:[NSURL URLWithString:dict[@"pic"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"allDefault"]];
         @weakify(self);
         [[self.headImageView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -206,17 +211,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

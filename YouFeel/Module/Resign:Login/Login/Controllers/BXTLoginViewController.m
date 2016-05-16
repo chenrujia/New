@@ -36,25 +36,18 @@
 
 @implementation BXTLoginViewController
 
-- (void)dealloc
-{
-    LogBlue(@"登录界面释放了！！！！！！");
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"ffffff");
-    
     if (IS_IPHONE4)
     {
-        _logo_top.constant = 60.f;
-        _back_top.constant = 175.f;
+        self.logo_top.constant = 60.f;
+        self.back_top.constant = 175.f;
     }
-    
     if (![WXApi isWXAppInstalled])
     {
-        _wxLogin.hidden = YES;
+        self.wxLogin.hidden = YES;
     }
     
     @weakify(self);
@@ -66,8 +59,12 @@
         [self.navigationController pushViewController:resignVC animated:YES];
     }];
     
-    [_nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
-    [[_nameTF.rac_textSignal filter:^BOOL(id value) {
+    [self.nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
+    if ([BXTGlobal getUserProperty:U_USERNAME])
+    {
+        self.nameTF.text = [BXTGlobal getUserProperty:U_USERNAME];
+    }
+    [[self.nameTF.rac_textSignal filter:^BOOL(id value) {
         NSString *str = value;
         return str.length == 11;
     }] subscribeNext:^(id x) {
@@ -75,8 +72,8 @@
         self.userName = x;
     }];
     
-    [_passwordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
-    [_passwordTF.rac_textSignal subscribeNext:^(id x) {
+    [self.passwordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
+    [self.passwordTF.rac_textSignal subscribeNext:^(id x) {
         @strongify(self);
         self.passWord = x;
     }];

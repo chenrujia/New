@@ -94,10 +94,10 @@
 - (void)boxTitle:(NSString *)title boxSelectedViewType:(BoxSelectedType)type listDataSource:(NSArray *)array
 {
     title_label.text = [NSString stringWithFormat:@"%@",title];
-    _boxType = type;
-    _dataArray = array;
+    self.boxType = type;
+    self.dataArray = array;
     [markArray removeAllObjects];
-    for (NSInteger i = 0; i < _dataArray.count; i++)
+    for (NSInteger i = 0; i < self.dataArray.count; i++)
     {
         [markArray addObject:@"0"];
     }
@@ -107,12 +107,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _dataArray.count;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BoxCell" forIndexPath:indexPath];
+    cell.checkImgView.hidden = YES;
     CGRect rect = cell.titleLabel.frame;
     rect.size = CGSizeMake(SCREEN_WIDTH - 30.f, rect.size.height);
     cell.titleLabel.frame = rect;
@@ -120,36 +121,34 @@
     
     if ([markArray[indexPath.row] integerValue])
     {
-        cell.checkImgView.hidden = NO;
         cell.titleLabel.textColor = colorWithHexString(@"3cafff");
     }
     else
     {
-        cell.checkImgView.hidden = YES;
         cell.titleLabel.textColor = colorWithHexString(@"000000");
     }
     
-    if (_boxType == CheckProjectsView)
+    if (self.boxType == CheckProjectsView)
     {
         BXTDeviceMaintenceInfo *maintence = _dataArray[indexPath.row];
         cell.titleLabel.text = [NSString stringWithFormat:@"%@ %@",maintence.time_name,maintence.inspection_title];
     }
-    else if (_boxType == OrderDeviceStateView)
+    else if (self.boxType == OrderDeviceStateView)
     {
         BXTDeviceStateInfo *deviceInfo = _dataArray[indexPath.row];
         cell.titleLabel.text = deviceInfo.param_value;
     }
-    else if (_boxType == FaultTypeView)
+    else if (self.boxType == FaultTypeView)
     {
         BXTFaultInfo *faultInfo = _dataArray[indexPath.row];
         cell.titleLabel.text = faultInfo.faulttype;
     }
-    else if (_boxType == SpecialSeasonView)
+    else if (self.boxType == SpecialSeasonView)
     {
         BXTSpecialOrderInfo *orderType = _dataArray[indexPath.row];
         cell.titleLabel.text = orderType.param_value;
     }
-    else if (_boxType == OtherView)
+    else if (self.boxType == OtherView)
     {
         cell.titleLabel.text = _dataArray[indexPath.row];
     }
@@ -162,34 +161,34 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //更改标记数组
     [markArray removeAllObjects];
-    for (NSInteger i = 0; i < _dataArray.count; i++)
+    for (NSInteger i = 0; i < self.dataArray.count; i++)
     {
         [markArray addObject:@"0"];
     }
     [markArray replaceObjectAtIndex:indexPath.row withObject:@"1"];
     [tableView reloadData];
     //保存选项
-    if (_boxType == CheckProjectsView)
+    if (self.boxType == CheckProjectsView)
     {
-        BXTDeviceMaintenceInfo *maintence = _dataArray[indexPath.row];
+        BXTDeviceMaintenceInfo *maintence = self.dataArray[indexPath.row];
         self.choosedItem = maintence;
     }
-    else if (_boxType == OrderDeviceStateView)
+    else if (self.boxType == OrderDeviceStateView)
     {
-        BXTDeviceStateInfo *stateInfo = _dataArray[indexPath.row];
+        BXTDeviceStateInfo *stateInfo = self.dataArray[indexPath.row];
         self.choosedItem = stateInfo;
     }
-    else if (_boxType == FaultTypeView)
+    else if (self.boxType == FaultTypeView)
     {
         BXTFaultInfo *faultInfo = _dataArray[indexPath.row];
         self.choosedItem = faultInfo;
     }
-    else if (_boxType == SpecialSeasonView)
+    else if (self.boxType == SpecialSeasonView)
     {
         BXTSpecialOrderInfo *orderType = _dataArray[indexPath.row];
         self.choosedItem = orderType;
     }
-    else if (_boxType == OtherView)
+    else if (self.boxType == OtherView)
     {
         self.choosedItem = _dataArray[indexPath.row];
     }

@@ -369,9 +369,11 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }];
 }
 
+#pragma mark -
+#pragma mark 提交按钮
 - (void)commitOrder:(NSString *)isMySelf
 {
-    if (!self.placeInfo)
+    if (!self.placeInfo && !self.adsText)
     {
         if (IS_IOS_8)
         {
@@ -444,6 +446,12 @@ static CGFloat const ChooseViewHeight  = 328.f;
     {
         subview = self.dateSelectBtnBV;
         self.dateSelectBtnBV.hidden = NO;
+        NSTimeInterval minTime = [[NSDate date] timeIntervalSince1970];
+        NSTimeInterval appointmentTime = minTime + 60 * 60;
+        NSString *timeInterval = [NSString stringWithFormat:@"%.0f",appointmentTime];
+        NSDate *appointmentDate = [NSDate dateWithTimeIntervalSince1970:appointmentTime];
+        NSString *dateStr = [BXTGlobal transTimeWithDate:appointmentDate withType:@"yyyy/MM/dd HH:mm"];
+        self.selectTimeDic = @{@"time":dateStr,@"timeInterval":timeInterval};
         if (!self.dateBtn)
         {
             //时间选择按钮
@@ -455,11 +463,11 @@ static CGFloat const ChooseViewHeight  = 328.f;
             self.dateBtn.layer.cornerRadius = 3.f;
             [self.dateBtn addTarget:self action:@selector(showSelectedView:) forControlEvents:UIControlEventTouchUpInside];
             self.dateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-            [self.dateBtn setTitle:@"选择预约时间" forState:UIControlStateNormal];
             [self.dateBtn setTitleColor:colorWithHexString(@"#6E6E6E") forState:UIControlStateNormal];
             [self.dateBtn setImage:[UIImage imageNamed:@"wo_down_arrow"] forState:UIControlStateNormal];
             [self.dateSelectBtnBV addSubview:self.dateBtn];
         }
+        [self.dateBtn setTitle:dateStr forState:UIControlStateNormal];
     }
     else
     {
@@ -564,6 +572,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         else
         {
             self.adsText = name;
+            self.placeTF.text = name;
         }
     }];
     [self.navigationController pushViewController:searchVC animated:YES];

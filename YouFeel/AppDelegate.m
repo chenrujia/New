@@ -459,7 +459,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             }
             else
             {
-                [self showAlertView:[taskInfo objectForKey:@"notice_title"]];
+                [self showAlertView:[taskInfo objectForKey:@"notice_title"] message:[taskInfo objectForKey:@"notice_body"]];
             }
             break;
         case 3://通知
@@ -487,18 +487,18 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
-- (void)showAlertView:(NSString *)title
+- (void)showAlertView:(NSString *)title message:(NSString *)message
 {
     if (IS_IOS_8)
     {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
         [alertCtr addAction:doneAction];
         [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
     }
     else
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
     }
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];

@@ -1165,7 +1165,7 @@
     {
         url = [self encryptTheURL:url dict:parameters];
     }
-    LogRed(@"url......\n%@", url);
+    LogRed(@"url......%ld\n%@",(long)self.requestType, url);
     LogRed(@"post参数值.....\n%@", [self dictionaryToJson:parameters]);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
@@ -1178,14 +1178,14 @@
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [response JSONValue];
         LogBlue(@"\n\n---------------------response---------------------> of type:%ld    \n\n%@\n\n<---------------------response---------------------\n\n",(long)self.requestType,response);
-        [_delegate requestResponseData:dictionary requeseType:_requestType];
+        [self.delegate requestResponseData:dictionary requeseType:self.requestType];
         // token验证失败
         if ([[NSString stringWithFormat:@"%@", dictionary[@"returncode"]] isEqualToString:@"037"])
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"VERIFY_TOKEN_FAIL" object:nil];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [_delegate requestError:error requeseType:_requestType];
+        [self.delegate requestError:error requeseType:_requestType];
         LogBlue(@"type>>>>>:%ld    error:%@",(long)self.requestType,error);
     }];
 }
