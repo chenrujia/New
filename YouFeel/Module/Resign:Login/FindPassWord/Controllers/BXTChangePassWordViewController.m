@@ -196,7 +196,6 @@
             [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
             NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
             [BXTGlobal shareGlobal].baseURL = url;
-            
             if (![[ANKeyValueTable userDefaultTable] valueWithKey:YSAVEDSHOPID] || ![[[ANKeyValueTable userDefaultTable] valueWithKey:YSAVEDSHOPID] isEqualToString:shopID])
             {
                 /**位置列表**/
@@ -246,6 +245,7 @@
         NSMutableArray *dataSource = [[NSMutableArray alloc] init];
         [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
         [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
+        [[ANKeyValueTable userDefaultTable] synchronize:YES];
         NSTimeInterval nowTime = [[NSDate date] timeIntervalSince1970];
         NSInteger now = nowTime;
         [[ANKeyValueTable userDefaultTable] setValue:[NSNumber numberWithInteger:now] withKey:YSAVEDTIME];

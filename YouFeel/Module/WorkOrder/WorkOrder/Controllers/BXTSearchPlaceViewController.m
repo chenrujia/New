@@ -57,14 +57,17 @@
     if (self.searchType == PlaceSearchType)
     {
         [self navigationSetting:@"维修位置" andRightTitle:nil andRightImage:nil];
+        self.searchBarView.placeholder = @"查找或输入位置";
     }
     else if (self.searchType == FaultSearchType)
     {
         [self navigationSetting:@"故障类型" andRightTitle:nil andRightImage:nil];
+        self.searchBarView.placeholder = @"查找或输入故障类型";
     }
     else if (self.searchType == DepartmentSearchType)
     {
         [self navigationSetting:@"部门" andRightTitle:nil andRightImage:nil];
+        self.searchBarView.placeholder = @"查找或输入部门";
     }
     self.view.backgroundColor = [UIColor whiteColor];
     self.isOpen = YES;
@@ -179,7 +182,6 @@
 {
     UISwitch *swt = sender;
     self.isOpen = swt.isOn;
-    self.searchBarView.userInteractionEnabled = self.isOpen ? NO : YES;
     if (self.isOpen)
     {
         self.searchBarView.text = @"";
@@ -189,6 +191,14 @@
 
 #pragma mark -
 #pragma mark UISearchBarDelegate
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    self.autoSwitch.on = NO;
+    self.isOpen = NO;
+    [self.currentTable reloadData];
+    return YES;
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self.resultsArray removeAllObjects];

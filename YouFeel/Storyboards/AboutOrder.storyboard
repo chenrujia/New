@@ -2529,7 +2529,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar userInteractionEnabled="NO" contentMode="redraw" placeholder="查找或输入位置" translatesAutoresizingMaskIntoConstraints="NO" id="ThS-o1-Enx">
+                            <searchBar contentMode="redraw" placeholder="查找或输入位置" translatesAutoresizingMaskIntoConstraints="NO" id="ThS-o1-Enx">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="DTD-yH-OA1"/>
@@ -2731,6 +2731,7 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="autoSwitch" destination="gf0-gk-aft" id="LuX-nO-Xj2"/>
                         <outlet property="commitBtn" destination="4Zo-Uc-KYK" id="xBL-Md-rLb"/>
                         <outlet property="currentTable" destination="S5T-30-vTj" id="Pzl-iP-OXP"/>
                         <outlet property="searchBarView" destination="ThS-o1-Enx" id="CTF-N4-rlb"/>
