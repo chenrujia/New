@@ -63,7 +63,8 @@
     {
         [self navigationSetting:@"工单详情" andRightTitle:nil andRightImage:nil];
     }
-    if (!self.affairID) {
+    if (!self.affairID)
+    {
         self.affairID = @"";
     }
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
@@ -129,7 +130,18 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
+    if (!isFirst)
+    {
+        self.first_top.constant = -20.f;
+        [self.contentView layoutIfNeeded];
+    }
+    isFirst = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -149,12 +161,6 @@
     }
 
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [[BXTGlobal shareGlobal] enableForIQKeyBoard:YES];
 }
 
 - (void)addTapToImageView:(UIImageView *)imageView

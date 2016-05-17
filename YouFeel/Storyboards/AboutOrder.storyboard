@@ -1459,7 +1459,7 @@
                                                 </variation>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.93725490196078431" green="0.95294117647058818" blue="0.96470588235294119" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="backgroundColor" red="0.93725490196078431" green="0.95294117647058818" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="XCF-zY-yed" secondAttribute="trailing" id="2Tr-8o-WUq"/>
                                             <constraint firstItem="zTz-Cg-Cr1" firstAttribute="top" secondItem="ujJ-pH-uvl" secondAttribute="bottom" constant="12" id="6Me-Ea-DpZ"/>
@@ -1591,7 +1591,7 @@
                                         </variation>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.95294117649999999" blue="0.96470588239999999" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.95294117647058818" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="oeK-FO-b8f" secondAttribute="trailing" id="Xns-bh-GA5"/>
                                     <constraint firstItem="oeK-FO-b8f" firstAttribute="leading" secondItem="Bb6-HE-f4P" secondAttribute="leading" id="Yji-0t-JH3"/>

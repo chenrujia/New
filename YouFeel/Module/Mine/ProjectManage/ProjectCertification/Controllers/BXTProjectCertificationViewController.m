@@ -21,8 +21,8 @@
 @interface BXTProjectCertificationViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 // 展现列表
-@property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSArray *titleArray;
+@property (strong, nonatomic) UITableView    *tableView;
+@property (strong, nonatomic) NSArray        *titleArray;
 @property (strong, nonatomic) NSMutableArray *detailArray;
 
 // 传递数组
@@ -30,14 +30,13 @@
 @property (strong, nonatomic) NSMutableArray *departmentArray;
 
 // 选择列表
-@property (nonatomic, strong) UIView *selectBgView;
-@property (nonatomic, strong) UITableView *selectTableView;
+@property (nonatomic, strong) UIView         *selectBgView;
+@property (nonatomic, strong) UITableView    *selectTableView;
 @property (nonatomic, strong) NSMutableArray *selectArray;
 @property (nonatomic, strong) NSMutableArray *mulitSelectArray;
-@property (nonatomic, assign) int selectRow;
-@property (nonatomic, assign) NSInteger showSelectedRow;
-
-@property (assign, nonatomic) BOOL isCompanyType;
+@property (nonatomic, assign) int            selectRow;
+@property (nonatomic, assign) NSInteger      showSelectedRow;
+@property (assign, nonatomic) BOOL           isCompanyType;
 
 // 存值参数
 @property (nonatomic, strong) NSMutableArray *positionArray;
@@ -132,15 +131,19 @@
         @strongify(self);
         
         NSLog(@"transArray ---- %@", self.transArray);
-        if ([self.transArray containsObject:@""]) {
+        if ([self.transArray containsObject:@""])
+        {
             [MYAlertAction showAlertWithTitle:@"请填写完整" msg:nil chooseBlock:nil buttonsStatement:@"确定", nil];
         }
-        else {
+        else
+        {
             [self showLoadingMBP:@"加载中..."];
             BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
             
-            if (self.transProjectInfo) {
-                if (self.isCompanyType) {
+            if (self.transProjectInfo)
+            {
+                if (self.isCompanyType)
+                {
                     [fau_request authenticationModifyWithShopID:self.transMyProject.shop_id
                                                            type:@"1"
                                                    departmentID:self.transArray[2]
@@ -149,7 +152,8 @@
                                                 haveSubgroupIDs:self.transArray[5]
                                                        storesID:@""];
                 }
-                else {
+                else
+                {
                     [fau_request authenticationModifyWithShopID:self.transMyProject.shop_id
                                                            type:@"2"
                                                    departmentID:@""
@@ -159,8 +163,10 @@
                                                        storesID:self.transArray[2]];
                 }
             }
-            else {
-                if (self.isCompanyType) {
+            else
+            {
+                if (self.isCompanyType)
+                {
                     [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
                                                           type:@"1"
                                                   departmentID:self.transArray[2]
@@ -169,7 +175,8 @@
                                                haveSubgroupIDs:self.transArray[5]
                                                       storesID:@""];
                 }
-                else {
+                else
+                {
                     [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
                                                           type:@"2"
                                                   departmentID:@""
@@ -179,7 +186,6 @@
                                                       storesID:self.transArray[2]];
                 }
             }
-            
         }
     }];
     [footerView addSubview:commitBtn];
@@ -234,15 +240,14 @@
         return cell;
     }
     
-    
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         BXTProjectCertificationCell *cell = [BXTProjectCertificationCell cellWithTableView:tableView];
         
         cell.myProject = self.transMyProject;
         
         return cell;
     }
-    
     
     BXTUserInformCell *cell = [BXTUserInformCell cellWithTableView:tableView];
     
@@ -392,16 +397,20 @@
 - (void)createTableViewWithIndex:(NSInteger)index
 {
     self.showSelectedRow = index;
-    if (index == 1) {
+    if (index == 1)
+    {
         self.selectArray = [[NSMutableArray alloc] initWithObjects:@"物业员工", @"客户", nil];
     }
-    else if (index == 3) {
+    else if (index == 3)
+    {
         self.selectArray = self.positionArray;
     }
-    else if (index == 4) {
+    else if (index == 4)
+    {
         self.selectArray = self.subgroupArray;
     }
-    else if (index == 5) {
+    else if (index == 5)
+    {
         self.selectArray = self.subgroupArray;
     }
     
@@ -410,17 +419,16 @@
     self.selectBgView.tag = 102;
     [self.view addSubview:self.selectBgView];
     
-    
     // selectTableView
     CGFloat tableViewH = self.selectArray.count * 50 + 10;
-    if (self.selectArray.count >= 6) {
+    if (self.selectArray.count >= 6)
+    {
         tableViewH = 6 * 50 + 10;
     }
     self.selectTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - tableViewH-50, SCREEN_WIDTH, tableViewH) style:UITableViewStylePlain];
     self.selectTableView.delegate = self;
     self.selectTableView.dataSource = self;
     [self.view addSubview:self.selectTableView];
-    
     
     // toolView
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
@@ -437,36 +445,45 @@
         @strongify(self);
         
         // 选择身份类型  -  改变结构
-        if (index == 1) {
-            if (self.mulitSelectArray.count != 0) {
+        if (index == 1)
+        {
+            if (self.mulitSelectArray.count != 0)
+            {
                 [self adjustStructureType];
             }
         }
         
-        if (index == 3) {
-            if (self.mulitSelectArray.count != 0) {
+        if (index == 3)
+        {
+            if (self.mulitSelectArray.count != 0)
+            {
                 NSString *selectRow = self.mulitSelectArray[0];
                 [self.detailArray replaceObjectAtIndex:index withObject:self.positionArray[[selectRow integerValue]]];
                 [self.transArray replaceObjectAtIndex:index withObject:self.positionIDArray[[selectRow integerValue]]];
                 [self.tableView reloadData];
             }
         }
-        else if (index == 4) {
-            if (self.mulitSelectArray.count != 0) {
+        else if (index == 4)
+        {
+            if (self.mulitSelectArray.count != 0)
+            {
                 NSString *selectRow = self.mulitSelectArray[0];
                 [self.detailArray replaceObjectAtIndex:index withObject:self.subgroupArray[[selectRow integerValue]]];
                 [self.transArray replaceObjectAtIndex:index withObject:self.subgroupIDArray[[selectRow integerValue]]];
                 [self.tableView reloadData];
             }
         }
-        else if (index == 5) {
+        else if (index == 5)
+        {
             NSString *finalStr =@"";
             NSString *finalNumStr = @"";
-            for (id object in self.mulitSelectArray) {
+            for (id object in self.mulitSelectArray)
+            {
                 finalStr = [finalStr stringByAppendingString:[NSString stringWithFormat:@"%@ ", self.selectArray[[object intValue]]]];
                 finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.subgroupIDArray[[object intValue]]]];
             }
-            if (finalNumStr.length >= 1) {
+            if (finalNumStr.length >= 1)
+            {
                 finalNumStr = [finalNumStr substringToIndex:finalNumStr.length - 1];
             }
             
@@ -478,7 +495,6 @@
                 [self.tableView reloadData];
             }
         }
-        
         
         // 清除
         [self.mulitSelectArray removeAllObjects];
@@ -550,36 +566,51 @@
         NSMutableArray *dataSource = [[NSMutableArray alloc] init];
         [dataSource addObjectsFromArray:[BXTPostionInfo mj_objectArrayWithKeyValuesArray:data]];
         
-        for (BXTPostionInfo *postion in dataSource) {
+        for (BXTPostionInfo *postion in dataSource)
+        {
             [self.positionArray addObject:postion.duty_name];
             [self.positionIDArray addObject:postion.role_id];
         }
     }
     else if (type == AuthenticationApply)
     {
-        if ([dic[@"returncode"] integerValue] == 0) {
+        if ([dic[@"returncode"] integerValue] == 0)
+        {
             [BXTGlobal showText:@"项目认证申请成功" view:self.view completionBlock:^{
-                for (UIViewController *temp in self.navigationController.viewControllers) {
-                    if ([temp isKindOfClass:[BXTProjectManageViewController class]]) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshBXTProjectManageViewController" object:nil];
-                        [self.navigationController popToViewController:temp animated:YES];
-                        return ;
+                if ([BXTGlobal shareGlobal].isLogin)
+                {
+                    for (UIViewController *temp in self.navigationController.viewControllers)
+                    {
+                        if ([temp isKindOfClass:[BXTProjectManageViewController class]])
+                        {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshBXTProjectManageViewController" object:nil];
+                            [self.navigationController popToViewController:temp animated:YES];
+                            return ;
+                        }
+                    }
+                    
+                    if (self.delegateSignal)
+                    {
+                        [self.delegateSignal sendNext:nil];
+                        [self.navigationController popViewControllerAnimated:YES];
                     }
                 }
-                
-                if (self.delegateSignal) {
-                    [self.delegateSignal sendNext:nil];
-                    [self.navigationController popViewControllerAnimated:YES];
+                else
+                {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginAgin" object:nil];
                 }
             }];
         }
     }
     else if (type == AuthenticationModify)
     {
-        if ([dic[@"returncode"] integerValue] == 0) {
+        if ([dic[@"returncode"] integerValue] == 0)
+        {
             [BXTGlobal showText:@"项目认证修改成功" view:self.view completionBlock:^{
-                for (UIViewController *temp in self.navigationController.viewControllers) {
-                    if ([temp isKindOfClass:[BXTProjectManageViewController class]]) {
+                for (UIViewController *temp in self.navigationController.viewControllers)
+                {
+                    if ([temp isKindOfClass:[BXTProjectManageViewController class]])
+                    {
                         [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshBXTProjectManageViewController" object:nil];
                         [self.navigationController popToViewController:temp animated:YES];
                         return ;
@@ -605,7 +636,8 @@
     UIView *view = touch.view;
     if (view.tag == 102)
     {
-        if (_selectTableView) {
+        if (_selectTableView)
+        {
             [self.mulitSelectArray removeAllObjects];
             [_selectTableView removeFromSuperview];
             _selectTableView = nil;
@@ -614,19 +646,9 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

@@ -350,7 +350,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     NSString *dicStr = [record substringWithRange:NSMakeRange(startRange.location, endRange.location - startRange.location + 1)];
     NSDictionary *taskInfo = [dicStr JSONValue];
-    LogRed(@"通知:%@",taskInfo);
+    LogRed(@"通知消息:%@",taskInfo);
     //如果处于非登录状态，则不处理任何消息。
     if (![BXTGlobal shareGlobal].isLogin) return;
     
@@ -364,12 +364,12 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         NSArray *my_shops = [BXTGlobal getUserProperty:U_MYSHOP];
         NSString *shop_name;
         BOOL isHave = NO;
-        for (NSDictionary *dic in my_shops)
+        for (BXTResignedShopInfo *shopInfo in my_shops)
         {
-            if ([[NSString stringWithFormat:@"%@", [dic objectForKey:@"id"]] isEqualToString:shop_id])
+            if ([[NSString stringWithFormat:@"%@", shopInfo.shopID] isEqualToString:shop_id])
             {
                 isHave = YES;
-                shop_name = [dic objectForKey:@"shop_name"];
+                shop_name = shopInfo.shop_name;
                 break;
             }
         }

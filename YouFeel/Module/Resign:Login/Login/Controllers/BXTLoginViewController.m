@@ -59,6 +59,11 @@
         [self.navigationController pushViewController:resignVC animated:YES];
     }];
     
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"LoginAgin" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        [self loginIn];
+    }];
+    
     [self.nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
     if ([BXTGlobal getUserProperty:U_USERNAME])
     {
@@ -119,7 +124,11 @@
 {
     [self.view endEditing:YES];
     [self resignFirstResponder];
-    
+    [self loginIn];
+}
+
+- (void)loginIn
+{
     if ([BXTGlobal validateMobile:self.userName])
     {
         [self showLoadingMBP:@"正在登录..."];

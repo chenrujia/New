@@ -17,18 +17,17 @@
 
 @implementation BXTBaseViewController
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"eff3f6");
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
 }
 
 #pragma mark -

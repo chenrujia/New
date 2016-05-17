@@ -358,7 +358,6 @@
             {
                 if (indexPath.section == 1 && self.number)
                 {
-                    //TODO: 注意测试一下有设备的情况
                     normalCell.titleLabel.text = @"设备";
                     normalCell.detailLable.text = self.deviceInfo.name;
                     normalCell.accessoryType = UITableViewCellAccessoryNone;
