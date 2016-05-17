@@ -87,6 +87,7 @@
     detailLabel.text = @"扫描二维码，您的朋友也可以下载优服报修客户端！";
     [backView addSubview:detailLabel];
     
+    
     return backView;
 }
 
