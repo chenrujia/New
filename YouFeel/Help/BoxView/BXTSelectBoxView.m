@@ -46,7 +46,6 @@
         
         currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView.frame), SCREEN_WIDTH, rect.size.height - 110.f) style:UITableViewStylePlain];
         currentTableView.backgroundColor = [UIColor whiteColor];
-        currentTableView.rowHeight = 50.f;
         [currentTableView registerClass:[BXTSettingTableViewCell class] forCellReuseIdentifier:@"BoxCell"];
         currentTableView.delegate = self;
         currentTableView.dataSource = self;
@@ -105,6 +104,38 @@
     [currentTableView reloadData];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *content;
+    UIFont *font = [UIFont systemFontOfSize:17];
+    if (self.boxType == CheckProjectsView)
+    {
+        BXTDeviceMaintenceInfo *maintence = self.dataArray[indexPath.row];
+        content = [NSString stringWithFormat:@"%@ %@",maintence.time_name,maintence.inspection_title];
+    }
+    else if (self.boxType == OrderDeviceStateView)
+    {
+        BXTDeviceStateInfo *deviceInfo = self.dataArray[indexPath.row];
+        content = deviceInfo.param_value;
+    }
+    else if (self.boxType == FaultTypeView)
+    {
+        BXTFaultInfo *faultInfo = self.dataArray[indexPath.row];
+        content = faultInfo.faulttype;
+    }
+    else if (self.boxType == SpecialSeasonView)
+    {
+        BXTSpecialOrderInfo *orderType = self.dataArray[indexPath.row];
+        content = orderType.param_value;
+    }
+    else if (self.boxType == OtherView)
+    {
+        content = self.dataArray[indexPath.row];
+    }
+    CGSize size = MB_MULTILINE_TEXTSIZE(content, font, CGSizeMake(SCREEN_WIDTH - 30, 200), NSLineBreakByWordWrapping);
+    return size.height + 30.f;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.dataArray.count;
@@ -114,9 +145,6 @@
 {
     BXTSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BoxCell" forIndexPath:indexPath];
     cell.checkImgView.hidden = YES;
-    CGRect rect = cell.titleLabel.frame;
-    rect.size = CGSizeMake(SCREEN_WIDTH - 30.f, rect.size.height);
-    cell.titleLabel.frame = rect;
     cell.titleLabel.textAlignment = NSTextAlignmentCenter;
     
     if ([markArray[indexPath.row] integerValue])
@@ -128,31 +156,42 @@
         cell.titleLabel.textColor = colorWithHexString(@"000000");
     }
     
+    NSString *content;
+    UIFont *font = [UIFont systemFontOfSize:17];
     if (self.boxType == CheckProjectsView)
     {
-        BXTDeviceMaintenceInfo *maintence = _dataArray[indexPath.row];
-        cell.titleLabel.text = [NSString stringWithFormat:@"%@ %@",maintence.time_name,maintence.inspection_title];
+        BXTDeviceMaintenceInfo *maintence = self.dataArray[indexPath.row];
+        content = [NSString stringWithFormat:@"%@ %@",maintence.time_name,maintence.inspection_title];
+        cell.titleLabel.text = content;
     }
     else if (self.boxType == OrderDeviceStateView)
     {
-        BXTDeviceStateInfo *deviceInfo = _dataArray[indexPath.row];
-        cell.titleLabel.text = deviceInfo.param_value;
+        BXTDeviceStateInfo *deviceInfo = self.dataArray[indexPath.row];
+        content = deviceInfo.param_value;
+        cell.titleLabel.text = content;
     }
     else if (self.boxType == FaultTypeView)
     {
-        BXTFaultInfo *faultInfo = _dataArray[indexPath.row];
-        cell.titleLabel.text = faultInfo.faulttype;
+        BXTFaultInfo *faultInfo = self.dataArray[indexPath.row];
+        content = faultInfo.faulttype;
+        cell.titleLabel.text = content;
     }
     else if (self.boxType == SpecialSeasonView)
     {
-        BXTSpecialOrderInfo *orderType = _dataArray[indexPath.row];
-        cell.titleLabel.text = orderType.param_value;
+        BXTSpecialOrderInfo *orderType = self.dataArray[indexPath.row];
+        content = orderType.param_value;
+        cell.titleLabel.text = content;
     }
     else if (self.boxType == OtherView)
     {
-        cell.titleLabel.text = _dataArray[indexPath.row];
+        content = self.dataArray[indexPath.row];
+        cell.titleLabel.text = content;
     }
-    
+    CGSize size = MB_MULTILINE_TEXTSIZE(content, font, CGSizeMake(SCREEN_WIDTH - 30, 200), NSLineBreakByWordWrapping);
+    CGRect rect = cell.titleLabel.frame;
+    rect.size = size;
+    cell.titleLabel.frame = rect;
+
     return cell;
 }
 

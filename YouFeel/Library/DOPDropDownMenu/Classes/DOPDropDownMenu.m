@@ -265,12 +265,16 @@
         
         // TODO: -----------------  调试  -----------------
         CGFloat indicatorX = titleString.length <= 3 ? titleString.length * 10 : 30;
-        if (IS_IPHONE6P) {
+        if (IS_IPHONE6P)
+        {
             indicatorX = titleString.length <= 5 ? titleString.length * 6 : 30;
-        } else if (IS_IPHONE6) {
+        }
+        else if (IS_IPHONE6)
+        {
             indicatorX = titleString.length <= 4 ? titleString.length * 7 : 28;
         }
-        if (_numOfMenu == 1) {
+        if (_numOfMenu == 1)
+        {
             separatorLineInterval = self.frame.size.width / 2;
             indicatorX = titleString.length * 7 + 50;
         }
@@ -280,14 +284,12 @@
         [tempIndicators addObject:indicator];
         
         //separator
-        if (i != _numOfMenu - 1) {
-            
+        if (i != _numOfMenu - 1)
+        {
             CGPoint separatorPosition = CGPointMake(ceilf((i + 1) * separatorLineInterval-1), self.frame.size.height / 2);
             CAShapeLayer *separator = [self createSeparatorLineWithColor:self.separatorColor andPosition:separatorPosition];
             [self.layer addSublayer:separator];
-            
         }
-        
     }
     
     _titles = [tempTitles copy];

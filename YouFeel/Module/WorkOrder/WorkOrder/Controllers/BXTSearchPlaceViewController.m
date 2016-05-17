@@ -247,13 +247,15 @@
         NSMutableArray *tempArray = self.mutableArray[indexPath.section];
         BXTBaseClassifyInfo *classifyInfo = tempArray[indexPath.row];
         content = classifyInfo.name;
+        CGSize size = MB_MULTILINE_TEXTSIZE(content, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 60 - 15 * [classifyInfo.level integerValue], 500.f), NSLineBreakByWordWrapping);
+        return size.height + 30.f;
     }
     else
     {
         content = self.searchTitlesArray[indexPath.row];
+        CGSize size = MB_MULTILINE_TEXTSIZE(content, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 75.f, 500.f), NSLineBreakByWordWrapping);
+        return size.height + 30.f;
     }
-    CGSize size = MB_MULTILINE_TEXTSIZE(content, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 75.f, 500.f), NSLineBreakByWordWrapping);
-    return size.height + 30.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

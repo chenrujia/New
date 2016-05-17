@@ -86,7 +86,6 @@
 {
     self.requestType = BranchResign;
     NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};
-    //TODO:shop_id=4这是测试值
     NSString *url = [NSString stringWithFormat:@"%@&shop_id=4&module=user&opt=add_user",KAPIBASEURL];
     // 不给baseURL赋值，注册后URL无前缀
     [BXTGlobal shareGlobal].baseURL = [NSString stringWithFormat:@"%@&shop_id=4", KAPIBASEURL];
@@ -98,21 +97,16 @@
 - (void)branchLogin
 {
     self.requestType = BranchLogin;
-    
     NSArray *array = [BXTGlobal getUserProperty:U_SHOPIDS];
-    NSString *shopID = nil;
     NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};;
     NSString *url = nil;
     if (array && array.count)
     {
-        shopID = [NSString stringWithFormat:@"%@", array[0]];
         url = [NSString stringWithFormat:@"%@&module=user&opt=shop_login", [BXTGlobal shareGlobal].baseURL];
     }
     else
     {
-        //TODO: 4是临时值
-        shopID = @"4";
-        url = [NSString stringWithFormat:@"%@&shop_id=%@&module=user&opt=shop_login", KAPIBASEURL, shopID];
+        url = [NSString stringWithFormat:@"%@&shop_id=%@&module=user&opt=shop_login", KAPIBASEURL, @"4"];
     }
     
     [self postRequest:url withParameters:dic];
