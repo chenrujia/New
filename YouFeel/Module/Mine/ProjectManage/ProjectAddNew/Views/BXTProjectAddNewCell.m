@@ -16,7 +16,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., 160.f, 30)];
+        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., SCREEN_WIDTH - 100, 30)];
         _nameLabel.font = [UIFont systemFontOfSize:16.];
         [self.contentView addSubview:_nameLabel];
         

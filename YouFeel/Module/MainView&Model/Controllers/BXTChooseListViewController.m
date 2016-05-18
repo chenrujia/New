@@ -239,6 +239,7 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.switchbtn.hidden = YES;
     cell.rightImageView.hidden = YES;
+    cell.rightAddView.hidden = YES;
     
     if (indexPath.section == 0)
     {
