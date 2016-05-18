@@ -75,7 +75,7 @@
 - (void)refreshDetailArray
 {
     NSString *emailStr = ValueFUD(USEREMAIL);
-    if (!ValueFUD(USEREMAIL)) {
+    if (!emailStr || [BXTGlobal isBlankString:emailStr]) {
         emailStr = @"未设置";
     }
     

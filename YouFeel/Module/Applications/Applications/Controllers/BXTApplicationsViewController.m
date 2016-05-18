@@ -50,6 +50,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"应用" andRightTitle:nil andRightImage:nil];
+    
     NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
     //如果不包含业务统计
     if ([permissonKeys containsString:@"9995"])
@@ -169,9 +170,13 @@
                 break;
             case 1:
             {
-                BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
-                epvc.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:epvc animated:YES];
+                NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
+                if ([permissonKeys containsString:@"9995"]) {
+                    BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
+                    epvc.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:epvc animated:YES];
+                }
+                
             }
                 break;
             default: break;

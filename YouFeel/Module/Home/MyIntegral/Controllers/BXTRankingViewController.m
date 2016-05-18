@@ -42,7 +42,6 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     
-    
     [self getResource];
 }
 
@@ -50,6 +49,7 @@
 {
     NSString *timeStr = [self.timeStr stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
     timeStr = [timeStr stringByReplacingOccurrencesOfString:@"月" withString:@""];
+    
     
     [self showLoadingMBP:@"加载中..."];
     /**积分排名列表**/
