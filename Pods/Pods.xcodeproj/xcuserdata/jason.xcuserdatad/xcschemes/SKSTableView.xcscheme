@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1DC39BAC5C6E6C383EDB7E00"
+               BlueprintIdentifier = "546F21502D382190C07FD62E"
                BuildableName = "libSKSTableView.a"
                BlueprintName = "SKSTableView"
                ReferencedContainer = "container:Pods.xcodeproj">

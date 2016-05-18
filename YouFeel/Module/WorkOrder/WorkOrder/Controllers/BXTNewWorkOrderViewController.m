@@ -71,7 +71,10 @@ static CGFloat const ChooseViewHeight  = 328.f;
     self.placeTF.delegate = self;
     self.devicesArray = [NSMutableArray array];
     self.notes = @"";
-    
+    if (!IS_IOS_8)
+    {
+        self.content_top.constant = -20;
+    }
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     if ([companyInfo.company_id isEqualToString:@"4"])
     {

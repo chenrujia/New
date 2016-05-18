@@ -1,6 +1,6 @@
 {
   "name": "dyci",
-  "version": "0.1.5.6",
+  "version": "0.1.6",
   "summary": "Dynamic code injection tool. Allows to inject code at runtime.",
   "homepage": "https://github.com/DyCI/dyci-main",
   "license": {
@@ -12,7 +12,7 @@
   },
   "source": {
     "git": "https://github.com/DyCI/dyci-main.git",
-    "tag": "v0.1.5.6"
+    "tag": "v0.1.6.1"
   },
   "requires_arc": true,
   "platforms": {

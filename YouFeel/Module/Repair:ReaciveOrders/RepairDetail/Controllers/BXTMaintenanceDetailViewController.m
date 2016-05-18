@@ -130,7 +130,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (!isFirst)
+    if (!isFirst || !IS_IOS_8)
     {
         self.first_top.constant = -20.f;
         [self.contentView layoutIfNeeded];

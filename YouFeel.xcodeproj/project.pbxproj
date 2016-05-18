@@ -341,6 +341,8 @@
 		9671BB501C1ED29F00D90BFF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AABA331BE0765A0071B6FA /* libc++.tbd */; };
 		9671BB521C1ED3AB00D90BFF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 960223111BC922DB00010072 /* libsqlite3.tbd */; };
 		9677FDF31C9FEED4009FAAFE /* BXTMailListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9677FDF21C9FEED4009FAAFE /* BXTMailListViewController.m */; };
+		967ADE511CEC489C00841FAA /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 967ADE4C1CEC489C00841FAA /* libWeChatSDK.a */; };
+		967ADE521CEC489C00841FAA /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 967ADE4D1CEC489C00841FAA /* README.txt */; };
 		967C3D451C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D431C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.m */; };
 		967C3D461C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C3D441C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib */; };
 		967C3D4A1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C3D481C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.m */; };
@@ -374,7 +376,6 @@
 		96B191CB1CBB8DB100F5F6A8 /* BXTMMProcessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96B191C91CBB8DB100F5F6A8 /* BXTMMProcessViewController.xib */; };
 		96B191D31CBB952200F5F6A8 /* BXTPhotosTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B191D21CBB952200F5F6A8 /* BXTPhotosTableViewCell.m */; };
 		96B25AC81CD1AB6C000C350F /* BXTNewWorkOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B25AC71CD1AB6C000C350F /* BXTNewWorkOrderViewController.m */; };
-		96BDF1911C8579FE00CEDA58 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BDF18D1C8579FE00CEDA58 /* libWeChatSDK.a */; };
 		96C4910A1CB7B75C00D14C9B /* BXTBaseClassifyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C491091CB7B75C00D14C9B /* BXTBaseClassifyInfo.m */; };
 		96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C684891BE76B4B0038A342 /* AssetsLibraryD.m */; };
 		96C684941BE76B4B0038A342 /* HCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C6848B1BE76B4B0038A342 /* HCollectionViewCell.m */; };
@@ -1030,6 +1031,11 @@
 		96704FBA1CB63EFB00696788 /* BXTButtonInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTButtonInfo.h; sourceTree = "<group>"; };
 		96704FBB1CB63EFB00696788 /* BXTButtonInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTButtonInfo.m; sourceTree = "<group>"; };
 		9677FDF21C9FEED4009FAAFE /* BXTMailListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailListViewController.m; sourceTree = "<group>"; };
+		967ADE4C1CEC489C00841FAA /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		967ADE4D1CEC489C00841FAA /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		967ADE4E1CEC489C00841FAA /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		967ADE4F1CEC489C00841FAA /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		967ADE501CEC489C00841FAA /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		967C3D421C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenceProjectTableViewCell.h; sourceTree = "<group>"; };
 		967C3D431C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenceProjectTableViewCell.m; sourceTree = "<group>"; };
 		967C3D441C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMaintenceProjectTableViewCell.xib; sourceTree = "<group>"; };
@@ -1084,10 +1090,6 @@
 		96B191D21CBB952200F5F6A8 /* BXTPhotosTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPhotosTableViewCell.m; sourceTree = "<group>"; };
 		96B25AC71CD1AB6C000C350F /* BXTNewWorkOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewWorkOrderViewController.m; sourceTree = "<group>"; };
 		96BA7C411C1ABFAE00F02EF0 /* BXTPCH.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BXTPCH.pch; sourceTree = "<group>"; };
-		96BDF18D1C8579FE00CEDA58 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
-		96BDF18E1C8579FE00CEDA58 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
-		96BDF18F1C8579FE00CEDA58 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
-		96BDF1901C8579FE00CEDA58 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		96C491081CB7B75C00D14C9B /* BXTBaseClassifyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTBaseClassifyInfo.h; sourceTree = "<group>"; };
 		96C491091CB7B75C00D14C9B /* BXTBaseClassifyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTBaseClassifyInfo.m; sourceTree = "<group>"; };
 		96C684881BE76B4B0038A342 /* AssetsLibraryD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetsLibraryD.h; sourceTree = "<group>"; };
@@ -1137,11 +1139,11 @@
 			files = (
 				964DE5E61CA8F29E0064D5D6 /* QuartzCore.framework in Frameworks */,
 				964DE5E41CA8DEB90064D5D6 /* libobjc.tbd in Frameworks */,
+				967ADE511CEC489C00841FAA /* libWeChatSDK.a in Frameworks */,
 				961B8CF41C858001003035F9 /* SystemConfiguration.framework in Frameworks */,
 				961B8CF21C857FF7003035F9 /* CoreTelephony.framework in Frameworks */,
 				9671BB521C1ED3AB00D90BFF /* libsqlite3.tbd in Frameworks */,
 				9671BB501C1ED29F00D90BFF /* libc++.tbd in Frameworks */,
-				96BDF1911C8579FE00CEDA58 /* libWeChatSDK.a in Frameworks */,
 				AE0F09ADE5FBE74A74BFEBC5 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3984,10 +3986,11 @@
 		96BDF18C1C8579FE00CEDA58 /* WeiXin */ = {
 			isa = PBXGroup;
 			children = (
-				96BDF18D1C8579FE00CEDA58 /* libWeChatSDK.a */,
-				96BDF18E1C8579FE00CEDA58 /* WechatAuthSDK.h */,
-				96BDF18F1C8579FE00CEDA58 /* WXApi.h */,
-				96BDF1901C8579FE00CEDA58 /* WXApiObject.h */,
+				967ADE4C1CEC489C00841FAA /* libWeChatSDK.a */,
+				967ADE4D1CEC489C00841FAA /* README.txt */,
+				967ADE4E1CEC489C00841FAA /* WechatAuthSDK.h */,
+				967ADE4F1CEC489C00841FAA /* WXApi.h */,
+				967ADE501CEC489C00841FAA /* WXApiObject.h */,
 			);
 			path = WeiXin;
 			sourceTree = "<group>";
@@ -4230,6 +4233,7 @@
 				78426B601C7C61DE00BAE0F4 /* BXTMTCompletionFooter.xib in Resources */,
 				9690366C1CBF2E850036A33A /* BXTMenViewController.xib in Resources */,
 				784862A81CCA1EC200F3BD69 /* BXTWorkLoadShowView.xib in Resources */,
+				967ADE521CEC489C00841FAA /* README.txt in Resources */,
 				7851A0311CA3C60900255B8A /* BXTMainTableViewCell.xib in Resources */,
 				7823C88D1C7E92A800E2858B /* BXTEPLocationCell.xib in Resources */,
 				78C55B0F1C47C50C00FFEB37 /* BXTReadNoticeCell.xib in Resources */,
