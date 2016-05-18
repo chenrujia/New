@@ -24,6 +24,7 @@
 @property (weak, nonatomic  ) IBOutlet UIImageView  *notes_image;
 @property (weak, nonatomic  ) IBOutlet UIView       *buttonBV;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *content_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *content_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *repair_image_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *order_type_height;

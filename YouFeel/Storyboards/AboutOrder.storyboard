@@ -2365,6 +2365,7 @@
                                         </variation>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.95294117649999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="8us-5Q-bTs" firstAttribute="leading" secondItem="EsJ-cI-hMu" secondAttribute="leading" id="Bgd-Kj-Ery"/>
                                     <constraint firstAttribute="bottom" secondItem="8us-5Q-bTs" secondAttribute="bottom" id="IvF-9J-aHq"/>
@@ -2497,6 +2498,7 @@
                         <outlet property="buttonBV" destination="mT6-ui-Cs5" id="xrQ-4Z-2h8"/>
                         <outlet property="contentView" destination="8us-5Q-bTs" id="DDD-ub-Brw"/>
                         <outlet property="content_height" destination="zBr-ed-w23" id="F7h-Ne-Ckn"/>
+                        <outlet property="content_top" destination="tjj-HI-zzH" id="47c-Q1-hfg"/>
                         <outlet property="dateSelectBtnBV" destination="98c-Rk-Qle" id="Bxb-wC-CbG"/>
                         <outlet property="deviceSelectBtnBV" destination="Wfa-ze-hJu" id="QNT-Oo-3Ip"/>
                         <outlet property="first_image_top" destination="83j-Nd-WFg" id="GKX-Op-bJ6"/>

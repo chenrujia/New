@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0C04B88A96B5050A90C081B9"
+               BlueprintIdentifier = "094775F6BA17EB522175F14F"
                BuildableName = "libNSDate-Escort.a"
                BlueprintName = "NSDate-Escort"
                ReferencedContainer = "container:Pods.xcodeproj">

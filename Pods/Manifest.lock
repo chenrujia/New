@@ -14,15 +14,15 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - CYLTabBarController (1.4.0)
+  - CYLTabBarController (1.4.4)
   - DACircularProgress (2.3.1)
-  - dyci (0.1.5.6):
-    - dyci/Injections (= 0.1.5.6)
-  - dyci/Injections (0.1.5.6)
+  - dyci (0.1.6):
+    - dyci/Injections (= 0.1.6)
+  - dyci/Injections (0.1.6)
   - DZNEmptyDataSet (1.8)
   - GetuiSDK (1.4.2)
   - IQKeyboardManager (3.3.7)
-  - LBXScan (1.1.1):
+  - LBXScan (1.1.2):
     - ZXingObjC (~> 3.0)
   - MBProgressHUD (0.9.2)
   - MJExtension (3.0.10)
@@ -40,7 +40,7 @@ PODS:
   - ReactiveCocoa/no-arc (2.5)
   - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
-  - RongCloudIMKit (2.5.0)
+  - RongCloudIMKit (2.5.1)
   - SDAutoLayout (1.53)
   - SDCycleScrollView (1.64):
     - SDWebImage (~> 3.7)
@@ -51,7 +51,7 @@ PODS:
   - Toast (3.0)
   - UITableView+FDTemplateLayoutCell_Bell (1.5.0)
   - UIViewController+Swizzled (1.4)
-  - UMengAnalytics-NO-IDFA (3.6.7)
+  - UMengAnalytics-NO-IDFA (4.0.1)
   - ZXingObjC (3.1.0):
     - ZXingObjC/All (= 3.1.0)
   - ZXingObjC/All (3.1.0)
@@ -90,21 +90,21 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   dyci:
-    :commit: fa8a47d7913e977c9150962ca0260cc629d0b4bc
+    :commit: 564b0c4579ab7cb5c30a26315fe857b02dd9a9c1
     :git: https://github.com/DyCI/dyci-main.git
   LBXScan:
-    :commit: 41bc321bf4d3386dd400221d4ede5c77aeab1244
+    :commit: 32efa3cf0c7dc061d7830d5e1b31a6f58e0dc554
     :git: https://github.com/MxABC/LBXScan.git
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  CYLTabBarController: cc144a2789b204d249bbbfbfcebc4b8cd1b66510
+  CYLTabBarController: 71d00c3287359fa6fe06dbc04d2a2d103141c763
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
-  dyci: 099c2e6dc98abb8f21b370cabbf1443ff700608a
+  dyci: bf5f4caa4a855a3ca567e2306a4cbba6d9da75e8
   DZNEmptyDataSet: d2351b2e8daefa40433ef292e246e21f6be31a7b
   GetuiSDK: 1509605ce69534ed5298517d01ef865356fe3dab
   IQKeyboardManager: 249c3946acf61345c18b038eb50863fe2793e3a8
-  LBXScan: dfb4d8ae8e4cff2aa0c9e1771e43954dce1469a9
+  LBXScan: 30153fa9c57bbe63d93cc6bf35c047ec1b63260c
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
@@ -112,7 +112,7 @@ SPEC CHECKSUMS:
   NSDate-Escort: 3469fefab423c094108c2e864416b61b6ac0edbc
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
-  RongCloudIMKit: 3d8473f022c7588db80ef81caf0208e5c2fa4789
+  RongCloudIMKit: d7b234005ed139f03081ca87d48ad9a8ee7dd766
   SDAutoLayout: ea6e2ae9fbb438aa2feb0c4363dba9297e98638a
   SDCycleScrollView: 806fedb9342ab03b58b84442f985517b42c7cbb7
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
@@ -120,7 +120,7 @@ SPEC CHECKSUMS:
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
   UITableView+FDTemplateLayoutCell_Bell: ee65b057dbbe937bb6764f33d4ca6910d05a0efd
   UIViewController+Swizzled: 1cd9397598ede6930f94fbcac4b43d63c7aa0dbb
-  UMengAnalytics-NO-IDFA: 6d02561a00579b2e37718f204eb81347df5d7b8b
+  UMengAnalytics-NO-IDFA: 0dc13e0a7b34eaff346e7f57fc7a698f8f26cd59
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
 COCOAPODS: 0.38.2
