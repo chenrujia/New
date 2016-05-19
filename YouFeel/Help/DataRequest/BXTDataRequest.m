@@ -204,10 +204,10 @@
     [self postRequest:url withParameters:mutableDic];
 }
 
-- (void)listOFSubgroup
+- (void)listOFSubgroupShopID:(NSString *)shopID token:(NSString *)token
 {
     self.requestType = SubgroupLists;
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=subgroup_lists",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=subgroup_lists",KAPIBASEURL,shopID,token];
     [self postRequest:url withParameters:nil];
 }
 
@@ -220,21 +220,21 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)listOFDepartmentWithPid:(NSString *)pid
+- (void)listOFDepartmentWithPid:(NSString *)pid shopID:(NSString *)shopID token:(NSString *)token
 {
     self.requestType = DepartmentLists;
     
     NSDictionary *dic = @{@"pid": pid};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=department_lists",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=department_lists",KAPIBASEURL,shopID,token];
     [self postRequest:url withParameters:dic];
 }
 
-- (void)listOFDutyWithDutyType:(NSString *)duty_type
+- (void)listOFDutyWithDutyType:(NSString *)duty_type shopID:(NSString *)shopID token:(NSString *)token
 {
     self.requestType = DutyLists;
     
     NSDictionary *dic = @{@"duty_type": duty_type};
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=duty_lists",[BXTGlobal shareGlobal].baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=duty_lists",KAPIBASEURL,shopID,token];
     [self postRequest:url withParameters:dic];
 }
 
@@ -605,10 +605,20 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)listOFAllShops
+{
+    self.requestType = ListOFAllShops;
+    
+    NSDictionary *dic = @{@"all_sub": @"1"};
+    NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops",KADMINBASEURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)shopWithLatitude:(NSString *)latitude
         andWithLongitude:(NSString *)longitude
 {
     self.requestType = LocationShop;
+    
     NSDictionary *dic = @{@"latitude":latitude,
                           @"longitude":longitude};
     NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/get_shops",KADMINBASEURL];

@@ -29,8 +29,6 @@
 {
     _projectInfo = projectInfo;
     
-    NSLog(@"--------- %@", projectInfo.subgroup);
-    
     self.typeView.text = [projectInfo.type integerValue] == 1 ? @"物业员工" : @"客户";
     self.apartmentView.text = projectInfo.department;
     if ([projectInfo.type integerValue] == 1) {
@@ -38,6 +36,13 @@
         self.skillTitleView.text = @"专业技能：";
         self.professionView.text = projectInfo.subgroup;
         self.skillView.text = projectInfo.extra_subgroup;
+        
+        if ([projectInfo.subgroup isEqualToString:@""]) {
+            self.professionView.text = @"暂无";
+        }
+        if ([projectInfo.extra_subgroup isEqualToString:@""]) {
+            self.skillView.text = @"暂无";
+        }
     }
 }
 

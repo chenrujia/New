@@ -30,8 +30,7 @@
     [super viewDidLoad];
     [self navigationSetting:@"项目详情" andRightTitle:nil andRightImage:nil];
     self.dataArray = [[NSMutableArray alloc] initWithArray:@[@[@"项目名", @"详情"],
-                                                             @[@"常用位置"],
-                                                             @[@"审核人"] ]];
+                                                             @[@"常用位置"] ]];
     
     [self createUI];
     
@@ -69,11 +68,6 @@
         // TODO: -----------------  调试  -----------------
         BXTProjectCertificationViewController *pcvc = [[BXTProjectCertificationViewController alloc] init];
         pcvc.transMyProject = self.transMyProject;
-        pcvc.transProjectInfo = self.projectInfo;
-        pcvc.delegateSignal = [RACSubject subject];
-        [pcvc.delegateSignal subscribeNext:^(id x) {
-            //            [self getResource];
-        }];
         [self.navigationController pushViewController:pcvc animated:YES];
     }];
     [footerView addSubview:changeBtn];
@@ -139,16 +133,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2 - self.isCompany)
-    {
-        BXTProjectInformAuthorCell *cell = [BXTProjectInformAuthorCell cellWithTableView:tableView];
-        cell.projectInfo = self.projectInfo;
-        [[cell.connectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            NSLog(@"--------------- 联系Ta");
-        }];
-        
-        return cell;
-    }
     if (indexPath.section == 0 && indexPath.row == 1)
     {
         BXTProjectInformContentCell *cell = [BXTProjectInformContentCell cellWithTableView:tableView];
@@ -183,10 +167,7 @@
         }
         return 90;
     }
-    if (indexPath.section == 2 - self.isCompany)
-    {
-        return 117;
-    }
+    
     return 50;
 }
 
