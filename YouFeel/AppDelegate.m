@@ -128,7 +128,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [UMAnalyticsConfig sharedInstance].ePolicy = BATCH;
     [MobClick startWithConfigure:[UMAnalyticsConfig sharedInstance]];
     
-    
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];
     NSDictionary *textAttributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor whiteColor]};
@@ -145,8 +144,21 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [RCIM sharedRCIM].receiveMessageDelegate=self;
     
     [Fabric with:@[CrashlyticsKit]];
+    
+    // TODO: Move this to where you establish a user session
+    [self logUser];
     return YES;
 }
+
+- (void) logUser
+{
+    // TODO: Use the current user's information
+    // You can call any combination of these three methods
+    [CrashlyticsKit setUserIdentifier:@"12345"];
+    [CrashlyticsKit setUserEmail:@"user@fabric.io"];
+    [CrashlyticsKit setUserName:@"Test User"];
+}
+
 
 - (void)loadingLoginVC
 {
