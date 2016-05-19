@@ -113,14 +113,18 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
     [self startSdkWith:kAppId appKey:kAppKey appSecret:kAppSecret];
     
+    
     // [2]:注册APNS
     [self registerRemoteNotification];
+    
     
     // 处理远程通知启动APP
     [self receiveNotificationByLaunchingOptions:launchOptions];
     
+    
     // [3]:友盟配置
     [MobClick startWithAppkey:@"566e7c1867e58e7160002af5" reportPolicy:BATCH channelId:nil];
+    
     
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];
