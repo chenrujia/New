@@ -24,6 +24,8 @@
 #import "BXTProjectAddNewViewController.h"
 #import "BXTNewOrderViewController.h"
 #import "BXTNickNameViewController.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -66,7 +68,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         @strongify(self);
         [self loadingLoginVC];
     }];
-    
     
     BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
     if (isLoaded)
@@ -143,6 +144,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //设置接收消息代理
     [RCIM sharedRCIM].receiveMessageDelegate=self;
     
+    [Fabric with:@[CrashlyticsKit]];
     return YES;
 }
 

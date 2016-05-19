@@ -16,6 +16,7 @@
 #import "ANKeyValueTable.h"
 #import "BXTResignViewController.h"
 #import "BXTProjectAddNewViewController.h"
+#import <Crashlytics/Crashlytics.h>
 
 #define UserNameTag 11
 #define PassWordTag 12
@@ -82,7 +83,19 @@
         @strongify(self);
         self.passWord = x;
     }];
+    
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    button.frame = CGRectMake(20, 50, 100, 30);
+    [button setTitle:@"Crash" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(crashButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
 }
+
+- (void)crashButtonTapped:(id)sender
+{
+    [[Crashlytics sharedInstance] crash];
+}
+
 
 - (void)viewDidLayoutSubviews
 {
