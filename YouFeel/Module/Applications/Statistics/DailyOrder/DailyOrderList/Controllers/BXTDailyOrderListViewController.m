@@ -36,12 +36,10 @@
 
 @implementation BXTDailyOrderListViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"全部工单" andRightTitle:@"   筛选" andRightImage:nil];
-    
     self.typeArray = [[NSArray alloc] initWithObjects:@"时间逆序", @"时间正序", nil];
     self.dataArray = [[NSMutableArray alloc] init];
     self.currentPage = 1;
@@ -49,16 +47,18 @@
     self.transGroupStr = @"";
     self.transRepairStateStr = @"";
     self.transCollectionID = @"";
-    if (!self.transTimeArray) {
+    if (!self.transTimeArray)
+    {
         self.transTimeArray = [[NSMutableArray alloc] initWithObjects:@"", @"", nil];
     }
-    if (!self.transStateStr) {
+    if (!self.transStateStr)
+    {
         self.transStateStr = @"";
     }
-    if (!self.transFaultCarriedState) {
+    if (!self.transFaultCarriedState)
+    {
         self.transFaultCarriedState = @"";
     }
-    
     [self createUI];
 }
 
@@ -72,10 +72,10 @@
         self.transGroupStr = transArray[1];
         self.transRepairStateStr = transArray[2];
         self.transStateStr = transArray[3];
-        if (transArray.count == 5) {
+        if (transArray.count == 5)
+        {
             self.transCollectionID = transArray[4];
         }
-        
         [self getResource];
     }];
     [self.navigationController pushViewController:doFilterVC animated:YES];
@@ -198,7 +198,7 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-    SceneType sceneType = DailyType;
+    SceneType sceneType = AllOrderType;
     [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:sceneType];
     [self.navigationController pushViewController:repairDetailVC animated:YES];
     
@@ -210,14 +210,12 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
-    
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
     if (self.currentPage == 1)
     {
         [self.dataArray removeAllObjects];
     }
-    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairList && data.count > 0)
@@ -247,20 +245,9 @@
     [self.tableView.mj_footer endRefreshing];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 
 @end
