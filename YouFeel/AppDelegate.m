@@ -120,7 +120,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [self receiveNotificationByLaunchingOptions:launchOptions];
     
     // [3]:友盟配置
-    [MobClick startWithAppkey:@"566e7c1867e58e7160002af5" reportPolicy:BATCH channelId:nil];
+    [UMAnalyticsConfig sharedInstance].appKey = @"566e7c1867e58e7160002af5";
+    [UMAnalyticsConfig sharedInstance].ePolicy = BATCH;
+    [MobClick startWithConfigure:[UMAnalyticsConfig sharedInstance]];
     
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];
