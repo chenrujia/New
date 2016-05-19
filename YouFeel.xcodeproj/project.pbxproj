@@ -389,6 +389,8 @@
 		96D3D5041CA4DE74009F91EB /* BXTAttributeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D3D5001CA4DE74009F91EB /* BXTAttributeView.m */; };
 		96D3D5051CA4DE74009F91EB /* BXTCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D3D5021CA4DE74009F91EB /* BXTCustomButton.m */; };
 		96D3D5081CA51618009F91EB /* BXTOrderTypeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D3D5071CA51618009F91EB /* BXTOrderTypeInfo.m */; };
+		96D5C5C91CED951100222943 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D5C5C71CED951100222943 /* Fabric.framework */; };
+		96D5C5CA1CED951100222943 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D5C5C81CED951100222943 /* Crashlytics.framework */; };
 		96D850C31C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D850C21C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m */; };
 		96EB27B91CAB6C4200FB2084 /* BXTItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EB27B71CAB6C4200FB2084 /* BXTItemTableViewCell.m */; };
 		96EB27BA1CAB6C4200FB2084 /* BXTItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EB27B81CAB6C4200FB2084 /* BXTItemTableViewCell.xib */; };
@@ -1117,6 +1119,8 @@
 		96D3D5021CA4DE74009F91EB /* BXTCustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCustomButton.m; sourceTree = "<group>"; };
 		96D3D5061CA51618009F91EB /* BXTOrderTypeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTOrderTypeInfo.h; sourceTree = "<group>"; };
 		96D3D5071CA51618009F91EB /* BXTOrderTypeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOrderTypeInfo.m; sourceTree = "<group>"; };
+		96D5C5C71CED951100222943 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		96D5C5C81CED951100222943 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		96D850C11C8D76C7007B9666 /* BXTDeviceMaintenceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceMaintenceInfo.h; sourceTree = "<group>"; };
 		96D850C21C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceMaintenceInfo.m; sourceTree = "<group>"; };
 		96EB27B61CAB6C4200FB2084 /* BXTItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTItemTableViewCell.h; sourceTree = "<group>"; };
@@ -1142,6 +1146,8 @@
 				967ADE511CEC489C00841FAA /* libWeChatSDK.a in Frameworks */,
 				961B8CF41C858001003035F9 /* SystemConfiguration.framework in Frameworks */,
 				961B8CF21C857FF7003035F9 /* CoreTelephony.framework in Frameworks */,
+				96D5C5C91CED951100222943 /* Fabric.framework in Frameworks */,
+				96D5C5CA1CED951100222943 /* Crashlytics.framework in Frameworks */,
 				9671BB521C1ED3AB00D90BFF /* libsqlite3.tbd in Frameworks */,
 				9671BB501C1ED29F00D90BFF /* libc++.tbd in Frameworks */,
 				AE0F09ADE5FBE74A74BFEBC5 /* libPods.a in Frameworks */,
@@ -3628,6 +3634,8 @@
 		9652AAF61BC902DE009A666D = {
 			isa = PBXGroup;
 			children = (
+				96D5C5C71CED951100222943 /* Fabric.framework */,
+				96D5C5C81CED951100222943 /* Crashlytics.framework */,
 				9652AB011BC902DF009A666D /* YouFeel */,
 				968910621BD1F6BC008540D0 /* Frameworks */,
 				9652AB151BC902DF009A666D /* YouFeelTests */,
@@ -4305,7 +4313,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"$CODESIGNING_FOLDER_PATH\" >/tmp/\"$USER.ident\" && echo \"$CODE_SIGN_IDENTITY\" >>/tmp/\"$USER.ident\" && exit; ";
+			shellScript = "./Fabric.framework/run 3c933117c36927bea8ff4f1ab41c48630db1a41f 35e8825b6357fa318c7c11b80ddffc7ae7e22540a2fd81a7bc4ecf666518422b";
 		};
 		AAAFEC7E2A95BCE50ACD3BF8 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4711,7 +4719,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -4792,7 +4800,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/YouFeelTests/BXTPCH.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = YouFeel/Info.plist;
@@ -4826,7 +4837,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/YouFeelTests/BXTPCH.pch";
 				INFOPLIST_FILE = YouFeel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

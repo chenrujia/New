@@ -24,6 +24,8 @@
 #import "BXTProjectAddNewViewController.h"
 #import "BXTNewOrderViewController.h"
 #import "BXTNickNameViewController.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 NSString* const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString* const NotificationActionOneIdent = @"ACTION_ONE";
@@ -66,7 +68,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         @strongify(self);
         [self loadingLoginVC];
     }];
-    
     
     BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
     if (isLoaded)
@@ -127,7 +128,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [UMAnalyticsConfig sharedInstance].ePolicy = BATCH;
     [MobClick startWithConfigure:[UMAnalyticsConfig sharedInstance]];
     
-    
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];
     NSDictionary *textAttributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor whiteColor]};
@@ -143,8 +143,22 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //设置接收消息代理
     [RCIM sharedRCIM].receiveMessageDelegate=self;
     
+    [Fabric with:@[CrashlyticsKit]];
+    
+    // TODO: Move this to where you establish a user session
+    [self logUser];
     return YES;
 }
+
+- (void) logUser
+{
+    // TODO: Use the current user's information
+    // You can call any combination of these three methods
+    [CrashlyticsKit setUserIdentifier:@"12345"];
+    [CrashlyticsKit setUserEmail:@"user@fabric.io"];
+    [CrashlyticsKit setUserName:@"Test User"];
+}
+
 
 - (void)loadingLoginVC
 {
