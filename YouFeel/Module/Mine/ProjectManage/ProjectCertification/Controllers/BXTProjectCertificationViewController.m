@@ -16,7 +16,6 @@
 #import "ANKeyValueTable.h"
 #import "BXTProjectManageViewController.h"
 #import "BXTChooseListViewController.h"
-#import "BXTStoresListsInfo.h"
 
 @interface BXTProjectCertificationViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -41,6 +40,8 @@
 @property (assign, nonatomic) BOOL isCompanyType;
 /** ---- 职位 - 是否报修者 ---- */
 @property (assign, nonatomic) BOOL isRepairer;
+/** ---- 客户 - 是否选择所属 ---- */
+@property (assign, nonatomic) BOOL isSelectedTheOne;
 
 // 存值参数
 @property (nonatomic, strong) NSMutableArray *positionArray;
@@ -78,17 +79,17 @@
     dispatch_async(concurrentQueue, ^{
         /**请求故障类型列表**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request listOFSubgroupShopID:self.transMyProject.shop_id token:[BXTGlobal getUserProperty:U_TOKEN]];
+        [fau_request listOFSubgroupShopID:self.transMyProject.shop_id];
     });
     dispatch_async(concurrentQueue, ^{
         /**获取职位列表接口**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request listOFDutyWithDutyType:@"" shopID:self.transMyProject.shop_id token:[BXTGlobal getUserProperty:U_TOKEN]];
+        [fau_request listOFDutyWithDutyType:@"" shopID:self.transMyProject.shop_id];
     });
     dispatch_async(concurrentQueue, ^{
         /**获取部门列表**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request listOFDepartmentWithPid:@"" shopID:self.transMyProject.shop_id token:[BXTGlobal getUserProperty:U_TOKEN]];
+        [fau_request listOFDepartmentWithPid:@"" shopID:self.transMyProject.shop_id];
     });
     
     [self createUI];
@@ -148,13 +149,10 @@
             }
             else
             {
-                [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
-                                                      type:@"2"
-                                              departmentID:@""
-                                                    dutyID:@""
-                                                subgroupID:@""
-                                           haveSubgroupIDs:@""
-                                                  storesID:self.transArray[2]];
+                /**维修位置**/
+                BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [fau_request modifyBindPlaceWithShopID:self.transMyProject.shop_id placeID:self.transArray[3]];
+                
             }
             
         }
@@ -309,7 +307,13 @@
         }
         else if (indexPath.section == 3)
         {
-            [self pushLocationViewController];
+            if (self.isSelectedTheOne) {
+                [self pushLocationViewController];
+            }
+            else {
+                [MYAlertAction showAlertWithTitle:@"请选择所属" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+                } buttonsStatement:@"确定", nil];
+            }
         }
     }
     
@@ -319,10 +323,20 @@
 - (void)pushChooseListViewController
 {
     BXTChooseListViewController *chooseListVC = [[BXTChooseListViewController alloc] init];
+    chooseListVC.typeOfPush = PushType_Department;
     chooseListVC.delegateSignal = [RACSubject subject];
+    @weakify(self);
     [chooseListVC.delegateSignal subscribeNext:^(BXTStoresListsInfo *storeInfo) {
+        @strongify(self);
+        
+        self.isSelectedTheOne = YES;
+        
         [self.detailArray replaceObjectAtIndex:2 withObject:storeInfo.stores_name];
         [self.transArray replaceObjectAtIndex:2 withObject:storeInfo.storeID];
+        
+        [self.detailArray replaceObjectAtIndex:3 withObject:@"请选择"];
+        [self.transArray replaceObjectAtIndex:3 withObject:@" "];
+        
         [self.tableView reloadData];
     }];
     [self.navigationController pushViewController:chooseListVC animated:YES];
@@ -330,22 +344,20 @@
 
 - (void)pushLocationViewController
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-    BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
-    NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
+    BXTChooseListViewController *chooseListVC = [[BXTChooseListViewController alloc] init];
+    chooseListVC.typeOfPush = PushType_Location;
+    chooseListVC.transID = self.transArray[2];
+    chooseListVC.delegateSignal = [RACSubject subject];
     @weakify(self);
-    [searchVC userChoosePlace:dataSource type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
+    [chooseListVC.delegateSignal subscribeNext:^(BXTPlaceListInfo *storeInfo) {
         @strongify(self);
-        BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
-        [self.detailArray replaceObjectAtIndex:3 withObject:name];
-        [self.transArray replaceObjectAtIndex:3 withObject:placeInfo.placeID];
+        
+        [self.detailArray replaceObjectAtIndex:3 withObject:storeInfo.place_name];
+        [self.transArray replaceObjectAtIndex:3 withObject:storeInfo.placeID];
+        
         [self.tableView reloadData];
-        [self showLoadingMBP:@"加载中..."];
-        /**维修位置**/
-        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request modifyBindPlaceWithShopID:self.transMyProject.shop_id placeID:placeInfo.placeID];
     }];
-    [self.navigationController pushViewController:searchVC animated:YES];
+    [self.navigationController pushViewController:chooseListVC animated:YES];
 }
 
 - (void)pushDepartmentViewController
@@ -367,6 +379,7 @@
 #pragma mark - 方法
 - (void)createTableViewWithIndex:(NSInteger)index
 {
+    self.isSelectedTheOne = NO;
     self.showSelectedRow = index;
     if (index == 1)
     {
@@ -624,8 +637,19 @@
     }
     else if (type == ModifyBindPlace && [dic[@"returncode"] integerValue] == 0)
     {
-        [BXTGlobal showText:@"常用位置绑定成功" view:self.view completionBlock:nil];
+        [BXTGlobal showText:@"常用位置绑定成功" view:self.view completionBlock:^{
+            [self showLoadingMBP:@"加载中..."];
+            BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
+                                                  type:@"2"
+                                          departmentID:@""
+                                                dutyID:@""
+                                            subgroupID:@""
+                                       haveSubgroupIDs:@""
+                                              storesID:self.transArray[2]];
+        }];
     }
+    
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

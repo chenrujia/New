@@ -10,8 +10,12 @@
 
 @interface BXTCertificationManageViewController : BXTBaseViewController
 
+/** ---- 其他事物 - 进行中 ---- */
+@property (nonatomic, assign) BOOL isRunning;
+
 @property (copy, nonatomic) NSString *transID;
 @property (nonatomic, copy) NSString *affairs_id;
+
 @property (strong, nonatomic) RACSubject *delegateSignal;
 
 @end

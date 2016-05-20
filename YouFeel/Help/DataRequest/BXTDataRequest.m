@@ -204,37 +204,47 @@
     [self postRequest:url withParameters:mutableDic];
 }
 
-- (void)listOFSubgroupShopID:(NSString *)shopID token:(NSString *)token
+- (void)listOFSubgroupShopID:(NSString *)shopID
 {
     self.requestType = SubgroupLists;
-    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=subgroup_lists",KAPIBASEURL,shopID,token];
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=subgroup_lists", KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     [self postRequest:url withParameters:nil];
+}
+
+- (void)listOFStoresPlaceWithStoresID:(NSString *)storesID
+{
+    self.requestType = ListOFStoresPlace;
+    
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Mydb&opt=get_stores_place", KAPIBASEURL, companyInfo.company_id, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSDictionary *dic = @{@"stores_id": storesID};
+    [self postRequest:url withParameters:dic];
 }
 
 - (void)listOFPlaceIsAllPlace
 {
     self.requestType = PlaceLists;
-
+    
     NSDictionary *dic = @{@"more": @"1"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=place_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
-- (void)listOFDepartmentWithPid:(NSString *)pid shopID:(NSString *)shopID token:(NSString *)token
+- (void)listOFDepartmentWithPid:(NSString *)pid shopID:(NSString *)shopID
 {
     self.requestType = DepartmentLists;
     
     NSDictionary *dic = @{@"pid": pid};
-    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=department_lists",KAPIBASEURL,shopID,token];
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=department_lists", KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     [self postRequest:url withParameters:dic];
 }
 
-- (void)listOFDutyWithDutyType:(NSString *)duty_type shopID:(NSString *)shopID token:(NSString *)token
+- (void)listOFDutyWithDutyType:(NSString *)duty_type shopID:(NSString *)shopID
 {
     self.requestType = DutyLists;
     
     NSDictionary *dic = @{@"duty_type": duty_type};
-    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=duty_lists",KAPIBASEURL,shopID,token];
+    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=duty_lists", KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     [self postRequest:url withParameters:dic];
 }
 
@@ -310,6 +320,7 @@
 
 - (void)projectAuthenticationDetailWithApplicantID:(NSString *)applicantID
                                             shopID:(NSString *)shopID
+                                         outUserID:(NSString *)outUserID
 {
     self.requestType = AuthenticationDetail;
     
@@ -319,10 +330,13 @@
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
         shopID = companyInfo.company_id;
     }
+    if ([BXTGlobal isBlankString:outUserID]) {
+        outUserID = [BXTGlobal getUserProperty:U_USERID];
+    }
     
     NSDictionary *dic = @{@"id": applicantID,
                           @"shop_id": shopID,
-                          @"out_userid": [BXTGlobal getUserProperty:U_USERID]};
+                          @"out_userid": outUserID};
     NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_detail",urlLast];
@@ -340,7 +354,7 @@
                           @"shop_id": companyInfo.company_id,
                           @"is_verify": is_verify,
                           @"affairs_id":affairs_id,
-                          @"verify_user_id": [BXTGlobal getUserProperty:U_USERID]};
+                          @"verify_user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
     
     NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, companyInfo.company_id, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_verify",urlLast];

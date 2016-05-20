@@ -12,7 +12,6 @@
 #import "BXTHeaderForVC.h"
 #import "PinYinForObjc.h"
 #import "UIScrollView+EmptyDataSet.h"
-#import "BXTStoresListsInfo.h"
 
 #define NavBarHeight 120.f
 
@@ -42,7 +41,13 @@
 {
     [super viewDidLoad];
     
-    [self navigationSetting:@"所属" andRightTitle:nil andRightImage:nil];
+    // TODO: -----------------  调试  -----------------
+    if (self.typeOfPush == PushType_Department) {
+        [self navigationSetting:@"所属" andRightTitle:nil andRightImage:nil];
+    }
+    else if (self.typeOfPush == PushType_Location) {
+        [self navigationSetting:@"常用位置" andRightTitle:nil andRightImage:nil];
+    }
     
     self.isSwitchOn = YES;
     self.dataArray = [NSMutableArray array];
@@ -52,8 +57,16 @@
     
     [self showLoadingMBP:@"加载中..."];
     /**请求分店位置**/
-    BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dep_request listOFStoresWithStoresName:@""];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+  
+    // TODO: -----------------  调试  -----------------
+    if (self.typeOfPush == PushType_Department) {
+        [request listOFStoresWithStoresName:@""];
+    }
+    else if (self.typeOfPush == PushType_Location) {
+        [request listOFStoresPlaceWithStoresID:self.transID];
+    }
+    
 }
 
 #pragma mark -
@@ -143,36 +156,59 @@
 {
     NSArray *allPersonArray = self.allDataArray;
     
-    NSMutableArray    *searchResults = [[NSMutableArray alloc]init];
+    NSMutableArray *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
         
         for (int i=0; i<allPersonArray.count; i++) {
-            BXTStoresListsInfo *model = allPersonArray[i];
             
-            if ([ChineseInclude isIncludeChineseInString:model.stores_name]) {
-                NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.stores_name];
+            // TODO: -----------------  调试  -----------------
+            NSString *searchNameText;
+            if (self.typeOfPush == PushType_Department) {
+                BXTStoresListsInfo *model = allPersonArray[i];
+                searchNameText = model.stores_name;
+            }
+            else if (self.typeOfPush == PushType_Location) {
+                BXTPlaceListInfo *model = allPersonArray[i];
+                searchNameText = model.place_name;
+            }
+            
+            
+            if ([ChineseInclude isIncludeChineseInString:searchNameText]) {
+                NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:searchNameText];
                 NSRange titleResult=[tempPinYinStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                 
                 if (titleResult.length > 0) {
                     [searchResults addObject:allPersonArray[i]];
                 } else {
-                    NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:model.stores_name]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                    NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:searchNameText]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                     if (titleHeadResult.length > 0) {
                         [searchResults addObject:allPersonArray[i]];
                     }
                 }
             } else {
-                NSRange titleResult=[model.stores_name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                NSRange titleResult=[searchNameText rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
                 if (titleResult.length > 0) {
                     [searchResults addObject:allPersonArray[i]];
                 }
             }
         }
     } else if (self.searchBar.text.length > 0 && [ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
-        for (BXTStoresListsInfo *model in allPersonArray) {
-            NSRange titleResult=[model.stores_name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-            if (titleResult.length > 0) {
-                [searchResults addObject:model];
+        
+        // TODO: -----------------  调试  -----------------
+        if (self.typeOfPush == PushType_Department) {
+            for (BXTStoresListsInfo *model in allPersonArray) {
+                NSRange titleResult=[model.stores_name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                if (titleResult.length > 0) {
+                    [searchResults addObject:model];
+                }
+            }
+        }
+        else if (self.typeOfPush == PushType_Location) {
+            for (BXTPlaceListInfo *model in allPersonArray) {
+                NSRange titleResult=[model.place_name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+                if (titleResult.length > 0) {
+                    [searchResults addObject:model];
+                }
             }
         }
     }
@@ -225,8 +261,16 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
         }
         
-        BXTStoresListsInfo *infoModel = self.searchArray[indexPath.row];
-        cell.textLabel.text = infoModel.stores_name;
+        // TODO: -----------------  调试  -----------------
+        if (self.typeOfPush == PushType_Department) {
+            BXTStoresListsInfo *infoModel = self.searchArray[indexPath.row];
+            cell.textLabel.text = infoModel.stores_name;
+        }
+        else if (self.typeOfPush == PushType_Location) {
+            BXTPlaceListInfo *infoModel = self.searchArray[indexPath.row];
+            cell.textLabel.text = infoModel.place_name;
+        }
+        
         
         return cell;
     }
@@ -265,9 +309,17 @@
             }
             else
             {
-                BXTStoresListsInfo *company = self.dataArray[indexPath.row-1];
+                // TODO: -----------------  调试  -----------------
+                if (self.typeOfPush == PushType_Department) {
+                    BXTStoresListsInfo *company = self.dataArray[indexPath.row-1];
+                    cell.nameLabel.text = company.stores_name ;
+                }
+                else if (self.typeOfPush == PushType_Location) {
+                    BXTPlaceListInfo *company = self.dataArray[indexPath.row-1];
+                    cell.nameLabel.text = company.place_name;
+                }
+                
                 cell.nameLabel.textColor = colorWithHexString(@"#000000");
-                cell.nameLabel.text = company.stores_name ;
                 cell.rightImageView.hidden = NO;
             }
         }
@@ -280,18 +332,36 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    BXTStoresListsInfo *storeInfo;
-    if (tableView == self.tableView_Search) {
-        storeInfo = self.searchArray[indexPath.row];
-    } else {
-        if (indexPath.row != 0 && self.dataArray.count != 0) {
-            storeInfo = self.dataArray[indexPath.row-1];
+    // TODO: -----------------  调试  -----------------
+    if (indexPath.section + indexPath.row != 0) {
+        if (self.typeOfPush == PushType_Department) {
+            BXTStoresListsInfo *storeInfo;
+            if (tableView == self.tableView_Search) {
+                storeInfo = self.searchArray[indexPath.row];
+            } else {
+                if (indexPath.row != 0 && self.dataArray.count != 0) {
+                    storeInfo = self.dataArray[indexPath.row-1];
+                }
+            }
+            if (self.delegateSignal) {
+                [self.delegateSignal sendNext:storeInfo];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }
-    }
-    
-    if (self.delegateSignal) {
-        [self.delegateSignal sendNext:storeInfo];
-        [self.navigationController popViewControllerAnimated:YES];
+        else if (self.typeOfPush == PushType_Location) {
+            BXTPlaceListInfo *storeInfo;
+            if (tableView == self.tableView_Search) {
+                storeInfo = self.searchArray[indexPath.row];
+            } else {
+                if (indexPath.row != 0 && self.dataArray.count != 0) {
+                    storeInfo = self.dataArray[indexPath.row-1];
+                }
+            }
+            if (self.delegateSignal) {
+                [self.delegateSignal sendNext:storeInfo];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }
     }
     
 }
@@ -324,6 +394,17 @@
         }];
         [self.dataArray addObjectsFromArray:[BXTStoresListsInfo mj_objectArrayWithKeyValuesArray:array]];
         [self.allDataArray addObjectsFromArray:[BXTStoresListsInfo mj_objectArrayWithKeyValuesArray:array]];
+    }
+    else if (type == ListOFStoresPlace && array.count != 0)
+    {
+        [self.dataArray removeAllObjects];
+        [self.allDataArray removeAllObjects];
+        
+        [BXTPlaceListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"placeID":@"id"};
+        }];
+        [self.dataArray addObjectsFromArray:[BXTPlaceListInfo mj_objectArrayWithKeyValuesArray:array]];
+        [self.allDataArray addObjectsFromArray:[BXTPlaceListInfo mj_objectArrayWithKeyValuesArray:array]];
     }
     
     [self.tableView reloadData];

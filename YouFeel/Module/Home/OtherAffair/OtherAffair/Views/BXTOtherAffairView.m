@@ -16,6 +16,7 @@
 #import "AppDelegate.h"
 #import "BXTCertificationManageViewController.h"
 #import "BXTMaintenanceDetailViewController.h"
+#import "BXTCertificationCompleteViewController.h"
 
 #define REFRESHOTHERAFFAIRVIEW @"refreshOtherAffairView "
 
@@ -125,22 +126,33 @@
     /** ---- 事件类别 1.认证审批 11.维修确认 12待评价工单 ---- */
     if ([affairModel.affairs_type isEqualToString:@"1"])
     {
-        BXTCertificationManageViewController *cmvc = [[BXTCertificationManageViewController alloc] init];
-        cmvc.transID = affairModel.about_id;
-        cmvc.affairs_id = affairModel.messageID;
-        cmvc.delegateSignal = [RACSubject subject];
-        @weakify(self);
-        [cmvc.delegateSignal subscribeNext:^(id x) {
-            @strongify(self);
-            
-            if ([self.stateStr integerValue] == 1) {
-                self.currentPage = 1;
-                [self.tableView.mj_header beginRefreshing];
+        if ([self.stateStr isEqualToString:@"1"])
+        {
+            BXTCertificationManageViewController *cmvc = [[BXTCertificationManageViewController alloc] init];
+            cmvc.isRunning = YES;
+            cmvc.transID = affairModel.about_id;
+            cmvc.affairs_id = affairModel.messageID;
+            cmvc.delegateSignal = [RACSubject subject];
+            @weakify(self);
+            [cmvc.delegateSignal subscribeNext:^(id x) {
+                @strongify(self);
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHOTHERAFFAIRVIEW object:nil];
-            }
-        }];
-        [[self navigation] pushViewController:cmvc animated:YES];
+                if ([self.stateStr integerValue] == 1) {
+                    self.currentPage = 1;
+                    [self.tableView.mj_header beginRefreshing];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHOTHERAFFAIRVIEW object:nil];
+                }
+            }];
+            [[self navigation] pushViewController:cmvc animated:YES];
+        }
+        else
+        {
+            BXTCertificationCompleteViewController *ccvc = [[BXTCertificationCompleteViewController alloc] init];
+            BXTOtherAffair *affairModel = self.dataArray[indexPath.section];
+            ccvc.transApplicantID = affairModel.about_id;
+            [[self navigation] pushViewController:ccvc animated:YES];
+        }
     }
     else
     {

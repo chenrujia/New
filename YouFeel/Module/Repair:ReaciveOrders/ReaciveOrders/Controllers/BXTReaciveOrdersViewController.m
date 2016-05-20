@@ -185,7 +185,7 @@
         /**请求故障类型列表**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        [fau_request listOFSubgroupShopID:companyInfo.company_id token:[BXTGlobal getUserProperty:U_TOKEN]];
+        [fau_request listOFSubgroupShopID:companyInfo.company_id];
     });
     
     

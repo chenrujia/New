@@ -29,7 +29,12 @@
     
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:projectInfo.headMedium] placeholderImage:[UIImage imageNamed:@"New_Ticket_icon"]];
     self.nameView.text = projectInfo.name;
+    
     self.phoneView.text = [NSString stringWithFormat:@"电话：%@", projectInfo.mobile];
+    if (!projectInfo.mobile) {
+        self.phoneView.text = [NSString stringWithFormat:@"电话："];
+    }
+    
 }
 
 - (void)awakeFromNib {

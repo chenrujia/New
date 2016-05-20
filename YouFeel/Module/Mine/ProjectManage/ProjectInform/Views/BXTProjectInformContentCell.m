@@ -31,18 +31,28 @@
     
     self.typeView.text = [projectInfo.type integerValue] == 1 ? @"物业员工" : @"客户";
     self.apartmentView.text = projectInfo.department;
+    
     if ([projectInfo.type integerValue] == 1) {
+        self.positionTitleView.text = @"职位：";
         self.professionTitleView.text = @"专业组：";
         self.skillTitleView.text = @"专业技能：";
+        self.positionView.text = projectInfo.duty_name;
         self.professionView.text = projectInfo.subgroup;
         self.skillView.text = projectInfo.extra_subgroup;
         
+        if ([projectInfo.duty_name isEqualToString:@""]) {
+            self.positionView.text = @"暂无";
+        }
         if ([projectInfo.subgroup isEqualToString:@""]) {
             self.professionView.text = @"暂无";
         }
         if ([projectInfo.extra_subgroup isEqualToString:@""]) {
             self.skillView.text = @"暂无";
         }
+    }
+    else {
+        self.apartmentTitleView.text = @"所属：";
+        self.apartmentView.text = projectInfo.stores_name;
     }
 }
 

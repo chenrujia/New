@@ -11,6 +11,11 @@
 
 @interface BXTCertificationManageInfoCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *departmentTitleView;
+@property (weak, nonatomic) IBOutlet UILabel *positionTitleView;
+@property (weak, nonatomic) IBOutlet UILabel *groupTitleView;
+@property (weak, nonatomic) IBOutlet UILabel *ProfessionTitleView;
+
 @property (weak, nonatomic) IBOutlet UILabel *typeView;
 @property (weak, nonatomic) IBOutlet UILabel *departmentView;
 @property (weak, nonatomic) IBOutlet UILabel *positionView;

@@ -69,7 +69,7 @@
         /**专业分组**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        [request listOFSubgroupShopID:companyInfo.company_id token:[BXTGlobal getUserProperty:U_TOKEN]];
+        [request listOFSubgroupShopID:companyInfo.company_id];
     });
     dispatch_async(concurrentQueue, ^{
         /**系统分组**/

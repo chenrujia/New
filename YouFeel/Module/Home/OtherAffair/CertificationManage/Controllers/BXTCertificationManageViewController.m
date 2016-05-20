@@ -29,7 +29,8 @@
     [self showLoadingMBP:@"加载中..."];
     /** 项目认证详情 **/
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dataRequest projectAuthenticationDetailWithApplicantID:self.transID shopID:@""];
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    [dataRequest projectAuthenticationDetailWithApplicantID:self.transID shopID:companyInfo.company_id outUserID:@""];
 }
 
 #pragma mark -
@@ -117,7 +118,10 @@
         return 117;
     }
     
-    return 140;
+    if ([self.projectInfo.type integerValue] == 1) {
+        return 158;
+    }
+    return 97;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -143,16 +147,26 @@
     [self hideMBP];
     NSDictionary *dic = response;
     
-    if (type == AuthenticationDetail && [dic[@"returncode"] integerValue] == 0)
+    if (type == AuthenticationDetail)
     {
-        NSArray *data = [dic objectForKey:@"data"];
+        if ([dic[@"returncode"] integerValue] == 0) {
+            NSArray *data = [dic objectForKey:@"data"];
+            
+            [BXTProjectInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"projectID": @"id"};
+            }];
+            self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
+            
+            [self.tableView reloadData];
+        }
+        else {
+            if (self.isRunning) {
+                [BXTGlobal showText:@"此认证审批已失效" view:self.view completionBlock:^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+            }
+        }
         
-        [BXTProjectInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"projectID": @"id"};
-        }];
-        self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
-        
-        [self.tableView reloadData];
     }
     else if (type == AuthenticationVerify)
     {

@@ -85,6 +85,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     UnBundingUser = 72,
     EndMaintenceOrder = 73,
     ListOFAllShops = 74,
+    ListOFStoresPlace = 75,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -198,7 +199,12 @@ typedef NS_ENUM(NSInteger, RepairListType)
 /**
  *  获取故障类型列表
  */
-- (void)listOFSubgroupShopID:(NSString *)shopID token:(NSString *)token;
+- (void)listOFSubgroupShopID:(NSString *)shopID;
+
+/**
+ *  获取商铺位置列表
+ */
+- (void)listOFStoresPlaceWithStoresID:(NSString *)storesID;
 
 /**
  *  获取位置数组
@@ -210,13 +216,13 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  获取部门列表
  *  pid - 获取该id下部门树形数据，默认为0则为获取所有部门列表
  */
-- (void)listOFDepartmentWithPid:(NSString *)pid shopID:(NSString *)shopID token:(NSString *)token;
+- (void)listOFDepartmentWithPid:(NSString *)pid shopID:(NSString *)shopID;
 
 /**
  *  获取职位列表
  *  pid - 1报修 2维修，默认：全部
  */
-- (void)listOFDutyWithDutyType:(NSString *)duty_type shopID:(NSString *)shopID token:(NSString *)token;
+- (void)listOFDutyWithDutyType:(NSString *)duty_type shopID:(NSString *)shopID;
 
 /**
  *  获取商铺列表
@@ -258,7 +264,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  shopID - 项目详情ID   两者取其一
  */
 - (void)projectAuthenticationDetailWithApplicantID:(NSString *)applicantID
-                                            shopID:(NSString *)shopID;
+                                            shopID:(NSString *)shopID
+                                         outUserID:(NSString *)outUserID;
 
 /**
  *  项目认证审核
