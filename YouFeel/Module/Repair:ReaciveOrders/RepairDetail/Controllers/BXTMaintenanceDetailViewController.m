@@ -496,7 +496,7 @@
         {
             [self loadFixedPic];
             //有评价内容
-            if (self.repairDetail.evaluation_notes.length > 0)
+            if (self.repairDetail.evaluation_notes.length > 0 && self.sceneType == MyRepairType)
             {
                 [self loadEvaluationContent];
                 //有评价图片
@@ -521,7 +521,7 @@
         else
         {
             //有评价内容
-            if (self.repairDetail.evaluation_notes.length > 0)
+            if (self.repairDetail.evaluation_notes.length > 0 && self.sceneType == MyRepairType)
             {
                 self.ninth_top.constant = 12.f;
                 [self.ninthBV layoutIfNeeded];
@@ -854,14 +854,22 @@
     [self loadMaintenanceReports];
     //维修后图片相关
     [self loadFixedPic];
-    //评价相关
-    [self loadEvaluationContent];
-    //评价图片相关
-    [self loadEvaluationPic];
-    
-    CGFloat bottomBVHeight = isHaveButtons ? YBottomBackHeight : 0.f;
-    self.content_height.constant = CGRectGetMaxY(self.tenthBV.frame)+ 10.f + bottomBVHeight + 12.f;
-    [self.contentView layoutIfNeeded];
+    if (self.sceneType == MyRepairType)
+    {
+        //评价相关
+        [self loadEvaluationContent];
+        //评价图片相关
+        [self loadEvaluationPic];
+        CGFloat bottomBVHeight = isHaveButtons ? YBottomBackHeight : 0.f;
+        self.content_height.constant = CGRectGetMaxY(self.tenthBV.frame)+ 10.f + bottomBVHeight + 12.f;
+        [self.contentView layoutIfNeeded];
+    }
+    else
+    {
+        CGFloat bottomBVHeight = isHaveButtons ? YBottomBackHeight : 0.f;
+        self.content_height.constant = CGRectGetMaxY(self.eighthBV.frame)+ 10.f + bottomBVHeight + 12.f;
+        [self.contentView layoutIfNeeded];
+    }
 }
 
 #pragma mark -
