@@ -214,6 +214,8 @@
 		786DB5141CB3939F003DA314 /* BXTRankingData.m in Sources */ = {isa = PBXBuildFile; fileRef = 786DB5131CB3939F003DA314 /* BXTRankingData.m */; };
 		787B3ACC1CC4DE58002E1A73 /* BXTDailyOrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 787B3ACB1CC4DE58002E1A73 /* BXTDailyOrderListViewController.m */; };
 		787B3ACF1CC4DF0F002E1A73 /* BXTDOFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 787B3ACE1CC4DF0F002E1A73 /* BXTDOFilterViewController.m */; };
+		788FACEF1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 788FACEE1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.m */; };
+		788FACF21CEF135000F142A4 /* BXTPlaceListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 788FACF11CEF135000F142A4 /* BXTPlaceListInfo.m */; };
 		7893D88C1C7AA6CD00F042D5 /* BXTStatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC721C4CBB47000749F1 /* BXTStatisticsViewController.m */; };
 		7893D8911C7AA70D00F042D5 /* BXTStatisticsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7893D88F1C7AA70D00F042D5 /* BXTStatisticsCell.m */; };
 		7893D8921C7AA70D00F042D5 /* BXTStatisticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7893D8901C7AA70D00F042D5 /* BXTStatisticsCell.xib */; };
@@ -805,6 +807,10 @@
 		787B3ACB1CC4DE58002E1A73 /* BXTDailyOrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDailyOrderListViewController.m; sourceTree = "<group>"; };
 		787B3ACD1CC4DF0F002E1A73 /* BXTDOFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDOFilterViewController.h; sourceTree = "<group>"; };
 		787B3ACE1CC4DF0F002E1A73 /* BXTDOFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDOFilterViewController.m; sourceTree = "<group>"; };
+		788FACED1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCertificationCompleteViewController.h; sourceTree = "<group>"; };
+		788FACEE1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCertificationCompleteViewController.m; sourceTree = "<group>"; };
+		788FACF01CEF135000F142A4 /* BXTPlaceListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPlaceListInfo.h; sourceTree = "<group>"; };
+		788FACF11CEF135000F142A4 /* BXTPlaceListInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPlaceListInfo.m; sourceTree = "<group>"; };
 		7893D88E1C7AA70D00F042D5 /* BXTStatisticsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTStatisticsCell.h; sourceTree = "<group>"; };
 		7893D88F1C7AA70D00F042D5 /* BXTStatisticsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTStatisticsCell.m; sourceTree = "<group>"; };
 		7893D8901C7AA70D00F042D5 /* BXTStatisticsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTStatisticsCell.xib; sourceTree = "<group>"; };
@@ -2051,6 +2057,8 @@
 				96C491091CB7B75C00D14C9B /* BXTBaseClassifyInfo.m */,
 				7851A0361CA3CBD000255B8A /* BXTPlaceInfo.h */,
 				7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */,
+				788FACF01CEF135000F142A4 /* BXTPlaceListInfo.h */,
+				788FACF11CEF135000F142A4 /* BXTPlaceListInfo.m */,
 				783836831CC5D38300C349E6 /* BXTRepairStateInfo.h */,
 				783836841CC5D38300C349E6 /* BXTRepairStateInfo.m */,
 			);
@@ -2072,8 +2080,8 @@
 		785D31101CBB37AE009B8A6E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				786D371D1CBB3A5B00D307DB /* BXTChooseListViewController.m */,
 				786D371E1CBB3A5B00D307DB /* BXTChooseListViewController.h */,
+				786D371D1CBB3A5B00D307DB /* BXTChooseListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2736,6 +2744,8 @@
 			children = (
 				786D373A1CBBBE2400D307DB /* BXTCertificationManageViewController.h */,
 				786D373B1CBBBE2400D307DB /* BXTCertificationManageViewController.m */,
+				788FACED1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.h */,
+				788FACEE1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -4458,6 +4468,7 @@
 				7823D20A1C3231A000E3641C /* MYAlertAction.m in Sources */,
 				7893D90B1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m in Sources */,
 				7818DBE01C0824D800DC22C6 /* PNGenericChart.m in Sources */,
+				788FACEF1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.m in Sources */,
 				784177DE1CDC977900CCA953 /* UITabBar+badge.m in Sources */,
 				7893D8A11C7AA8CC00F042D5 /* BXTStatisticsForthView.m in Sources */,
 				7867DC961C4CBB47000749F1 /* MYPieElement.m in Sources */,
@@ -4555,6 +4566,7 @@
 				783DDA4A1C3FB4A50035B927 /* ChineseToPinyinResource.m in Sources */,
 				965F68781CBE219000BF781D /* BXTManTableViewCell.m in Sources */,
 				781D86541CBF784900F01EF7 /* BXTMailRootInfo.m in Sources */,
+				788FACF21CEF135000F142A4 /* BXTPlaceListInfo.m in Sources */,
 				7893D9141C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m in Sources */,
 				9652ABEC1BC90DCC009A666D /* NSData+CommonCrypto.m in Sources */,
 				9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */,

@@ -81,10 +81,20 @@
     
     [self createTableView];
     
+    
     [self showLoadingMBP:@"加载中..."];
-    /**请求分店位置**/
-    BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dep_request shopLists:nil];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**请求分店位置**/
+        BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dep_request shopLists:nil];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**获取所有商铺列表**/
+        BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dep_request listOFAllShops];
+    });
+    
 }
 
 #pragma mark -
@@ -468,11 +478,15 @@
     else if (type == LocationShop)
     {
         [locationShopsArray removeAllObjects];
-        [self.allPersonArray removeAllObjects];
         [BXTHeadquartersInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"company_id":@"id"};
         }];
         [locationShopsArray addObjectsFromArray:[BXTHeadquartersInfo mj_objectArrayWithKeyValuesArray:array]];
+        [self.allPersonArray addObjectsFromArray:array];
+    }
+    else if (type == ListOFAllShops)
+    {
+        [self.allPersonArray removeAllObjects];
         [self.allPersonArray addObjectsFromArray:array];
     }
     else if (type == BranchResign)

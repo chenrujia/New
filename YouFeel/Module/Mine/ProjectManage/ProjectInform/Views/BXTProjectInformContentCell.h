@@ -14,9 +14,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *stateView;
 @property (weak, nonatomic) IBOutlet UILabel *typeView;
 @property (weak, nonatomic) IBOutlet UILabel *apartmentView;
+@property (weak, nonatomic) IBOutlet UILabel *positionView;
 @property (weak, nonatomic) IBOutlet UILabel *professionView;
 @property (weak, nonatomic) IBOutlet UILabel *skillView;
 
+@property (weak, nonatomic) IBOutlet UILabel *apartmentTitleView;
+@property (weak, nonatomic) IBOutlet UILabel *positionTitleView;
 @property (weak, nonatomic) IBOutlet UILabel *professionTitleView;
 @property (weak, nonatomic) IBOutlet UILabel *skillTitleView;
 

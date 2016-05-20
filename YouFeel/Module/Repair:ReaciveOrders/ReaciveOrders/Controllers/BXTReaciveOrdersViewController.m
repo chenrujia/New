@@ -184,7 +184,8 @@
     dispatch_async(concurrentQueue, ^{
         /**请求故障类型列表**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request listOFSubgroup];
+        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+        [fau_request listOFSubgroupShopID:companyInfo.company_id];
     });
     
     

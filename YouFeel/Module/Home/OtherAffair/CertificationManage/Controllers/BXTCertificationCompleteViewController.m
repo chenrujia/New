@@ -1,19 +1,19 @@
 //
-//  BXTProjectInformViewController.m
+//  BXTCertificationCompleteViewController.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/4/1.
+//  Created by 满孝意 on 16/5/20.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTProjectInformViewController.h"
+#import "BXTCertificationCompleteViewController.h"
 #import "BXTProjectInformTitleCell.h"
 #import "BXTProjectInformContentCell.h"
 #import "BXTProjectInformAuthorCell.h"
 #import "BXTProjectInfo.h"
 #import "BXTProjectCertificationViewController.h"
 
-@interface BXTProjectInformViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
+@interface BXTCertificationCompleteViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (strong, nonatomic) UITableView *currentTableView;
 @property (strong, nonatomic) NSMutableArray *dataArray;
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation BXTProjectInformViewController
+@implementation BXTCertificationCompleteViewController
 
 - (void)viewDidLoad
 {
@@ -37,7 +37,8 @@
     /** 项目认证详情 **/
     [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dataRequest projectAuthenticationDetailWithApplicantID:@"" shopID:self.transMyProject.shop_id outUserID:@""];
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    [dataRequest projectAuthenticationDetailWithApplicantID:@"" shopID:companyInfo.company_id outUserID:self.transApplicantID];
 }
 
 #pragma mark -
@@ -49,75 +50,6 @@
     self.currentTableView.delegate = self;
     self.currentTableView.dataSource = self;
     [self.view addSubview:self.currentTableView];
-    
-    // footerView
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 70, SCREEN_WIDTH, 70)];
-    footerView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:footerView];
-    
-    // changeBtn
-    CGFloat btnW = (SCREEN_WIDTH - 2 * 15 - 30) / 2;
-    UIButton *changeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    changeBtn.frame = CGRectMake(15, 10, btnW, 50);
-    [changeBtn setTitle:@"修改信息" forState:UIControlStateNormal];
-    changeBtn.backgroundColor = colorWithHexString(@"#5DAEF9");
-    changeBtn.layer.cornerRadius = 5;
-    @weakify(self);
-    [[changeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        
-        // TODO: -----------------  调试  -----------------
-        BXTProjectCertificationViewController *pcvc = [[BXTProjectCertificationViewController alloc] init];
-        pcvc.transMyProject = self.transMyProject;
-        [self.navigationController pushViewController:pcvc animated:YES];
-    }];
-    [footerView addSubview:changeBtn];
-    
-    // switchBtn
-    UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    switchBtn.frame = CGRectMake(15 + btnW + 30, 10, btnW, 50);
-    [switchBtn setTitle:@"切换至" forState:UIControlStateNormal];
-    [switchBtn setTitleColor:colorWithHexString(@"#5DAEF9") forState:UIControlStateNormal];
-    switchBtn.layer.borderWidth = 1;
-    switchBtn.layer.borderColor = [colorWithHexString(@"#5DAEF9") CGColor];
-    switchBtn.layer.cornerRadius = 5;
-    [[switchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self refreshAllInformWithShopID:self.transMyProject.shop_id shopAddress:self.transMyProject.name];
-        
-        /**请求分店位置**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request branchLogin];
-    }];
-    [footerView addSubview:switchBtn];
-    
-    // verify_state 状态：0未认证 1申请中 2已认证，没有状态3（不通过），如果审核的时候选择了不通过，则将状态直接设置为0
-    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    if ([self.transMyProject.verify_state integerValue] != 2) {
-        changeBtn.frame = CGRectZero;
-        switchBtn.frame = CGRectMake(15, 10, SCREEN_WIDTH - 30, 50);
-        
-        if ([self.transMyProject.shop_id isEqualToString:companyInfo.company_id]) {
-            footerView.frame = CGRectZero;
-        }
-    }
-    else {
-        if ([self.transMyProject.shop_id isEqualToString:companyInfo.company_id]) {
-            changeBtn.frame = CGRectMake(15, 10, SCREEN_WIDTH - 30, 50);
-            switchBtn.frame = CGRectZero;
-        }
-    }
-    
-}
-
-- (void)refreshAllInformWithShopID:(NSString *)shopID shopAddress:(NSString *)shopAddress {
-    BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
-    companyInfo.company_id = shopID;
-    companyInfo.name = shopAddress;
-    [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-    
-    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
-    [BXTGlobal shareGlobal].baseURL = url;
 }
 
 #pragma mark -
@@ -139,7 +71,7 @@
         BXTProjectInformContentCell *cell = [BXTProjectInformContentCell cellWithTableView:tableView];
         cell.projectInfo = self.projectInfo;
         
-        [self transVertifyState:self.transMyProject.verify_state Cell:cell];
+        [self transVertifyState:self.projectInfo.verify_state Cell:cell];
         
         return cell;
     }
@@ -148,7 +80,8 @@
     if (indexPath.section == 0)
     {
         cell.titleView.text = @"项目名：";
-        cell.descView.text = self.transMyProject.name;
+        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+        cell.descView.text = companyInfo.name;
     }
     else if (indexPath.section == 1 && !self.isCompany)
     {

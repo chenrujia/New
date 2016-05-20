@@ -60,7 +60,8 @@ static CGFloat const maxTitleScale = 1.3;
     {
         /**专业分组**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request listOFSubgroup];
+        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+        [request listOFSubgroupShopID:companyInfo.company_id];
     }
     else
     {
