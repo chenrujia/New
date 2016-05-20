@@ -24,17 +24,15 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
+    [self navigationSetting:@"扫一扫" andRightTitle:nil andRightImage:nil];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)])
     {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     self.view.backgroundColor = [UIColor blackColor];
-    
-    [self navigationSetting:@"扫一扫" andRightTitle:nil andRightImage:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
