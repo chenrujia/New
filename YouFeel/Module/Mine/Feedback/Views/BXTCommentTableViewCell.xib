@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -27,7 +27,7 @@
                                 <color key="textColor" red="0.6470588235294118" green="0.6588235294117647" blue="0.67843137254901964" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mca-y8-quC">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="Mca-y8-quC">
                                 <rect key="frame" x="10" y="30" width="200" height="20.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="e6k-3u-2gD"/>
@@ -42,7 +42,7 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mey-Lq-KI6">
                                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A9P-ZF-oXf">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="42" translatesAutoresizingMaskIntoConstraints="NO" id="A9P-ZF-oXf">
                                         <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -96,16 +96,16 @@
                                     <mask key="constraints">
                                         <exclude reference="owg-cg-L1n"/>
                                         <exclude reference="ssh-h1-6h3"/>
-                                        <exclude reference="3Rs-YG-jT6"/>
-                                        <exclude reference="AoL-NU-6kH"/>
-                                        <exclude reference="kMX-oV-jk3"/>
-                                        <exclude reference="wCA-iQ-5fk"/>
                                         <exclude reference="AxG-Wt-FOF"/>
                                         <exclude reference="Rh7-ev-8f1"/>
                                         <exclude reference="kk6-n9-OXZ"/>
                                         <exclude reference="CfZ-bS-T48"/>
                                         <exclude reference="RqG-hh-YGe"/>
                                         <exclude reference="p6F-r4-41G"/>
+                                        <exclude reference="3Rs-YG-jT6"/>
+                                        <exclude reference="AoL-NU-6kH"/>
+                                        <exclude reference="kMX-oV-jk3"/>
+                                        <exclude reference="wCA-iQ-5fk"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -117,16 +117,16 @@
                                     <mask key="constraints">
                                         <include reference="owg-cg-L1n"/>
                                         <include reference="ssh-h1-6h3"/>
-                                        <include reference="3Rs-YG-jT6"/>
-                                        <include reference="AoL-NU-6kH"/>
-                                        <include reference="kMX-oV-jk3"/>
-                                        <include reference="wCA-iQ-5fk"/>
                                         <include reference="AxG-Wt-FOF"/>
                                         <include reference="Rh7-ev-8f1"/>
                                         <include reference="kk6-n9-OXZ"/>
                                         <include reference="CfZ-bS-T48"/>
                                         <include reference="RqG-hh-YGe"/>
                                         <include reference="p6F-r4-41G"/>
+                                        <include reference="3Rs-YG-jT6"/>
+                                        <include reference="AoL-NU-6kH"/>
+                                        <include reference="kMX-oV-jk3"/>
+                                        <include reference="wCA-iQ-5fk"/>
                                     </mask>
                                 </variation>
                             </view>
