@@ -32,20 +32,6 @@
 
 @implementation BXTApplicationsViewController
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.itemsCollectionView reloadData];
-    if ([BXTRemindNum sharedManager].app_show)
-    {
-        [self.tabBarController.tabBar showBadgeOnItemIndex:3];
-    }
-    else
-    {
-        [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
-    }
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -77,6 +63,21 @@
             BXTMailUserListSimpleInfo *userInfo = [BXTMailUserListSimpleInfo modelWithDict:subListDict];
             [dataArray addObject:userInfo];
         }
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
+    [self.itemsCollectionView reloadData];
+    if ([BXTRemindNum sharedManager].app_show)
+    {
+        [self.tabBarController.tabBar showBadgeOnItemIndex:3];
+    }
+    else
+    {
+        [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
     }
 }
 

@@ -17,4 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet UIView *loginBackView;
 
+- (IBAction)resignUser:(id)sender;
+- (IBAction)findPassword:(id)sender;
+
 @end

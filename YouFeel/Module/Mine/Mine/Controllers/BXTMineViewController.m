@@ -36,29 +36,11 @@
 
 @implementation BXTMineViewController
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request userInfo];
-    
-}
-
-- (void)dealloc
-{
-    LogBlue(@"设置界面释放了！！！！！！");
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self initContentViews];
-    
     self.feebackSource = [NSMutableArray array];
-    
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RequestFeeback" object:nil] subscribeNext:^(id x) {
         @strongify(self);
@@ -66,12 +48,18 @@
     }];
     [self loadDataSoure];
     
-    
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ChangeNameSuccess" object:nil] subscribeNext:^(id x) {
         @strongify(self);
-        
         self.nameLabel.text = [BXTGlobal getUserProperty:U_NAME];
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request userInfo];
 }
 
 - (void)loadDataSoure
@@ -79,7 +67,6 @@
     [self showLoadingMBP:@"请稍等..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request feedbackCommentList];
-    
 }
 
 #pragma mark -

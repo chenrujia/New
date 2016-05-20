@@ -83,24 +83,11 @@
         @strongify(self);
         self.passWord = x;
     }];
-    
-    UIButton* button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.frame = CGRectMake(20, 50, 100, 30);
-    [button setTitle:@"Crash" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(crashButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button];
 }
-
-- (void)crashButtonTapped:(id)sender
-{
-    [[Crashlytics sharedInstance] crash];
-}
-
 
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
     if (IS_IPHONE6P)
     {
         
@@ -172,6 +159,20 @@
     {
         [self showMBP:@"手机号格式不对" withBlock:nil];
     }
+}
+
+- (IBAction)resignUser:(id)sender
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
+    UIViewController *resignVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTResignViewController"];
+    [self.navigationController pushViewController:resignVC animated:YES];
+}
+
+- (IBAction)findPassword:(id)sender
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
+    UIViewController *findVC = [storyboard instantiateViewControllerWithIdentifier:@"BXTFindPassWordViewController"];
+    [self.navigationController pushViewController:findVC animated:YES];
 }
 
 - (IBAction)loginByWeiXin:(id)sender

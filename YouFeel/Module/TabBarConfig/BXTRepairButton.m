@@ -61,11 +61,13 @@
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTRepairButton" object:nil] subscribeNext:^(id x) {
         [button setImage:[UIImage imageNamed:@"Tab_Repair"] forState:UIControlStateNormal];
         button.center = CGPointMake(SCREEN_WIDTH/2, 15);
+        LogRed(@"center:%@",NSStringFromCGPoint(button.center));
     }];
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTRepairButtonOther" object:nil] subscribeNext:^(id x) {
         [button setImage:[UIImage imageNamed:@"Tab_Bar"] forState:UIControlStateNormal];
         button.center = CGPointMake(SCREEN_WIDTH/2, 25);
+        LogBlue(@"center:%@",NSStringFromCGPoint(button.center));
     }];
     
     return button;

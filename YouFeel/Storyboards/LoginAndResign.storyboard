@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VVz-ga-zQn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VVz-ga-zQn">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -215,7 +215,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="Izg-ZX-bjP" kind="push" id="rKS-9A-Aer"/>
+                                    <action selector="findPassword:" destination="VVz-ga-zQn" eventType="touchUpInside" id="NO4-Hi-iaT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eSA-yQ-bMM">
@@ -272,7 +272,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="RVL-ot-Syg" kind="push" id="YRK-BY-CgB"/>
+                                    <action selector="resignUser:" destination="VVz-ga-zQn" eventType="touchUpInside" id="IqK-eO-2qT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VpX-EL-kkT">
@@ -392,7 +392,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="back_top" destination="a5H-Pw-Vxg" id="Oi2-B8-xUe"/>
                         <outlet property="loginBackView" destination="yU8-CE-RjG" id="SN8-7W-ryp"/>
@@ -408,7 +408,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qqW-R8-tLh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-103.5" y="21.75"/>
+            <point key="canvasLocation" x="97.5" y="16.5"/>
         </scene>
         <!--Change Phone View Controller-->
         <scene sceneID="dew-kn-dMn">
@@ -581,13 +581,14 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="8IJ-ft-sA9"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="currentTable" destination="Mna-qk-7A8" id="KJU-r7-cFr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4tZ-iZ-d9K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1031.5" y="452.5"/>
+            <point key="canvasLocation" x="1066.5" y="393.75"/>
         </scene>
         <!--Find Pass Word View Controller-->
         <scene sceneID="ZUT-Ef-69p">
@@ -645,13 +646,14 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="SDm-ZY-qb5"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="currentTable" destination="INU-6c-TKb" id="IFu-0L-kTL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yS5-jq-bKD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1032" y="-318"/>
+            <point key="canvasLocation" x="1066.5" y="-318"/>
         </scene>
         <!--Change Pass Word View Controller-->
         <scene sceneID="rdl-Iu-FC5">
@@ -704,7 +706,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="currentTable" destination="P9j-hE-YiC" id="dh1-ER-2L0"/>
                     </connections>
