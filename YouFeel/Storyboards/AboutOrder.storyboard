@@ -1765,7 +1765,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="EsJ-cI-hMu">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EsJ-cI-hMu">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8us-5Q-bTs">
@@ -2495,6 +2495,8 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="alarm_image" destination="lqz-po-fEB" id="DZn-jF-xGH"/>
+                        <outlet property="alarm_label" destination="BRX-O5-yfe" id="WL8-xD-Fx1"/>
                         <outlet property="buttonBV" destination="mT6-ui-Cs5" id="xrQ-4Z-2h8"/>
                         <outlet property="contentView" destination="8us-5Q-bTs" id="DDD-ub-Brw"/>
                         <outlet property="content_height" destination="zBr-ed-w23" id="F7h-Ne-Ckn"/>

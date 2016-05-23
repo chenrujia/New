@@ -235,16 +235,31 @@ static CGFloat const ChooseViewHeight  = 328.f;
 - (void)updateContentView
 {
     UIView *subview = nil;
-    if (self.openSwitch.on)
+    if (self.urgentBV.hidden)
     {
-        [self.dateSelectBtnBV layoutIfNeeded];
-        subview = self.dateSelectBtnBV;
+        self.alarm_image.hidden = NO;
+        self.alarm_label.hidden = NO;
+        self.openSwitch.hidden = NO;
+        if (self.openSwitch.on)
+        {
+            [self.dateSelectBtnBV layoutIfNeeded];
+            subview = self.dateSelectBtnBV;
+        }
+        else
+        {
+            [self.openSwitch layoutIfNeeded];
+            subview = self.openSwitch;
+        }
     }
     else
     {
-        [self.openSwitch layoutIfNeeded];
-        subview = self.openSwitch;
+        self.alarm_image.hidden = YES;
+        self.alarm_label.hidden = YES;
+        self.openSwitch.hidden = YES;
+        [self.photosBV layoutIfNeeded];
+        subview = self.photosBV;
     }
+    
     if (CGRectGetMaxY(subview.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
     {
         self.content_height.constant = CGRectGetMaxY(subview.frame) + 20.f;
@@ -309,10 +324,11 @@ static CGFloat const ChooseViewHeight  = 328.f;
     [self.deviceSelectBtnBV addSubview:self.deviceBtn];
 }
 
+#pragma mark -
+#pragma mark 紧急按钮点击事件
 - (void)selectUrgentView
 {
     [self.view endEditing:YES];
-    
     self.bgView = [[UIView alloc] initWithFrame:ApplicationWindow.bounds];
     self.bgView.backgroundColor = [UIColor blackColor];
     self.bgView.alpha = 0.6f;
@@ -543,7 +559,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
             [self.urgentBtn addTarget:self action:@selector(selectUrgentView) forControlEvents:UIControlEventTouchUpInside];
             self.urgentBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
             [self.urgentBtn setTitle:@"选择紧急类型" forState:UIControlStateNormal];
-            [self.urgentBtn setTitleColor:colorWithHexString(@"FF0000") forState:UIControlStateNormal];
+            [self.urgentBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             [self.urgentBtn setImage:[UIImage imageNamed:@"wo_down_arrow"] forState:UIControlStateNormal];
             [self.urgentBV addSubview:self.urgentBtn];
         }
