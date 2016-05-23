@@ -54,7 +54,7 @@
     
     
     // SegmentView
-    segment = [[SegmentView alloc] initWithFrame:CGRectMake(0.f, 55.f, SCREEN_WIDTH, 40.f) andTitles:@[@"概述", @"设备分类统计"] isWhiteBGColor:1];
+    segment = [[SegmentView alloc] initWithFrame:CGRectMake(0.f, 55.f, SCREEN_WIDTH, 40.f) andTitles:@[@"概述", @"各系统设备"] isWhiteBGColor:1];
     segment.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     segment.layer.masksToBounds = YES;
     segment.layer.cornerRadius = 4.f;
