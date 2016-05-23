@@ -20,6 +20,9 @@
 @property (weak, nonatomic  ) IBOutlet UIView       *dateSelectBtnBV;
 @property (weak, nonatomic  ) IBOutlet UIView       *notesBV;
 @property (weak, nonatomic  ) IBOutlet UIImageView  *repair_image;
+@property (weak, nonatomic  ) IBOutlet UIImageView  *alarm_image;
+@property (weak, nonatomic  ) IBOutlet UILabel      *alarm_label;
+
 @property (weak, nonatomic  ) IBOutlet UISwitch     *openSwitch;
 @property (weak, nonatomic  ) IBOutlet UIImageView  *notes_image;
 @property (weak, nonatomic  ) IBOutlet UIView       *buttonBV;
