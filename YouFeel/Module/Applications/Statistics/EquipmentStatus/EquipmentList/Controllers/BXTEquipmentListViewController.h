@@ -12,5 +12,6 @@
 
 @property (nonatomic, copy) NSString *state;
 @property (nonatomic, copy) NSString *date;
+@property (nonatomic, copy) NSString *typeID;
 
 @end

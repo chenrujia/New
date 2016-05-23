@@ -24,7 +24,6 @@
 @property (nonatomic, assign) CGFloat cellHeight;
 
 @property (nonatomic, copy) NSString *order;
-@property (nonatomic, copy) NSString *typeID;
 @property (nonatomic, copy) NSString *placeID;
 
 @end
@@ -47,7 +46,9 @@
         self.state = @"";
     }
     self.order = @"";
-    self.typeID = @"";
+    if (!self.typeID) {
+        self.typeID = @"";
+    }
     self.placeID = @"";
     
     [self createUI];
