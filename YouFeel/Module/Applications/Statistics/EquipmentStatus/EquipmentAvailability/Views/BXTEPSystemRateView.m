@@ -154,12 +154,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%ld - %ld", (long)indexPath.section, (long)indexPath.row);
-//    BXTEPSystemRate *rateModel = self.dataArray[indexPath.section];
-//    
-//    BXTEquipmentListViewController *elvc = [[BXTEquipmentListViewController alloc] init];
-//    //    elvc.state = rateModel.;
-//    [[self navigation] pushViewController:elvc animated:YES];
-//    
+    BXTEPSystemRate *rateModel = self.dataArray[indexPath.section];
+    
+    BXTEquipmentListViewController *elvc = [[BXTEquipmentListViewController alloc] init];
+    elvc.typeID = rateModel.type_id;
+    [[self navigation] pushViewController:elvc animated:YES];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

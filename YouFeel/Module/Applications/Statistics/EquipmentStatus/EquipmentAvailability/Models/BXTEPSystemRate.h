@@ -18,6 +18,7 @@
 @property (nonatomic, copy) NSString *working_per;
 @property (nonatomic, copy) NSString *type_name;
 @property (nonatomic, copy) NSString *total;
+@property (nonatomic, copy) NSString *type_id;
 
 + (instancetype)modelWithDict:(NSDictionary *)dict;
 - (instancetype)initWithDict:(NSDictionary *)dict;
