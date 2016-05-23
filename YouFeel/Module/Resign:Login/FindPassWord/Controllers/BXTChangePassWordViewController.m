@@ -185,11 +185,10 @@
         [BXTGlobal setUserProperty:abUserInfo.userID withKey:U_USERID];
         [BXTGlobal setUserProperty:abUserInfo.my_shop withKey:U_MYSHOP];
         
-        if (abUserInfo.my_shop && abUserInfo.my_shop.count > 0)
+        if (abUserInfo.shop_ids && abUserInfo.shop_ids.count > 0)
         {
-            BXTResignedShopInfo *shopInfo = abUserInfo.my_shop[0];
-            NSString *shopID = shopInfo.shopID;
-            NSString *shopName = shopInfo.shop_name;
+            NSString *shopID = abUserInfo.shop_ids[0];
+            NSString *shopName = [abUserInfo.my_shop_arr objectForKey:shopID];
             BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;

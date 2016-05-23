@@ -83,7 +83,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(0, 0, SCREEN_WIDTH, 37);
         button.backgroundColor = colorWithHexString(@"F0EFF5");
-        [button setTitle:@"现处于虚拟项目中,如有真实报修请选具体项目  >>" forState:UIControlStateNormal];
+        [button setTitle:@"请选择您所在的项目  >>" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:13];
         @weakify(self);

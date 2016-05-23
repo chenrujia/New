@@ -384,7 +384,7 @@ typedef NS_ENUM(NSInteger, CellType) {
         // introduce
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(0, adsViewH, SCREEN_WIDTH, 37);
-        [button setTitle:@"现处于虚拟项目中,如有真实报修请选具体项目  >>" forState:UIControlStateNormal];
+        [button setTitle:@"请选择您所在的项目  >>" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:13];
         @weakify(self);
