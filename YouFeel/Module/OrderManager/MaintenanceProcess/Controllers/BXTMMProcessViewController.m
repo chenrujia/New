@@ -207,7 +207,7 @@
         BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
         NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
         @weakify(self);
-        [searchVC userChoosePlace:dataSource type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
+        [searchVC userChoosePlace:dataSource isProgress:YES type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
             @strongify(self);
             BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
             self.choosedPlaceInfo = placeInfo;
@@ -223,7 +223,7 @@
         BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
         searchVC.faultTypeID = self.faultTypeID;
         @weakify(self);
-        [searchVC userChoosePlace:self.fau_dataSource type:FaultSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
+        [searchVC userChoosePlace:self.fau_dataSource isProgress:NO type:FaultSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
             @strongify(self);
             BXTFaultInfo *faultInfo = (BXTFaultInfo *)classifyInfo;
             self.choosedFaultInfo = faultInfo;

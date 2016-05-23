@@ -21,15 +21,16 @@ typedef void (^ChoosePlace)(BXTBaseClassifyInfo *classifyInfo,NSString *name);
 
 @interface BXTSearchPlaceViewController : BXTBaseViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
-@property (weak, nonatomic) IBOutlet UISwitch *autoSwitch;
-@property (nonatomic, copy  ) NSString              *faultTypeID;
-@property (weak, nonatomic  ) IBOutlet UIButton     *commitBtn;
-@property (weak, nonatomic  ) IBOutlet UITableView  *currentTable;
-@property (weak, nonatomic  ) IBOutlet UISearchBar  *searchBarView;
+@property (weak, nonatomic  ) IBOutlet UISwitch    *autoSwitch;
+@property (weak, nonatomic  ) IBOutlet UIButton    *commitBtn;
+@property (weak, nonatomic  ) IBOutlet UITableView *currentTable;
+@property (weak, nonatomic  ) IBOutlet UISearchBar *searchBarView;
+@property (nonatomic, copy  ) NSString     *faultTypeID;
 @property (nonatomic, assign) SearchVCType searchType;
 @property (nonatomic, copy  ) ChoosePlace  selectPlace;
+@property (nonatomic, assign) BOOL         isProgress;//判断是否是从维修过程过来的
 
-- (void)userChoosePlace:(NSArray *)array type:(SearchVCType)type block:(ChoosePlace)place;
+- (void)userChoosePlace:(NSArray *)array isProgress:(BOOL)progress type:(SearchVCType)type block:(ChoosePlace)place;
 - (IBAction)commitClick:(id)sender;
 - (IBAction)switchValueChanged:(id)sender;
 

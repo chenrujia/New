@@ -83,7 +83,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(0, 0, SCREEN_WIDTH, 37);
         button.backgroundColor = colorWithHexString(@"F0EFF5");
-        [button setTitle:@"现处于虚拟项目中,如有真实报修请选具体项目  >>" forState:UIControlStateNormal];
+        [button setTitle:@"请选择您所在的项目  >>" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:13];
         @weakify(self);
@@ -547,6 +547,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
     if ([self.selectOrderInfo.faulttype isEqualToString:@"紧急"])
     {
         self.urgentBV.hidden = NO;
+        self.selectTimeDic = nil;
         //紧急类型选择按钮
         if (!self.urgentBtn)
         {
@@ -587,7 +588,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
     NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
     @weakify(self);
-    [searchVC userChoosePlace:dataSource type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
+    [searchVC userChoosePlace:dataSource isProgress:NO type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
         @strongify(self);
         if (classifyInfo)
         {

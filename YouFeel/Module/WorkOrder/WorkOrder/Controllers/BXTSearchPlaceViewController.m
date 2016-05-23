@@ -44,9 +44,10 @@
 
 @implementation BXTSearchPlaceViewController
 
-- (void)userChoosePlace:(NSArray *)array type:(SearchVCType)type block:(ChoosePlace)place
+- (void)userChoosePlace:(NSArray *)array isProgress:(BOOL)progress type:(SearchVCType)type block:(ChoosePlace)place
 {
     self.dataSource = array;
+    self.isProgress = progress;
     self.searchType = type;
     self.selectPlace = place;
 }
@@ -113,6 +114,26 @@
     [self.currentTable reloadData];
 }
 
+- (void)alertViewContent:(NSString *)content
+{
+    if (IS_IOS_8)
+    {
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:content message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alertCtr addAction:cancelAction];
+        [self presentViewController:alertCtr animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:content
+                                                        message:nil
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
 #pragma mark -
 #pragma mark 提交按钮
 - (IBAction)commitClick:(id)sender
@@ -121,6 +142,11 @@
     {
         if (self.mutableArray.count == 0)
         {
+            return;
+        }
+        if (!self.manualClassifyInfo && !self.autoClassifyInfo && self.searchBarView.text.length == 0)
+        {
+            [self alertViewContent:@"请选择或输入所需信息"];
             return;
         }
         NSString *prefixName = @"";
@@ -139,22 +165,7 @@
         
         if (self.searchType == FaultSearchType && [self.manualClassifyInfo.level integerValue] == 1)
         {
-            if (IS_IOS_8)
-            {
-                UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"请选择具体的故障类型" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-                [alertCtr addAction:cancelAction];
-                [self presentViewController:alertCtr animated:YES completion:nil];
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请选择具体的故障类型"
-                                                                message:nil
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"确定"
-                                                      otherButtonTitles:nil];
-                [alert show];
-            }
+            [self alertViewContent:@"请选择具体的故障类型"];
             return;
         }
         self.selectPlace(self.manualClassifyInfo,prefixName);
@@ -167,6 +178,11 @@
         }
         else
         {
+            if (self.isProgress)
+            {
+                [self alertViewContent:@"请确定具体位置"];
+                return;
+            }
             if (self.searchBarView.text.length > 0)
             {
                 self.selectPlace(nil,self.searchBarView.text);

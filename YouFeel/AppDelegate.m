@@ -114,14 +114,11 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
     [self startSdkWith:kAppId appKey:kAppKey appSecret:kAppSecret];
     
-    
     // [2]:注册APNS
     [self registerRemoteNotification];
     
-    
     // 处理远程通知启动APP
     [self receiveNotificationByLaunchingOptions:launchOptions];
-    
     
     // [3]:友盟配置
     [UMAnalyticsConfig sharedInstance].appKey = @"566e7c1867e58e7160002af5";
@@ -144,21 +141,17 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [RCIM sharedRCIM].receiveMessageDelegate=self;
     
     [Fabric with:@[CrashlyticsKit]];
-    
-    // TODO: Move this to where you establish a user session
     [self logUser];
+    
     return YES;
 }
 
-- (void) logUser
+- (void)logUser
 {
-    // TODO: Use the current user's information
-    // You can call any combination of these three methods
-    [CrashlyticsKit setUserIdentifier:@"12345"];
-    [CrashlyticsKit setUserEmail:@"user@fabric.io"];
-    [CrashlyticsKit setUserName:@"Test User"];
+    [CrashlyticsKit setUserIdentifier:@"3c933117c36927bea8ff4f1ab41c48630db1a41f"];
+    [CrashlyticsKit setUserEmail:@"hellouf@163.com"];
+    [CrashlyticsKit setUserName:@"Jason"];
 }
-
 
 - (void)loadingLoginVC
 {
@@ -599,11 +592,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         [BXTGlobal setUserProperty:abUserInfo.userID withKey:U_USERID];
         [BXTGlobal setUserProperty:abUserInfo.my_shop withKey:U_MYSHOP];
         
-        if (abUserInfo.my_shop && abUserInfo.my_shop.count > 0)
+        if (abUserInfo.shop_ids && abUserInfo.shop_ids.count > 0)
         {
-            BXTResignedShopInfo *shopInfo = abUserInfo.my_shop[0];
-            NSString *shopID = shopInfo.shopID;
-            NSString *shopName = shopInfo.shop_name;
+            NSString *shopID = abUserInfo.shop_ids[0];
+            NSString *shopName = [abUserInfo.my_shop_arr objectForKey:shopID];
             BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
             companyInfo.company_id = shopID;
             companyInfo.name = shopName;
