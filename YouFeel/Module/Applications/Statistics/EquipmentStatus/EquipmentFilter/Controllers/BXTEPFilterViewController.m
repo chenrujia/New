@@ -238,7 +238,7 @@
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
     NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
     @weakify(self);
-    [searchVC userChoosePlace:dataSource type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
+    [searchVC userChoosePlace:dataSource isProgress:NO type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
         @strongify(self);
         BXTPlaceInfo *placeInfo = (BXTPlaceInfo *)classifyInfo;
         [self.dataArray replaceObjectAtIndex:1 withObject:name];

@@ -366,7 +366,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
     @weakify(self);
-    [searchVC userChoosePlace:self.departmentArray type:DepartmentSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
+    [searchVC userChoosePlace:self.departmentArray isProgress:NO type:DepartmentSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
         @strongify(self);
         BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)classifyInfo;
         [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
