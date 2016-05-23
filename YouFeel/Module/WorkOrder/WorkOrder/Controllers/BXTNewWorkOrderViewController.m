@@ -96,6 +96,14 @@ static CGFloat const ChooseViewHeight  = 328.f;
         }];
         [self.contentView addSubview:button];
     }
+    
+    UITapGestureRecognizer *panGR = [[UITapGestureRecognizer alloc] init];
+    @weakify(self);
+    [[panGR rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.view endEditing:YES];
+    }];
+    [self.contentView addGestureRecognizer:panGR];
 
     //图片视图
     BXTPhotosView *photoView = [[BXTPhotosView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
@@ -104,7 +112,6 @@ static CGFloat const ChooseViewHeight  = 328.f;
     
     //添加图片点击事件
     UITapGestureRecognizer *tapGROne = [[UITapGestureRecognizer alloc] init];
-    @weakify(self);
     [[tapGROne rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
         [self loadMWPhotoBrowser:photoView.imgViewOne.tag];
@@ -304,6 +311,8 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (void)selectUrgentView
 {
+    [self.view endEditing:YES];
+    
     self.bgView = [[UIView alloc] initWithFrame:ApplicationWindow.bounds];
     self.bgView.backgroundColor = [UIColor blackColor];
     self.bgView.alpha = 0.6f;
@@ -483,6 +492,8 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    [self.view endEditing:YES];
+    
     [self.bgView removeFromSuperview];
     [self.boxView removeFromSuperview];
     UITouch *touch = [touches anyObject];

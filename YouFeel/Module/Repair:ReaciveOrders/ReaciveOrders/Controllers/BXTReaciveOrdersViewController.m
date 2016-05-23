@@ -103,7 +103,8 @@
                         repairCarriedState:@""
                               collectionID:@""
                                   deviceID:@""
-                                      page:self.currentPage];
+                                      page:self.currentPage
+                                closeState:@""];
 }
 
 #pragma mark -
@@ -179,7 +180,8 @@
                             repairCarriedState:@""
                                   collectionID:@""
                                       deviceID:@""
-                                          page:1];
+                                          page:1
+                                    closeState:@""];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求故障类型列表**/
