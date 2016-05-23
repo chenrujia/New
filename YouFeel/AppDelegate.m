@@ -148,6 +148,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 - (void)logUser
 {
+    [CrashlyticsKit setUserIdentifier:@"3c933117c36927bea8ff4f1ab41c48630db1a41f"];
     [CrashlyticsKit setUserEmail:@"hellouf@163.com"];
     [CrashlyticsKit setUserName:@"Jason"];
 }
