@@ -145,7 +145,8 @@
                                                     dutyID:self.transArray[3]
                                                 subgroupID:subgroupID
                                            haveSubgroupIDs:haveSubgroupIDs
-                                                  storesID:@""];
+                                                  storesID:@""
+                                              bindPlaceIDs:@""];
             }
             else
             {
@@ -646,7 +647,8 @@
                                                 dutyID:@""
                                             subgroupID:@""
                                        haveSubgroupIDs:@""
-                                              storesID:self.transArray[2]];
+                                              storesID:self.transArray[2]
+                                          bindPlaceIDs:self.transArray[3]];
         }];
     }
     

@@ -44,6 +44,8 @@
 @property (nonatomic, copy  ) NSString       *faultCarriedState;//报修者的列表进度状态 1进行中 2 已完成
 @property (nonatomic, copy  ) NSString       *repairCarriedState;//维修者的列表进度状态 1进行中 2 已完成
 
+@property (nonatomic, copy) NSString *closeState;
+
 @end
 
 @implementation BXTOrderListView
@@ -73,6 +75,9 @@
         self.isRepair = isRepair;
         self.repairCarriedState = @"";
         self.faultCarriedState = @"";
+        
+        self.closeState = [self.stateStr isEqualToString:@"2"] ? @"1" : @"0" ;
+        
         if (self.isRepair)
         {
             self.repairCarriedState = [self.stateStr isEqualToString:@"2"] ? @"1" : @"2" ;
@@ -185,7 +190,8 @@
                             repairCarriedState:self.repairCarriedState
                                   collectionID:@""
                                       deviceID:@""
-                                          page:1];
+                                          page:1
+                                    closeState:self.closeState];
     });
 }
 
@@ -213,7 +219,8 @@
                         repairCarriedState:self.repairCarriedState
                               collectionID:@""
                                   deviceID:@""
-                                      page:self.currentPage];
+                                      page:self.currentPage
+                                closeState:self.closeState];
 }
 
 #pragma mark -

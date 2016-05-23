@@ -164,6 +164,7 @@
                          collectionID:(NSString *)collection_id
                              deviceID:(NSString *)device_id
                                  page:(NSInteger)page
+                           closeState:(NSString *)close_state
 {
     self.requestType = RepairList;
     
@@ -183,7 +184,7 @@
                           @"repair_carried_state": repair_carried_state,
                           @"collection_id": collection_id,
                           @"device_id": device_id,
-                          @"close_state": @"1",
+                          @"close_state": close_state,
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
                           @"pagesize":@"5"};
     NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] initWithDictionary:dic];
@@ -381,6 +382,7 @@
                            subgroupID:(NSString *)subgroup_id
                       haveSubgroupIDs:(NSString *)have_subgroup_ids
                              storesID:(NSString *)stores_id
+                         bindPlaceIDs:(NSString *)bind_place_ids
 {
     self.requestType = AuthenticationApply;
     
@@ -391,7 +393,8 @@
                           @"duty_id": duty_id,
                           @"subgroup_id": subgroup_id,
                           @"have_subgroup_ids": have_subgroup_ids,
-                          @"stores_id": stores_id };
+                          @"stores_id": stores_id,
+                          @"bind_place_ids": bind_place_ids };
     
     NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shop_id, [BXTGlobal getUserProperty:U_TOKEN]];
     NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_apply",urlLast];

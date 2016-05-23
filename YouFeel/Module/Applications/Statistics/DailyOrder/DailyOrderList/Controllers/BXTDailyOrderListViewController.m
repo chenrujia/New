@@ -103,7 +103,8 @@
                         repairCarriedState:@""
                               collectionID:self.transCollectionID
                                   deviceID:@""
-                                      page:self.currentPage];
+                                      page:self.currentPage
+                                closeState:@""];
     
 }
 
