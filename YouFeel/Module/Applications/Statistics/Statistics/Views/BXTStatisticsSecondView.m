@@ -25,7 +25,7 @@
 {
     [super initial];
     
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"维保完成率统计", @"维保分专业统计", @"维保分类统计", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"维保完成率统计", @"维保专业分组统计", @"维保系统分类统计", nil];
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@"项目总体完成情况", @"专业分组完成情况", @"各分类完成情况", nil];
     
     BXTMTPlanHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMTPlanHeaderView" owner:nil options:nil] lastObject];

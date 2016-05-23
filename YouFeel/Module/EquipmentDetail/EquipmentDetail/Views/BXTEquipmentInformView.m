@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSMutableArray   *detailArray;
 @property (nonatomic, strong) NSMutableArray   *isShowArray;
 @property (nonatomic, copy  ) NSString         *stateName;
+@property (nonatomic, copy  ) NSString         *stateID;
 @property (nonatomic, assign) CGFloat          cellHeight;
 
 @end
@@ -133,6 +134,7 @@
     {
         cell.statusView.hidden = NO;
         cell.statusView.text = self.stateName;
+        cell.statusView.textColor = colorWithHexString([self adjustStateColor:self.stateID]);
     }
     
     if (indexPath.section == 0 && indexPath.row == 1)
@@ -258,6 +260,7 @@
         // section == 0
         NSMutableArray *equipArray = [[NSMutableArray alloc] initWithObjects:self.equipmentModel.name, self.equipmentModel.code_number, nil];
         self.stateName = self.equipmentModel.state_name;
+        self.stateID = self.equipmentModel.state;
         
         // section == 1
         NSMutableArray *baseArray = [[NSMutableArray alloc] initWithObjects:self.equipmentModel.model_number, self.equipmentModel.type_name, self.equipmentModel.brand, self.equipmentModel.place_name, self.equipmentModel.server_area, self.equipmentModel.take_over_data, self.equipmentModel.start_data, nil];
@@ -300,7 +303,7 @@
             [stateTitleArray addObject:@"状态记录"];
             [stateArray addObject:stateRecordModel];
         }
-
+        
         // 存储 设备操作规范
         SaveValueTUD(@"OPERATINGDESC", dataDict[@"operating_desc"]);
         
@@ -370,4 +373,19 @@
     conversationVC.title = userInfo.name;
     [[self navigation] pushViewController:conversationVC animated:YES];
 }
+
+- (NSString *)adjustStateColor:(NSString *)state
+{
+    NSString *colorStr;
+    switch ([state integerValue]) {
+        case 1: colorStr = @"#34B47E"; break;
+        case 2: colorStr = @"#EA3622"; break;
+        case 3: colorStr = @"#D6AD5B"; break;
+        case 4: colorStr = @"#989C9F"; break;
+        default: break;
+    }
+    
+    return colorStr;
+}
+
 @end

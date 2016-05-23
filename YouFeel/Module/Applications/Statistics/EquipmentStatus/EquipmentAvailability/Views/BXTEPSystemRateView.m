@@ -13,6 +13,9 @@
 #import "AksStraightPieChart.h"
 #import "BXTEPSystemRate.h"
 #import "BXTEPSystemRateCell.h"
+#import "BXTEquipmentListViewController.h"
+#import "AppDelegate.h"
+#import "CYLTabBarController.h"
 
 #define Margin 5
 
@@ -25,6 +28,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSMutableArray *isShowArray;
+
+@property (nonatomic, strong) NSMutableArray *stateIDArray;
 
 @end
 
@@ -55,7 +60,10 @@
 {
     self.dataArray = [[NSMutableArray alloc] init];
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
+    self.stateIDArray = [[NSMutableArray alloc] init];
     
+    
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request deviceTypeStaticsWithDate:@""];
     
@@ -146,6 +154,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%ld - %ld", (long)indexPath.section, (long)indexPath.row);
+//    BXTEPSystemRate *rateModel = self.dataArray[indexPath.section];
+//    
+//    BXTEquipmentListViewController *elvc = [[BXTEquipmentListViewController alloc] init];
+//    //    elvc.state = rateModel.;
+//    [[self navigation] pushViewController:elvc animated:YES];
+//    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -219,7 +233,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    //    [self hideMBP];
+    [BXTGlobal hideMBP];
     [self.dataArray removeAllObjects];
     
     NSDictionary *dic = (NSDictionary *)response;
@@ -245,7 +259,28 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    //    [self hideMBP];
+    [BXTGlobal hideMBP];
+}
+
+- (UINavigationController *)navigation
+{
+    id rootVC = [AppDelegate appdelegete].window.rootViewController;
+    UINavigationController *nav = nil;
+    if ([BXTGlobal shareGlobal].presentNav)
+    {
+        nav = [BXTGlobal shareGlobal].presentNav;
+    }
+    else if ([rootVC isKindOfClass:[UINavigationController class]])
+    {
+        nav = rootVC;
+    }
+    else if ([rootVC isKindOfClass:[CYLTabBarController class]])
+    {
+        CYLTabBarController *tempVC = (CYLTabBarController *)rootVC;
+        nav = (UINavigationController *)[tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
+    }
+    
+    return nav;
 }
 
 @end

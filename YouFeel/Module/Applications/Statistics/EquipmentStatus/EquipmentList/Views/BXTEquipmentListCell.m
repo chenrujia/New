@@ -7,6 +7,7 @@
 //
 
 #import "BXTEquipmentListCell.h"
+#import "BXTGlobal.h"
 
 @implementation BXTEquipmentListCell
 
@@ -27,12 +28,24 @@
     
     self.NumberView.text = [NSString stringWithFormat:@"设备编号：%@", epList.code_number];
     self.statusView.text = [NSString stringWithFormat:@"%@", epList.state_name];
-    if ([epList.state_name isEqualToString:@"正常"]) {
-        self.statusView.textColor = [UIColor grayColor];
-    }
+    [self adjustStateColor:epList.state];
+    
     self.systemView.text = [NSString stringWithFormat:@"系统：%@", epList.type_name];
     self.nameView.text = [NSString stringWithFormat:@"设备名称：%@", epList.name];
     self.locationView.text = [NSString stringWithFormat:@"位置：%@", epList.place];
+}
+
+- (void)adjustStateColor:(NSString *)state
+{
+    NSString *colorStr;
+    switch ([state integerValue]) {
+        case 1: colorStr = @"#34B47E"; break;
+        case 2: colorStr = @"#EA3622"; break;
+        case 3: colorStr = @"#D6AD5B"; break;
+        case 4: colorStr = @"#989C9F"; break;
+        default: break;
+    }
+    self.statusView.textColor = colorWithHexString(colorStr);
 }
 
 - (void)awakeFromNib {
