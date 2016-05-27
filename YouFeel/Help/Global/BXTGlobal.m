@@ -88,6 +88,8 @@
     [BXTGlobal shareGlobal].isLogin = YES;
     if (isPushToRootVC)
     {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESHYSAVEDSHOPID" object:nil];
+        
         CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
         [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];
     }
