@@ -231,20 +231,26 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)listOFDepartmentWithPid:(NSString *)pid shopID:(NSString *)shopID
+- (void)listOFDepartmentWithPid:(NSString *)pid
+                         shopID:(NSString *)shopID
+                   identityType:(NSString *)identity_type
 {
     self.requestType = DepartmentLists;
     
-    NSDictionary *dic = @{@"pid": pid};
+    NSDictionary *dic = @{@"pid": pid,
+                          @"identity_type": identity_type};
     NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=department_lists", KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     [self postRequest:url withParameters:dic];
 }
 
-- (void)listOFDutyWithDutyType:(NSString *)duty_type shopID:(NSString *)shopID
+- (void)listOFDutyWithDutyType:(NSString *)duty_type
+                        shopID:(NSString *)shopID
+                  identityType:(NSString *)identity_type
 {
     self.requestType = DutyLists;
     
-    NSDictionary *dic = @{@"duty_type": duty_type};
+    NSDictionary *dic = @{@"duty_type": duty_type,
+                          @"identity_type": identity_type};
     NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@&module=Hqdb&opt=duty_lists", KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     [self postRequest:url withParameters:dic];
 }

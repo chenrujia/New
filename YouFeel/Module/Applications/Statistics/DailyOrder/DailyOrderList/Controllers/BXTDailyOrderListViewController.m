@@ -70,11 +70,14 @@
         NSLog(@"transArray --- %@", transArray);
         self.transTimeArray = transArray[0];
         self.transGroupStr = transArray[1];
-        self.transRepairStateStr = transArray[2];
-        self.transStateStr = transArray[3];
-        if (transArray.count == 5)
+        
+        NSArray *stateArray = transArray[2];
+        self.transStateStr = stateArray[0];
+        self.transFaultCarriedState = transArray[1];
+        
+        if (transArray.count == 4)
         {
-            self.transCollectionID = transArray[4];
+            self.transCollectionID = transArray[3];
         }
         [self getResource];
     }];

@@ -71,11 +71,14 @@
         self.mmLog = notes;
         self.faultTypeID = faultTypeID;
         
-        BXTPlaceInfo *placeInfo = [BXTPlaceInfo new];
-        placeInfo.placeID = placeID;
-        placeInfo.place = placeName;
-        self.repairPlace = placeName;
-        self.choosedPlaceInfo = placeInfo;
+        if (![BXTGlobal isBlankString:placeID]) {
+            BXTPlaceInfo *placeInfo = [BXTPlaceInfo new];
+            placeInfo.placeID = placeID;
+            placeInfo.place = placeName;
+            self.repairPlace = placeName;
+            self.choosedPlaceInfo = placeInfo;
+        }
+        
     }
     return self;
 }

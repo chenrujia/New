@@ -198,7 +198,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
                            closeState:(NSString *)close_state;
 
 /**
- *  获取故障类型列表
+ *  获取专业分组列表
  */
 - (void)listOFSubgroupShopID:(NSString *)shopID;
 
@@ -217,13 +217,17 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  获取部门列表
  *  pid - 获取该id下部门树形数据，默认为0则为获取所有部门列表
  */
-- (void)listOFDepartmentWithPid:(NSString *)pid shopID:(NSString *)shopID;
+- (void)listOFDepartmentWithPid:(NSString *)pid
+                         shopID:(NSString *)shopID
+                   identityType:(NSString *)identity_type;
 
 /**
  *  获取职位列表
  *  pid - 1报修 2维修，默认：全部
  */
-- (void)listOFDutyWithDutyType:(NSString *)duty_type shopID:(NSString *)shopID;
+- (void)listOFDutyWithDutyType:(NSString *)duty_type
+                        shopID:(NSString *)shopID
+                  identityType:(NSString *)identity_type;
 
 /**
  *  获取商铺列表

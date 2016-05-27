@@ -77,19 +77,23 @@
     [self showLoadingMBP:@"加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
-        /**请求故障类型列表**/
+        /**获取专业分组列表**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
         [fau_request listOFSubgroupShopID:self.transMyProject.shop_id];
     });
     dispatch_async(concurrentQueue, ^{
         /**获取职位列表接口**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request listOFDutyWithDutyType:@"" shopID:self.transMyProject.shop_id];
+        [fau_request listOFDutyWithDutyType:@""
+                                     shopID:self.transMyProject.shop_id
+                               identityType:@"1"];
     });
     dispatch_async(concurrentQueue, ^{
         /**获取部门列表**/
         BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request listOFDepartmentWithPid:@"" shopID:self.transMyProject.shop_id];
+        [fau_request listOFDepartmentWithPid:@""
+                                      shopID:self.transMyProject.shop_id
+                                identityType:@"1"];
     });
     
     [self createUI];
@@ -138,6 +142,9 @@
                 {
                     subgroupID = self.transArray[4];
                     haveSubgroupIDs = self.transArray[5];
+                    if ([haveSubgroupIDs isEqualToString:@" "]) {
+                        haveSubgroupIDs = @"";
+                    }
                 }
                 [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
                                                       type:@"1"
@@ -370,7 +377,7 @@
         @strongify(self);
         BXTAllDepartmentInfo *departmentInfo = (BXTAllDepartmentInfo *)classifyInfo;
         [self.detailArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
-        [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.departmentID];
+        [self.transArray replaceObjectAtIndex:2 withObject:departmentInfo.department];
         [self.tableView reloadData];
     }];
     [self.navigationController pushViewController:searchVC animated:YES];
@@ -504,7 +511,7 @@
             [self.detailArray addObject:@"请选择"];
             [self.detailArray addObject:@"请选择"];
             [self.transArray addObject:@""];
-            [self.transArray addObject:@""];
+            [self.transArray addObject:@" "];
         }
     }
     else {

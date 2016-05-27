@@ -7,6 +7,7 @@
 //
 
 #import "BMDatePickerView.h"
+#import "BXTGlobal.h"
 
 @interface BMDatePickerView () <UIPickerViewDataSource, UIPickerViewDelegate>
 
@@ -98,7 +99,10 @@
     
     self.bgView.layer.cornerRadius = 5;
     self.certainButton.layer.cornerRadius = 5;
+    self.certainButton.layer.borderColor = [colorWithHexString(@"#80CAFA") CGColor];
+    self.certainButton.layer.borderWidth = 1;
     self.cancelButton.layer.cornerRadius = 5;
+    
     
     UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
     [window addSubview:self];

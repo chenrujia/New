@@ -7,6 +7,7 @@
 //
 
 #import "BXTEquipmentInformCell.h"
+#import "BXTGlobal.h"
 
 @implementation BXTEquipmentInformCell
 
@@ -19,6 +20,7 @@
     }
     
     cell.statusView.hidden = YES;
+    cell.detailView.textColor = colorWithHexString(CellContentColorStr);
     
     return cell;
 }

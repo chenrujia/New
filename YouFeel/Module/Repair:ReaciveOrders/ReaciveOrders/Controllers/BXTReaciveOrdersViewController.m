@@ -104,7 +104,7 @@
                               collectionID:@""
                                   deviceID:@""
                                       page:self.currentPage
-                                closeState:@""];
+                                closeState:@"1"];
 }
 
 #pragma mark -
@@ -181,7 +181,7 @@
                                   collectionID:@""
                                       deviceID:@""
                                           page:1
-                                    closeState:@""];
+                                    closeState:@"1"];
     });
     dispatch_async(concurrentQueue, ^{
         /**请求故障类型列表**/

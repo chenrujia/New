@@ -399,4 +399,15 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
              ] lowercaseString];
 }
 
+#pragma mark -
+#pragma mark - 富文本转化
++ (NSMutableAttributedString *)transToRichLabelOfIndex:(NSInteger)index String:(NSString *)originStr
+{
+    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc] initWithString:originStr];
+    [AttributedStr addAttribute:NSForegroundColorAttributeName
+                          value:colorWithHexString(CellContentColorStr)
+                          range:NSMakeRange(index, originStr.length - index)];
+    return AttributedStr;
+}
+
 @end
