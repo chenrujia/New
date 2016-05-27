@@ -28,9 +28,8 @@
 /** ---- 专业分组 ---- */
 @property (nonatomic, strong) NSMutableArray *subgroupArray;
 @property (nonatomic, strong) NSMutableArray *subgroupIDArray;
-/** ---- 工单状态 ---- */
-@property (nonatomic, strong) NSMutableArray *repairStateArray;
-@property (nonatomic, strong) NSMutableArray *repairStateIDArray;
+/** ---- 工作状态 ---- */  // 存数组（transStateStr、transFaultCarriedState）
+@property (nonatomic, strong) NSArray *repairstateArray;
 /** ---- 未修好原因 ---- */
 @property (nonatomic, strong) NSMutableArray *specialOrderArray;
 @property (nonatomic, strong) NSMutableArray *specialOrderIDArray;
@@ -44,14 +43,13 @@
     [super viewDidLoad];
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray =[[NSMutableArray alloc] initWithObjects:@"时间范围", @"专业分组", @"工单状态", @"维修状况", nil];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"待完善", @"待完善", @"待完善", nil];
-    self.transArray = [[NSMutableArray alloc] initWithObjects:@[@"", @""], @"", @"", @"", nil];
+    self.titleArray =[[NSMutableArray alloc] initWithObjects:@"时间范围", @"专业分组", @"工单状态", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"待完善", @"待完善", nil];
+    self.transArray = [[NSMutableArray alloc] initWithObjects:@[@"", @""], @"", @"", nil];
     
     self.subgroupArray = [[NSMutableArray alloc] init];
     self.subgroupIDArray = [[NSMutableArray alloc] init];
-    self.repairStateArray = [[NSMutableArray alloc] init];
-    self.repairStateIDArray = [[NSMutableArray alloc] init];
+    self.repairstateArray = @[@[@"", @""], @[@"2", @"2"], @[@"1", @"2"], @[@"", @"1"]];
     self.specialOrderArray = [[NSMutableArray alloc] init];
     self.specialOrderIDArray = [[NSMutableArray alloc] init];
     
@@ -109,7 +107,7 @@
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        if (self.transArray.count == 5 && [BXTGlobal isBlankString:self.transArray[4]]) {
+        if (self.transArray.count == 4 && [BXTGlobal isBlankString:self.transArray[3]]) {
             [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请选择维修好原因" chooseBlock:^(NSInteger buttonIdx) {
                 
             } buttonsStatement:@"确定", nil];
@@ -255,12 +253,9 @@
         self.selectArray = self.subgroupArray;
     }
     else if (index == 2) {
-        self.selectArray = self.repairStateArray;
+        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"已修好", @"未修好", @"未完成", nil];
     }
     else if (index == 3) {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"已修好", @"未修好", nil];
-    }
-    else if (index == 4) {
         self.selectArray = self.specialOrderArray;
     }
     
@@ -310,15 +305,11 @@
             }
             else if (index == 2)
             {
-                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.repairStateIDArray[[object intValue]]]];
+                [self refreshTableView:[object intValue] == 2];
+                
+                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", object]];
             }
             else if (index == 3)
-            {
-                [self refreshTableView:[object intValue]];
-                
-                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%d,", 2 - [object intValue]]];
-            }
-            else if (index == 4)
             {
                 finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.specialOrderIDArray[[object intValue]]]];
             }
@@ -327,7 +318,7 @@
         {
             finalNumStr = [finalNumStr substringToIndex:finalNumStr.length - 1];
         }
-
+        
         // 赋值
         if (![BXTGlobal isBlankString:finalStr])
         {
@@ -339,6 +330,10 @@
             {
                 [self.transArray replaceObjectAtIndex:index withObject:[self transTime:finalNumStr]];
             }
+            if (index == 2) {
+                [self.transArray replaceObjectAtIndex:index withObject:self.repairstateArray[[finalNumStr intValue]]];
+            }
+            
             [self.tableView reloadData];
         }
         
@@ -390,20 +385,6 @@
             [self.subgroupIDArray addObject:subgroupInfo.subgroupID];
         }
     }
-    else if (type == RepairState && data.count > 0)
-    {
-        NSMutableArray *repairStateArray = [[NSMutableArray alloc] init];
-        [BXTRepairStateInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"repairStateID":@"id"};
-        }];
-        [repairStateArray addObjectsFromArray:[BXTRepairStateInfo mj_objectArrayWithKeyValuesArray:data]];
-        
-        for (BXTRepairStateInfo *repairStateInfo in repairStateArray)
-        {
-            [self.repairStateArray addObject:repairStateInfo.param_value];
-            [self.repairStateIDArray addObject:repairStateInfo.param_key];
-        }
-    }
     else if (type == SpecialOrder && data.count > 0)
     {
         NSMutableArray *specialOrderArray = [[NSMutableArray alloc] init];
@@ -418,7 +399,7 @@
             [self.specialOrderIDArray addObject:repairStateInfo.param_key];
         }
     }
-
+    
     [self.selectTableView reloadData];
 }
 
@@ -428,7 +409,7 @@
 {
     if (isMore)
     {
-        if (self.titleArray.count == 4)
+        if (self.titleArray.count == 3)
         {
             [self.titleArray addObject:@"未修好原因"];
             [self.dataArray addObject:@"待完善"];
@@ -437,7 +418,7 @@
     }
     else
     {
-        if (self.titleArray.count == 5)
+        if (self.titleArray.count == 4)
         {
             [self.titleArray removeLastObject];
             [self.dataArray removeLastObject];

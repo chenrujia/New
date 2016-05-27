@@ -66,7 +66,10 @@
 {
     BXTMTFilterViewController *filterVC = [[BXTMTFilterViewController alloc] init];
     filterVC.delegateSignal = [RACSubject subject];
+    @weakify(self);
     [filterVC.delegateSignal subscribeNext:^(NSArray *transArray) {
+        @strongify(self);
+        
         NSLog(@"transArray -= ---------- %@", transArray);
         self.startTime = transArray[0];
         self.endTime = transArray[1];

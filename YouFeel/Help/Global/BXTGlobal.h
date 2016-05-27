@@ -14,6 +14,10 @@
 
 /** ---- 背景色 ---- */
 #define NavColorStr @"#00B1FF"
+/** ---- cell-title色值 ---- */
+#define CellTitleColorStr @"#383838"
+/** ---- cell-content色值 ---- */
+#define CellContentColorStr @"#6D6E6F"
 /** ---- 存值 ---- */
 #define SaveValueTUD(key, value) [[NSUserDefaults standardUserDefaults] setObject:value forKey:key]; [[NSUserDefaults standardUserDefaults] synchronize]
 /** ---- 取值 ---- */
@@ -169,5 +173,10 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
  *  MD5加密
  */
 + (NSString *)md5:(NSString *)inPutText;
+
+/**
+ *  富文本转化
+ */
++ (NSMutableAttributedString *)transToRichLabelOfIndex:(NSInteger)index String:(NSString *)originStr;
 
 @end

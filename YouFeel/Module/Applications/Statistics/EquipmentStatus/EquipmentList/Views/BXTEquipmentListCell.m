@@ -30,9 +30,12 @@
     self.statusView.text = [NSString stringWithFormat:@"%@", epList.state_name];
     [self adjustStateColor:epList.state];
     
-    self.systemView.text = [NSString stringWithFormat:@"系统：%@", epList.type_name];
-    self.nameView.text = [NSString stringWithFormat:@"设备名称：%@", epList.name];
-    self.locationView.text = [NSString stringWithFormat:@"位置：%@", epList.place];
+    NSString *systemStr = [NSString stringWithFormat:@"系统：%@", epList.type_name];
+    NSString *nameStr = [NSString stringWithFormat:@"设备名称：%@", epList.name];
+    NSString *locationStr = [NSString stringWithFormat:@"位置：%@", epList.place];
+    self.systemView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:systemStr];
+    self.nameView.attributedText = [BXTGlobal transToRichLabelOfIndex:5 String:nameStr];
+    self.locationView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:locationStr];
 }
 
 - (void)adjustStateColor:(NSString *)state

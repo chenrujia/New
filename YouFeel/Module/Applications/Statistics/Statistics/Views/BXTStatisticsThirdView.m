@@ -46,6 +46,8 @@
         NSArray *transArray = ValueFUD(@"thirdViewEPStateArray");
         NSDictionary *dataDict = transArray[0];
         
+        
+        
         [cell.pieChartView clearChart];
         [cell.pieChartView addDataToRepresent:[dataDict[@"working_per"] doubleValue] WithColor:colorWithHexString(@"#34B47E")];
         [cell.pieChartView addDataToRepresent:[dataDict[@"fault_per"] doubleValue] WithColor:colorWithHexString(@"#EA3622")];
@@ -57,7 +59,7 @@
         
         cell.pieChartView.userInteractionEnabled = NO;
         
-        cell.persentView.text = [NSString stringWithFormat:@"运行:%@%%", dataDict[@"working_per"]];
+        cell.persentView.text = [NSString stringWithFormat:@"运行:%.2f%%", [dataDict[@"working_per"] doubleValue]];
     }
     else {
         [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#DEE7E8")];

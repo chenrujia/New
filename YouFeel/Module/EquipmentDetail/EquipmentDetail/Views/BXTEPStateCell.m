@@ -28,11 +28,17 @@
     
     NSInteger phone = [[NSString stringWithFormat:@"%@", stateList.create_time] integerValue];
     NSString *phoneStr = [BXTGlobal transTimeWithDate:[NSDate dateWithTimeIntervalSince1970:phone] withType:@"yyyy/MM/dd"];
-    self.statusView.text = [NSString stringWithFormat:@"状态：%@", stateList.state_name];
-    self.timeView.text = [NSString stringWithFormat:@"日期：%@", phoneStr];
-    self.personView.text = [NSString stringWithFormat:@"记录人：%@", stateList.name];
-    self.phoneView.text = [NSString stringWithFormat:@"电话：%@", stateList.mobile];
-    self.descView.text = [NSString stringWithFormat:@"说明：%@", stateList.desc];
+    
+    NSString *statusStr = [NSString stringWithFormat:@"状态：%@", stateList.state_name];
+    NSString *timeStr = [NSString stringWithFormat:@"日期：%@", phoneStr];
+    NSString *personStr = [NSString stringWithFormat:@"记录人：%@", stateList.name];
+    NSString *phoneStr1 = [NSString stringWithFormat:@"电话：%@", stateList.mobile];
+    NSString *descStr = [NSString stringWithFormat:@"说明：%@", stateList.desc];
+    self.statusView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:statusStr];
+    self.timeView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:timeStr];
+    self.personView.attributedText = [BXTGlobal transToRichLabelOfIndex:4 String:personStr];
+    self.phoneView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:phoneStr1];
+    self.descView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:descStr];
 }
 
 - (void)awakeFromNib {

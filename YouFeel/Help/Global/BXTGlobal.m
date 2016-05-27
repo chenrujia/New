@@ -88,6 +88,8 @@
     [BXTGlobal shareGlobal].isLogin = YES;
     if (isPushToRootVC)
     {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESHYSAVEDSHOPID" object:nil];
+        
         CYLTabBarControllerConfig *tabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
         [[AppDelegate appdelegete].window setRootViewController:tabBarControllerConfig.tabBarController];
     }
@@ -397,6 +399,17 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
              result[8], result[9], result[10], result[11],
              result[12], result[13], result[14], result[15]
              ] lowercaseString];
+}
+
+#pragma mark -
+#pragma mark - 富文本转化
++ (NSMutableAttributedString *)transToRichLabelOfIndex:(NSInteger)index String:(NSString *)originStr
+{
+    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc] initWithString:originStr];
+    [AttributedStr addAttribute:NSForegroundColorAttributeName
+                          value:colorWithHexString(CellContentColorStr)
+                          range:NSMakeRange(index, originStr.length - index)];
+    return AttributedStr;
 }
 
 @end

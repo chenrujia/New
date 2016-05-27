@@ -59,7 +59,7 @@
         [cell.pieChartView addDataToRepresent:1 WithColor:colorWithHexString(@"#DEE7E8")];
     }
     
-    cell.persentView.text = [NSString stringWithFormat:@"已完成:%@%%", dataDict[@"over_per"]];
+    cell.persentView.text = [NSString stringWithFormat:@"已完成:%.2f%%", [dataDict[@"over_per"] doubleValue]];
     
     cell.pieChartView.userInteractionEnabled = NO;
     

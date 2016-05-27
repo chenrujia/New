@@ -7,6 +7,7 @@
 //
 
 #import "BXTUserInformCell.h"
+#import "BXTGlobal.h"
 
 @implementation BXTUserInformCell
 
@@ -28,6 +29,7 @@
     
     self.titleView.font = [UIFont systemFontOfSize:17];
     self.detailView.font = [UIFont systemFontOfSize:17];
+    self.detailView.textColor = colorWithHexString(CellContentColorStr);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

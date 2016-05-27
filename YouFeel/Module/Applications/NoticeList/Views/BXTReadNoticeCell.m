@@ -7,6 +7,7 @@
 //
 
 #import "BXTReadNoticeCell.h"
+#import "BXTGlobal.h"
 
 @implementation BXTReadNoticeCell
 
@@ -27,6 +28,7 @@
     
     self.titleView.text = noticeModel.title;
     self.introView.text = noticeModel.summary;
+    self.introView.textColor = colorWithHexString(CellContentColorStr);
     self.timeView.text = [NSString stringWithFormat:@"发送时间：%@", noticeModel.update_time_name];
 }
 

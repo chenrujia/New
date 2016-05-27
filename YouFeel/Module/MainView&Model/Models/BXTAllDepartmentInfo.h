@@ -18,6 +18,7 @@
 @property (nonatomic, copy) NSString *department;
 @property (nonatomic, copy) NSString *ppath;
 @property (nonatomic, copy) NSString *pid;
+@property (nonatomic, copy) NSString *ture_department;
 
 @end
 

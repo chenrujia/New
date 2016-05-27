@@ -31,7 +31,9 @@
     self.orderTypeView.backgroundColor = [repairInfo.task_type intValue] == 1 ? colorWithHexString(@"#F0B660") : colorWithHexString(@"#7EC86E");
     self.orderGroupView.text = [NSString stringWithFormat:@"%@  ", repairInfo.subgroup_name];
     self.orderStateView.text = [NSString stringWithFormat:@"%@", repairInfo.repairstate_name];
-    self.firstView.text = [NSString stringWithFormat:@"时间：%@", repairInfo.fault_time_name];
+    
+    NSString *firstStr = [NSString stringWithFormat:@"时间：%@", repairInfo.fault_time_name];
+    self.firstView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:firstStr];
     self.alertView.hidden = YES;
     
     // 日常工单 - 时间、位置、内容
@@ -41,14 +43,20 @@
         {
             self.alertView.hidden = NO;
         }
-        self.secondView.text = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
-        self.thirdView.text = [NSString stringWithFormat:@"内容：%@", repairInfo.cause];
+        
+        NSString *secondStr = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
+        NSString *thirdStr = [NSString stringWithFormat:@"内容：%@", repairInfo.cause];
+        self.secondView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:secondStr];
+        self.thirdView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:thirdStr];
     }
     else // 维保工单 - 时间、项目、位置、内容
     {
-        self.secondView.text = [NSString stringWithFormat:@"项目：%@", repairInfo.faulttype_name];
-        self.thirdView.text = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
-        self.forthView.text = [NSString stringWithFormat:@"内容：%@", repairInfo.cause];
+        NSString *secondStr = [NSString stringWithFormat:@"项目：%@", repairInfo.faulttype_name];
+        NSString *thirdStr = [NSString stringWithFormat:@"位置：%@", repairInfo.place_name];
+        NSString *forthStr = [NSString stringWithFormat:@"内容：%@", repairInfo.cause];
+        self.secondView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:secondStr];
+        self.thirdView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:thirdStr];
+        self.forthView.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:forthStr];
     }
     
     NSString *imageStr;

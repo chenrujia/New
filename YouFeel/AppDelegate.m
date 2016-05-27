@@ -143,6 +143,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [Fabric with:@[CrashlyticsKit]];
     [self logUser];
     
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"REFRESHYSAVEDSHOPID" object:nil] subscribeNext:^(id x) {
+        /**位置列表**/
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace];
+    }];
+
     return YES;
 }
 

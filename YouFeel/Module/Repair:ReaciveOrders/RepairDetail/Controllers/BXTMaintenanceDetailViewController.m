@@ -159,7 +159,7 @@
             [self.delegateSignal sendNext:nil];
         }
     }
-
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -996,6 +996,12 @@
 
 - (void)endMaintence
 {
+    NSLog(@" ------ %@ ----- %@", self.repairDetail.place_id, self.repairDetail.place_name);
+    if ([self.repairDetail.place_id isEqualToString:@"0"] || [BXTGlobal isBlankString:self.repairDetail.place_id]) {
+        self.repairDetail.place_id = @"";
+        self.repairDetail.place_name = @"";
+    }
+    
     NSString *mmLog = self.repairDetail.report.workprocess.length ? self.repairDetail.report.workprocess : @"";
     BXTMMProcessViewController *procossVC = [[BXTMMProcessViewController alloc] initWithNibName:@"BXTMMProcessViewController"
                                                                                          bundle:nil

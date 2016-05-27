@@ -28,10 +28,16 @@
     
     self.orderIDView.text = [NSString stringWithFormat:@"编号：%@", inspectionList.inspection_code];
     self.typeView.text = [NSString stringWithFormat:@"  %@  ", [self transStateWithStr:inspectionList.state]];
-    self.systemView.text = [NSString stringWithFormat:@"维保系统：%@", inspectionList.faulttype_type_name];
-    self.projectView.text = [NSString stringWithFormat:@"维保项目：%@", inspectionList.inspection_item_name];
-    self.planView.text = [NSString stringWithFormat:@"维保计划：%@", inspectionList.inspection_time];
-    self.repairManView.text = [NSString stringWithFormat:@"维保人：%@", inspectionList.repair_user];
+    
+    NSString *systemStr = [NSString stringWithFormat:@"维保系统：%@", inspectionList.faulttype_type_name];
+    NSString *projectStr = [NSString stringWithFormat:@"维保项目：%@", inspectionList.inspection_item_name];
+    NSString *planStr = [NSString stringWithFormat:@"维保计划：%@", inspectionList.inspection_time];
+    NSString *repairManStr = [NSString stringWithFormat:@"维保人：%@", inspectionList.repair_user];
+    self.systemView.attributedText = [BXTGlobal transToRichLabelOfIndex:5 String:systemStr];
+    self.projectView.attributedText = [BXTGlobal transToRichLabelOfIndex:5 String:projectStr];
+    self.planView.attributedText = [BXTGlobal transToRichLabelOfIndex:5 String:planStr];
+    self.repairManView.attributedText = [BXTGlobal transToRichLabelOfIndex:4 String:repairManStr];
+    
     self.endTimeView.text = [NSString stringWithFormat:@"完成时间：%@", inspectionList.create_time];
 }
 
