@@ -149,7 +149,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
         [location_request listOFPlaceIsAllPlace];
     }];
-
+    
     return YES;
 }
 

@@ -12,7 +12,7 @@
 #import "BXTMTPlanListCell.h"
 #import "BXTMTPlanList.h"
 #import <MJRefresh.h>
-#import "BXTMaintenanceDetailViewController.h"
+#import "BXTMaintenanceBookViewController.h"
 
 @interface BXTMaintenanceListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -190,11 +190,8 @@
 {
     BXTMTPlanList *repairInfo = self.dataArray[indexPath.section];
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-    BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
-    SceneType sceneType = MaintainType;
-    [repairDetailVC dataWithRepairID:repairInfo.PlanID sceneType:sceneType];
-    [self.navigationController pushViewController:repairDetailVC animated:YES];
+    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:repairInfo.device_id recordID:repairInfo.PlanID safetyGuidelines:@""];
+    [self.navigationController pushViewController:bookVC animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
