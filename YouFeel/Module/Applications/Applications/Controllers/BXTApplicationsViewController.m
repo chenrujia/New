@@ -162,7 +162,9 @@
                 SaveValueTUD(@"timeStart_Announcement", [BXTRemindNum sharedManager].timeStart_Announcement);
                 
                 nlvc.delegateSignal = [RACSubject subject];
+                @weakify(self);
                 [nlvc.delegateSignal subscribeNext:^(id x) {
+                    @strongify(self);
                     [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
                 }];
                 
