@@ -308,7 +308,7 @@ static const CGFloat UserBackViewSpace = 20.f;
     cell.stateLabel.text = manInfo.on_duty;
     if (manInfo.work_number == 0)
     {
-        cell.numberLabel.text = @"当班";
+        cell.numberLabel.text = @"空闲";
     }
     else
     {
