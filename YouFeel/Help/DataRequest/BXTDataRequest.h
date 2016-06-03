@@ -195,7 +195,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
                          collectionID:(NSString *)collection_id
                              deviceID:(NSString *)device_id
                                  page:(NSInteger)page
-                           closeState:(NSString *)close_state;
+                           closeState:(NSString *)close_state;  //默认传1， 特殊情况传0
 
 /**
  *  获取专业分组列表

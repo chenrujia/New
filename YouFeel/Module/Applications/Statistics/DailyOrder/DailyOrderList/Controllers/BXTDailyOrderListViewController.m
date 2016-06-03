@@ -107,7 +107,7 @@
                               collectionID:self.transCollectionID
                                   deviceID:@""
                                       page:self.currentPage
-                                closeState:@""];
+                                closeState:@"1"];
     
 }
 

@@ -567,7 +567,7 @@ typedef NS_ENUM(NSInteger, CellType) {
         [BXTRemindNum sharedManager].repairNum = [NSString stringWithFormat:@"%@", numDict[@"repair_num"]];
         [BXTRemindNum sharedManager].reportNum = [NSString stringWithFormat:@"%@", numDict[@"report_num"]];
         [BXTRemindNum sharedManager].objectNum = [NSString stringWithFormat:@"%@", numDict[@"object_num"]];
-        [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%@", numDict[@"announcement_number"]];
+        [BXTRemindNum sharedManager].announcementNum = [NSString stringWithFormat:@"%@", numDict[@"announcement_num"]];
         
         NSString *appShow = [NSString stringWithFormat:@"%@", numDict[@"app_show"]];
         NSString *index_show = [NSString stringWithFormat:@"%@", numDict[@"index_show"]];

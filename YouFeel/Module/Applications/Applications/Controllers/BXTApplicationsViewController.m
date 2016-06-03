@@ -71,14 +71,8 @@
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
     [self.itemsCollectionView reloadData];
-    if ([BXTRemindNum sharedManager].app_show)
-    {
-        [self.tabBarController.tabBar showBadgeOnItemIndex:3];
-    }
-    else
-    {
-        [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
-    }
+    
+    [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
 }
 
 - (void)createUI
@@ -163,7 +157,7 @@
                 
                 nlvc.delegateSignal = [RACSubject subject];
                 [nlvc.delegateSignal subscribeNext:^(id x) {
-                    [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
+                    [BXTRemindNum sharedManager].app_show = 0;
                 }];
                 
                 [self.navigationController pushViewController:nlvc animated:YES];

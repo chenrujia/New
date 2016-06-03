@@ -19,6 +19,8 @@
 #import "BXTSettingViewController.h"
 #import "BXTCommentListViewController.h"
 #import "BXTAboutUsViewController.h"
+#import "BXTRemindNum.h"
+#import "UITabBar+badge.h"
 
 @interface BXTMineViewController () <UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 
@@ -57,6 +59,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if ([BXTRemindNum sharedManager].app_show) {
+        [self.tabBarController.tabBar showBadgeOnItemIndex:3];
+    }
+    else {
+        [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request userInfo];

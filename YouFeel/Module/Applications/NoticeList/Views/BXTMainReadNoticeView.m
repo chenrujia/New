@@ -68,7 +68,7 @@
 - (void)createUI
 {
     self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
-    self.tableView.rowHeight = 150;
+    self.tableView.rowHeight = 115;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.emptyDataSetDelegate = self;
