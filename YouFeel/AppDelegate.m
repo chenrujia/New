@@ -427,6 +427,15 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             if ([[taskInfo objectForKey:@"event_type"] integerValue] == 1)//收到抢单信息
             {
                 [[BXTGlobal shareGlobal].newsOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
+                
+                
+                // 超过10分钟， 不跳转
+                NSInteger timeSp = [[NSDate date] timeIntervalSince1970];
+                NSInteger getTimeSp = [[NSString stringWithFormat:@"%@", taskInfo[@"send_time"]] integerValue];
+                if (timeSp - getTimeSp > 600) {
+                    return;
+                } ;
+                
                 BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
                 grabOrderVC.hidesBottomBarWhenPushed = YES;
                 

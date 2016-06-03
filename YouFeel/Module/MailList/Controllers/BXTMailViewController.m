@@ -15,6 +15,8 @@
 #import "BXTMailRootInfo.h"
 #import "ANKeyValueTable.h"
 #import "BXTMailListViewController.h"
+#import "BXTRemindNum.h"
+#import "UITabBar+badge.h"
 
 @interface BXTMailViewController () <BXTDataResponseDelegate>
 
@@ -82,7 +84,16 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBarHidden = NO;
+    
+    if ([BXTRemindNum sharedManager].app_show) {
+        [self.tabBarController.tabBar showBadgeOnItemIndex:3];
+    }
+    else {
+        [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
+    
     self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [[RCIMClient sharedRCIMClient] getTotalUnreadCount]];
     if ([[RCIMClient sharedRCIMClient] getTotalUnreadCount] == 0)
     {

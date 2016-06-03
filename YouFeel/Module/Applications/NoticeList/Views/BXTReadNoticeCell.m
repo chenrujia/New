@@ -29,7 +29,7 @@
     self.titleView.text = noticeModel.title;
     self.introView.text = noticeModel.summary;
     self.introView.textColor = colorWithHexString(CellContentColorStr);
-    self.timeView.text = [NSString stringWithFormat:@"发送时间：%@", noticeModel.update_time_name];
+    self.timeView.text = [NSString stringWithFormat:@"%@", noticeModel.update_time_name];
 }
 
 - (void)awakeFromNib {
