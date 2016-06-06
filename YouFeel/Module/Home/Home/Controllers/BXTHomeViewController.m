@@ -163,12 +163,7 @@ typedef NS_ENUM(NSInteger, CellType) {
     [logoImgView addSubview:branchBtn];
     
     //店名
-    shop_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 33, SCREEN_WIDTH-130, 20.f)];
-    shop_label.center = CGPointMake(SCREEN_WIDTH/2.f, shop_label.center.y);
-    shop_label.font = [UIFont systemFontOfSize:18.f];
-    shop_label.textAlignment = NSTextAlignmentCenter;
-    [shop_label setTextColor:colorWithHexString(@"ffffff")];
-    [logoImgView addSubview:shop_label];
+
     
     //消息
     messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];

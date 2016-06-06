@@ -94,8 +94,6 @@
         BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];
         BXTPersonInfromViewController *personVC = [[BXTPersonInfromViewController alloc] init];
         personVC.userID = repairPerson.rpID;
-        NSArray *shopArray = [BXTGlobal getUserProperty:U_SHOPIDS];
-        personVC.shopID = shopArray[0];
         [self.navigationController pushViewController:personVC animated:YES];
     }];
     [self.headImgView addGestureRecognizer:tapGesture];

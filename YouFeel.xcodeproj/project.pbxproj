@@ -88,6 +88,7 @@
 		7829DDB61CABDF3F00255469 /* BXTRepairsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7829DDB51CABDF3F00255469 /* BXTRepairsListViewController.m */; };
 		782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AD4D41C5A12BD00A1C4D8 /* DES3Util.m */; };
 		782AD4D91C5A12BD00A1C4D8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AD4D61C5A12BD00A1C4D8 /* GTMBase64.m */; };
+		782BCBDD1D028799003C5E12 /* RollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 782BCBDC1D028799003C5E12 /* RollLabel.m */; };
 		782D6BC11C0D6CFC00E1828F /* SPBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB51C0D6CFC00E1828F /* SPBar.m */; };
 		782D6BC21C0D6CFC00E1828F /* SPBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB71C0D6CFC00E1828F /* SPBarChart.m */; };
 		782D6BC31C0D6CFC00E1828F /* SPBarChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BB91C0D6CFC00E1828F /* SPBarChartData.m */; };
@@ -100,7 +101,6 @@
 		783710181C4503CA00A8D5EE /* BXTPersonInform.m in Sources */ = {isa = PBXBuildFile; fileRef = 783710171C4503CA00A8D5EE /* BXTPersonInform.m */; };
 		7837101B1C4503E900A8D5EE /* BXTPersonChecks.m in Sources */ = {isa = PBXBuildFile; fileRef = 7837101A1C4503E900A8D5EE /* BXTPersonChecks.m */; };
 		7837A59C1CAD0572000A1986 /* BXTMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7837A59B1CAD0572000A1986 /* BXTMessageViewController.m */; };
-		7837A59F1CAD0BB8000A1986 /* BXTMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7837A59E1CAD0BB8000A1986 /* BXTMessageView.m */; };
 		7837A5AA1CAD4196000A1986 /* BXTUserInformViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7837A5A41CAD4196000A1986 /* BXTUserInformViewController.m */; };
 		7837A5AB1CAD4196000A1986 /* BXTUserInformCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7837A5A81CAD4196000A1986 /* BXTUserInformCell.m */; };
 		7837A5AC1CAD4196000A1986 /* BXTUserInformCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7837A5A91CAD4196000A1986 /* BXTUserInformCell.xib */; };
@@ -575,6 +575,8 @@
 		782AD4D51C5A12BD00A1C4D8 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		782AD4D61C5A12BD00A1C4D8 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
 		782AD4D71C5A12BD00A1C4D8 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
+		782BCBDB1D028799003C5E12 /* RollLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollLabel.h; sourceTree = "<group>"; };
+		782BCBDC1D028799003C5E12 /* RollLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollLabel.m; sourceTree = "<group>"; };
 		782D6BB41C0D6CFC00E1828F /* SPBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPBar.h; sourceTree = "<group>"; };
 		782D6BB51C0D6CFC00E1828F /* SPBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPBar.m; sourceTree = "<group>"; };
 		782D6BB61C0D6CFC00E1828F /* SPBarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPBarChart.h; sourceTree = "<group>"; };
@@ -600,8 +602,6 @@
 		7837101A1C4503E900A8D5EE /* BXTPersonChecks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPersonChecks.m; sourceTree = "<group>"; };
 		7837A59A1CAD0572000A1986 /* BXTMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageViewController.h; sourceTree = "<group>"; };
 		7837A59B1CAD0572000A1986 /* BXTMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageViewController.m; sourceTree = "<group>"; };
-		7837A59D1CAD0BB8000A1986 /* BXTMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageView.h; sourceTree = "<group>"; };
-		7837A59E1CAD0BB8000A1986 /* BXTMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageView.m; sourceTree = "<group>"; };
 		7837A5A31CAD4196000A1986 /* BXTUserInformViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTUserInformViewController.h; sourceTree = "<group>"; };
 		7837A5A41CAD4196000A1986 /* BXTUserInformViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTUserInformViewController.m; sourceTree = "<group>"; };
 		7837A5A71CAD4196000A1986 /* BXTUserInformCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTUserInformCell.h; sourceTree = "<group>"; };
@@ -1696,6 +1696,15 @@
 			path = DES3Util;
 			sourceTree = "<group>";
 		};
+		782BCBDA1D028799003C5E12 /* RollLabel */ = {
+			isa = PBXGroup;
+			children = (
+				782BCBDB1D028799003C5E12 /* RollLabel.h */,
+				782BCBDC1D028799003C5E12 /* RollLabel.m */,
+			);
+			path = RollLabel;
+			sourceTree = "<group>";
+		};
 		782D6BB31C0D6CFC00E1828F /* SPBarChart */ = {
 			isa = PBXGroup;
 			children = (
@@ -2192,8 +2201,6 @@
 		7867DC371C4CBAE8000749F1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7837A59D1CAD0BB8000A1986 /* BXTMessageView.h */,
-				7837A59E1CAD0BB8000A1986 /* BXTMessageView.m */,
 				968A585D1CB39D3E009A60D8 /* BXTMessageTableViewCell.h */,
 				968A585E1CB39D3E009A60D8 /* BXTMessageTableViewCell.m */,
 				968A585F1CB39D3E009A60D8 /* BXTMessageTableViewCell.xib */,
@@ -3737,6 +3744,7 @@
 		9652AB331BC9069B009A666D /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				782BCBDA1D028799003C5E12 /* RollLabel */,
 				96BDF18C1C8579FE00CEDA58 /* WeiXin */,
 				782AD4D21C5A12BD00A1C4D8 /* DES3Util */,
 				783DDA3C1C3FB4A50035B927 /* PinYinForObjc */,
@@ -4382,9 +4390,9 @@
 				7893D9081C7AE62900F042D5 /* BXTMTCompletionViewController.m in Sources */,
 				964DE5F01CA930490064D5D6 /* UIView+Extnesion.m in Sources */,
 				781EF20D1C3D382C0027FE72 /* BXTEquipmentInformCell.m in Sources */,
+				782BCBDD1D028799003C5E12 /* RollLabel.m in Sources */,
 				7829858A1C40A61500D0837C /* BXTMineViewController.m in Sources */,
 				78FFB9731CB5F5F000309339 /* BXTDepartmentInfo.m in Sources */,
-				7837A59F1CAD0BB8000A1986 /* BXTMessageView.m in Sources */,
 				78426B551C7C404900BAE0F4 /* BXTMTPlanHeaderView.m in Sources */,
 				7867DC2F1C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m in Sources */,
 				96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */,

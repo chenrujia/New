@@ -78,7 +78,7 @@
     [currentSrcoller setContentOffset:CGPointMake(self.currentPage * SCREEN_WIDTH, 0) animated:YES];
 }
 
-#pragma mark -
+#pragma mark -  
 #pragma mark SegmentViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
