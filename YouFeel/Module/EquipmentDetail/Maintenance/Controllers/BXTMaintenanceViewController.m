@@ -221,15 +221,8 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15., 10., SCREEN_WIDTH - 30.f, 30)];
     titleLabel.textColor = colorWithHexString(@"000000");
     titleLabel.font = [UIFont systemFontOfSize:16.f];
-    if (section == self.maintenanceProes.count + 1)
-    {
-        titleLabel.text = @"设备状态";
-    }
-    else
-    {
-        BXTDeviceInspectionInfo *inspectionInfo = self.maintenanceProes[section - 1];
-        titleLabel.text = inspectionInfo.check_item;
-    }
+    BXTDeviceInspectionInfo *inspectionInfo = self.maintenanceProes[section - 2];
+    titleLabel.text = inspectionInfo.check_item;
     [view addSubview:titleLabel];
     
     return view;

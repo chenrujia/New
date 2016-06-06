@@ -57,7 +57,7 @@
     [super viewDidLoad];
     if (self.searchType == PlaceSearchType)
     {
-        [self navigationSetting:@"维修位置" andRightTitle:nil andRightImage:nil];
+        [self navigationSetting:@"位置" andRightTitle:nil andRightImage:nil];
         self.searchBarView.placeholder = @"查找或输入位置";
     }
     else if (self.searchType == FaultSearchType)
