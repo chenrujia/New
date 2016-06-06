@@ -4736,8 +4736,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -4761,7 +4761,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wno-objc-designated-initializers";
@@ -4785,8 +4785,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -4802,7 +4802,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4816,8 +4816,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4841,7 +4841,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -4853,8 +4853,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4877,7 +4877,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
