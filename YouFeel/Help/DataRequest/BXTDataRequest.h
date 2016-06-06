@@ -594,7 +594,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
 /**
  *  个人信息
  */
-- (void)mailListOfOnePersonWithID:(NSString *)userID shopID:(NSString *)shopID;
+- (void)mailListOfOnePersonWithID:(NSString *)userID;
 
 /**
  *  解析二维码内容

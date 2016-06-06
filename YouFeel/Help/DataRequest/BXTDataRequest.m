@@ -961,14 +961,12 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)mailListOfOnePersonWithID:(NSString *)userID shopID:(NSString *)shopID
+- (void)mailListOfOnePersonWithID:(NSString *)userID
 {
     self.requestType = UserInfo;
-    SaveValueTUD(@"shopID_Special", shopID);
     
     NSDictionary *dic = @{@"id": userID};
-    NSString *baseURL = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
-    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=user_info", baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=user_info",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
@@ -1135,7 +1133,8 @@
                           @"report_timestart": report_timestart,
                           @"object_timestart": object_timestart,
                           @"announcement_timestart": announcement_timestart,
-                          @"notice_timestart": notice_timestart};
+                          @"notice_timestart": notice_timestart,
+                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"] };
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=remind_number",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -1340,10 +1339,7 @@
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *str1 = [NSString stringWithFormat:@"%@%@hello%@", companyInfo.company_id, randomValue, @"uf.com"];
-    if (self.requestType == UserInfo)
-    {
-        str1 = [NSString stringWithFormat:@"%@%@hello%@", ValueFUD(@"shopID_Special"), randomValue, @"uf.com"];
-    }
+    
     if (self.requestType == BranchResign) {
         str1 = [NSString stringWithFormat:@"%@%@hello%@", ValueFUD(@"BranchResign_shopID"), randomValue, @"uf.com"];
     }

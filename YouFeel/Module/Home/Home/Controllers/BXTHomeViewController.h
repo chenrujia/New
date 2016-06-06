@@ -9,6 +9,7 @@
 #import "BXTBaseViewController.h"
 #import <RongIMKit/RongIMKit.h>
 #import "BXTRemindNum.h"
+#import "RollLabel.h"
 
 typedef NS_ENUM(NSInteger, HiddenType) {
     HiddenType_SpecialOrders = 1,
@@ -18,7 +19,7 @@ typedef NS_ENUM(NSInteger, HiddenType) {
 
 @interface BXTHomeViewController : BXTBaseViewController <UITableViewDataSource,UITableViewDelegate,RCIMUserInfoDataSource>
 {
-    UILabel          *shop_label;
+    RollLabel         *shop_label;
     UIButton         *logo_Btn;
     UILabel          *title_label;
     UIImageView      *logoImgView;
