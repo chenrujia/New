@@ -659,6 +659,16 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)deleteNewsWithIDs:(NSString *)deleteIDs
+{
+    self.requestType = DeleteNews;
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"del_ids":deleteIDs};
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Notice&opt=del_notice",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)feedback:(NSString *)notes
 {
     NSDictionary *dic = @{@"send_user":[BXTGlobal getUserProperty:U_USERID],

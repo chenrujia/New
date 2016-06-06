@@ -86,6 +86,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     EndMaintenceOrder = 73,
     ListOFAllShops = 74,
     ListOFStoresPlace = 75,
+    DeleteNews = 76,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -415,6 +416,11 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  消息列表
  */
 - (void)newsListWithPage:(NSInteger)page;
+
+/**
+ *  删除消息
+ */
+- (void)deleteNewsWithIDs:(NSString *)deleteIDs;
 
 /**
  *  意见反馈
