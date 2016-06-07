@@ -13,6 +13,7 @@
 #import "BXTMailViewController.h"
 #import "BXTApplicationsViewController.h"
 #import "BXTMineViewController.h"
+#import "BXTCustomNavViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 
 @interface CYLTabBarControllerConfig ()
@@ -36,22 +37,22 @@
         {
             homeVC = [[BXTShopsHomeViewController alloc] init];
         }
-        UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+        BXTCustomNavViewController *homeNav = [[BXTCustomNavViewController alloc] initWithRootViewController:homeVC];
         [homeNav setEnableBackGesture:YES];
         homeNav.navigationBarHidden = YES;
         
         BXTMailViewController *mailVC = [[BXTMailViewController alloc] init];
-        UINavigationController *mailNav = [[UINavigationController alloc] initWithRootViewController:mailVC];
+        BXTCustomNavViewController *mailNav = [[BXTCustomNavViewController alloc] initWithRootViewController:mailVC];
         [mailNav setEnableBackGesture:YES];
         mailNav.navigationBarHidden = NO;
         
         BXTApplicationsViewController *applicationsVC = [[BXTApplicationsViewController alloc] init];
-        UINavigationController *applicationsNav = [[UINavigationController alloc] initWithRootViewController:applicationsVC];
+        BXTCustomNavViewController *applicationsNav = [[BXTCustomNavViewController alloc] initWithRootViewController:applicationsVC];
         [applicationsNav setEnableBackGesture:YES];
         applicationsNav.navigationBarHidden = YES;
         
         BXTMineViewController *settingVC = [[BXTMineViewController alloc] init];
-        UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingVC];
+        BXTCustomNavViewController *settingNav = [[BXTCustomNavViewController alloc] initWithRootViewController:settingVC];
         [settingNav setEnableBackGesture:YES];
         settingNav.navigationBarHidden = NO;
         
@@ -65,7 +66,6 @@
         [tabBarController setViewControllers:@[homeNav,mailNav,applicationsNav,settingNav]];
         [[self class] customizeTabBarAppearance];
         
-
         _tabBarController = tabBarController;
     }
     return _tabBarController;

@@ -11,6 +11,8 @@
 #import "BXTUserInfo.h"
 #import "BXTPostionInfo.h"
 #import "BXTHeadquartersInfo.h"
+#import "CEReversibleAnimationController.h"
+#import "CEBaseInteractionController.h"
 
 /** ---- 背景色 ---- */
 #define NavColorStr @"#00B1FF"
@@ -25,20 +27,22 @@
 
 @interface BXTGlobal : NSObject
 
-@property (nonatomic ,assign) NSInteger              maxPics;
-@property (nonatomic ,copy  ) NSString               *baseURL;
-@property (nonatomic ,copy  ) NSString               *BranchURL;
-@property (nonatomic ,strong) NSMutableArray         *newsOrderIDs;
-@property (nonatomic ,strong) NSMutableArray         *assignOrderIDs;
-@property (nonatomic ,copy  ) NSString               *newsShopID;
-@property (nonatomic ,assign) BOOL                   isRepair;//Yes是维修员，No是报修者
-@property (nonatomic, assign) BOOL                   isLogin;//判断是否已经处于登录状态，处理推送使用的。
-@property (assign, nonatomic) BOOL                  isBindingWeiXin;  // 绑定微信 or 登录
-@property (nonatomic, copy  ) NSString               *openID;
-@property (nonatomic, copy  ) NSString               *wxHeadImage;
-@property (nonatomic, assign) NSInteger              numOfPresented;
-@property (nonatomic, assign) NSInteger              assignNumber;
-@property (nonatomic, strong) UINavigationController *presentNav;
+@property (nonatomic ,assign) NSInteger                       maxPics;
+@property (nonatomic ,copy  ) NSString                        *baseURL;
+@property (nonatomic ,copy  ) NSString                        *BranchURL;
+@property (nonatomic ,strong) NSMutableArray                  *newsOrderIDs;
+@property (nonatomic ,strong) NSMutableArray                  *assignOrderIDs;
+@property (nonatomic ,copy  ) NSString                        *newsShopID;
+@property (nonatomic ,assign) BOOL                            isRepair;//Yes是维修员，No是报修者
+@property (nonatomic, assign) BOOL                            isLogin;//判断是否已经处于登录状态，处理推送使用的。
+@property (assign, nonatomic) BOOL                            isBindingWeiXin;// 绑定微信 or 登录
+@property (nonatomic, copy  ) NSString                        *openID;
+@property (nonatomic, copy  ) NSString                        *wxHeadImage;
+@property (nonatomic, assign) NSInteger                       numOfPresented;
+@property (nonatomic, assign) NSInteger                       assignNumber;
+@property (nonatomic, strong) UINavigationController          *presentNav;
+@property (nonatomic, strong) CEBaseInteractionController     *interactionController;
+@property (nonatomic, strong) CEReversibleAnimationController *animationController;
 
 
 + (BXTGlobal *)shareGlobal;

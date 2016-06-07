@@ -291,6 +291,22 @@
 		9607A3C51BE0BC0F000A6C5B /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9607A3C41BE0BC0F000A6C5B /* Emoji.plist */; };
 		961B8CF21C857FF7003035F9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961B8CF11C857FF7003035F9 /* CoreTelephony.framework */; };
 		961B8CF41C858001003035F9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961B8CF31C858001003035F9 /* SystemConfiguration.framework */; };
+		962833651D066B62007CB571 /* CECardsAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833471D066B62007CB571 /* CECardsAnimationController.m */; };
+		962833661D066B62007CB571 /* CECrossfadeAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833491D066B62007CB571 /* CECrossfadeAnimationController.m */; };
+		962833671D066B62007CB571 /* CECubeAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9628334B1D066B62007CB571 /* CECubeAnimationController.m */; };
+		962833681D066B62007CB571 /* CEExplodeAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9628334D1D066B62007CB571 /* CEExplodeAnimationController.m */; };
+		962833691D066B62007CB571 /* CEFlipAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9628334F1D066B62007CB571 /* CEFlipAnimationController.m */; };
+		9628336A1D066B62007CB571 /* CEFoldAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833511D066B62007CB571 /* CEFoldAnimationController.m */; };
+		9628336B1D066B62007CB571 /* CENatGeoAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833531D066B62007CB571 /* CENatGeoAnimationController.m */; };
+		9628336C1D066B62007CB571 /* CEPanAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833551D066B62007CB571 /* CEPanAnimationController.m */; };
+		9628336D1D066B62007CB571 /* CEPortalAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833571D066B62007CB571 /* CEPortalAnimationController.m */; };
+		9628336E1D066B62007CB571 /* CEReversibleAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833591D066B62007CB571 /* CEReversibleAnimationController.m */; };
+		9628336F1D066B62007CB571 /* CETurnAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9628335B1D066B62007CB571 /* CETurnAnimationController.m */; };
+		962833701D066B62007CB571 /* CEBaseInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9628335E1D066B62007CB571 /* CEBaseInteractionController.m */; };
+		962833711D066B62007CB571 /* CEHorizontalSwipeInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833601D066B62007CB571 /* CEHorizontalSwipeInteractionController.m */; };
+		962833721D066B62007CB571 /* CEPinchInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833621D066B62007CB571 /* CEPinchInteractionController.m */; };
+		962833731D066B62007CB571 /* CEVerticalSwipeInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833641D066B62007CB571 /* CEVerticalSwipeInteractionController.m */; };
+		962833761D066BF2007CB571 /* BXTCustomNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962833751D066BF2007CB571 /* BXTCustomNavViewController.m */; };
 		9634156A1C44E62C00B28C53 /* BXTMaintenanceBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963415681C44E62C00B28C53 /* BXTMaintenanceBookViewController.m */; };
 		9634156B1C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963415691C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib */; };
 		9634156F1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9634156D1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m */; };
@@ -948,6 +964,38 @@
 		9607A3C41BE0BC0F000A6C5B /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
 		961B8CF11C857FF7003035F9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		961B8CF31C858001003035F9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		962833461D066B62007CB571 /* CECardsAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CECardsAnimationController.h; sourceTree = "<group>"; };
+		962833471D066B62007CB571 /* CECardsAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CECardsAnimationController.m; sourceTree = "<group>"; };
+		962833481D066B62007CB571 /* CECrossfadeAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CECrossfadeAnimationController.h; sourceTree = "<group>"; };
+		962833491D066B62007CB571 /* CECrossfadeAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CECrossfadeAnimationController.m; sourceTree = "<group>"; };
+		9628334A1D066B62007CB571 /* CECubeAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CECubeAnimationController.h; sourceTree = "<group>"; };
+		9628334B1D066B62007CB571 /* CECubeAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CECubeAnimationController.m; sourceTree = "<group>"; };
+		9628334C1D066B62007CB571 /* CEExplodeAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEExplodeAnimationController.h; sourceTree = "<group>"; };
+		9628334D1D066B62007CB571 /* CEExplodeAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEExplodeAnimationController.m; sourceTree = "<group>"; };
+		9628334E1D066B62007CB571 /* CEFlipAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEFlipAnimationController.h; sourceTree = "<group>"; };
+		9628334F1D066B62007CB571 /* CEFlipAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEFlipAnimationController.m; sourceTree = "<group>"; };
+		962833501D066B62007CB571 /* CEFoldAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEFoldAnimationController.h; sourceTree = "<group>"; };
+		962833511D066B62007CB571 /* CEFoldAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEFoldAnimationController.m; sourceTree = "<group>"; };
+		962833521D066B62007CB571 /* CENatGeoAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CENatGeoAnimationController.h; sourceTree = "<group>"; };
+		962833531D066B62007CB571 /* CENatGeoAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CENatGeoAnimationController.m; sourceTree = "<group>"; };
+		962833541D066B62007CB571 /* CEPanAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEPanAnimationController.h; sourceTree = "<group>"; };
+		962833551D066B62007CB571 /* CEPanAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEPanAnimationController.m; sourceTree = "<group>"; };
+		962833561D066B62007CB571 /* CEPortalAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEPortalAnimationController.h; sourceTree = "<group>"; };
+		962833571D066B62007CB571 /* CEPortalAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEPortalAnimationController.m; sourceTree = "<group>"; };
+		962833581D066B62007CB571 /* CEReversibleAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEReversibleAnimationController.h; sourceTree = "<group>"; };
+		962833591D066B62007CB571 /* CEReversibleAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEReversibleAnimationController.m; sourceTree = "<group>"; };
+		9628335A1D066B62007CB571 /* CETurnAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CETurnAnimationController.h; sourceTree = "<group>"; };
+		9628335B1D066B62007CB571 /* CETurnAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CETurnAnimationController.m; sourceTree = "<group>"; };
+		9628335D1D066B62007CB571 /* CEBaseInteractionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEBaseInteractionController.h; sourceTree = "<group>"; };
+		9628335E1D066B62007CB571 /* CEBaseInteractionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEBaseInteractionController.m; sourceTree = "<group>"; };
+		9628335F1D066B62007CB571 /* CEHorizontalSwipeInteractionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEHorizontalSwipeInteractionController.h; sourceTree = "<group>"; };
+		962833601D066B62007CB571 /* CEHorizontalSwipeInteractionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEHorizontalSwipeInteractionController.m; sourceTree = "<group>"; };
+		962833611D066B62007CB571 /* CEPinchInteractionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEPinchInteractionController.h; sourceTree = "<group>"; };
+		962833621D066B62007CB571 /* CEPinchInteractionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEPinchInteractionController.m; sourceTree = "<group>"; };
+		962833631D066B62007CB571 /* CEVerticalSwipeInteractionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEVerticalSwipeInteractionController.h; sourceTree = "<group>"; };
+		962833641D066B62007CB571 /* CEVerticalSwipeInteractionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEVerticalSwipeInteractionController.m; sourceTree = "<group>"; };
+		962833741D066BF2007CB571 /* BXTCustomNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomNavViewController.h; sourceTree = "<group>"; };
+		962833751D066BF2007CB571 /* BXTCustomNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCustomNavViewController.m; sourceTree = "<group>"; };
 		963415671C44E62C00B28C53 /* BXTMaintenanceBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenanceBookViewController.h; sourceTree = "<group>"; };
 		963415681C44E62C00B28C53 /* BXTMaintenanceBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenanceBookViewController.m; sourceTree = "<group>"; };
 		963415691C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMaintenanceBookViewController.xib; sourceTree = "<group>"; };
@@ -3639,6 +3687,59 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		962833441D066B62007CB571 /* VCTransitionsLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				962833451D066B62007CB571 /* AnimationControllers */,
+				9628335C1D066B62007CB571 /* InteractionControllers */,
+			);
+			path = VCTransitionsLibrary;
+			sourceTree = "<group>";
+		};
+		962833451D066B62007CB571 /* AnimationControllers */ = {
+			isa = PBXGroup;
+			children = (
+				962833461D066B62007CB571 /* CECardsAnimationController.h */,
+				962833471D066B62007CB571 /* CECardsAnimationController.m */,
+				962833481D066B62007CB571 /* CECrossfadeAnimationController.h */,
+				962833491D066B62007CB571 /* CECrossfadeAnimationController.m */,
+				9628334A1D066B62007CB571 /* CECubeAnimationController.h */,
+				9628334B1D066B62007CB571 /* CECubeAnimationController.m */,
+				9628334C1D066B62007CB571 /* CEExplodeAnimationController.h */,
+				9628334D1D066B62007CB571 /* CEExplodeAnimationController.m */,
+				9628334E1D066B62007CB571 /* CEFlipAnimationController.h */,
+				9628334F1D066B62007CB571 /* CEFlipAnimationController.m */,
+				962833501D066B62007CB571 /* CEFoldAnimationController.h */,
+				962833511D066B62007CB571 /* CEFoldAnimationController.m */,
+				962833521D066B62007CB571 /* CENatGeoAnimationController.h */,
+				962833531D066B62007CB571 /* CENatGeoAnimationController.m */,
+				962833541D066B62007CB571 /* CEPanAnimationController.h */,
+				962833551D066B62007CB571 /* CEPanAnimationController.m */,
+				962833561D066B62007CB571 /* CEPortalAnimationController.h */,
+				962833571D066B62007CB571 /* CEPortalAnimationController.m */,
+				962833581D066B62007CB571 /* CEReversibleAnimationController.h */,
+				962833591D066B62007CB571 /* CEReversibleAnimationController.m */,
+				9628335A1D066B62007CB571 /* CETurnAnimationController.h */,
+				9628335B1D066B62007CB571 /* CETurnAnimationController.m */,
+			);
+			path = AnimationControllers;
+			sourceTree = "<group>";
+		};
+		9628335C1D066B62007CB571 /* InteractionControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9628335D1D066B62007CB571 /* CEBaseInteractionController.h */,
+				9628335E1D066B62007CB571 /* CEBaseInteractionController.m */,
+				9628335F1D066B62007CB571 /* CEHorizontalSwipeInteractionController.h */,
+				962833601D066B62007CB571 /* CEHorizontalSwipeInteractionController.m */,
+				962833611D066B62007CB571 /* CEPinchInteractionController.h */,
+				962833621D066B62007CB571 /* CEPinchInteractionController.m */,
+				962833631D066B62007CB571 /* CEVerticalSwipeInteractionController.h */,
+				962833641D066B62007CB571 /* CEVerticalSwipeInteractionController.m */,
+			);
+			path = InteractionControllers;
+			sourceTree = "<group>";
+		};
 		964E6F081C3275BC0081DEBB /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -3744,6 +3845,7 @@
 		9652AB331BC9069B009A666D /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				962833441D066B62007CB571 /* VCTransitionsLibrary */,
 				782BCBDA1D028799003C5E12 /* RollLabel */,
 				96BDF18C1C8579FE00CEDA58 /* WeiXin */,
 				782AD4D21C5A12BD00A1C4D8 /* DES3Util */,
@@ -4085,6 +4187,8 @@
 				96C7F4281C2BCBC500AD4C71 /* BXTRepairButton.m */,
 				96C7F4241C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.h */,
 				96C7F4251C2BC8BF00AD4C71 /* CYLTabBarControllerConfig.m */,
+				962833741D066BF2007CB571 /* BXTCustomNavViewController.h */,
+				962833751D066BF2007CB571 /* BXTCustomNavViewController.m */,
 			);
 			path = TabBarConfig;
 			sourceTree = "<group>";
@@ -4414,6 +4518,7 @@
 				968A58601CB39D3E009A60D8 /* BXTMessageTableViewCell.m in Sources */,
 				7867DCCB1C4CBCAC000749F1 /* BXTChangePassWordViewController.m in Sources */,
 				782D6BC21C0D6CFC00E1828F /* SPBarChart.m in Sources */,
+				962833691D066B62007CB571 /* CEFlipAnimationController.m in Sources */,
 				7818DBD31C0824D800DC22C6 /* AksStraightPieChart.m in Sources */,
 				7867DD741C4CBEA1000749F1 /* MDRadialProgressView.m in Sources */,
 				7823C89A1C7EDCD200E2858B /* BXTEPSummaryView.m in Sources */,
@@ -4425,17 +4530,21 @@
 				96D3D5081CA51618009F91EB /* BXTOrderTypeInfo.m in Sources */,
 				7823D20B1C3231A000E3641C /* UIActionSheet+BlockT.m in Sources */,
 				786D37311CBBA85E00D307DB /* BXTOtherAffairViewController.m in Sources */,
+				962833711D066B62007CB571 /* CEHorizontalSwipeInteractionController.m in Sources */,
 				782D6BD31C0D88B300E1828F /* SPChartPopup.m in Sources */,
 				78090B281C7DAF47003E1565 /* BXTEPFilterViewController.m in Sources */,
 				7867DC2C1C4CBA5B000749F1 /* BXTAdsInform.m in Sources */,
 				786D37451CBBC0E800D307DB /* BXTCertificationManageInfoCell.m in Sources */,
+				9628336F1D066B62007CB571 /* CETurnAnimationController.m in Sources */,
 				783E6C271C51BFF400DC13FB /* BXTFloorInfo.m in Sources */,
 				786DB5141CB3939F003DA314 /* BXTRankingData.m in Sources */,
+				9628336A1D066B62007CB571 /* CEFoldAnimationController.m in Sources */,
 				7893D8E81C7ADA8000F042D5 /* BXTStEvaluationFooter.m in Sources */,
 				9602214B1BC9201400010072 /* UIView+ZXQuartz.m in Sources */,
 				78C55B041C47BF7000FFEB37 /* BXTMainReadNoticeView.m in Sources */,
 				7818DBE51C0824D800DC22C6 /* PNPieChartDataItem.m in Sources */,
 				96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */,
+				962833671D066B62007CB571 /* CECubeAnimationController.m in Sources */,
 				78FFB9961CB5F77B00309339 /* BXTHeadquartersInfo.m in Sources */,
 				78090B121C7DA8C3003E1565 /* BXTMaintenanceListViewController.m in Sources */,
 				9696B7291C90043100272076 /* BXTCommentListViewController.m in Sources */,
@@ -4477,6 +4586,7 @@
 				7893D90B1C7AE6FB00F042D5 /* BXTMTProfessionViewController.m in Sources */,
 				7818DBE01C0824D800DC22C6 /* PNGenericChart.m in Sources */,
 				788FACEF1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.m in Sources */,
+				962833681D066B62007CB571 /* CEExplodeAnimationController.m in Sources */,
 				784177DE1CDC977900CCA953 /* UITabBar+badge.m in Sources */,
 				7893D8A11C7AA8CC00F042D5 /* BXTStatisticsForthView.m in Sources */,
 				7867DC961C4CBB47000749F1 /* MYPieElement.m in Sources */,
@@ -4512,6 +4622,7 @@
 				786B57241C3A464300F48402 /* BXTMailListModel.m in Sources */,
 				9652AC301BC90EC9009A666D /* LocalAlbumCell.m in Sources */,
 				7818DBE31C0824D800DC22C6 /* PNLineChartDataItem.m in Sources */,
+				9628336C1D066B62007CB571 /* CEPanAnimationController.m in Sources */,
 				7837A5B31CAD44F6000A1986 /* BXTChangeNameViewController.m in Sources */,
 				7826C77E1CB5079D0026EF7A /* BXTMyProject.m in Sources */,
 				967C3D451C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.m in Sources */,
@@ -4528,12 +4639,14 @@
 				783836851CC5D38300C349E6 /* BXTRepairStateInfo.m in Sources */,
 				7818DBD81C0824D800DC22C6 /* NSMutableArray+pieEx.m in Sources */,
 				7829DDA91CABB65300255469 /* BXTMineDownView.m in Sources */,
+				962833721D066B62007CB571 /* CEPinchInteractionController.m in Sources */,
 				783831601CCE075E002C2FB6 /* BXTMineInfo.m in Sources */,
 				78EFEED61CAE550D0011F9E9 /* BXTProjectCertificationViewController.m in Sources */,
 				9652AC351BC90EC9009A666D /* LocalPhotoViewController.m in Sources */,
 				969701F21C88109D0048391F /* BXTDeviceStateViewController.m in Sources */,
 				9652AB461BC90791009A666D /* AssetHelper.m in Sources */,
 				78C55AFE1C47AC0800FFEB37 /* BXTNoticeListViewController.m in Sources */,
+				962833701D066B62007CB571 /* CEBaseInteractionController.m in Sources */,
 				96704FBC1CB63EFB00696788 /* BXTButtonInfo.m in Sources */,
 				9652ABF21BC90DCC009A666D /* AutoCoding.m in Sources */,
 				78FFB9701CB5F5E400309339 /* BXTGroupingInfo.m in Sources */,
@@ -4550,6 +4663,7 @@
 				7867DDB11C4CBEE9000749F1 /* BXTRepairDetailInfo.m in Sources */,
 				96AC24331CAA78F2001C19F9 /* BXTChooseItemView.m in Sources */,
 				7818DBDC1C0824D800DC22C6 /* PNBarChart.m in Sources */,
+				9628336D1D066B62007CB571 /* CEPortalAnimationController.m in Sources */,
 				7837101B1C4503E900A8D5EE /* BXTPersonChecks.m in Sources */,
 				7867DC0C1C4CB9F3000749F1 /* BXTAboutUsViewController.m in Sources */,
 				78EFEEE71CAE6CB10011F9E9 /* BXTProjectInformTitleCell.m in Sources */,
@@ -4560,12 +4674,14 @@
 				783DDA4D1C3FB4A50035B927 /* PinyinFormatter.m in Sources */,
 				7868C8671CC87A4900E84FD3 /* BXTMTPlanList.m in Sources */,
 				7818DBE91C0824D800DC22C6 /* PNScatterChartData.m in Sources */,
+				962833731D066B62007CB571 /* CEVerticalSwipeInteractionController.m in Sources */,
 				96F8C5F21C439A450035F187 /* BXTChangeStateViewController.m in Sources */,
 				78213FBD1C3E0502003290A8 /* BXTTimeFilterViewController.m in Sources */,
 				7818DBD91C0824D800DC22C6 /* PieElement.m in Sources */,
 				960221491BC9201400010072 /* UINavigationController+YRBackGesture.m in Sources */,
 				782762771CB7B91D0095FF10 /* BXTProjectInfo.m in Sources */,
 				96C7F4291C2BCBC500AD4C71 /* BXTRepairButton.m in Sources */,
+				9628336E1D066B62007CB571 /* CEReversibleAnimationController.m in Sources */,
 				9634156A1C44E62C00B28C53 /* BXTMaintenanceBookViewController.m in Sources */,
 				78426B5A1C7C4BF300BAE0F4 /* BXTMTCompletionHeader.m in Sources */,
 				96EB27B91CAB6C4200FB2084 /* BXTItemTableViewCell.m in Sources */,
@@ -4573,6 +4689,7 @@
 				9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */,
 				783DDA4A1C3FB4A50035B927 /* ChineseToPinyinResource.m in Sources */,
 				965F68781CBE219000BF781D /* BXTManTableViewCell.m in Sources */,
+				962833661D066B62007CB571 /* CECrossfadeAnimationController.m in Sources */,
 				781D86541CBF784900F01EF7 /* BXTMailRootInfo.m in Sources */,
 				788FACF21CEF135000F142A4 /* BXTPlaceListInfo.m in Sources */,
 				7893D9141C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m in Sources */,
@@ -4643,14 +4760,17 @@
 				7867DC941C4CBB47000749F1 /* BXTStatisticsMianViewController.m in Sources */,
 				78C55A691C47339700FFEB37 /* BXTEquipmentFactoryInfo.m in Sources */,
 				9652AB041BC902DF009A666D /* main.m in Sources */,
+				962833761D066BF2007CB571 /* BXTCustomNavViewController.m in Sources */,
 				78C55A6A1C47339700FFEB37 /* BXTEquipmentParams.m in Sources */,
 				96C684951BE76B4B0038A342 /* HySideScrollingImagePicker.m in Sources */,
 				7823D20C1C3231A000E3641C /* UIAlertView+BlockT.m in Sources */,
 				7818DBE41C0824D800DC22C6 /* PNPieChart.m in Sources */,
 				78090B291C7DAF47003E1565 /* BXTEPFilterCell.m in Sources */,
 				786D37221CBB3A6100D307DB /* BXTStoresListsInfo.m in Sources */,
+				962833651D066B62007CB571 /* CECardsAnimationController.m in Sources */,
 				7827D0451C85734F00E9E29E /* BXTMTProfessionHeader.m in Sources */,
 				78352A011CA0DD5E005134B6 /* BXTReaciveOrdersViewController.m in Sources */,
+				9628336B1D066B62007CB571 /* CENatGeoAnimationController.m in Sources */,
 				7867DCCE1C4CBCAC000749F1 /* BXTNickNameViewController.m in Sources */,
 				9652AB411BC9070E009A666D /* BXTSelectBoxView.m in Sources */,
 				78213FCD1C3E469A003290A8 /* BXTStandardViewController.m in Sources */,
@@ -4736,8 +4856,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -4761,7 +4881,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wno-objc-designated-initializers";
@@ -4785,8 +4905,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -4802,7 +4922,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4816,8 +4936,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4841,7 +4961,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -4853,8 +4973,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4877,7 +4997,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
