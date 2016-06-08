@@ -53,9 +53,12 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     
     // Defaults
     NSNumber *isVCBasedStatusBarAppearanceNum = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
-    if (isVCBasedStatusBarAppearanceNum) {
+    if (isVCBasedStatusBarAppearanceNum)
+    {
         _isVCBasedStatusBarAppearance = isVCBasedStatusBarAppearanceNum.boolValue;
-    } else {
+    }
+    else
+    {
         _isVCBasedStatusBarAppearance = YES; // default
     }
     self.hidesBottomBarWhenPushed = YES;
@@ -91,7 +94,8 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [self clearCurrentVideo];
     _pagingScrollView.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];

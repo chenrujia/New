@@ -386,7 +386,6 @@
 {
     BXTPersonInfromViewController *pivc = [[BXTPersonInfromViewController alloc] init];
     pivc.userID = userID;
-    pivc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:pivc animated:YES];
 }
 

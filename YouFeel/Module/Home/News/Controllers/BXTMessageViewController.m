@@ -138,14 +138,12 @@
             SaveValueTUD(@"timeStart_Inspectio", [BXTRemindNum sharedManager].timeStart_Inspection);
             
             BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
-            reaciveVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:reaciveVC animated:YES];
         }
         else if ([messageInfo.event_type isEqualToString:@"5"])
         {
             [[BXTGlobal shareGlobal].assignOrderIDs addObject:messageInfo.about_id];
             BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsVoice:NO];
-            newOrderVC.hidesBottomBarWhenPushed = YES;
             if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
             {
                 [self.navigationController pushViewController:newOrderVC animated:YES];

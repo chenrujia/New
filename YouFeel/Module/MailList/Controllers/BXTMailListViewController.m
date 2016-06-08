@@ -634,7 +634,6 @@ typedef NS_ENUM(NSInteger, ImageViewType) {
     [self.navigationController pushViewController:pivc animated:YES];
 }
 
-
 #pragma mark -
 #pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView

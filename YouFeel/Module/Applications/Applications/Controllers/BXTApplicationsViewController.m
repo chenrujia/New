@@ -71,7 +71,6 @@
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
     [self.itemsCollectionView reloadData];
-    
     [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
 }
 

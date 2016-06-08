@@ -298,7 +298,6 @@
             BXTDeviceMMListInfo *dmInfo = self.repairDetail.device_lists[i];
             BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dmInfo.deviceMMID orderID:self.repairDetail.orderID];
             epvc.pushType = PushType_StartMaintain;
-            epvc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:epvc animated:YES];
         }];
         [deviceBackView addSubview:maintenaceBtn];
