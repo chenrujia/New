@@ -78,12 +78,14 @@
         
         NSArray *stateArray = transArray[2];
         self.transStateStr = stateArray[0];
-        self.transFaultCarriedState = transArray[1];
+        self.transFaultCarriedState = stateArray[1];
         
         if (transArray.count == 4)
         {
             self.transCollectionID = transArray[3];
         }
+        
+        self.currentPage = 1;
         [self getResource];
     }];
     [self.navigationController pushViewController:doFilterVC animated:YES];

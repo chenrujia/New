@@ -45,7 +45,7 @@
     
     self.titleArray =[[NSMutableArray alloc] initWithObjects:@"时间范围", @"专业分组", @"工单状态", nil];
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"待完善", @"待完善", nil];
-    self.transArray = [[NSMutableArray alloc] initWithObjects:@[@"", @""], @"", @"", nil];
+    self.transArray = [[NSMutableArray alloc] initWithObjects:@[@"", @""], @"", @[@"", @""], nil];
     
     self.subgroupArray = [[NSMutableArray alloc] init];
     self.subgroupIDArray = [[NSMutableArray alloc] init];

@@ -131,6 +131,14 @@
 {
     if ([BXTGlobal validateMobile:self.userName])
     {
+        if ([BXTGlobal isBlankString:self.passWord]) {
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写登录密码" chooseBlock:^(NSInteger buttonIdx) {
+                
+            } buttonsStatement:@"确定", nil];
+            
+            return;
+        }
+        
         [self showLoadingMBP:@"正在登录..."];
         
         [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
@@ -263,6 +271,23 @@
             [self.navigationController pushViewController:authenticationVC animated:YES];
         }
     }
+    else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"044"])
+    {
+        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"授权到期，请联系软件相关人员！" chooseBlock:^(NSInteger buttonIdx) {
+            if (buttonIdx == 1) {
+                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:4008937878"];
+                UIWebView *callWeb = [[UIWebView alloc] init];
+                [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+                [self.view addSubview:callWeb];
+            }
+        } buttonsStatement:@"取消", @"联系客服", nil];
+    }
+    else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
+    {
+        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"用户名或密码错误，请重试" chooseBlock:^(NSInteger buttonIdx) {
+            
+        } buttonsStatement:@"确定", nil];
+    }
     else if (type == BranchLogin)
     {
         if ([[dic objectForKey:@"returncode"] isEqualToString:@"0"])
@@ -283,17 +308,6 @@
     {
         BXTProjectAddNewViewController *headVC = [[BXTProjectAddNewViewController alloc] initWithType:YES];
         [self.navigationController pushViewController:headVC animated:YES];
-    }
-    else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"044"])
-    {
-        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"授权到期，请联系软件相关人员！" chooseBlock:^(NSInteger buttonIdx) {
-            if (buttonIdx == 1) {
-                NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:4008937878"];
-                UIWebView *callWeb = [[UIWebView alloc] init];
-                [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-                [self.view addSubview:callWeb];
-            }
-        } buttonsStatement:@"取消", @"联系客服", nil];
     }
     else if (type == PlaceLists && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {

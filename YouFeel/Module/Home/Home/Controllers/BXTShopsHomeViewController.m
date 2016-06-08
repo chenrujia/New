@@ -78,13 +78,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    
-    shop_label = [[RollLabel alloc] initWithFrame:CGRectMake(0, 33, SCREEN_WIDTH-140, 20.f) text:[NSString stringWithFormat:@"   %@", companyInfo.name] font:[UIFont systemFontOfSize:18] textColor:[UIColor whiteColor]];
-    shop_label.center = CGPointMake(SCREEN_WIDTH/2.f - 10, shop_label.center.y);
-    shop_label.rollSpeed = 0.3;
-    [logoImgView addSubview:shop_label];
-    [shop_label startRoll];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

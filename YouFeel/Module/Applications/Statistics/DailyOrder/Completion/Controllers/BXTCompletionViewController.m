@@ -173,15 +173,7 @@ typedef enum {
                 dyListVC.transFaultCarriedState = @"1";
             }
             
-            NSMutableArray *timeArray = [[NSMutableArray alloc] init];
-            if (self.segementedIndex == 0) {
-                timeArray = (NSMutableArray *)[BXTGlobal yearStartAndEnd];
-            } else if (self.segementedIndex == 1) {
-                timeArray = (NSMutableArray *)[BXTGlobal monthStartAndEnd];
-            } else if (self.segementedIndex == 2) {
-                timeArray = (NSMutableArray *)[BXTGlobal dayStartAndEnd];
-            }
-            dyListVC.transTimeArray = (NSMutableArray *)[BXTGlobal transTimeToWhatWeNeed:timeArray];
+            dyListVC.transTimeArray = (NSMutableArray *)[BXTGlobal transTimeToWhatWeNeed:weakSelf.transTimeArray];
             [weakSelf.navigationController pushViewController:dyListVC animated:YES];
         }
     };

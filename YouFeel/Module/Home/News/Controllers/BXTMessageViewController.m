@@ -27,8 +27,14 @@
 @property (strong, nonatomic) NSMutableArray *dataArray;
 @property (nonatomic, assign) NSInteger currentPage;
 
-/** ---- 是否是编辑状态 ---- */
-@property (nonatomic, assign) BOOL isEditState;
+/** ---- 是否全选 ---- */
+@property (nonatomic ,assign)BOOL isAllSelected;
+
+@property (nonatomic, strong) UIView *footerView;
+@property (nonatomic, strong) UIButton *selectAllBtn;
+@property (nonatomic, strong) UIButton *deleteBtn;
+
+@property (strong, nonatomic) NSMutableArray *selectedArray;
 
 @end
 
@@ -37,18 +43,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self navigationSetting:@"消息" andRightTitle:@"    编辑" andRightImage:nil];
     
-    self.dataArray = [[NSMutableArray alloc] init];
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStylePlain];
-    [self.tableView registerNib:[UINib nibWithNibName:@"BXTMessageTableViewCell" bundle:nil] forCellReuseIdentifier:@"MessageCell"];
-    self.tableView.rowHeight = 86;
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
-    [self.view addSubview:self.tableView];
+    [self createUI];
     
     self.currentPage = 1;
     __weak __typeof(self) weakSelf = self;
@@ -65,21 +63,117 @@
 
 - (void)navigationRightButton
 {
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 50)];
-    footerView.backgroundColor = colorWithHexString(@"#F6F7F9");
-    [self.view addSubview:footerView];
+    [self changeSelectedState:self.tableView.isEditing];
+}
+
+#pragma mark -
+#pragma mark - createUI
+- (void)createUI
+{
+    self.dataArray = [[NSMutableArray alloc] init];
+    self.selectedArray = [[NSMutableArray alloc] init];
     
-    if (self.isEditState) {
-        self.isEditState = NO;
+    // self.tableView
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT) style:UITableViewStylePlain];
+    [self.tableView registerNib:[UINib nibWithNibName:@"BXTMessageTableViewCell" bundle:nil] forCellReuseIdentifier:@"MessageCell"];
+    self.tableView.rowHeight = 86;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    //    self.tableView.emptyDataSetSource = self;
+    //    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.allowsMultipleSelectionDuringEditing = YES;
+    [self.view addSubview:self.tableView];
+    
+    
+    // self.footerView
+    self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 50)];
+    self.footerView.backgroundColor = colorWithHexString(@"#F6F7F9");
+    self.footerView.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    self.footerView.layer.borderWidth = 0.5;
+    [self.view addSubview:self.footerView];
+    
+    self.selectAllBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.selectAllBtn.frame = CGRectMake(0, 5, 80, 40);
+    [self.selectAllBtn setTitle:@"全选" forState:UIControlStateNormal];
+    [self.selectAllBtn setTitleColor:colorWithHexString(@"#5BABF5") forState:UIControlStateNormal];
+    [self.footerView addSubview:self.selectAllBtn];
+    
+    self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.deleteBtn.frame = CGRectMake(SCREEN_WIDTH - 80, 5, 80, 40);
+    [self.deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
+    [self.deleteBtn setTitleColor:colorWithHexString(@"#5BABF5") forState:UIControlStateNormal];
+    [self.footerView addSubview:self.deleteBtn];
+    
+    @weakify(self);
+    [[self.selectAllBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        self.isAllSelected = !self.isAllSelected;
+        
+        for (int i = 0; i<self.dataArray.count; i++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+            if (self.isAllSelected) {   // 全选
+                [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+            } else {    //反选
+                [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            }
+        }
+    }];
+    
+    [[self.deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        NSMutableArray *deleteArrarys = [NSMutableArray array];
+        for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
+            [deleteArrarys addObject:self.dataArray[indexPath.row]];
+        }
+        
+        NSMutableArray *idsArray = [[NSMutableArray alloc] init];
+        for (BXTMessageInfo *messageInfo in deleteArrarys) {
+            [idsArray addObject:messageInfo.messageID];
+        }
+        
+        NSString *idsStr = [idsArray componentsJoinedByString:@","];
+        NSLog(@"idsStr -------- %@", idsStr);
+        
+        
+        [self showLoadingMBP:@"删除中..."];
+        /**获取消息**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request deleteNewsWithIDs:idsStr];
+    }];
+}
+
+
+- (void)changeSelectedState:(BOOL)selectedState
+{
+    if (selectedState) {
         [self navigationSetting:@"消息" andRightTitle:@"    编辑" andRightImage:nil];
-//        footerView.center = CGPointMake(<#CGFloat x#>, <#CGFloat y#>)
+        [self.tableView setEditing:NO animated:YES];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            self.tableView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);
+            self.footerView.center = CGPointMake(SCREEN_WIDTH / 2, SCREEN_HEIGHT + 25);
+        } completion:^(BOOL finished) {
+            
+        }];
     }
     else {
-        self.isEditState = YES;
         [self navigationSetting:@"消息" andRightTitle:@"    取消" andRightImage:nil];
+        [self.tableView setEditing:YES animated:YES];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            self.tableView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 50);
+            self.footerView.center = CGPointMake(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 25);
+        } completion:^(BOOL finished) {
+            self.isAllSelected = NO;
+        }];
     }
 }
 
+#pragma mark -
+#pragma mark - getResource
 - (void)getResource
 {
     [self showLoadingMBP:@"加载中..."];
@@ -110,6 +204,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView.isEditing) {
+        return;
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     BXTMessageInfo *messageInfo = self.dataArray[indexPath.row];
@@ -159,6 +257,25 @@
     }
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.dataArray removeObject:self.dataArray[indexPath.row]];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+
 #pragma mark -
 #pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
@@ -193,6 +310,21 @@
             NSArray *repairs = [BXTMessageInfo mj_objectArrayWithKeyValuesArray:data];
             [self.dataArray addObjectsFromArray:repairs];
         }
+        [self.tableView reloadData];
+    }
+    else if (type == DeleteNews) {
+        self.isAllSelected = NO;
+        
+        NSMutableArray *deleteArrarys = [NSMutableArray array];
+        for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
+            [deleteArrarys addObject:self.dataArray[indexPath.row]];
+        }
+        
+        [self.dataArray removeObjectsInArray:deleteArrarys];
+        if (!self.dataArray.count) {
+            [self changeSelectedState:YES];
+        }
+        
         [self.tableView reloadData];
     }
 }
