@@ -72,6 +72,7 @@
         [self requestDate];
         isFirst = NO;
     }
+    [self.view layoutSubviews];
 }
 
 - (void)requestDate
