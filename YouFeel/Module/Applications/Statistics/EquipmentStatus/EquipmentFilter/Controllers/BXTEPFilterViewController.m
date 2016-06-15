@@ -44,7 +44,7 @@
     NSArray *timeArray = [BXTGlobal dayStartAndEnd];
     
     self.titleArray = @[@"日期", @"安装位置", @"设备类型", @"设备状态"];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects: timeArray[0], @"待完善", @"待完善", @"待完善", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects: timeArray[0], @"请选择", @"请选择", @"请选择", nil];
     self.transArray = [[NSMutableArray alloc] initWithObjects: timeArray[0], @"", @"", @"", nil];
     self.deviceArray = [[NSMutableArray alloc] init];
     self.deviceIDArray = [[NSMutableArray alloc] init];

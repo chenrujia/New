@@ -49,7 +49,7 @@
     NSArray *timeArray = [BXTGlobal dayStartAndEnd];
     
     self.titleArray = @[@"开始时间", @"结束时间", @"专业分组", @"维保分类", @"工单分类"];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:timeArray[0], timeArray[0], @"待完善", @"待完善", @"待完善", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:timeArray[0], timeArray[0], @"请选择", @"请选择", @"请选择", nil];
     self.transArray = [[NSMutableArray alloc] initWithObjects:timeArray[0], timeArray[0], @"", @"", @"", nil];
     
     self.subgroupArray = [[NSMutableArray alloc] init];
