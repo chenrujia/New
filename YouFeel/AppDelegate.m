@@ -176,6 +176,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.pagingEnabled = YES;
+    scrollView.bounces = NO;
     scrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 5, SCREEN_HEIGHT);
     [self.window.rootViewController.view addSubview:scrollView];
     

@@ -4159,7 +4159,7 @@
 				TargetAttributes = {
 					9652AAFE1BC902DF009A666D = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = K39GS83CNB;
+						DevelopmentTeam = 8LG72256D7;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -4839,7 +4839,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4875,7 +4875,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hsm.yfbx;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				TARGETED_DEVICE_FAMILY = 1;
