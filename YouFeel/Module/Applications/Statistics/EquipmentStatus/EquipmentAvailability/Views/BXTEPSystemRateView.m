@@ -109,8 +109,8 @@
     
     CGFloat rate = [model.working_per intValue] / ([model.working_per intValue] + [model.fault_per intValue] + [model.stop_per intValue]);
     CGFloat labelX = rate < 0.2 ? 0 : (straightPieChartW * rate - 60) / 2;
-    UILabel *rateLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, 0, 60, bgViewH)];
-    rateLabel.text = [NSString stringWithFormat:@"%@%%", model.working_per];
+    UILabel *rateLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, 0, 70, bgViewH)];
+    rateLabel.text = [NSString stringWithFormat:@"%.2f%%", [model.working_per floatValue]];
     rateLabel.textColor = [UIColor whiteColor];
     rateLabel.textAlignment = NSTextAlignmentCenter;
     [straightPieChart addSubview:rateLabel];

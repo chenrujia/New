@@ -20,6 +20,7 @@
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTNewOrderViewController.h"
 #import "BXTGlobal.h"
+#import "MYAlertAction.h"
 
 @interface BXTMessageViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
@@ -124,27 +125,30 @@
     [[self.deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        NSMutableArray *deleteArrarys = [NSMutableArray array];
-        for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
-            [deleteArrarys addObject:self.dataArray[indexPath.row]];
-        }
-        
-        NSMutableArray *idsArray = [[NSMutableArray alloc] init];
-        for (BXTMessageInfo *messageInfo in deleteArrarys) {
-            [idsArray addObject:messageInfo.messageID];
-        }
-        
-        NSString *idsStr = [idsArray componentsJoinedByString:@","];
-        NSLog(@"idsStr -------- %@", idsStr);
-        
-        
-        [self showLoadingMBP:@"删除中..."];
-        /**获取消息**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request deleteNewsWithIDs:idsStr];
+        [MYAlertAction showAlertWithTitle:@"确定删除所选消息" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+            if (buttonIdx == 0) {
+                NSMutableArray *deleteArrarys = [NSMutableArray array];
+                for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
+                    [deleteArrarys addObject:self.dataArray[indexPath.row]];
+                }
+                
+                NSMutableArray *idsArray = [[NSMutableArray alloc] init];
+                for (BXTMessageInfo *messageInfo in deleteArrarys) {
+                    [idsArray addObject:messageInfo.messageID];
+                }
+                
+                NSString *idsStr = [idsArray componentsJoinedByString:@","];
+                NSLog(@"idsStr -------- %@", idsStr);
+                
+                
+                [self showLoadingMBP:@"删除中..."];
+                /**获取消息**/
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request deleteNewsWithIDs:idsStr];
+            }
+        } buttonsStatement:@"确定", @"取消", nil];
     }];
 }
-
 
 - (void)changeSelectedState:(BOOL)selectedState
 {
@@ -275,7 +279,6 @@
     }
 }
 
-
 #pragma mark -
 #pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
@@ -321,11 +324,16 @@
         }
         
         [self.dataArray removeObjectsInArray:deleteArrarys];
+        
         if (!self.dataArray.count) {
             [self changeSelectedState:YES];
+            
+            self.currentPage = 1;
+            [self getResource];
+        } else {
+            [self.tableView reloadData];
         }
         
-        [self.tableView reloadData];
     }
 }
 

@@ -69,8 +69,8 @@
 #define KTABBARHEIGHT           44.f
 
 //  请求地址
-#define KADMINBASEURL            @"http://admin.helloufu.com/?r=port/Get_iPhone_v2_Port"
-#define KAPIBASEURL              @"http://api.helloufu.com/?c=Port&m=actionGet_iPhone_v2_Port"
+#define KADMINBASEURL           [NSString stringWithFormat:@"%@/version/%@", @"http://admin.helloufu.com/?r=port/Get_iPhone_v2_Port", IOSSHORTAPPVERSION]
+#define KAPIBASEURL              [NSString stringWithFormat:@"%@&version=%@", @"http://api.helloufu.com/?c=Port&m=actionGet_iPhone_v2_Port", IOSSHORTAPPVERSION]
 
 #define YPLACESAVE               @"PlaceSave"
 #define YMAILLISTSAVE            @"MailListSave"
