@@ -50,15 +50,15 @@
         if (self.dataArray.count == 1)
         {
             BXTMailListViewController *mlvc = [[BXTMailListViewController alloc] init];
-            mlvc.hidesBottomBarWhenPushed = YES;
             mlvc.transMailInfo = self.dataArray[0];
+            mlvc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:mlvc animated:YES];
         }
         else
         {
             BXTMailRootViewController *mlvc = [[BXTMailRootViewController alloc] init];
-            mlvc.hidesBottomBarWhenPushed = YES;
             mlvc.dataArray = self.dataArray;
+            mlvc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:mlvc animated:YES];
         }
     }];
@@ -84,11 +84,12 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBarHidden = NO;
-    
-    if ([BXTRemindNum sharedManager].app_show) {
+    if ([BXTRemindNum sharedManager].app_show)
+    {
         [self.tabBarController.tabBar showBadgeOnItemIndex:3];
     }
-    else {
+    else
+    {
         [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
     }
     
@@ -146,7 +147,6 @@
     conversationVC.conversationType = model.conversationType;
     conversationVC.targetId = model.targetId;
     conversationVC.title = model.conversationTitle;
-    conversationVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
 

@@ -104,15 +104,6 @@ typedef NS_ENUM(NSInteger, CellType) {
     
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if (self.hidesBottomBarWhenPushed)
-    {
-        self.hidesBottomBarWhenPushed = NO;
-    }
-}
-
 - (void)addNotifications
 {
     @weakify(self);
@@ -178,7 +169,6 @@ typedef NS_ENUM(NSInteger, CellType) {
         @strongify(self);
         [BXTRemindNum sharedManager].timeStart_Notice = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
         SaveValueTUD(@"timeStart_Notice", [BXTRemindNum sharedManager].timeStart_Notice);
-        
         BXTMessageViewController *newsVC = [[BXTMessageViewController alloc] init];
         newsVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:newsVC animated:YES];
@@ -253,8 +243,8 @@ typedef NS_ENUM(NSInteger, CellType) {
     }
     
     BXTOrderManagerViewController *orderManagerVC = [[BXTOrderManagerViewController alloc] init];
-    orderManagerVC.hidesBottomBarWhenPushed = YES;
     orderManagerVC.isRepair = isRepair;
+    orderManagerVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:orderManagerVC animated:YES];
 }
 
@@ -263,7 +253,6 @@ typedef NS_ENUM(NSInteger, CellType) {
     // 其他事务
     [BXTRemindNum sharedManager].timeStart_Object = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
     SaveValueTUD(@"timeStart_Object", [BXTRemindNum sharedManager].timeStart_Object);
-    
     BXTOtherAffairViewController *affairVC = [[BXTOtherAffairViewController alloc] init];
     affairVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:affairVC animated:YES];
@@ -290,7 +279,6 @@ typedef NS_ENUM(NSInteger, CellType) {
     //正常工单
     [BXTRemindNum sharedManager].timeStart_Daily = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
     SaveValueTUD(@"timeStart_Daily", [BXTRemindNum sharedManager].timeStart_Daily);
-    
     BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:1];
     reaciveVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:reaciveVC animated:YES];
@@ -301,7 +289,6 @@ typedef NS_ENUM(NSInteger, CellType) {
     //维保工单
     [BXTRemindNum sharedManager].timeStart_Inspection = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
     SaveValueTUD(@"timeStart_Inspectio", [BXTRemindNum sharedManager].timeStart_Inspection);
-    
     BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
     reaciveVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:reaciveVC animated:YES];

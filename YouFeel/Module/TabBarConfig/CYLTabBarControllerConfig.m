@@ -13,7 +13,6 @@
 #import "BXTMailViewController.h"
 #import "BXTApplicationsViewController.h"
 #import "BXTMineViewController.h"
-#import "BXTCustomNavViewController.h"
 #import "UINavigationController+YRBackGesture.h"
 
 @interface CYLTabBarControllerConfig ()
@@ -37,22 +36,22 @@
         {
             homeVC = [[BXTShopsHomeViewController alloc] init];
         }
-        BXTCustomNavViewController *homeNav = [[BXTCustomNavViewController alloc] initWithRootViewController:homeVC];
+        UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeVC];
         [homeNav setEnableBackGesture:YES];
         homeNav.navigationBarHidden = YES;
         
         BXTMailViewController *mailVC = [[BXTMailViewController alloc] init];
-        BXTCustomNavViewController *mailNav = [[BXTCustomNavViewController alloc] initWithRootViewController:mailVC];
+        UINavigationController *mailNav = [[UINavigationController alloc] initWithRootViewController:mailVC];
         [mailNav setEnableBackGesture:YES];
         mailNav.navigationBarHidden = NO;
         
         BXTApplicationsViewController *applicationsVC = [[BXTApplicationsViewController alloc] init];
-        BXTCustomNavViewController *applicationsNav = [[BXTCustomNavViewController alloc] initWithRootViewController:applicationsVC];
+        UINavigationController *applicationsNav = [[UINavigationController alloc] initWithRootViewController:applicationsVC];
         [applicationsNav setEnableBackGesture:YES];
         applicationsNav.navigationBarHidden = YES;
         
         BXTMineViewController *settingVC = [[BXTMineViewController alloc] init];
-        BXTCustomNavViewController *settingNav = [[BXTCustomNavViewController alloc] initWithRootViewController:settingVC];
+        UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingVC];
         [settingNav setEnableBackGesture:YES];
         settingNav.navigationBarHidden = NO;
         

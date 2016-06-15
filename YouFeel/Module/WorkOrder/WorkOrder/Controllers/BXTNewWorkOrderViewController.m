@@ -91,7 +91,6 @@ static CGFloat const ChooseViewHeight  = 328.f;
             @strongify(self);
             // 商铺列表
             BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
-            pivc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:pivc animated:YES];
         }];
         [self.contentView addSubview:button];

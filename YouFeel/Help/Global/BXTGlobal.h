@@ -11,8 +11,6 @@
 #import "BXTUserInfo.h"
 #import "BXTPostionInfo.h"
 #import "BXTHeadquartersInfo.h"
-#import "CEReversibleAnimationController.h"
-#import "CEBaseInteractionController.h"
 
 /** ---- 背景色 ---- */
 #define NavColorStr @"#00B1FF"
@@ -41,9 +39,6 @@
 @property (nonatomic, assign) NSInteger                       numOfPresented;
 @property (nonatomic, assign) NSInteger                       assignNumber;
 @property (nonatomic, strong) UINavigationController          *presentNav;
-@property (nonatomic, strong) CEBaseInteractionController     *interactionController;
-@property (nonatomic, strong) CEReversibleAnimationController *animationController;
-
 
 + (BXTGlobal *)shareGlobal;
 

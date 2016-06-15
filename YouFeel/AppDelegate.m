@@ -432,9 +432,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 // 超过10分钟， 不跳转
                 NSInteger timeSp = [[NSDate date] timeIntervalSince1970];
                 NSInteger getTimeSp = [[NSString stringWithFormat:@"%@", taskInfo[@"send_time"]] integerValue];
-                if (timeSp - getTimeSp > 600) {
+                if (timeSp - getTimeSp > 600)
+                {
                     return;
-                } ;
+                }
                 
                 BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
                 grabOrderVC.hidesBottomBarWhenPushed = YES;

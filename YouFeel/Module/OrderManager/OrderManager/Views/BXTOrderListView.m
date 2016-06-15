@@ -50,13 +50,6 @@
 
 @implementation BXTOrderListView
 
-- (void)dealloc
-{
-    NSLog(@"。。。。。。。。。。。。。。。");
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame andState:(NSString *)state andIsRepair:(BOOL)isRepair
 {
     self = [super initWithFrame:frame];
@@ -458,15 +451,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTRepairInfo *repairInfo = [self.ordersArray objectAtIndex:indexPath.section];
-    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
     SceneType sceneType = self.isRepair ? MyMaintenanceType : MyRepairType;
     [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:sceneType];
-    
     [[self navigation] pushViewController:repairDetailVC animated:YES];
-    
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

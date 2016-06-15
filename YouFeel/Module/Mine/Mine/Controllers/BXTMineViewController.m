@@ -59,11 +59,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if ([BXTRemindNum sharedManager].app_show) {
+    if ([BXTRemindNum sharedManager].app_show)
+    {
         [self.tabBarController.tabBar showBadgeOnItemIndex:3];
     }
-    else {
+    else
+    {
         [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
     }
     

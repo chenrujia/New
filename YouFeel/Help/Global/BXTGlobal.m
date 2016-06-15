@@ -14,8 +14,6 @@
 #import "AppDelegate.h"
 #import "BXTPublicSetting.h"
 #import "CYLTabBarControllerConfig.h"
-#import "CEVerticalSwipeInteractionController.h"
-#import "CECardsAnimationController.h"
 #import <CommonCrypto/CommonDigest.h>
 
 #define USERKEY @"UserInfo"
@@ -32,8 +30,6 @@
         bxtGlobal.assignOrderIDs = [NSMutableArray array];
         bxtGlobal.numOfPresented = 0;
         bxtGlobal.assignNumber = 0;
-        bxtGlobal.interactionController = [[CEVerticalSwipeInteractionController alloc] init];
-        bxtGlobal.animationController = [[CECardsAnimationController alloc] init];
     });
     return bxtGlobal;
 }

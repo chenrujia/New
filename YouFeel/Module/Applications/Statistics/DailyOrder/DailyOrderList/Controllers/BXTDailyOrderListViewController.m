@@ -62,6 +62,11 @@
     [self createUI];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void)navigationRightButton
 {
     BXTDOFilterViewController *doFilterVC = [[BXTDOFilterViewController alloc] init];
@@ -201,13 +206,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTRepairInfo *repairInfo = self.dataArray[indexPath.section];
-    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
     BXTMaintenanceDetailViewController *repairDetailVC = (BXTMaintenanceDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTMaintenanceDetailViewController"];
     SceneType sceneType = AllOrderType;
     [repairDetailVC dataWithRepairID:repairInfo.repairID sceneType:sceneType];
     [self.navigationController pushViewController:repairDetailVC animated:YES];
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
