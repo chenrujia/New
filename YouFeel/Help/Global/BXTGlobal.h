@@ -163,6 +163,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
  *  隐藏MBProgressHUD
  */
 + (void)hideMBP;
+
 /**
  * ---- 显示提示信息后添加动作 ---- 
  */

@@ -111,6 +111,7 @@
         self.wx_bottom.constant = 20.f;
         [self.wxLogin layoutIfNeeded];
     }
+    [self.view layoutSubviews];
 }
 
 - (void)viewDidAppear:(BOOL)animated

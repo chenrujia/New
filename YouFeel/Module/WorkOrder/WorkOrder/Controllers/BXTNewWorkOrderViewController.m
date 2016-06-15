@@ -185,17 +185,9 @@ static CGFloat const ChooseViewHeight  = 328.f;
     
     self.faultTypeArray = [NSMutableArray array];
     [BXTGlobal showLoadingMBP:@"请稍候..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /** 工单类型 **/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request orderTypeList];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /** 紧急类型 **/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request urgentFaultType];
-    });
+    /** 紧急类型 **/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request urgentFaultType];
 }
 
 - (void)viewDidLayoutSubviews
@@ -397,44 +389,37 @@ static CGFloat const ChooseViewHeight  = 328.f;
     }];
 }
 
+- (void)showAlertView:(NSString *)title message:(NSString *)message
+{
+    if (IS_IOS_8)
+    {
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+        [alertCtr addAction:doneAction];
+        [self presentViewController:alertCtr animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+}
+
 #pragma mark -
 #pragma mark 提交按钮
 - (void)commitOrder:(NSString *)isMySelf
 {
     if (!self.placeInfo && !self.adsText)
     {
-        if (IS_IOS_8)
-        {
-            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"请确定报修位置" message:nil preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
-            [alertCtr addAction:doneAction];
-            [self presentViewController:alertCtr animated:YES completion:nil];
-        }
-        else
-        {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请确定报修位置" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-        }
+        [self showAlertView:@"请确定报修位置" message:nil];
         return;
     }
     if (self.notes.length == 0)
     {
-        if (IS_IOS_8)
-        {
-            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"请输入故障详情描述" message:nil preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
-            [alertCtr addAction:doneAction];
-            [self presentViewController:alertCtr animated:YES completion:nil];
-        }
-        else
-        {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请输入故障详情描述" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-        }
+        [self showAlertView:@"请输入故障详情描述" message:nil];
         return;
     }
     
-    [BXTGlobal showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     NSString *appointmentTime = @"";
     NSString *deviceID = @"";
@@ -447,14 +432,23 @@ static CGFloat const ChooseViewHeight  = 328.f;
         deviceID = self.selectDeviceInfo.deviceID;
     }
     NSString *faultTypeID;
-    if (self.selectFaultInfo)
-    {
-        faultTypeID = self.selectFaultInfo.fault_id;
-    }
-    else
+    if (self.urgentBV.hidden)
     {
         faultTypeID = self.selectOrderInfo.orderTypeID;
     }
+    else
+    {
+        if (self.selectFaultInfo)
+        {
+            faultTypeID = self.selectFaultInfo.fault_id;
+        }
+        else
+        {
+            [self showAlertView:@"请确定紧急类型" message:nil];
+            return;
+        }
+    }
+    [BXTGlobal showLoadingMBP:@"请稍候..."];
     [request createRepair:appointmentTime
               faultTypeID:faultTypeID
                faultCause:self.notes
@@ -624,9 +618,12 @@ static CGFloat const ChooseViewHeight  = 328.f;
         }];
         NSMutableArray *orderListArray = [NSMutableArray array];
         [orderListArray addObjectsFromArray:[BXTOrderTypeInfo mj_objectArrayWithKeyValuesArray:data]];
-        BXTOrderTypeInfo *orderType = [[BXTOrderTypeInfo alloc] init];
-        orderType.faulttype = @"紧急";
-        [orderListArray addObject:orderType];
+        if (self.faultTypeArray.count > 0)
+        {
+            BXTOrderTypeInfo *orderType = [[BXTOrderTypeInfo alloc] init];
+            orderType.faulttype = @"紧急";
+            [orderListArray addObject:orderType];
+        }
         
         //工单类型
         BXTAttributeView *attView = [BXTAttributeView attributeViewWithTitleFont:[UIFont boldSystemFontOfSize:17] attributeTexts:orderListArray viewWidth:SCREEN_WIDTH delegate:self];
@@ -642,6 +639,10 @@ static CGFloat const ChooseViewHeight  = 328.f;
             return @{@"fault_id":@"id"};
         }];
         [self.faultTypeArray addObjectsFromArray:[BXTFaultInfo mj_objectArrayWithKeyValuesArray:data]];
+        [BXTGlobal showLoadingMBP:@"请稍候..."];
+        /** 工单类型 **/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request orderTypeList];
     }
     else if (type == DeviceList)
     {
@@ -676,18 +677,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"049"])
         {
-            if (IS_IOS_8)
-            {
-                UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"报修失败" message:@"请到“项目管理”中进行验证" preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-                [alertCtr addAction:cancelAction];
-                [self presentViewController:alertCtr animated:YES completion:nil];
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"报修失败" message:@"请到“项目管理”中进行验证" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                [alert show];
-            }
+            [self showAlertView:@"报修失败" message:@"请到“项目管理”中进行验证"];
         }
     }
 }
@@ -695,6 +685,13 @@ static CGFloat const ChooseViewHeight  = 328.f;
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
+    if (type == FaultType)
+    {
+        [BXTGlobal showLoadingMBP:@"请稍候..."];
+        /** 工单类型 **/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request orderTypeList];
+    }
 }
 
 - (void)didReceiveMemoryWarning
