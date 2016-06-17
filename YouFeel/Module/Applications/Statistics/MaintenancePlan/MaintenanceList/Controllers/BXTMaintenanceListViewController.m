@@ -14,6 +14,7 @@
 #import <MJRefresh.h>
 #import "MYAlertAction.h"
 #import "BXTMaintenanceBookViewController.h"
+#import "BXTGlobal.h"
 
 @interface BXTMaintenanceListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -62,8 +63,7 @@
     
     
     if ([self.stateStr isEqualToString:@"0"] || [self.stateStr isEqualToString:@"1"]) {
-        [MYAlertAction showAlertWithTitle:@"当前只能查看提交过内容的维保记录" msg:nil chooseBlock:^(NSInteger buttonIdx) {
-            
+        [MYAlertAction showAlertWithTitle:@"仅显示已操作过的维保记录" msg:nil chooseBlock:^(NSInteger buttonIdx) {
         } buttonsStatement:@"知道了", nil];
     }
     
