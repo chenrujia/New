@@ -13,7 +13,8 @@
 @implementation UITabBar (badge)
 
 //显示小红点
-- (void)showBadgeOnItemIndex:(int)index{
+- (void)showBadgeOnItemIndex:(int)index
+{
     //移除之前的小红点
     [self removeBadgeOnItemIndex:index];
     
@@ -33,7 +34,8 @@
 }
 
 //隐藏小红点
-- (void)hideBadgeOnItemIndex:(int)index{
+- (void)hideBadgeOnItemIndex:(int)index
+{
     //移除小红点
     [self removeBadgeOnItemIndex:index];
 }
@@ -41,8 +43,10 @@
 //移除小红点
 - (void)removeBadgeOnItemIndex:(int)index{
     //按照tag值进行移除
-    for (UIView *subView in self.subviews) {
-        if (subView.tag == 888+index) {
+    for (UIView *subView in self.subviews)
+    {
+        if (subView.tag == 888 + index)
+        {
             [subView removeFromSuperview];
         }
     }

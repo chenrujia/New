@@ -40,6 +40,7 @@ PODS:
   - ReactiveCocoa/no-arc (2.5)
   - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
+  - RKNotificationHub (2.0.1)
   - RongCloudIMKit (2.5.1)
   - SDAutoLayout (1.53)
   - SDCycleScrollView (1.64):
@@ -72,6 +73,7 @@ DEPENDENCIES:
   - NSDate-Escort
   - ObjectiveSugar
   - ReactiveCocoa
+  - RKNotificationHub
   - RongCloudIMKit
   - SDAutoLayout
   - SDCycleScrollView
@@ -112,6 +114,7 @@ SPEC CHECKSUMS:
   NSDate-Escort: 3469fefab423c094108c2e864416b61b6ac0edbc
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
+  RKNotificationHub: d80905a948c79c11673345f807133a0bfd17e320
   RongCloudIMKit: d7b234005ed139f03081ca87d48ad9a8ee7dd766
   SDAutoLayout: ea6e2ae9fbb438aa2feb0c4363dba9297e98638a
   SDCycleScrollView: 806fedb9342ab03b58b84442f985517b42c7cbb7
@@ -123,4 +126,6 @@ SPEC CHECKSUMS:
   UMengAnalytics-NO-IDFA: 0dc13e0a7b34eaff346e7f57fc7a698f8f26cd59
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: 59b1f58505f367a37066ba47b618b0ddc071fb9e
+
+COCOAPODS: 1.0.1
