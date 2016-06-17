@@ -95,7 +95,11 @@
     CGFloat straightPieChartW = SCREEN_WIDTH - 30;
     AksStraightPieChart *straightPieChart = [[AksStraightPieChart alloc] initWithFrame:CGRectMake(15, 15, straightPieChartW, bgViewH)];
     straightPieChart.transPieClick = ^(void) {
+        BXTEPSystemRate *rateModel = self.dataArray[index];
         
+        BXTEquipmentListViewController *elvc = [[BXTEquipmentListViewController alloc] init];
+        elvc.typeID = rateModel.type_id;
+        [[self navigation] pushViewController:elvc animated:YES];
     };
     [newCell.contentView addSubview:straightPieChart];
     

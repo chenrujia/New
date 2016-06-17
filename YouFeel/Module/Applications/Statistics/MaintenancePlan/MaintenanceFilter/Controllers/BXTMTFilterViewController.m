@@ -10,6 +10,7 @@
 #import "BXTEPFilterCell.h"
 #import "BXTRepairStateInfo.h"
 
+
 @interface BXTMTFilterViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -33,8 +34,8 @@
 @property (nonatomic, strong) NSMutableArray *subgroupIDArray;
 @property (nonatomic, strong) NSMutableArray *faulttypeArray;
 @property (nonatomic, strong) NSMutableArray *faulttypeIDArray;
-@property (nonatomic, strong) NSMutableArray *repairStateArray;
-@property (nonatomic, strong) NSMutableArray *repairStateIDArray;
+@property (nonatomic, strong) NSArray *repairStateArray;
+@property (nonatomic, strong) NSArray *repairStateIDArray;
 
 @end
 
@@ -46,41 +47,30 @@
     
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
     
-    NSArray *timeArray = [BXTGlobal dayStartAndEnd];
+    NSArray *startTimeArray = [BXTGlobal yearStartAndEnd];
+    NSArray *endTimeArray = [BXTGlobal dayStartAndEnd];
     
-    self.titleArray = @[@"开始时间", @"结束时间", @"专业分组", @"维保分类", @"工单分类"];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:timeArray[0], timeArray[0], @"请选择", @"请选择", @"请选择", nil];
-    self.transArray = [[NSMutableArray alloc] initWithObjects:timeArray[0], timeArray[0], @"", @"", @"", nil];
+    self.titleArray = @[@"开始时间", @"结束时间", @"专业分组", @"维保分类", @"维保状态"];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:startTimeArray[0], endTimeArray[0], @"请选择", @"请选择", @"请选择", nil];
+    self.transArray = [[NSMutableArray alloc] initWithObjects:startTimeArray[0], endTimeArray[0], @"", @"", @"", nil];
     
     self.subgroupArray = [[NSMutableArray alloc] init];
     self.subgroupIDArray = [[NSMutableArray alloc] init];
     self.faulttypeArray = [[NSMutableArray alloc] init];
     self.faulttypeIDArray = [[NSMutableArray alloc] init];
-    self.repairStateArray = [[NSMutableArray alloc] init];
-    self.repairStateIDArray = [[NSMutableArray alloc] init];
+    self.repairStateArray = @[@"全部", @"进行中", @"已完成"];
+    self.repairStateIDArray = @[@"0", @"1", @"2"];
     
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"数据加载中..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /**专业分组**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        [request listOFSubgroupShopID:companyInfo.company_id];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**系统分组**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request faultTypeListWithRTaskType:@"2" more:nil];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**工单分类**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request repairStates];
-    });
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    
+    /**专业分组**/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    [request listOFSubgroupShopID:companyInfo.company_id];
     
     [self createUI];
 }
@@ -254,7 +244,7 @@
         self.selectArray = self.faulttypeArray;
     }
     else if (index == 4) {
-        self.selectArray = self.repairStateArray;
+        self.selectArray = (NSMutableArray *)self.repairStateArray;
     }
     
     self.selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -412,7 +402,7 @@
     NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
     
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
-    [formatter1 setDateFormat:@"yyyy/MM/dd"];
+    [formatter1 setDateFormat:@"yyyy-MM-dd"];
     NSString *dateStr = [formatter1 stringFromDate:inputDate];
     
     NSLog(@"%@ - %@", theComponents, weekdays);
@@ -454,7 +444,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == SubgroupLists && data.count > 0)
@@ -465,26 +455,19 @@
             [self.subgroupIDArray addObject:dataDict[@"id"]];
         }
         
+        /**系统分组**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request faultTypeListWithRTaskType:@"2" more:nil];
+        
     }
     else if (type == FaultType && data.count > 0)
     {
+        [BXTGlobal hideMBP];
+        
         for (NSDictionary *dataDict in data)
         {
             [self.faulttypeArray addObject:dataDict[@"faulttype"]];
             [self.faulttypeIDArray addObject:dataDict[@"id"]];
-        }
-    }
-    else if (type == RepairState && data.count > 0)
-    {
-        NSMutableArray *repairStateArray = [[NSMutableArray alloc] init];
-        [BXTRepairStateInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"repairStateID":@"id"};
-        }];
-        [repairStateArray addObjectsFromArray:[BXTRepairStateInfo mj_objectArrayWithKeyValuesArray:data]];
-        
-        for (BXTRepairStateInfo *repairStateInfo in repairStateArray) {
-            [self.repairStateArray addObject:repairStateInfo.param_value];
-            [self.repairStateIDArray addObject:repairStateInfo.param_key];
         }
     }
     
@@ -493,7 +476,12 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
+    
+    [self showMBP:@"请求数据失败，请返回重试" withBlock:^(BOOL hidden) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning

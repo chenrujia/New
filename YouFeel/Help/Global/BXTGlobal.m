@@ -290,8 +290,8 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSRange range = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[NSDate date]];
     NSUInteger numberOfDaysInMonth = range.length;
     
-    NSString *startTime = [NSString stringWithFormat:@"%ld-%ld-1", (long)year, (long)month];
-    NSString *endTime = [NSString stringWithFormat:@"%ld-%ld-%ld",(long)year, (long)month, (unsigned long)numberOfDaysInMonth];
+    NSString *startTime = [NSString stringWithFormat:@"%ld-%2.ld-01", (long)year, (long)month];
+    NSString *endTime = [NSString stringWithFormat:@"%ld-%2.ld-%2.ld",(long)year, (long)month, (unsigned long)numberOfDaysInMonth];
     
     return [NSArray arrayWithObjects:startTime, endTime, nil];
 }
@@ -302,7 +302,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
     NSInteger year = [components year];
     
-    NSString *startTime = [NSString stringWithFormat:@"%ld-1-1", (long)year];
+    NSString *startTime = [NSString stringWithFormat:@"%ld-01-01", (long)year];
     NSString *endTime = [NSString stringWithFormat:@"%ld-12-31",(long)year];
     
     return [NSArray arrayWithObjects:startTime, endTime, nil];
@@ -352,8 +352,8 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 {
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
     NSString *yearStr = [NSString stringWithFormat:@"%ld", (long)[components year]];
-    NSString *monthStr = [NSString stringWithFormat:@"%ld", (long)[components month]];
-    NSString *dayStr = [NSString stringWithFormat:@"%ld", (long)[components day]];
+    NSString *monthStr = [NSString stringWithFormat:@"%2.ld", (long)[components month]];
+    NSString *dayStr = [NSString stringWithFormat:@"%2.ld", (long)[components day]];
     return [NSArray arrayWithObjects:yearStr, monthStr, dayStr, nil];
 }
 

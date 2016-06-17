@@ -169,6 +169,7 @@
     self.requestType = RepairList;
     
     NSDictionary *dic = @{@"faulttype_id": faulttype_id,
+                          @"task_type":task_type,
                           @"order": order,
                           @"dispatch_uid": dispatch_uid,
                           @"daily_timeout": daily_timeout,
@@ -195,10 +196,6 @@
     else if (listType == MyRepairList)
     {
         [mutableDic setObject:[BXTGlobal getUserProperty:U_BRANCHUSERID] forKey:@"fault_id"];
-    }
-    else if (listType == OtherList)
-    {
-        [mutableDic setObject:task_type forKey:@"task_type"];
     }
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_lists",[BXTGlobal shareGlobal].baseURL];
@@ -792,9 +789,9 @@
     NSDictionary *dic = @{@"date": date,
                           @"state": state,
                           @"order": order,
-                          @"type_id": typeID,
+                          @"type_ids": typeID,
                           @"area_id": areaID,
-                          @"place_id": placeID,
+                          @"many_place_id": placeID,
                           @"stores_id": storesID,
                           @"pagesize": pageSize,
                           @"page": page};
