@@ -33,8 +33,9 @@
         tempValue = @"Default_iphone5";
     }
     
+    UIImage *image = [UIImage imageNamed:tempValue];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    imageView.image = [UIImage imageNamed:tempValue];
+    imageView.image = image;
     [self.view addSubview:imageView];
 }
 
