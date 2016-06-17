@@ -12,6 +12,7 @@
 #import "BXTMTPlanListCell.h"
 #import "BXTMTPlanList.h"
 #import <MJRefresh.h>
+#import "MYAlertAction.h"
 #import "BXTMaintenanceBookViewController.h"
 
 @interface BXTMaintenanceListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
@@ -35,7 +36,7 @@
 {
     [super viewDidLoad];
     
-    [self navigationSetting:@"全部维保任务" andRightTitle:@"  筛选" andRightImage:nil];
+    [self navigationSetting:@"全部维保记录" andRightTitle:@"  筛选" andRightImage:nil];
     
     self.typeArray = [[NSArray alloc] initWithObjects:@"时间逆序", @"时间正序", nil];
     self.dataArray = [[NSMutableArray alloc] init];
@@ -57,6 +58,12 @@
     if (!self.stateStr)
     {
         self.stateStr = @"";
+    }
+    
+    if ([self.stateStr isEqualToString:@"0"] || [self.stateStr isEqualToString:@"1"]) {
+        [MYAlertAction showAlertWithTitle:@"当前只能查看提交过内容的维保记录" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+            
+        } buttonsStatement:@"知道了", nil];
     }
     
     [self createUI];
