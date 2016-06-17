@@ -56,7 +56,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
-    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.conversationType = ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
     conversationVC.title = userInfo.name;
     [self.navigationController pushViewController:conversationVC animated:YES];
@@ -98,7 +98,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
-    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.conversationType = ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
     conversationVC.title = userInfo.name;
     [self.navigationController pushViewController:conversationVC animated:YES];

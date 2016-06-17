@@ -179,7 +179,11 @@
     }
     else if (indexPath.section == 1)
     {
-        return 118.f;
+        BXTDeviceInspectionInfo *inspectionInfo = self.maintenceInfo.inspection_info[indexPath.row];
+        NSString *content = [NSString stringWithFormat:@"作业内容：  %@",inspectionInfo.check_item];
+        CGSize size = MB_MULTILINE_TEXTSIZE(content, [UIFont systemFontOfSize:17], CGSizeMake(SCREEN_WIDTH - 20, 300), NSLineBreakByWordWrapping);
+        CGFloat height = 8.f + size.height + 10.f + inspectionInfo.check_arr.count * (8 + 20) + 10.f;
+        return height;
     }
     else if (indexPath.section == 2 || indexPath.section == 3)
     {
@@ -245,30 +249,27 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
-        NSInteger number = indexPath.row + 1;
-        cell.workInstuction.text = [NSString stringWithFormat:@"作业指示%ld",(long)number];
+        for (UIView *subView in cell.contentView.subviews)
+        {
+            if (subView.tag >= 600)
+            {
+                [subView removeFromSuperview];
+            }
+        }
+        
         BXTDeviceInspectionInfo *inspectionInfo = self.maintenceInfo.inspection_info[indexPath.row];
-        cell.maintenceProject.text = inspectionInfo.check_item;
-        if (inspectionInfo.check_arr.count == 1)
+        NSString *content = [NSString stringWithFormat:@"作业内容：  %@",inspectionInfo.check_item];
+        CGSize size = MB_MULTILINE_TEXTSIZE(content, [UIFont systemFontOfSize:17], CGSizeMake(SCREEN_WIDTH - 20, 300), NSLineBreakByWordWrapping);
+        cell.maintenceProject.text = content;
+        
+        for (NSInteger i = 0; i < inspectionInfo.check_arr.count; i++)
         {
-            BXTDeviceCheckInfo *checkProOne = inspectionInfo.check_arr[0];
-            cell.nowState.text = checkProOne.default_description;
-        }
-        else if (inspectionInfo.check_arr.count == 2)
-        {
-            BXTDeviceCheckInfo *checkProOne = inspectionInfo.check_arr[0];
-            cell.nowState.text = checkProOne.default_description;
-            BXTDeviceCheckInfo *checkProTwo = inspectionInfo.check_arr[1];
-            cell.repairNotes.text = checkProTwo.default_description;
-        }
-        else if (inspectionInfo.check_arr.count == 3)
-        {
-            BXTDeviceCheckInfo *checkProOne = inspectionInfo.check_arr[0];
-            cell.nowState.text = checkProOne.default_description;
-            BXTDeviceCheckInfo *checkProTwo = inspectionInfo.check_arr[1];
-            cell.repairNotes.text = checkProTwo.default_description;
-            BXTDeviceCheckInfo *checkProThree = inspectionInfo.check_arr[2];
-            cell.repairResult.text = checkProThree.default_description;
+            BXTDeviceCheckInfo *checkPro = inspectionInfo.check_arr[i];
+            UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.f, 8.f + size.height + 10.f + i * (8 + 20), SCREEN_WIDTH - 20, 20)];
+            infoLabel.font = [UIFont systemFontOfSize:17.f];
+            infoLabel.text = [NSString stringWithFormat:@"%@：%@",checkPro.check_con,checkPro.default_description];
+            infoLabel.tag = 600 + indexPath.row;
+            [cell.contentView addSubview:infoLabel];
         }
         
         return cell;

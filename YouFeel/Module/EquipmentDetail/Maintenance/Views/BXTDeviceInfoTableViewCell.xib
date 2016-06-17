@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -137,7 +137,7 @@
                             <constraint firstAttribute="height" constant="20" id="YdK-pt-M3z"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
                             <mask key="constraints">
@@ -157,7 +157,7 @@
                     <constraint firstItem="gBY-mp-T3N" firstAttribute="top" secondItem="TEB-M2-fg3" secondAttribute="bottom" constant="10" id="LfW-rw-B0X"/>
                     <constraint firstAttribute="trailing" secondItem="Mot-kE-b4v" secondAttribute="trailing" constant="20" id="Pih-QB-PpV"/>
                     <constraint firstAttribute="trailing" secondItem="E0k-0P-UFN" secondAttribute="trailing" constant="15" id="Q0k-w3-sjh">
-                        <variation key="heightClass=regular-widthClass=compact" constant="104"/>
+                        <variation key="heightClass=regular-widthClass=compact" constant="85"/>
                     </constraint>
                     <constraint firstAttribute="trailing" secondItem="tAV-Xn-VWr" secondAttribute="trailing" constant="15" id="RyW-ec-38o"/>
                     <constraint firstItem="52O-lA-GY1" firstAttribute="top" secondItem="gBY-mp-T3N" secondAttribute="bottom" constant="10" id="TJE-AF-0Q7"/>
@@ -186,26 +186,26 @@
                         <exclude reference="52O-lA-GY1"/>
                     </mask>
                     <mask key="constraints">
-                        <exclude reference="Q0k-w3-sjh"/>
-                        <exclude reference="YNg-PF-7Tb"/>
-                        <exclude reference="utk-XW-9uy"/>
-                        <exclude reference="DrM-tl-qtz"/>
-                        <exclude reference="RyW-ec-38o"/>
-                        <exclude reference="bM1-f6-iwf"/>
-                        <exclude reference="bpu-WT-wdF"/>
-                        <exclude reference="k64-Vs-3dB"/>
-                        <exclude reference="mzF-Jp-6gY"/>
-                        <exclude reference="a8i-Ak-VVB"/>
-                        <exclude reference="amg-Ya-IZK"/>
-                        <exclude reference="gHw-AZ-hGi"/>
-                        <exclude reference="LON-a6-yOr"/>
-                        <exclude reference="LfW-rw-B0X"/>
-                        <exclude reference="jWQ-WJ-lEK"/>
                         <exclude reference="TJE-AF-0Q7"/>
                         <exclude reference="ovH-Ms-YJP"/>
                         <exclude reference="zgy-ib-jGq"/>
+                        <exclude reference="Q0k-w3-sjh"/>
+                        <exclude reference="YNg-PF-7Tb"/>
+                        <exclude reference="utk-XW-9uy"/>
                         <exclude reference="Pih-QB-PpV"/>
                         <exclude reference="cI8-nj-OAq"/>
+                        <exclude reference="a8i-Ak-VVB"/>
+                        <exclude reference="amg-Ya-IZK"/>
+                        <exclude reference="gHw-AZ-hGi"/>
+                        <exclude reference="bpu-WT-wdF"/>
+                        <exclude reference="k64-Vs-3dB"/>
+                        <exclude reference="mzF-Jp-6gY"/>
+                        <exclude reference="LON-a6-yOr"/>
+                        <exclude reference="LfW-rw-B0X"/>
+                        <exclude reference="jWQ-WJ-lEK"/>
+                        <exclude reference="DrM-tl-qtz"/>
+                        <exclude reference="RyW-ec-38o"/>
+                        <exclude reference="bM1-f6-iwf"/>
                     </mask>
                 </variation>
                 <variation key="heightClass=regular-widthClass=compact">
@@ -219,26 +219,26 @@
                         <include reference="52O-lA-GY1"/>
                     </mask>
                     <mask key="constraints">
-                        <include reference="Q0k-w3-sjh"/>
-                        <include reference="YNg-PF-7Tb"/>
-                        <include reference="utk-XW-9uy"/>
-                        <include reference="DrM-tl-qtz"/>
-                        <include reference="RyW-ec-38o"/>
-                        <include reference="bM1-f6-iwf"/>
-                        <include reference="bpu-WT-wdF"/>
-                        <include reference="k64-Vs-3dB"/>
-                        <include reference="mzF-Jp-6gY"/>
-                        <include reference="a8i-Ak-VVB"/>
-                        <include reference="amg-Ya-IZK"/>
-                        <include reference="gHw-AZ-hGi"/>
-                        <include reference="LON-a6-yOr"/>
-                        <include reference="LfW-rw-B0X"/>
-                        <include reference="jWQ-WJ-lEK"/>
                         <include reference="TJE-AF-0Q7"/>
                         <include reference="ovH-Ms-YJP"/>
                         <include reference="zgy-ib-jGq"/>
+                        <include reference="Q0k-w3-sjh"/>
+                        <include reference="YNg-PF-7Tb"/>
+                        <include reference="utk-XW-9uy"/>
                         <include reference="Pih-QB-PpV"/>
                         <include reference="cI8-nj-OAq"/>
+                        <include reference="a8i-Ak-VVB"/>
+                        <include reference="amg-Ya-IZK"/>
+                        <include reference="gHw-AZ-hGi"/>
+                        <include reference="bpu-WT-wdF"/>
+                        <include reference="k64-Vs-3dB"/>
+                        <include reference="mzF-Jp-6gY"/>
+                        <include reference="LON-a6-yOr"/>
+                        <include reference="LfW-rw-B0X"/>
+                        <include reference="jWQ-WJ-lEK"/>
+                        <include reference="DrM-tl-qtz"/>
+                        <include reference="RyW-ec-38o"/>
+                        <include reference="bM1-f6-iwf"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
