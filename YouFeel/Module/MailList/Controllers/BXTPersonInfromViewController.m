@@ -23,9 +23,8 @@
     UIButton *phoneBtn;
 }
 
-@property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) UITableView *tableView;
-
+@property (nonatomic, strong) NSMutableArray  *dataArray;
+@property (nonatomic, strong) UITableView     *tableView;
 @property (strong, nonatomic) BXTPersonInform *informModel;
 
 @end
@@ -63,9 +62,7 @@
     logoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, valueForDevice(235.f, 213.f, 181.5f, 153.5f) + 30)];
     logoImgView.userInteractionEnabled = YES;
     logoImgView.image = [UIImage imageNamed:@"Nav_Bar"];
-    
     [self.view addSubview:logoImgView];
-    
     
     // 返回
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -78,7 +75,6 @@
     }];
     [logoImgView addSubview:backBtn];
     
-    
     // title
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, valueForDevice(35.f, 35.f, 30.f, 25.f), SCREEN_WIDTH-130, 20.f)];
     titleLabel.center = CGPointMake(SCREEN_WIDTH/2.f, titleLabel.center.y);
@@ -88,14 +84,12 @@
     [titleLabel setTextColor:colorWithHexString(@"ffffff")];
     [logoImgView addSubview:titleLabel];
     
-    
     // 头像
     iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(titleLabel.frame) + valueForDevice(25, 20, 12, 10), valueForDevice(90, 90, 80, 65), valueForDevice(90, 90, 80, 65))];
     iconView.center = CGPointMake(SCREEN_WIDTH/2.f, iconView.center.y);
     iconView.layer.cornerRadius = valueForDevice(90, 90, 80, 65)/2;
     iconView.layer.masksToBounds = YES;
     [logoImgView addSubview:iconView];
-    
     
     // 姓名
     nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(iconView.frame) + (IS_IPHONE6 ? 12 : 8), 130.f, 20.f)];
@@ -105,13 +99,11 @@
     nameLabel.font = [UIFont systemFontOfSize:17.f];
     [logoImgView addSubview:nameLabel];
     
-    
     // 性别
     sexView = [[UIImageView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(nameLabel.frame), 15, 15)];
     sexView.center = CGPointMake(SCREEN_WIDTH/2.f + 60, nameLabel.center.y);
     sexView.contentMode = UIViewContentModeScaleAspectFit;
     [logoImgView addSubview:sexView];
-    
     
     // 职位
     positionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(nameLabel.frame) + (IS_IPHONE6 ? 12 : 8), 180.f, 20.f)];
@@ -298,8 +290,9 @@
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
     [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
+    
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
-    conversationVC.conversationType =ConversationType_PRIVATE;
+    conversationVC.conversationType = ConversationType_PRIVATE;
     conversationVC.targetId = userInfo.userId;
     conversationVC.title = userInfo.name;
     [self.navigationController pushViewController:conversationVC animated:YES];

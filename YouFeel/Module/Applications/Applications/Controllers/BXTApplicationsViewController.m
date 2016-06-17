@@ -71,7 +71,6 @@
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
     [self.itemsCollectionView reloadData];
-    [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
 }
 
 - (void)createUI
@@ -158,6 +157,8 @@
                 [nlvc.delegateSignal subscribeNext:^(id x) {
                     [BXTRemindNum sharedManager].app_show = 0;
                 }];
+                
+                [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
                 
                 [self.navigationController pushViewController:nlvc animated:YES];
             }
