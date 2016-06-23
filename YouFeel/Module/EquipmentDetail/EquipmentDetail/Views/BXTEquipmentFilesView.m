@@ -131,7 +131,6 @@
             BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] init];
             [[self navigation] pushViewController:sdvc animated:YES];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
-            
         }
         else
         {
