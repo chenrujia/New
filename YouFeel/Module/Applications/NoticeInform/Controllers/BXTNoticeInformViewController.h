@@ -9,12 +9,11 @@
 #import "BXTBaseViewController.h"
 
 typedef NS_ENUM(NSInteger, PushType) {
-    PushType_NoticeInform = 1,
-    PushType_Project,
-    PushType_Ads
+    PushType_OA = 1,
+    PushType_Other,
 };
 
-@interface BXTNoticeInformViewController : BXTBaseViewController
+@interface BXTNoticeInformViewController : UIViewController
 
 @property (nonatomic, assign) NSInteger pushType;
 @property (nonatomic, copy) NSString *titleStr;

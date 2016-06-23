@@ -71,8 +71,11 @@
 {
     BXTDOFilterViewController *doFilterVC = [[BXTDOFilterViewController alloc] init];
     doFilterVC.delegateSignal = [RACSubject subject];
+    @weakify(self);
     [doFilterVC.delegateSignal subscribeNext:^(NSArray *transArray) {
         NSLog(@"transArray --- %@", transArray);
+        @strongify(self);
+        
         self.transTimeArray = transArray[0];
         self.transGroupStr = transArray[1];
         

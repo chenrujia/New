@@ -139,6 +139,7 @@
     BXTReadNotice *model = self.dataArray[indexPath.section];
     
     BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
+    nivc.titleStr = @"公告详情";
     nivc.urlStr = model.view_url;
     nivc.delegateSignal = [RACSubject subject];
     @weakify(self);
@@ -164,7 +165,7 @@
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
     
-    if (self.currentPage == 1) {
+    if (self.currentPage == 1 && self.dataArray.count != 0) {
         [self.dataArray removeAllObjects];
     }
     
@@ -177,8 +178,9 @@
             BXTReadNotice *model = [BXTReadNotice modelWithDict:dataDict];
             [self.dataArray addObject:model];
         }
-        [self.tableView reloadData];
     }
+    
+    [self.tableView reloadData];
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

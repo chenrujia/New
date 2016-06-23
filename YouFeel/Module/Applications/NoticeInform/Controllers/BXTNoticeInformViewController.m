@@ -14,28 +14,30 @@
 
 @implementation BXTNoticeInformViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = colorWithHexString(@"eff3f6");
     
-    if (self.pushType == PushType_Ads || self.pushType == PushType_Project)
-    {
-        [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
-    }
-    else
-    {
-        [self navigationSetting:@"公告详情" andRightTitle:nil andRightImage:nil];
-    }
     
-    [self showLoadingMBP:@"加载中..."];
+    [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
+    
+    
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
     NSString *urlStr = self.urlStr;
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
     webView.delegate = self;
     [self.view addSubview:webView];
     
-    NSLog(@"----%@-----", urlStr);
+    NSLog(@"%@", urlStr);
 }
 
 - (void)navigationLeftButton
@@ -47,15 +49,79 @@
 }
 
 #pragma mark -
+#pragma mark 设置导航条
+- (UIImageView *)navigationSetting:(NSString *)title
+                     andRightTitle:(NSString *)right_title
+                     andRightImage:(UIImage *)image
+{
+    // naviView
+    UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
+    naviView.tag = KNavViewTag;
+    NSString *naviImageStr = @"Nav_Bar";
+    if (self.pushType == PushType_OA) {
+        naviImageStr = @"Nav_Bar_OA";
+    }
+    naviView.image = [[UIImage imageNamed:naviImageStr] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    naviView.userInteractionEnabled = YES;
+    [self.view addSubview:naviView];
+    
+    
+    // navi_titleLabel
+    UILabel *navi_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64, 20, SCREEN_WIDTH-128, 44)];
+    navi_titleLabel.font = [UIFont systemFontOfSize:18.f];
+    navi_titleLabel.textColor = [UIColor whiteColor];
+    navi_titleLabel.textAlignment = NSTextAlignmentCenter;
+    navi_titleLabel.text = title;
+    [naviView addSubview:navi_titleLabel];
+    
+    
+    // navi_left
+    UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect rect = CGRectMake(0, 20, 44, 44);
+    NSString *leftBtnImageStr = @"arrowBack";
+    if (self.pushType == PushType_OA) {
+        rect = CGRectMake(10, 20, 60, 44);
+        leftBtnImageStr = @"shut_down";
+    }
+    navi_leftButton.frame = rect;
+    [navi_leftButton setImage:[UIImage imageNamed:leftBtnImageStr] forState:UIControlStateNormal];
+    [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
+    [naviView addSubview:navi_leftButton];
+    
+    
+    // nav_right
+    if (right_title == nil && image == nil) {
+        return nil;
+    }
+    
+    UIButton * nav_rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    nav_rightButton.frame = CGRectMake(SCREEN_WIDTH - 75, 20, 70, 44);
+    if (image)
+    {
+        [nav_rightButton setImage:image forState:UIControlStateNormal];
+    }
+    else
+    {
+        [nav_rightButton.titleLabel setFont:[UIFont systemFontOfSize:16.f]];
+        [nav_rightButton setTitle:right_title forState:UIControlStateNormal];
+    }
+    [nav_rightButton setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    [nav_rightButton addTarget:self action:@selector(navigationRightButton) forControlEvents:UIControlEventTouchUpInside];
+    [naviView addSubview:nav_rightButton];
+    
+    return naviView;
+}
+
+#pragma mark -
 #pragma mark - UIWebViewDelegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

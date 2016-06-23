@@ -1083,8 +1083,18 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)informOFOA
+{
+    self.requestType = InformOFOA;
+    
+    NSString *url = [NSString stringWithFormat:@"%@&module=Apps&opt=get_oa_info&out_userid=%@",[BXTGlobal shareGlobal].baseURL, [BXTGlobal getUserProperty:U_USERID]];
+    [self postRequest:url withParameters:nil];
+}
+
 - (void)appVCAdvertisement
 {
+    self.requestType = AppVCAdvertisement;
+    
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     NSString *shopID = companyInfo.company_id;
     NSString *url = [NSString stringWithFormat:@"%@/module/shops/opt/shop_info&id=%@", KADMINBASEURL, shopID];
