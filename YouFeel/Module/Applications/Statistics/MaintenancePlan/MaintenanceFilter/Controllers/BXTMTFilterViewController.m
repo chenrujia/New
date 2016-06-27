@@ -401,6 +401,7 @@
     NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
     NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
     
+    
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
     [formatter1 setDateFormat:@"yyyy-MM-dd"];
     NSString *dateStr = [formatter1 stringFromDate:inputDate];
