@@ -2521,10 +2521,10 @@
             </objects>
             <point key="canvasLocation" x="-205.5" y="463.5"/>
         </scene>
-        <!--Search Place View Controller-->
+        <!--Search Item View Controller-->
         <scene sceneID="ZhX-J5-kpv">
             <objects>
-                <viewController storyboardIdentifier="BXTSearchPlaceViewController" id="1gT-HT-YAt" customClass="BXTSearchPlaceViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BXTSearchItemViewController" id="1gT-HT-YAt" customClass="BXTSearchItemViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Rpk-bN-Fnr"/>
                         <viewControllerLayoutGuide type="bottom" id="kId-d8-fja"/>
@@ -2553,14 +2553,6 @@
                                     <outlet property="delegate" destination="1gT-HT-YAt" id="u1g-au-Rbz"/>
                                 </connections>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="S5T-30-vTj">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="1gT-HT-YAt" id="IVP-Se-0jh"/>
-                                    <outlet property="delegate" destination="1gT-HT-YAt" id="AcC-ZF-LlG"/>
-                                </connections>
-                            </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FIn-xr-cr8">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <subviews>
@@ -2667,15 +2659,9 @@
                         <constraints>
                             <constraint firstItem="FIn-xr-cr8" firstAttribute="leading" secondItem="Mvh-S5-kVg" secondAttribute="leading" id="1Qb-aS-HzJ"/>
                             <constraint firstItem="ThS-o1-Enx" firstAttribute="top" secondItem="Mvh-S5-kVg" secondAttribute="top" constant="64" id="5zq-FM-ZpS"/>
-                            <constraint firstItem="S5T-30-vTj" firstAttribute="leading" secondItem="Mvh-S5-kVg" secondAttribute="leading" id="6vd-3I-yPi"/>
-                            <constraint firstAttribute="trailing" secondItem="S5T-30-vTj" secondAttribute="trailing" id="EHv-yY-E0S"/>
                             <constraint firstAttribute="trailing" secondItem="FIn-xr-cr8" secondAttribute="trailing" id="Hii-N8-a1L"/>
-                            <constraint firstItem="kId-d8-fja" firstAttribute="top" secondItem="S5T-30-vTj" secondAttribute="bottom" constant="68" id="SI7-bG-zf0"/>
                             <constraint firstAttribute="trailing" secondItem="gf0-gk-aft" secondAttribute="trailing" constant="15" id="UWk-oU-X5W"/>
-                            <constraint firstItem="S5T-30-vTj" firstAttribute="top" secondItem="ThS-o1-Enx" secondAttribute="bottom" id="cYj-MB-mwk">
-                                <variation key="heightClass=regular-widthClass=compact" constant="50"/>
-                            </constraint>
-                            <constraint firstItem="FIn-xr-cr8" firstAttribute="top" secondItem="S5T-30-vTj" secondAttribute="bottom" id="fr0-12-ykE"/>
+                            <constraint firstItem="FIn-xr-cr8" firstAttribute="bottom" secondItem="kId-d8-fja" secondAttribute="top" id="fBK-Jg-1by"/>
                             <constraint firstItem="gf0-gk-aft" firstAttribute="centerY" secondItem="C1e-Se-BOR" secondAttribute="centerY" id="gYQ-uZ-azc"/>
                             <constraint firstItem="C1e-Se-BOR" firstAttribute="top" secondItem="ThS-o1-Enx" secondAttribute="bottom" constant="15" id="gwC-ej-H1S"/>
                             <constraint firstAttribute="trailing" secondItem="ThS-o1-Enx" secondAttribute="trailing" id="hIq-5Q-dfs"/>
@@ -2685,13 +2671,11 @@
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="ThS-o1-Enx"/>
-                                <exclude reference="S5T-30-vTj"/>
                                 <exclude reference="FIn-xr-cr8"/>
                                 <exclude reference="C1e-Se-BOR"/>
                                 <exclude reference="gf0-gk-aft"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="SI7-bG-zf0"/>
                                 <exclude reference="UWk-oU-X5W"/>
                                 <exclude reference="gYQ-uZ-azc"/>
                                 <exclude reference="gwC-ej-H1S"/>
@@ -2701,22 +2685,17 @@
                                 <exclude reference="x5n-Ou-FVq"/>
                                 <exclude reference="1Qb-aS-HzJ"/>
                                 <exclude reference="Hii-N8-a1L"/>
-                                <exclude reference="fr0-12-ykE"/>
-                                <exclude reference="6vd-3I-yPi"/>
-                                <exclude reference="EHv-yY-E0S"/>
-                                <exclude reference="cYj-MB-mwk"/>
+                                <exclude reference="fBK-Jg-1by"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="ThS-o1-Enx"/>
-                                <include reference="S5T-30-vTj"/>
                                 <include reference="FIn-xr-cr8"/>
                                 <include reference="C1e-Se-BOR"/>
                                 <include reference="gf0-gk-aft"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="SI7-bG-zf0"/>
                                 <include reference="UWk-oU-X5W"/>
                                 <include reference="gYQ-uZ-azc"/>
                                 <include reference="gwC-ej-H1S"/>
@@ -2726,10 +2705,7 @@
                                 <include reference="x5n-Ou-FVq"/>
                                 <include reference="1Qb-aS-HzJ"/>
                                 <include reference="Hii-N8-a1L"/>
-                                <include reference="fr0-12-ykE"/>
-                                <include reference="6vd-3I-yPi"/>
-                                <include reference="EHv-yY-E0S"/>
-                                <include reference="cYj-MB-mwk"/>
+                                <include reference="fBK-Jg-1by"/>
                             </mask>
                         </variation>
                     </view>
@@ -2737,7 +2713,6 @@
                     <connections>
                         <outlet property="autoSwitch" destination="gf0-gk-aft" id="LuX-nO-Xj2"/>
                         <outlet property="commitBtn" destination="4Zo-Uc-KYK" id="xBL-Md-rLb"/>
-                        <outlet property="currentTable" destination="S5T-30-vTj" id="Pzl-iP-OXP"/>
                         <outlet property="searchBarView" destination="ThS-o1-Enx" id="CTF-N4-rlb"/>
                     </connections>
                 </viewController>

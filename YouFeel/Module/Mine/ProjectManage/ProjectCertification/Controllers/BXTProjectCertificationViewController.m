@@ -12,7 +12,7 @@
 #import "BXTSubgroupInfo.h"
 #import "BXTAllDepartmentInfo.h"
 #import "BXTPostionInfo.h"
-#import "BXTSearchPlaceViewController.h"
+#import "BXTSearchItemViewController.h"
 #import "ANKeyValueTable.h"
 #import "BXTProjectManageViewController.h"
 #import "BXTChooseListViewController.h"
@@ -371,7 +371,7 @@
 - (void)pushDepartmentViewController
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-    BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+    BXTSearchItemViewController *searchVC = (BXTSearchItemViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchItemViewController"];
     @weakify(self);
     [searchVC userChoosePlace:self.departmentArray isProgress:NO type:DepartmentSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
         @strongify(self);
