@@ -87,6 +87,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     ListOFAllShops = 74,
     ListOFStoresPlace = 75,
     DeleteNews = 76,
+    InformOFOA = 77,
+    AppVCAdvertisement = 78,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -660,6 +662,11 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  分店获取设置信息
  */
 - (void)shopConfig;
+
+/**
+ *  OA系统
+ */
+- (void)informOFOA;
 
 /**
  *  广告位图片展示

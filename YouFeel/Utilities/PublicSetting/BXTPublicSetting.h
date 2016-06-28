@@ -14,6 +14,7 @@
 
 //  app 版本
 #define IOSSHORTAPPVERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
+#define VERSIONNUM [IOSSHORTAPPVERSION stringByReplacingOccurrencesOfString:@"." withString:@""]
 
 //  app build版本
 #define IOSAPPVERSION      [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]
@@ -69,8 +70,8 @@
 #define KTABBARHEIGHT           44.f
 
 //  请求地址
-#define KADMINBASEURL           [NSString stringWithFormat:@"%@/version/%@", @"http://admin.helloufu.com/?r=port/Get_iPhone_v2_Port", IOSSHORTAPPVERSION]
-#define KAPIBASEURL              [NSString stringWithFormat:@"%@&version=%@", @"http://api.helloufu.com/?c=Port&m=actionGet_iPhone_v2_Port", IOSSHORTAPPVERSION]
+#define KADMINBASEURL           [NSString stringWithFormat:@"%@/version/%@", @"http://admin.helloufu.com/?r=port/Get_iPhone_v2_Port", VERSIONNUM]
+#define KAPIBASEURL              [NSString stringWithFormat:@"%@&version=%@", @"http://api.helloufu.com/?c=Port&m=actionGet_iPhone_v2_Port", VERSIONNUM]
 
 #define YPLACESAVE               @"PlaceSave"
 #define YMAILLISTSAVE            @"MailListSave"

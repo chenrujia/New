@@ -27,6 +27,7 @@
 @property (nonatomic, strong) NSArray *imageArray;
 
 @property (nonatomic, strong) UIButton *headImageView;
+@property (nonatomic, copy) NSString *transURL;
 
 @end
 
@@ -50,8 +51,19 @@
         self.imageArray = @[@"app_book", @"app_symbol"];
     }
     
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request appVCAdvertisement];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**广告位图片展示**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request appVCAdvertisement];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**请求故障类型列表**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request informOFOA];
+    });
+    
     
     [self createUI];
     NSArray *listArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
@@ -140,6 +152,8 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
+    
     if (indexPath.section == 0)
     {
         switch (indexPath.row) {
@@ -165,13 +179,32 @@
                 break;
             case 1:
             {
-                NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
                 if ([permissonKeys containsString:@"9995"]) {
                     BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
                     epvc.hidesBottomBarWhenPushed = YES;
                     [self.navigationController pushViewController:epvc animated:YES];
                 }
-                
+                else if (![BXTGlobal isBlankString:self.transURL]) {
+                    BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
+                    nivc.urlStr = self.transURL;
+                    nivc.titleStr = @"OA系统";
+                    nivc.pushType = PushType_OA;
+                    nivc.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:nivc animated:YES];
+                }
+            }
+                break;
+            case 2:
+            {
+                if ([permissonKeys containsString:@"9995"] && ![BXTGlobal isBlankString:self.transURL]) {
+                    
+                    BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
+                    nivc.urlStr = self.transURL;
+                    nivc.titleStr = @"OA系统";
+                    nivc.pushType = PushType_OA;
+                    nivc.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:nivc animated:YES];
+                }
             }
                 break;
             default: break;
@@ -186,7 +219,7 @@
 {
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (data.count > 0)
+    if (data.count > 0 && type == AppVCAdvertisement)
     {
         NSDictionary *dict = data[0];
         [self.headImageView sd_setBackgroundImageWithURL:[NSURL URLWithString:dict[@"pic"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"allDefault"]];
@@ -196,15 +229,42 @@
             BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
             nivc.urlStr = dict[@"url"];
             nivc.titleStr = dict[@"name"];
-            nivc.pushType = PushType_Project;
             nivc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:nivc animated:YES];
         }];
+    }
+    if (type == InformOFOA)
+    {
+        [BXTGlobal hideMBP];
+        
+        if ([dic[@"returncode"] integerValue] != 0) {
+            return;
+        }
+        
+        NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
+        //如果不包含业务统计
+        if ([permissonKeys containsString:@"9995"])
+        {
+            self.titleArray = @[@"项目公告", @"业务统计", @"OA系统", @"敬请期待"];
+            self.imageArray = @[@"app_book", @"app_statistics", @"app_OA", @"app_symbol"];
+        }
+        else
+        {
+            self.titleArray = @[@"项目公告", @"OA系统", @"敬请期待"];
+            self.imageArray = @[@"app_book", @"app_OA", @"app_symbol"];
+        }
+        
+        NSDictionary *dict = data[0];
+        self.transURL = [NSString stringWithFormat:@"%@", dict[@"other_login_url"]];
+        
+        [self.itemsCollectionView reloadData];
     }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
+    [BXTGlobal hideMBP];
+    
     [BXTGlobal showText:@"请求失败，请重试" view:self.view completionBlock:nil];
 }
 
