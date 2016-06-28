@@ -3702,8 +3702,6 @@
 		9652AAF61BC902DE009A666D = {
 			isa = PBXGroup;
 			children = (
-				96D5C5C71CED951100222943 /* Fabric.framework */,
-				96D5C5C81CED951100222943 /* Crashlytics.framework */,
 				9652AB011BC902DF009A666D /* YouFeel */,
 				968910621BD1F6BC008540D0 /* Frameworks */,
 				9652AB151BC902DF009A666D /* YouFeelTests */,
@@ -3979,6 +3977,8 @@
 		968910621BD1F6BC008540D0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96D5C5C71CED951100222943 /* Fabric.framework */,
+				96D5C5C81CED951100222943 /* Crashlytics.framework */,
 				964DE5E51CA8F29E0064D5D6 /* QuartzCore.framework */,
 				964DE5E31CA8DEB90064D5D6 /* libobjc.tbd */,
 				961B8CF31C858001003035F9 /* SystemConfiguration.framework */,
