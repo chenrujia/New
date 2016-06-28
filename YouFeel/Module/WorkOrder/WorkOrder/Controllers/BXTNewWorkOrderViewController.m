@@ -10,7 +10,7 @@
 #import "BXTAttributeView.h"
 #import "UIView+Extnesion.h"
 #import "BXTOrderTypeInfo.h"
-#import "BXTSearchPlaceViewController.h"
+#import "BXTSearchItemViewController.h"
 #import "BXTRepairDetailView.h"
 #import "BXTCustomButton.h"
 #import "BXTChooseItemView.h"
@@ -578,7 +578,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-    BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+    BXTSearchItemViewController *searchVC = (BXTSearchItemViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchItemViewController"];
     NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
     @weakify(self);
     [searchVC userChoosePlace:dataSource isProgress:NO type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {

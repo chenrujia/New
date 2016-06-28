@@ -21,6 +21,7 @@
 @interface BXTEquipmentFilesView () <DOPDropDownMenuDataSource, DOPDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate,BXTBoxSelectedTitleDelegate>
 {
     UIButton *maintenanceBtn;
+    BOOL     isFirst;
 }
 @property (nonatomic, strong) DOPDropDownMenu  *DDMenu;
 @property (nonatomic, strong) BXTSelectBoxView *boxView;;
@@ -44,6 +45,7 @@
 #pragma mark - 初始化
 - (void)initial
 {
+    isFirst = YES;
     self.titleArray = @[@"全部", @"时间范围"];
     self.dataArray = [[NSMutableArray alloc] init];
     self.maintencesArray = [[NSMutableArray alloc] init];
@@ -124,41 +126,36 @@
     @weakify(self);
     [[maintenanceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BOOL haveInspection = [[NSUserDefaults standardUserDefaults] boolForKey:@"FirstInspection"];
-        // 第一次 且 有数据
-        if (!haveInspection && ValueFUD(@"OPERATINGDESC"))
+        if (self.maintencesArray.count == 1)
         {
-            BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] init];
-            [[self navigation] pushViewController:sdvc animated:YES];
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstInspection"];
-        }
-        else
-        {
-            if (self.maintencesArray.count == 1)
+            BXTDeviceMaintenceInfo *maintenceInfo = self.maintencesArray[0];
+            //已在维保中，不需要再次新建维保作业
+            if ([maintenceInfo.inspection_state integerValue] > 0)
             {
-                BXTDeviceMaintenceInfo *maintenceInfo = self.maintencesArray[0];
-                //已在维保中，不需要再次新建维保作业
-                if ([maintenceInfo.inspection_state integerValue] > 0)
+                BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.inspection_record_id safetyGuidelines:maintenceInfo.operating_condition_content];
+                [[self navigation] pushViewController:bookVC animated:YES];
+            }
+            else
+            {
+                if (isFirst && ValueFUD(@"OPERATINGDESC"))
                 {
-                    BXTMaintenanceBookViewController *bookVC = [[BXTMaintenanceBookViewController alloc] initWithNibName:@"BXTMaintenanceBookViewController" bundle:nil deviceID:self.deviceID recordID:maintenceInfo.inspection_record_id safetyGuidelines:maintenceInfo.operating_condition_content];
-                    [[self navigation] pushViewController:bookVC animated:YES];
-                    
+                    BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] initWithSafetyGuidelines:maintenceInfo.operating_condition_content];
+                    [[self navigation] pushViewController:sdvc animated:YES];
+                    isFirst = NO;
                 }
                 else
                 {
                     BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates safetyGuidelines:maintenceInfo.operating_condition_content];
                     mainVC.isUpdate = NO;
                     [[self navigation] pushViewController:mainVC animated:YES];
-                    
                 }
             }
-            else if (self.maintencesArray.count > 1)
-            {
-                [self showList];
-            }
+        }
+        else if (self.maintencesArray.count > 1)
+        {
+            [self showList];
         }
     }];
-    
     [downBgView addSubview:maintenanceBtn];
 }
 

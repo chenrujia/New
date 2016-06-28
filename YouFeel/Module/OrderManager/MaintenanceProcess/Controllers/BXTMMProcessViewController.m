@@ -11,7 +11,7 @@
 #import "BXTMMLogTableViewCell.h"
 #import "BXTSettingTableViewCell.h"
 #import "BXTFaultInfo.h"
-#import "BXTSearchPlaceViewController.h"
+#import "BXTSearchItemViewController.h"
 #import "BXTSelectBoxView.h"
 #import "BXTRepairDetailInfo.h"
 #import "BXTSpecialOrderInfo.h"
@@ -207,7 +207,7 @@
     if (indexPath.section == 0)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+        BXTSearchItemViewController *searchVC = (BXTSearchItemViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchItemViewController"];
         NSArray *dataSource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
         @weakify(self);
         [searchVC userChoosePlace:dataSource isProgress:YES type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
@@ -223,7 +223,7 @@
     else if (indexPath.section == 1 + self.number)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTSearchPlaceViewController *searchVC = (BXTSearchPlaceViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchPlaceViewController"];
+        BXTSearchItemViewController *searchVC = (BXTSearchItemViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchItemViewController"];
         searchVC.faultTypeID = self.faultTypeID;
         @weakify(self);
         [searchVC userChoosePlace:self.fau_dataSource isProgress:NO type:FaultSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {

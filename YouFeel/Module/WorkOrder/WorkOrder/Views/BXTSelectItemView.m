@@ -1,234 +1,73 @@
 //
-//  BXTSearchPlaceViewController.m
+//  BXTSelectItemView.m
 //  YouFeel
 //
-//  Created by Jason on 16/3/25.
+//  Created by Jason on 16/6/27.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTSearchPlaceViewController.h"
-#import "ANKeyValueTable.h"
+#import "BXTSelectItemView.h"
+#import "BXTHeaderFile.h"
 #import "BXTPlaceTableViewCell.h"
-#import "UITableView+FDTemplateLayoutCell.h"
 
 #define YGREENCOLOR colorWithHexString(@"3cafff")
 #define YBLACKCOLOR [UIColor blackColor]
 #define YDOWNIMAGE  [UIImage imageNamed:@"wo_down_arrow"]
 #define YUPIMAGE    [UIImage imageNamed:@"wo_up_arrow"]
 
-@interface BXTSearchPlaceViewController ()
+@implementation BXTSelectItemView
 
-@property (nonatomic, assign) BOOL                isOpen;
-//资源数据
-@property (nonatomic, strong) NSArray             *dataSource;
-//变动的数据
-@property (nonatomic, strong) NSMutableArray      *mutableArray;
-//标记数组
-@property (nonatomic, strong) NSMutableArray      *marksArray;
-//当前选择的区
-@property (nonatomic, strong) NSIndexPath         *lastIndexPath;
-//当前选择的行
-@property (nonatomic, assign) NSInteger           lastIndex;
-//筛选结果数组
-@property (nonatomic, strong) NSMutableArray      *resultsArray;
-//筛选结果标记数组
-@property (nonatomic, strong) NSMutableArray      *resultMarksArray;
-//筛选出来的标题（标题是一级一级拼接起来的）
-@property (nonatomic, strong) NSMutableArray      *searchTitlesArray;
-//手动选择的结果
-@property (nonatomic, strong) BXTBaseClassifyInfo *manualClassifyInfo;
-//自动选择的结果
-@property (nonatomic, strong) BXTBaseClassifyInfo *autoClassifyInfo;
-
-@end
-
-@implementation BXTSearchPlaceViewController
-
-- (void)userChoosePlace:(NSArray *)array isProgress:(BOOL)progress type:(SearchVCType)type block:(ChoosePlace)place
+- (instancetype)initWithFrame:(CGRect)frame tableViewFrame:(CGRect)tableFrame datasource:(NSArray *)array isProgress:(BOOL)progress type:(SearchVCType)type block:(ChooseItem)itemBlock
 {
-    self.dataSource = array;
-    self.isProgress = progress;
-    self.searchType = type;
-    self.selectPlace = place;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    if (self.searchType == PlaceSearchType)
+    self = [super initWithFrame:frame];
+    if (self)
     {
-        [self navigationSetting:@"位置" andRightTitle:nil andRightImage:nil];
-        self.searchBarView.placeholder = @"查找或输入位置";
-    }
-    else if (self.searchType == FaultSearchType)
-    {
-        [self navigationSetting:@"故障类型" andRightTitle:nil andRightImage:nil];
-        self.searchBarView.placeholder = @"查找或输入故障类型";
-    }
-    else if (self.searchType == DepartmentSearchType)
-    {
-        [self navigationSetting:@"部门" andRightTitle:nil andRightImage:nil];
-        self.searchBarView.placeholder = @"查找或输入部门";
-    }
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.isOpen = YES;
-    self.commitBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-    self.commitBtn.layer.cornerRadius = 4.f;
-    [self.currentTable registerNib:[UINib nibWithNibName:@"BXTPlaceTableViewCell" bundle:nil] forCellReuseIdentifier:@"RowCell"];
-    if (IS_IOS_8)
-    {
-        [self.currentTable setEstimatedRowHeight:50.f];
-    }
-    
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
-    self.mutableArray = mutableArray;
-    NSMutableArray *markArray = [[NSMutableArray alloc] init];
-    self.marksArray = markArray;
-    NSMutableArray *resultArray = [[NSMutableArray alloc] init];
-    self.resultsArray = resultArray;
-    NSMutableArray *resultMarkArray = [[NSMutableArray alloc] init];
-    self.resultMarksArray = resultMarkArray;
-    NSMutableArray *titlesArray = [[NSMutableArray alloc] init];
-    self.searchTitlesArray = titlesArray;
-    
-    for (NSInteger i = 0; i < self.dataSource.count; i++)
-    {
-        BXTBaseClassifyInfo *classifyInfo = self.dataSource[i];
-        NSMutableArray *tempArray = [[NSMutableArray alloc] initWithObjects:classifyInfo, nil];
-        [self.mutableArray addObject:tempArray];
-        if (self.searchType == FaultSearchType && [classifyInfo.itemID isEqualToString:self.faultTypeID])
-        {
-            NSMutableArray *emptyArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
-            [self.marksArray addObject:emptyArray];
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:i];
-            self.lastIndexPath = indexPath;
-            [self refreshTableForAdd:indexPath refreshNow:NO];
-        }
-        else
-        {
-            NSMutableArray *emptyArray = [[NSMutableArray alloc] init];
-            [self.marksArray addObject:emptyArray];
-        }
-    }
-    
-    [self.currentTable reloadData];
-}
-
-- (void)alertViewContent:(NSString *)content
-{
-    if (IS_IOS_8)
-    {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:content message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-        [alertCtr addAction:cancelAction];
-        [self presentViewController:alertCtr animated:YES completion:nil];
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:content
-                                                        message:nil
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-    }
-}
-
-#pragma mark -
-#pragma mark 提交按钮
-- (IBAction)commitClick:(id)sender
-{
-    if (self.isOpen)
-    {
-        if (self.mutableArray.count == 0)
-        {
-            return;
-        }
-        if (!self.manualClassifyInfo && !self.autoClassifyInfo && self.searchBarView.text.length == 0)
-        {
-            [self alertViewContent:@"请选择或输入所需信息"];
-            return;
-        }
-        NSString *prefixName = @"";
-        NSMutableArray *markArray = self.marksArray[self.lastIndexPath.section];
-        NSMutableArray *tempArray = self.mutableArray[self.lastIndexPath.section];
+        self.dataSource = array;
+        self.isProgress = progress;
+        self.searchType = type;
+        self.selectItemBlock = itemBlock;
+        self.isOpen = YES;
         
-        for (NSInteger i = 0; i < markArray.count; i++)
+        self.currentTable = [[UITableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped];
+        self.currentTable.delegate = self;
+        self.currentTable.dataSource = self;
+        [self.currentTable registerNib:[UINib nibWithNibName:@"BXTPlaceTableViewCell" bundle:nil] forCellReuseIdentifier:@"RowCell"];
+        [self addSubview:self.currentTable];
+        
+        NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
+        self.mutableArray = mutableArray;
+        NSMutableArray *markArray = [[NSMutableArray alloc] init];
+        self.marksArray = markArray;
+        NSMutableArray *resultArray = [[NSMutableArray alloc] init];
+        self.resultsArray = resultArray;
+        NSMutableArray *resultMarkArray = [[NSMutableArray alloc] init];
+        self.resultMarksArray = resultMarkArray;
+        NSMutableArray *titlesArray = [[NSMutableArray alloc] init];
+        self.searchTitlesArray = titlesArray;
+        
+        for (NSInteger i = 0; i < self.dataSource.count; i++)
         {
-            NSString *markStr = markArray[i];
-            if ([markStr integerValue] == 1)
+            BXTBaseClassifyInfo *classifyInfo = self.dataSource[i];
+            NSMutableArray *tempArray = [[NSMutableArray alloc] initWithObjects:classifyInfo, nil];
+            [self.mutableArray addObject:tempArray];
+            if (self.searchType == FaultSearchType && [classifyInfo.itemID isEqualToString:self.faultTypeID])
             {
-                BXTBaseClassifyInfo *classifyInfo = tempArray[i];
-                prefixName = [NSString stringWithFormat:@"%@%@",prefixName,classifyInfo.name];
+                NSMutableArray *emptyArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
+                [self.marksArray addObject:emptyArray];
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:i];
+                self.lastIndexPath = indexPath;
+                [self refreshTableForAdd:indexPath refreshNow:NO];
+            }
+            else
+            {
+                NSMutableArray *emptyArray = [[NSMutableArray alloc] init];
+                [self.marksArray addObject:emptyArray];
             }
         }
         
-        if (self.searchType == FaultSearchType && [self.manualClassifyInfo.level integerValue] == 1)
-        {
-            [self alertViewContent:@"请选择具体的故障类型"];
-            return;
-        }
-        self.selectPlace(self.manualClassifyInfo,prefixName);
+        [self.currentTable reloadData];
     }
-    else
-    {
-        if (self.searchTitlesArray.count > 0 && self.autoClassifyInfo)
-        {
-            self.selectPlace(self.autoClassifyInfo,self.searchTitlesArray[self.lastIndex]);
-        }
-        else
-        {
-            if (self.isProgress)
-            {
-                [self alertViewContent:@"请确定具体位置"];
-                return;
-            }
-            if (self.searchBarView.text.length > 0)
-            {
-                self.selectPlace(nil,self.searchBarView.text);
-            }
-        }
-    }
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-#pragma mark -
-#pragma mark 开关
-- (IBAction)switchValueChanged:(id)sender
-{
-    UISwitch *swt = sender;
-    self.isOpen = swt.isOn;
-    if (self.isOpen)
-    {
-        self.searchBarView.text = @"";
-    }
-    [self.currentTable reloadData];
-}
-
-#pragma mark -
-#pragma mark UISearchBarDelegate
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
-{
-    self.autoSwitch.on = NO;
-    self.isOpen = NO;
-    [self.currentTable reloadData];
-    return YES;
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    [self.resultsArray removeAllObjects];
-    [self.searchTitlesArray removeAllObjects];
-    [self.resultMarksArray removeAllObjects];
-    NSMutableArray *searchArray = [self filterItemsWithData:self.dataSource searchString:searchText lastLevelTitle:@""];
-    [self.resultsArray addObjectsFromArray:searchArray];
-    
-    for (NSInteger i = 0; i < self.resultsArray.count; i++)
-    {
-        [self.resultMarksArray addObject:@"0"];
-    }
-    
-    [self.currentTable reloadData];
+    return self;
 }
 
 #pragma mark -
@@ -424,7 +263,10 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self.searchBarView resignFirstResponder];
+    if (self.searchBarView)
+    {
+        [self.searchBarView resignFirstResponder];
+    }
 }
 
 #pragma mark -
@@ -561,12 +403,6 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:self.lastIndexPath.section];
     NSInteger count = [self refreshTableForRemove:indexPath];
     return count;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    
 }
 
 @end

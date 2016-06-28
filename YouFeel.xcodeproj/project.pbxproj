@@ -359,8 +359,9 @@
 		968A58601CB39D3E009A60D8 /* BXTMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968A585E1CB39D3E009A60D8 /* BXTMessageTableViewCell.m */; };
 		968A58611CB39D3E009A60D8 /* BXTMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968A585F1CB39D3E009A60D8 /* BXTMessageTableViewCell.xib */; };
 		968A58651CB3A1FF009A60D8 /* BXTMessageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 968A58641CB3A1FF009A60D8 /* BXTMessageInfo.m */; };
+		968BA88D1D20FB8D0016DC36 /* BXTSelectItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 968BA88C1D20FB8D0016DC36 /* BXTSelectItemView.m */; };
 		968ED8E61CD9EC2800A76269 /* BXTNewOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968ED8E51CD9EC2800A76269 /* BXTNewOrderViewController.m */; };
-		968F89BC1CA52A010023D306 /* BXTSearchPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F89BB1CA52A010023D306 /* BXTSearchPlaceViewController.m */; };
+		968F89BC1CA52A010023D306 /* BXTSearchItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F89BB1CA52A010023D306 /* BXTSearchItemViewController.m */; };
 		9690366B1CBF2E850036A33A /* BXTMenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969036691CBF2E850036A33A /* BXTMenViewController.m */; };
 		9690366C1CBF2E850036A33A /* BXTMenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9690366A1CBF2E850036A33A /* BXTMenViewController.xib */; };
 		9696B7251C8FFE9100272076 /* BXTFeebackInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696B7241C8FFE9100272076 /* BXTFeebackInfo.m */; };
@@ -1085,10 +1086,12 @@
 		968A585F1CB39D3E009A60D8 /* BXTMessageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMessageTableViewCell.xib; sourceTree = "<group>"; };
 		968A58631CB3A1FF009A60D8 /* BXTMessageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMessageInfo.h; sourceTree = "<group>"; };
 		968A58641CB3A1FF009A60D8 /* BXTMessageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMessageInfo.m; sourceTree = "<group>"; };
+		968BA88B1D20FB8D0016DC36 /* BXTSelectItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSelectItemView.h; sourceTree = "<group>"; };
+		968BA88C1D20FB8D0016DC36 /* BXTSelectItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSelectItemView.m; sourceTree = "<group>"; };
 		968ED8E41CD9EC2800A76269 /* BXTNewOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNewOrderViewController.h; sourceTree = "<group>"; };
 		968ED8E51CD9EC2800A76269 /* BXTNewOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTNewOrderViewController.m; sourceTree = "<group>"; };
-		968F89BA1CA52A010023D306 /* BXTSearchPlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSearchPlaceViewController.h; sourceTree = "<group>"; };
-		968F89BB1CA52A010023D306 /* BXTSearchPlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSearchPlaceViewController.m; sourceTree = "<group>"; };
+		968F89BA1CA52A010023D306 /* BXTSearchItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSearchItemViewController.h; sourceTree = "<group>"; };
+		968F89BB1CA52A010023D306 /* BXTSearchItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSearchItemViewController.m; sourceTree = "<group>"; };
 		969036681CBF2E850036A33A /* BXTMenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMenViewController.h; sourceTree = "<group>"; };
 		969036691CBF2E850036A33A /* BXTMenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMenViewController.m; sourceTree = "<group>"; };
 		9690366A1CBF2E850036A33A /* BXTMenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMenViewController.xib; sourceTree = "<group>"; };
@@ -2001,8 +2004,8 @@
 			children = (
 				96649B061CA3D25C00084656 /* BXTNewWorkOrderViewController.h */,
 				96B25AC71CD1AB6C000C350F /* BXTNewWorkOrderViewController.m */,
-				968F89BA1CA52A010023D306 /* BXTSearchPlaceViewController.h */,
-				968F89BB1CA52A010023D306 /* BXTSearchPlaceViewController.m */,
+				968F89BA1CA52A010023D306 /* BXTSearchItemViewController.h */,
+				968F89BB1CA52A010023D306 /* BXTSearchItemViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2039,6 +2042,8 @@
 				96EBFCCE1CA63C3700F93AB0 /* BXTPlaceTableViewCell.h */,
 				96EBFCCF1CA63C3700F93AB0 /* BXTPlaceTableViewCell.m */,
 				96EBFCD01CA63C3700F93AB0 /* BXTPlaceTableViewCell.xib */,
+				968BA88B1D20FB8D0016DC36 /* BXTSelectItemView.h */,
+				968BA88C1D20FB8D0016DC36 /* BXTSelectItemView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3820,8 +3825,6 @@
 		9652AAF61BC902DE009A666D = {
 			isa = PBXGroup;
 			children = (
-				96D5C5C71CED951100222943 /* Fabric.framework */,
-				96D5C5C81CED951100222943 /* Crashlytics.framework */,
 				9652AB011BC902DF009A666D /* YouFeel */,
 				968910621BD1F6BC008540D0 /* Frameworks */,
 				9652AB151BC902DF009A666D /* YouFeelTests */,
@@ -4097,6 +4100,8 @@
 		968910621BD1F6BC008540D0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96D5C5C71CED951100222943 /* Fabric.framework */,
+				96D5C5C81CED951100222943 /* Crashlytics.framework */,
 				964DE5E51CA8F29E0064D5D6 /* QuartzCore.framework */,
 				964DE5E31CA8DEB90064D5D6 /* libobjc.tbd */,
 				961B8CF31C858001003035F9 /* SystemConfiguration.framework */,
@@ -4757,6 +4762,7 @@
 				78FFB9971CB5F77B00309339 /* CCLocationManager.m in Sources */,
 				7867DDB21C4CBEE9000749F1 /* BXTDrawView.m in Sources */,
 				782985B31C40E48F00D0837C /* BXTSettingViewController.m in Sources */,
+				968BA88D1D20FB8D0016DC36 /* BXTSelectItemView.m in Sources */,
 				7851A0381CA3CBD000255B8A /* BXTPlaceInfo.m in Sources */,
 				7893D8951C7AA7B300F042D5 /* BXTStatisticsMianView.m in Sources */,
 				967C3D4F1C4620E00078F1D6 /* BXTControlUserTableViewCell.m in Sources */,
@@ -4774,7 +4780,7 @@
 				7837A5AA1CAD4196000A1986 /* BXTUserInformViewController.m in Sources */,
 				78644F6B1C575D5600D2C4C5 /* BXTDeviceListInfo.m in Sources */,
 				7837A5B61CAD4520000A1986 /* BXTChangePhoneViewController.m in Sources */,
-				968F89BC1CA52A010023D306 /* BXTSearchPlaceViewController.m in Sources */,
+				968F89BC1CA52A010023D306 /* BXTSearchItemViewController.m in Sources */,
 				7867DD791C4CBEA1000749F1 /* BXTMaintenanceProcessTableViewCell.m in Sources */,
 				78EFEEDD1CAE654D0011F9E9 /* BXTProjectCertificationCell.m in Sources */,
 				9677FDF31C9FEED4009FAAFE /* BXTMailListViewController.m in Sources */,
@@ -5153,7 +5159,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GetuiSDK",
 					"$(PROJECT_DIR)/YouFeel/Library/WeiXin",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -5189,7 +5194,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GetuiSDK",
 					"$(PROJECT_DIR)/YouFeel/Library/WeiXin",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
