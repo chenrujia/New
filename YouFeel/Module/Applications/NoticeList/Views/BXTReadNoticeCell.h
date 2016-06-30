@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *introView;
 @property (weak, nonatomic) IBOutlet UILabel *timeView;
 
-+ (instancetype)cellWithTableView:(UITableView *)tableVie;
++ (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @property (nonatomic, strong) BXTReadNotice *noticeModel;
 

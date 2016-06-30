@@ -7,7 +7,20 @@
 //
 
 #import "BXTMeterReadingRecordViewController.h"
+#import "BXTMeterReadingHeaderView.h"
+#import "BXTMeterReadingFilterView.h"
 #import "BXTEnergyConsumptionViewController.h"
+#import "BXTMeterReadingViewController.h"
+
+@interface BXTMeterReadingRecordViewController ()
+
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) BXTMeterReadingHeaderView *headerView;
+@property (nonatomic, strong) BXTMeterReadingFilterView *filterView;
+
+@property (nonatomic, strong) UIView *footerView;
+
+@end
 
 @implementation BXTMeterReadingRecordViewController
 
@@ -15,55 +28,80 @@
 {
     [super viewDidLoad];
     
-    [self createNavigation];
+    [self navigationSetting:@"能源抄表" andRightTitle1:nil andRightImage1:[UIImage imageNamed:@"news"] andRightTitle2:@"能耗计算" andRightImage2:nil];
+    
+    [self createUI];
+}
+
+- (void)navigationRightButton1
+{
+    
+}
+
+- (void)navigationRightButton2
+{
+    BXTEnergyConsumptionViewController *ecvc = [[BXTEnergyConsumptionViewController alloc] init];
+    [self.navigationController pushViewController:ecvc animated:YES];
 }
 
 #pragma mark -
-#pragma mark 初始化视图
-- (void)createNavigation
+#pragma mark - createUI
+- (void)createUI
 {
-    // naviView
-    UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
-    naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
-    naviView.userInteractionEnabled = YES;
-    [self.view addSubview:naviView];
+    // scrollView
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 70)];
+    [self.view addSubview:self.scrollView];
     
-    // titleLabel
-    UILabel *navi_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64, 20, SCREEN_WIDTH-128, 44)];
-    navi_titleLabel.font = [UIFont systemFontOfSize:18.f];
-    navi_titleLabel.textColor = [UIColor whiteColor];
-    navi_titleLabel.textAlignment = NSTextAlignmentCenter;
-    navi_titleLabel.text = @"能源抄表";
-    [naviView addSubview:navi_titleLabel];
-    
-    // navi_leftButton
-    UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    navi_leftButton.frame = CGRectMake(0, 20, 44, 44);
-    [navi_leftButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    [navi_leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
-    [naviView addSubview:navi_leftButton];
-    
-    // 能耗计算
-    UIButton *calculateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [calculateBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 5.f, 20, 44.f, 44.f)];
-    [calculateBtn setBackgroundImage:[UIImage imageNamed:@"news"] forState:UIControlStateNormal];
+    // headerView
+    self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingHeaderView" owner:nil options:nil] lastObject];
+    [self hideBgFooterView:YES];
     @weakify(self);
-    [[calculateBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [[self.headerView.bgViewBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTEnergyConsumptionViewController *ecvc = [[BXTEnergyConsumptionViewController alloc] init];
-        [self.navigationController pushViewController:ecvc animated:YES];
+        [self hideBgFooterView:self.headerView.bgViewBtn.selected];
     }];
-    [naviView addSubview:calculateBtn];
+    [self.scrollView addSubview:self.headerView];
+    
+    // filterView
+    self.filterView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingFilterView" owner:nil options:nil] lastObject];
+    self.filterView.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20, 50);
+    [self.scrollView addSubview:self.filterView];
     
     
-    // 列表
-    UIButton *listBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [listBtn setFrame:CGRectMake(SCREEN_WIDTH - 44.f - 45, 20, 44.f, 44.f)];
-    [listBtn setBackgroundImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
-    [[listBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+    // footerView
+    self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 70, SCREEN_WIDTH, 70)];
+    self.footerView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.footerView];
+    
+    UIButton *newMeterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    newMeterBtn.frame = CGRectMake((SCREEN_WIDTH - 180) / 2, 10, 180, 50);
+    [newMeterBtn setBackgroundColor:colorWithHexString(@"#5DAFF9")];
+    [newMeterBtn setTitle:@"新建抄表" forState:UIControlStateNormal];
+    newMeterBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    newMeterBtn.layer.cornerRadius = 5;
+    [[newMeterBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTMeterReadingViewController *mrvc = [[BXTMeterReadingViewController alloc] init];
+        [self.navigationController pushViewController:mrvc animated:YES];
     }];
-    [naviView addSubview:listBtn];
+    [self.footerView addSubview:newMeterBtn];
+}
+
+#pragma mark -
+#pragma mark - 方法
+- (void)hideBgFooterView:(BOOL)isSelected
+{
+    if (isSelected) {
+        self.headerView.bgViewBtn.selected = NO;
+        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 100);
+        self.headerView.bgFooterView.hidden = YES;
+    } else {
+        self.headerView.bgViewBtn.selected = YES;
+        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 200);
+        self.headerView.bgFooterView.hidden = NO;
+    }
+    
+    self.filterView.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20, 50);
 }
 
 @end

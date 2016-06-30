@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTBaseViewController.h"
+#import "BXTEnergyBaseViewController.h"
 
-@interface BXTMeterReadingRecordViewController : BXTBaseViewController
+@interface BXTMeterReadingRecordViewController : BXTEnergyBaseViewController
 
 @end
