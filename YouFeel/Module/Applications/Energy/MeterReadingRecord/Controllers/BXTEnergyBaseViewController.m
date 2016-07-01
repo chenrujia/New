@@ -24,7 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = colorWithHexString(@"#E36760");
+    self.view.backgroundColor = colorWithHexString(@"#f45b5b");
 }
 
 #pragma mark -

@@ -1,1 +1,1 @@
-../../../../RongCloudIMKit/Rong_Cloud_iOS_IMKit_SDK_v2_5_1_stable/RongIMKit.framework/Headers/RCMessageBaseCell.h
+../../../../RongCloudIMKit/Rong_Cloud_iOS_IMKit_SDK_v2_6_4_stable/RongIMKit.framework/Headers/RCMessageBaseCell.h

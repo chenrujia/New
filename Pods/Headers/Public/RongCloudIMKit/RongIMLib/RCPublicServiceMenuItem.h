@@ -1,1 +1,1 @@
-../../../../RongCloudIMKit/Rong_Cloud_iOS_IMKit_SDK_v2_5_1_stable/RongIMLib.framework/Headers/RCPublicServiceMenuItem.h
+../../../../RongCloudIMKit/Rong_Cloud_iOS_IMKit_SDK_v2_6_4_stable/RongIMLib.framework/Headers/RCPublicServiceMenuItem.h

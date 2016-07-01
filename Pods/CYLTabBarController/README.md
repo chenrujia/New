@@ -2,13 +2,16 @@
 
 
 <p align="center">
-![enter image description here](https://img.shields.io/badge/pod-v1.4.4-brightgreen.svg)
+![enter image description here](https://img.shields.io/badge/pod-v1.5.4-brightgreen.svg)
 ![enter image description here](https://img.shields.io/badge/Swift-compatible-orange.svg)   ![enter image description here](https://img.shields.io/badge/platform-iOS%207.0%2B-ff69b5618733984.svg) 
+<a href="https://github.com/ChenYilong/CYLTabBarController/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
 </a>
 
-<p align="center">
-进入聊天室:[![Gitter](https://badges.gitter.im/ChenYilong/CYLTabBarController.svg)](https://gitter.im/ChenYilong/CYLTabBarController?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+<p align="center">[![https://twitter.com/stevechen1010](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&maxAge=2592000)](https://twitter.com/stevechen1010)[![bitHound](http://i67.tinypic.com/wbulbr.jpg)](http://weibo.com/luohanchenyilong)
+[![Gitter](https://badges.gitter.im/ChenYilong/CYLTabBarController.svg)](https://gitter.im/ChenYilong/CYLTabBarController?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 </a>
+
+
 
 ## 导航
 
@@ -476,6 +479,11 @@ Apple 规定：
 
 最多只能添加5个 `TabBarItem` ，也就是说加上“加号按钮”，一共最多在一个 `TabBar` 上放置6个控件。否则第6个及之后出现 `TabBarItem` 会被自动屏蔽掉。而且就Apple的审核机制来说，超过5个也会被直接拒绝上架。
 
+Q：我把 demo 两侧的 item 各去掉一个后，按钮的响应区域就变成下图的样子了：
+ ![wechat_1445851872](https://cloud.githubusercontent.com/assets/12152553/10725491/62600172-7c07-11e5-9e0a-0ec7d795d1e3.jpeg)
+  		  
+ A：v1.5.2 版本已经修复了该问题，现在不会出现类似的问题了：点击按钮区域却不响应，响应区域有偏移。
+
 Q： 如何实现添加选中背景色的功能 ，像下面这样：
 <img width="409" alt="screen shot 2015-10-28 at 9 21 56 am" src="https://cloud.githubusercontent.com/assets/7238866/10777333/5d7811c8-7d55-11e5-88be-8cb11bbeaf90.png">
 
@@ -516,7 +524,7 @@ A：在 v1.0.7 版本中已经修复了该 bug，但是也需要注意：
 
  ```
 
- Q :  当使用这个方法时 `-[UIViewController cyl_jumpToOtherTabBarControllerItem:(Class)ClassType performSelector:arguments:returnValue:]` 会出现如下的黑边问题。
+ Q :  当使用这个方法时 `-[UIViewController cyl_popSelectTabBarChildViewControllerAtIndex:]` 系列方法时，会出现如下的黑边问题。
 
 ![enter image description here](http://i63.tinypic.com/bg766g.jpg)
 
@@ -529,7 +537,6 @@ A： 这个是 iOS 系统的BUG，经测试iOS9.3已经修复了，如果在更�
  ```
 Q:我现在已经做好了一个比较简单的中间凸起的 icon 但是超过了49这个高度的位置是不能效应的  我想请问你的demo哪个功能是可以使我超出的范围也可以响应的呢?
 
-
 A: 这个是自动做的，但是 `CYLTabBarController` 只能保证的是：只要是 `UIButton` 的 frame 区域内就能响应。
 
 请把 button 的背景颜色设置为显眼的颜色，比如红色，比如像下面的plus按钮，红色部分是能接收点击事件的，但是超出了红色按钮的，黄色的图片区域，依然是无法响应点击事件的。
@@ -539,12 +546,10 @@ A: 这个是自动做的，但是 `CYLTabBarController` 只能保证的是：只
 这是因为，在响应链上，`UIControl` 能响应点击事件， `UIImage` 无法响应。
 
 
- 
-
 
 （更多iOS开发干货，欢迎关注  [微博@iOS程序犭袁](http://weibo.com/luohanchenyilong/) ）
 
 ----------
 Posted by [微博@iOS程序犭袁](http://weibo.com/luohanchenyilong/)  
 原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | [Creative Commons BY-NC-ND 3.0](http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh)
-
+<p align="center"><a href="http://weibo.com/u/1692391497?s=6uyXnP" target="_blank"><img border="0" src="http://service.t.sina.com.cn/widget/qmd/1692391497/b46c844b/1.png"/></a></a>
