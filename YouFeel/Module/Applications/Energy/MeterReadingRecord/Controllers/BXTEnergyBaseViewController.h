@@ -21,6 +21,8 @@
            andRightTitle2:(NSString *)right_title2
            andRightImage2:(UIImage *)image2;
 
+@property (nonatomic, strong) UIButton *rightButton1;
+
 - (void)navigationRightButton1;
 
 - (void)navigationRightButton2;

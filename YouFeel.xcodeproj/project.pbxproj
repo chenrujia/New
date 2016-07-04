@@ -252,6 +252,14 @@
 		78A1B86A1C8428CF00F252BE /* BXTEPSystemRateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B8681C8428CF00F252BE /* BXTEPSystemRateCell.m */; };
 		78A1B86B1C8428CF00F252BE /* BXTEPSystemRateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */; };
 		78A1B86E1C8430C000F252BE /* BXTEPSystemRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B86D1C8430C000F252BE /* BXTEPSystemRate.m */; };
+		78AEA04E1D2A1286003E500A /* BXTMeterReadingFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78AEA0421D2A1286003E500A /* BXTMeterReadingFilterView.m */; };
+		78AEA04F1D2A1286003E500A /* BXTMeterReadingFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78AEA0431D2A1286003E500A /* BXTMeterReadingFilterView.xib */; };
+		78AEA0501D2A1286003E500A /* BXTMeterReadingFilterOFListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78AEA0461D2A1286003E500A /* BXTMeterReadingFilterOFListView.m */; };
+		78AEA0511D2A1286003E500A /* BXTMeterReadingFilterOFListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78AEA0471D2A1286003E500A /* BXTMeterReadingFilterOFListView.xib */; };
+		78AEA0521D2A1286003E500A /* BXTMeterReadingTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78AEA0491D2A1286003E500A /* BXTMeterReadingTimeCell.m */; };
+		78AEA0531D2A1286003E500A /* BXTMeterReadingTimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78AEA04A1D2A1286003E500A /* BXTMeterReadingTimeCell.xib */; };
+		78AEA0541D2A1286003E500A /* BXTMeterReadingTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78AEA04C1D2A1286003E500A /* BXTMeterReadingTimeView.m */; };
+		78AEA0551D2A1286003E500A /* BXTMeterReadingTimeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78AEA04D1D2A1286003E500A /* BXTMeterReadingTimeView.xib */; };
 		78C118111D2122E200A86900 /* BXTEnergyConsumptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C118101D2122E200A86900 /* BXTEnergyConsumptionViewController.m */; };
 		78C1181C1D2124C800A86900 /* BXTMeterReadingRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C118191D2124C800A86900 /* BXTMeterReadingRecordViewController.m */; };
 		78C55A651C47339700FFEB37 /* BXTCurrentOrderData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A581C47339700FFEB37 /* BXTCurrentOrderData.m */; };
@@ -288,8 +296,6 @@
 		78F3A9181D239E3500E6A812 /* BXTEnergyConsumptionFiterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F3A9161D239E3500E6A812 /* BXTEnergyConsumptionFiterCell.xib */; };
 		78F3A91B1D23B01800E6A812 /* BXTMeterReadingHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F3A91A1D23B01800E6A812 /* BXTMeterReadingHeaderView.m */; };
 		78F3A91D1D23B04D00E6A812 /* BXTMeterReadingHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F3A91C1D23B04D00E6A812 /* BXTMeterReadingHeaderView.xib */; };
-		78F3A9201D23D69800E6A812 /* BXTMeterReadingFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F3A91F1D23D69800E6A812 /* BXTMeterReadingFilterView.m */; };
-		78F3A9221D23D6AD00E6A812 /* BXTMeterReadingFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F3A9211D23D6AD00E6A812 /* BXTMeterReadingFilterView.xib */; };
 		78FFB96D1CB5F5D700309339 /* BXTPostionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FFB96C1CB5F5D700309339 /* BXTPostionInfo.m */; };
 		78FFB9701CB5F5E400309339 /* BXTGroupingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FFB96F1CB5F5E400309339 /* BXTGroupingInfo.m */; };
 		78FFB9731CB5F5F000309339 /* BXTDepartmentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FFB9721CB5F5F000309339 /* BXTDepartmentInfo.m */; };
@@ -902,6 +908,18 @@
 		78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPSystemRateCell.xib; sourceTree = "<group>"; };
 		78A1B86C1C8430C000F252BE /* BXTEPSystemRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPSystemRate.h; sourceTree = "<group>"; };
 		78A1B86D1C8430C000F252BE /* BXTEPSystemRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPSystemRate.m; sourceTree = "<group>"; };
+		78AEA0411D2A1286003E500A /* BXTMeterReadingFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingFilterView.h; sourceTree = "<group>"; };
+		78AEA0421D2A1286003E500A /* BXTMeterReadingFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingFilterView.m; sourceTree = "<group>"; };
+		78AEA0431D2A1286003E500A /* BXTMeterReadingFilterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMeterReadingFilterView.xib; sourceTree = "<group>"; };
+		78AEA0451D2A1286003E500A /* BXTMeterReadingFilterOFListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingFilterOFListView.h; sourceTree = "<group>"; };
+		78AEA0461D2A1286003E500A /* BXTMeterReadingFilterOFListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingFilterOFListView.m; sourceTree = "<group>"; };
+		78AEA0471D2A1286003E500A /* BXTMeterReadingFilterOFListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMeterReadingFilterOFListView.xib; sourceTree = "<group>"; };
+		78AEA0481D2A1286003E500A /* BXTMeterReadingTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingTimeCell.h; sourceTree = "<group>"; };
+		78AEA0491D2A1286003E500A /* BXTMeterReadingTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingTimeCell.m; sourceTree = "<group>"; };
+		78AEA04A1D2A1286003E500A /* BXTMeterReadingTimeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMeterReadingTimeCell.xib; sourceTree = "<group>"; };
+		78AEA04B1D2A1286003E500A /* BXTMeterReadingTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingTimeView.h; sourceTree = "<group>"; };
+		78AEA04C1D2A1286003E500A /* BXTMeterReadingTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingTimeView.m; sourceTree = "<group>"; };
+		78AEA04D1D2A1286003E500A /* BXTMeterReadingTimeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMeterReadingTimeView.xib; sourceTree = "<group>"; };
 		78C1180F1D2122E200A86900 /* BXTEnergyConsumptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyConsumptionViewController.h; sourceTree = "<group>"; };
 		78C118101D2122E200A86900 /* BXTEnergyConsumptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyConsumptionViewController.m; sourceTree = "<group>"; };
 		78C118181D2124C800A86900 /* BXTMeterReadingRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingRecordViewController.h; sourceTree = "<group>"; };
@@ -965,9 +983,6 @@
 		78F3A9191D23B01800E6A812 /* BXTMeterReadingHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingHeaderView.h; sourceTree = "<group>"; };
 		78F3A91A1D23B01800E6A812 /* BXTMeterReadingHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingHeaderView.m; sourceTree = "<group>"; };
 		78F3A91C1D23B04D00E6A812 /* BXTMeterReadingHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMeterReadingHeaderView.xib; sourceTree = "<group>"; };
-		78F3A91E1D23D69800E6A812 /* BXTMeterReadingFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingFilterView.h; sourceTree = "<group>"; };
-		78F3A91F1D23D69800E6A812 /* BXTMeterReadingFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingFilterView.m; sourceTree = "<group>"; };
-		78F3A9211D23D6AD00E6A812 /* BXTMeterReadingFilterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMeterReadingFilterView.xib; sourceTree = "<group>"; };
 		78FFB96B1CB5F5D700309339 /* BXTPostionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPostionInfo.h; sourceTree = "<group>"; };
 		78FFB96C1CB5F5D700309339 /* BXTPostionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPostionInfo.m; sourceTree = "<group>"; };
 		78FFB96E1CB5F5E400309339 /* BXTGroupingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTGroupingInfo.h; sourceTree = "<group>"; };
@@ -3355,6 +3370,32 @@
 			name = Cell;
 			sourceTree = "<group>";
 		};
+		78AEA0401D2A1286003E500A /* ChartView */ = {
+			isa = PBXGroup;
+			children = (
+				78AEA0411D2A1286003E500A /* BXTMeterReadingFilterView.h */,
+				78AEA0421D2A1286003E500A /* BXTMeterReadingFilterView.m */,
+				78AEA0431D2A1286003E500A /* BXTMeterReadingFilterView.xib */,
+			);
+			path = ChartView;
+			sourceTree = "<group>";
+		};
+		78AEA0441D2A1286003E500A /* ListView */ = {
+			isa = PBXGroup;
+			children = (
+				78AEA0451D2A1286003E500A /* BXTMeterReadingFilterOFListView.h */,
+				78AEA0461D2A1286003E500A /* BXTMeterReadingFilterOFListView.m */,
+				78AEA0471D2A1286003E500A /* BXTMeterReadingFilterOFListView.xib */,
+				78AEA04B1D2A1286003E500A /* BXTMeterReadingTimeView.h */,
+				78AEA04C1D2A1286003E500A /* BXTMeterReadingTimeView.m */,
+				78AEA04D1D2A1286003E500A /* BXTMeterReadingTimeView.xib */,
+				78AEA0481D2A1286003E500A /* BXTMeterReadingTimeCell.h */,
+				78AEA0491D2A1286003E500A /* BXTMeterReadingTimeCell.m */,
+				78AEA04A1D2A1286003E500A /* BXTMeterReadingTimeCell.xib */,
+			);
+			path = ListView;
+			sourceTree = "<group>";
+		};
 		78C117F61D211D6F00A86900 /* Energy */ = {
 			isa = PBXGroup;
 			children = (
@@ -3471,12 +3512,11 @@
 		78C1181B1D2124C800A86900 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				78AEA0401D2A1286003E500A /* ChartView */,
+				78AEA0441D2A1286003E500A /* ListView */,
 				78F3A9191D23B01800E6A812 /* BXTMeterReadingHeaderView.h */,
 				78F3A91A1D23B01800E6A812 /* BXTMeterReadingHeaderView.m */,
 				78F3A91C1D23B04D00E6A812 /* BXTMeterReadingHeaderView.xib */,
-				78F3A91E1D23D69800E6A812 /* BXTMeterReadingFilterView.h */,
-				78F3A91F1D23D69800E6A812 /* BXTMeterReadingFilterView.m */,
-				78F3A9211D23D6AD00E6A812 /* BXTMeterReadingFilterView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4486,12 +4526,14 @@
 				9652AB0C1BC902DF009A666D /* LaunchScreen.storyboard in Resources */,
 				78EFEEF21CAE6CCE0011F9E9 /* BXTProjectInformAuthorCell.xib in Resources */,
 				9652AC361BC90EC9009A666D /* LocalPhotoViewController.xib in Resources */,
+				78AEA0531D2A1286003E500A /* BXTMeterReadingTimeCell.xib in Resources */,
 				78EC92E41D22721D004BAA87 /* BXTMeterReadingHeaderCell.xib in Resources */,
 				7893D8EB1C7ADA8000F042D5 /* BXTStEvaluationHeader.xib in Resources */,
 				783DDA5F1C3FD45C0035B927 /* CodeScan.bundle in Resources */,
 				7867DD731C4CBEA1000749F1 /* sound.wav in Resources */,
+				78AEA0551D2A1286003E500A /* BXTMeterReadingTimeView.xib in Resources */,
 				78EFEEE81CAE6CB10011F9E9 /* BXTProjectInformTitleCell.xib in Resources */,
-				78F3A9221D23D6AD00E6A812 /* BXTMeterReadingFilterView.xib in Resources */,
+				78AEA04F1D2A1286003E500A /* BXTMeterReadingFilterView.xib in Resources */,
 				965F68791CBE219000BF781D /* BXTManTableViewCell.xib in Resources */,
 				784E4FB01CA911B300EF2A06 /* BXTMyIntegralThirdCell.xib in Resources */,
 				9634156B1C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib in Resources */,
@@ -4513,6 +4555,7 @@
 				9662659A1C3A6E8A001113FF /* AboutOrder.storyboard in Resources */,
 				967C3D4B1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.xib in Resources */,
 				967C3D461C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib in Resources */,
+				78AEA0511D2A1286003E500A /* BXTMeterReadingFilterOFListView.xib in Resources */,
 				78426B571C7C406400BAE0F4 /* BXTMTPlanHeaderView.xib in Resources */,
 				96EBFCD21CA63C3700F93AB0 /* BXTPlaceTableViewCell.xib in Resources */,
 				786D37461CBBC0E800D307DB /* BXTCertificationManageInfoCell.xib in Resources */,
@@ -4787,6 +4830,7 @@
 				7867DD741C4CBEA1000749F1 /* MDRadialProgressView.m in Sources */,
 				7823C89A1C7EDCD200E2858B /* BXTEPSummaryView.m in Sources */,
 				78C118111D2122E200A86900 /* BXTEnergyConsumptionViewController.m in Sources */,
+				78AEA04E1D2A1286003E500A /* BXTMeterReadingFilterView.m in Sources */,
 				7827D0521C8578BA00E9E29E /* BXTMTProfessionBaseViewController.m in Sources */,
 				7893D8EA1C7ADA8000F042D5 /* BXTStEvaluationHeader.m in Sources */,
 				96E6F5721D124F91006FB64E /* GJDeallocBlockExecutor.m in Sources */,
@@ -4808,6 +4852,7 @@
 				78C1181C1D2124C800A86900 /* BXTMeterReadingRecordViewController.m in Sources */,
 				7818DBE51C0824D800DC22C6 /* PNPieChartDataItem.m in Sources */,
 				96CEFB7F1C293EFA005E3091 /* BXTPhotoBaseViewController.m in Sources */,
+				78AEA0521D2A1286003E500A /* BXTMeterReadingTimeCell.m in Sources */,
 				78FFB9961CB5F77B00309339 /* BXTHeadquartersInfo.m in Sources */,
 				78090B121C7DA8C3003E1565 /* BXTMaintenanceListViewController.m in Sources */,
 				9696B7291C90043100272076 /* BXTCommentListViewController.m in Sources */,
@@ -4817,6 +4862,7 @@
 				7867DDB21C4CBEE9000749F1 /* BXTDrawView.m in Sources */,
 				782985B31C40E48F00D0837C /* BXTSettingViewController.m in Sources */,
 				968BA88D1D20FB8D0016DC36 /* BXTSelectItemView.m in Sources */,
+				78AEA0541D2A1286003E500A /* BXTMeterReadingTimeView.m in Sources */,
 				7851A0381CA3CBD000255B8A /* BXTPlaceInfo.m in Sources */,
 				7893D8951C7AA7B300F042D5 /* BXTStatisticsMianView.m in Sources */,
 				967C3D4F1C4620E00078F1D6 /* BXTControlUserTableViewCell.m in Sources */,
@@ -4879,6 +4925,7 @@
 				781EF20C1C3D382C0027FE72 /* BXTEquipmentFilesView.m in Sources */,
 				78FFB96D1CB5F5D700309339 /* BXTPostionInfo.m in Sources */,
 				78090B301C7DC67A003E1565 /* BXTEPHeaderView.m in Sources */,
+				78AEA0501D2A1286003E500A /* BXTMeterReadingFilterOFListView.m in Sources */,
 				9652ABED1BC90DCC009A666D /* NSString+Base64.m in Sources */,
 				7829858E1C40AD3500D0837C /* BXTMineCell.m in Sources */,
 				96AC24301CAA45AC001C19F9 /* BXTPhotosView.m in Sources */,
@@ -4893,7 +4940,6 @@
 				7867DD711C4CBEA1000749F1 /* BXTAddOtherManTableViewCell.m in Sources */,
 				78EFEEF11CAE6CCE0011F9E9 /* BXTProjectInformAuthorCell.m in Sources */,
 				78EFEEEC1CAE6CBF0011F9E9 /* BXTProjectInformContentCell.m in Sources */,
-				78F3A9201D23D69800E6A812 /* BXTMeterReadingFilterView.m in Sources */,
 				783DDA5D1C3FD45C0035B927 /* BXTQRBaseViewController.m in Sources */,
 				96D3D5041CA4DE74009F91EB /* BXTAttributeView.m in Sources */,
 				9696B72F1C900BE500272076 /* BXTCommentTableViewCell.m in Sources */,

@@ -15,7 +15,6 @@
     // Initialization code
     
     self.layer.cornerRadius = 10;
-    
 }
 
 @end
