@@ -68,13 +68,13 @@
     
     BXTEnergyConsumptionFiterCell *cell = [BXTEnergyConsumptionFiterCell cellWithTableView:tableView];
     
-    @weakify(self);
-    [[cell.filterBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-    }];
-    [[cell.resetBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-    }];
+//    @weakify(self);
+//    [[cell.filterBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+//        @strongify(self);
+//    }];
+//    [[cell.resetBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+//        @strongify(self);
+//    }];
     
     cell.backgroundColor = colorWithHexString(@"#E36760");
     

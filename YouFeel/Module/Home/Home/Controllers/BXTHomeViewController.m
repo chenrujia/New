@@ -148,16 +148,14 @@ typedef NS_ENUM(NSInteger, CellType) {
     @weakify(self);
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        // 商铺列表
+        //商铺列表
 //        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
 //        pivc.hidesBottomBarWhenPushed = YES;
 //        [self.navigationController pushViewController:pivc animated:YES];
-        
-        
+
         BXTMeterReadingRecordViewController *pivc = [[BXTMeterReadingRecordViewController alloc] init];
         pivc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:pivc animated:YES];
-        
     }];
     [logoImgView addSubview:branchBtn];
     
