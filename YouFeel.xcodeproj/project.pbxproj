@@ -5166,7 +5166,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -5215,7 +5215,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -5246,8 +5246,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
@@ -5271,7 +5271,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "96b6c80d-6912-4e88-8e8f-275fc08829c8";
 				SWIFT_OBJC_BRIDGING_HEADER = "YouFeel/YouFeel-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5286,8 +5286,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
@@ -5310,7 +5310,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "96b6c80d-6912-4e88-8e8f-275fc08829c8";
 				SWIFT_OBJC_BRIDGING_HEADER = "YouFeel/YouFeel-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";

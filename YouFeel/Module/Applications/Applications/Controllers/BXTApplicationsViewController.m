@@ -42,13 +42,13 @@
     //如果不包含业务统计
     if ([permissonKeys containsString:@"9995"])
     {
-        self.titleArray = @[@"项目公告", @"业务统计", @"敬请期待"];
-        self.imageArray = @[@"app_book", @"app_statistics", @"app_symbol"];
+        self.titleArray = @[@"项目公告", @"业务统计", @"能源抄表", @"敬请期待"];
+        self.imageArray = @[@"app_book", @"app_statistics", @"app_OA", @"app_symbol"];
     }
     else
     {
-        self.titleArray = @[@"项目公告", @"敬请期待"];
-        self.imageArray = @[@"app_book", @"app_symbol"];
+        self.titleArray = @[@"项目公告", @"能源抄表", @"敬请期待"];
+        self.imageArray = @[@"app_book", @"app_OA", @"app_symbol"];
     }
     
     [BXTGlobal showLoadingMBP:@"加载中..."];
@@ -59,11 +59,10 @@
         [request appVCAdvertisement];
     });
     dispatch_async(concurrentQueue, ^{
-        /**请求故障类型列表**/
+        /**请求是否显示OA**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request informOFOA];
     });
-    
     
     [self createUI];
     NSArray *listArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
@@ -152,63 +151,48 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
-    
-    if (indexPath.section == 0)
+    NSString *title = self.titleArray[indexPath.row];
+    if ([title isEqualToString:@"项目公告"])
     {
-        switch (indexPath.row) {
-            case 0:
-            {
-                BXTNoticeListViewController *nlvc = [[BXTNoticeListViewController alloc] init];
-                nlvc.hidesBottomBarWhenPushed = YES;
-                // 点击去掉参数
-                [BXTRemindNum sharedManager].announcementNum = @"0";
-                // 存储点击时间
-                [BXTRemindNum sharedManager].timeStart_Announcement = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
-                SaveValueTUD(@"timeStart_Announcement", [BXTRemindNum sharedManager].timeStart_Announcement);
-                
-                nlvc.delegateSignal = [RACSubject subject];
-                [nlvc.delegateSignal subscribeNext:^(id x) {
-                    [BXTRemindNum sharedManager].app_show = 0;
-                }];
-                
-                [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
-                
-                [self.navigationController pushViewController:nlvc animated:YES];
-            }
-                break;
-            case 1:
-            {
-                if ([permissonKeys containsString:@"9995"]) {
-                    BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
-                    epvc.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:epvc animated:YES];
-                }
-                else if (![BXTGlobal isBlankString:self.transURL]) {
-                    BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
-                    nivc.urlStr = self.transURL;
-                    nivc.titleStr = @"OA系统";
-                    nivc.pushType = PushType_OA;
-                    nivc.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:nivc animated:YES];
-                }
-            }
-                break;
-            case 2:
-            {
-                if ([permissonKeys containsString:@"9995"] && ![BXTGlobal isBlankString:self.transURL]) {
-                    
-                    BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
-                    nivc.urlStr = self.transURL;
-                    nivc.titleStr = @"OA系统";
-                    nivc.pushType = PushType_OA;
-                    nivc.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:nivc animated:YES];
-                }
-            }
-                break;
-            default: break;
-        }
+        BXTNoticeListViewController *nlvc = [[BXTNoticeListViewController alloc] init];
+        nlvc.hidesBottomBarWhenPushed = YES;
+        // 点击去掉参数
+        [BXTRemindNum sharedManager].announcementNum = @"0";
+        // 存储点击时间
+        [BXTRemindNum sharedManager].timeStart_Announcement = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+        SaveValueTUD(@"timeStart_Announcement", [BXTRemindNum sharedManager].timeStart_Announcement);
+        
+        nlvc.delegateSignal = [RACSubject subject];
+        [nlvc.delegateSignal subscribeNext:^(id x) {
+            [BXTRemindNum sharedManager].app_show = 0;
+        }];
+        
+        [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
+        [self.navigationController pushViewController:nlvc animated:YES];
+    }
+    else if ([title isEqualToString:@"业务统计"])
+    {
+        BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
+        epvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:epvc animated:YES];
+    }
+    else if ([title isEqualToString:@"OA系统"])
+    {
+        BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
+        nivc.urlStr = self.transURL;
+        nivc.titleStr = @"OA系统";
+        nivc.pushType = PushType_OA;
+        nivc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:nivc animated:YES];
+    }
+    else if ([title isEqualToString:@"能源抄表"])
+    {
+        BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
+        nivc.urlStr = self.transURL;
+        nivc.titleStr = @"OA系统";
+        nivc.pushType = PushType_OA;
+        nivc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:nivc animated:YES];
     }
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
@@ -237,7 +221,8 @@
     {
         [BXTGlobal hideMBP];
         
-        if ([dic[@"returncode"] integerValue] != 0) {
+        if ([dic[@"returncode"] integerValue] != 0)
+        {
             return;
         }
         
@@ -245,13 +230,13 @@
         //如果不包含业务统计
         if ([permissonKeys containsString:@"9995"])
         {
-            self.titleArray = @[@"项目公告", @"业务统计", @"OA系统", @"敬请期待"];
-            self.imageArray = @[@"app_book", @"app_statistics", @"app_OA", @"app_symbol"];
+            self.titleArray = @[@"项目公告", @"业务统计", @"OA系统", @"能源抄表", @"敬请期待"];
+            self.imageArray = @[@"app_book", @"app_statistics", @"app_OA", @"app_OA", @"app_symbol"];
         }
         else
         {
-            self.titleArray = @[@"项目公告", @"OA系统", @"敬请期待"];
-            self.imageArray = @[@"app_book", @"app_OA", @"app_symbol"];
+            self.titleArray = @[@"项目公告", @"OA系统", @"能源抄表", @"敬请期待"];
+            self.imageArray = @[@"app_book", @"app_OA", @"app_OA", @"app_symbol"];
         }
         
         NSDictionary *dict = data[0];
@@ -264,7 +249,6 @@
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
-    
     [BXTGlobal showText:@"请求失败，请重试" view:self.view completionBlock:nil];
 }
 
