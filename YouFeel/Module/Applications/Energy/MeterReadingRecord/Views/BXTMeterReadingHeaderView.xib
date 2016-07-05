@@ -45,14 +45,14 @@
                     <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Small_buttons" translatesAutoresizingMaskIntoConstraints="NO" id="ovk-J4-fgm">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="energy_close" translatesAutoresizingMaskIntoConstraints="NO" id="ovk-J4-fgm">
                     <rect key="frame" x="305" y="35" width="30" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="30" id="S2L-98-Y5v"/>
                         <constraint firstAttribute="height" constant="30" id="dtp-s1-TrE"/>
                     </constraints>
                 </imageView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zws-2U-vv9">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zws-2U-vv9" userLabel="line">
                     <rect key="frame" x="10" y="100" width="335" height="0.5"/>
                     <color key="backgroundColor" red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -174,10 +174,11 @@
             <connections>
                 <outlet property="bgFooterView" destination="VCG-Xq-zkG" id="q8E-xF-Rcd"/>
                 <outlet property="bgViewBtn" destination="Soy-oV-e4H" id="Wbu-5e-dpY"/>
+                <outlet property="openImage" destination="ovk-J4-fgm" id="5T6-WQ-ML0"/>
             </connections>
         </view>
     </objects>
     <resources>
-        <image name="Small_buttons" width="21" height="21"/>
+        <image name="energy_close" width="26" height="26"/>
     </resources>
 </document>

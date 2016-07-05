@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *bgViewBtn;
 
+@property (weak, nonatomic) IBOutlet UIImageView *openImage;
 
 @property (weak, nonatomic) IBOutlet UIView *bgFooterView;
 

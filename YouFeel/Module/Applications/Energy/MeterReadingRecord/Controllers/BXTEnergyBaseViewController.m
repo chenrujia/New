@@ -63,17 +63,17 @@
         return;
     }
     // rightButton1
-    UIButton *rightButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightButton1 setFrame:CGRectMake(SCREEN_WIDTH - 64.f - 5.f, 20, 64.f, 44.f)];
+    self.rightButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.rightButton1 setFrame:CGRectMake(SCREEN_WIDTH - 64.f - 5.f, 20, 64.f, 44.f)];
     if (image1) {
-        rightButton1.frame = CGRectMake(SCREEN_WIDTH - 44.f - 5.f, 20, 44.f, 44.f);
-        [rightButton1 setImage:image1 forState:UIControlStateNormal];
+        self.rightButton1.frame = CGRectMake(SCREEN_WIDTH - 44.f - 5.f, 20, 44.f, 44.f);
+        [self.rightButton1 setImage:image1 forState:UIControlStateNormal];
     } else {
-        [rightButton1 setTitle:right_title1 forState:UIControlStateNormal];
+        [self.rightButton1 setTitle:right_title1 forState:UIControlStateNormal];
     }
-    rightButton1.titleLabel.font = [UIFont systemFontOfSize:15.f];
-    [rightButton1 addTarget:self action:@selector(navigationRightButton1) forControlEvents:UIControlEventTouchUpInside];
-    [navView addSubview:rightButton1];
+    self.rightButton1.titleLabel.font = [UIFont systemFontOfSize:15.f];
+    [self.rightButton1 addTarget:self action:@selector(navigationRightButton1) forControlEvents:UIControlEventTouchUpInside];
+    [navView addSubview:self.rightButton1];
     
     
     if (!(image2 || right_title2)) {
@@ -81,7 +81,7 @@
     }
     // rightButton2
     UIButton *rightButton2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightButton2 setFrame:CGRectMake(CGRectGetMinX(rightButton1.frame) - 65, 20, 64.f, 44.f)];
+    [rightButton2 setFrame:CGRectMake(CGRectGetMinX(self.rightButton1.frame) - 65, 20, 64.f, 44.f)];
     if (image2) {
         [rightButton2 setImage:image2 forState:UIControlStateNormal];
     } else {
