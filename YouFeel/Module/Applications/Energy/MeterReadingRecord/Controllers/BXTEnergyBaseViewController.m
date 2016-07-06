@@ -10,6 +10,8 @@
 
 @interface BXTEnergyBaseViewController ()
 
+@property (nonatomic, strong) UIDatePicker *datePicker;
+
 @end
 
 @implementation BXTEnergyBaseViewController
@@ -105,6 +107,104 @@
 - (void)navigationRightButton2
 {
     
+}
+
+#pragma mark -
+#pragma mark - TimerFilter
+- (void)createDatePickerIsStart:(BOOL)isStart
+{
+    // bgView
+    UIView *bgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    bgView.tag = 101;
+    [self.view addSubview:bgView];
+    
+    
+    // headerView
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-50, SCREEN_WIDTH, 50)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    [bgView addSubview:headerView];
+    
+    // titleLabel
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 80, 30)];
+    titleLabel.text = @"开始时间";
+    if (!isStart) {
+        titleLabel.text = @"结束时间";
+    }
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [headerView addSubview:titleLabel];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49, SCREEN_WIDTH, 1)];
+    line.backgroundColor = colorWithHexString(@"e2e6e8");
+    [headerView addSubview:line];
+    
+    // timeLabel
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 165, 10, 150, 30)];
+    timeLabel.text = [self weekdayStringFromDate:[NSDate date]];
+    timeLabel.textColor = colorWithHexString(@"#3BAFFF");
+    timeLabel.font = [UIFont systemFontOfSize:16.f];
+    timeLabel.textAlignment = NSTextAlignmentRight;
+    [headerView addSubview:timeLabel];
+    
+    
+    // datePicker
+    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
+    self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    self.datePicker.backgroundColor = colorWithHexString(@"ffffff");
+    //    self.datePicker.minimumDate = [NSDate date];
+    self.datePicker.datePickerMode = UIDatePickerModeDate;
+    [[self.datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+        // 显示时间
+        timeLabel.text = [self weekdayStringFromDate:self.datePicker.date];
+    }];
+    [bgView addSubview:self.datePicker];
+    
+    
+    // toolView
+    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
+    toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
+    [bgView addSubview:toolView];
+    
+    // sure
+    self.sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 50)];
+    [self.sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [self.sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self.sureBtn.backgroundColor = [UIColor whiteColor];
+    @weakify(self);
+    [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        self.timeStr = timeLabel.text;
+        
+        self.datePicker = nil;
+        [bgView removeFromSuperview];
+    }];
+    self.sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    self.sureBtn.layer.borderWidth = 0.5;
+    [toolView addSubview:self.sureBtn];
+}
+
+// 时间戳转换成 2015年11月27日 星期五 格式
+- (NSString*)weekdayStringFromDate:(NSDate*)inputDate
+{
+    NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+    [formatter1 setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateStr = [formatter1 stringFromDate:inputDate];
+    
+    return dateStr;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    UIView *view = touch.view;
+    if (view.tag == 101)
+    {
+        if (_datePicker)
+        {
+            [_datePicker removeFromSuperview];
+            _datePicker = nil;
+        }
+        [view removeFromSuperview];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

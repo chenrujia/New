@@ -155,6 +155,14 @@
 		7851A0321CA3C60900255B8A /* SegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A02F1CA3C60900255B8A /* SegmentView.m */; };
 		7851A0351CA3C66300255B8A /* BXTSubgroupInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0341CA3C66300255B8A /* BXTSubgroupInfo.m */; };
 		7851A0381CA3CBD000255B8A /* BXTPlaceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */; };
+		78624F281D2B83F20024215F /* BXTHistogramStatisticsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F211D2B83F20024215F /* BXTHistogramStatisticsView.m */; };
+		78624F291D2B83F20024215F /* BXTHistogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F231D2B83F20024215F /* BXTHistogramView.m */; };
+		78624F2B1D2B83F20024215F /* NSDate+Escort.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F271D2B83F20024215F /* NSDate+Escort.m */; };
+		78624F2E1D2B8C830024215F /* BXTHistogramFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F2D1D2B8C830024215F /* BXTHistogramFooterView.m */; };
+		78624F301D2B8C960024215F /* BXTHistogramFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78624F2F1D2B8C960024215F /* BXTHistogramFooterView.xib */; };
+		78624F371D2B9C940024215F /* BXTMeterReadingDailyDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F361D2B9C940024215F /* BXTMeterReadingDailyDetailViewController.m */; };
+		78624F3A1D2BABFA0024215F /* BXTMeterReadingDailyDetailFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F391D2BABFA0024215F /* BXTMeterReadingDailyDetailFilterView.m */; };
+		78624F3C1D2BAC080024215F /* BXTMeterReadingDailyDetailFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78624F3B1D2BAC080024215F /* BXTMeterReadingDailyDetailFilterView.xib */; };
 		78644F6B1C575D5600D2C4C5 /* BXTDeviceListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 78644F6A1C575D5600D2C4C5 /* BXTDeviceListInfo.m */; };
 		7867DC0C1C4CB9F3000749F1 /* BXTAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC0B1C4CB9F3000749F1 /* BXTAboutUsViewController.m */; };
 		7867DC271C4CBA5B000749F1 /* BXTCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC101C4CBA5B000749F1 /* BXTCustomerServiceViewController.m */; };
@@ -730,6 +738,20 @@
 		7851A0341CA3C66300255B8A /* BXTSubgroupInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSubgroupInfo.m; sourceTree = "<group>"; };
 		7851A0361CA3CBD000255B8A /* BXTPlaceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPlaceInfo.h; sourceTree = "<group>"; };
 		7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPlaceInfo.m; sourceTree = "<group>"; };
+		78624F201D2B83F20024215F /* BXTHistogramStatisticsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHistogramStatisticsView.h; sourceTree = "<group>"; };
+		78624F211D2B83F20024215F /* BXTHistogramStatisticsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHistogramStatisticsView.m; sourceTree = "<group>"; };
+		78624F221D2B83F20024215F /* BXTHistogramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHistogramView.h; sourceTree = "<group>"; };
+		78624F231D2B83F20024215F /* BXTHistogramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHistogramView.m; sourceTree = "<group>"; };
+		78624F261D2B83F20024215F /* NSDate+Escort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Escort.h"; sourceTree = "<group>"; };
+		78624F271D2B83F20024215F /* NSDate+Escort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Escort.m"; sourceTree = "<group>"; };
+		78624F2C1D2B8C830024215F /* BXTHistogramFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHistogramFooterView.h; sourceTree = "<group>"; };
+		78624F2D1D2B8C830024215F /* BXTHistogramFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHistogramFooterView.m; sourceTree = "<group>"; };
+		78624F2F1D2B8C960024215F /* BXTHistogramFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTHistogramFooterView.xib; sourceTree = "<group>"; };
+		78624F351D2B9C940024215F /* BXTMeterReadingDailyDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingDailyDetailViewController.h; sourceTree = "<group>"; };
+		78624F361D2B9C940024215F /* BXTMeterReadingDailyDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingDailyDetailViewController.m; sourceTree = "<group>"; };
+		78624F381D2BABFA0024215F /* BXTMeterReadingDailyDetailFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingDailyDetailFilterView.h; sourceTree = "<group>"; };
+		78624F391D2BABFA0024215F /* BXTMeterReadingDailyDetailFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingDailyDetailFilterView.m; sourceTree = "<group>"; };
+		78624F3B1D2BAC080024215F /* BXTMeterReadingDailyDetailFilterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMeterReadingDailyDetailFilterView.xib; sourceTree = "<group>"; };
 		78644F691C575D5600D2C4C5 /* BXTDeviceListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceListInfo.h; sourceTree = "<group>"; };
 		78644F6A1C575D5600D2C4C5 /* BXTDeviceListInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceListInfo.m; sourceTree = "<group>"; };
 		7867DC0A1C4CB9F3000749F1 /* BXTAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAboutUsViewController.h; sourceTree = "<group>"; };
@@ -2201,6 +2223,58 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		78624F1F1D2B83F20024215F /* HistogramView */ = {
+			isa = PBXGroup;
+			children = (
+				78624F201D2B83F20024215F /* BXTHistogramStatisticsView.h */,
+				78624F211D2B83F20024215F /* BXTHistogramStatisticsView.m */,
+				78624F221D2B83F20024215F /* BXTHistogramView.h */,
+				78624F231D2B83F20024215F /* BXTHistogramView.m */,
+				78624F2C1D2B8C830024215F /* BXTHistogramFooterView.h */,
+				78624F2D1D2B8C830024215F /* BXTHistogramFooterView.m */,
+				78624F2F1D2B8C960024215F /* BXTHistogramFooterView.xib */,
+				78624F261D2B83F20024215F /* NSDate+Escort.h */,
+				78624F271D2B83F20024215F /* NSDate+Escort.m */,
+			);
+			path = HistogramView;
+			sourceTree = "<group>";
+		};
+		78624F311D2B9C480024215F /* MeterReadingDailyDetail */ = {
+			isa = PBXGroup;
+			children = (
+				78624F321D2B9C480024215F /* Controllers */,
+				78624F331D2B9C480024215F /* Models */,
+				78624F341D2B9C480024215F /* Views */,
+			);
+			path = MeterReadingDailyDetail;
+			sourceTree = "<group>";
+		};
+		78624F321D2B9C480024215F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				78624F351D2B9C940024215F /* BXTMeterReadingDailyDetailViewController.h */,
+				78624F361D2B9C940024215F /* BXTMeterReadingDailyDetailViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		78624F331D2B9C480024215F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		78624F341D2B9C480024215F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				78624F381D2BABFA0024215F /* BXTMeterReadingDailyDetailFilterView.h */,
+				78624F391D2BABFA0024215F /* BXTMeterReadingDailyDetailFilterView.m */,
+				78624F3B1D2BAC080024215F /* BXTMeterReadingDailyDetailFilterView.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		7867DC081C4CB9F3000749F1 /* AboutUs */ = {
 			isa = PBXGroup;
 			children = (
@@ -3400,6 +3474,7 @@
 			isa = PBXGroup;
 			children = (
 				78C118161D2124C800A86900 /* MeterReadingRecord */,
+				78624F311D2B9C480024215F /* MeterReadingDailyDetail */,
 				78C118121D2124C800A86900 /* MeterReading */,
 				78C1180B1D2122CE00A86900 /* EnergyConsumption */,
 			);
@@ -4001,6 +4076,7 @@
 		9652AB331BC9069B009A666D /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				78624F1F1D2B83F20024215F /* HistogramView */,
 				96E6F55C1D124F91006FB64E /* GJRedDot */,
 				782BCBDA1D028799003C5E12 /* RollLabel */,
 				96BDF18C1C8579FE00CEDA58 /* WeiXin */,
@@ -4541,6 +4617,7 @@
 				78F3A91D1D23B04D00E6A812 /* BXTMeterReadingHeaderView.xib in Resources */,
 				96AABA551BE0BB220071B6FA /* RongCloudKit.strings in Resources */,
 				7893D8EE1C7ADA8000F042D5 /* BXTWorkloadCell.xib in Resources */,
+				78624F3C1D2BAC080024215F /* BXTMeterReadingDailyDetailFilterView.xib in Resources */,
 				78EC92E91D22722E004BAA87 /* BXTMeterReadingListCell.xib in Resources */,
 				786D37341CBBA85E00D307DB /* BXTOtherAffairCell.xib in Resources */,
 				7893D8E61C7ADA8000F042D5 /* BXTProfessionHeader.xib in Resources */,
@@ -4588,6 +4665,7 @@
 				96F8C5F31C439A450035F187 /* BXTChangeStateViewController.xib in Resources */,
 				7829858F1C40AD3500D0837C /* BXTMineCell.xib in Resources */,
 				78EFEEED1CAE6CBF0011F9E9 /* BXTProjectInformContentCell.xib in Resources */,
+				78624F301D2B8C960024215F /* BXTHistogramFooterView.xib in Resources */,
 				964C4AC21C157C0800E6C8C4 /* ImageResources.bundle in Resources */,
 				967C3D501C4620E00078F1D6 /* BXTControlUserTableViewCell.xib in Resources */,
 				7839780D1C34D9EB00BE9620 /* BXTMailListCell.xib in Resources */,
@@ -4760,7 +4838,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78624F3A1D2BABFA0024215F /* BXTMeterReadingDailyDetailFilterView.m in Sources */,
 				96EBFCD11CA63C3700F93AB0 /* BXTPlaceTableViewCell.m in Sources */,
+				78624F281D2B83F20024215F /* BXTHistogramStatisticsView.m in Sources */,
 				968A58651CB3A1FF009A60D8 /* BXTMessageInfo.m in Sources */,
 				783710181C4503CA00A8D5EE /* BXTPersonInform.m in Sources */,
 				782D6BC31C0D6CFC00E1828F /* SPBarChartData.m in Sources */,
@@ -4808,6 +4888,7 @@
 				7867DC2F1C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m in Sources */,
 				96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */,
 				7837A5AB1CAD4196000A1986 /* BXTUserInformCell.m in Sources */,
+				78624F291D2B83F20024215F /* BXTHistogramView.m in Sources */,
 				9696B7251C8FFE9100272076 /* BXTFeebackInfo.m in Sources */,
 				7893D8DE1C7ADA8000F042D5 /* BXTCompletionHeader.m in Sources */,
 				9652AB361BC9069B009A666D /* BXTGlobal.m in Sources */,
@@ -4859,6 +4940,7 @@
 				7893D8911C7AA70D00F042D5 /* BXTStatisticsCell.m in Sources */,
 				9602214C1BC9201400010072 /* UIViewController+DismissKeyboard.m in Sources */,
 				78FFB9971CB5F77B00309339 /* CCLocationManager.m in Sources */,
+				78624F2E1D2B8C830024215F /* BXTHistogramFooterView.m in Sources */,
 				7867DDB21C4CBEE9000749F1 /* BXTDrawView.m in Sources */,
 				782985B31C40E48F00D0837C /* BXTSettingViewController.m in Sources */,
 				968BA88D1D20FB8D0016DC36 /* BXTSelectItemView.m in Sources */,
@@ -4968,6 +5050,7 @@
 				7818DBD71C0824D800DC22C6 /* MYPieView.m in Sources */,
 				7867DCCF1C4CBCAC000749F1 /* BXTResignViewController.m in Sources */,
 				781EF1FB1C3D382C0027FE72 /* BXTEquipmentViewController.m in Sources */,
+				78624F371D2B9C940024215F /* BXTMeterReadingDailyDetailViewController.m in Sources */,
 				96C684971BE76B4B0038A342 /* SideScrollingCheckCell.m in Sources */,
 				784E4FAF1CA911B300EF2A06 /* BXTMyIntegralThirdCell.m in Sources */,
 				7850ABDD1C804BC10070E498 /* BXTEPList.m in Sources */,
@@ -5024,6 +5107,7 @@
 				96B191D31CBB952200F5F6A8 /* BXTPhotosTableViewCell.m in Sources */,
 				7867DC951C4CBB47000749F1 /* BXTStatisticsViewController.m in Sources */,
 				964DE5F31CA930D30064D5D6 /* BXTRepairDetailView.m in Sources */,
+				78624F2B1D2B83F20024215F /* NSDate+Escort.m in Sources */,
 				7851A0321CA3C60900255B8A /* SegmentView.m in Sources */,
 				786D37351CBBA85E00D307DB /* BXTOtherAffairView.m in Sources */,
 				782985841C40A5B200D0837C /* BXTUserInfo.m in Sources */,
@@ -5246,7 +5330,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
@@ -5271,7 +5355,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "96b6c80d-6912-4e88-8e8f-275fc08829c8";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				SWIFT_OBJC_BRIDGING_HEADER = "YouFeel/YouFeel-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5286,7 +5370,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
@@ -5310,7 +5394,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "96b6c80d-6912-4e88-8e8f-275fc08829c8";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				SWIFT_OBJC_BRIDGING_HEADER = "YouFeel/YouFeel-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";

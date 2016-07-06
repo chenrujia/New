@@ -27,4 +27,8 @@
 
 - (void)navigationRightButton2;
 
+- (void)createDatePickerIsStart:(BOOL)isStart;
+@property (nonatomic, strong) UIButton *sureBtn;
+@property (nonatomic, copy) NSString *timeStr;
+
 @end

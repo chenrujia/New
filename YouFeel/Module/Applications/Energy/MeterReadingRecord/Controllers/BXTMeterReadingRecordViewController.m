@@ -10,10 +10,12 @@
 #import "BXTMeterReadingHeaderView.h"
 #import "BXTMeterReadingFilterView.h"
 #import "BXTMeterReadingFilterOFListView.h"
+#import "BXTHistogramStatisticsView.h"
 #import "BXTMeterReadingTimeView.h"
 #import "BXTMeterReadingTimeCell.h"
 #import "BXTEnergyConsumptionViewController.h"
 #import "BXTMeterReadingViewController.h"
+#import "BXTMeterReadingDailyDetailViewController.h"
 
 @interface BXTMeterReadingRecordViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -21,7 +23,7 @@
 
 @property (nonatomic, strong) BXTMeterReadingHeaderView *headerView;
 @property (nonatomic, strong) BXTMeterReadingFilterView *filterView_chart;
-@property (nonatomic, strong) UIView *chartsView;
+@property (nonatomic, strong) BXTHistogramStatisticsView *hisView;
 @property (nonatomic, strong) BXTMeterReadingFilterOFListView *filterView_list;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -41,7 +43,7 @@
     
     [self navigationSetting:@"能源抄表" andRightTitle1:nil andRightImage1:[UIImage imageNamed:@"energy_list"] andRightTitle2:@"能耗计算" andRightImage2:nil];
     
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"111", @"222", @"333", @"111", @"222", @"333", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"111", @"222", @"333", @"111", @"222`", @"333", nil];
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", nil];
     
     [self createUI];
@@ -52,13 +54,15 @@
     if (self.isHideChart) {
         self.isHideChart = NO;
         [self showChartView:YES];
-        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.chartsView.frame) + 10);
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
+        self.scrollView.scrollEnabled = YES;
         [self.rightButton1 setImage:[UIImage imageNamed:@"energy_list"] forState:UIControlStateNormal];
     }
     else {
         self.isHideChart = YES;
         [self showChartView:NO];
         self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.tableView.frame) + 10);
+        self.scrollView.scrollEnabled = NO;
         [self.rightButton1 setImage:[UIImage imageNamed:@"energy_bar_graph"] forState:UIControlStateNormal];
     }
 }
@@ -89,15 +93,66 @@
     [self.scrollView addSubview:self.headerView];
     
     
-    // filterView_chart
+    // BXTHistogramStatisticsView
     self.filterView_chart = [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingFilterView" owner:nil options:nil] lastObject];
     self.filterView_chart.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20, 50);
+    [[self.filterView_chart.timeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self createDatePickerIsStart:YES];
+        [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            NSLog(@" --------- %@", self.timeStr);
+        }];
+    }];
     [self.scrollView addSubview:self.filterView_chart];
-    // chartsView
-    self.chartsView = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.filterView_chart.frame) + 10, SCREEN_WIDTH - 20, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - CGRectGetMaxY(self.filterView_chart.frame) - 90)];
-    self.chartsView.backgroundColor = [UIColor whiteColor];
-    self.chartsView.layer.cornerRadius = 10;
-    [self.scrollView addSubview:self.chartsView];
+    // BXTHistogramStatisticsView
+    //50° ~ -50°
+    NSArray *temperatureArray = @[@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f)];
+    //0 ~ 100%rh
+    NSArray *humidityArray = @[@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f)];
+    //0 ~ 10级
+    NSArray *windPowerArray = @[@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f)];
+    //0 ~ 1000kwh
+    NSArray *totalEnergyArray = @[@[@(800.f),@(600.f),@(400.f)],
+                                  @[@(500.f),@(300.f),@(200.f)],
+                                  @[@(700.f),@(500.f),@(200.f)],
+                                  @[@(900.f),@(700.f),@(500.f)],
+                                  @[@(600.f),@(300.f),@(200.f)],
+                                  @[@(1000.f),@(600.f),@(300.f)],
+                                  @[@(800.f),@(600.f),@(400.f)],
+                                  @[@(500.f),@(300.f),@(200.f)],
+                                  @[@(700.f),@(500.f),@(200.f)],
+                                  @[@(900.f),@(700.f),@(500.f)],
+                                  @[@(600.f),@(300.f),@(200.f)],
+                                  @[@(1000.f),@(600.f),@(300.f)],
+                                  @[@(800.f),@(600.f),@(400.f)],
+                                  @[@(500.f),@(300.f),@(200.f)],
+                                  @[@(700.f),@(500.f),@(200.f)],
+                                  @[@(900.f),@(700.f),@(500.f)],
+                                  @[@(600.f),@(300.f),@(200.f)],
+                                  @[@(1000.f),@(600.f),@(300.f)],
+                                  @[@(800.f),@(600.f),@(400.f)],
+                                  @[@(500.f),@(300.f),@(200.f)],
+                                  @[@(700.f),@(500.f),@(200.f)],
+                                  @[@(900.f),@(700.f),@(500.f)],
+                                  @[@(600.f),@(300.f),@(200.f)],
+                                  @[@(1000.f),@(600.f),@(300.f)],
+                                  @[@(800.f),@(600.f),@(400.f)],
+                                  @[@(500.f),@(300.f),@(200.f)],
+                                  @[@(700.f),@(500.f),@(200.f)],
+                                  @[@(900.f),@(700.f),@(500.f)],
+                                  @[@(600.f),@(300.f),@(200.f)],
+                                  @[@(1000.f),@(600.f),@(300.f)]];
+    
+    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.filterView_chart.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) temperatureArray:temperatureArray humidityArray:humidityArray windPowerArray:windPowerArray totalEnergyArray:totalEnergyArray];
+    self.hisView.backgroundColor = [UIColor whiteColor];
+    self.hisView.layer.masksToBounds = YES;
+    self.hisView.layer.cornerRadius = 10.f;
+    [[self.hisView.footerView.checkDetailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTMeterReadingDailyDetailViewController *mrddvc = [[BXTMeterReadingDailyDetailViewController alloc] init];
+        [self.navigationController pushViewController:mrddvc animated:YES];
+    }];
+    [self.scrollView addSubview:self.hisView];
     
     
     // filterView_list
@@ -131,6 +186,8 @@
     }];
     [self.footerView addSubview:newMeterBtn];
     
+    
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
     [self showChartView:YES];
 }
 
@@ -235,12 +292,12 @@
 {
     if (showChart) {
         self.filterView_chart.hidden = NO;
-        self.chartsView.hidden = NO;
+        self.hisView.hidden = NO;
         self.filterView_list.hidden = YES;
         self.tableView.hidden = YES;
     } else {
         self.filterView_chart.hidden = YES;
-        self.chartsView.hidden = YES;
+        self.hisView.hidden = YES;
         self.filterView_list.hidden = NO;
         self.tableView.hidden = NO;
     }
@@ -262,16 +319,16 @@
     
     // filterView_chart
     self.filterView_chart.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20, 50);
-    CGRect chartsFrame = self.chartsView.frame;
+    CGRect chartsFrame = self.hisView.frame;
     chartsFrame.origin.y = CGRectGetMaxY(self.filterView_chart.frame) + 10;
-    self.chartsView.frame = chartsFrame;
+    self.hisView.frame = chartsFrame;
     
     // filterView_list
     self.filterView_list.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20, 50);
     self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.filterView_chart.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - CGRectGetMaxY(self.filterView_list.frame) - 70);
     
     if (!self.isHideChart) {
-        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.chartsView.frame) + 10);
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
     }
 }
 
