@@ -18,6 +18,7 @@
 #import "ANKeyValueTable.h"
 #import "BXTMailUserListSimpleInfo.h"
 #import "UITabBar+badge.h"
+#import "BXTEnergyClassificationViewController.h"
 
 @interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -154,45 +155,42 @@
     NSString *title = self.titleArray[indexPath.row];
     if ([title isEqualToString:@"项目公告"])
     {
-        BXTNoticeListViewController *nlvc = [[BXTNoticeListViewController alloc] init];
-        nlvc.hidesBottomBarWhenPushed = YES;
+        BXTNoticeListViewController *nlVC = [[BXTNoticeListViewController alloc] init];
+        nlVC.hidesBottomBarWhenPushed = YES;
         // 点击去掉参数
         [BXTRemindNum sharedManager].announcementNum = @"0";
         // 存储点击时间
         [BXTRemindNum sharedManager].timeStart_Announcement = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
         SaveValueTUD(@"timeStart_Announcement", [BXTRemindNum sharedManager].timeStart_Announcement);
         
-        nlvc.delegateSignal = [RACSubject subject];
-        [nlvc.delegateSignal subscribeNext:^(id x) {
+        nlVC.delegateSignal = [RACSubject subject];
+        [nlVC.delegateSignal subscribeNext:^(id x) {
             [BXTRemindNum sharedManager].app_show = 0;
         }];
         
         [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
-        [self.navigationController pushViewController:nlvc animated:YES];
+        [self.navigationController pushViewController:nlVC animated:YES];
     }
     else if ([title isEqualToString:@"业务统计"])
     {
-        BXTStatisticsViewController *epvc = [[BXTStatisticsViewController alloc] init];
-        epvc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:epvc animated:YES];
+        BXTStatisticsViewController *epVC = [[BXTStatisticsViewController alloc] init];
+        epVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:epVC animated:YES];
     }
     else if ([title isEqualToString:@"OA系统"])
     {
-        BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
-        nivc.urlStr = self.transURL;
-        nivc.titleStr = @"OA系统";
-        nivc.pushType = PushType_OA;
-        nivc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:nivc animated:YES];
+        BXTNoticeInformViewController *niVC = [[BXTNoticeInformViewController alloc] init];
+        niVC.urlStr = self.transURL;
+        niVC.titleStr = @"OA系统";
+        niVC.pushType = PushType_OA;
+        niVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:niVC animated:YES];
     }
     else if ([title isEqualToString:@"能源抄表"])
     {
-        BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
-        nivc.urlStr = self.transURL;
-        nivc.titleStr = @"OA系统";
-        nivc.pushType = PushType_OA;
-        nivc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:nivc animated:YES];
+        BXTEnergyClassificationViewController *energyVC = [[BXTEnergyClassificationViewController alloc] init];
+        energyVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:energyVC animated:YES];
     }
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }

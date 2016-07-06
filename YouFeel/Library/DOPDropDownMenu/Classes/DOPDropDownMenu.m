@@ -295,13 +295,11 @@
     _titles = [tempTitles copy];
     _indicatorsArray = [[NSMutableArray alloc] initWithArray:tempIndicators];
     _bgLayers = [tempBgLayers copy];
-    
 }
 
 #pragma mark - init method
 - (instancetype)initWithOrigin:(CGPoint)origin andHeight:(CGFloat)height
 {
-    
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     self = [self initWithFrame:CGRectMake(origin.x, origin.y, screenSize.width, height)];
     if (self) {

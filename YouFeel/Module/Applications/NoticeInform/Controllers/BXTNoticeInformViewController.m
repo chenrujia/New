@@ -42,7 +42,8 @@
 
 - (void)navigationLeftButton
 {
-    if (self.delegateSignal) {
+    if (self.delegateSignal)
+    {
         [self.delegateSignal sendNext:nil];
     }
     [self.navigationController popViewControllerAnimated:YES];
@@ -58,7 +59,8 @@
     UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
     naviView.tag = KNavViewTag;
     NSString *naviImageStr = @"Nav_Bar";
-    if (self.pushType == PushType_OA) {
+    if (self.pushType == PushType_OA)
+    {
         naviImageStr = @"Nav_Bar_OA";
     }
     naviView.image = [[UIImage imageNamed:naviImageStr] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];

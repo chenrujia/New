@@ -356,6 +356,8 @@
 		9652AC341BC90EC9009A666D /* LocalPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9652AC201BC90EC9009A666D /* LocalPhotoCell.xib */; };
 		9652AC351BC90EC9009A666D /* LocalPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AC221BC90EC9009A666D /* LocalPhotoViewController.m */; };
 		9652AC361BC90EC9009A666D /* LocalPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9652AC231BC90EC9009A666D /* LocalPhotoViewController.xib */; };
+		965E3A051D2B4F5C009287F3 /* BXTEnergyClassificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 965E3A041D2B4F5C009287F3 /* BXTEnergyClassificationViewController.m */; };
+		965E3A081D2B51CA009287F3 /* BXTMenuItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 965E3A071D2B51CA009287F3 /* BXTMenuItemButton.m */; };
 		965F68781CBE219000BF781D /* BXTManTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 965F68761CBE219000BF781D /* BXTManTableViewCell.m */; };
 		965F68791CBE219000BF781D /* BXTManTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965F68771CBE219000BF781D /* BXTManTableViewCell.xib */; };
 		9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */; };
@@ -1099,6 +1101,10 @@
 		9652AC211BC90EC9009A666D /* LocalPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalPhotoViewController.h; sourceTree = "<group>"; };
 		9652AC221BC90EC9009A666D /* LocalPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalPhotoViewController.m; sourceTree = "<group>"; };
 		9652AC231BC90EC9009A666D /* LocalPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocalPhotoViewController.xib; sourceTree = "<group>"; };
+		965E3A031D2B4F5C009287F3 /* BXTEnergyClassificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyClassificationViewController.h; sourceTree = "<group>"; };
+		965E3A041D2B4F5C009287F3 /* BXTEnergyClassificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyClassificationViewController.m; sourceTree = "<group>"; };
+		965E3A061D2B51CA009287F3 /* BXTMenuItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMenuItemButton.h; sourceTree = "<group>"; };
+		965E3A071D2B51CA009287F3 /* BXTMenuItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMenuItemButton.m; sourceTree = "<group>"; };
 		965F68751CBE219000BF781D /* BXTManTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTManTableViewCell.h; sourceTree = "<group>"; };
 		965F68761CBE219000BF781D /* BXTManTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTManTableViewCell.m; sourceTree = "<group>"; };
 		965F68771CBE219000BF781D /* BXTManTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTManTableViewCell.xib; sourceTree = "<group>"; };
@@ -3399,6 +3405,7 @@
 		78C117F61D211D6F00A86900 /* Energy */ = {
 			isa = PBXGroup;
 			children = (
+				965E39FC1D2B4EEB009287F3 /* EnergyClassification */,
 				78C118161D2124C800A86900 /* MeterReadingRecord */,
 				78C118121D2124C800A86900 /* MeterReading */,
 				78C1180B1D2122CE00A86900 /* EnergyConsumption */,
@@ -4182,6 +4189,41 @@
 			path = ImagePicture;
 			sourceTree = "<group>";
 		};
+		965E39FC1D2B4EEB009287F3 /* EnergyClassification */ = {
+			isa = PBXGroup;
+			children = (
+				965E39FD1D2B4EEB009287F3 /* Controllers */,
+				965E39FE1D2B4EEB009287F3 /* Models */,
+				965E39FF1D2B4EEB009287F3 /* Views */,
+			);
+			path = EnergyClassification;
+			sourceTree = "<group>";
+		};
+		965E39FD1D2B4EEB009287F3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				965E3A031D2B4F5C009287F3 /* BXTEnergyClassificationViewController.h */,
+				965E3A041D2B4F5C009287F3 /* BXTEnergyClassificationViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		965E39FE1D2B4EEB009287F3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		965E39FF1D2B4EEB009287F3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				965E3A061D2B51CA009287F3 /* BXTMenuItemButton.h */,
+				965E3A071D2B51CA009287F3 /* BXTMenuItemButton.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		968910621BD1F6BC008540D0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -4878,6 +4920,7 @@
 				7867DD821C4CBEA1000749F1 /* BXTOrderManagerViewController.m in Sources */,
 				7867DC2A1C4CBA5B000749F1 /* BXTRepairHomeViewController.m in Sources */,
 				786B571D1C3A06C400F48402 /* BXTPersonInfromViewController.m in Sources */,
+				965E3A081D2B51CA009287F3 /* BXTMenuItemButton.m in Sources */,
 				7837A5AA1CAD4196000A1986 /* BXTUserInformViewController.m in Sources */,
 				78644F6B1C575D5600D2C4C5 /* BXTDeviceListInfo.m in Sources */,
 				7837A5B61CAD4520000A1986 /* BXTChangePhoneViewController.m in Sources */,
@@ -5025,6 +5068,7 @@
 				7867DC951C4CBB47000749F1 /* BXTStatisticsViewController.m in Sources */,
 				964DE5F31CA930D30064D5D6 /* BXTRepairDetailView.m in Sources */,
 				7851A0321CA3C60900255B8A /* SegmentView.m in Sources */,
+				965E3A051D2B4F5C009287F3 /* BXTEnergyClassificationViewController.m in Sources */,
 				786D37351CBBA85E00D307DB /* BXTOtherAffairView.m in Sources */,
 				782985841C40A5B200D0837C /* BXTUserInfo.m in Sources */,
 				78426B511C7C389F00BAE0F4 /* BXTMTStatisticsCell.m in Sources */,
@@ -5271,7 +5315,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "96b6c80d-6912-4e88-8e8f-275fc08829c8";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				SWIFT_OBJC_BRIDGING_HEADER = "YouFeel/YouFeel-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5310,7 +5354,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "96b6c80d-6912-4e88-8e8f-275fc08829c8";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				SWIFT_OBJC_BRIDGING_HEADER = "YouFeel/YouFeel-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
