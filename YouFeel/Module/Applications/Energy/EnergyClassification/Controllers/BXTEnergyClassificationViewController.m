@@ -13,12 +13,13 @@
 #import "BXTCustomButton.h"
 #import "BXTSelectItemView.h"
 #import "ANKeyValueTable.h"
+#import "BXTMeterReadingListView.h"
 
 #define KBUTTONHEIGHT 46.f
 #define METERTABLETAG 666
 #define PRICETABLETAG 888
 
-@interface BXTEnergyClassificationViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface BXTEnergyClassificationViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
 {
     BXTMenuItemButton *btnOne;
     BXTMenuItemButton *btnTwo;
@@ -26,14 +27,17 @@
     BXTMenuItemButton *btnFour;
     UIView *leftView;
     UIView *rightView;
+    NSInteger currentPage;
 }
 
-@property (nonatomic, strong) NSArray *colorArray;
+@property (nonatomic, strong) NSArray           *colorArray;
 //抄表方式数据
-@property (nonatomic, strong) NSMutableArray *meterArray;
+@property (nonatomic, strong) NSMutableArray    *meterArray;
 //价格类型数据
-@property (nonatomic, strong) NSMutableArray *priceArray;
+@property (nonatomic, strong) NSMutableArray    *priceArray;
 @property (nonatomic, strong) BXTSelectItemView *chooseItemView;
+@property (nonatomic, strong) UITableView       *chooseTableView;
+@property (nonatomic, strong) UIScrollView      *scrollerView;
 
 @end
 
@@ -48,6 +52,8 @@
     [self requestDatasoure];
 }
 
+#pragma mark -
+#pragma mark 初始化各种视图
 //电能、水、燃气、热能
 - (void)initialEnergyClass
 {
@@ -140,6 +146,20 @@
     lineView.backgroundColor = colorWithHexString(@"e2e6e8");
     [backView addSubview:lineView];
     
+    self.scrollerView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.f, CGRectGetMaxY(lineView.frame), CGRectGetWidth(backView.frame), CGRectGetHeight(backView.frame) - CGRectGetMaxY(lineView.frame))];
+    self.scrollerView.contentSize = CGSizeMake(4 * CGRectGetWidth(backView.frame), 0);
+    self.scrollerView.bounces = NO;
+    self.scrollerView.pagingEnabled = YES;
+    self.scrollerView.delegate = self;
+    [backView addSubview:self.scrollerView];
+    
+    for (NSInteger i = 0; i < 4; i++)
+    {
+        BXTMeterReadingListView *meterView = [[BXTMeterReadingListView alloc] initWithFrame:CGRectMake(i * CGRectGetWidth(self.scrollerView.frame), 0, CGRectGetWidth(self.scrollerView.frame), CGRectGetHeight(self.scrollerView.frame)) datasource:nil];
+        meterView.tag = i;
+        [self.scrollerView addSubview:meterView];
+    }
+    
     rightView = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 20.f, CGRectGetMaxY(btnOne.frame), 10.f, 10.f)];
     rightView.backgroundColor = [UIColor whiteColor];
     rightView.hidden = YES;
@@ -154,15 +174,15 @@
     backView.tag = 101;
     [self.view addSubview:backView];
     
-    UITableView *currentTable = [[UITableView alloc] initWithFrame:CGRectMake(10.f, KNAVIVIEWHEIGHT + KBUTTONHEIGHT + 93.f, SCREEN_WIDTH - 20.f, 0.f) style:UITableViewStylePlain];
-    [currentTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"EnergyCell"];
-    currentTable.tag = tag;
-    currentTable.delegate = self;
-    currentTable.dataSource = self;
-    [backView addSubview:currentTable];
+    self.chooseTableView = [[UITableView alloc] initWithFrame:CGRectMake(10.f, KNAVIVIEWHEIGHT + KBUTTONHEIGHT + 93.f, SCREEN_WIDTH - 20.f, 0.f) style:UITableViewStylePlain];
+    [self.chooseTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"EnergyCell"];
+    self.chooseTableView.tag = tag;
+    self.chooseTableView.delegate = self;
+    self.chooseTableView.dataSource = self;
+    [self.view addSubview:self.chooseTableView];
     
     [UIView animateWithDuration:0.3f animations:^{
-        [currentTable setFrame:CGRectMake(10.f, KNAVIVIEWHEIGHT + KBUTTONHEIGHT + 90.f, SCREEN_WIDTH - 20.f, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - KBUTTONHEIGHT - 100.f)];
+        [self.chooseTableView setFrame:CGRectMake(10.f, KNAVIVIEWHEIGHT + KBUTTONHEIGHT + 90.f, SCREEN_WIDTH - 20.f, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - KBUTTONHEIGHT - 100.f)];
     }];
 }
 
@@ -180,12 +200,12 @@
     __weak __typeof(self) weakSelf = self;
     self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
         UIView *view = [weakSelf.view viewWithTag:101];
-        [view removeFromSuperview];
         [UIView animateWithDuration:0.3f animations:^{
             [weakSelf.chooseItemView setFrame:CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
         } completion:^(BOOL finished) {
             [weakSelf.chooseItemView removeFromSuperview];
             weakSelf.chooseItemView = nil;
+            [view removeFromSuperview];
         }];
     }];
     self.chooseItemView.backgroundColor = colorWithHexString(@"eff3f6");
@@ -196,17 +216,23 @@
     }];
 }
 
+#pragma mark -
+#pragma mark 在这里处理数据请求
 - (void)requestDatasoure
 {
-    self.meterArray = [[NSMutableArray alloc] initWithObjects:@"抄表方式1",@"抄表方式2",@"抄表方式3",@"抄表方式4",@"抄表方式5",@"抄表方式6", nil];
+    self.meterArray = [[NSMutableArray alloc] initWithObjects:@"抄表方式1",@"抄表方式2",@"抄表方式3",@"抄表方式4",@"抄表方式5",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6", nil];
     self.priceArray = [[NSMutableArray alloc] initWithObjects:@"100",@"200",@"500",@"1000",@"2000",@"5000", nil];
 }
 
+#pragma mark -
+#pragma mark 切换电能、水、燃气、热能
 - (void)menuButtonClick:(UIButton *)btn
 {
     self.view.backgroundColor = self.colorArray[btn.tag];
     [self navigationSetting:nil backColor:self.colorArray[btn.tag] rightImage:nil];
     [btn setTitleColor:self.colorArray[btn.tag] forState:UIControlStateNormal];
+    
+    [self.scrollerView setContentOffset:CGPointMake(btn.tag * CGRectGetWidth(self.scrollerView.frame), 0) animated:YES];
     
     if (btn == btnOne)
     {
@@ -266,6 +292,8 @@
     }
 }
 
+#pragma mark -
+#pragma mark 点击下面的四个筛选条件
 - (void)filterButtonClick:(UIButton *)btn
 {
     if (btn.tag == 0)
@@ -295,7 +323,16 @@
     UIView *view = touch.view;
     if (view.tag == 101)
     {
-        [view removeFromSuperview];
+        if (self.chooseTableView)
+        {
+            [UIView animateWithDuration:0.3f animations:^{
+                [self.chooseTableView setFrame:CGRectMake(10.f, KNAVIVIEWHEIGHT + KBUTTONHEIGHT + 93.f, SCREEN_WIDTH - 20.f, 0)];
+            } completion:^(BOOL finished) {
+                [self.chooseTableView removeFromSuperview];
+                self.chooseTableView = nil;
+                [view removeFromSuperview];
+            }];
+        }
         if (self.chooseItemView)
         {
             [UIView animateWithDuration:0.3f animations:^{
@@ -303,11 +340,14 @@
             } completion:^(BOOL finished) {
                 [self.chooseItemView removeFromSuperview];
                 self.chooseItemView = nil;
+                [view removeFromSuperview];
             }];
         }
     }
 }
 
+#pragma mark -
+#pragma mark UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView.tag == METERTABLETAG)
@@ -343,7 +383,46 @@
     UIView *view = [self.view viewWithTag:101];
     if (view)
     {
-       [view removeFromSuperview];
+        if (self.chooseTableView)
+        {
+            [UIView animateWithDuration:0.3f animations:^{
+                [self.chooseTableView setFrame:CGRectMake(10.f, KNAVIVIEWHEIGHT + KBUTTONHEIGHT + 93.f, SCREEN_WIDTH - 20.f, 0)];
+            } completion:^(BOOL finished) {
+                [self.chooseTableView removeFromSuperview];
+                self.chooseTableView = nil;
+                [view removeFromSuperview];
+            }];
+        }
+    }
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    // 得到每页宽度
+    CGFloat pageWidth = scrollView.frame.size.width;
+    // 根据当前的x坐标和页宽度计算出当前页数
+    NSInteger page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    
+    if (page == currentPage) return;
+    currentPage = page;
+    
+    if (currentPage == 0)
+    {
+        [self menuButtonClick:btnOne];
+    }
+    else if (currentPage == 1)
+    {
+        [self menuButtonClick:btnTwo];
+    }
+    else if (currentPage == 2)
+    {
+        [self menuButtonClick:btnThree];
+    }
+    else if (currentPage == 3)
+    {
+        [self menuButtonClick:btnFour];
     }
 }
 
