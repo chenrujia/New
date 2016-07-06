@@ -23,6 +23,10 @@ typedef void (^HaveHidden)(BOOL hidden);
                      andRightTitle:(NSString *)right_title
                      andRightImage:(UIImage *)image;
 
+- (UIView *)navigationSetting:(NSString *)title
+                    backColor:(UIColor *)color
+                   rightImage:(UIImage *)image;
+
 - (void)navigationLeftButton;
 
 - (void)navigationRightButton;

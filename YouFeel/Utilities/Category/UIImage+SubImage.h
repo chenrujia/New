@@ -57,4 +57,8 @@
  *  获取在ScaleAspectFill模式下，image展示出来部分的frame
  */
 - (CGRect)frameOnScaleAspectFillMode;
+
+
++ (UIImage *)imageWithColor:(UIColor*)color andHeight:(CGFloat)height;
+
 @end

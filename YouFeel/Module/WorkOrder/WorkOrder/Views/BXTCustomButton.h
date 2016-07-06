@@ -11,7 +11,8 @@
 typedef NS_ENUM(NSInteger, CustomButtonType) {
     FaultTypeType,//故障类型
     SelectBtnType,//选择按钮（例如：设备列表选择按钮）
-    GroupBtnType//分组名称（增员列表中使用）
+    GroupBtnType,//分组名称（增员列表中使用）
+    EnergyBtnType//能源抄表
 };
 
 @interface BXTCustomButton : UIButton

@@ -27,12 +27,22 @@
         self.searchType = type;
         self.selectItemBlock = itemBlock;
         self.isOpen = YES;
-        
+    
         self.currentTable = [[UITableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped];
         self.currentTable.delegate = self;
         self.currentTable.dataSource = self;
         [self.currentTable registerNib:[UINib nibWithNibName:@"BXTPlaceTableViewCell" bundle:nil] forCellReuseIdentifier:@"RowCell"];
         [self addSubview:self.currentTable];
+        
+        UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [doneBtn setFrame:CGRectMake(20.f, CGRectGetHeight(self.frame) - 64.f, CGRectGetWidth(self.frame) - 40.f, 44.f)];
+        [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
+        [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
+        [doneBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        doneBtn.layer.cornerRadius = 4.f;
+        doneBtn.titleLabel.font = [UIFont systemFontOfSize:18.f];
+        [doneBtn addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:doneBtn];
         
         NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
         self.mutableArray = mutableArray;
@@ -70,15 +80,89 @@
     return self;
 }
 
+- (void)alertViewContent:(NSString *)content
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:content
+                                                    message:nil
+                                                   delegate:nil
+                                          cancelButtonTitle:@"确定"
+                                          otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)doneClick
+{
+    if (self.isOpen)
+    {
+        if (self.mutableArray.count == 0)
+        {
+            return;
+        }
+        if (!self.manualClassifyInfo && !self.autoClassifyInfo && self.searchBarView.text.length == 0)
+        {
+            [self alertViewContent:@"请选择所需信息"];
+            return;
+        }
+        NSString *prefixName = @"";
+        NSMutableArray *markArray = self.marksArray[self.lastIndexPath.section];
+        NSMutableArray *tempArray = self.mutableArray[self.lastIndexPath.section];
+        
+        for (NSInteger i = 0; i < markArray.count; i++)
+        {
+            NSString *markStr = markArray[i];
+            if ([markStr integerValue] == 1)
+            {
+                BXTBaseClassifyInfo *classifyInfo = tempArray[i];
+                prefixName = [NSString stringWithFormat:@"%@%@",prefixName,classifyInfo.name];
+            }
+        }
+        
+        if (self.searchType == FaultSearchType && [self.manualClassifyInfo.level integerValue] == 1)
+        {
+            [self alertViewContent:@"请选择具体的故障类型"];
+            return;
+        }
+        self.selectItemBlock(self.manualClassifyInfo,prefixName);
+    }
+    else
+    {
+        if (self.searchTitlesArray.count > 0 && self.autoClassifyInfo)
+        {
+            self.selectItemBlock(self.autoClassifyInfo,self.searchTitlesArray[self.lastIndex]);
+        }
+        else
+        {
+            if (self.isProgress)
+            {
+                [self alertViewContent:@"请确定具体位置"];
+                return;
+            }
+            if (self.searchBarView.text.length > 0)
+            {
+                self.selectItemBlock(nil,self.searchBarView.text);
+            }
+        }
+    }
+}
+
 #pragma mark -
 #pragma mark UITableViewDelegate & UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section == 0)
+    {
+        return 0.1f;
+    }
     return 12.f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    if (section == 0)
+    {
+        UIView *bv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.1f)];
+        return bv;
+    }
     UIView *bv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 12.f)];
     return bv;
 }
