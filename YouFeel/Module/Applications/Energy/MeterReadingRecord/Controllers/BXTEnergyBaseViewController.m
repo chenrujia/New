@@ -182,7 +182,6 @@
     [toolView addSubview:self.sureBtn];
 }
 
-
 // 时间戳转换成 2015年11月27日 星期五 格式
 - (NSString*)weekdayStringFromDate:(NSDate*)inputDate
 {
@@ -192,7 +191,6 @@
     
     return dateStr;
 }
-
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
