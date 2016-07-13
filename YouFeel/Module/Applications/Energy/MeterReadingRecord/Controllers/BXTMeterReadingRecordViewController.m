@@ -16,8 +16,9 @@
 #import "BXTEnergyConsumptionViewController.h"
 #import "BXTMeterReadingViewController.h"
 #import "BXTMeterReadingDailyDetailViewController.h"
+#import "BXTDataRequest.h"
 
-@interface BXTMeterReadingRecordViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface BXTMeterReadingRecordViewController () <UITableViewDelegate, UITableViewDataSource, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 
@@ -183,6 +184,7 @@
     [[newMeterBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BXTMeterReadingViewController *mrvc = [[BXTMeterReadingViewController alloc] init];
+        mrvc.transID = self.transID;
         [self.navigationController pushViewController:mrvc animated:YES];
     }];
     [self.footerView addSubview:newMeterBtn];
@@ -285,6 +287,39 @@
     }];
     
     return view;
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == EnergyMeterDetail && data.count > 0)
+    {
+        //        NSMutableArray *listArray = [[NSMutableArray alloc] init];
+        //        [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        //            return @{@"energyMeterID":@"id"};
+        //        }];
+        //        [listArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
+        //
+        //        // 赋值
+        //        for (BXTMeterReadingListView *listView in self.scrollerView.subviews) {
+        //            if ([listView isKindOfClass:[BXTMeterReadingListView class]]) {
+        //                if (listView.tag == tag) {
+        //                    listView.datasource = (NSArray *)listArray;
+        //                }
+        //            }
+        //        }
+    }
+    
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
 }
 
 #pragma mark -

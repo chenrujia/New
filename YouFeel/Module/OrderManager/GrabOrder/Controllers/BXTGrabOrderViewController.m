@@ -175,7 +175,7 @@
     [self hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == RepairDetail)
+    if (type == RepairDetail && data.count != 0)
     {
         [player play];
         NSDictionary *dictionary = data[0];

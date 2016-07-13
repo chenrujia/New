@@ -7,8 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTEnergyMeterListInfo.h"
 
 @interface BXTEnergyRecordTableViewCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *NFCImage;
+@property (weak, nonatomic) IBOutlet UIImageView *scanImage;
+@property (weak, nonatomic) IBOutlet UIImageView *photoImage;
+
 
 //大图
 @property (weak, nonatomic) IBOutlet UIImageView *iconImage;
@@ -20,5 +26,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *energyNode;
 //安装位置
 @property (weak, nonatomic) IBOutlet UILabel *energyPlace;
+
+@property (nonatomic, strong) BXTEnergyMeterListInfo *listInfo;
+
++ (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @end

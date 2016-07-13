@@ -14,12 +14,14 @@
 #import "BXTSelectItemView.h"
 #import "ANKeyValueTable.h"
 #import "BXTMeterReadingListView.h"
+#import "BXTEnergyMeterListInfo.h"
 
 #define KBUTTONHEIGHT 46.f
 #define METERTABLETAG 666
 #define PRICETABLETAG 888
+#define LISTVIEWTAG 1000
 
-@interface BXTEnergyClassificationViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+@interface BXTEnergyClassificationViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate, BXTDataResponseDelegate>
 {
     BXTMenuItemButton *btnOne;
     BXTMenuItemButton *btnTwo;
@@ -156,7 +158,7 @@
     for (NSInteger i = 0; i < 4; i++)
     {
         BXTMeterReadingListView *meterView = [[BXTMeterReadingListView alloc] initWithFrame:CGRectMake(i * CGRectGetWidth(self.scrollerView.frame), 0, CGRectGetWidth(self.scrollerView.frame), CGRectGetHeight(self.scrollerView.frame)) datasource:nil];
-        meterView.tag = i;
+        meterView.tag = i + LISTVIEWTAG;
         [self.scrollerView addSubview:meterView];
     }
     
@@ -197,8 +199,12 @@
     CGRect viewRect = CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT);
     CGRect tableRect =  CGRectMake(0, 20, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT - 20.f - 64.f);
     
+    // TODO: -----------------  调试  -----------------
     __weak __typeof(self) weakSelf = self;
     self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
+        
+        NSLog(@"-------------------------- %@", name);
+        
         UIView *view = [weakSelf.view viewWithTag:101];
         [UIView animateWithDuration:0.3f animations:^{
             [weakSelf.chooseItemView setFrame:CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
@@ -220,8 +226,93 @@
 #pragma mark 在这里处理数据请求
 - (void)requestDatasoure
 {
-    self.meterArray = [[NSMutableArray alloc] initWithObjects:@"抄表方式1",@"抄表方式2",@"抄表方式3",@"抄表方式4",@"抄表方式5",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6",@"抄表方式6", nil];
-    self.priceArray = [[NSMutableArray alloc] initWithObjects:@"100",@"200",@"500",@"1000",@"2000",@"5000", nil];
+    self.meterArray = [[NSMutableArray alloc] initWithObjects:@"默认",@"手动抄表",@"自动抄表", nil];
+    self.priceArray = [[NSMutableArray alloc] initWithObjects:@"默认",@"单一",@"峰谷",@"阶梯", nil];
+    
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /**电**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterListsWithType:@"1"];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**水**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterListsWithType:@"2"];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**燃气**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterListsWithType:@"3"];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**热能**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterListsWithType:@"4"];
+    });
+    
+    dispatch_async(concurrentQueue, ^{
+        /**工单状态**/
+        //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        //        [request repairStates];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**未修好原因**/
+        //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        //        [request specialWorkOrder];
+    });
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == EnergyMeterLists1 && data.count > 0)
+    {
+        [self dealData:data tag:LISTVIEWTAG];
+    }
+    if (type == EnergyMeterLists2 && data.count > 0)
+    {
+        [self dealData:data tag:LISTVIEWTAG + 1];
+    }
+    if (type == EnergyMeterLists3 && data.count > 0)
+    {
+        [self dealData:data tag:LISTVIEWTAG + 2];
+    }
+    if (type == EnergyMeterLists4 && data.count > 0)
+    {
+        [self dealData:data tag:LISTVIEWTAG + 3];
+    }
+    
+    [self.chooseTableView reloadData];
+}
+
+- (void)dealData:(NSArray *)data tag:(NSInteger)tag
+{
+    NSMutableArray *listArray = [[NSMutableArray alloc] init];
+    [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"energyMeterID":@"id"};
+    }];
+    [listArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
+    
+    // 赋值
+    for (BXTMeterReadingListView *listView in self.scrollerView.subviews) {
+        if ([listView isKindOfClass:[BXTMeterReadingListView class]]) {
+            if (listView.tag == tag) {
+                listView.datasource = (NSArray *)listArray;
+            }
+        }
+    }
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
 }
 
 #pragma mark -
@@ -379,6 +470,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // TODO: -----------------  调试  -----------------
+    if (tableView.tag == METERTABLETAG)
+    {
+         NSLog(@"------------ %@", self.meterArray[indexPath.row]);
+    }
+    else if (tableView.tag == PRICETABLETAG)
+    {
+        NSLog(@"------------ %@", self.priceArray[indexPath.row]);
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UIView *view = [self.view viewWithTag:101];
     if (view)

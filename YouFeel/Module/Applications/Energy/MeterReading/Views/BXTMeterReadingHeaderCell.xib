@@ -31,13 +31,6 @@
                                     <constraint firstAttribute="width" constant="20" id="ydp-BR-qBw"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VVa-CW-Vuc">
-                                <rect key="frame" x="295" y="10" width="20" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="QEe-3u-sDV"/>
-                                    <constraint firstAttribute="height" constant="20" id="foR-op-fju"/>
-                                </constraints>
-                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jl5-c3-0B7">
                                 <rect key="frame" x="265" y="10" width="20" height="20"/>
                                 <constraints>
@@ -64,9 +57,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="倍率：1000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tko-k4-enu">
-                                <rect key="frame" x="95" y="50" width="80" height="20"/>
+                                <rect key="frame" x="95" y="50" width="120" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="4B7-Ck-ovw"/>
+                                    <constraint firstAttribute="width" constant="120" id="4B7-Ck-ovw"/>
                                     <constraint firstAttribute="height" constant="20" id="YBs-AE-Ifg"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -83,7 +76,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="状态：正常" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IjV-Qs-Y2l">
-                                <rect key="frame" x="185" y="50" width="160" height="20"/>
+                                <rect key="frame" x="225" y="50" width="120" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="xgV-5M-Q6B"/>
                                 </constraints>
@@ -91,6 +84,13 @@
                                 <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VVa-CW-Vuc">
+                                <rect key="frame" x="295" y="10" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="QEe-3u-sDV"/>
+                                    <constraint firstAttribute="height" constant="20" id="foR-op-fju"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -127,7 +127,16 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="NFCImage" destination="Jl5-c3-0B7" id="OBv-VP-LfF"/>
                 <outlet property="bgView" destination="KNr-cm-6uU" id="YFw-F8-B22"/>
+                <outlet property="codeView" destination="fqg-Og-wG6" id="Nqa-4A-HvN"/>
+                <outlet property="iconView" destination="MiQ-Un-Ndb" id="89v-A0-xxI"/>
+                <outlet property="lastTimeView" destination="ecM-5s-aQ9" id="2r0-e1-CIH"/>
+                <outlet property="photoImage" destination="ler-xz-Rch" id="XSt-9W-0hN"/>
+                <outlet property="rateView" destination="tko-k4-enu" id="2NG-vQ-l19"/>
+                <outlet property="scanImage" destination="VVa-CW-Vuc" id="s24-Xn-FTy"/>
+                <outlet property="stateView" destination="IjV-Qs-Y2l" id="TSa-ha-o5t"/>
+                <outlet property="titleView" destination="oHJ-CV-4QX" id="Sox-XE-ATU"/>
             </connections>
             <point key="canvasLocation" x="281.5" y="386"/>
         </tableViewCell>

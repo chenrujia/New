@@ -9,6 +9,15 @@
 #import "BXTMeterReadingListView.h"
 #import "BXTHeaderFile.h"
 #import "BXTEnergyRecordTableViewCell.h"
+#import "BXTMeterReadingRecordViewController.h"
+#import "UIView+Nav.h"
+
+@interface BXTMeterReadingListView ()
+
+@property (nonatomic, strong) UITableView *currentTable;
+@property (nonatomic, strong) NSArray *listArray;
+
+@end
 
 @implementation BXTMeterReadingListView
 
@@ -19,33 +28,47 @@
     {
         self.datasource = datasource;
         
-        UITableView *currentTable = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
-        [currentTable registerNib:[UINib nibWithNibName:@"BXTEnergyRecordTableViewCell" bundle:nil] forCellReuseIdentifier:@"MeterReadingCell"];
-        currentTable.rowHeight = 106.f;
-        currentTable.delegate = self;
-        currentTable.dataSource = self;
-        [self addSubview:currentTable];
+        self.currentTable = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+        self.currentTable.rowHeight = 106.f;
+        self.currentTable.delegate = self;
+        self.currentTable.dataSource = self;
+        [self addSubview:self.currentTable];
+        
+        
     }
     return self;
+}
+
+- (void)setDatasource:(NSArray *)datasource
+{
+    self.listArray = datasource;
+    [self.currentTable reloadData];
 }
 
 #pragma mark -
 #pragma mark UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return self.listArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BXTEnergyRecordTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MeterReadingCell" forIndexPath:indexPath];
+    BXTEnergyRecordTableViewCell *cell = [BXTEnergyRecordTableViewCell cellWithTableView:tableView];
+    
+    cell.listInfo = self.listArray[indexPath.row];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	
+    BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
+    BXTEnergyMeterListInfo *listInfo = self.listArray[indexPath.row];
+    mrrvc.transID = listInfo.energyMeterID;
+    [[self navigation] pushViewController:mrrvc animated:YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

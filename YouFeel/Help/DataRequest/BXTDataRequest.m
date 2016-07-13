@@ -1197,6 +1197,30 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)energyMeterListsWithType:(NSString *)typeStr
+{
+    switch ([typeStr integerValue]) {
+        case 1: self.requestType = EnergyMeterLists1; break;
+        case 2: self.requestType = EnergyMeterLists2; break;
+        case 3: self.requestType = EnergyMeterLists3; break;
+        case 4: self.requestType = EnergyMeterLists4; break;
+        default: break;
+    }
+    
+    // type=1(2,3,4)就是电，水，燃气，热能
+    NSDictionary *dic = @{@"type": typeStr};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Energy&opt=meter_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)energyMeterDetailWithID:(NSString *)meterDetailID
+{
+    self.requestType = EnergyMeterDetail;
+    NSDictionary *dic = @{@"id": meterDetailID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_detail",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {

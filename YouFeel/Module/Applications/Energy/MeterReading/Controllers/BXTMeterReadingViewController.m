@@ -10,13 +10,17 @@
 #import "BXTMeterReadingHeaderCell.h"
 #import "BXTMeterReadingListCell.h"
 #import "BXTQRCodeViewController.h"
+#import "BXTMeterReadingInfo.h"
 
-@interface BXTMeterReadingViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface BXTMeterReadingViewController () <UITableViewDelegate, UITableViewDataSource, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
 @property (nonatomic, strong) UIView *footerView;
+
+@property (nonatomic, strong) BXTMeterReadingInfo *meterReadingInfo;
+@property (nonatomic, strong) BXTMeterReadingLastList *lastList;
 
 @end
 
@@ -29,6 +33,11 @@
     [self navigationSetting:@"新建抄表" andRightTitle1:@"扫描解锁" andRightImage1:nil andRightTitle2:nil andRightImage2:nil];
     
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", nil];
+    
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    /**新建抄表**/
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request energyMeterDetailWithID:self.transID];
     
     [self createUI];
 }
@@ -99,6 +108,7 @@
         BXTMeterReadingHeaderCell *cell = [BXTMeterReadingHeaderCell cellWithTableView:tableView];
         
         cell.backgroundColor = colorWithHexString(@"#E36760");
+        cell.meterReadingInfo = self.meterReadingInfo;
         
         return cell;
     }
@@ -132,6 +142,31 @@
 {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == EnergyMeterDetail && data.count > 0)
+    {
+        [BXTMeterReadingInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"meterReadingID":@"id"};
+        }];
+        self.meterReadingInfo = [BXTMeterReadingInfo mj_objectWithKeyValues:data[0]];
+        self.lastList = self.meterReadingInfo.last;
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
 }
 
 #pragma mark -

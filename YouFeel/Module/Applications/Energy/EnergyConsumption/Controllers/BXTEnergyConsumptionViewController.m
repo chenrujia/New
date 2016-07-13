@@ -68,6 +68,23 @@
     
     BXTEnergyConsumptionFiterCell *cell = [BXTEnergyConsumptionFiterCell cellWithTableView:tableView];
     
+    @weakify(self);
+    [[cell.startTimeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self createDatePickerIsStart:YES];
+        [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            NSLog(@" --------- %@", self.timeStr);
+        }];
+    }];
+    [[cell.endTimeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self createDatePickerIsStart:NO];
+        [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            NSLog(@" --------- %@", self.timeStr);
+        }];
+    }];
+    
+    
 //    @weakify(self);
 //    [[cell.filterBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
 //        @strongify(self);

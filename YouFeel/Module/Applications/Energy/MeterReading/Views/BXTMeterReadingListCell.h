@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTMeterReadingInfo.h"
 
 @interface BXTMeterReadingListCell : UITableViewCell
 

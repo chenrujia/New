@@ -89,6 +89,11 @@ typedef NS_ENUM(NSInteger, RequestType) {
     DeleteNews = 76,
     InformOFOA = 77,
     AppVCAdvertisement = 78,
+    EnergyMeterLists1 = 79,
+    EnergyMeterLists2 = 80,
+    EnergyMeterLists3 = 81,
+    EnergyMeterLists4 = 82,
+    EnergyMeterDetail = 83,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -712,5 +717,15 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)specialWorkOrder;
 - (void)deviceStates;
 - (void)repairStates;
+
+/**
+ *  能源抄表列表
+ */
+- (void)energyMeterListsWithType:(NSString *)typeStr;
+
+/**
+ *  计量表详情
+ */
+- (void)energyMeterDetailWithID:(NSString *)meterDetailID;
 
 @end
