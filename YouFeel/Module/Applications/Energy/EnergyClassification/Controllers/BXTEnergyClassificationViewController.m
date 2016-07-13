@@ -199,11 +199,13 @@
     CGRect viewRect = CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT);
     CGRect tableRect =  CGRectMake(0, 20, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT - 20.f - 64.f);
     
+    
     // TODO: -----------------  调试  -----------------
     __weak __typeof(self) weakSelf = self;
     self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
         
         NSLog(@"-------------------------- %@", name);
+        
         
         UIView *view = [weakSelf.view viewWithTag:101];
         [UIView animateWithDuration:0.3f animations:^{
@@ -217,11 +219,11 @@
     self.chooseItemView.backgroundColor = colorWithHexString(@"eff3f6");
     [self.view addSubview:self.chooseItemView];
     
+    
     [UIView animateWithDuration:0.3f animations:^{
         [self.chooseItemView setFrame:CGRectMake(SCREEN_WIDTH/4.f, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
     }];
 }
-
 
 #pragma mark -
 #pragma mark 在这里处理数据请求
