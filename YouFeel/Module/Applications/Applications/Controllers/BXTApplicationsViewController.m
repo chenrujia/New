@@ -19,13 +19,14 @@
 #import "BXTMailUserListSimpleInfo.h"
 #import "UITabBar+badge.h"
 #import "BXTEnergyClassificationViewController.h"
+#import "BXTEnergyReadingQuickViewController.h"
 
 @interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) UICollectionView *itemsCollectionView;
 
-@property (nonatomic, strong) NSArray *titleArray;
-@property (nonatomic, strong) NSArray *imageArray;
+@property (nonatomic, strong) NSMutableArray *titleArray;
+@property (nonatomic, strong) NSMutableArray *imageArray;
 
 @property (nonatomic, strong) UIButton *headImageView;
 @property (nonatomic, copy) NSString *transURL;
@@ -43,13 +44,15 @@
     //如果不包含业务统计
     if ([permissonKeys containsString:@"9995"])
     {
-        self.titleArray = @[@"项目公告", @"业务统计", @"能源抄表", @"敬请期待"];
-        self.imageArray = @[@"app_book", @"app_statistics", @"app_OA", @"app_symbol"];
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源抄表", @"快捷抄表", @"能源统计", @"敬请期待"]];
+        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_metering", @"app_quick", @"app_chart", @"app_symbol"]];
     }
     else
     {
-        self.titleArray = @[@"项目公告", @"能源抄表", @"敬请期待"];
-        self.imageArray = @[@"app_book", @"app_OA", @"app_symbol"];
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"能源抄表", @"快捷抄表", @"能源统计", @"敬请期待"]
+                           ];
+        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_metering", @"app_quick", @"app_chart", @"app_symbol"]
+                           ];
     }
     
     [BXTGlobal showLoadingMBP:@"加载中..."];
@@ -192,6 +195,19 @@
         energyVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:energyVC animated:YES];
     }
+    else if ([title isEqualToString:@"快捷抄表"])
+    {
+        BXTEnergyReadingQuickViewController *energyVC = [[BXTEnergyReadingQuickViewController alloc] init];
+        energyVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:energyVC animated:YES];
+    }
+    else if ([title isEqualToString:@"能源统计"])
+    {
+        [BXTGlobal showText:@"功能完善中..." view:self.view completionBlock:^{
+            
+        }];
+    }
+    
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 
@@ -225,16 +241,16 @@
         }
         
         NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
-        //如果不包含业务统计
+        // 如果不包含业务统计
         if ([permissonKeys containsString:@"9995"])
         {
-            self.titleArray = @[@"项目公告", @"业务统计", @"OA系统", @"能源抄表", @"敬请期待"];
-            self.imageArray = @[@"app_book", @"app_statistics", @"app_OA", @"app_OA", @"app_symbol"];
+            [self.titleArray insertObject:@"OA系统" atIndex:5];
+            [self.imageArray insertObject:@"app_OA" atIndex:5];
         }
         else
         {
-            self.titleArray = @[@"项目公告", @"OA系统", @"能源抄表", @"敬请期待"];
-            self.imageArray = @[@"app_book", @"app_OA", @"app_OA", @"app_symbol"];
+            [self.titleArray insertObject:@"OA系统" atIndex:4];
+            [self.imageArray insertObject:@"app_OA" atIndex:4];
         }
         
         NSDictionary *dict = data[0];

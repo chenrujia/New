@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define REFRESHTABLEVIEWOFLIST  @"REFRESHTABLEVIEWOFLIST"
+
 @interface BXTMeterReadingListView : UIView<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) NSArray *datasource;

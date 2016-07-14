@@ -11,11 +11,14 @@
 #import "BXTEnergyRecordTableViewCell.h"
 #import "BXTMeterReadingRecordViewController.h"
 #import "UIView+Nav.h"
+#import "BXTDataRequest.h"
 
-@interface BXTMeterReadingListView ()
+@interface BXTMeterReadingListView () <BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *currentTable;
 @property (nonatomic, strong) NSArray *listArray;
+
+@property (nonatomic, copy) NSString *introInfo;
 
 @end
 
@@ -57,6 +60,16 @@
     BXTEnergyRecordTableViewCell *cell = [BXTEnergyRecordTableViewCell cellWithTableView:tableView];
     
     cell.listInfo = self.listArray[indexPath.row];
+    @weakify(self);
+    [[cell.starView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        // 收藏按钮设置
+        self.introInfo = [cell.listInfo.is_collect integerValue] == 1 ? @"取消收藏成功" : @"收藏成功";
+        
+        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterFavoriteAddWithAboutID:cell.listInfo.energyMeterID];
+    }];
     
     return cell;
 }
@@ -69,6 +82,25 @@
     [[self navigation] pushViewController:mrrvc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
+    {
+        [BXTGlobal showText:self.introInfo view:self completionBlock:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHTABLEVIEWOFLIST object:nil];
+        }];
+    }
+}
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
 }
 
 @end

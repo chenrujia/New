@@ -1197,9 +1197,13 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)energyMeterListsWithType:(NSString *)typeStr
+- (void)energyMeterListsWithType:(NSString *)type
+                       checkType:(NSString *)check_type
+                       priceType:(NSString *)price_type
+                         placeID:(NSString *)place_id
+                 measurementPath:(NSString *)measurement_path
 {
-    switch ([typeStr integerValue]) {
+    switch ([type integerValue]) {
         case 1: self.requestType = EnergyMeterLists1; break;
         case 2: self.requestType = EnergyMeterLists2; break;
         case 3: self.requestType = EnergyMeterLists3; break;
@@ -1208,8 +1212,48 @@
     }
     
     // type=1(2,3,4)就是电，水，燃气，热能
-    NSDictionary *dic = @{@"type": typeStr};
+    NSDictionary *dic = @{@"type": type,
+                          @"check_type": check_type,
+                          @"price_type": price_type,
+                          @"place_id": place_id,
+                          @"measurement_path": measurement_path,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Energy&opt=meter_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)energyMeasuremenLevelListsWithType:(NSString *)type
+{
+    switch ([type integerValue]) {
+        case 1: self.requestType = EnergyMeasuremenLevelLists1; break;
+        case 2: self.requestType = EnergyMeasuremenLevelLists2; break;
+        case 3: self.requestType = EnergyMeasuremenLevelLists3; break;
+        case 4: self.requestType = EnergyMeasuremenLevelLists4; break;
+        default: break;
+    }
+    
+    NSDictionary *dic = @{@"type": type};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=measurement_level_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)energyMeterFavoriteAddWithAboutID:(NSString *)aboutID
+{
+    self.requestType = MeterFavoriteAdd;
+    NSDictionary *dic = @{@"about_id": aboutID,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_favorite_add",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)energyMeterFavoriteListsWithType:(NSString *)type
+                               checkType:(NSString *)check_type
+{
+    self.requestType = MeterFavoriteLists;
+    NSDictionary *dic = @{@"type": type,
+                          @"check_type": check_type,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_favorite_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 

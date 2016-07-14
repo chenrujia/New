@@ -188,17 +188,43 @@
                             </mask>
                         </variation>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zkm-Y2-x6e">
+                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="34" id="20h-Qr-uaF"/>
+                            <constraint firstAttribute="width" constant="34" id="y7U-5Y-huY"/>
+                        </constraints>
+                        <state key="normal" image="energy_favourite_unstar"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="20h-Qr-uaF"/>
+                                <exclude reference="y7U-5Y-huY"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="20h-Qr-uaF"/>
+                                <include reference="y7U-5Y-huY"/>
+                            </mask>
+                        </variation>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="F9j-YO-9jJ" secondAttribute="trailing" constant="10" id="1PN-1u-pjo"/>
                     <constraint firstItem="GT9-aI-Yle" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="3AS-Dg-ZpX"/>
                     <constraint firstItem="F9j-YO-9jJ" firstAttribute="leading" secondItem="GT9-aI-Yle" secondAttribute="trailing" constant="10" id="4Mf-vr-3Gt"/>
+                    <constraint firstItem="zkm-Y2-x6e" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="758-YT-5Bs">
+                        <variation key="heightClass=regular-widthClass=compact" constant="2"/>
+                    </constraint>
                     <constraint firstItem="EEX-j8-1RG" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="7Dw-xB-74b"/>
                     <constraint firstItem="F9j-YO-9jJ" firstAttribute="top" secondItem="eyk-6X-hic" secondAttribute="bottom" id="7di-Fq-B4Y">
                         <variation key="heightClass=regular-widthClass=compact" constant="2"/>
                     </constraint>
                     <constraint firstItem="GT9-aI-Yle" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="8BH-nn-CCh"/>
                     <constraint firstAttribute="trailing" secondItem="EEX-j8-1RG" secondAttribute="trailing" constant="10" id="H6l-X7-Zc3"/>
+                    <constraint firstItem="zkm-Y2-x6e" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="LyU-rL-r5f">
+                        <variation key="heightClass=regular-widthClass=compact" constant="2"/>
+                    </constraint>
                     <constraint firstItem="vA1-sN-WAr" firstAttribute="leading" secondItem="GT9-aI-Yle" secondAttribute="trailing" constant="10" id="MCo-ji-oSf"/>
                     <constraint firstItem="eyk-6X-hic" firstAttribute="top" secondItem="vA1-sN-WAr" secondAttribute="bottom" id="MD7-jm-N2d">
                         <variation key="heightClass=regular-widthClass=compact" constant="3"/>
@@ -241,8 +267,11 @@
                         <exclude reference="EEX-j8-1RG"/>
                         <exclude reference="ElG-eS-V3b"/>
                         <exclude reference="ffU-6G-jGU"/>
+                        <exclude reference="zkm-Y2-x6e"/>
                     </mask>
                     <mask key="constraints">
+                        <exclude reference="758-YT-5Bs"/>
+                        <exclude reference="LyU-rL-r5f"/>
                         <exclude reference="SVM-Ix-Pf0"/>
                         <exclude reference="aA6-dJ-Kep"/>
                         <exclude reference="i3N-jG-Gas"/>
@@ -279,8 +308,11 @@
                         <include reference="EEX-j8-1RG"/>
                         <include reference="ElG-eS-V3b"/>
                         <include reference="ffU-6G-jGU"/>
+                        <include reference="zkm-Y2-x6e"/>
                     </mask>
                     <mask key="constraints">
+                        <include reference="758-YT-5Bs"/>
+                        <include reference="LyU-rL-r5f"/>
                         <include reference="SVM-Ix-Pf0"/>
                         <include reference="aA6-dJ-Kep"/>
                         <include reference="i3N-jG-Gas"/>
@@ -316,12 +348,14 @@
                 <outlet property="iconImage" destination="GT9-aI-Yle" id="zQB-jS-tXq"/>
                 <outlet property="photoImage" destination="EEX-j8-1RG" id="CJu-PZ-NHr"/>
                 <outlet property="scanImage" destination="ElG-eS-V3b" id="Vnj-9t-kv7"/>
+                <outlet property="starView" destination="zkm-Y2-x6e" id="1pp-Yv-tmi"/>
             </connections>
-            <point key="canvasLocation" x="667.5" y="332"/>
+            <point key="canvasLocation" x="667" y="331.5"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="Manual_Gu_Feng" width="84" height="84"/>
+        <image name="energy_favourite_unstar" width="29" height="29"/>
         <image name="nfc" width="23" height="23"/>
         <image name="photo" width="23" height="23"/>
         <image name="scan_it" width="23" height="23"/>

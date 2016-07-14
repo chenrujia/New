@@ -94,6 +94,12 @@ typedef NS_ENUM(NSInteger, RequestType) {
     EnergyMeterLists3 = 81,
     EnergyMeterLists4 = 82,
     EnergyMeterDetail = 83,
+    EnergyMeasuremenLevelLists1 = 84,
+    EnergyMeasuremenLevelLists2 = 85,
+    EnergyMeasuremenLevelLists3 = 86,
+    EnergyMeasuremenLevelLists4 = 87,
+    MeterFavoriteAdd = 88,
+    MeterFavoriteLists = 89,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -719,9 +725,29 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)repairStates;
 
 /**
- *  能源抄表列表
+ *  计量表列表
  */
-- (void)energyMeterListsWithType:(NSString *)typeStr;
+- (void)energyMeterListsWithType:(NSString *)type
+                       checkType:(NSString *)check_type
+                       priceType:(NSString *)price_type
+                         placeID:(NSString *)place_id
+                 measurementPath:(NSString *)measurement_path;
+
+/**
+ *  计量层级树形列表
+ */
+- (void)energyMeasuremenLevelListsWithType:(NSString *)type;
+
+/**
+ *  计量表收藏 - 添加/取消
+ */
+- (void)energyMeterFavoriteAddWithAboutID:(NSString *)aboutID;
+
+/**
+ *  计量表 - 收藏列表
+ */
+- (void)energyMeterFavoriteListsWithType:(NSString *)type
+                               checkType:(NSString *)check_type;
 
 /**
  *  计量表详情

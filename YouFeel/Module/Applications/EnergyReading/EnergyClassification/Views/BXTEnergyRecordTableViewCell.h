@@ -15,7 +15,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *scanImage;
 @property (weak, nonatomic) IBOutlet UIImageView *photoImage;
 
-
+//收藏
+@property (weak, nonatomic) IBOutlet UIButton *starView;
 //大图
 @property (weak, nonatomic) IBOutlet UIImageView *iconImage;
 //编号

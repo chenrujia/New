@@ -41,6 +41,17 @@
 @property (nonatomic, strong) UITableView       *chooseTableView;
 @property (nonatomic, strong) UIScrollView      *scrollerView;
 
+@property (nonatomic, assign) NSInteger btnTag;
+@property (nonatomic, copy) NSString *checkType;
+@property (nonatomic, copy) NSString *priceType;
+@property (nonatomic, copy) NSString *placeID;
+@property (nonatomic, copy) NSString *measurementPath;
+
+@property (nonatomic, strong) NSArray *filterArray1;
+@property (nonatomic, strong) NSArray *filterArray2;
+@property (nonatomic, strong) NSArray *filterArray3;
+@property (nonatomic, strong) NSArray *filterArray4;
+
 @end
 
 @implementation BXTEnergyClassificationViewController
@@ -49,6 +60,16 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"能源抄表" backColor:colorWithHexString(@"f45b5b") rightImage:[UIImage imageNamed:@"scan"]];
+    
+    self.checkType = @"";
+    self.priceType = @"";
+    self.placeID = @"";
+    self.measurementPath = @"";
+    self.filterArray1 = [[NSArray alloc] init];
+    self.filterArray2 = [[NSArray alloc] init];
+    self.filterArray3 = [[NSArray alloc] init];
+    self.filterArray4 = [[NSArray alloc] init];
+    
     [self initialEnergyClass];
     [self initialSearchBarAndFilter];
     [self requestDatasoure];
@@ -204,7 +225,9 @@
     __weak __typeof(self) weakSelf = self;
     self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
         
-        NSLog(@"-------------------------- %@", name);
+        self.placeID = classifyInfo.itemID;
+        [self getResourceWithTag:self.btnTag hasMeasurementList:NO];
+        NSLog(@"-------------------------- %@", classifyInfo.itemID);
         
         
         UIView *view = [weakSelf.view viewWithTag:101];
@@ -236,34 +259,46 @@
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**电**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterListsWithType:@"1"];
+        [self getResourceWithTag:1 hasMeasurementList:YES];
     });
     dispatch_async(concurrentQueue, ^{
         /**水**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterListsWithType:@"2"];
+        [self getResourceWithTag:2 hasMeasurementList:YES];
     });
     dispatch_async(concurrentQueue, ^{
         /**燃气**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterListsWithType:@"3"];
+        [self getResourceWithTag:3 hasMeasurementList:YES];
     });
     dispatch_async(concurrentQueue, ^{
         /**热能**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterListsWithType:@"4"];
+        [self getResourceWithTag:4 hasMeasurementList:YES];
     });
     
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:REFRESHTABLEVIEWOFLIST object:nil] subscribeNext:^(id x) {
+        NSLog(@"的方式的国防生的鬼地方好地方规划的法规 --- %ld", self.btnTag + 1);
+        @strongify(self);
+        [self getResourceWithTag:self.btnTag + 1 hasMeasurementList:YES];
+    }];
+}
+
+- (void)getResourceWithTag:(NSInteger )tag hasMeasurementList:(BOOL)isRight
+{
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
-        /**工单状态**/
-        //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        //        [request repairStates];
+        [request energyMeterListsWithType:[NSString stringWithFormat:@"%ld", tag]
+                                checkType:self.checkType
+                                priceType:self.priceType
+                                  placeID:self.placeID
+                          measurementPath:self.measurementPath];
     });
     dispatch_async(concurrentQueue, ^{
-        /**未修好原因**/
-        //        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        //        [request specialWorkOrder];
+        /**筛选条件**/
+        if (isRight) {
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request energyMeasuremenLevelListsWithType:[NSString stringWithFormat:@"%ld", tag]];
+        }
     });
 }
 
@@ -275,21 +310,37 @@
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == EnergyMeterLists1 && data.count > 0)
+    if (type == EnergyMeterLists1)
     {
         [self dealData:data tag:LISTVIEWTAG];
     }
-    if (type == EnergyMeterLists2 && data.count > 0)
+    if (type == EnergyMeterLists2)
     {
         [self dealData:data tag:LISTVIEWTAG + 1];
     }
-    if (type == EnergyMeterLists3 && data.count > 0)
+    if (type == EnergyMeterLists3)
     {
         [self dealData:data tag:LISTVIEWTAG + 2];
     }
-    if (type == EnergyMeterLists4 && data.count > 0)
+    if (type == EnergyMeterLists4)
     {
         [self dealData:data tag:LISTVIEWTAG + 3];
+    }
+    if (type == EnergyMeasuremenLevelLists1)
+    {
+        self.filterArray1 = data;
+    }
+    if (type == EnergyMeasuremenLevelLists2)
+    {
+        self.filterArray2 = data;
+    }
+    if (type == EnergyMeasuremenLevelLists3)
+    {
+        self.filterArray3 = data;
+    }
+    if (type == EnergyMeasuremenLevelLists4)
+    {
+        self.filterArray4 = data;
     }
     
     [self.chooseTableView reloadData];
@@ -322,6 +373,8 @@
 #pragma mark 切换电能、水、燃气、热能
 - (void)menuButtonClick:(UIButton *)btn
 {
+    self.btnTag = btn.tag;
+    
     self.view.backgroundColor = self.colorArray[btn.tag];
     [self navigationSetting:nil backColor:self.colorArray[btn.tag] rightImage:nil];
     [btn setTitleColor:self.colorArray[btn.tag] forState:UIControlStateNormal];
@@ -406,6 +459,13 @@
     else if (btn.tag == 3)
     {
         //TODO: 这里的数据是假的，是接口返回的筛选条件
+        //        switch (self.btnTag) {
+        //            case 0: [self initialPlaceOrFilter:self.filterArray1]; break;
+        //            case 1: [self initialPlaceOrFilter:self.filterArray2]; break;
+        //            case 2: [self initialPlaceOrFilter:self.filterArray3]; break;
+        //            case 3: [self initialPlaceOrFilter:self.filterArray4]; break;
+        //            default: break;
+        //        }
         NSArray *datasource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
         [self initialPlaceOrFilter:datasource];
     }
@@ -476,12 +536,18 @@
     // TODO: -----------------  调试  -----------------
     if (tableView.tag == METERTABLETAG)
     {
-         NSLog(@"------------ %@", self.meterArray[indexPath.row]);
+        NSLog(@"------------ %@", self.meterArray[indexPath.row]);
+        self.checkType = [NSString stringWithFormat:@"%ld", indexPath.row];
     }
     else if (tableView.tag == PRICETABLETAG)
     {
         NSLog(@"------------ %@", self.priceArray[indexPath.row]);
+        self.priceType = [NSString stringWithFormat:@"%ld", indexPath.row];
     }
+    
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [self getResourceWithTag:self.btnTag + 1 hasMeasurementList:NO];
+    
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UIView *view = [self.view viewWithTag:101];
