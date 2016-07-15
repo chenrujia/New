@@ -7,31 +7,35 @@
 //
 
 #import "BXTEnergyReadingQuickViewController.h"
-#include <math.h>
-#import "BXTHeaderForVC.h"
-#import "BXTHeadquartersInfo.h"
-#import "PinYinForObjc.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "BXTEnergyMeterListInfo.h"
 #import "BXTEnergyRecordTableViewCell.h"
 #import "DOPDropDownMenu.h"
+#import "BXTEnergyReadingQuickSearchViewController.h"
 
-@interface BXTEnergyReadingQuickViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, UISearchBarDelegate, BXTDataResponseDelegate, DOPDropDownMenuDelegate, DOPDropDownMenuDataSource>
-{
-    NSString *searchStr;
-    NSMutableArray *searchResults;
-}
+@interface BXTEnergyReadingQuickViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, BXTDataResponseDelegate, DOPDropDownMenuDelegate, DOPDropDownMenuDataSource>
 
-@property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) DOPDropDownMenu *menu;
 
 @property (nonatomic, strong) NSMutableArray *typeArray;
 @property (nonatomic, strong) NSMutableArray *modeArray;
 
+@property (nonatomic, copy) NSString *typeStr;
+@property (nonatomic, copy) NSString *checkTypeStr;
+
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
-@property (nonatomic, strong) UITableView *tableView_Search;
-@property (nonatomic, strong) NSMutableArray *searchArray;
+@property (nonatomic, copy) NSString *introInfo;
+
+/** ---- 是否全选 ---- */
+@property (nonatomic ,assign)BOOL isAllSelected;
+
+@property (nonatomic, strong) UIView *footerView;
+@property (nonatomic, strong) UIButton *selectAllBtn;
+@property (nonatomic, strong) UIButton *deleteBtn;
+
+@property (strong, nonatomic) NSMutableArray *selectedArray;
 
 @end
 
@@ -44,6 +48,9 @@
     [self navigationSetting:@"快捷抄表" andRightTitle:@"    编辑" andRightImage:nil];
     
     self.dataArray = [[NSMutableArray alloc] init];
+    self.selectedArray = [[NSMutableArray alloc] init];
+    self.typeStr = @"";
+    self.checkTypeStr = @"";
     
     [self createUI];
     
@@ -52,7 +59,33 @@
 
 - (void)navigationRightButton
 {
-    NSLog(@"bianji");
+    [self changeSelectedState:self.tableView.isEditing];
+}
+
+- (void)changeSelectedState:(BOOL)selectedState
+{
+    if (selectedState) {
+        [self navigationSetting:@"快捷抄表" andRightTitle:@"    编辑" andRightImage:nil];
+        [self.tableView setEditing:NO animated:YES];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.menu.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.menu.frame));
+            self.footerView.center = CGPointMake(SCREEN_WIDTH / 2, SCREEN_HEIGHT + 25);
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    else {
+        [self navigationSetting:@"快捷抄表" andRightTitle:@"    取消" andRightImage:nil];
+        [self.tableView setEditing:YES animated:YES];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.menu.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.menu.frame) - 50);
+            self.footerView.center = CGPointMake(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 25);
+        } completion:^(BOOL finished) {
+            self.isAllSelected = NO;
+        }];
+    }
 }
 
 #pragma mark -
@@ -61,7 +94,7 @@
 {
     [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request energyMeterFavoriteListsWithType:@"" checkType:@""];
+    [request energyMeterFavoriteListsWithType:self.typeStr checkType:self.checkTypeStr];
 }
 
 #pragma mark -
@@ -69,133 +102,98 @@
 - (void)createUI
 {
     // UISearchBar
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, 55)];
-    self.searchBar.delegate = self;
-    self.searchBar.delegate = self;
-    self.searchBar.placeholder = @"搜索";
-    [self.view addSubview:self.searchBar];
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, 55)];
+    searchBar.placeholder = @"搜索";
+    [self.view addSubview:searchBar];
+    // searchBtn
+    UIButton *searchBtn = [[UIButton alloc] initWithFrame:searchBar.frame];
+    [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        BXTEnergyReadingQuickSearchViewController *erqsvc = [[BXTEnergyReadingQuickSearchViewController alloc] init];
+        [self.navigationController pushViewController:erqsvc animated:YES];
+    }];
+    [self.view addSubview:searchBtn];
     
     
     // 添加下拉菜单
-    self.typeArray = [[NSMutableArray alloc] initWithObjects:@"默认", @"电能表", @"水表", @"热能表", @"燃气表", nil];
-    self.modeArray = [[NSMutableArray alloc] initWithObjects:@"默认", @"手动抄表", @"自动抄表", nil];
-    DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, CGRectGetMaxY(self.searchBar.frame)) andHeight:44];
-    menu.delegate = self;
-    menu.dataSource = self;
-    [self.view addSubview:menu];
+    self.typeArray = [[NSMutableArray alloc] initWithObjects:@"计量表类型", @"电能表", @"水表", @"燃气表", @"热能表", nil];
+    self.modeArray = [[NSMutableArray alloc] initWithObjects:@"抄表方式", @"手动抄表", @"自动抄表", nil];
+    self.menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, CGRectGetMaxY(searchBar.frame)) andHeight:44];
+    self.menu.delegate = self;
+    self.menu.dataSource = self;
+    [self.view addSubview:self.menu];
     
     
     // UITableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(menu.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(menu.frame)) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.menu.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.menu.frame)) style:UITableViewStyleGrouped];
     self.tableView.rowHeight = 106.f;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.allowsMultipleSelectionDuringEditing = YES;
     [self.view addSubview: self.tableView];
     
     
-    // UITableView - tableView_Search
-    self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
-    self.tableView_Search.rowHeight = 106.f;
-    self.tableView_Search.dataSource = self;
-    self.tableView_Search.delegate = self;
-    self.tableView_Search.emptyDataSetDelegate = self;
-    self.tableView_Search.emptyDataSetSource = self;
-    [self.view addSubview:self.tableView_Search];
+    // self.footerView
+    self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 50)];
+    self.footerView.backgroundColor = colorWithHexString(@"#F6F7F9");
+    self.footerView.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    self.footerView.layer.borderWidth = 0.5;
+    [self.view addSubview:self.footerView];
     
+    self.selectAllBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.selectAllBtn.frame = CGRectMake(0, 5, 80, 40);
+    [self.selectAllBtn setTitle:@"全选" forState:UIControlStateNormal];
+    [self.selectAllBtn setTitleColor:colorWithHexString(@"#5BABF5") forState:UIControlStateNormal];
+    [self.footerView addSubview:self.selectAllBtn];
     
-    // UITableView - tableView_Search - tableHeaderView
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
-    self.tableView_Search.tableHeaderView = headerView;
-    UILabel *alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 150, 30)];
-    alertLabel.text = @"搜索结果：";
-    alertLabel.textColor = colorWithHexString(@"#666666");
-    alertLabel.font = [UIFont systemFontOfSize:15];
-    alertLabel.textAlignment = NSTextAlignmentLeft;
-    [headerView addSubview:alertLabel];
+    self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.deleteBtn.frame = CGRectMake(SCREEN_WIDTH - 80, 5, 80, 40);
+    [self.deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
+    [self.deleteBtn setTitleColor:colorWithHexString(@"#5BABF5") forState:UIControlStateNormal];
+    [self.footerView addSubview:self.deleteBtn];
     
-    
-    [self showTableViewAndHideSearchTableView:YES];
-}
-
-#pragma mark -
-#pragma mark - UISearchBarDelegate
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
-{
-    NSLog(@"should begin");
-    searchBar.showsCancelButton = YES;
-    for(UIView *view in  [[[searchBar subviews] objectAtIndex:0] subviews]) {
-        if([view isKindOfClass:[NSClassFromString(@"UINavigationButton") class]]) {
-            UIButton * cancel =(UIButton *)view;
-            [cancel  setTintColor:[UIColor whiteColor]];
-        }
-    }
-    
-    [self showTableViewAndHideSearchTableView:NO];
-    
-    return YES;
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
-    searchBar.text = @"";
-    NSLog(@"did begin");
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
-    searchBar.showsCancelButton = NO;
-    NSLog(@"did end");
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    [self.view endEditing:YES];
-    [self showTableViewAndHideSearchTableView:YES];
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    searchStr = searchText;
-    
-    NSArray *allPersonArray = self.dataArray;
-    
-    searchResults = [[NSMutableArray alloc]init];
-    if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
+    @weakify(self);
+    [[self.selectAllBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         
-        for (int i=0; i<allPersonArray.count; i++) {
-            BXTEnergyMeterListInfo *model = allPersonArray[i];
-            
-            if ([ChineseInclude isIncludeChineseInString:model.code_number]) {
-                NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.code_number];
-                NSRange titleResult=[tempPinYinStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
+        self.isAllSelected = !self.isAllSelected;
+        
+        for (int i = 0; i<self.dataArray.count; i++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+            if (self.isAllSelected) {   // 全选
+                [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+            } else {    //反选
+                [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            }
+        }
+    }];
+    
+    [[self.deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        [MYAlertAction showAlertWithTitle:@"确定删除所选抄表" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+            if (buttonIdx == 0) {
+                NSMutableArray *deleteArrarys = [NSMutableArray array];
+                for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
+                    [deleteArrarys addObject:self.dataArray[indexPath.row]];
+                }
                 
-                if (titleResult.length > 0) {
-                    [searchResults addObject:allPersonArray[i]];
-                } else {
-                    NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:model.code_number]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-                    if (titleHeadResult.length > 0) {
-                        [searchResults addObject:allPersonArray[i]];
-                    }
+                NSMutableArray *idsArray = [[NSMutableArray alloc] init];
+                for (BXTEnergyMeterListInfo *messageInfo in deleteArrarys) {
+                    [idsArray addObject:messageInfo.energyMeterID];
                 }
-            } else {
-                NSRange titleResult=[model.code_number rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-                if (titleResult.length > 0) {
-                    [searchResults addObject:allPersonArray[i]];
-                }
+                
+                NSString *idsStr = [idsArray componentsJoinedByString:@","];
+                NSLog(@"idsStr -------- %@", idsStr);
+                
+                // TODO: -----------------  调试  -----------------
+                [self showLoadingMBP:@"删除中..."];
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request energyMeterFavoriteAddWithAboutID:@"" delIDs:idsStr];
             }
-        }
-    } else if (self.searchBar.text.length > 0 && [ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
-        for (BXTEnergyMeterListInfo *model in allPersonArray) {
-            NSRange titleResult=[model.code_number rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-            if (titleResult.length > 0) {
-                [searchResults addObject:model];
-            }
-        }
-    }
-    
-    self.searchArray = searchResults;
-    
-    [self.tableView_Search reloadData];
+        } buttonsStatement:@"确定", @"取消", nil];
+    }];
 }
 
 #pragma mark -
@@ -223,22 +221,20 @@
     }
     
     return self.modeArray[indexPath.row];
-    
 }
-
-//- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfItemsInRow:(NSInteger)row column:(NSInteger)column
-//{
-//    return 0;
-//}
-//
-//- (NSString *)menu:(DOPDropDownMenu *)menu titleForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath
-//{
-//    return nil;
-//}
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {
+    if (indexPath.column == 0)
+    {
+        self.typeStr = [NSString stringWithFormat:@"%ld", indexPath.row];
+    }
+    else if (indexPath.column == 1)
+    {
+        self.checkTypeStr = [NSString stringWithFormat:@"%ld", indexPath.row];
+    }
     
+    [self getResource];
 }
 
 #pragma mark -
@@ -263,67 +259,60 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == self.tableView_Search) {
-        if (self.searchArray.count == 0) {
-        }
-        if ([searchStr isEqualToString:@""]) {
-        }
-        return self.searchArray.count;
-    }
-    
     return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.tableView_Search) {
-        BXTEnergyRecordTableViewCell *cell = [BXTEnergyRecordTableViewCell cellWithTableView:tableView];
-        
-        cell.listInfo = self.dataArray[indexPath.row];
-        
-        return cell;
-    }
-    
     BXTEnergyRecordTableViewCell *cell = [BXTEnergyRecordTableViewCell cellWithTableView:tableView];
     
     cell.listInfo = self.dataArray[indexPath.row];
+    @weakify(self);
+    [[cell.starView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        // 收藏按钮设置
+        self.introInfo = [cell.listInfo.is_collect integerValue] == 1 ? @"取消收藏成功" : @"收藏成功";
+        
+        [self showLoadingMBP:@"数据加载中..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterFavoriteAddWithAboutID:cell.listInfo.energyMeterID delIDs:@""];
+    }];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if (tableView == self.tableView_Search)
-    {
-        BXTEnergyMeterListInfo *model = self.searchArray[indexPath.row];
-        NSLog(@"--------%@", model.code_number);
-        
-        
+    if (tableView.isEditing) {
         return;
     }
     
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
 
-- (void)refreshAllInformWithShopID:(NSString *)shopID shopAddress:(NSString *)shopAddress {
-    BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
-    companyInfo.company_id = shopID;
-    companyInfo.name = shopAddress;
-    [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-    
-    
-    NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
-    [BXTGlobal shareGlobal].baseURL = url;
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.dataArray removeObject:self.dataArray[indexPath.row]];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 #pragma mark -
 #pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"抱歉，没有找到相关项目";
+    NSString *text = @"暂无快捷抄表";
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName:[UIColor blackColor]};
     
@@ -340,35 +329,36 @@
     
     if (type == MeterFavoriteLists)
     {
+        if (self.dataArray) {
+            [self.dataArray removeAllObjects];
+        }
+        
         [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"energyMeterID":@"id"};
         }];
         [self.dataArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
+        
+        [self.tableView reloadData];
     }
-    
-    [self.tableView reloadData];
+    else if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
+    {
+        __weak __typeof(self) weakSelf = self;
+        [BXTGlobal showText:self.introInfo view:self.view completionBlock:^{
+            [weakSelf getResource];
+        }];
+    }
+    else if (type == MeterFavoriteDel && [dic[@"returncode"] integerValue] == 0)
+    {
+        __weak __typeof(self) weakSelf = self;
+        [BXTGlobal showText:@"删除抄表成功" view:self.view completionBlock:^{
+            [weakSelf getResource];
+        }];
+    }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
-}
-
-#pragma mark -
-#pragma mark - 方法
-// 列表和搜索列表显示类
-- (void)showTableViewAndHideSearchTableView:(BOOL)isRight
-{
-    if (isRight)
-    {
-        self.tableView_Search.hidden = YES;
-        self.tableView.hidden = NO;
-    }
-    else
-    {
-        self.tableView_Search.hidden = NO;
-        self.tableView.hidden = YES;
-    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -352,8 +352,8 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 {
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
     NSString *yearStr = [NSString stringWithFormat:@"%ld", (long)[components year]];
-    NSString *monthStr = [NSString stringWithFormat:@"%2.ld", (long)[components month]];
-    NSString *dayStr = [NSString stringWithFormat:@"%2.ld", (long)[components day]];
+    NSString *monthStr = [NSString stringWithFormat:@"%ld", (long)[components month]];
+    NSString *dayStr = [NSString stringWithFormat:@"%ld", (long)[components day]];
     return [NSArray arrayWithObjects:yearStr, monthStr, dayStr, nil];
 }
 

@@ -68,7 +68,7 @@
         
         [BXTGlobal showLoadingMBP:@"数据加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterFavoriteAddWithAboutID:cell.listInfo.energyMeterID];
+        [request energyMeterFavoriteAddWithAboutID:cell.listInfo.energyMeterID delIDs:@""];
     }];
     
     return cell;

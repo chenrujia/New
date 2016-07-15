@@ -1238,9 +1238,15 @@
 }
 
 - (void)energyMeterFavoriteAddWithAboutID:(NSString *)aboutID
+                                   delIDs:(NSString *)del_ids
 {
     self.requestType = MeterFavoriteAdd;
+    if ([BXTGlobal isBlankString:aboutID]) {
+        self.requestType = MeterFavoriteDel;
+    }
+    
     NSDictionary *dic = @{@"about_id": aboutID,
+                          @"del_ids": del_ids,
                           @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_favorite_add",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];

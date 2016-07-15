@@ -27,8 +27,6 @@
 #import "BXTRepairsListViewController.h"
 #import "UITabBar+badge.h"
 
-#import "BXTMeterReadingRecordViewController.h"
-
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
 
@@ -149,11 +147,7 @@ typedef NS_ENUM(NSInteger, CellType) {
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         //商铺列表
-//        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
-//        pivc.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:pivc animated:YES];
-
-        BXTMeterReadingRecordViewController *pivc = [[BXTMeterReadingRecordViewController alloc] init];
+        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
         pivc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:pivc animated:YES];
     }];

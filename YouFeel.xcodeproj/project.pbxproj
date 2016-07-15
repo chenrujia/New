@@ -185,6 +185,7 @@
 		784E4FB31CA9151100EF2A06 /* BXTRankingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 784E4FB21CA9151100EF2A06 /* BXTRankingViewController.m */; };
 		784E4FB71CA9160700EF2A06 /* BXTRankingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 784E4FB51CA9160700EF2A06 /* BXTRankingCell.m */; };
 		784E4FB81CA9160700EF2A06 /* BXTRankingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 784E4FB61CA9160700EF2A06 /* BXTRankingCell.xib */; };
+		784F828E1D387F5D001CC27D /* BXTEnergyReadingQuickSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 784F828D1D387F5D001CC27D /* BXTEnergyReadingQuickSearchViewController.m */; };
 		7850ABDD1C804BC10070E498 /* BXTEPList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7850ABDC1C804BC10070E498 /* BXTEPList.m */; };
 		7851A0301CA3C60900255B8A /* BXTMainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A02C1CA3C60900255B8A /* BXTMainTableViewCell.m */; };
 		7851A0311CA3C60900255B8A /* BXTMainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7851A02D1CA3C60900255B8A /* BXTMainTableViewCell.xib */; };
@@ -796,6 +797,8 @@
 		784E4FB41CA9160700EF2A06 /* BXTRankingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRankingCell.h; sourceTree = "<group>"; };
 		784E4FB51CA9160700EF2A06 /* BXTRankingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRankingCell.m; sourceTree = "<group>"; };
 		784E4FB61CA9160700EF2A06 /* BXTRankingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTRankingCell.xib; sourceTree = "<group>"; };
+		784F828C1D387F5D001CC27D /* BXTEnergyReadingQuickSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyReadingQuickSearchViewController.h; sourceTree = "<group>"; };
+		784F828D1D387F5D001CC27D /* BXTEnergyReadingQuickSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyReadingQuickSearchViewController.m; sourceTree = "<group>"; };
 		7850ABDB1C804BC10070E498 /* BXTEPList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPList.h; sourceTree = "<group>"; };
 		7850ABDC1C804BC10070E498 /* BXTEPList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPList.m; sourceTree = "<group>"; };
 		7851A02B1CA3C60900255B8A /* BXTMainTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMainTableViewCell.h; sourceTree = "<group>"; };
@@ -2392,6 +2395,8 @@
 			children = (
 				784890D91D373EE300C1106D /* BXTEnergyReadingQuickViewController.h */,
 				784890DA1D373EE300C1106D /* BXTEnergyReadingQuickViewController.m */,
+				784F828C1D387F5D001CC27D /* BXTEnergyReadingQuickSearchViewController.h */,
+				784F828D1D387F5D001CC27D /* BXTEnergyReadingQuickSearchViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -5203,6 +5208,7 @@
 				96704FBC1CB63EFB00696788 /* BXTButtonInfo.m in Sources */,
 				9652ABF21BC90DCC009A666D /* AutoCoding.m in Sources */,
 				78FFB9701CB5F5E400309339 /* BXTGroupingInfo.m in Sources */,
+				784F828E1D387F5D001CC27D /* BXTEnergyReadingQuickSearchViewController.m in Sources */,
 				9652AC321BC90EC9009A666D /* LocalAlbumTableViewController.m in Sources */,
 				784E4FAA1CA90F3700EF2A06 /* BXTMyIntegralSecondCell.m in Sources */,
 				7868C8631CC87A3A00E84FD3 /* BXTMTPlanListCell.m in Sources */,

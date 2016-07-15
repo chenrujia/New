@@ -99,7 +99,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     EnergyMeasuremenLevelLists3 = 86,
     EnergyMeasuremenLevelLists4 = 87,
     MeterFavoriteAdd = 88,
-    MeterFavoriteLists = 89,
+    MeterFavoriteDel = 89,
+    MeterFavoriteLists = 90,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -741,7 +742,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
 /**
  *  计量表收藏 - 添加/取消
  */
-- (void)energyMeterFavoriteAddWithAboutID:(NSString *)aboutID;
+- (void)energyMeterFavoriteAddWithAboutID:(NSString *)aboutID
+                                   delIDs:(NSString *)del_ids;
 
 /**
  *  计量表 - 收藏列表

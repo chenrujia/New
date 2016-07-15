@@ -46,8 +46,8 @@
 {
     _complate = complate;
     
-    self.orderView.text = [NSString stringWithFormat:@"%@/%@", complate.over, complate.total];
-    self.percentView.text = [NSString stringWithFormat:@"%.2f", [complate.percent doubleValue]];
+    self.orderView.text = [NSString stringWithFormat:@"%@/%.1f", complate.over, [complate.total doubleValue]];
+    self.percentView.text = [NSString stringWithFormat:@"%.1f", [complate.percent doubleValue]];
     self.rankingView.text = [NSString stringWithFormat:@"%@", complate.score];
 }
 
@@ -56,7 +56,7 @@
     _praise = praise;
     
     self.percentView.text = [NSString stringWithFormat:@"%@", praise.percent];
-    self.rankingView.text = [NSString stringWithFormat:@"%@", praise.score];
+    self.rankingView.text = [NSString stringWithFormat:@"%.1f", [praise.score doubleValue]];
 }
 
 - (void)awakeFromNib {
