@@ -30,9 +30,13 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"个人信息" andRightTitle:nil andRightImage:nil];
+    
+    // BXTPhotoBaseViewController 包括下面3条
     [BXTGlobal shareGlobal].maxPics = 1;
     self.isSettingVC = YES;
     self.selectPhotos = [NSMutableArray array];
+    
+    
     [self initContentViews];
     
     @weakify(self);

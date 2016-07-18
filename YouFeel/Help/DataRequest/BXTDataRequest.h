@@ -101,6 +101,7 @@ typedef NS_ENUM(NSInteger, RequestType) {
     MeterFavoriteAdd = 88,
     MeterFavoriteDel = 89,
     MeterFavoriteLists = 90,
+    EnergyMeterRecordFile = 91,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -756,5 +757,10 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  计量表详情
  */
 - (void)energyMeterDetailWithID:(NSString *)meterDetailID;
+
+/**
+ *  计量表抄表 - 上传图片
+ */
+- (void)energyMeterRecordFileWithImage:(UIImage *)image;
 
 @end

@@ -43,9 +43,9 @@
 #pragma mark - getResource
 - (void)getResource
 {
-    [self showLoadingMBP:@"加载中..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request energyMeterFavoriteListsWithType:@"" checkType:@"" page:1];
+//    [self showLoadingMBP:@"加载中..."];
+//    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//    [request energyMeterFavoriteListsWithType:@"" checkType:@"" page:1];
 }
 
 #pragma mark -
@@ -230,7 +230,7 @@
 #pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"抱歉，没有找到相关项目";
+    NSString *text = @"抱歉，没有找到相关抄表";
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName:[UIColor blackColor]};
     

@@ -61,7 +61,6 @@
     if (indexPath.section == 0) {
         BXTMeterReadingHeaderCell *cell = [BXTMeterReadingHeaderCell cellWithTableView:tableView];
         
-        cell.backgroundColor = colorWithHexString(@"#E36760");
         cell.lastTimeView.hidden = YES;
         
         return cell;
@@ -93,9 +92,7 @@
 //    [[cell.resetBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
 //        @strongify(self);
 //    }];
-    
-    cell.backgroundColor = colorWithHexString(@"#E36760");
-    
+        
     return cell;
 }
 

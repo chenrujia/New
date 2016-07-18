@@ -60,6 +60,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"能源抄表" backColor:colorWithHexString(@"f45b5b") rightImage:[UIImage imageNamed:@"scan"]];
+    SaveValueTUD(EnergyReadingColorStr, @"#f45b5b");
     
     self.checkType = @"";
     self.priceType = @"";
@@ -306,12 +307,11 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [BXTGlobal hideMBP];
-    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == EnergyMeterLists1)
     {
+        [BXTGlobal hideMBP];
         [self dealData:data tag:LISTVIEWTAG];
     }
     if (type == EnergyMeterLists2)
@@ -374,6 +374,9 @@
 - (void)menuButtonClick:(UIButton *)btn
 {
     self.btnTag = btn.tag;
+    
+    NSArray *colorArray = @[@"#f45b5b", @"#1683e2", @"#ded100", @"#f1983e"];
+    SaveValueTUD(EnergyReadingColorStr, colorArray[btn.tag]);
     
     self.view.backgroundColor = self.colorArray[btn.tag];
     [self navigationSetting:nil backColor:self.colorArray[btn.tag] rightImage:nil];

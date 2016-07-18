@@ -44,14 +44,9 @@
     
     [self navigationSetting:@"能源抄表" andRightTitle1:nil andRightImage1:[UIImage imageNamed:@"energy_list"] andRightTitle2:@"能耗计算" andRightImage2:nil];
     
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"111", @"222", @"333", @"111", @"222`", @"333", nil];
+    
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"111", @"222", @"333", @"111", @"222", @"333", nil];
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", nil];
-    
-    
-    NSLog(@"transID -------- %@", self.transID);
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request energyMeterDetailWithID:self.transID];
     
     
     [self createUI];
@@ -87,6 +82,7 @@
 {
     // scrollView
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 70)];
+    self.scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.scrollView];
     
     
@@ -304,23 +300,23 @@
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == EnergyMeterDetail && data.count > 0)
-    {
-        //        NSMutableArray *listArray = [[NSMutableArray alloc] init];
-        //        [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-        //            return @{@"energyMeterID":@"id"};
-        //        }];
-        //        [listArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
-        //
-        //        // 赋值
-        //        for (BXTMeterReadingListView *listView in self.scrollerView.subviews) {
-        //            if ([listView isKindOfClass:[BXTMeterReadingListView class]]) {
-        //                if (listView.tag == tag) {
-        //                    listView.datasource = (NSArray *)listArray;
-        //                }
-        //            }
-        //        }
-    }
+    //    if (type == EnergyMeterDetail && data.count > 0)
+    //    {
+    //        NSMutableArray *listArray = [[NSMutableArray alloc] init];
+    //        [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+    //            return @{@"energyMeterID":@"id"};
+    //        }];
+    //        [listArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
+    //
+    //        // 赋值
+    //        for (BXTMeterReadingListView *listView in self.scrollerView.subviews) {
+    //            if ([listView isKindOfClass:[BXTMeterReadingListView class]]) {
+    //                if (listView.tag == tag) {
+    //                    listView.datasource = (NSArray *)listArray;
+    //                }
+    //            }
+    //        }
+    //    }
     
 }
 

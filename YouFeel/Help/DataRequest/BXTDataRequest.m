@@ -1275,6 +1275,14 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)energyMeterRecordFileWithImage:(UIImage *)image
+{
+    self.requestType = EnergyMeterRecordFile;
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_record_file",[BXTGlobal shareGlobal].baseURL];
+    [self uploadImageRequest:url withParameters:dic withImages:@[image]];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {

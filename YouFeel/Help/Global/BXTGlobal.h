@@ -18,6 +18,8 @@
 #define CellTitleColorStr @"#383838"
 /** ---- cell-content色值 ---- */
 #define CellContentColorStr @"#6D6E6F"
+/** ---- 能源抄表色值 ---- */
+#define EnergyReadingColorStr @"#f45b5b"
 /** ---- 存值 ---- */
 #define SaveValueTUD(key, value) [[NSUserDefaults standardUserDefaults] setObject:value forKey:key]; [[NSUserDefaults standardUserDefaults] synchronize]
 /** ---- 取值 ---- */
@@ -165,7 +167,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
 + (void)hideMBP;
 
 /**
- * ---- 显示提示信息后添加动作 ---- 
+ * ---- 显示提示信息后添加动作 ----
  */
 + (void)showText:(NSString *)text view:(UIView *)view completionBlock:(void (^)())completion;
 
