@@ -26,6 +26,7 @@
 #import "BXTMyIntegralViewController.h"
 #import "BXTRepairsListViewController.h"
 #import "UITabBar+badge.h"
+#import "BXTEnergyReadingQuickViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -256,6 +257,14 @@ typedef NS_ENUM(NSInteger, CellType) {
     BXTOtherAffairViewController *affairVC = [[BXTOtherAffairViewController alloc] init];
     affairVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:affairVC animated:YES];
+}
+
+- (void)pushQuickEnergyReading
+{
+    // 快捷抄表
+    BXTEnergyReadingQuickViewController *energyVC = [[BXTEnergyReadingQuickViewController alloc] init];
+    energyVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:energyVC animated:YES];
 }
 
 - (void)pushStatistics

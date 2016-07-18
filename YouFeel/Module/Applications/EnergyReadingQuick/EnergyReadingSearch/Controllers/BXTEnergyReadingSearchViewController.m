@@ -1,12 +1,12 @@
 //
-//  BXTEnergyReadingQuickSearchViewController.m
+//  BXTEnergyReadingSearchViewController.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/7/15.
+//  Created by 满孝意 on 16/7/16.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTEnergyReadingQuickSearchViewController.h"
+#import "BXTEnergyReadingSearchViewController.h"
 #include <math.h>
 #import "BXTHeaderForVC.h"
 #import "BXTHeadquartersInfo.h"
@@ -15,7 +15,7 @@
 #import "BXTEnergyMeterListInfo.h"
 #import "BXTEnergyRecordTableViewCell.h"
 
-@interface BXTEnergyReadingQuickSearchViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, UISearchBarDelegate, BXTDataResponseDelegate>
+@interface BXTEnergyReadingSearchViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, UISearchBarDelegate, BXTDataResponseDelegate>
 {
     NSString *searchStr;
     NSMutableArray *searchResults;
@@ -29,12 +29,10 @@
 
 @end
 
-@implementation BXTEnergyReadingQuickSearchViewController
+@implementation BXTEnergyReadingSearchViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"快捷抄表" andRightTitle:nil andRightImage:nil];
     
     [self createUI];
@@ -47,7 +45,7 @@
 {
     [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request energyMeterFavoriteListsWithType:@"" checkType:@""];
+    [request energyMeterFavoriteListsWithType:@"" checkType:@"" page:1];
 }
 
 #pragma mark -
@@ -60,7 +58,7 @@
     self.searchBar.delegate = self;
     self.searchBar.placeholder = @"搜索";
     [self.view addSubview:self.searchBar];
-
+    
     
     // UITableView - tableView_Search
     self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 55, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
@@ -262,6 +260,7 @@
 {
     [self hideMBP];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

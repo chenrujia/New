@@ -62,6 +62,7 @@
         BXTMeterReadingHeaderCell *cell = [BXTMeterReadingHeaderCell cellWithTableView:tableView];
         
         cell.backgroundColor = colorWithHexString(@"#E36760");
+        cell.lastTimeView.hidden = YES;
         
         return cell;
     }

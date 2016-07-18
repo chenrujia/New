@@ -34,10 +34,10 @@
     
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", nil];
     
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
-    /**新建抄表**/
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request energyMeterDetailWithID:self.transID];
+//    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+//    /**新建抄表**/
+//    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//    [request energyMeterDetailWithID:self.transID];
     
     [self createUI];
 }

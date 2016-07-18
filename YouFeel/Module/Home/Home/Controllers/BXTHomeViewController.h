@@ -36,6 +36,7 @@ typedef NS_ENUM(NSInteger, HiddenType) {
  */
 - (void)pushMyOrdersIsRepair:(BOOL)isRepair;
 - (void)pushOtherAffair;
+- (void)pushQuickEnergyReading;
 - (void)pushStatistics;
 - (void)pushExamination;
 - (void)pushNormalOrders;

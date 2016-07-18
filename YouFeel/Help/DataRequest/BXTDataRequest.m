@@ -1254,11 +1254,14 @@
 
 - (void)energyMeterFavoriteListsWithType:(NSString *)type
                                checkType:(NSString *)check_type
+                                    page:(NSInteger)page
 {
     self.requestType = MeterFavoriteLists;
     NSDictionary *dic = @{@"type": type,
                           @"check_type": check_type,
-                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                          @"pagesize":@"5"};
     NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_favorite_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
@@ -1266,7 +1269,8 @@
 - (void)energyMeterDetailWithID:(NSString *)meterDetailID
 {
     self.requestType = EnergyMeterDetail;
-    NSDictionary *dic = @{@"id": meterDetailID};
+    NSDictionary *dic = @{@"id": meterDetailID,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_detail",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

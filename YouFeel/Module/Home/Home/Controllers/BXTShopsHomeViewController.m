@@ -30,20 +30,22 @@
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_calendar_add",@"home_Work_Order",nil]];
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_lights",nil]];
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_notepad_ok",nil]];
+    [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_quick_meter",nil]];
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_statistics",nil]];
     
     self.titleNameArray = [NSMutableArray array];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"日常工单",@"维保工单",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"我的报修工单",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"其他事务",nil]];
+    [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"快捷抄表",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"业务统计",nil]];
     
     NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
     //如果不包含业务统计
     if (![permissonKeys containsString:@"9995"])
     {
-        [self.imgNameArray removeObjectAtIndex:3];
-        [self.titleNameArray removeObjectAtIndex:3];
+        [self.imgNameArray removeObjectAtIndex:4];
+        [self.titleNameArray removeObjectAtIndex:4];
     }
     //如果不包含其他事物
     if (![permissonKeys containsString:@"9994"])
@@ -100,6 +102,10 @@
     else if ([title isEqualToString:@"其他事务"])
     {
         [self pushOtherAffair];
+    }
+    else if ([title isEqualToString:@"快捷抄表"])
+    {
+        [self pushQuickEnergyReading];
     }
     else if ([title isEqualToString:@"业务统计"])
     {

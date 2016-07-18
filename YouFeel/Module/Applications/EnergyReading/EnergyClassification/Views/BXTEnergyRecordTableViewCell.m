@@ -7,6 +7,7 @@
 //
 
 #import "BXTEnergyRecordTableViewCell.h"
+#import "BXTGlobal.h"
 
 @implementation BXTEnergyRecordTableViewCell
 
@@ -35,9 +36,9 @@
     
     NSLog(@"%@", listInfo.check_price_type);
     self.energyNumber.text = [NSString stringWithFormat:@"编号：%@", listInfo.code_number];
-    self.energySubName.text = [NSString stringWithFormat:@"子表名：%@", listInfo.meter_name];
-    self.energyNode.text = [NSString stringWithFormat:@"能源节点：%@", listInfo.measurement_path_name];
-    self.energyPlace.text = [NSString stringWithFormat:@"安装位置：%@", listInfo.meter_name];
+    self.energySubName.attributedText = [BXTGlobal transToRichLabelOfIndex:4 String:[NSString stringWithFormat:@"子表名：%@", listInfo.meter_name]];
+    self.energyNode.attributedText = [BXTGlobal transToRichLabelOfIndex:5 String:[NSString stringWithFormat:@"能源节点：%@", listInfo.measurement_path_name]];
+    self.energyPlace.attributedText = [BXTGlobal transToRichLabelOfIndex:5 String:[NSString stringWithFormat:@"安装位置：%@", listInfo.meter_name]];
 }
 
 /**

@@ -749,7 +749,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  计量表 - 收藏列表
  */
 - (void)energyMeterFavoriteListsWithType:(NSString *)type
-                               checkType:(NSString *)check_type;
+                               checkType:(NSString *)check_type
+                                    page:(NSInteger)page;
 
 /**
  *  计量表详情

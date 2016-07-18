@@ -11,7 +11,8 @@
 #import "BXTEnergyMeterListInfo.h"
 #import "BXTEnergyRecordTableViewCell.h"
 #import "DOPDropDownMenu.h"
-#import "BXTEnergyReadingQuickSearchViewController.h"
+#import "BXTEnergyReadingSearchViewController.h"
+#import <MJRefresh.h>
 
 @interface BXTEnergyReadingQuickViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, BXTDataResponseDelegate, DOPDropDownMenuDelegate, DOPDropDownMenuDataSource>
 
@@ -25,6 +26,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, assign) NSInteger currentPage;
 
 @property (nonatomic, copy) NSString *introInfo;
 
@@ -47,14 +49,27 @@
     
     [self navigationSetting:@"快捷抄表" andRightTitle:@"    编辑" andRightImage:nil];
     
+    
     self.dataArray = [[NSMutableArray alloc] init];
     self.selectedArray = [[NSMutableArray alloc] init];
     self.typeStr = @"";
     self.checkTypeStr = @"";
     
+    
     [self createUI];
     
-    [self getResource];
+    
+    self.currentPage = 1;
+    __weak __typeof(self) weakSelf = self;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        weakSelf.currentPage = 1;
+        [weakSelf getResource];
+    }];
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.currentPage++;
+        [weakSelf getResource];
+    }];
+    [self.tableView.mj_header beginRefreshing];
 }
 
 - (void)navigationRightButton
@@ -94,7 +109,7 @@
 {
     [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request energyMeterFavoriteListsWithType:self.typeStr checkType:self.checkTypeStr];
+    [request energyMeterFavoriteListsWithType:self.typeStr checkType:self.checkTypeStr page:self.currentPage];
 }
 
 #pragma mark -
@@ -108,7 +123,7 @@
     // searchBtn
     UIButton *searchBtn = [[UIButton alloc] initWithFrame:searchBar.frame];
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        BXTEnergyReadingQuickSearchViewController *erqsvc = [[BXTEnergyReadingQuickSearchViewController alloc] init];
+        BXTEnergyReadingSearchViewController *erqsvc = [[BXTEnergyReadingSearchViewController alloc] init];
         [self.navigationController pushViewController:erqsvc animated:YES];
     }];
     [self.view addSubview:searchBtn];
@@ -324,20 +339,24 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
+    
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     
     if (type == MeterFavoriteLists)
     {
-        if (self.dataArray) {
+        if (self.currentPage == 1 && self.dataArray.count != 0) {
             [self.dataArray removeAllObjects];
         }
-        
-        [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"energyMeterID":@"id"};
-        }];
-        [self.dataArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
-        
+        if (data.count)
+        {
+            [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"energyMeterID":@"id"};
+            }];
+            [self.dataArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
+        }
         [self.tableView reloadData];
     }
     else if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
@@ -352,6 +371,7 @@
         __weak __typeof(self) weakSelf = self;
         [BXTGlobal showText:@"删除抄表成功" view:self.view completionBlock:^{
             [weakSelf getResource];
+            [self changeSelectedState:YES];
         }];
     }
 }
@@ -359,6 +379,8 @@
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [self hideMBP];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -30,6 +30,7 @@
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_calendar_add",@"home_Work_Order",nil]];
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_my",@"home_lights",nil]];
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_notepad_ok",nil]];
+    [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_quick_meter",nil]];
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_integral",nil]];
     [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_statistics",nil]];
     
@@ -37,6 +38,7 @@
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"日常工单",@"维保工单",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"我的维修工单",@"我的报修工单",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"其他事务",nil]];
+    [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"快捷抄表",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"我的积分",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"业务统计",nil]];
     
@@ -44,8 +46,8 @@
     //如果不包含业务统计
     if (![permissonKeys containsString:@"9995"])
     {
-        [self.imgNameArray removeObjectAtIndex:4];
-        [self.titleNameArray removeObjectAtIndex:4];
+        [self.imgNameArray removeObjectAtIndex:5];
+        [self.titleNameArray removeObjectAtIndex:5];
     }
     //如果不包含其他事物
     if (![permissonKeys containsString:@"9994"])
@@ -132,6 +134,10 @@
     else if ([title isEqualToString:@"其他事务"])
     {
         [self pushOtherAffair];
+    }
+    else if ([title isEqualToString:@"快捷抄表"])
+    {
+        [self pushQuickEnergyReading];
     }
     else if ([title isEqualToString:@"我的积分"])
     {

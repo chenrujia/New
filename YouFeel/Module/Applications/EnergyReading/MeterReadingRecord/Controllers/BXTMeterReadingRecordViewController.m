@@ -47,6 +47,13 @@
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"111", @"222", @"333", @"111", @"222`", @"333", nil];
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", nil];
     
+    
+    NSLog(@"transID -------- %@", self.transID);
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request energyMeterDetailWithID:self.transID];
+    
+    
     [self createUI];
 }
 
