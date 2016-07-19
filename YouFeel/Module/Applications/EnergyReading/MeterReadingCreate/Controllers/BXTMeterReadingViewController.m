@@ -134,14 +134,32 @@
     [self.view addSubview:self.footerView];
     
     UIButton *cancelBtn = [self createButtonWithTitle:@"取消" btnX:10 tilteColor:@"#AEB4BB"];
+    @weakify(self);
     [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
     }];
     [self.footerView addSubview:cancelBtn];
     
+    
+    // TODO: -----------------  调试  -----------------
     UIButton *commitBtn = [self createButtonWithTitle:@"提交" btnX:SCREEN_WIDTH / 2 + 5  tilteColor:@"#5DAFF9"];
     [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         
+        
+        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterRecordAddWithAboutID:@""
+                                        totalNum:@""
+                                   peakPeriodNum:@""
+                                  flatSectionNum:@""
+                                valleySectionNum:@""
+                                  peakSegmentNum:@""
+                                        totalPic:@""
+                                   peakPeriodPic:@""
+                                  flatSectionPic:@""
+                                valleySectionPic:@""
+                                  peakSegmentPic:@""];
     }];
     [self.footerView addSubview:commitBtn];
 }
@@ -268,6 +286,10 @@
         for (NSDictionary *dataDict in data) {
             NSLog(@"------------- %@", dataDict[@"id"]);
         }
+    }
+    else if (type == EnergyMeterRecordAdd && [dic[@"returncode"] intValue] == 0)
+    {
+        
     }
     
     [self.tableView reloadData];

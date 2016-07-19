@@ -73,6 +73,7 @@
 - (void)navigationRightButton2
 {
     BXTEnergyConsumptionViewController *ecvc = [[BXTEnergyConsumptionViewController alloc] init];
+    ecvc.transID = self.transID;
     [self.navigationController pushViewController:ecvc animated:YES];
 }
 

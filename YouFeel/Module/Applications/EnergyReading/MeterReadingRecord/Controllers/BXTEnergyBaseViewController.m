@@ -12,6 +12,9 @@
 
 @property (nonatomic, strong) UIDatePicker *datePicker;
 
+@property (nonatomic, assign) NSDate *startDate;
+@property (nonatomic, assign) NSDate *endDate;
+
 @end
 
 @implementation BXTEnergyBaseViewController
@@ -25,7 +28,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     
     self.view.backgroundColor = colorWithHexString(ValueFUD(EnergyReadingColorStr));
 }
@@ -151,9 +153,21 @@
     self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
     self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     self.datePicker.backgroundColor = colorWithHexString(@"ffffff");
-    //    self.datePicker.minimumDate = [NSDate date];
+    self.datePicker.maximumDate = [NSDate date];
+    if ([titleLabel.text isEqualToString:@"开始时间"]) {
+        if (self.endDate) {
+            self.datePicker.maximumDate = self.endDate;
+        }
+    }
+    if ([titleLabel.text isEqualToString:@"结束时间"]) {
+        if (self.startDate) {
+            self.datePicker.minimumDate = self.startDate;
+        }
+    }
     self.datePicker.datePickerMode = UIDatePickerModeDate;
+    @weakify(self);
     [[self.datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+        @strongify(self);
         // 显示时间
         timeLabel.text = [self weekdayStringFromDate:self.datePicker.date];
     }];
@@ -170,10 +184,16 @@
     [self.sureBtn setTitle:@"确定" forState:UIControlStateNormal];
     [self.sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.sureBtn.backgroundColor = [UIColor whiteColor];
-    @weakify(self);
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         self.timeStr = timeLabel.text;
+        
+        if ([titleLabel.text isEqualToString:@"开始时间"]) {
+            self.startDate = self.datePicker.date;
+        }
+        if ([titleLabel.text isEqualToString:@"结束时间"]) {
+            self.endDate = self.datePicker.date;
+        }
         
         self.datePicker = nil;
         [bgView removeFromSuperview];

@@ -102,6 +102,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     MeterFavoriteDel = 89,
     MeterFavoriteLists = 90,
     EnergyMeterRecordFile = 91,
+    EnergyMeterRecordAdd = 92,
+    EnergyMeterRecordCalculate = 93,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -762,5 +764,28 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  计量表抄表 - 上传图片
  */
 - (void)energyMeterRecordFileWithImage:(UIImage *)image;
+
+/**
+ *  计量表 - 抄表
+ */
+- (void)energyMeterRecordAddWithAboutID:(NSString *)aboutID
+                               totalNum:(NSString *)total_num
+                          peakPeriodNum:(NSString *)peak_period_num
+                         flatSectionNum:(NSString *)flat_section_num
+                       valleySectionNum:(NSString *)valley_section_num
+                         peakSegmentNum:(NSString *)peak_segment_num
+                               totalPic:(NSString *)total_pic
+                          peakPeriodPic:(NSString *)peak_period_pic
+                         flatSectionPic:(NSString *)flat_section_pic
+                       valleySectionPic:(NSString *)valley_section_pic
+                         peakSegmentPic:(NSString *)peak_segment_pic;
+
+/**
+ *  计量表 - 能耗计算
+ */
+- (void)energyMeterRecordCalculateWithAboutID:(NSString *)aboutID
+                                    startTime:(NSString *)start_time
+                                      endTime:(NSString *)end_time;
+
 
 @end

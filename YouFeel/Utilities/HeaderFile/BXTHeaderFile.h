@@ -11,5 +11,6 @@
 
 #import "BXTPublicSetting.h"
 #import "BXTGlobal.h"
+#import "BXTDataRequest.h"
 
 #endif

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BXTMeterReadingInfo.h"
+#import "BXTEnergyConsumptionInfo.h"
 
 @interface BXTMeterReadingHeaderCell : UITableViewCell
 
@@ -24,8 +25,11 @@
 @property (weak, nonatomic) IBOutlet UIImageView *scanImage;
 @property (weak, nonatomic) IBOutlet UIImageView *photoImage;
 
+/** ---- 新建抄表 ---- */
 @property (nonatomic, strong) BXTMeterReadingInfo *meterReadingInfo;
 @property (nonatomic, strong) BXTMeterReadingLastList *lastList;
+/** ---- 能耗计算 ---- */
+@property (nonatomic, strong) BXTEnergyConsumptionInfo *energyConsumptionInfo;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

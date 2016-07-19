@@ -45,6 +45,20 @@
     self.lastTimeView.text = [NSString stringWithFormat:@"上次抄表时间：%@", lastList.create_time];
 }
 
+- (void)setEnergyConsumptionInfo:(BXTEnergyConsumptionInfo *)energyConsumptionInfo
+{
+    _energyConsumptionInfo = energyConsumptionInfo;
+    
+    self.iconView.image = [self returnIconImageWithCheckPriceType:energyConsumptionInfo.check_price_type];
+    
+    [self refreshFilterView:energyConsumptionInfo.meter_condition];
+    
+    self.titleView.text = [NSString stringWithFormat:@"%@", energyConsumptionInfo.meter_name];
+    self.codeView.text = [NSString stringWithFormat:@"编号：%@", energyConsumptionInfo.code_number];
+    self.rateView.text = [NSString stringWithFormat:@"倍率：%@", energyConsumptionInfo.meter_name];
+    self.stateView.text = [NSString stringWithFormat:@"状态：%@", energyConsumptionInfo.state_name];
+}
+
 /**
  *  meter_condition:
  1 二维码扫描

@@ -9,11 +9,19 @@
 #import "BXTEnergyConsumptionViewController.h"
 #import "BXTMeterReadingHeaderCell.h"
 #import "BXTEnergyConsumptionFiterCell.h"
+#import "BXTEnergyConsumptionInfo.h"
+#import "MJExtension.h"
+#import "MYAlertAction.h"
 
-@interface BXTEnergyConsumptionViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface BXTEnergyConsumptionViewController () <UITableViewDelegate, UITableViewDataSource, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+
+@property (nonatomic, copy) NSString *startTimeStr;
+@property (nonatomic, copy) NSString *endTimeStr;
+
+@property (nonatomic, strong) BXTEnergyConsumptionInfo *energyConsInfo;
 
 @end
 
@@ -26,8 +34,23 @@
     [self navigationSetting:@"能耗计算" andRightTitle1:nil andRightImage1:nil andRightTitle2:nil andRightImage2:nil];
     
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"", @"", nil];
+    self.startTimeStr = @"起始日期";
+    self.endTimeStr = @"结束日期";
     
     [self createUI];
+    
+    [self getResource];
+}
+
+#pragma mark -
+#pragma mark - getResource
+- (void)getResource
+{
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request energyMeterRecordCalculateWithAboutID:self.transID
+                                         startTime:self.startTimeStr
+                                           endTime:self.endTimeStr];
 }
 
 #pragma mark -
@@ -62,37 +85,60 @@
         BXTMeterReadingHeaderCell *cell = [BXTMeterReadingHeaderCell cellWithTableView:tableView];
         
         cell.lastTimeView.hidden = YES;
+        cell.energyConsumptionInfo = self.energyConsInfo;
         
         return cell;
     }
     
     BXTEnergyConsumptionFiterCell *cell = [BXTEnergyConsumptionFiterCell cellWithTableView:tableView];
     
+    cell.calculateInfo = self.energyConsInfo.calc;
+    [cell.startTimeBtn setTitle:self.startTimeStr forState:UIControlStateNormal];
+    [cell.endTimeBtn setTitle:self.endTimeStr forState:UIControlStateNormal];
+    
     @weakify(self);
+    // 起始日期
     [[cell.startTimeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         [self createDatePickerIsStart:YES];
         [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            NSLog(@" --------- %@", self.timeStr);
+            self.startTimeStr = self.timeStr;
+            [cell.startTimeBtn setTitle:self.startTimeStr forState:UIControlStateNormal];
         }];
     }];
+    // 结束日期
     [[cell.endTimeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         [self createDatePickerIsStart:NO];
         [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            NSLog(@" --------- %@", self.timeStr);
+            self.endTimeStr = self.timeStr;
+            [cell.endTimeBtn setTitle:self.endTimeStr forState:UIControlStateNormal];
         }];
     }];
     
+    // 计算
+    [[cell.filterBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        if ([self.startTimeStr isEqualToString:@"起始日期"] || [self.endTimeStr isEqualToString:@"结束日期"]) {
+            [MYAlertAction showAlertWithTitle:@"请选择筛选日期" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+            } buttonsStatement:@"确定", nil];
+            return ;
+        }
+        [self getResource];
+    }];
+    // 重置
+    [[cell.resetBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        self.startTimeStr = @"起始日期";
+        self.endTimeStr = @"结束日期";
+        [cell.startTimeBtn setTitle:self.startTimeStr forState:UIControlStateNormal];
+        [cell.endTimeBtn setTitle:self.endTimeStr forState:UIControlStateNormal];
+        cell.sumValueView.text = @"0";
+        cell.peakValueView.text = @"0";
+        cell.apexValueView.text = @"0";
+        cell.levelValueView.text = @"0";
+        cell.valleyValueView.text = @"0";
+    }];
     
-//    @weakify(self);
-//    [[cell.filterBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-//        @strongify(self);
-//    }];
-//    [[cell.resetBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-//        @strongify(self);
-//    }];
-        
     return cell;
 }
 
@@ -119,6 +165,31 @@
 {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    if (type == EnergyMeterRecordCalculate && data.count > 0)
+    {
+        [BXTEnergyConsumptionInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"meterRecordID":@"id"};
+        }];
+        self.energyConsInfo = [BXTEnergyConsumptionInfo mj_objectWithKeyValues:data[0]];
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
 }
 
 @end

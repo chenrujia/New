@@ -25,6 +25,17 @@
     return cell;
 }
 
+- (void)setCalculateInfo:(CalculateInfo *)calculateInfo
+{
+    _calculateInfo = calculateInfo;
+    
+    self.sumValueView.text = [NSString stringWithFormat:@"%ld", calculateInfo.total_num];
+    self.peakValueView.text = [NSString stringWithFormat:@"%ld", calculateInfo.peak_segment_num];
+    self.apexValueView.text = [NSString stringWithFormat:@"%ld", calculateInfo.peak_period_num];
+    self.levelValueView.text = [NSString stringWithFormat:@"%ld", calculateInfo.flat_section_num];
+    self.valleyValueView.text = [NSString stringWithFormat:@"%ld", calculateInfo.valley_section_num];
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
@@ -40,13 +51,13 @@
     self.endTimeBtn.layer.cornerRadius = 5;
     
     self.filterBtn.layer.cornerRadius = 5;
-
+    
     self.resetBtn.layer.cornerRadius = 5;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

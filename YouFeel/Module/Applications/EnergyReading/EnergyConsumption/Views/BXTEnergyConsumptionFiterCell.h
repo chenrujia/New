@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTEnergyConsumptionInfo.h"
 
 @interface BXTEnergyConsumptionFiterCell : UITableViewCell
 
@@ -18,6 +19,24 @@
 @property (weak, nonatomic) IBOutlet UIButton *filterBtn;
 @property (weak, nonatomic) IBOutlet UIButton *resetBtn;
 
+@property (weak, nonatomic) IBOutlet UILabel *sumValueView;
+@property (weak, nonatomic) IBOutlet UILabel *peakValueView;
+@property (weak, nonatomic) IBOutlet UILabel *apexValueView;
+@property (weak, nonatomic) IBOutlet UILabel *levelValueView;
+@property (weak, nonatomic) IBOutlet UILabel *valleyValueView;
+
+
+@property (nonatomic, strong) CalculateInfo *calculateInfo;
+
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @end
+//
+//peakValueView;
+//peakNumView;
+//apexValueView;
+//apexNumView;
+//levelValueView;
+//levelNumView;
+//valleyValueView;
+//valleyNumView;

@@ -1283,6 +1283,55 @@
     [self uploadImageRequest:url withParameters:dic withImages:@[image]];
 }
 
+- (void)energyMeterRecordAddWithAboutID:(NSString *)aboutID
+                               totalNum:(NSString *)total_num
+                          peakPeriodNum:(NSString *)peak_period_num
+                         flatSectionNum:(NSString *)flat_section_num
+                       valleySectionNum:(NSString *)valley_section_num
+                         peakSegmentNum:(NSString *)peak_segment_num
+                               totalPic:(NSString *)total_pic
+                          peakPeriodPic:(NSString *)peak_period_pic
+                         flatSectionPic:(NSString *)flat_section_pic
+                       valleySectionPic:(NSString *)valley_section_pic
+                         peakSegmentPic:(NSString *)peak_segment_pic
+{
+    self.requestType = EnergyMeterRecordAdd;
+    NSDictionary *dic = @{@"id": aboutID,
+                          @"total_num": total_num,
+                          @"peak_period_num": peak_period_num,
+                          @"flat_section_num": flat_section_num,
+                          @"valley_section_num": valley_section_num,
+                          @"peak_segment_num": peak_segment_num,
+                          @"total_pic": total_pic,
+                          @"peak_period_pic": peak_period_pic,
+                          @"flat_section_pic": flat_section_pic,
+                          @"valley_section_pic": valley_section_pic,
+                          @"peak_segment_pic": peak_segment_pic,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_record_add",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)energyMeterRecordCalculateWithAboutID:(NSString *)aboutID
+                                    startTime:(NSString *)start_time
+                                      endTime:(NSString *)end_time
+{
+    self.requestType = EnergyMeterRecordCalculate;
+    
+    if ([start_time isEqualToString:@"起始日期"]) {
+        start_time = @"";
+    }
+    if ([end_time isEqualToString:@"结束日期"]) {
+        end_time = @"";
+    }
+    NSDictionary *dic = @{@"id": aboutID,
+                          @"start_time": start_time,
+                          @"end_time": end_time,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_record_calc",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {

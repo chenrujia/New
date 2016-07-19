@@ -142,6 +142,7 @@
 		78472C4E1D3C6D3600F89BA2 /* BXTMeterReadingHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78472C471D3C6D3600F89BA2 /* BXTMeterReadingHeaderCell.xib */; };
 		78472C4F1D3C6D3600F89BA2 /* BXTMeterReadingListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78472C491D3C6D3600F89BA2 /* BXTMeterReadingListCell.m */; };
 		78472C501D3C6D3600F89BA2 /* BXTMeterReadingListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78472C4A1D3C6D3600F89BA2 /* BXTMeterReadingListCell.xib */; };
+		78472C531D3CEFC200F89BA2 /* BXTEnergyConsumptionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 78472C521D3CEFC200F89BA2 /* BXTEnergyConsumptionInfo.m */; };
 		784862A31CCA10DF00F3BD69 /* BXTWorkloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 784862A21CCA10DF00F3BD69 /* BXTWorkloadViewController.m */; };
 		784862A61CCA1EA900F3BD69 /* BXTWorkLoadShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 784862A51CCA1EA900F3BD69 /* BXTWorkLoadShowView.m */; };
 		784862A81CCA1EC200F3BD69 /* BXTWorkLoadShowView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 784862A71CCA1EC200F3BD69 /* BXTWorkLoadShowView.xib */; };
@@ -726,6 +727,8 @@
 		78472C481D3C6D3600F89BA2 /* BXTMeterReadingListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingListCell.h; sourceTree = "<group>"; };
 		78472C491D3C6D3600F89BA2 /* BXTMeterReadingListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingListCell.m; sourceTree = "<group>"; };
 		78472C4A1D3C6D3600F89BA2 /* BXTMeterReadingListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMeterReadingListCell.xib; sourceTree = "<group>"; };
+		78472C511D3CEFC200F89BA2 /* BXTEnergyConsumptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyConsumptionInfo.h; sourceTree = "<group>"; };
+		78472C521D3CEFC200F89BA2 /* BXTEnergyConsumptionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyConsumptionInfo.m; sourceTree = "<group>"; };
 		784862A21CCA10DF00F3BD69 /* BXTWorkloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTWorkloadViewController.m; sourceTree = "<group>"; };
 		784862A41CCA1EA900F3BD69 /* BXTWorkLoadShowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTWorkLoadShowView.h; sourceTree = "<group>"; };
 		784862A51CCA1EA900F3BD69 /* BXTWorkLoadShowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTWorkLoadShowView.m; sourceTree = "<group>"; };
@@ -2289,6 +2292,8 @@
 		784890621D3734D700C1106D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				78472C511D3CEFC200F89BA2 /* BXTEnergyConsumptionInfo.h */,
+				78472C521D3CEFC200F89BA2 /* BXTEnergyConsumptionInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5142,6 +5147,7 @@
 				968BA88D1D20FB8D0016DC36 /* BXTSelectItemView.m in Sources */,
 				7851A0381CA3CBD000255B8A /* BXTPlaceInfo.m in Sources */,
 				7893D8951C7AA7B300F042D5 /* BXTStatisticsMianView.m in Sources */,
+				78472C531D3CEFC200F89BA2 /* BXTEnergyConsumptionInfo.m in Sources */,
 				967C3D4F1C4620E00078F1D6 /* BXTControlUserTableViewCell.m in Sources */,
 				784E4FB31CA9151100EF2A06 /* BXTRankingViewController.m in Sources */,
 				7823C89F1C7EDFE900E2858B /* BXTEPSystemRateView.m in Sources */,

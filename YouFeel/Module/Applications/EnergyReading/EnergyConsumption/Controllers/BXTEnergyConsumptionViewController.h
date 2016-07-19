@@ -10,4 +10,6 @@
 
 @interface BXTEnergyConsumptionViewController : BXTEnergyBaseViewController
 
+@property (nonatomic, copy) NSString *transID;
+
 @end
