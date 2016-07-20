@@ -15,6 +15,7 @@
 #import "ANKeyValueTable.h"
 #import "BXTMeterReadingListView.h"
 #import "BXTEnergyMeterListInfo.h"
+#import "BXTEnergyReadingSearchViewController.h"
 
 #define KBUTTONHEIGHT 46.f
 #define METERTABLETAG 666
@@ -142,6 +143,15 @@
     //设置文本框背景
     [searchBar setSearchFieldBackgroundImage:fontBg forState:UIControlStateNormal];
     [backView addSubview:searchBar];
+    // searchBtn
+    UIButton *searchBtn = [[UIButton alloc] initWithFrame:searchBar.frame];
+    @weakify(self);
+    [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTEnergyReadingSearchViewController *erqsvc = [[BXTEnergyReadingSearchViewController alloc] initWithSearchPushType:self.btnTag + 1];
+        [self.navigationController pushViewController:erqsvc animated:YES];
+    }];
+    [searchBar addSubview:searchBtn];
     
     NSArray *titles = @[@"抄表方式",@"价格类型",@"安装位置",@"筛选"];
     NSArray *images = @[@"select_triangle",@"select_triangle",@"select_triangle",@"filter"];
@@ -292,7 +302,8 @@
                                 checkType:self.checkType
                                 priceType:self.priceType
                                   placeID:self.placeID
-                          measurementPath:self.measurementPath];
+                          measurementPath:self.measurementPath
+                               searchName:@""];
     });
     dispatch_async(concurrentQueue, ^{
         /**筛选条件**/

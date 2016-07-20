@@ -32,6 +32,8 @@
 @property (nonatomic, copy) NSString *price_type_id;
 @property (nonatomic, copy) NSString *measurement_path_name;
 @property (nonatomic, copy) NSString *is_collect;
+@property (nonatomic, copy) NSString *rate;
+@property (nonatomic, copy) NSString *unit;
 
 @end
 

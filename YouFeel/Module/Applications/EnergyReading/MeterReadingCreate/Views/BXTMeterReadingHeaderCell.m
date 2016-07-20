@@ -34,15 +34,10 @@
     
     self.titleView.text = [NSString stringWithFormat:@"%@", meterReadingInfo.meter_name];
     self.codeView.text = [NSString stringWithFormat:@"编号：%@", meterReadingInfo.code_number];
-    self.rateView.text = [NSString stringWithFormat:@"倍率：%@", meterReadingInfo.meter_name];
+    self.rateView.text = [NSString stringWithFormat:@"倍率：%@", meterReadingInfo.rate];
     self.stateView.text = [NSString stringWithFormat:@"状态：%@", meterReadingInfo.meter_name];
-}
-
-- (void)setLastList:(BXTMeterReadingLastList *)lastList
-{
-    _lastList = lastList;
     
-    self.lastTimeView.text = [NSString stringWithFormat:@"上次抄表时间：%@", lastList.create_time];
+    self.lastTimeView.text = [NSString stringWithFormat:@"上次抄表时间：%@", meterReadingInfo.last.create_time];
 }
 
 - (void)setEnergyConsumptionInfo:(BXTEnergyConsumptionInfo *)energyConsumptionInfo
@@ -55,7 +50,7 @@
     
     self.titleView.text = [NSString stringWithFormat:@"%@", energyConsumptionInfo.meter_name];
     self.codeView.text = [NSString stringWithFormat:@"编号：%@", energyConsumptionInfo.code_number];
-    self.rateView.text = [NSString stringWithFormat:@"倍率：%@", energyConsumptionInfo.meter_name];
+    self.rateView.text = [NSString stringWithFormat:@"倍率：%@", energyConsumptionInfo.rate];
     self.stateView.text = [NSString stringWithFormat:@"状态：%@", energyConsumptionInfo.state_name];
 }
 

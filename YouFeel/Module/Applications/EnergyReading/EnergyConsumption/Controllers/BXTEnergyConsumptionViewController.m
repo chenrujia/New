@@ -92,7 +92,7 @@
     
     BXTEnergyConsumptionFiterCell *cell = [BXTEnergyConsumptionFiterCell cellWithTableView:tableView];
     
-    cell.calculateInfo = self.energyConsInfo.calc;
+    cell.consumpInfo = self.energyConsInfo;
     [cell.startTimeBtn setTitle:self.startTimeStr forState:UIControlStateNormal];
     [cell.endTimeBtn setTitle:self.endTimeStr forState:UIControlStateNormal];
     
@@ -132,11 +132,11 @@
         self.endTimeStr = @"结束日期";
         [cell.startTimeBtn setTitle:self.startTimeStr forState:UIControlStateNormal];
         [cell.endTimeBtn setTitle:self.endTimeStr forState:UIControlStateNormal];
-        cell.sumValueView.text = @"0";
-        cell.peakValueView.text = @"0";
-        cell.apexValueView.text = @"0";
-        cell.levelValueView.text = @"0";
-        cell.valleyValueView.text = @"0";
+        cell.sumValueView.text = [NSString stringWithFormat:@"0 %@", self.energyConsInfo.unit];
+        cell.peakValueView.text = [NSString stringWithFormat:@"0 %@", self.energyConsInfo.unit];
+        cell.apexValueView.text = [NSString stringWithFormat:@"0 %@", self.energyConsInfo.unit];
+        cell.levelValueView.text = [NSString stringWithFormat:@"0 %@", self.energyConsInfo.unit];
+        cell.valleyValueView.text = [NSString stringWithFormat:@"0 %@", self.energyConsInfo.unit];
     }];
     
     return cell;

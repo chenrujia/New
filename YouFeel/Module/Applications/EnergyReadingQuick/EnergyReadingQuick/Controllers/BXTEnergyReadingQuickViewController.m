@@ -109,7 +109,7 @@
 {
     [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request energyMeterFavoriteListsWithType:self.typeStr checkType:self.checkTypeStr page:self.currentPage];
+    [request energyMeterFavoriteListsWithType:self.typeStr checkType:self.checkTypeStr page:self.currentPage searchName:@""];
 }
 
 #pragma mark -
@@ -122,8 +122,10 @@
     [self.view addSubview:searchBar];
     // searchBtn
     UIButton *searchBtn = [[UIButton alloc] initWithFrame:searchBar.frame];
+    @weakify(self);
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        BXTEnergyReadingSearchViewController *erqsvc = [[BXTEnergyReadingSearchViewController alloc] init];
+        @strongify(self);
+        BXTEnergyReadingSearchViewController *erqsvc = [[BXTEnergyReadingSearchViewController alloc] initWithSearchPushType:SearchPushTypeOFQuick];
         [self.navigationController pushViewController:erqsvc animated:YES];
     }];
     [self.view addSubview:searchBtn];
@@ -168,7 +170,7 @@
     [self.deleteBtn setTitleColor:colorWithHexString(@"#5BABF5") forState:UIControlStateNormal];
     [self.footerView addSubview:self.deleteBtn];
     
-    @weakify(self);
+
     [[self.selectAllBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         

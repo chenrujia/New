@@ -1202,6 +1202,7 @@
                        priceType:(NSString *)price_type
                          placeID:(NSString *)place_id
                  measurementPath:(NSString *)measurement_path
+                      searchName:(NSString *)search_name
 {
     switch ([type integerValue]) {
         case 1: self.requestType = EnergyMeterLists1; break;
@@ -1217,6 +1218,7 @@
                           @"price_type": price_type,
                           @"place_id": place_id,
                           @"measurement_path": measurement_path,
+                          @"search_name": search_name,
                           @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=Energy&opt=meter_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
@@ -1255,13 +1257,15 @@
 - (void)energyMeterFavoriteListsWithType:(NSString *)type
                                checkType:(NSString *)check_type
                                     page:(NSInteger)page
+                              searchName:(NSString *)search_name
 {
     self.requestType = MeterFavoriteLists;
     NSDictionary *dic = @{@"type": type,
                           @"check_type": check_type,
+                          @"search_name": search_name,
                           @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"page":[NSString stringWithFormat:@"%ld",(long)page],
-                          @"pagesize":@"5"};
+                          @"pagesize":@"10"};
     NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_favorite_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }

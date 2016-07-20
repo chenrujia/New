@@ -25,15 +25,15 @@
     return cell;
 }
 
-- (void)setCalculateInfo:(CalculateInfo *)calculateInfo
+- (void)setConsumpInfo:(BXTEnergyConsumptionInfo *)consumpInfo
 {
-    _calculateInfo = calculateInfo;
+    _consumpInfo = consumpInfo;
     
-    self.sumValueView.text = [NSString stringWithFormat:@"%ld", calculateInfo.total_num];
-    self.peakValueView.text = [NSString stringWithFormat:@"%ld", calculateInfo.peak_segment_num];
-    self.apexValueView.text = [NSString stringWithFormat:@"%ld", calculateInfo.peak_period_num];
-    self.levelValueView.text = [NSString stringWithFormat:@"%ld", calculateInfo.flat_section_num];
-    self.valleyValueView.text = [NSString stringWithFormat:@"%ld", calculateInfo.valley_section_num];
+    self.sumValueView.text = [NSString stringWithFormat:@"%ld %@", consumpInfo.calc.total_num, self.consumpInfo.unit];
+    self.peakValueView.text = [NSString stringWithFormat:@"%ld %@", consumpInfo.calc.peak_segment_num, self.consumpInfo.unit];
+    self.apexValueView.text = [NSString stringWithFormat:@"%ld %@", consumpInfo.calc.peak_period_num, self.consumpInfo.unit];
+    self.levelValueView.text = [NSString stringWithFormat:@"%ld %@", consumpInfo.calc.flat_section_num, self.consumpInfo.unit];
+    self.valleyValueView.text = [NSString stringWithFormat:@"%ld %@", consumpInfo.calc.valley_section_num, self.consumpInfo.unit];
 }
 
 - (void)awakeFromNib {

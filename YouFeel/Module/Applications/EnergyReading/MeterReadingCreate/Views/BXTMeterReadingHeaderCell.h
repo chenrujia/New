@@ -27,7 +27,6 @@
 
 /** ---- 新建抄表 ---- */
 @property (nonatomic, strong) BXTMeterReadingInfo *meterReadingInfo;
-@property (nonatomic, strong) BXTMeterReadingLastList *lastList;
 /** ---- 能耗计算 ---- */
 @property (nonatomic, strong) BXTEnergyConsumptionInfo *energyConsumptionInfo;
 

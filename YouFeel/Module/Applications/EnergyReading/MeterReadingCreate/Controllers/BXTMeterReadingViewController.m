@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *numArray;
 
 @property (nonatomic, strong) UIView *footerView;
 
@@ -37,8 +38,9 @@
     self.view.backgroundColor = colorWithHexString(ValueFUD(EnergyReadingColorStr));
     
     
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", nil];
-    self.cellTitleArray = @[@"峰段示数：", @"平段示数：", @"谷段示数：", @"尖峰示数：", @"总示数："];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @"", @" ", nil];
+    self.numArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @"", @"", nil];
+    self.cellTitleArray = @[@"", @"峰段示数：", @"平段示数：", @"谷段示数：", @"尖峰示数：", @"总示数："];
     // BXTPhotoBaseViewController 包括下面3条
     [BXTGlobal shareGlobal].maxPics = 1;
     self.isSettingVC = YES;
@@ -52,6 +54,30 @@
     
     
     [self createUI];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector :@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notify
+{
+    // 总示数计算
+    if (![self.dataArray containsObject:@""]) {
+        NSInteger thisValue = 0;
+        for (NSString *valueStr in self.dataArray) {
+            thisValue += [valueStr integerValue];
+        }
+        NSInteger thisNum = [self.dataArray[5] integerValue] * [self.meterReadingInfo.rate integerValue] - [self.lastValueArray[5] integerValue];
+        [self.dataArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", thisValue]];
+        [self.numArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", thisNum]];
+        
+        [self.tableView reloadData];
+    }
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)navigationOwnSetting:(NSString *)title
@@ -183,24 +209,50 @@
         BXTMeterReadingHeaderCell *cell = [BXTMeterReadingHeaderCell cellWithTableView:tableView];
         
         cell.meterReadingInfo = self.meterReadingInfo;
-        cell.lastList = self.meterReadingInfo.last;
         
         return cell;
     }
     
     BXTMeterReadingListCell *cell = [BXTMeterReadingListCell cellWithTableView:tableView];
     
-    cell.titleView.text = self.cellTitleArray[indexPath.section - 1];
-    cell.lastValueView.text = self.lastValueArray[indexPath.section - 1];
-    cell.lastNumView.text = self.lastNumArray[indexPath.section - 1];
+    // 初始化
+    cell.titleView.text = self.cellTitleArray[indexPath.section];
+    cell.NumTextField.text = self.dataArray[indexPath.section];
+    cell.lastValueView.text = self.lastValueArray[indexPath.section];
+    cell.lastNumView.text = self.lastNumArray[indexPath.section];
+    cell.thisValueView.text = self.dataArray[indexPath.section];
+    cell.thisNumView.text = self.numArray[indexPath.section];
     if (indexPath.section == 5) {
         cell.addImageView.hidden = YES;
+        cell.NumTextField.userInteractionEnabled = NO;
+        // TODO: -----------------  调试  -----------------
+        //        NSInteger sumNum = 0;
+        //        for (NSString *numStr in self.dataArray) {
+        //            sumNum += [numStr integerValue];
+        //        }
+        //        NSInteger thisNum = [self.dataArray[5] integerValue] * [self.meterReadingInfo.rate integerValue] - [cell.lastValueView.text integerValue];
+        //        cell.NumTextField.text = [NSString stringWithFormat:@"%ld", sumNum];
+        //        cell.thisValueView.text = [NSString stringWithFormat:@"%ld", sumNum];
+        //        cell.thisNumView.text = [NSString stringWithFormat:@"%ld", thisNum];
     }
     
     @weakify(self);
+    // 添加图片
     [[cell.addImageView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         [self addImages];
+    }];
+    // 填表
+    cell.NumTextField.tag = indexPath.section + 100;
+    [cell.NumTextField.rac_textSignal subscribeNext:^(NSString *text) {
+        @strongify(self);
+        if (![BXTGlobal isBlankString:text] && cell.NumTextField.tag == indexPath.section + 100) {
+            NSInteger number = [text integerValue] * [self.meterReadingInfo.rate integerValue] - [cell.lastValueView.text integerValue];
+            cell.thisValueView.text = text;
+            cell.thisNumView.text = [NSString stringWithFormat:@"%ld", number];
+            [self.dataArray replaceObjectAtIndex:indexPath.section withObject:cell.thisValueView.text];
+            [self.numArray replaceObjectAtIndex:indexPath.section withObject:cell.thisNumView.text];
+        }
     }];
     
     return cell;
@@ -256,18 +308,21 @@
         
         // price_type_id:   2-峰谷  OR   单一、阶梯
         if (![self.meterReadingInfo.price_type_id isEqualToString:@"2"]) {
-            self.dataArray = [[NSMutableArray alloc] initWithObjects:@"", @"", nil];
+            self.dataArray = [[NSMutableArray alloc] initWithObjects:@"0", @" ", nil];
+            self.numArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", nil];
             self.cellTitleArray = @[@"总示数："];
         }
         else {
             BXTMeterReadingLastList *lastList = self.meterReadingInfo.last;
             self.lastValueArray = [[NSMutableArray alloc] initWithObjects:
+                                   @"",
                                    [self transToString:lastList.peak_period_num],
                                    [self transToString:lastList.flat_section_num],
                                    [self transToString:lastList.valley_section_num],
                                    [self transToString:lastList.peak_segment_num],
                                    [self transToString:lastList.total_num], nil];
             self.lastNumArray = [[NSMutableArray alloc] initWithObjects:
+                                 @"",
                                  [self transToString:lastList.peak_period_amount],
                                  [self transToString:lastList.flat_section_amount],
                                  [self transToString:lastList.valley_section_amount],

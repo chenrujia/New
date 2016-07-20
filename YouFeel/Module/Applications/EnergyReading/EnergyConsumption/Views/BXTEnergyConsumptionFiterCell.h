@@ -25,18 +25,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *levelValueView;
 @property (weak, nonatomic) IBOutlet UILabel *valleyValueView;
 
-
-@property (nonatomic, strong) CalculateInfo *calculateInfo;
+@property (nonatomic, strong) BXTEnergyConsumptionInfo *consumpInfo;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @end
-//
-//peakValueView;
-//peakNumView;
-//apexValueView;
-//apexNumView;
-//levelValueView;
-//levelNumView;
-//valleyValueView;
-//valleyNumView;

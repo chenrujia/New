@@ -7,25 +7,19 @@
 //
 
 #import "BXTEnergyReadingSearchViewController.h"
-#include <math.h>
 #import "BXTHeaderForVC.h"
 #import "BXTHeadquartersInfo.h"
-#import "PinYinForObjc.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "BXTEnergyMeterListInfo.h"
 #import "BXTEnergyRecordTableViewCell.h"
 
 @interface BXTEnergyReadingSearchViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, UISearchBarDelegate, BXTDataResponseDelegate>
-{
-    NSString *searchStr;
-    NSMutableArray *searchResults;
-}
 
 @property (nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, strong) UITableView *tableView_Search;
-
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) NSMutableArray *searchArray;
+
+@property (nonatomic, assign) NSInteger transPushType;
 
 @end
 
@@ -33,19 +27,42 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self navigationSetting:@"快捷抄表" andRightTitle:nil andRightImage:nil];
+    [self navigationSetting:@"搜索计量表" andRightTitle:nil andRightImage:nil];
+    
+    self.dataArray = [[NSMutableArray alloc] init];
     
     [self createUI];
-    
-    [self getResource];
 }
+
+- (instancetype)initWithSearchPushType:(SearchPushType)pushType
+{
+    self = [super init];
+    if (self) {
+        self.transPushType = pushType;
+    }
+    return self;
+}
+
 #pragma mark -
 #pragma mark - getResource
-- (void)getResource
+- (void)getResourceWithPushType:(SearchPushType)pushType SearchName:(NSString *)searchName
 {
-//    [self showLoadingMBP:@"加载中..."];
-//    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//    [request energyMeterFavoriteListsWithType:@"" checkType:@"" page:1];
+    [BXTGlobal showLoadingMBP:@"搜索中..."];
+    
+    if (pushType == SearchPushTypeOFQuick) {
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterFavoriteListsWithType:@"" checkType:@"" page:1 searchName:searchName];
+    }
+    else {
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterListsWithType:[NSString stringWithFormat:@"%ld", pushType]
+                                checkType:@""
+                                priceType:@""
+                                  placeID:@""
+                          measurementPath:@""
+                               searchName:searchName];
+        
+    }
 }
 
 #pragma mark -
@@ -61,18 +78,18 @@
     
     
     // UITableView - tableView_Search
-    self.tableView_Search = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 55, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
-    self.tableView_Search.rowHeight = 106.f;
-    self.tableView_Search.dataSource = self;
-    self.tableView_Search.delegate = self;
-    self.tableView_Search.emptyDataSetDelegate = self;
-    self.tableView_Search.emptyDataSetSource = self;
-    [self.view addSubview:self.tableView_Search];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 55, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 106.f;
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.emptyDataSetSource = self;
+    [self.view addSubview:self.tableView];
     
     
     // UITableView - tableView_Search - tableHeaderView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
-    self.tableView_Search.tableHeaderView = headerView;
+    self.tableView.tableHeaderView = headerView;
     UILabel *alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 150, 30)];
     alertLabel.text = @"搜索结果：";
     alertLabel.textColor = colorWithHexString(@"#666666");
@@ -100,7 +117,6 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    searchBar.text = @"";
     NSLog(@"did begin");
 }
 
@@ -117,47 +133,7 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    searchStr = searchText;
-    
-    NSArray *allPersonArray = self.dataArray;
-    
-    searchResults = [[NSMutableArray alloc]init];
-    if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
-        
-        for (int i=0; i<allPersonArray.count; i++) {
-            BXTEnergyMeterListInfo *model = allPersonArray[i];
-            
-            if ([ChineseInclude isIncludeChineseInString:model.code_number]) {
-                NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.code_number];
-                NSRange titleResult=[tempPinYinStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-                
-                if (titleResult.length > 0) {
-                    [searchResults addObject:allPersonArray[i]];
-                } else {
-                    NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:model.code_number]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-                    if (titleHeadResult.length > 0) {
-                        [searchResults addObject:allPersonArray[i]];
-                    }
-                }
-            } else {
-                NSRange titleResult=[model.code_number rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-                if (titleResult.length > 0) {
-                    [searchResults addObject:allPersonArray[i]];
-                }
-            }
-        }
-    } else if (self.searchBar.text.length > 0 && [ChineseInclude isIncludeChineseInString:self.searchBar.text]) {
-        for (BXTEnergyMeterListInfo *model in allPersonArray) {
-            NSRange titleResult=[model.code_number rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-            if (titleResult.length > 0) {
-                [searchResults addObject:model];
-            }
-        }
-    }
-    
-    self.searchArray = searchResults;
-    
-    [self.tableView_Search reloadData];
+    [self getResourceWithPushType:self.transPushType SearchName:searchText];
 }
 
 #pragma mark -
@@ -182,11 +158,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.searchArray.count == 0) {
-    }
-    if ([searchStr isEqualToString:@""]) {
-    }
-    return self.searchArray.count;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -203,15 +175,9 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (tableView == self.tableView_Search)
-    {
-        BXTEnergyMeterListInfo *model = self.searchArray[indexPath.row];
-        NSLog(@"--------%@", model.code_number);
-        
-        
-        return;
-    }
     
+    BXTEnergyMeterListInfo *model = self.dataArray[indexPath.row];
+    NSLog(@"--------%@", model.code_number);
     
 }
 
@@ -241,26 +207,26 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     
-    if (type == MeterFavoriteLists)
-    {
-        [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"energyMeterID":@"id"};
-        }];
-        [self.dataArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
+    if (self.dataArray.count != 0) {
+        [self.dataArray removeAllObjects];
     }
     
-    [self.tableView_Search reloadData];
+    [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"energyMeterID":@"id"};
+    }];
+    [self.dataArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
+    
+    [self.tableView reloadData];
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -268,13 +234,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

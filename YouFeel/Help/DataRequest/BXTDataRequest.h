@@ -735,7 +735,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
                        checkType:(NSString *)check_type
                        priceType:(NSString *)price_type
                          placeID:(NSString *)place_id
-                 measurementPath:(NSString *)measurement_path;
+                 measurementPath:(NSString *)measurement_path
+                      searchName:(NSString *)search_name;
 
 /**
  *  计量层级树形列表
@@ -753,7 +754,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
  */
 - (void)energyMeterFavoriteListsWithType:(NSString *)type
                                checkType:(NSString *)check_type
-                                    page:(NSInteger)page;
+                                    page:(NSInteger)page
+                              searchName:(NSString *)search_name;
 
 /**
  *  计量表详情
