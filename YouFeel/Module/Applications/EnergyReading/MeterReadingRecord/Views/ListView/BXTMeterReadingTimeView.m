@@ -15,6 +15,15 @@
     return [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingTimeView" owner:nil options:nil] lastObject];
 }
 
+- (void)setLists:(BXTRecordListsInfo *)lists
+{
+    _lists = lists;
+    
+    self.nameView.text = lists.name;
+    self.valueView.text = lists.total_num;
+    self.numView.text = lists.use_amount;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

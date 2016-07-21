@@ -13,6 +13,7 @@
 #import "DOPDropDownMenu.h"
 #import "BXTEnergyReadingSearchViewController.h"
 #import <MJRefresh.h>
+#import "BXTMeterReadingRecordViewController.h"
 
 @interface BXTEnergyReadingQuickViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, BXTDataResponseDelegate, DOPDropDownMenuDelegate, DOPDropDownMenuDataSource>
 
@@ -170,7 +171,7 @@
     [self.deleteBtn setTitleColor:colorWithHexString(@"#5BABF5") forState:UIControlStateNormal];
     [self.footerView addSubview:self.deleteBtn];
     
-
+    
     [[self.selectAllBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
@@ -303,6 +304,11 @@
     if (tableView.isEditing) {
         return;
     }
+    
+    BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
+    BXTEnergyMeterListInfo *listInfo = self.dataArray[indexPath.row];
+    mrrvc.transID = listInfo.energyMeterID;
+    [self.navigationController pushViewController:mrrvc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

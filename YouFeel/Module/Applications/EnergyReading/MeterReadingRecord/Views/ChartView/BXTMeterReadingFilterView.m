@@ -15,15 +15,19 @@
     [super awakeFromNib];
     // Initialization code
     
-    self.layer.cornerRadius = 10;
+    self.lastMonthBtn.layer.borderWidth = 1;
+    self.lastMonthBtn.layer.borderColor = [colorWithHexString(@"#95CAF7") CGColor];
+    self.lastMonthBtn.layer.cornerRadius = 5;
     
-    self.timeBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
-    self.timeBtn.layer.borderWidth = 1;
-    self.timeBtn.layer.cornerRadius = 5;
+    self.nextMonthBtn.layer.borderWidth = 1;
+    self.nextMonthBtn.layer.borderColor = [colorWithHexString(@"#95CAF7") CGColor];
+    self.nextMonthBtn.layer.cornerRadius = 5;
     
-    self.filterBtn.layer.cornerRadius = 5;
+    [self.thisMonthBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
+    [self.thisMonthBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 45, 0, -45)];
     
-    self.resetBtn.layer.cornerRadius = 5;
+    self.nextMonthBtn.enabled = NO;
+    self.nextMonthBtn.alpha = 0.4;
 }
 
 @end

@@ -17,6 +17,8 @@
 #import "BXTMeterReadingViewController.h"
 #import "BXTMeterReadingDailyDetailViewController.h"
 #import "BXTDataRequest.h"
+#import "BXTMeterReadingRecordMonthListInfo.h"
+#import "BXTMeterReadingRecordListInfo.h"
 
 @interface BXTMeterReadingRecordViewController () <UITableViewDelegate, UITableViewDataSource, BXTDataResponseDelegate>
 
@@ -27,12 +29,14 @@
 @property (nonatomic, strong) BXTHistogramStatisticsView *hisView;
 @property (nonatomic, strong) BXTMeterReadingFilterOFListView *filterView_list;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSMutableArray *isShowArray;
 
 @property (nonatomic, strong) UIView *footerView;
 
 @property (nonatomic, assign) BOOL isHideChart;
+
+@property (nonatomic, strong) BXTMeterReadingRecordMonthListInfo *monthListInfo;
+@property (nonatomic, strong) BXTMeterReadingRecordListInfo *listInfo;
 
 @end
 
@@ -44,12 +48,42 @@
     
     [self navigationSetting:@"能源抄表" andRightTitle1:nil andRightImage1:[UIImage imageNamed:@"energy_list"] andRightTitle2:@"能耗计算" andRightImage2:nil];
     
-    
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"111", @"222", @"333", @"111", @"222", @"333", nil];
-    self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", nil];
-    
+    self.isShowArray = [[NSMutableArray alloc] init];
     
     [self createUI];
+    [self getResource];
+}
+
+- (void)getResource
+{
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        // 计量表 - 抄表记录，月
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterRecordMonthListsWithAboutID:self.transID year:@""];
+    });
+    dispatch_async(concurrentQueue, ^{
+        // 计量表 - 抄表记录，列表
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterRecordListsWithAboutID:self.transID date:@""];
+    });
+}
+
+- (void)getResourceShowMonthChartView:(BOOL)showChart
+{
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    if (showChart) {
+        // 计量表 - 抄表记录，月
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterRecordMonthListsWithAboutID:self.transID year:self.yearStr];
+    }
+    else {
+        // 计量表 - 抄表记录，列表
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterRecordListsWithAboutID:self.transID date:self.timeStr];
+    }
 }
 
 - (void)navigationRightButton1
@@ -101,12 +135,31 @@
     // BXTHistogramStatisticsView
     self.filterView_chart = [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingFilterView" owner:nil options:nil] lastObject];
     self.filterView_chart.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20, 50);
-    [[self.filterView_chart.timeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    // thisMonthBtn
+    [[self.filterView_chart.thisMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self createDatePickerIsStart:YES];
-        [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            NSLog(@" --------- %@", self.timeStr);
+        [self createYearPickerView];
+        [[self.commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self.filterView_chart.thisMonthBtn setTitle:self.yearStr forState:UIControlStateNormal];
+            [self getResourceShowMonthChartView:YES];
         }];
+    }];
+    // lastMonthBtn
+    [[self.filterView_chart.lastMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.filterView_chart.thisMonthBtn setTitle:[self transTimeIsAdd:NO] forState:UIControlStateNormal];
+        self.filterView_chart.nextMonthBtn.enabled = YES;
+        self.filterView_chart.nextMonthBtn.alpha = 1.0;
+    }];
+    // nextMonthBtn
+    [[self.filterView_chart.nextMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.filterView_chart.thisMonthBtn setTitle:[self transTimeIsAdd:YES] forState:UIControlStateNormal];
+        if ([self.yearStr integerValue] == [[BXTGlobal yearAndmonthAndDay][0] integerValue]) {
+            self.filterView_chart.nextMonthBtn.enabled = NO;
+            self.filterView_chart.nextMonthBtn.alpha = 0.4;
+        }
     }];
     [self.scrollView addSubview:self.filterView_chart];
     
@@ -156,6 +209,7 @@
     [[self.hisView.footerView.checkDetailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BXTMeterReadingDailyDetailViewController *mrddvc = [[BXTMeterReadingDailyDetailViewController alloc] init];
+        mrddvc.transID = self.transID;
         [self.navigationController pushViewController:mrddvc animated:YES];
     }];
     [self.scrollView addSubview:self.hisView];
@@ -164,6 +218,15 @@
     // filterView_list
     self.filterView_list = [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingFilterOFListView" owner:nil options:nil] lastObject];
     self.filterView_list.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20, 50);
+    [[self.filterView_list.timeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self createDatePickerWithType:PickerTypeOFRange];
+        [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self.filterView_list.timeBtn setTitle:self.timeStr forState:UIControlStateNormal];
+            [self getResourceShowMonthChartView:NO];
+        }];
+    }];
     [self.scrollView addSubview:self.filterView_list];
     // tableView
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.filterView_chart.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - CGRectGetMaxY(self.filterView_list.frame) - 70) style:UITableViewStyleGrouped];
@@ -199,10 +262,41 @@
 }
 
 #pragma mark -
+#pragma mark - 处理时间
+- (NSString *)transTimeIsAdd:(BOOL)isAdd
+{
+    NSInteger year = [self.yearStr integerValue];
+    if (!isAdd) { // 减法
+        year -= 1;
+    } else {
+        year += 1;
+    }
+    
+    self.yearStr = [NSString stringWithFormat:@"%ld", (long)year];
+    NSLog(@"self.yearStr -------- %@", self.yearStr);
+    //    [self getResource];
+    
+    return self.yearStr;
+}
+
+- (void)refreshUIWithData
+{
+    // self.headerView 赋值
+    self.headerView.iconImageView.image = [self returnIconImageWithCheckPriceType:self.monthListInfo.check_price_type];
+    self.headerView.titleView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.meter_name];
+    self.headerView.codeView.text = [NSString stringWithFormat:@"编号：%@", self.monthListInfo.code_number];
+    self.headerView.rateView.text = [NSString stringWithFormat:@"倍率：%@", self.monthListInfo.rate];
+    
+    self.headerView.setPlaceView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.place_name];
+    self.headerView.serviceView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.server_area];
+    self.headerView.rangeView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.desc];
+}
+
+#pragma mark -
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.dataArray.count;
+    return self.isShowArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -216,6 +310,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BXTMeterReadingTimeCell *cell = [BXTMeterReadingTimeCell cellWithTableView:tableView];
+    
+    cell.lists = self.listInfo.lists[indexPath.section];
     
     if ([self.isShowArray[indexPath.section] isEqualToString:@"1"]) {
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
@@ -256,6 +352,7 @@
 {
     BXTMeterReadingTimeView *view = [BXTMeterReadingTimeView viewForMeterReadingTime];
     view.showViewBtn.tag = section;
+    view.lists = self.listInfo.lists[section];
     
     if ([self.isShowArray[section] isEqualToString:@"1"]) {
         // headerView
@@ -301,23 +398,35 @@
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    //    if (type == EnergyMeterDetail && data.count > 0)
-    //    {
-    //        NSMutableArray *listArray = [[NSMutableArray alloc] init];
-    //        [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-    //            return @{@"energyMeterID":@"id"};
-    //        }];
-    //        [listArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
-    //
-    //        // 赋值
-    //        for (BXTMeterReadingListView *listView in self.scrollerView.subviews) {
-    //            if ([listView isKindOfClass:[BXTMeterReadingListView class]]) {
-    //                if (listView.tag == tag) {
-    //                    listView.datasource = (NSArray *)listArray;
-    //                }
-    //            }
-    //        }
-    //    }
+    
+    if (type == EnergyMeterRecordMonthLists && data.count > 0)
+    {
+        [BXTMeterReadingRecordMonthListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"meterReadingID":@"id"};
+        }];
+        self.monthListInfo = [BXTMeterReadingRecordMonthListInfo mj_objectWithKeyValues:data[0]];
+        
+        [self refreshUIWithData];
+    }
+    if (type == EnergyMeterRecordLists && data.count > 0)
+    {
+        [BXTMeterReadingRecordListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"meterReadingID":@"id"};
+        }];
+        [BXTRecordListsInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"listInfoID":@"id"};
+        }];
+        self.listInfo = [BXTMeterReadingRecordListInfo mj_objectWithKeyValues:data[0]];
+        
+        if (self.isShowArray) {
+            [self.isShowArray removeAllObjects];
+        }
+        for (int i = 0; i < self.listInfo.lists.count; i++) {
+            [self.isShowArray addObject:@"0"];
+        }
+        
+        [self.tableView reloadData];
+    }
     
 }
 
@@ -352,7 +461,7 @@
         self.headerView.openImage.image = [UIImage imageNamed:@"energy_close"];
     } else {
         self.headerView.bgViewBtn.selected = YES;
-        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 200);
+        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 180);
         self.headerView.bgFooterView.hidden = NO;
         self.headerView.openImage.image = [UIImage imageNamed:@"energy_open"];
     }

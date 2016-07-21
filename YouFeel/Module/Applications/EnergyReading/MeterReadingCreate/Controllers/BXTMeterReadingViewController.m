@@ -62,11 +62,13 @@
 - (void)keyboardWillHide:(NSNotification *)notify
 {
     // 总示数计算
-    if (![self.dataArray containsObject:@""]) {
+    if (![self.dataArray containsObject:@""] && self.dataArray.count == 6) {
+        
         NSInteger thisValue = 0;
-        for (NSString *valueStr in self.dataArray) {
-            thisValue += [valueStr integerValue];
+        for (int i=0; i<self.dataArray.count-1; i++) {
+            thisValue += [self.dataArray[i] integerValue];
         }
+        
         NSInteger thisNum = [self.dataArray[5] integerValue] * [self.meterReadingInfo.rate integerValue] - [self.lastValueArray[5] integerValue];
         [self.dataArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", thisValue]];
         [self.numArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", thisNum]];
@@ -172,10 +174,9 @@
     [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        
         [BXTGlobal showLoadingMBP:@"数据加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterRecordAddWithAboutID:@""
+        [request energyMeterRecordAddWithAboutID:self.transID
                                         totalNum:@""
                                    peakPeriodNum:@""
                                   flatSectionNum:@""
@@ -225,15 +226,6 @@
     if (indexPath.section == 5) {
         cell.addImageView.hidden = YES;
         cell.NumTextField.userInteractionEnabled = NO;
-        // TODO: -----------------  调试  -----------------
-        //        NSInteger sumNum = 0;
-        //        for (NSString *numStr in self.dataArray) {
-        //            sumNum += [numStr integerValue];
-        //        }
-        //        NSInteger thisNum = [self.dataArray[5] integerValue] * [self.meterReadingInfo.rate integerValue] - [cell.lastValueView.text integerValue];
-        //        cell.NumTextField.text = [NSString stringWithFormat:@"%ld", sumNum];
-        //        cell.thisValueView.text = [NSString stringWithFormat:@"%ld", sumNum];
-        //        cell.thisNumView.text = [NSString stringWithFormat:@"%ld", thisNum];
     }
     
     @weakify(self);
@@ -306,14 +298,21 @@
         }];
         self.meterReadingInfo = [BXTMeterReadingInfo mj_objectWithKeyValues:data[0]];
         
+        BXTMeterReadingLastList *lastList = self.meterReadingInfo.last;
+        
         // price_type_id:   2-峰谷  OR   单一、阶梯
         if (![self.meterReadingInfo.price_type_id isEqualToString:@"2"]) {
             self.dataArray = [[NSMutableArray alloc] initWithObjects:@"0", @" ", nil];
             self.numArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", nil];
-            self.cellTitleArray = @[@"总示数："];
+            self.cellTitleArray = @[@"", @"总示数："];
+            self.lastValueArray = [[NSMutableArray alloc] initWithObjects:
+                                   @"",
+                                   [self transToString:lastList.total_num], nil];
+            self.lastNumArray = [[NSMutableArray alloc] initWithObjects:
+                                 @"",
+                                 [self transToString:lastList.use_amount], nil];
         }
         else {
-            BXTMeterReadingLastList *lastList = self.meterReadingInfo.last;
             self.lastValueArray = [[NSMutableArray alloc] initWithObjects:
                                    @"",
                                    [self transToString:lastList.peak_period_num],
@@ -371,7 +370,7 @@
 
 - (NSString *)transToString:(NSInteger)sender
 {
-    return [NSString stringWithFormat:@"%ld KWH", sender];
+    return [NSString stringWithFormat:@"%ld %@", sender, self.meterReadingInfo.unit];
 }
 
 - (void)didReceiveMemoryWarning {

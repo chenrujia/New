@@ -10,9 +10,8 @@
 
 @interface BXTMeterReadingFilterView : UIView
 
-@property (weak, nonatomic) IBOutlet UIButton *timeBtn;
-
-@property (weak, nonatomic) IBOutlet UIButton *filterBtn;
-@property (weak, nonatomic) IBOutlet UIButton *resetBtn;
+@property (weak, nonatomic) IBOutlet UIButton *lastMonthBtn;
+@property (weak, nonatomic) IBOutlet UIButton *thisMonthBtn;
+@property (weak, nonatomic) IBOutlet UIButton *nextMonthBtn;
 
 @end

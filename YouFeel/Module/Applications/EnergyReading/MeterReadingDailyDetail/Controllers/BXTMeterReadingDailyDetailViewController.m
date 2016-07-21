@@ -10,8 +10,9 @@
 #import "BXTMeterReadingDailyDetailFilterView.h"
 #import "BXTHistogramStatisticsView.h"
 #import "BXTMeterReadingViewController.h"
+#import "BXTMeterReadingRecordDayListInfo.h"
 
-@interface BXTMeterReadingDailyDetailViewController ()
+@interface BXTMeterReadingDailyDetailViewController () <BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 
@@ -19,6 +20,11 @@
 @property (nonatomic, strong) BXTHistogramStatisticsView *hisView;
 
 @property (nonatomic, strong) UIView *footerView;
+
+@property (nonatomic, strong) BXTMeterReadingRecordDayListInfo *dayListInfo;
+
+@property (copy, nonatomic) NSString *nowTimeStr;
+@property (copy, nonatomic) NSString *showTimeStr;
 
 @end
 
@@ -30,8 +36,19 @@
     
     [self navigationSetting:@"日详情" andRightTitle1:nil andRightImage1:nil andRightTitle2:nil andRightImage2:nil];
     
+    NSArray *timeArray = [BXTGlobal yearAndmonthAndDay];
+    self.nowTimeStr = [NSString stringWithFormat:@"%@年%@月", timeArray[0], timeArray[1]];
+    self.showTimeStr = self.nowTimeStr;
     
     [self createUI];
+    [self getResource];
+}
+
+- (void)getResource
+{
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request energyMeterRecordDayListsWithAboutID:self.transID date:@"2016-07"];
 }
 
 #pragma mark -
@@ -49,11 +66,17 @@
     @weakify(self);
     [[self.headerView.lastMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
+        self.headerView.timeView.text = [self transTime:self.showTimeStr isAdd:NO];
+        self.headerView.nextMonthBtn.enabled = YES;
+        self.headerView.nextMonthBtn.alpha = 1.0;
     }];
     [[self.headerView.nextMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
+        self.headerView.timeView.text = [self transTime:self.showTimeStr isAdd:YES];
+        if ([self.showTimeStr isEqualToString:self.nowTimeStr]) {
+            self.headerView.nextMonthBtn.enabled = NO;
+            self.headerView.nextMonthBtn.alpha = 0.4;
+        }
     }];
     [self.scrollView addSubview:self.headerView];
     
@@ -125,6 +148,63 @@
     
     
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
+}
+
+#pragma mark -
+#pragma mark - 处理时间
+- (NSString *)transTime:(NSString *)time isAdd:(BOOL)add
+{
+    NSInteger year = [[self.showTimeStr substringToIndex:4] integerValue];
+    NSInteger month = [[self.showTimeStr substringWithRange:NSMakeRange(5, self.showTimeStr.length-6)] integerValue];
+    
+    if (!add)
+    { // 减法
+        month -= 1;
+        if (month <= 0)
+        {
+            year -= 1;
+            month = 12;
+        }
+    }
+    else
+    {
+        month += 1;
+        if (month >= 12)
+        {
+            year += 1;
+            month = 1;
+        }
+    }
+    
+    self.showTimeStr = [NSString stringWithFormat:@"%ld年%ld月", (long)year, (long)month];
+    
+    //    [self getResource];
+    
+    return self.showTimeStr;
+}
+
+#pragma mark -
+#pragma mark - getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = [dic objectForKey:@"data"];
+    // TODO: -----------------  调试 - 处理  -----------------
+    if (type == EnergyMeterRecordDayLists && data.count > 0)
+    {
+        [BXTMeterReadingRecordDayListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"meterReadingID":@"id"};
+        }];
+        self.dayListInfo = [BXTMeterReadingRecordDayListInfo mj_objectWithKeyValues:data[0]];
+        
+    }
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

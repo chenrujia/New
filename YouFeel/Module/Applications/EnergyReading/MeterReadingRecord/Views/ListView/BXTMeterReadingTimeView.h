@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTMeterReadingRecordListInfo.h"
 
 @interface BXTMeterReadingTimeView : UIView
 
@@ -19,6 +20,8 @@
 /** ---- num - 量 ---- */
 @property (weak, nonatomic) IBOutlet UILabel *numView;
 @property (weak, nonatomic) IBOutlet UIButton *showViewBtn;
+
+@property (nonatomic, strong) BXTRecordListsInfo *lists;
 
 + (instancetype)viewForMeterReadingTime;
 

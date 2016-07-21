@@ -8,12 +8,19 @@
 
 #import "BXTEnergyBaseViewController.h"
 
-@interface BXTEnergyBaseViewController ()
+#define headerViewH 256
 
+@interface BXTEnergyBaseViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
+
+// 日期选择
 @property (nonatomic, strong) UIDatePicker *datePicker;
 
 @property (nonatomic, assign) NSDate *startDate;
 @property (nonatomic, assign) NSDate *endDate;
+
+// 年份选择
+@property (nonatomic, strong) UIPickerView *yearPickerView;
+@property (nonatomic, strong) NSMutableArray *yearArray;
 
 @end
 
@@ -30,6 +37,14 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = colorWithHexString(ValueFUD(EnergyReadingColorStr));
+    
+    NSArray *array = [BXTGlobal yearAndmonthAndDay];
+    self.yearStr = array[0];
+    
+    self.yearArray = [[NSMutableArray alloc] init];
+    for (int i = 2001; i<=[self.yearStr intValue]; i++) {
+        [self.yearArray addObject:[NSString stringWithFormat:@"%d", i]];
+    }
 }
 
 #pragma mark -
@@ -113,8 +128,116 @@
 }
 
 #pragma mark -
+#pragma mark - createYearPickerView
+- (void)createYearPickerView
+{
+    // bgView
+    UIView *bgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    bgView.tag = 103;
+    [self.view addSubview:bgView];
+    
+    
+    // headerView
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(40, (SCREEN_HEIGHT - headerViewH) / 2, SCREEN_WIDTH - 80, headerViewH)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    headerView.layer.cornerRadius = 5;
+    [bgView addSubview:headerView];
+    
+    
+    CGFloat headerViewW = headerView.frame.size.width;
+    // titleLabel
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, headerViewW, 30)];
+    titleLabel.text = @"选择时间";
+    titleLabel.textColor = colorWithHexString(@"333333");
+    titleLabel.font = [UIFont systemFontOfSize:18.f];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [headerView addSubview:titleLabel];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 44, headerViewW, 1)];
+    line.backgroundColor = colorWithHexString(@"e2e6e8");
+    [headerView addSubview:line];
+    
+    
+    // self.yearPickerView
+    self.yearPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40, headerViewW, 162)];
+    self.yearPickerView.delegate = self;
+    self.yearPickerView.dataSource = self;
+    [headerView addSubview:self.yearPickerView];
+    
+    NSInteger index = [self.yearStr integerValue] - 2001;
+    self.yearStr = self.yearArray[index];
+    [self.yearPickerView selectRow:index inComponent:0 animated:YES];
+    
+    
+    // 按钮
+    UIButton *cancelBtn = [self createButtonWithTitle:@"取消" btnX:10 tilteColor:@"#FFFFFF"];
+    [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        if (_yearPickerView)
+        {
+            [_yearPickerView removeFromSuperview];
+            _yearPickerView = nil;
+        }
+        [bgView removeFromSuperview];
+    }];
+    [headerView addSubview:cancelBtn];
+    
+    self.commitBtn = [self createButtonWithTitle:@"确定" btnX:headerViewW / 2 + 5  tilteColor:@"#5DAFF9"];
+    [[self.commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        if (_yearPickerView)
+        {
+            [_yearPickerView removeFromSuperview];
+            _yearPickerView = nil;
+        }
+        [bgView removeFromSuperview];
+    }];
+    [headerView addSubview:self.commitBtn];
+}
+
+#pragma mark -
+#pragma mark - UIPickerView代理方法
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return self.yearArray.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return self.yearArray[row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    self.yearStr = self.yearArray[row];
+    //    NSLog(@"title ------ %@", self.yearStr);
+}
+
+#pragma mark -
+#pragma mark - other
+- (UIButton *)createButtonWithTitle:(NSString *)titleStr btnX:(CGFloat)btnX tilteColor:(NSString *)colorStr
+{
+    UIButton *newMeterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    newMeterBtn.frame = CGRectMake(btnX, headerViewH - 50, (SCREEN_WIDTH - 80 - 30) / 2, 40);
+    [newMeterBtn setBackgroundColor:colorWithHexString(colorStr)];
+    [newMeterBtn setTitle:titleStr forState:UIControlStateNormal];
+    newMeterBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+    newMeterBtn.layer.borderWidth = 1;
+    if ([colorStr isEqualToString:@"#FFFFFF"]) {
+        [newMeterBtn setTitleColor:colorWithHexString(@"#5DAFF9") forState:UIControlStateNormal];
+    }
+    newMeterBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
+    newMeterBtn.layer.cornerRadius = 5;
+    
+    return newMeterBtn;
+}
+
+#pragma mark -
 #pragma mark - TimerFilter
-- (void)createDatePickerIsStart:(BOOL)isStart
+- (void)createDatePickerWithType:(NSInteger)pickerType
 {
     // bgView
     UIView *bgView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -130,10 +253,7 @@
     
     // titleLabel
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 80, 30)];
-    titleLabel.text = @"开始时间";
-    if (!isStart) {
-        titleLabel.text = @"结束时间";
-    }
+    titleLabel.text = [self getPickerTypeString:pickerType];
     titleLabel.font = [UIFont systemFontOfSize:16.f];
     [headerView addSubview:titleLabel];
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49, SCREEN_WIDTH, 1)];
@@ -203,6 +323,17 @@
     [toolView addSubview:self.sureBtn];
 }
 
+- (NSString *)getPickerTypeString:(PickerType)pickerType {
+    NSString *titleStr;
+    switch (pickerType) {
+        case PickerTypeOFStart: titleStr = @"开始时间"; break;
+        case PickerTypeOFEnd: titleStr = @"结束时间"; break;
+        case PickerTypeOFRange: titleStr = @"时间范围"; break;
+        default: break;
+    }
+    return titleStr;
+}
+
 // 时间戳转换成 2015年11月27日 星期五 格式
 - (NSString*)weekdayStringFromDate:(NSDate*)inputDate
 {
@@ -226,6 +357,38 @@
         }
         [view removeFromSuperview];
     }
+    else if (view.tag == 103)
+    {
+        if (_yearPickerView)
+        {
+            [_yearPickerView removeFromSuperview];
+            _yearPickerView = nil;
+        }
+        [view removeFromSuperview];
+    }
+}
+
+//计量表接口，添加一个返回字段：check_price_type
+//值 ：1-6
+//1.手动，单一
+//2.手动，峰谷
+//3.手动，阶梯
+//4.自动，单一
+//5.自动，峰谷
+//6.自动，阶梯
+- (UIImage *)returnIconImageWithCheckPriceType:(NSString *)check_price_type
+{
+    NSString *imageStr;
+    switch ([check_price_type integerValue]) {
+        case 1: imageStr = @"energy_Manual_single"; break;
+        case 2: imageStr = @"energy_Manual_Gu_Feng"; break;
+        case 3: imageStr = @"energy_Manual_ladder"; break;
+        case 4: imageStr = @"energy_Automatic_Translation"; break;
+        case 5: imageStr = @"energy_Automatic_valley"; break;
+        case 6: imageStr = @"energy_Automatic_ladder"; break;
+        default: break;
+    }
+    return [UIImage imageNamed:imageStr];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -59,13 +59,6 @@
                         <constraint firstAttribute="height" constant="0.5" id="6Fh-hI-FKa"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Soy-oV-e4H">
-                    <rect key="frame" x="0.0" y="0.0" width="355" height="100"/>
-                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <state key="normal">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VCG-Xq-zkG">
                     <rect key="frame" x="0.0" y="100" width="355" height="99.5"/>
                     <subviews>
@@ -115,7 +108,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5F-aI-tw9">
-                            <rect key="frame" x="80" y="52" width="265" height="47.5"/>
+                            <rect key="frame" x="80" y="52" width="265" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="c0n-A3-wce"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -140,7 +136,19 @@
                         <constraint firstAttribute="bottom" secondItem="h5F-aI-tw9" secondAttribute="bottom" id="tOy-UQ-kNf"/>
                         <constraint firstAttribute="trailing" secondItem="0xN-X5-eXB" secondAttribute="trailing" constant="10" id="vII-KA-xo9"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="tOy-UQ-kNf"/>
+                        </mask>
+                    </variation>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Soy-oV-e4H">
+                    <rect key="frame" x="0.0" y="0.0" width="355" height="100"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <state key="normal">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -174,7 +182,14 @@
             <connections>
                 <outlet property="bgFooterView" destination="VCG-Xq-zkG" id="q8E-xF-Rcd"/>
                 <outlet property="bgViewBtn" destination="Soy-oV-e4H" id="Wbu-5e-dpY"/>
+                <outlet property="codeView" destination="Si8-sT-8mI" id="Eqy-GY-ceX"/>
+                <outlet property="iconImageView" destination="YbM-GX-ZmR" id="R2O-7r-9uy"/>
                 <outlet property="openImage" destination="ovk-J4-fgm" id="5T6-WQ-ML0"/>
+                <outlet property="rangeView" destination="h5F-aI-tw9" id="jKN-Ss-8DK"/>
+                <outlet property="rateView" destination="dfu-UB-Ka0" id="qlV-zW-J9z"/>
+                <outlet property="serviceView" destination="veW-kB-xsn" id="WoN-ww-yGA"/>
+                <outlet property="setPlaceView" destination="0xN-X5-eXB" id="BZ1-ld-Iqi"/>
+                <outlet property="titleView" destination="BES-Sh-nYR" id="ctI-Dm-tcN"/>
             </connections>
         </view>
     </objects>

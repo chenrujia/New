@@ -100,7 +100,7 @@
     // 起始日期
     [[cell.startTimeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self createDatePickerIsStart:YES];
+        [self createDatePickerWithType:PickerTypeOFStart];
         [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             self.startTimeStr = self.timeStr;
             [cell.startTimeBtn setTitle:self.startTimeStr forState:UIControlStateNormal];
@@ -109,7 +109,7 @@
     // 结束日期
     [[cell.endTimeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self createDatePickerIsStart:NO];
+        [self createDatePickerWithType:PickerTypeOFEnd];
         [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             self.endTimeStr = self.timeStr;
             [cell.endTimeBtn setTitle:self.endTimeStr forState:UIControlStateNormal];

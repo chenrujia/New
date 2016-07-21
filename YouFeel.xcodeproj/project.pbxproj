@@ -96,6 +96,7 @@
 		782D6BC41C0D6CFC00E1828F /* SPChartUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BBE1C0D6CFC00E1828F /* SPChartUtil.m */; };
 		782D6BC51C0D6CFC00E1828F /* SPChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BC01C0D6CFC00E1828F /* SPChartView.m */; };
 		782D6BD31C0D88B300E1828F /* SPChartPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BD21C0D88B300E1828F /* SPChartPopup.m */; };
+		78328DE71D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 78328DE61D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.m */; };
 		783493B11CD0622000748BAC /* BMDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 783493AF1CD0622000748BAC /* BMDatePickerView.m */; };
 		783493B21CD0622000748BAC /* BMDatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 783493B01CD0622000748BAC /* BMDatePickerView.xib */; };
 		78352A011CA0DD5E005134B6 /* BXTReaciveOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78352A001CA0DD5E005134B6 /* BXTReaciveOrdersViewController.m */; };
@@ -193,6 +194,8 @@
 		7851A0321CA3C60900255B8A /* SegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A02F1CA3C60900255B8A /* SegmentView.m */; };
 		7851A0351CA3C66300255B8A /* BXTSubgroupInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0341CA3C66300255B8A /* BXTSubgroupInfo.m */; };
 		7851A0381CA3CBD000255B8A /* BXTPlaceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */; };
+		785389F91D4077D3007D2369 /* BXTMeterReadingRecordListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 785389F81D4077D3007D2369 /* BXTMeterReadingRecordListInfo.m */; };
+		7854C4CA1D3F75B600185C57 /* BXTMeterReadingRecordMonthListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7854C4C91D3F75B600185C57 /* BXTMeterReadingRecordMonthListInfo.m */; };
 		78624F281D2B83F20024215F /* BXTHistogramStatisticsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F211D2B83F20024215F /* BXTHistogramStatisticsView.m */; };
 		78624F291D2B83F20024215F /* BXTHistogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F231D2B83F20024215F /* BXTHistogramView.m */; };
 		78624F2B1D2B83F20024215F /* NSDate+Escort.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F271D2B83F20024215F /* NSDate+Escort.m */; };
@@ -646,6 +649,8 @@
 		782D6BC01C0D6CFC00E1828F /* SPChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPChartView.m; sourceTree = "<group>"; };
 		782D6BD11C0D88B300E1828F /* SPChartPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPChartPopup.h; sourceTree = "<group>"; };
 		782D6BD21C0D88B300E1828F /* SPChartPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPChartPopup.m; sourceTree = "<group>"; };
+		78328DE51D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingRecordDayListInfo.h; sourceTree = "<group>"; };
+		78328DE61D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingRecordDayListInfo.m; sourceTree = "<group>"; };
 		783493AE1CD0622000748BAC /* BMDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDatePickerView.h; sourceTree = "<group>"; };
 		783493AF1CD0622000748BAC /* BMDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDatePickerView.m; sourceTree = "<group>"; };
 		783493B01CD0622000748BAC /* BMDatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BMDatePickerView.xib; sourceTree = "<group>"; };
@@ -754,8 +759,8 @@
 		7848907B1D3734D700C1106D /* BXTMeterReadingDailyDetailFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingDailyDetailFilterView.h; sourceTree = "<group>"; };
 		7848907C1D3734D700C1106D /* BXTMeterReadingDailyDetailFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingDailyDetailFilterView.m; sourceTree = "<group>"; };
 		7848907D1D3734D700C1106D /* BXTMeterReadingDailyDetailFilterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMeterReadingDailyDetailFilterView.xib; sourceTree = "<group>"; };
-		784890801D3734D700C1106D /* BXTEnergyBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyBaseViewController.h; sourceTree = "<group>"; };
-		784890811D3734D700C1106D /* BXTEnergyBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyBaseViewController.m; sourceTree = "<group>"; };
+		784890801D3734D700C1106D /* BXTEnergyBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BXTEnergyBaseViewController.h; path = Controllers/BXTEnergyBaseViewController.h; sourceTree = "<group>"; };
+		784890811D3734D700C1106D /* BXTEnergyBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BXTEnergyBaseViewController.m; path = Controllers/BXTEnergyBaseViewController.m; sourceTree = "<group>"; };
 		784890821D3734D700C1106D /* BXTMeterReadingRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingRecordViewController.h; sourceTree = "<group>"; };
 		784890831D3734D700C1106D /* BXTMeterReadingRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingRecordViewController.m; sourceTree = "<group>"; };
 		784890861D3734D700C1106D /* BXTMeterReadingHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingHeaderView.h; sourceTree = "<group>"; };
@@ -813,6 +818,10 @@
 		7851A0341CA3C66300255B8A /* BXTSubgroupInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSubgroupInfo.m; sourceTree = "<group>"; };
 		7851A0361CA3CBD000255B8A /* BXTPlaceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPlaceInfo.h; sourceTree = "<group>"; };
 		7851A0371CA3CBD000255B8A /* BXTPlaceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPlaceInfo.m; sourceTree = "<group>"; };
+		785389F71D4077D3007D2369 /* BXTMeterReadingRecordListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingRecordListInfo.h; sourceTree = "<group>"; };
+		785389F81D4077D3007D2369 /* BXTMeterReadingRecordListInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingRecordListInfo.m; sourceTree = "<group>"; };
+		7854C4C81D3F75B600185C57 /* BXTMeterReadingRecordMonthListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingRecordMonthListInfo.h; sourceTree = "<group>"; };
+		7854C4C91D3F75B600185C57 /* BXTMeterReadingRecordMonthListInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingRecordMonthListInfo.m; sourceTree = "<group>"; };
 		78624F201D2B83F20024215F /* BXTHistogramStatisticsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHistogramStatisticsView.h; sourceTree = "<group>"; };
 		78624F211D2B83F20024215F /* BXTHistogramStatisticsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHistogramStatisticsView.m; sourceTree = "<group>"; };
 		78624F221D2B83F20024215F /* BXTHistogramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHistogramView.h; sourceTree = "<group>"; };
@@ -2330,6 +2339,8 @@
 		784890791D3734D700C1106D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				78328DE51D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.h */,
+				78328DE61D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2347,6 +2358,8 @@
 		7848907E1D3734D700C1106D /* MeterReadingRecord */ = {
 			isa = PBXGroup;
 			children = (
+				784890801D3734D700C1106D /* BXTEnergyBaseViewController.h */,
+				784890811D3734D700C1106D /* BXTEnergyBaseViewController.m */,
 				7848907F1D3734D700C1106D /* Controllers */,
 				784890841D3734D700C1106D /* Models */,
 				784890851D3734D700C1106D /* Views */,
@@ -2357,8 +2370,6 @@
 		7848907F1D3734D700C1106D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				784890801D3734D700C1106D /* BXTEnergyBaseViewController.h */,
-				784890811D3734D700C1106D /* BXTEnergyBaseViewController.m */,
 				784890821D3734D700C1106D /* BXTMeterReadingRecordViewController.h */,
 				784890831D3734D700C1106D /* BXTMeterReadingRecordViewController.m */,
 			);
@@ -2368,6 +2379,10 @@
 		784890841D3734D700C1106D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7854C4C81D3F75B600185C57 /* BXTMeterReadingRecordMonthListInfo.h */,
+				7854C4C91D3F75B600185C57 /* BXTMeterReadingRecordMonthListInfo.m */,
+				785389F71D4077D3007D2369 /* BXTMeterReadingRecordListInfo.h */,
+				785389F81D4077D3007D2369 /* BXTMeterReadingRecordListInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5189,6 +5204,7 @@
 				967C3D4A1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.m in Sources */,
 				7818DBDD1C0824D800DC22C6 /* PNChartLabel.m in Sources */,
 				782AD4D91C5A12BD00A1C4D8 /* GTMBase64.m in Sources */,
+				7854C4CA1D3F75B600185C57 /* BXTMeterReadingRecordMonthListInfo.m in Sources */,
 				7867DCF51C4CBDAA000749F1 /* BXTExaminationViewController.m in Sources */,
 				7829DDB61CABDF3F00255469 /* BXTRepairsListViewController.m in Sources */,
 				96D3D5051CA4DE74009F91EB /* BXTCustomButton.m in Sources */,
@@ -5243,6 +5259,7 @@
 				9652AC351BC90EC9009A666D /* LocalPhotoViewController.m in Sources */,
 				96E6F57A1D124F91006FB64E /* UIView+GJRedDot.m in Sources */,
 				969701F21C88109D0048391F /* BXTDeviceStateViewController.m in Sources */,
+				78328DE71D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.m in Sources */,
 				9652AB461BC90791009A666D /* AssetHelper.m in Sources */,
 				96704FBC1CB63EFB00696788 /* BXTButtonInfo.m in Sources */,
 				9652ABF21BC90DCC009A666D /* AutoCoding.m in Sources */,
@@ -5345,6 +5362,7 @@
 				96B25AC81CD1AB6C000C350F /* BXTNewWorkOrderViewController.m in Sources */,
 				783E6C2B1C51BFF400DC13FB /* BXTFaultInfo.m in Sources */,
 				7837A59C1CAD0572000A1986 /* BXTMessageViewController.m in Sources */,
+				785389F91D4077D3007D2369 /* BXTMeterReadingRecordListInfo.m in Sources */,
 				7893D8DB1C7ADA8000F042D5 /* BXTCompletionViewController.m in Sources */,
 				78C55A651C47339700FFEB37 /* BXTCurrentOrderData.m in Sources */,
 				7818DBD41C0824D800DC22C6 /* BarChatItemView.m in Sources */,

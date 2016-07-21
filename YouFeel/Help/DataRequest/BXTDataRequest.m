@@ -1270,6 +1270,39 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)energyMeterRecordMonthListsWithAboutID:(NSString *)aboutID
+                                          year:(NSString *)year
+{
+    self.requestType = EnergyMeterRecordMonthLists;
+    NSDictionary *dic = @{@"id": aboutID,
+                          @"year": year,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_record_month_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)energyMeterRecordDayListsWithAboutID:(NSString *)aboutID
+                                        date:(NSString *)date
+{
+    self.requestType = EnergyMeterRecordDayLists;
+    NSDictionary *dic = @{@"id": aboutID,
+                          @"date": date,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_record_day_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)energyMeterRecordListsWithAboutID:(NSString *)aboutID
+                                     date:(NSString *)date
+{
+    self.requestType = EnergyMeterRecordLists;
+    NSDictionary *dic = @{@"id": aboutID,
+                          @"date": date,
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_record_lists",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)energyMeterDetailWithID:(NSString *)meterDetailID
 {
     self.requestType = EnergyMeterDetail;

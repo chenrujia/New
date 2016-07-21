@@ -12,7 +12,7 @@
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
-    static NSString *cellID = @"cell";
+    static NSString *cellID = @"MeterReadingListCell";
     BXTMeterReadingListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingListCell" owner:nil options:nil] lastObject];

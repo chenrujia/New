@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTMeterReadingRecordListInfo.h"
 
 @interface BXTMeterReadingTimeCell : UITableViewCell
 
@@ -28,6 +29,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *temperatureView;
 @property (weak, nonatomic) IBOutlet UILabel *humidityView;
 @property (weak, nonatomic) IBOutlet UILabel *windForceView;
+
+@property (nonatomic, strong) BXTRecordListsInfo *lists;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

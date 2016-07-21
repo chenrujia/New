@@ -36,8 +36,7 @@
         self.currentTable.delegate = self;
         self.currentTable.dataSource = self;
         [self addSubview:self.currentTable];
-        
-        
+
     }
     return self;
 }

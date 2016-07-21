@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "BXTHeaderFile.h"
 
+typedef NS_ENUM(NSInteger, PickerType) {
+    PickerTypeOFStart = 1,
+    PickerTypeOFEnd,
+    PickerTypeOFRange
+};
+
 @interface BXTEnergyBaseViewController : UIViewController
 
 /**
@@ -27,8 +33,17 @@
 
 - (void)navigationRightButton2;
 
-- (void)createDatePickerIsStart:(BOOL)isStart;
+/** ---- 时间选择 ---- */
+- (void)createDatePickerWithType:(NSInteger)pickerType;
 @property (nonatomic, strong) UIButton *sureBtn;
 @property (nonatomic, copy) NSString *timeStr;
+
+/** ---- 年份选择 ---- */
+- (void)createYearPickerView;
+@property (nonatomic, strong) UIButton *commitBtn;
+@property (nonatomic, copy) NSString *yearStr;
+
+/** ---- 判断显示图 ---- */
+- (UIImage *)returnIconImageWithCheckPriceType:(NSString *)check_price_type;
 
 @end

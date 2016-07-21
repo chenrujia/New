@@ -12,6 +12,7 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import "BXTEnergyMeterListInfo.h"
 #import "BXTEnergyRecordTableViewCell.h"
+#import "BXTMeterReadingRecordViewController.h"
 
 @interface BXTEnergyReadingSearchViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, UISearchBarDelegate, BXTDataResponseDelegate>
 
@@ -133,6 +134,14 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    if ([BXTGlobal isBlankString:searchText]) {
+        if (self.dataArray.count != 0) {
+            [self.dataArray removeAllObjects];
+        }
+        [self.tableView reloadData];
+        
+        return;
+    }
     [self getResourceWithPushType:self.transPushType SearchName:searchText];
 }
 
@@ -173,12 +182,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
+    BXTEnergyMeterListInfo *listInfo = self.dataArray[indexPath.row];
+    mrrvc.transID = listInfo.energyMeterID;
+    [self.navigationController pushViewController:mrrvc animated:YES];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    
-    BXTEnergyMeterListInfo *model = self.dataArray[indexPath.row];
-    NSLog(@"--------%@", model.code_number);
-    
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.view endEditing:YES];
 }
 
 - (void)refreshAllInformWithShopID:(NSString *)shopID shopAddress:(NSString *)shopAddress {

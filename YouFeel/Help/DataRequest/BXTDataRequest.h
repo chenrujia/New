@@ -104,6 +104,9 @@ typedef NS_ENUM(NSInteger, RequestType) {
     EnergyMeterRecordFile = 91,
     EnergyMeterRecordAdd = 92,
     EnergyMeterRecordCalculate = 93,
+    EnergyMeterRecordMonthLists = 94,
+    EnergyMeterRecordDayLists = 95,
+    EnergyMeterRecordLists = 96,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -756,6 +759,24 @@ typedef NS_ENUM(NSInteger, RepairListType)
                                checkType:(NSString *)check_type
                                     page:(NSInteger)page
                               searchName:(NSString *)search_name;
+
+/**
+ *  计量表 - 抄表记录，月
+ */
+- (void)energyMeterRecordMonthListsWithAboutID:(NSString *)aboutID
+                                          year:(NSString *)year;
+
+/**
+ *  计量表 - 抄表记录，日
+ */
+- (void)energyMeterRecordDayListsWithAboutID:(NSString *)aboutID
+                                        date:(NSString *)date;
+
+/**
+ *  计量表 - 抄表记录，列表
+ */
+- (void)energyMeterRecordListsWithAboutID:(NSString *)aboutID
+                                     date:(NSString *)date;
 
 /**
  *  计量表详情
