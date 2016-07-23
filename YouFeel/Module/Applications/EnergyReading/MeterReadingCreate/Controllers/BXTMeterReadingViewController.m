@@ -280,6 +280,7 @@
         return cell;
     }
     
+    
     BXTMeterReadingListCell *cell = [BXTMeterReadingListCell cellWithTableView:tableView];
     
     // 初始化
