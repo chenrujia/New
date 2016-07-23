@@ -30,6 +30,7 @@
 @property (nonatomic, copy) NSString *pricing_scheme_id;
 @property (nonatomic, copy) NSString *rate;
 @property (nonatomic, copy) NSString *unit;
+@property (nonatomic, copy) NSString *is_peak_segment;
 
 @property (nonatomic, strong) BXTMeterReadingLastList *last;
 

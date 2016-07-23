@@ -63,5 +63,9 @@
 @property (nonatomic, copy) NSString *total_pic;
 @property (nonatomic, copy) NSString *peak_period_num;
 
+@property (nonatomic, copy) NSString *temperature;
+@property (nonatomic, copy) NSString *humidity;
+@property (nonatomic, copy) NSString *wind_force;
+
 @end
 

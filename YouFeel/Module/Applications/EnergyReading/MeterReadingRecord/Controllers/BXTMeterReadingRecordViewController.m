@@ -252,6 +252,13 @@
         @strongify(self);
         BXTMeterReadingViewController *mrvc = [[BXTMeterReadingViewController alloc] init];
         mrvc.transID = self.transID;
+        mrvc.delegateSignal = [RACSubject subject];
+        [mrvc.delegateSignal subscribeNext:^(id x) {
+            @strongify(self);
+            self.timeStr = @"";
+            [self.filterView_list.timeBtn setTitle:@"年/月/日" forState:UIControlStateNormal];
+            [self getResourceShowMonthChartView:NO];
+        }];
         [self.navigationController pushViewController:mrvc animated:YES];
     }];
     [self.footerView addSubview:newMeterBtn];

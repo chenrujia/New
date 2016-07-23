@@ -42,6 +42,7 @@
 @property (nonatomic, strong) UITableView       *chooseTableView;
 @property (nonatomic, strong) UIScrollView      *scrollerView;
 
+/** ---- 1电、2水、3燃气、4热能 ---- */
 @property (nonatomic, assign) NSInteger btnTag;
 @property (nonatomic, copy) NSString *checkType;
 @property (nonatomic, copy) NSString *priceType;
@@ -547,7 +548,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO: -----------------  调试  -----------------
     if (tableView.tag == METERTABLETAG)
     {
         NSLog(@"------------ %@", self.meterArray[indexPath.row]);

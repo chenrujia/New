@@ -41,9 +41,9 @@
     self.valleyValueView.text = lists.valley_section_num;
     self.valleyNumView.text = lists.valley_section_amount;
     
-    self.temperatureView.text = lists.peak_segment_num;
-    self.humidityView.text = lists.peak_segment_num;
-    self.windForceView.text = lists.peak_segment_num;
+    self.temperatureView.text = [NSString stringWithFormat:@"%2.ld℃", [lists.temperature integerValue]];
+    self.humidityView.text = [NSString stringWithFormat:@"%@%%rh", lists.humidity];
+    self.windForceView.text = [NSString stringWithFormat:@"%@级", lists.wind_force];
 }
 
 - (void)awakeFromNib {

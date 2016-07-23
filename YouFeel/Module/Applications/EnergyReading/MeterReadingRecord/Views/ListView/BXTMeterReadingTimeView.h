@@ -11,6 +11,8 @@
 
 @interface BXTMeterReadingTimeView : UIView
 
+@property (weak, nonatomic) IBOutlet UILabel *timeView;
+
 @property (weak, nonatomic) IBOutlet UIView *roundView;
 
 @property (weak, nonatomic) IBOutlet UIView *showView;
