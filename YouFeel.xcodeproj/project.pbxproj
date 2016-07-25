@@ -262,6 +262,7 @@
 		786DB5141CB3939F003DA314 /* BXTRankingData.m in Sources */ = {isa = PBXBuildFile; fileRef = 786DB5131CB3939F003DA314 /* BXTRankingData.m */; };
 		787B3ACC1CC4DE58002E1A73 /* BXTDailyOrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 787B3ACB1CC4DE58002E1A73 /* BXTDailyOrderListViewController.m */; };
 		787B3ACF1CC4DF0F002E1A73 /* BXTDOFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 787B3ACE1CC4DF0F002E1A73 /* BXTDOFilterViewController.m */; };
+		787CF5421D45AC3A00F903CD /* BXTEnergyReadingFilterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 787CF5411D45AC3A00F903CD /* BXTEnergyReadingFilterInfo.m */; };
 		788FACEF1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 788FACEE1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.m */; };
 		788FACF21CEF135000F142A4 /* BXTPlaceListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 788FACF11CEF135000F142A4 /* BXTPlaceListInfo.m */; };
 		7893D88C1C7AA6CD00F042D5 /* BXTStatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7867DC721C4CBB47000749F1 /* BXTStatisticsViewController.m */; };
@@ -947,6 +948,8 @@
 		787B3ACB1CC4DE58002E1A73 /* BXTDailyOrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDailyOrderListViewController.m; sourceTree = "<group>"; };
 		787B3ACD1CC4DF0F002E1A73 /* BXTDOFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDOFilterViewController.h; sourceTree = "<group>"; };
 		787B3ACE1CC4DF0F002E1A73 /* BXTDOFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDOFilterViewController.m; sourceTree = "<group>"; };
+		787CF5401D45AC3A00F903CD /* BXTEnergyReadingFilterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyReadingFilterInfo.h; sourceTree = "<group>"; };
+		787CF5411D45AC3A00F903CD /* BXTEnergyReadingFilterInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyReadingFilterInfo.m; sourceTree = "<group>"; };
 		788FACED1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCertificationCompleteViewController.h; sourceTree = "<group>"; };
 		788FACEE1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCertificationCompleteViewController.m; sourceTree = "<group>"; };
 		788FACF01CEF135000F142A4 /* BXTPlaceListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPlaceListInfo.h; sourceTree = "<group>"; };
@@ -2261,6 +2264,8 @@
 			children = (
 				784890541D3734D700C1106D /* BXTEnergyMeterListInfo.h */,
 				784890551D3734D700C1106D /* BXTEnergyMeterListInfo.m */,
+				787CF5401D45AC3A00F903CD /* BXTEnergyReadingFilterInfo.h */,
+				787CF5411D45AC3A00F903CD /* BXTEnergyReadingFilterInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5369,6 +5374,7 @@
 				96C684941BE76B4B0038A342 /* HCollectionViewCell.m in Sources */,
 				784890C71D3734D700C1106D /* BXTEnergyBaseViewController.m in Sources */,
 				7818DBE11C0824D800DC22C6 /* PNLineChart.m in Sources */,
+				787CF5421D45AC3A00F903CD /* BXTEnergyReadingFilterInfo.m in Sources */,
 				9690366B1CBF2E850036A33A /* BXTMenViewController.m in Sources */,
 				7867DDAD1C4CBEE9000749F1 /* BXTDetailBaseViewController.m in Sources */,
 				783DDA5E1C3FD45C0035B927 /* BXTQRCodeViewController.m in Sources */,
