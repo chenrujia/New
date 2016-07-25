@@ -81,51 +81,51 @@
     [self.scrollView addSubview:self.headerView];
     
     
-    // BXTHistogramStatisticsView
-    //50° ~ -50°
-    NSArray *temperatureArray = @[@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f)];
-    //0 ~ 100%rh
-    NSArray *humidityArray = @[@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f)];
-    //0 ~ 10级
-    NSArray *windPowerArray = @[@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f)];
-    //0 ~ 1000kwh
-    NSArray *totalEnergyArray = @[@[@(800.f),@(600.f),@(400.f)],
-                                  @[@(500.f),@(300.f),@(200.f)],
-                                  @[@(700.f),@(500.f),@(200.f)],
-                                  @[@(900.f),@(700.f),@(500.f)],
-                                  @[@(600.f),@(300.f),@(200.f)],
-                                  @[@(1000.f),@(600.f),@(300.f)],
-                                  @[@(800.f),@(600.f),@(400.f)],
-                                  @[@(500.f),@(300.f),@(200.f)],
-                                  @[@(700.f),@(500.f),@(200.f)],
-                                  @[@(900.f),@(700.f),@(500.f)],
-                                  @[@(600.f),@(300.f),@(200.f)],
-                                  @[@(1000.f),@(600.f),@(300.f)],
-                                  @[@(800.f),@(600.f),@(400.f)],
-                                  @[@(500.f),@(300.f),@(200.f)],
-                                  @[@(700.f),@(500.f),@(200.f)],
-                                  @[@(900.f),@(700.f),@(500.f)],
-                                  @[@(600.f),@(300.f),@(200.f)],
-                                  @[@(1000.f),@(600.f),@(300.f)],
-                                  @[@(800.f),@(600.f),@(400.f)],
-                                  @[@(500.f),@(300.f),@(200.f)],
-                                  @[@(700.f),@(500.f),@(200.f)],
-                                  @[@(900.f),@(700.f),@(500.f)],
-                                  @[@(600.f),@(300.f),@(200.f)],
-                                  @[@(1000.f),@(600.f),@(300.f)],
-                                  @[@(800.f),@(600.f),@(400.f)],
-                                  @[@(500.f),@(300.f),@(200.f)],
-                                  @[@(700.f),@(500.f),@(200.f)],
-                                  @[@(900.f),@(700.f),@(500.f)],
-                                  @[@(600.f),@(300.f),@(200.f)],
-                                  @[@(1000.f),@(600.f),@(300.f)]];
-    
-    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10,  CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) temperatureArray:temperatureArray humidityArray:humidityArray windPowerArray:windPowerArray totalEnergyArray:totalEnergyArray];
-    self.hisView.backgroundColor = [UIColor whiteColor];
-    self.hisView.layer.masksToBounds = YES;
-    self.hisView.layer.cornerRadius = 10.f;
-    self.hisView.footerView.checkDetailBtn.hidden = YES;
-    [self.scrollView addSubview:self.hisView];
+//    // BXTHistogramStatisticsView
+//    //50° ~ -50°
+//    NSArray *temperatureArray = @[@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f)];
+//    //0 ~ 100%rh
+//    NSArray *humidityArray = @[@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f)];
+//    //0 ~ 10级
+//    NSArray *windPowerArray = @[@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f)];
+//    //0 ~ 1000kwh
+//    NSArray *totalEnergyArray = @[@[@(800.f),@(600.f),@(400.f)],
+//                                  @[@(500.f),@(300.f),@(200.f)],
+//                                  @[@(700.f),@(500.f),@(200.f)],
+//                                  @[@(900.f),@(700.f),@(500.f)],
+//                                  @[@(600.f),@(300.f),@(200.f)],
+//                                  @[@(1000.f),@(600.f),@(300.f)],
+//                                  @[@(800.f),@(600.f),@(400.f)],
+//                                  @[@(500.f),@(300.f),@(200.f)],
+//                                  @[@(700.f),@(500.f),@(200.f)],
+//                                  @[@(900.f),@(700.f),@(500.f)],
+//                                  @[@(600.f),@(300.f),@(200.f)],
+//                                  @[@(1000.f),@(600.f),@(300.f)],
+//                                  @[@(800.f),@(600.f),@(400.f)],
+//                                  @[@(500.f),@(300.f),@(200.f)],
+//                                  @[@(700.f),@(500.f),@(200.f)],
+//                                  @[@(900.f),@(700.f),@(500.f)],
+//                                  @[@(600.f),@(300.f),@(200.f)],
+//                                  @[@(1000.f),@(600.f),@(300.f)],
+//                                  @[@(800.f),@(600.f),@(400.f)],
+//                                  @[@(500.f),@(300.f),@(200.f)],
+//                                  @[@(700.f),@(500.f),@(200.f)],
+//                                  @[@(900.f),@(700.f),@(500.f)],
+//                                  @[@(600.f),@(300.f),@(200.f)],
+//                                  @[@(1000.f),@(600.f),@(300.f)],
+//                                  @[@(800.f),@(600.f),@(400.f)],
+//                                  @[@(500.f),@(300.f),@(200.f)],
+//                                  @[@(700.f),@(500.f),@(200.f)],
+//                                  @[@(900.f),@(700.f),@(500.f)],
+//                                  @[@(600.f),@(300.f),@(200.f)],
+//                                  @[@(1000.f),@(600.f),@(300.f)]];
+//    //TODO:12000是假数据！！！！
+//    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10,  CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) temperatureArray:temperatureArray humidityArray:humidityArray windPowerArray:windPowerArray totalEnergyArray:totalEnergyArray kwhMeasure:12000 kwhNumber:6];
+//    self.hisView.backgroundColor = [UIColor whiteColor];
+//    self.hisView.layer.masksToBounds = YES;
+//    self.hisView.layer.cornerRadius = 10.f;
+//    self.hisView.footerView.checkDetailBtn.hidden = YES;
+//    [self.scrollView addSubview:self.hisView];
     
     
     // footerView

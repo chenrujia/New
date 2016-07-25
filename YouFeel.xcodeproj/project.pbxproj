@@ -198,7 +198,6 @@
 		7854C4CA1D3F75B600185C57 /* BXTMeterReadingRecordMonthListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7854C4C91D3F75B600185C57 /* BXTMeterReadingRecordMonthListInfo.m */; };
 		78624F281D2B83F20024215F /* BXTHistogramStatisticsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F211D2B83F20024215F /* BXTHistogramStatisticsView.m */; };
 		78624F291D2B83F20024215F /* BXTHistogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F231D2B83F20024215F /* BXTHistogramView.m */; };
-		78624F2B1D2B83F20024215F /* NSDate+Escort.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F271D2B83F20024215F /* NSDate+Escort.m */; };
 		78624F2E1D2B8C830024215F /* BXTHistogramFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78624F2D1D2B8C830024215F /* BXTHistogramFooterView.m */; };
 		78624F301D2B8C960024215F /* BXTHistogramFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78624F2F1D2B8C960024215F /* BXTHistogramFooterView.xib */; };
 		78644F6B1C575D5600D2C4C5 /* BXTDeviceListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 78644F6A1C575D5600D2C4C5 /* BXTDeviceListInfo.m */; };
@@ -827,8 +826,6 @@
 		78624F211D2B83F20024215F /* BXTHistogramStatisticsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHistogramStatisticsView.m; sourceTree = "<group>"; };
 		78624F221D2B83F20024215F /* BXTHistogramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHistogramView.h; sourceTree = "<group>"; };
 		78624F231D2B83F20024215F /* BXTHistogramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHistogramView.m; sourceTree = "<group>"; };
-		78624F261D2B83F20024215F /* NSDate+Escort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Escort.h"; sourceTree = "<group>"; };
-		78624F271D2B83F20024215F /* NSDate+Escort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Escort.m"; sourceTree = "<group>"; };
 		78624F2C1D2B8C830024215F /* BXTHistogramFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTHistogramFooterView.h; sourceTree = "<group>"; };
 		78624F2D1D2B8C830024215F /* BXTHistogramFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTHistogramFooterView.m; sourceTree = "<group>"; };
 		78624F2F1D2B8C960024215F /* BXTHistogramFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTHistogramFooterView.xib; sourceTree = "<group>"; };
@@ -2713,8 +2710,6 @@
 				78624F2C1D2B8C830024215F /* BXTHistogramFooterView.h */,
 				78624F2D1D2B8C830024215F /* BXTHistogramFooterView.m */,
 				78624F2F1D2B8C960024215F /* BXTHistogramFooterView.xib */,
-				78624F261D2B83F20024215F /* NSDate+Escort.h */,
-				78624F271D2B83F20024215F /* NSDate+Escort.m */,
 			);
 			path = HistogramView;
 			sourceTree = "<group>";
@@ -5335,7 +5330,6 @@
 				96B191D31CBB952200F5F6A8 /* BXTPhotosTableViewCell.m in Sources */,
 				7867DC951C4CBB47000749F1 /* BXTStatisticsViewController.m in Sources */,
 				964DE5F31CA930D30064D5D6 /* BXTRepairDetailView.m in Sources */,
-				78624F2B1D2B83F20024215F /* NSDate+Escort.m in Sources */,
 				784890CB1D3734D700C1106D /* BXTMeterReadingFilterView.m in Sources */,
 				7851A0321CA3C60900255B8A /* SegmentView.m in Sources */,
 				786D37351CBBA85E00D307DB /* BXTOtherAffairView.m in Sources */,
