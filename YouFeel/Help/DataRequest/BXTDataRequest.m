@@ -1205,10 +1205,10 @@
                       searchName:(NSString *)search_name
 {
     switch ([type integerValue]) {
-        case 1: self.requestType = EnergyMeterLists1; break;
-        case 2: self.requestType = EnergyMeterLists2; break;
-        case 3: self.requestType = EnergyMeterLists3; break;
-        case 4: self.requestType = EnergyMeterLists4; break;
+        case 1: self.requestType = EnergyMeterListsOne; break;
+        case 2: self.requestType = EnergyMeterListsTwo; break;
+        case 3: self.requestType = EnergyMeterListsThree; break;
+        case 4: self.requestType = EnergyMeterListsFour; break;
         default: break;
     }
     
@@ -1227,10 +1227,10 @@
 - (void)energyMeasuremenLevelListsWithType:(NSString *)type
 {
     switch ([type integerValue]) {
-        case 1: self.requestType = EnergyMeasuremenLevelLists1; break;
-        case 2: self.requestType = EnergyMeasuremenLevelLists2; break;
-        case 3: self.requestType = EnergyMeasuremenLevelLists3; break;
-        case 4: self.requestType = EnergyMeasuremenLevelLists4; break;
+        case 1: self.requestType = EnergyMeasuremenLevelListsOne; break;
+        case 2: self.requestType = EnergyMeasuremenLevelListsTwo; break;
+        case 3: self.requestType = EnergyMeasuremenLevelListsThree; break;
+        case 4: self.requestType = EnergyMeasuremenLevelListsFour; break;
         default: break;
     }
     

@@ -16,6 +16,7 @@
 #import "BXTMeterReadingListView.h"
 #import "BXTEnergyMeterListInfo.h"
 #import "BXTEnergyReadingSearchViewController.h"
+#import "BXTEnergyReadingFilterInfo.h"
 
 #define KBUTTONHEIGHT 46.f
 #define METERTABLETAG 666
@@ -49,10 +50,10 @@
 @property (nonatomic, copy) NSString *placeID;
 @property (nonatomic, copy) NSString *measurementPath;
 
-@property (nonatomic, strong) NSArray *filterArray1;
-@property (nonatomic, strong) NSArray *filterArray2;
-@property (nonatomic, strong) NSArray *filterArray3;
-@property (nonatomic, strong) NSArray *filterArray4;
+@property (nonatomic, strong) NSArray *filterArrayOne;
+@property (nonatomic, strong) NSArray *filterArrayTwo;
+@property (nonatomic, strong) NSArray *filterArrayThree;
+@property (nonatomic, strong) NSArray *filterArrayFour;
 
 @end
 
@@ -68,10 +69,10 @@
     self.priceType = @"";
     self.placeID = @"";
     self.measurementPath = @"";
-    self.filterArray1 = [[NSArray alloc] init];
-    self.filterArray2 = [[NSArray alloc] init];
-    self.filterArray3 = [[NSArray alloc] init];
-    self.filterArray4 = [[NSArray alloc] init];
+    self.filterArrayOne = [[NSArray alloc] init];
+    self.filterArrayTwo = [[NSArray alloc] init];
+    self.filterArrayThree = [[NSArray alloc] init];
+    self.filterArrayFour = [[NSArray alloc] init];
     
     [self initialEnergyClass];
     [self initialSearchBarAndFilter];
@@ -221,7 +222,7 @@
     }];
 }
 
-- (void)initialPlaceOrFilter:(NSArray *)datasource
+- (void)initialPlaceOrFilter:(NSArray *)datasource isFilter:(BOOL)isFilter
 {
     UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
     backView.backgroundColor = [UIColor blackColor];
@@ -237,8 +238,14 @@
     __weak __typeof(self) weakSelf = self;
     self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
         
-        self.placeID = classifyInfo.itemID;
-        [self getResourceWithTag:self.btnTag hasMeasurementList:NO];
+        if (isFilter) {
+            self.measurementPath = classifyInfo.itemID;
+        }
+        else {
+            self.placeID = classifyInfo.itemID;
+        }
+        
+        [self getResourceWithTag:self.btnTag+1 hasMeasurementList:NO];
         NSLog(@"-------------------------- %@", classifyInfo.itemID);
         
         
@@ -321,38 +328,58 @@
 {
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == EnergyMeterLists1)
+    if (type == EnergyMeterListsOne)
     {
         [BXTGlobal hideMBP];
         [self dealData:data tag:LISTVIEWTAG];
     }
-    if (type == EnergyMeterLists2)
+    if (type == EnergyMeterListsTwo)
     {
         [self dealData:data tag:LISTVIEWTAG + 1];
     }
-    if (type == EnergyMeterLists3)
+    if (type == EnergyMeterListsThree)
     {
         [self dealData:data tag:LISTVIEWTAG + 2];
     }
-    if (type == EnergyMeterLists4)
+    if (type == EnergyMeterListsFour)
     {
         [self dealData:data tag:LISTVIEWTAG + 3];
     }
-    if (type == EnergyMeasuremenLevelLists1)
+    if (type == EnergyMeasuremenLevelListsOne)
     {
-        self.filterArray1 = data;
+        NSMutableArray *listArray = [[NSMutableArray alloc] init];
+        [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"filterID":@"id"};
+        }];
+        [listArray addObjectsFromArray:[BXTEnergyReadingFilterInfo mj_objectArrayWithKeyValuesArray:data]];
+        self.filterArrayOne = listArray;
     }
-    if (type == EnergyMeasuremenLevelLists2)
+    if (type == EnergyMeasuremenLevelListsTwo)
     {
-        self.filterArray2 = data;
+        NSMutableArray *listArray = [[NSMutableArray alloc] init];
+        [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"filterID":@"id"};
+        }];
+        [listArray addObjectsFromArray:[BXTEnergyReadingFilterInfo mj_objectArrayWithKeyValuesArray:data]];
+        self.filterArrayTwo = listArray;
     }
-    if (type == EnergyMeasuremenLevelLists3)
+    if (type == EnergyMeasuremenLevelListsThree)
     {
-        self.filterArray3 = data;
+        NSMutableArray *listArray = [[NSMutableArray alloc] init];
+        [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"filterID":@"id"};
+        }];
+        [listArray addObjectsFromArray:[BXTEnergyReadingFilterInfo mj_objectArrayWithKeyValuesArray:data]];
+        self.filterArrayThree = listArray;
     }
-    if (type == EnergyMeasuremenLevelLists4)
+    if (type == EnergyMeasuremenLevelListsFour)
     {
-        self.filterArray4 = data;
+        NSMutableArray *listArray = [[NSMutableArray alloc] init];
+        [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"filterID":@"id"};
+        }];
+        [listArray addObjectsFromArray:[BXTEnergyReadingFilterInfo mj_objectArrayWithKeyValuesArray:data]];
+        self.filterArrayFour = listArray;
     }
     
     [self.chooseTableView reloadData];
@@ -469,20 +496,18 @@
     else if (btn.tag == 2)
     {
         NSArray *datasource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
-        [self initialPlaceOrFilter:datasource];
+        [self initialPlaceOrFilter:datasource isFilter:NO];
     }
     else if (btn.tag == 3)
     {
         //TODO: 这里的数据是假的，是接口返回的筛选条件
-        //        switch (self.btnTag) {
-        //            case 0: [self initialPlaceOrFilter:self.filterArray1]; break;
-        //            case 1: [self initialPlaceOrFilter:self.filterArray2]; break;
-        //            case 2: [self initialPlaceOrFilter:self.filterArray3]; break;
-        //            case 3: [self initialPlaceOrFilter:self.filterArray4]; break;
-        //            default: break;
-        //        }
-        NSArray *datasource = [[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE];
-        [self initialPlaceOrFilter:datasource];
+        switch (self.btnTag) {
+            case 0: [self initialPlaceOrFilter:self.filterArrayOne isFilter:YES]; break;
+            case 1: [self initialPlaceOrFilter:self.filterArrayTwo isFilter:YES]; break;
+            case 2: [self initialPlaceOrFilter:self.filterArrayThree isFilter:YES]; break;
+            case 3: [self initialPlaceOrFilter:self.filterArrayFour isFilter:YES]; break;
+            default: break;
+        }
     }
 }
 
