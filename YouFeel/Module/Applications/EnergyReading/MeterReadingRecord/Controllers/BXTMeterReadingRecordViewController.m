@@ -19,24 +19,21 @@
 #import "BXTDataRequest.h"
 #import "BXTMeterReadingRecordMonthListInfo.h"
 #import "BXTMeterReadingRecordListInfo.h"
+#import <math.h>
 
 @interface BXTMeterReadingRecordViewController () <UITableViewDelegate, UITableViewDataSource, BXTDataResponseDelegate>
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-
-@property (nonatomic, strong) BXTMeterReadingHeaderView *headerView;
-@property (nonatomic, strong) BXTMeterReadingFilterView *filterView_chart;
-@property (nonatomic, strong) BXTHistogramStatisticsView *hisView;
-@property (nonatomic, strong) BXTMeterReadingFilterOFListView *filterView_list;
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *isShowArray;
-
-@property (nonatomic, strong) UIView *footerView;
-
-@property (nonatomic, assign) BOOL isHideChart;
-
+@property (nonatomic, strong) UIScrollView                       *scrollView;
+@property (nonatomic, strong) BXTMeterReadingHeaderView          *headerView;
+@property (nonatomic, strong) BXTMeterReadingFilterView          *filterView_chart;
+@property (nonatomic, strong) BXTHistogramStatisticsView         *hisView;
+@property (nonatomic, strong) BXTMeterReadingFilterOFListView    *filterView_list;
+@property (nonatomic, strong) UITableView                        *tableView;
+@property (nonatomic, strong) NSMutableArray                     *isShowArray;
+@property (nonatomic, strong) UIView                             *footerView;
+@property (nonatomic, assign) BOOL                               isHideChart;
 @property (nonatomic, strong) BXTMeterReadingRecordMonthListInfo *monthListInfo;
-@property (nonatomic, strong) BXTMeterReadingRecordListInfo *listInfo;
+@property (nonatomic, strong) BXTMeterReadingRecordListInfo      *listInfo;
 
 @end
 
@@ -74,12 +71,14 @@
 - (void)getResourceShowMonthChartView:(BOOL)showChart
 {
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
-    if (showChart) {
+    if (showChart)
+    {
         // 计量表 - 抄表记录，月
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeterRecordMonthListsWithAboutID:self.transID year:self.yearStr];
     }
-    else {
+    else
+    {
         // 计量表 - 抄表记录，列表
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeterRecordListsWithAboutID:self.transID date:self.timeStr];
@@ -88,14 +87,16 @@
 
 - (void)navigationRightButton1
 {
-    if (self.isHideChart) {
+    if (self.isHideChart)
+    {
         self.isHideChart = NO;
         [self showChartView:YES];
         self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
         self.scrollView.scrollEnabled = YES;
         [self.rightButton1 setImage:[UIImage imageNamed:@"energy_list"] forState:UIControlStateNormal];
     }
-    else {
+    else
+    {
         self.isHideChart = YES;
         [self showChartView:NO];
         self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.tableView.frame) + 10);
@@ -112,16 +113,13 @@
 }
 
 #pragma mark -
-#pragma mark - createUI
+#pragma mark createUI
 - (void)createUI
 {
-    // scrollView
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 70)];
     self.scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.scrollView];
     
-    
-    // headerView
     self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingHeaderView" owner:nil options:nil] lastObject];
     [self hideBgFooterView:YES];
     @weakify(self);
@@ -131,10 +129,9 @@
     }];
     [self.scrollView addSubview:self.headerView];
     
-    
-    // BXTHistogramStatisticsView
     self.filterView_chart = [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingFilterView" owner:nil options:nil] lastObject];
     self.filterView_chart.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20, 50);
+    
     // thisMonthBtn
     [[self.filterView_chart.thisMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -145,6 +142,7 @@
             [self getResourceShowMonthChartView:YES];
         }];
     }];
+    
     // lastMonthBtn
     [[self.filterView_chart.lastMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -152,6 +150,7 @@
         self.filterView_chart.nextMonthBtn.enabled = YES;
         self.filterView_chart.nextMonthBtn.alpha = 1.0;
     }];
+    
     // nextMonthBtn
     [[self.filterView_chart.nextMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -162,58 +161,6 @@
         }
     }];
     [self.scrollView addSubview:self.filterView_chart];
-    
-    // BXTHistogramStatisticsView
-    //50° ~ -50°
-    NSArray *temperatureArray = @[@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f)];
-    //0 ~ 100%rh
-    NSArray *humidityArray = @[@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f)];
-    //0 ~ 10级
-    NSArray *windPowerArray = @[@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f)];
-    //0 ~ 1000kwh
-    NSArray *totalEnergyArray = @[@[@(800.f),@(600.f),@(400.f)],
-                                  @[@(500.f),@(300.f),@(200.f)],
-                                  @[@(700.f),@(500.f),@(200.f)],
-                                  @[@(900.f),@(700.f),@(500.f)],
-                                  @[@(600.f),@(300.f),@(200.f)],
-                                  @[@(1000.f),@(600.f),@(300.f)],
-                                  @[@(800.f),@(600.f),@(400.f)],
-                                  @[@(500.f),@(300.f),@(200.f)],
-                                  @[@(700.f),@(500.f),@(200.f)],
-                                  @[@(900.f),@(700.f),@(500.f)],
-                                  @[@(600.f),@(300.f),@(200.f)],
-                                  @[@(1000.f),@(600.f),@(300.f)],
-                                  @[@(800.f),@(600.f),@(400.f)],
-                                  @[@(500.f),@(300.f),@(200.f)],
-                                  @[@(700.f),@(500.f),@(200.f)],
-                                  @[@(900.f),@(700.f),@(500.f)],
-                                  @[@(600.f),@(300.f),@(200.f)],
-                                  @[@(1000.f),@(600.f),@(300.f)],
-                                  @[@(800.f),@(600.f),@(400.f)],
-                                  @[@(500.f),@(300.f),@(200.f)],
-                                  @[@(700.f),@(500.f),@(200.f)],
-                                  @[@(900.f),@(700.f),@(500.f)],
-                                  @[@(600.f),@(300.f),@(200.f)],
-                                  @[@(1000.f),@(600.f),@(300.f)],
-                                  @[@(800.f),@(600.f),@(400.f)],
-                                  @[@(500.f),@(300.f),@(200.f)],
-                                  @[@(700.f),@(500.f),@(200.f)],
-                                  @[@(900.f),@(700.f),@(500.f)],
-                                  @[@(600.f),@(300.f),@(200.f)],
-                                  @[@(1000.f),@(600.f),@(300.f)]];
-    
-    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.filterView_chart.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) temperatureArray:temperatureArray humidityArray:humidityArray windPowerArray:windPowerArray totalEnergyArray:totalEnergyArray];
-    self.hisView.backgroundColor = [UIColor whiteColor];
-    self.hisView.layer.masksToBounds = YES;
-    self.hisView.layer.cornerRadius = 10.f;
-    [[self.hisView.footerView.checkDetailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        BXTMeterReadingDailyDetailViewController *mrddvc = [[BXTMeterReadingDailyDetailViewController alloc] init];
-        mrddvc.transID = self.transID;
-        [self.navigationController pushViewController:mrddvc animated:YES];
-    }];
-    [self.scrollView addSubview:self.hisView];
-    
     
     // filterView_list
     self.filterView_list = [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingFilterOFListView" owner:nil options:nil] lastObject];
@@ -228,6 +175,7 @@
         }];
     }];
     [self.scrollView addSubview:self.filterView_list];
+    
     // tableView
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.filterView_chart.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - CGRectGetMaxY(self.filterView_list.frame) - 70) style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = [UIColor clearColor];
@@ -235,7 +183,6 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.scrollView addSubview:self.tableView];
-    
     
     // footerView
     self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 70, SCREEN_WIDTH, 70)];
@@ -263,25 +210,40 @@
     }];
     [self.footerView addSubview:newMeterBtn];
     
-    
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
     [self showChartView:YES];
 }
 
+- (void)initialHisView:(NSInteger)maxNumber
+{
+    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.filterView_chart.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) lists:self.monthListInfo.lists kwhMeasure:maxNumber kwhNumber:4];
+    self.hisView.backgroundColor = [UIColor whiteColor];
+    self.hisView.layer.masksToBounds = YES;
+    self.hisView.layer.cornerRadius = 10.f;
+    @weakify(self);
+    [[self.hisView.footerView.checkDetailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTMeterReadingDailyDetailViewController *mrddvc = [[BXTMeterReadingDailyDetailViewController alloc] init];
+        mrddvc.transID = self.transID;
+        [self.navigationController pushViewController:mrddvc animated:YES];
+    }];
+    [self.scrollView addSubview:self.hisView];
+}
+
 #pragma mark -
-#pragma mark - 处理时间
+#pragma mark 处理时间
 - (NSString *)transTimeIsAdd:(BOOL)isAdd
 {
     NSInteger year = [self.yearStr integerValue];
-    if (!isAdd) { // 减法
+    if (!isAdd)
+    { // 减法
         year -= 1;
-    } else {
+    }
+    else
+    {
         year += 1;
     }
-    
     self.yearStr = [NSString stringWithFormat:@"%ld", (long)year];
-    NSLog(@"self.yearStr -------- %@", self.yearStr);
-    //    [self getResource];
     
     return self.yearStr;
 }
@@ -300,7 +262,7 @@
 }
 
 #pragma mark -
-#pragma mark - tableView代理方法
+#pragma mark tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.isShowArray.count;
@@ -308,7 +270,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.isShowArray[section] isEqualToString:@"1"]) {
+    if ([self.isShowArray[section] isEqualToString:@"1"])
+    {
         return  1;
     }
     return  0;
@@ -320,7 +283,8 @@
     
     cell.lists = self.listInfo.lists[indexPath.section];
     
-    if ([self.isShowArray[indexPath.section] isEqualToString:@"1"]) {
+    if ([self.isShowArray[indexPath.section] isEqualToString:@"1"])
+    {
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
         maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:cell.footerView.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
         cell.footerView.layer.mask = maskLayer;
@@ -346,7 +310,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -361,14 +324,16 @@
     view.showViewBtn.tag = section;
     view.lists = self.listInfo.lists[section];
     
-    if ([self.isShowArray[section] isEqualToString:@"1"]) {
+    if ([self.isShowArray[section] isEqualToString:@"1"])
+    {
         // headerView
         view.showView.layer.masksToBounds = YES;
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
         maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:view.showView.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
         view.showView.layer.mask = maskLayer;
     }
-    else {
+    else
+    {
         view.showView.layer.cornerRadius = 10;
     }
     
@@ -384,7 +349,8 @@
         else
         {
             NSUInteger index = [self.isShowArray indexOfObject:@"1"];
-            if(index != NSNotFound) {
+            if(index != NSNotFound)
+            {
                 [self.isShowArray replaceObjectAtIndex:index withObject:@"0"];
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationFade];
             }
@@ -398,7 +364,7 @@
 }
 
 #pragma mark -
-#pragma mark - getDataResource
+#pragma mark getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
@@ -413,6 +379,33 @@
         }];
         self.monthListInfo = [BXTMeterReadingRecordMonthListInfo mj_objectWithKeyValues:data[0]];
         
+        NSInteger count = self.monthListInfo.lists.count;
+        if (count > 0)
+        {
+            //通过最大kwh推算左侧坐标最大值
+            NSInteger max = 0;
+            for (NSInteger i = 0; i < count; i++)
+            {
+                BXTRecordMonthListsInfo *recordInfo = self.monthListInfo.lists[i];
+                max = recordInfo.data.use_amount > max ? recordInfo.data.use_amount : max;
+            }
+            CGFloat fn = max/4.f;
+            NSInteger inn = floor(fn);
+            NSInteger i = 0;
+            do {
+                i++;
+                inn = floor(inn/10.f);
+            } while (inn > 10);
+            inn++;
+            do {
+                inn *= 10;
+                i--;
+            } while (i > 0);
+            inn *= 4;
+            
+            //创建统计
+            [self initialHisView:inn];
+        }
         [self refreshUIWithData];
     }
     if (type == EnergyMeterRecordLists && data.count > 0)
@@ -425,16 +418,17 @@
         }];
         self.listInfo = [BXTMeterReadingRecordListInfo mj_objectWithKeyValues:data[0]];
         
-        if (self.isShowArray) {
+        if (self.isShowArray)
+        {
             [self.isShowArray removeAllObjects];
         }
-        for (int i = 0; i < self.listInfo.lists.count; i++) {
+        for (int i = 0; i < self.listInfo.lists.count; i++)
+        {
             [self.isShowArray addObject:@"0"];
         }
         
         [self.tableView reloadData];
     }
-    
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
@@ -443,15 +437,18 @@
 }
 
 #pragma mark -
-#pragma mark - 方法
+#pragma mark 方法
 - (void)showChartView:(BOOL)showChart
 {
-    if (showChart) {
+    if (showChart)
+    {
         self.filterView_chart.hidden = NO;
         self.hisView.hidden = NO;
         self.filterView_list.hidden = YES;
         self.tableView.hidden = YES;
-    } else {
+    }
+    else
+    {
         self.filterView_chart.hidden = YES;
         self.hisView.hidden = YES;
         self.filterView_list.hidden = NO;
@@ -461,12 +458,15 @@
 
 - (void)hideBgFooterView:(BOOL)isSelected
 {
-    if (isSelected) {
+    if (isSelected)
+    {
         self.headerView.bgViewBtn.selected = NO;
         self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 101);
         self.headerView.bgFooterView.hidden = YES;
         self.headerView.openImage.image = [UIImage imageNamed:@"energy_close"];
-    } else {
+    }
+    else
+    {
         self.headerView.bgViewBtn.selected = YES;
         self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 180);
         self.headerView.bgFooterView.hidden = NO;
@@ -483,7 +483,8 @@
     self.filterView_list.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20, 50);
     self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.filterView_chart.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - CGRectGetMaxY(self.filterView_list.frame) - 70);
     
-    if (!self.isHideChart) {
+    if (!self.isHideChart)
+    {
         self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
     }
 }

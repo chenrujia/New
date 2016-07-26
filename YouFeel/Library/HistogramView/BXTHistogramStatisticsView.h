@@ -13,11 +13,6 @@
 
 @property (nonatomic, strong) BXTHistogramFooterView *footerView;
 
-@property (nonatomic, strong) NSArray            *temperatureArray;
-@property (nonatomic, strong) NSArray            *humidityArray;
-@property (nonatomic, strong) NSArray            *windPowerArray;
-@property (nonatomic, strong) NSArray            *totalEnergyArray;
-
-- (instancetype)initWithFrame:(CGRect)frame temperatureArray:(NSArray *)temArray humidityArray:(NSArray *)humArray windPowerArray:(NSArray *)windArray totalEnergyArray:(NSArray *)energyArray;
+- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)lists kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number;
 
 @end

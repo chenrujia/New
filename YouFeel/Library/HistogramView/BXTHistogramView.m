@@ -7,24 +7,55 @@
 //
 
 #import "BXTHistogramView.h"
-#import "NSDate+Escort.h"
 #import <math.h>
+#import "BXTMeterReadingRecordMonthListInfo.h"
+#import "BXTMeterReadingRecordDayListInfo.h"
 
 #define StatisticsHeight(rect) rect.size.height - 30.f
 
 @implementation BXTHistogramView
 
-- (instancetype)initWithFrame:(CGRect)frame temperaturePoints:(NSArray *)temPoints humidityPoints:(NSArray *)humPoints windPowerPoints:(NSArray *)windPoints totalEnergyPoints:(NSArray *)energyPoints block:(ChoosedDatesourece)block
+- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number block:(ChoosedDatesourece)block
 {
     self = [super initWithFrame:frame];
     if (self)
     {
+        self.kwhNumber = number;
+
         isFirst = YES;
+        self.datasource = datasource;
         self.datasourceBlock = block;
-        self.temperatureArray = temPoints;
-        self.humidityArray = humPoints;
-        self.windPowerArray = windPoints;
-        self.totalEnergyArray = energyPoints;
+        NSMutableArray *temArray = [NSMutableArray array];
+        NSMutableArray *humArray = [NSMutableArray array];
+        NSMutableArray *energyArray = [NSMutableArray array];
+        if (self.kwhNumber > 4)
+        {
+            NSMutableArray *windArray = [NSMutableArray array];
+            for (NSInteger i = 0; i < datasource.count; i++)
+            {
+                BXTRecordDayListsInfo *recordInfo = datasource[i];
+                [temArray addObject:@(recordInfo.data.temperature)];
+                [humArray addObject:@(recordInfo.data.humidity)];
+                [windArray addObject:@(recordInfo.data.wind_force)];
+                [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
+            }
+            self.windPowerArray = windArray;
+        }
+        else
+        {
+            for (NSInteger i = 0; i < datasource.count; i++)
+            {
+                BXTRecordMonthListsInfo *recordInfo = datasource[i];
+                [temArray addObject:@(recordInfo.data.temperature)];
+                [humArray addObject:@(recordInfo.data.humidity)];
+                [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
+            }
+        }
+        
+        self.temperatureArray = temArray;
+        self.humidityArray = humArray;
+        self.totalEnergyArray = energyArray;
+        self.kwhMeasure = measure;
     }
     return self;
 }
@@ -38,18 +69,24 @@
     CGContextAddRect(ctx, rect);
     [colorWithHexString(@"EDEEEF") set];
     CGContextFillPath(ctx);
-    
-    NSDate *todayDate = [NSDate date];
-    NSString *today = [self transTimeWithDate:todayDate withType:@"MM/dd"];
-    
-    CGFloat scale = (StatisticsHeight(rect))/1000.f;
+
+    CGFloat scale = (StatisticsHeight(rect))/self.kwhMeasure;
     
     //矩形柱
     for (NSInteger i = 0; i < self.totalEnergyArray.count; i++)
     {
         NSArray *totalArray = self.totalEnergyArray[i];
+        
+        //总值
+        CGFloat total = [totalArray[0] floatValue];
+        total = StatisticsHeight(rect) - total * scale;
+        
+        CGContextAddRect(ctx, CGRectMake(10 + 50 * i, total, 40, StatisticsHeight(rect) - total));
+        [colorWithHexString(@"AE63CB") set];
+        CGContextFillPath(ctx);
+        
         //高峰
-        CGFloat peak = [totalArray[0] floatValue];
+        CGFloat peak = [totalArray[1] floatValue];
         peak = StatisticsHeight(rect) - peak * scale;
 
         CGContextAddRect(ctx, CGRectMake(10 + 50 * i, peak, 40, StatisticsHeight(rect) - peak));
@@ -57,7 +94,7 @@
         CGContextFillPath(ctx);
         
         //平
-        CGFloat flat = [totalArray[1] floatValue];
+        CGFloat flat = [totalArray[2] floatValue];
         flat = StatisticsHeight(rect) - flat * scale;
         
         CGContextAddRect(ctx, CGRectMake(10 + 50 * i, flat, 40, StatisticsHeight(rect) - flat));
@@ -65,7 +102,7 @@
         CGContextFillPath(ctx);
         
         //低谷
-        CGFloat trough = [totalArray[2] floatValue];
+        CGFloat trough = [totalArray[3] floatValue];
         trough = StatisticsHeight(rect) - trough * scale;
         
         CGContextAddRect(ctx, CGRectMake(10 + 50 * i, trough, 40, StatisticsHeight(rect) - trough));
@@ -73,23 +110,24 @@
         CGContextFillPath(ctx);
         
         //时间
-        if (i == self.totalEnergyArray.count - 1)
+        if (self.kwhNumber > 4)
         {
-            [self drawDate:today index:i rect:rect];
+            BXTRecordDayListsInfo *recordInfo = self.datasource[i];
+            [self drawDate:[NSString stringWithFormat:@"%ld号",(long)recordInfo.day] index:i rect:rect];
         }
         else
         {
-            NSDate *agoDate = [NSDate dateWithDaysBeforeNow:self.totalEnergyArray.count - 1 - i];
-            NSString *ago = [self transTimeWithDate:agoDate withType:@"MM/dd"];
-            [self drawDate:ago index:i rect:rect];
+            BXTRecordMonthListsInfo *recordInfo = self.datasource[i];
+            [self drawDate:[NSString stringWithFormat:@"%ld月",(long)recordInfo.month] index:i rect:rect];
         }
+        
         isFirst = NO;
     }
     
     //标线
-    for (NSInteger i = 0; i < 5; i++)
+    for (NSInteger i = 0; i < self.kwhNumber - 1; i++)
     {
-        CGFloat value = ((StatisticsHeight(rect))/6.f);
+        CGFloat value = ((StatisticsHeight(rect))/self.kwhNumber);
         CGContextMoveToPoint(ctx, 0, value * (i + 1)); // 起点
         CGContextAddLineToPoint(ctx, CGRectGetWidth(rect), value * (i + 1)); //终点
         [[UIColor whiteColor] set]; // 两种设置颜色的方式都可以
@@ -99,7 +137,6 @@
         CGContextStrokePath(ctx); // 渲染（直线只能绘制空心的，不能调用CGContextFillPath(ctx);）
     }
     
-    
     /********************************温度折线图*******************************/
     [self drawBrokenLine:ctx points:self.temperatureArray color:colorWithHexString(@"FED502") type:TemperatureType rect:rect];
     
@@ -107,7 +144,10 @@
     [self drawBrokenLine:ctx points:self.humidityArray color:colorWithHexString(@"539EF4") type:HumidityType rect:rect];
     
     /********************************风力折线图*******************************/
-    [self drawBrokenLine:ctx points:self.windPowerArray color:colorWithHexString(@"EC6868") type:WindPowerType rect:rect];
+    if (self.windPowerArray)
+    {
+        [self drawBrokenLine:ctx points:self.windPowerArray color:colorWithHexString(@"EC6868") type:WindPowerType rect:rect];
+    }
 }
 
 //日期
@@ -122,8 +162,8 @@
     {
         dict[NSForegroundColorAttributeName] = colorWithHexString(@"909699"); // 文字颜色
     }
-    dict[NSFontAttributeName] = [UIFont systemFontOfSize:14]; // 字体
-    [date drawInRect:CGRectMake(10 + 50 * index, StatisticsHeight(rect) + 5.f, 40, 20) withAttributes:dict];
+    dict[NSFontAttributeName] = [UIFont systemFontOfSize:13]; // 字体
+    [date drawInRect:CGRectMake(20 + 50 * index, StatisticsHeight(rect) + 5.f, 40, 20) withAttributes:dict];
 }
 
 - (void)drawBrokenLine:(CGContextRef)ctx points:(NSArray *)points color:(UIColor *)color type:(BrokenLineType)type rect:(CGRect)rect
@@ -134,15 +174,15 @@
         CGFloat point = [points[i] floatValue];
         if (type == TemperatureType)
         {
-            point = (StatisticsHeight(rect))/6.f - point;
+            point = (StatisticsHeight(rect))/self.kwhNumber - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f);
         }
         else if (type == HumidityType)
         {
-            point = (StatisticsHeight(rect))/6.f*4.f - point;
+            point = (StatisticsHeight(rect))/self.kwhNumber*4.f - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f);
         }
         else if (type == WindPowerType)
         {
-            point = StatisticsHeight(rect) - point * 10.f;
+            point = StatisticsHeight(rect) - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f) * 10.f;
         }
         
         if (i == 0)
@@ -154,7 +194,7 @@
             CGContextAddLineToPoint(ctx, 10 + 50 * i + 20.f, point); //终点
         }
     }
-    [[[UIColor whiteColor] colorWithAlphaComponent:0.5f] set]; // 两种设置颜色的方式都可以
+    [[UIColor whiteColor] set]; // 两种设置颜色的方式都可以
     CGContextSetLineWidth(ctx, 1.0f); // 线的宽度
     CGContextSetLineCap(ctx, kCGLineCapRound); // 起点和终点圆角
     CGContextSetLineJoin(ctx, kCGLineJoinRound); // 转角圆角
@@ -166,15 +206,15 @@
         CGFloat point = [points[i] floatValue];
         if (type == TemperatureType)
         {
-            point = (StatisticsHeight(rect))/6.f - point;
+            point = (StatisticsHeight(rect))/self.kwhNumber - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f);
         }
         else if (type == HumidityType)
         {
-            point = (StatisticsHeight(rect))/6.f*4.f - point;
+            point = (StatisticsHeight(rect))/self.kwhNumber*4.f - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f);
         }
         else if (type == WindPowerType)
         {
-            point = StatisticsHeight(rect) - point * 10.f;
+            point = StatisticsHeight(rect) - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f) * 10.f;
         }
         
         [color set];
@@ -204,7 +244,11 @@
         
         CGFloat tem = [self.temperatureArray[selectIndex] floatValue];
         CGFloat hum = [self.humidityArray[selectIndex] floatValue];
-        CGFloat win = [self.windPowerArray[selectIndex] floatValue];
+        CGFloat win = 0.f;
+        if (self.windPowerArray)
+        {
+            win = [self.windPowerArray[selectIndex] floatValue];
+        }
         NSArray *energyArray = self.totalEnergyArray[selectIndex];
         self.datasourceBlock(tem,hum,win,energyArray);
     }

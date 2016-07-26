@@ -24,11 +24,14 @@ typedef void (^ChoosedDatesourece)(CGFloat temperature,CGFloat humidity,CGFloat 
 }
 
 @property (nonatomic, copy  ) ChoosedDatesourece datasourceBlock;
+@property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) NSArray            *temperatureArray;
 @property (nonatomic, strong) NSArray            *humidityArray;
 @property (nonatomic, strong) NSArray            *windPowerArray;
 @property (nonatomic, strong) NSArray            *totalEnergyArray;
+@property (nonatomic, assign) NSInteger          kwhMeasure;
+@property (nonatomic, assign) NSInteger          kwhNumber;
 
-- (instancetype)initWithFrame:(CGRect)frame temperaturePoints:(NSArray *)temPoints humidityPoints:(NSArray *)humPoints windPowerPoints:(NSArray *)windPoints totalEnergyPoints:(NSArray *)energyPoints block:(ChoosedDatesourece)block;
+- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number block:(ChoosedDatesourece)block;
 
 @end
