@@ -382,6 +382,7 @@
         NSInteger count = self.monthListInfo.lists.count;
         if (count > 0)
         {
+            //通过最大kwh推算左侧坐标最大值
             NSInteger max = 0;
             for (NSInteger i = 0; i < count; i++)
             {
@@ -401,6 +402,7 @@
                 i--;
             } while (i > 0);
             inn *= 4;
+            
             //创建统计
             [self initialHisView:inn];
         }

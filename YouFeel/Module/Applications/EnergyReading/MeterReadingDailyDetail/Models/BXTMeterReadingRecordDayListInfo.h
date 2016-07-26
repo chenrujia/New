@@ -51,6 +51,9 @@
 @property (nonatomic, assign) NSInteger flat_section_amount;
 @property (nonatomic, assign) NSInteger valley_section_amount;
 @property (nonatomic, assign) NSInteger peak_segment_amount;
+@property (nonatomic, assign) NSInteger temperature;
+@property (nonatomic, assign) NSInteger humidity;
+@property (nonatomic, assign) NSInteger wind_force;
 
 @end
 

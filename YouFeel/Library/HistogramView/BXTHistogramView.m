@@ -7,9 +7,9 @@
 //
 
 #import "BXTHistogramView.h"
-#import "NSDate+Escort.h"
 #import <math.h>
 #import "BXTMeterReadingRecordMonthListInfo.h"
+#import "BXTMeterReadingRecordDayListInfo.h"
 
 #define StatisticsHeight(rect) rect.size.height - 30.f
 
@@ -20,25 +20,42 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+        self.kwhNumber = number;
+
         isFirst = YES;
         self.datasource = datasource;
         self.datasourceBlock = block;
         NSMutableArray *temArray = [NSMutableArray array];
         NSMutableArray *humArray = [NSMutableArray array];
         NSMutableArray *energyArray = [NSMutableArray array];
-        for (NSInteger i = 0; i < datasource.count; i++)
+        if (self.kwhNumber > 4)
         {
-            BXTRecordMonthListsInfo *recordInfo = datasource[i];
-            [temArray addObject:@(recordInfo.data.temperature)];
-            [humArray addObject:@(recordInfo.data.humidity)];
-            [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
+            NSMutableArray *windArray = [NSMutableArray array];
+            for (NSInteger i = 0; i < datasource.count; i++)
+            {
+                BXTRecordDayListsInfo *recordInfo = datasource[i];
+                [temArray addObject:@(recordInfo.data.temperature)];
+                [humArray addObject:@(recordInfo.data.humidity)];
+                [windArray addObject:@(recordInfo.data.wind_force)];
+                [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
+            }
+            self.windPowerArray = windArray;
+        }
+        else
+        {
+            for (NSInteger i = 0; i < datasource.count; i++)
+            {
+                BXTRecordMonthListsInfo *recordInfo = datasource[i];
+                [temArray addObject:@(recordInfo.data.temperature)];
+                [humArray addObject:@(recordInfo.data.humidity)];
+                [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
+            }
         }
         
         self.temperatureArray = temArray;
         self.humidityArray = humArray;
         self.totalEnergyArray = energyArray;
         self.kwhMeasure = measure;
-        self.kwhNumber = number;
     }
     return self;
 }
@@ -52,10 +69,7 @@
     CGContextAddRect(ctx, rect);
     [colorWithHexString(@"EDEEEF") set];
     CGContextFillPath(ctx);
-    
-//    NSDate *todayDate = [NSDate date];
-//    NSString *today = [self transTimeWithDate:todayDate withType:@"MM/dd"];
-    
+
     CGFloat scale = (StatisticsHeight(rect))/self.kwhMeasure;
     
     //矩形柱
@@ -96,18 +110,16 @@
         CGContextFillPath(ctx);
         
         //时间
-//        if (i == self.totalEnergyArray.count - 1)
-//        {
-//            [self drawDate:today index:i rect:rect];
-//        }
-//        else
-//        {
-//            NSDate *agoDate = [NSDate dateWithDaysBeforeNow:self.totalEnergyArray.count - 1 - i];
-//            NSString *ago = [self transTimeWithDate:agoDate withType:@"MM/dd"];
-//            [self drawDate:ago index:i rect:rect];
-//        }
-        BXTRecordMonthListsInfo *recordInfo = self.datasource[i];
-        [self drawDate:[NSString stringWithFormat:@"%ld月",(long)recordInfo.month] index:i rect:rect];
+        if (self.kwhNumber > 4)
+        {
+            BXTRecordDayListsInfo *recordInfo = self.datasource[i];
+            [self drawDate:[NSString stringWithFormat:@"%ld号",(long)recordInfo.day] index:i rect:rect];
+        }
+        else
+        {
+            BXTRecordMonthListsInfo *recordInfo = self.datasource[i];
+            [self drawDate:[NSString stringWithFormat:@"%ld月",(long)recordInfo.month] index:i rect:rect];
+        }
         
         isFirst = NO;
     }
@@ -124,7 +136,6 @@
         CGContextSetLineJoin(ctx, kCGLineJoinRound); // 转角圆角
         CGContextStrokePath(ctx); // 渲染（直线只能绘制空心的，不能调用CGContextFillPath(ctx);）
     }
-    
     
     /********************************温度折线图*******************************/
     [self drawBrokenLine:ctx points:self.temperatureArray color:colorWithHexString(@"FED502") type:TemperatureType rect:rect];
@@ -152,7 +163,7 @@
         dict[NSForegroundColorAttributeName] = colorWithHexString(@"909699"); // 文字颜色
     }
     dict[NSFontAttributeName] = [UIFont systemFontOfSize:13]; // 字体
-    [date drawInRect:CGRectMake(10 + 50 * index, StatisticsHeight(rect) + 5.f, 40, 20) withAttributes:dict];
+    [date drawInRect:CGRectMake(20 + 50 * index, StatisticsHeight(rect) + 5.f, 40, 20) withAttributes:dict];
 }
 
 - (void)drawBrokenLine:(CGContextRef)ctx points:(NSArray *)points color:(UIColor *)color type:(BrokenLineType)type rect:(CGRect)rect
@@ -163,15 +174,15 @@
         CGFloat point = [points[i] floatValue];
         if (type == TemperatureType)
         {
-            point = (StatisticsHeight(rect))/self.kwhNumber - point;
+            point = (StatisticsHeight(rect))/self.kwhNumber - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f);
         }
         else if (type == HumidityType)
         {
-            point = (StatisticsHeight(rect))/self.kwhNumber*4.f - point;
+            point = (StatisticsHeight(rect))/self.kwhNumber*4.f - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f);
         }
         else if (type == WindPowerType)
         {
-            point = StatisticsHeight(rect) - point * 10.f;
+            point = StatisticsHeight(rect) - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f) * 10.f;
         }
         
         if (i == 0)
@@ -183,7 +194,7 @@
             CGContextAddLineToPoint(ctx, 10 + 50 * i + 20.f, point); //终点
         }
     }
-    [[[UIColor whiteColor] colorWithAlphaComponent:0.5f] set]; // 两种设置颜色的方式都可以
+    [[UIColor whiteColor] set]; // 两种设置颜色的方式都可以
     CGContextSetLineWidth(ctx, 1.0f); // 线的宽度
     CGContextSetLineCap(ctx, kCGLineCapRound); // 起点和终点圆角
     CGContextSetLineJoin(ctx, kCGLineJoinRound); // 转角圆角
@@ -195,15 +206,15 @@
         CGFloat point = [points[i] floatValue];
         if (type == TemperatureType)
         {
-            point = (StatisticsHeight(rect))/self.kwhNumber - point;
+            point = (StatisticsHeight(rect))/self.kwhNumber - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f);
         }
         else if (type == HumidityType)
         {
-            point = (StatisticsHeight(rect))/self.kwhNumber*4.f - point;
+            point = (StatisticsHeight(rect))/self.kwhNumber*4.f - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f);
         }
         else if (type == WindPowerType)
         {
-            point = StatisticsHeight(rect) - point * 10.f;
+            point = StatisticsHeight(rect) - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f) * 10.f;
         }
         
         [color set];

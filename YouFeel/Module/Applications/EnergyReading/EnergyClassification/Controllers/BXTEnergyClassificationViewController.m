@@ -80,11 +80,10 @@
 }
 
 #pragma mark -
-#pragma mark 初始化各种视图
-//电能、水、燃气、热能
+#pragma mark 初始化电能、水、燃气、热能
 - (void)initialEnergyClass
 {
-    self.colorArray = @[colorWithHexString(@"f45b5b"),colorWithHexString(@"1683e2"),colorWithHexString(@"ded100"),colorWithHexString(@"f1983e")];
+    self.colorArray = @[colorWithHexString(@"f45b5b"),colorWithHexString(@"1683e2"),colorWithHexString(@"f5c809"),colorWithHexString(@"f1983e")];
     self.view.backgroundColor = self.colorArray[0];
     
     CGFloat width = (SCREEN_WIDTH - 20.f)/4.f;
@@ -100,21 +99,21 @@
     btnTwo.drawColor = self.colorArray[0];
     btnTwo.tag = 1;
     [btnTwo setTitle:@"水" forState:UIControlStateNormal];
-    [btnTwo setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
+    [btnTwo setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnTwo addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnTwo];
     
     btnThree = [[BXTMenuItemButton alloc] initWithFrame:CGRectMake(10.f + 2.f * width, KNAVIVIEWHEIGHT, width, KBUTTONHEIGHT) drawType:DrawNot backgroudColor:self.colorArray[0]];
     btnThree.tag = 2;
     [btnThree setTitle:@"燃气" forState:UIControlStateNormal];
-    [btnThree setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
+    [btnThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnThree addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnThree];
     
     btnFour = [[BXTMenuItemButton alloc] initWithFrame:CGRectMake(10.f + 3.f * width, KNAVIVIEWHEIGHT, width, KBUTTONHEIGHT) drawType:DrawNot backgroudColor:self.colorArray[0]];
     btnFour.tag = 3;
     [btnFour setTitle:@"热能" forState:UIControlStateNormal];
-    [btnFour setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
+    [btnFour setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnFour addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnFour];
     
@@ -394,9 +393,12 @@
     [listArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
     
     // 赋值
-    for (BXTMeterReadingListView *listView in self.scrollerView.subviews) {
-        if ([listView isKindOfClass:[BXTMeterReadingListView class]]) {
-            if (listView.tag == tag) {
+    for (BXTMeterReadingListView *listView in self.scrollerView.subviews)
+    {
+        if ([listView isKindOfClass:[BXTMeterReadingListView class]])
+        {
+            if (listView.tag == tag)
+            {
                 listView.datasource = (NSArray *)listArray;
             }
         }
@@ -414,7 +416,7 @@
 {
     self.btnTag = btn.tag;
     
-    NSArray *colorArray = @[@"#f45b5b", @"#1683e2", @"#ded100", @"#f1983e"];
+    NSArray *colorArray = @[@"f45b5b", @"1683e2", @"f5c809", @"f1983e"];
     SaveValueTUD(EnergyReadingColorStr, colorArray[btn.tag]);
     
     self.view.backgroundColor = self.colorArray[btn.tag];
@@ -428,9 +430,9 @@
         leftView.hidden = NO;
         rightView.hidden = YES;
         
-        [btnTwo setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
-        [btnThree setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
-        [btnFour setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
+        [btnTwo setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnFour setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         [btnOne changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawMiddle];
         [btnTwo changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawLeft];
@@ -442,9 +444,9 @@
         leftView.hidden = YES;
         rightView.hidden = YES;
         
-        [btnOne setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
-        [btnThree setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
-        [btnFour setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
+        [btnOne setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnFour setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         [btnOne changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawRight];
         [btnTwo changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawMiddle];
@@ -456,9 +458,9 @@
         leftView.hidden = YES;
         rightView.hidden = YES;
         
-        [btnOne setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
-        [btnTwo setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
-        [btnFour setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
+        [btnOne setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnTwo setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnFour setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         [btnOne changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
         [btnTwo changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawRight];
@@ -470,9 +472,9 @@
         leftView.hidden = YES;
         rightView.hidden = NO;
         
-        [btnOne setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
-        [btnTwo setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
-        [btnThree setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f] forState:UIControlStateNormal];
+        [btnOne setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnTwo setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         [btnOne changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
         [btnTwo changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];

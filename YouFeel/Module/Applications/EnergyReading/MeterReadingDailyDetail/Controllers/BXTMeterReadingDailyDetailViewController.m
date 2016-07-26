@@ -52,13 +52,12 @@
 }
 
 #pragma mark -
-#pragma mark - createUI
+#pragma mark createUI
 - (void)createUI
 {
     // scrollView
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 70)];
     [self.view addSubview:self.scrollView];
-    
     
     // headerView
     self.headerView = [BXTMeterReadingDailyDetailFilterView viewForBXTMeterReadingDailyDetailFilterView];
@@ -79,54 +78,6 @@
         }
     }];
     [self.scrollView addSubview:self.headerView];
-    
-    
-//    // BXTHistogramStatisticsView
-//    //50° ~ -50°
-//    NSArray *temperatureArray = @[@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f),@(20.f),@(45.f),@(-40.f),@(-10.f),@(-30.f),@(30.f)];
-//    //0 ~ 100%rh
-//    NSArray *humidityArray = @[@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f),@(30.f),@(80.f),@(40.f),@(70.f),@(20.f),@(50.f)];
-//    //0 ~ 10级
-//    NSArray *windPowerArray = @[@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f),@(8.f),@(2.f),@(6.f),@(1.f),@(7.f),@(5.f)];
-//    //0 ~ 1000kwh
-//    NSArray *totalEnergyArray = @[@[@(800.f),@(600.f),@(400.f)],
-//                                  @[@(500.f),@(300.f),@(200.f)],
-//                                  @[@(700.f),@(500.f),@(200.f)],
-//                                  @[@(900.f),@(700.f),@(500.f)],
-//                                  @[@(600.f),@(300.f),@(200.f)],
-//                                  @[@(1000.f),@(600.f),@(300.f)],
-//                                  @[@(800.f),@(600.f),@(400.f)],
-//                                  @[@(500.f),@(300.f),@(200.f)],
-//                                  @[@(700.f),@(500.f),@(200.f)],
-//                                  @[@(900.f),@(700.f),@(500.f)],
-//                                  @[@(600.f),@(300.f),@(200.f)],
-//                                  @[@(1000.f),@(600.f),@(300.f)],
-//                                  @[@(800.f),@(600.f),@(400.f)],
-//                                  @[@(500.f),@(300.f),@(200.f)],
-//                                  @[@(700.f),@(500.f),@(200.f)],
-//                                  @[@(900.f),@(700.f),@(500.f)],
-//                                  @[@(600.f),@(300.f),@(200.f)],
-//                                  @[@(1000.f),@(600.f),@(300.f)],
-//                                  @[@(800.f),@(600.f),@(400.f)],
-//                                  @[@(500.f),@(300.f),@(200.f)],
-//                                  @[@(700.f),@(500.f),@(200.f)],
-//                                  @[@(900.f),@(700.f),@(500.f)],
-//                                  @[@(600.f),@(300.f),@(200.f)],
-//                                  @[@(1000.f),@(600.f),@(300.f)],
-//                                  @[@(800.f),@(600.f),@(400.f)],
-//                                  @[@(500.f),@(300.f),@(200.f)],
-//                                  @[@(700.f),@(500.f),@(200.f)],
-//                                  @[@(900.f),@(700.f),@(500.f)],
-//                                  @[@(600.f),@(300.f),@(200.f)],
-//                                  @[@(1000.f),@(600.f),@(300.f)]];
-//    //TODO:12000是假数据！！！！
-//    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10,  CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) temperatureArray:temperatureArray humidityArray:humidityArray windPowerArray:windPowerArray totalEnergyArray:totalEnergyArray kwhMeasure:12000 kwhNumber:6];
-//    self.hisView.backgroundColor = [UIColor whiteColor];
-//    self.hisView.layer.masksToBounds = YES;
-//    self.hisView.layer.cornerRadius = 10.f;
-//    self.hisView.footerView.checkDetailBtn.hidden = YES;
-//    [self.scrollView addSubview:self.hisView];
-    
     
     // footerView
     self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 70, SCREEN_WIDTH, 70)];
@@ -150,8 +101,24 @@
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
 }
 
+- (void)initialHisView:(NSInteger)maxNumber
+{
+    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) lists:self.dayListInfo.lists kwhMeasure:maxNumber kwhNumber:6];
+    self.hisView.backgroundColor = [UIColor whiteColor];
+    self.hisView.layer.masksToBounds = YES;
+    self.hisView.layer.cornerRadius = 10.f;
+    @weakify(self);
+    [[self.hisView.footerView.checkDetailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTMeterReadingDailyDetailViewController *mrddvc = [[BXTMeterReadingDailyDetailViewController alloc] init];
+        mrddvc.transID = self.transID;
+        [self.navigationController pushViewController:mrddvc animated:YES];
+    }];
+    [self.scrollView addSubview:self.hisView];
+}
+
 #pragma mark -
-#pragma mark - 处理时间
+#pragma mark 处理时间
 - (NSString *)transTime:(NSString *)time isAdd:(BOOL)add
 {
     NSInteger year = [[self.showTimeStr substringToIndex:4] integerValue];
@@ -177,28 +144,50 @@
     }
     
     self.showTimeStr = [NSString stringWithFormat:@"%ld年%ld月", (long)year, (long)month];
-    
-    //    [self getResource];
-    
+
     return self.showTimeStr;
 }
 
 #pragma mark -
-#pragma mark - getDataResource
+#pragma mark getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
-    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    // TODO: -----------------  调试 - 处理  -----------------
     if (type == EnergyMeterRecordDayLists && data.count > 0)
     {
         [BXTMeterReadingRecordDayListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"meterReadingID":@"id"};
         }];
         self.dayListInfo = [BXTMeterReadingRecordDayListInfo mj_objectWithKeyValues:data[0]];
-        
+        NSInteger count = self.dayListInfo.lists.count;
+        if (count > 0)
+        {
+            //通过最大kwh推算左侧坐标最大值
+            NSInteger max = 0;
+            for (NSInteger i = 0; i < count; i++)
+            {
+                BXTRecordDayListsInfo *recordInfo = self.dayListInfo.lists[i];
+                max = recordInfo.data.use_amount > max ? recordInfo.data.use_amount : max;
+            }
+            CGFloat fn = max/6.f;
+            NSInteger inn = floor(fn);
+            NSInteger i = 0;
+            do {
+                i++;
+                inn = floor(inn/10.f);
+            } while (inn > 10);
+            inn++;
+            do {
+                inn *= 10;
+                i--;
+            } while (i > 0);
+            inn *= 6;
+            
+            //创建统计
+            [self initialHisView:inn];
+        }
     }
 }
 
@@ -207,19 +196,9 @@
     [BXTGlobal hideMBP];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
