@@ -17,6 +17,7 @@
 #import "BXTEnergyMeterListInfo.h"
 #import "BXTEnergyReadingSearchViewController.h"
 #import "BXTEnergyReadingFilterInfo.h"
+#import "BXTQRCodeViewController.h"
 
 #define KBUTTONHEIGHT 46.f
 #define METERTABLETAG 666
@@ -77,6 +78,26 @@
     [self initialEnergyClass];
     [self initialSearchBarAndFilter];
     [self requestDatasoure];
+}
+
+- (void)navigationRightButton
+{
+    //创建参数对象
+    LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
+    style.centerUpOffset = 44;
+    style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
+    style.photoframeLineW = 6;
+    style.photoframeAngleW = 24;
+    style.photoframeAngleH = 24;
+    style.anmiationStyle = LBXScanViewAnimationStyle_LineMove;
+    style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_light_green"];
+    
+    BXTQRCodeViewController *qrcVC = [[BXTQRCodeViewController alloc] init];
+    qrcVC.style = style;
+    qrcVC.isQQSimulator = YES;
+    qrcVC.hidesBottomBarWhenPushed = YES;
+    qrcVC.pushType = ReturnVCTypeOFMeterReading;
+    [self.navigationController pushViewController:qrcVC animated:YES];
 }
 
 #pragma mark -

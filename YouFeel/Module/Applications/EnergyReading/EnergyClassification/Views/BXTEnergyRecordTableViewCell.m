@@ -35,7 +35,7 @@
     [self.starView setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];
     
     self.energyNumber.text = [NSString stringWithFormat:@"编号：%@", listInfo.code_number];
-    self.energySubName.attributedText = [BXTGlobal transToRichLabelOfIndex:4 String:[NSString stringWithFormat:@"表名：%@", listInfo.meter_name]];
+    self.energySubName.attributedText = [BXTGlobal transToRichLabelOfIndex:3 String:[NSString stringWithFormat:@"表名：%@", listInfo.meter_name]];
     self.energyNode.attributedText = [BXTGlobal transToRichLabelOfIndex:5 String:[NSString stringWithFormat:@"能源节点：%@", listInfo.measurement_path_name]];
     self.energyPlace.attributedText = [BXTGlobal transToRichLabelOfIndex:5 String:[NSString stringWithFormat:@"安装位置：%@", listInfo.place_name]];
 }

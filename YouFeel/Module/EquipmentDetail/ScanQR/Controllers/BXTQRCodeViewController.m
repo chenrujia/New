@@ -11,6 +11,7 @@
 #import "BXTDataRequest.h"
 #import "BXTEquipmentViewController.h"
 #import "BXTNewWorkOrderViewController.h"
+#import "BXTMeterReadingRecordViewController.h"
 
 @interface BXTQRBaseViewController () <BXTDataResponseDelegate>
 
@@ -190,6 +191,21 @@
         {
             NSDictionary *dict = data[0];
             NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
+            
+            if (self.pushType == ReturnVCTypeOFMeterReadingCreate) {
+                if (self.delegateSignal) {
+                    [self.delegateSignal sendNext:dict[@"qr_content"]];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+                return;
+            }
+            if (self.pushType == ReturnVCTypeOFMeterReading) {
+                BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
+                mrrvc.transID = dict[@"qr_content"];
+                mrrvc.delegateSignal = [RACSubject subject];
+                [self.navigationController pushViewController:mrrvc animated:YES];
+                return;
+            }
             
             [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
                 if (buttonIdx == 1) {

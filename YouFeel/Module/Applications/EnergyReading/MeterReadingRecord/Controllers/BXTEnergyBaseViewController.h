@@ -29,6 +29,8 @@ typedef NS_ENUM(NSInteger, PickerType) {
 
 @property (nonatomic, strong) UIButton *rightButton1;
 
+- (void)navigationLeftButton;
+
 - (void)navigationRightButton1;
 
 - (void)navigationRightButton2;

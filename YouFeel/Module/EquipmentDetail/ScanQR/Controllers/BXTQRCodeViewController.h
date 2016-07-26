@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "BXTQRBaseViewController.h"
 
+typedef NS_ENUM(NSInteger, ReturnVCType) {
+    ReturnVCTypeOFMeterReadingCreate = 1,   // 新建抄表扫描
+    ReturnVCTypeOFMeterReading,     // 能源抄表扫描
+    ReturnVCTypeOFOther
+};
+
 @interface BXTQRCodeViewController : BXTQRBaseViewController
 
 /** ---- 模仿qq界面 ---- */
@@ -26,5 +32,9 @@
 @property (nonatomic, strong) UIButton *btnFlash;
 /** ---- 我的二维码 ---- */
 @property (nonatomic, strong) UIButton *btnMyQR;
+
+/** ---- 跳转方式 ---- */
+@property (nonatomic, assign) ReturnVCType pushType;
+@property (nonatomic, strong) RACSubject *delegateSignal;
 
 @end

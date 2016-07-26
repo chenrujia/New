@@ -24,7 +24,7 @@
 /** ---- 示数-标题 ---- */
 @property (nonatomic, strong) NSArray *cellTitleArray;
 /** ---- 输入值 ---- */
-@property (nonatomic, strong) NSMutableArray *inputArray;
+@property (nonatomic, strong) NSMutableArray *writeArray;
 /** ---- 上期值 ---- */
 @property (nonatomic, strong) NSMutableArray *lastValueArray;
 /** ---- 上期用量 ---- */
@@ -41,8 +41,11 @@
 /** ---- 上传图片index ---- */
 @property (nonatomic, assign) NSInteger photoIndex;
 
-/** ---- 尖峰值不可操作 ---- */
-@property (nonatomic, assign) BOOL unAblePeakValue;
+/** ----  尖峰值不可操作 ---- */
+@property (nonatomic, assign) BOOL unablePeakValue;
+
+/** ----  已解锁 ---- */
+@property (nonatomic, assign) BOOL unlocked;
 
 @end
 
@@ -55,7 +58,7 @@
     [self navigationOwnSetting:@"新建抄表" andRightTitle:@"扫描解锁" andRightImage:nil];
     self.view.backgroundColor = colorWithHexString(ValueFUD(EnergyReadingColorStr));
     
-    
+    self.writeArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @"", @" ", nil];
     self.thisValueArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @"", @" ", nil];
     self.thisNumArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @"", @" ", nil];
     self.allImageArray = [[NSMutableArray alloc] initWithObjects:SaveImage, SaveImage, SaveImage, SaveImage,  SaveImage, SaveImage, nil];
@@ -85,12 +88,14 @@
     // 总示数计算
     if (![self.thisValueArray containsObject:@""] && self.thisValueArray.count == 6) {
         
-        NSInteger thisValue = 0;
-        for (int i=0; i<self.thisValueArray.count-1; i++) {
-            thisValue += [self.thisValueArray[i] integerValue];
+        NSInteger writeValue = 0;
+        for (int i=0; i<self.writeArray.count-1; i++) {
+            writeValue += [self.writeArray[i] integerValue];
         }
         
-        NSInteger thisNum = [self.thisValueArray[5] integerValue] * [self.meterReadingInfo.rate integerValue] - [self.lastValueArray[5] integerValue];
+        NSInteger thisValue = [self.writeArray[5] integerValue] * [self.meterReadingInfo.rate integerValue];
+        NSInteger thisNum = thisValue - [self.lastValueArray[5] integerValue];
+        [self.writeArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", writeValue]];
         [self.thisValueArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", thisValue]];
         [self.thisNumArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", thisNum]];
         
@@ -161,6 +166,21 @@
         qrcVC.style = style;
         qrcVC.isQQSimulator = YES;
         qrcVC.hidesBottomBarWhenPushed = YES;
+        qrcVC.pushType = ReturnVCTypeOFMeterReadingCreate;
+        qrcVC.delegateSignal = [RACSubject subject];
+        @weakify(self);
+        [qrcVC.delegateSignal subscribeNext:^(NSString *transID) {
+            @strongify(self);
+            if ([self.transID isEqualToString:transID]) {
+                [BXTGlobal showText:@"设备解锁成功" view:self.view completionBlock:^{
+                    self.unlocked = YES;
+                    [self.tableView reloadData];
+                }];
+            } else {
+                [BXTGlobal showText:@"设备不正确，请重试" view:self.view completionBlock:^{
+                }];
+            }
+        }];
         [self.navigationController pushViewController:qrcVC animated:YES];
     }];
     [navView addSubview:rightButton1];
@@ -191,7 +211,6 @@
     [self.footerView addSubview:cancelBtn];
     
     
-    // TODO: -----------------  调试  -----------------
     UIButton *commitBtn = [self createButtonWithTitle:@"提交" btnX:SCREEN_WIDTH / 2 + 5  tilteColor:@"#5DAFF9"];
     [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -213,6 +232,10 @@
         [BXTGlobal showLoadingMBP:@"数据加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         if (self.thisValueArray.count == 6) {
+            if (self.unablePeakValue) {
+                [self.allPhotoArray replaceObjectAtIndex:4 withObject:@""];
+            }
+            
             [request energyMeterRecordAddWithAboutID:self.transID
                                             totalNum:self.thisValueArray[5]
                                        peakPeriodNum:self.thisValueArray[1]
@@ -267,47 +290,56 @@
     
     BXTMeterReadingListCell *cell = [BXTMeterReadingListCell cellWithTableView:tableView];
     
+    // 锁定
+    cell.NumTextField.userInteractionEnabled = self.unlocked;
+    
     // 初始化
     cell.titleView.text = self.cellTitleArray[indexPath.section];
-    cell.NumTextField.text = self.thisValueArray[indexPath.section];
+    cell.NumTextField.text = self.writeArray[indexPath.section];
     cell.lastValueView.text = [self transUnitString:self.lastValueArray[indexPath.section]];
     cell.lastNumView.text = [self transUnitString:self.lastNumArray[indexPath.section]];
-    cell.thisValueView.text = [self transUnitString:self.thisValueArray[indexPath.section]];
-    cell.thisNumView.text = [self transUnitString:self.thisNumArray[indexPath.section]];
+    cell.thisValueView.text = self.thisValueArray[indexPath.section];
+    cell.thisNumView.text = self.thisNumArray[indexPath.section];
     [cell.addImageView setImage:self.allImageArray[indexPath.section] forState:UIControlStateNormal];
     // 按钮屏蔽
-    if (indexPath.section == 5 || (indexPath.section == 4 && self.unAblePeakValue)) {
+    if (indexPath.section == 5 || (indexPath.section == 4 && self.unablePeakValue))
+    {
         cell.addImageView.hidden = YES;
         cell.NumTextField.userInteractionEnabled = NO;
     }
-//
-//    @weakify(self);
-//    // 添加图片
-//    [[cell.addImageView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-//        @strongify(self);
-//        [self.view endEditing:YES];
-//        self.photoIndex = indexPath.section;
-//        [self addImages];
-//    }];
-//    // 填表
-//    cell.NumTextField.tag = indexPath.section + 100;
-//    [cell.NumTextField.rac_textSignal subscribeNext:^(NSString *text) {
-//        @strongify(self);
-//        if (![BXTGlobal isBlankString:text] && cell.NumTextField.tag == indexPath.section + 100) {
-//            NSInteger thisValue = [text integerValue] * [self.meterReadingInfo.rate integerValue];
-//            NSInteger thisNum = thisValue - [cell.lastValueView.text integerValue];
-//            cell.thisValueView.text = [NSString stringWithFormat:@"%ld", thisValue];
-//            cell.thisNumView.text = [NSString stringWithFormat:@"%ld", thisNum];
-//        }
-//        else { // 原因：总示数不变，其余textfield清除不会清空，
-//            if (indexPath.section != 5) {
-//                cell.thisValueView.text = @"";
-//                cell.thisNumView.text = @"";
-//            }
-//        }
-//        [self.thisValueArray replaceObjectAtIndex:indexPath.section withObject:cell.thisValueView.text];
-//        [self.thisNumArray replaceObjectAtIndex:indexPath.section withObject:cell.thisNumView.text];
-//    }];
+    
+    @weakify(self);
+    // 添加图片
+    [[cell.addImageView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.view endEditing:YES];
+        self.photoIndex = indexPath.section;
+        [self addImages];
+    }];
+    // 填表
+    cell.NumTextField.tag = indexPath.section + 100;
+    [cell.NumTextField.rac_textSignal subscribeNext:^(NSString *text) {
+        @strongify(self);
+        NSString *thisValueStr = @"";
+        NSString *thisNumStr = @"";
+        if (![BXTGlobal isBlankString:text] && cell.NumTextField.tag == indexPath.section + 100) {
+            NSInteger thisValue = [text integerValue] * [self.meterReadingInfo.rate integerValue];
+            NSInteger thisNum = thisValue - [cell.lastValueView.text integerValue];
+            thisValueStr = [NSString stringWithFormat:@"%ld", thisValue];
+            thisNumStr = [NSString stringWithFormat:@"%ld", thisNum];
+            cell.thisValueView.text = [NSString stringWithFormat:@"%ld %@", thisValue, self.meterReadingInfo.unit];
+            cell.thisNumView.text = [NSString stringWithFormat:@"%ld %@", thisNum, self.meterReadingInfo.unit];
+        }
+        else { // 原因：总示数不变，其余textfield清除不会清空，
+            if (indexPath.section != 5) {
+                cell.thisValueView.text = @"";
+                cell.thisNumView.text = @"";
+            }
+        }
+        [self.writeArray replaceObjectAtIndex:indexPath.section withObject:text];
+        [self.thisValueArray replaceObjectAtIndex:indexPath.section withObject:thisValueStr];
+        [self.thisNumArray replaceObjectAtIndex:indexPath.section withObject:thisNumStr];
+    }];
     
     return cell;
 }
@@ -364,10 +396,15 @@
         
         BXTMeterReadingLastList *lastList = self.meterReadingInfo.last;
         
+        NSInteger rate = [self.meterReadingInfo.rate integerValue];
+        
         // price_type_id:   2-峰谷  OR   单一、阶梯
         if (![self.meterReadingInfo.price_type_id isEqualToString:@"2"]) {
-            self.thisValueArray = [[NSMutableArray alloc] initWithObjects:@"0", @" ", nil];
-            self.thisNumArray = [[NSMutableArray alloc] initWithObjects:@"0", @" ", nil];
+            self.writeArray = [[NSMutableArray alloc] initWithObjects:
+                               @"0",
+                               [self transToString:lastList.total_num / rate], nil];
+            self.thisValueArray = [[NSMutableArray alloc] initWithObjects:@"0", [self transToString:lastList.total_num], nil];
+            self.thisNumArray = [[NSMutableArray alloc] initWithObjects:@"0", @"0", nil];
             self.allImageArray = [[NSMutableArray alloc] initWithObjects:SaveImage, SaveImage, nil];
             self.allPhotoArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", nil];
             self.cellTitleArray = @[@"", @"总示数："];
@@ -379,6 +416,13 @@
                                  [self transToString:lastList.use_amount], nil];
         }
         else {  // 是否在尖峰期：0否 1是，只有当计价方式为峰谷的时候才需要该值
+            self.writeArray = [[NSMutableArray alloc] initWithObjects:
+                               @"0",
+                               [self transToString:lastList.peak_period_num / rate],
+                               [self transToString:lastList.flat_section_num / rate],
+                               [self transToString:lastList.valley_section_num / rate],
+                               [self transToString:lastList.peak_segment_num / rate],
+                               [self transToString:lastList.total_num / rate], nil];
             self.lastValueArray = [[NSMutableArray alloc] initWithObjects:
                                    @"0",
                                    [self transToString:lastList.peak_period_num],
@@ -398,18 +442,14 @@
                                    [self transToString:lastList.peak_period_num],
                                    [self transToString:lastList.flat_section_num],
                                    [self transToString:lastList.valley_section_num],
-                                   [self transToString:lastList.peak_segment_num],
+                                   [self transToString:lastList.peak_segment_num ],
                                    [self transToString:lastList.total_num], nil];
             self.thisNumArray = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", nil];
             
-            // TODO: -----------------  调试  -----------------
-            //            if (![self.meterReadingInfo.is_peak_segment isEqualToString:@"1"]) {
-            //                self.unAblePeakValue = YES;
-            //
-            //                NSInteger peakNum = lastList.peak_segment_num / [self.meterReadingInfo.rate integerValue];
-            //                [self.thisValueArray replaceObjectAtIndex:4 withObject:[NSString stringWithFormat:@"%ld", lastList.peak_segment_num]];
-            //                [self.thisNumArray replaceObjectAtIndex:4 withObject:[NSString stringWithFormat:@"%ld", peakNum]];
-            //            }
+            if (![self.meterReadingInfo.is_peak_segment isEqualToString:@"1"]) {
+                self.unablePeakValue = YES;
+                self.allPhotoArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @" ", @" ", nil];
+            }
         }
         
         // check_type: 1-手动   2-自动(隐藏提交按钮)

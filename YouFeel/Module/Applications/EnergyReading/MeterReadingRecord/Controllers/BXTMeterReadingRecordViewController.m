@@ -20,6 +20,7 @@
 #import "BXTMeterReadingRecordMonthListInfo.h"
 #import "BXTMeterReadingRecordListInfo.h"
 #import <math.h>
+#import "BXTEnergyClassificationViewController.h"
 
 @interface BXTMeterReadingRecordViewController () <UITableViewDelegate, UITableViewDataSource, BXTDataResponseDelegate>
 
@@ -82,6 +83,19 @@
         // 计量表 - 抄表记录，列表
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeterRecordListsWithAboutID:self.transID date:self.timeStr];
+    }
+}
+
+- (void)navigationLeftButton
+{
+    if (self.delegateSignal) {
+        for (UIViewController *temp in self.navigationController.viewControllers) {
+            if ([temp isKindOfClass:[BXTEnergyClassificationViewController class]]) {
+                [self.navigationController popToViewController:temp animated:YES];
+            }
+        }
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -210,7 +224,7 @@
     }];
     [self.footerView addSubview:newMeterBtn];
     
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
+    
     [self showChartView:YES];
 }
 
@@ -228,6 +242,8 @@
         [self.navigationController pushViewController:mrddvc animated:YES];
     }];
     [self.scrollView addSubview:self.hisView];
+    
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
 }
 
 #pragma mark -
@@ -259,6 +275,13 @@
     self.headerView.setPlaceView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.place_name];
     self.headerView.serviceView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.server_area];
     self.headerView.rangeView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.desc];
+    
+    // check_type: 1-手动   2-自动(隐藏提交按钮)
+    if ([self.monthListInfo.check_type isEqualToString:@"2"]) {
+        [self.footerView removeFromSuperview];
+        self.scrollView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);
+        [self hideBgFooterView:YES];
+    }
 }
 
 #pragma mark -
@@ -482,6 +505,11 @@
     // filterView_list
     self.filterView_list.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20, 50);
     self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.filterView_chart.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - CGRectGetMaxY(self.filterView_list.frame) - 70);
+    
+    // check_type: 1-手动   2-自动(隐藏提交按钮)
+    if ([self.monthListInfo.check_type isEqualToString:@"2"]) {
+        self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.filterView_chart.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - CGRectGetMaxY(self.filterView_list.frame));
+    }
     
     if (!self.isHideChart)
     {
