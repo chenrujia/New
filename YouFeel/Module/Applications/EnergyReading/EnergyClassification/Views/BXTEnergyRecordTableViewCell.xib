@@ -107,7 +107,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Manual_Gu_Feng" translatesAutoresizingMaskIntoConstraints="NO" id="GT9-aI-Yle">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="energy_Manual_Gu_Feng" translatesAutoresizingMaskIntoConstraints="NO" id="GT9-aI-Yle">
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="60" id="IPd-fO-yKe"/>
@@ -335,7 +335,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Manual_Gu_Feng" width="84" height="84"/>
+        <image name="energy_Manual_Gu_Feng" width="84" height="84"/>
         <image name="energy_favourite_unstar" width="29" height="29"/>
         <image name="nfc" width="23" height="23"/>
         <image name="photo" width="23" height="23"/>

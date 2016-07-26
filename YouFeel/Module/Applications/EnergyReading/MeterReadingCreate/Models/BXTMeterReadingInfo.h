@@ -49,6 +49,7 @@
 @property (nonatomic, assign) NSInteger flat_section_amount;
 @property (nonatomic, assign) NSInteger peak_segment_num;
 @property (nonatomic, assign) NSInteger flat_section_num;
+@property (nonatomic, copy) NSString *peak_segment_pic;
 
 @end
 

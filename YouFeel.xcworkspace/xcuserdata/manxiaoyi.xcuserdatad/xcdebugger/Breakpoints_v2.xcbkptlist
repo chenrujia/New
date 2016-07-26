@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YouFeel/Module/Applications/EnergyReading/EnergyClassification/Controllers/BXTEnergyClassificationViewController.m"
-            timestampString = "491109283.301206"
+            filePath = "YouFeel/Module/Applications/EnergyReading/MeterReadingCreate/Controllers/BXTMeterReadingViewController.m"
+            timestampString = "491195504.909608"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
-            landmarkName = "-requestResponseData:requeseType:"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
+            landmarkName = "-createUI"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YouFeel/Module/Applications/EnergyReading/EnergyClassification/Controllers/BXTEnergyClassificationViewController.m"
-            timestampString = "491109286.74457"
+            filePath = "YouFeel/Module/Applications/EnergyReading/MeterReadingCreate/Controllers/BXTMeterReadingViewController.m"
+            timestampString = "491195504.909608"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "382"
-            endingLineNumber = "382"
-            landmarkName = "-requestResponseData:requeseType:"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "-createUI"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

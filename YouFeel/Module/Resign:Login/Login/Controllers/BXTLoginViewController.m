@@ -111,6 +111,7 @@
         self.wx_bottom.constant = 20.f;
         [self.wxLogin layoutIfNeeded];
     }
+    // TODO: -----------------  调试2  -----------------
     [self.view layoutSubviews];
 }
 

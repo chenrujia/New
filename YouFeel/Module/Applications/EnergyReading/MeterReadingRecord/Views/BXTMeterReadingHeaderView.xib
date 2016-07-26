@@ -8,7 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BXTMeterReadingHeaderView">
-            <rect key="frame" x="0.0" y="0.0" width="355" height="200"/>
+            <rect key="frame" x="0.0" y="0.0" width="355" height="180"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YbM-GX-ZmR">
@@ -60,7 +60,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VCG-Xq-zkG">
-                    <rect key="frame" x="0.0" y="100" width="355" height="99.5"/>
+                    <rect key="frame" x="0.0" y="100" width="355" height="80"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="安装位置：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Msy-Bb-ZGx">
                             <rect key="frame" x="10" y="10" width="70" height="21"/>
@@ -191,6 +191,7 @@
                 <outlet property="setPlaceView" destination="0xN-X5-eXB" id="BZ1-ld-Iqi"/>
                 <outlet property="titleView" destination="BES-Sh-nYR" id="ctI-Dm-tcN"/>
             </connections>
+            <point key="canvasLocation" x="352.5" y="391.25"/>
         </view>
     </objects>
     <resources>

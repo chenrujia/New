@@ -463,7 +463,7 @@
 {
     if (isSelected) {
         self.headerView.bgViewBtn.selected = NO;
-        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 100);
+        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 101);
         self.headerView.bgFooterView.hidden = YES;
         self.headerView.openImage.image = [UIImage imageNamed:@"energy_close"];
     } else {
