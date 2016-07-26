@@ -64,7 +64,6 @@ static CGFloat const ChooseViewHeight  = 328.f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self navigationSetting:@"我要报修" andRightTitle:nil andRightImage:nil];
     [self.placeTF setValue:colorWithHexString(@"#3cafff") forKeyPath:@"_placeholderLabel.textColor"];
     self.placeTF.layer.cornerRadius = 3.f;
@@ -95,6 +94,9 @@ static CGFloat const ChooseViewHeight  = 328.f;
         }];
         [self.contentView addSubview:button];
     }
+    
+    //侦听删除事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
     
     UITapGestureRecognizer *panGR = [[UITapGestureRecognizer alloc] init];
     @weakify(self);
@@ -200,6 +202,12 @@ static CGFloat const ChooseViewHeight  = 328.f;
         [self.notes_image layoutIfNeeded];
         self.placeTF.text = self.placeInfo.place;
     }
+}
+
+- (void)deleteImage:(NSNotification *)notification
+{
+    NSNumber *number = notification.object;
+    [self handleData:[number integerValue]];
 }
 
 - (UIButton *)initialButton:(BOOL)isLeft

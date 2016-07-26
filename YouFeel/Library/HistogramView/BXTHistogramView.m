@@ -37,7 +37,7 @@
                 [temArray addObject:@(recordInfo.data.temperature)];
                 [humArray addObject:@(recordInfo.data.humidity)];
                 [windArray addObject:@(recordInfo.data.wind_force)];
-                [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
+                [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.peak_period_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
             }
             self.windPowerArray = windArray;
         }
@@ -48,7 +48,7 @@
                 BXTRecordMonthListsInfo *recordInfo = datasource[i];
                 [temArray addObject:@(recordInfo.data.temperature)];
                 [humArray addObject:@(recordInfo.data.humidity)];
-                [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
+                [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.peak_period_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
             }
         }
         
@@ -77,7 +77,7 @@
     {
         NSArray *totalArray = self.totalEnergyArray[i];
         
-        //总值
+        //总能耗
         CGFloat total = [totalArray[0] floatValue];
         total = StatisticsHeight(rect) - total * scale;
         
@@ -85,24 +85,32 @@
         [colorWithHexString(@"AE63CB") set];
         CGContextFillPath(ctx);
         
-        //高峰
-        CGFloat peak = [totalArray[1] floatValue];
+        //尖峰
+        CGFloat peak = [totalArray[1] floatValue] + [totalArray[2] floatValue] + [totalArray[3] floatValue] + [totalArray[4] floatValue];
         peak = StatisticsHeight(rect) - peak * scale;
 
         CGContextAddRect(ctx, CGRectMake(10 + 50 * i, peak, 40, StatisticsHeight(rect) - peak));
+        [colorWithHexString(@"F3639B") set];
+        CGContextFillPath(ctx);
+        
+        //峰段
+        CGFloat part = [totalArray[2] floatValue] + [totalArray[3] floatValue] + [totalArray[4] floatValue];
+        part = StatisticsHeight(rect) - part * scale;
+        
+        CGContextAddRect(ctx, CGRectMake(10 + 50 * i, part, 40, StatisticsHeight(rect) - part));
         [colorWithHexString(@"FAB082") set];
         CGContextFillPath(ctx);
         
-        //平
-        CGFloat flat = [totalArray[2] floatValue];
+        //平段
+        CGFloat flat = [totalArray[3] floatValue] + [totalArray[4] floatValue];
         flat = StatisticsHeight(rect) - flat * scale;
         
         CGContextAddRect(ctx, CGRectMake(10 + 50 * i, flat, 40, StatisticsHeight(rect) - flat));
         [colorWithHexString(@"78DA9F") set];
         CGContextFillPath(ctx);
         
-        //低谷
-        CGFloat trough = [totalArray[3] floatValue];
+        //谷段
+        CGFloat trough = [totalArray[4] floatValue];
         trough = StatisticsHeight(rect) - trough * scale;
         
         CGContextAddRect(ctx, CGRectMake(10 + 50 * i, trough, 40, StatisticsHeight(rect) - trough));
@@ -130,8 +138,8 @@
         CGFloat value = ((StatisticsHeight(rect))/self.kwhNumber);
         CGContextMoveToPoint(ctx, 0, value * (i + 1)); // 起点
         CGContextAddLineToPoint(ctx, CGRectGetWidth(rect), value * (i + 1)); //终点
-        [[UIColor whiteColor] set]; // 两种设置颜色的方式都可以
-        CGContextSetLineWidth(ctx, 1.0f); // 线的宽度
+        [[[UIColor whiteColor] colorWithAlphaComponent:0.95f] set]; // 两种设置颜色的方式都可以
+        CGContextSetLineWidth(ctx, 0.5f); // 线的宽度
         CGContextSetLineCap(ctx, kCGLineCapRound); // 起点和终点圆角
         CGContextSetLineJoin(ctx, kCGLineJoinRound); // 转角圆角
         CGContextStrokePath(ctx); // 渲染（直线只能绘制空心的，不能调用CGContextFillPath(ctx);）
