@@ -63,7 +63,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"能源抄表" backColor:colorWithHexString(@"f45b5b") rightImage:[UIImage imageNamed:@"scan"]];
+    [self navigationSetting:@"能源抄表" backColor:colorWithHexString(@"f45b5b") rightImage:[UIImage imageNamed:@"scan_energy"]];
     SaveValueTUD(EnergyReadingColorStr, @"#f45b5b");
     
     self.checkType = @"";
@@ -83,7 +83,7 @@
 - (void)navigationRightButton
 {
     //创建参数对象
-    LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
+    LBXScanViewStyle *style = [[LBXScanViewStyle alloc] init];
     style.centerUpOffset = 44;
     style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
     style.photoframeLineW = 6;

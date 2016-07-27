@@ -11,16 +11,6 @@
 
 @implementation BXTCustomImageView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        [self addLongPressGesture];
-    }
-    return self;
-}
-
 - (instancetype)init
 {
     self = [super init];
@@ -43,7 +33,7 @@
     }];
     
     //侦听删除事件
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteImage:) name:@"DeleteTheImage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteSelectImage:) name:@"DeleteTheImage" object:nil];
     
     //添加长按手势
     UILongPressGestureRecognizer *recognize = [[UILongPressGestureRecognizer alloc] init];
@@ -56,14 +46,11 @@
     [self addGestureRecognizer:recognize];
     
     self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_deleteBtn setImage:[UIImage imageNamed:@"deleteImage"] forState:UIControlStateNormal];
-    _deleteBtn.frame= CGRectMake(0, 0, 44, 44);
-    _deleteBtn.hidden = YES;
-    [[_deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DeleteTheImage" object:[NSNumber numberWithInteger:self.tag]];
-    }];
-    [self addSubview:_deleteBtn];
+    [self.deleteBtn setImage:[UIImage imageNamed:@"deleteImage"] forState:UIControlStateNormal];
+    self.deleteBtn.frame= CGRectMake(0, 0, 44, 44);
+    self.deleteBtn.hidden = YES;
+    [self.deleteBtn addTarget:self action:@selector(deleteBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.deleteBtn];
 }
 
 - (void)setFrame:(CGRect)frame
@@ -72,8 +59,9 @@
     [_deleteBtn setCenter:CGPointMake(CGRectGetMaxX(self.bounds) - 22, 22)];
 }
 
-- (void)deleteImage:(NSNotification *)notification
+- (void)deleteSelectImage:(NSNotification *)notification
 {
+    NSLog(@".......调用了.......");
     NSNumber *number = notification.object;
     CGRect addBtnRect = CGRectMake(10.f, 170.f - IMAGEWIDTH - 10.f, IMAGEWIDTH, IMAGEWIDTH);
     
@@ -88,16 +76,14 @@
         [UIView animateWithDuration:1.f animations:^{
             
             CGRect rect = self.frame;
-            rect.origin.x -= IMAGEWIDTH + 10;
+            NSLog(@"1..............%@",NSStringFromCGRect(rect));
+            rect.origin.x = rect.origin.x - IMAGEWIDTH - 10;
+            NSLog(@"2..............%@",NSStringFromCGRect(rect));
             self.frame = rect;
             
         } completion:^(BOOL finished) {
             [self pause];
         }];
-    }
-    else
-    {
-        NSLog(@"..............");
     }
     [self pause];
 }
@@ -133,6 +119,11 @@
 {
     _deleteBtn.hidden = YES;
     [self.layer removeAnimationForKey:@"rotation"];
+}
+
+- (void)deleteBtnClick:(id)sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DeleteTheImage" object:[NSNumber numberWithInteger:self.tag]];
 }
 
 @end
