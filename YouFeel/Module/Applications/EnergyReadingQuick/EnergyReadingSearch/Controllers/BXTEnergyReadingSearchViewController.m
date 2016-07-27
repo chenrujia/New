@@ -56,7 +56,7 @@
     }
     else {
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterListsWithType:[NSString stringWithFormat:@"%ld", pushType]
+        [request energyMeterListsWithType:[NSString stringWithFormat:@"%ld", (long)pushType]
                                 checkType:@""
                                 priceType:@""
                                   placeID:@""

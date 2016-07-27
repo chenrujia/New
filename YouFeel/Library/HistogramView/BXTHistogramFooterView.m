@@ -20,6 +20,8 @@
     // Initialization code
     
     self.roundView0.layer.cornerRadius = 5;
+    self.roundView01.layer.cornerRadius = 5;
+    self.roundView02.layer.cornerRadius = 5;
     self.roundView1.layer.cornerRadius = 5;
     self.roundView2.layer.cornerRadius = 5;
     self.roundView3.layer.cornerRadius = 5;

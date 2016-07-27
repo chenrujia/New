@@ -175,7 +175,7 @@
     }];
     [searchBar addSubview:searchBtn];
     
-    NSArray *titles = @[@"抄表方式",@"价格类型",@"安装位置",@"筛选"];
+    NSArray *titles = @[@"抄表方式",@"价格类型",@"安装位置",@"筛选   "];
     NSArray *images = @[@"select_triangle",@"select_triangle",@"select_triangle",@"filter"];
     for (NSInteger i = 0; i < 4; i++)
     {
@@ -315,7 +315,6 @@
     
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:REFRESHTABLEVIEWOFLIST object:nil] subscribeNext:^(id x) {
-        NSLog(@"的方式的国防生的鬼地方好地方规划的法规 --- %ld", self.btnTag + 1);
         @strongify(self);
         [self getResourceWithTag:self.btnTag + 1 hasMeasurementList:YES];
     }];
@@ -326,7 +325,7 @@
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
-        [request energyMeterListsWithType:[NSString stringWithFormat:@"%ld", tag]
+        [request energyMeterListsWithType:[NSString stringWithFormat:@"%ld", (long)tag]
                                 checkType:self.checkType
                                 priceType:self.priceType
                                   placeID:self.placeID
@@ -337,7 +336,7 @@
         /**筛选条件**/
         if (isRight) {
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request energyMeasuremenLevelListsWithType:[NSString stringWithFormat:@"%ld", tag]];
+            [request energyMeasuremenLevelListsWithType:[NSString stringWithFormat:@"%ld", (long)tag]];
         }
     });
 }
@@ -599,12 +598,12 @@
     if (tableView.tag == METERTABLETAG)
     {
         NSLog(@"------------ %@", self.meterArray[indexPath.row]);
-        self.checkType = [NSString stringWithFormat:@"%ld", indexPath.row];
+        self.checkType = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     }
     else if (tableView.tag == PRICETABLETAG)
     {
         NSLog(@"------------ %@", self.priceArray[indexPath.row]);
-        self.priceType = [NSString stringWithFormat:@"%ld", indexPath.row];
+        self.priceType = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     }
     
     [BXTGlobal showLoadingMBP:@"数据加载中..."];

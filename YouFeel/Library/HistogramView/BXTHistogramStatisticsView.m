@@ -244,6 +244,12 @@
         
         BXTHistogramView *histogramView = [[BXTHistogramView alloc] initWithFrame:CGRectMake(0, 0, 1500, 330.f) lists:datasource kwhMeasure:measure kwhNumber:number block:^(CGFloat temperature, CGFloat humidity, CGFloat windPower, NSArray *energy) {
             NSLog(@"%f,%f,%f,%@",temperature,humidity,windPower,energy);
+            
+            self.footerView.consumptionView.text = [NSString stringWithFormat:@"总能耗：%@", energy[0]];
+            self.footerView.peakNumView.text = [NSString stringWithFormat:@"尖峰量：%@", energy[1]];
+            self.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%@", energy[2]];
+            self.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%@", energy[3]];
+            self.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%@", energy[4]];
         }];
         [scrollView addSubview:histogramView];
 

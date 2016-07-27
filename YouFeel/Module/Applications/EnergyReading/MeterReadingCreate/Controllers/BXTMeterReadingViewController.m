@@ -95,9 +95,9 @@
         
         NSInteger thisValue = [self.writeArray[5] integerValue] * [self.meterReadingInfo.rate integerValue];
         NSInteger thisNum = thisValue - [self.lastValueArray[5] integerValue];
-        [self.writeArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", writeValue]];
-        [self.thisValueArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", thisValue]];
-        [self.thisNumArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", thisNum]];
+        [self.writeArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", (long)writeValue]];
+        [self.thisValueArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", (long)thisValue]];
+        [self.thisNumArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", (long)thisNum]];
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -325,10 +325,10 @@
         if (![BXTGlobal isBlankString:text] && cell.NumTextField.tag == indexPath.section + 100) {
             NSInteger thisValue = [text integerValue] * [self.meterReadingInfo.rate integerValue];
             NSInteger thisNum = thisValue - [cell.lastValueView.text integerValue];
-            thisValueStr = [NSString stringWithFormat:@"%ld", thisValue];
-            thisNumStr = [NSString stringWithFormat:@"%ld", thisNum];
-            cell.thisValueView.text = [NSString stringWithFormat:@"%ld %@", thisValue, self.meterReadingInfo.unit];
-            cell.thisNumView.text = [NSString stringWithFormat:@"%ld %@", thisNum, self.meterReadingInfo.unit];
+            thisValueStr = [NSString stringWithFormat:@"%ld", (long)thisValue];
+            thisNumStr = [NSString stringWithFormat:@"%ld", (long)thisNum];
+            cell.thisValueView.text = [NSString stringWithFormat:@"%ld %@", (long)thisValue, self.meterReadingInfo.unit];
+            cell.thisNumView.text = [NSString stringWithFormat:@"%ld %@", (long)thisNum, self.meterReadingInfo.unit];
         }
         else { // 原因：总示数不变，其余textfield清除不会清空，
             if (indexPath.section != 5) {
@@ -498,7 +498,7 @@
 
 - (NSString *)transToString:(NSInteger)sender
 {
-    return [NSString stringWithFormat:@"%ld", sender];
+    return [NSString stringWithFormat:@"%ld", (long)sender];
 }
 
 - (NSString *)transUnitString:(NSString *)sender

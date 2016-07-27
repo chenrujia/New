@@ -160,18 +160,22 @@
     // lastMonthBtn
     [[self.filterView_chart.lastMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self.filterView_chart.thisMonthBtn setTitle:[self transTimeIsAdd:NO] forState:UIControlStateNormal];
+        self.yearStr = [self transTimeIsAdd:NO];
+        [self.filterView_chart.thisMonthBtn setTitle:self.yearStr forState:UIControlStateNormal];
         self.filterView_chart.nextMonthBtn.enabled = YES;
         self.filterView_chart.nextMonthBtn.alpha = 1.0;
+        [self getResourceShowMonthChartView:YES];
     }];
     
     // nextMonthBtn
     [[self.filterView_chart.nextMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self.filterView_chart.thisMonthBtn setTitle:[self transTimeIsAdd:YES] forState:UIControlStateNormal];
+        self.yearStr = [self transTimeIsAdd:YES];
+        [self.filterView_chart.thisMonthBtn setTitle:self.yearStr forState:UIControlStateNormal];
         if ([self.yearStr integerValue] == [[BXTGlobal yearAndmonthAndDay][0] integerValue]) {
             self.filterView_chart.nextMonthBtn.enabled = NO;
             self.filterView_chart.nextMonthBtn.alpha = 0.4;
+            [self getResourceShowMonthChartView:YES];
         }
     }];
     [self.scrollView addSubview:self.filterView_chart];
@@ -390,13 +394,13 @@
 #pragma mark getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [BXTGlobal hideMBP];
-    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     
     if (type == EnergyMeterRecordMonthLists && data.count > 0)
     {
+        [BXTGlobal hideMBP];
+        
         [BXTMeterReadingRecordMonthListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"meterReadingID":@"id"};
         }];

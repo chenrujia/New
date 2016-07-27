@@ -4601,8 +4601,8 @@
 				784890A11D3734D700C1106D /* ProjectNotice */,
 				7867DC401C4CBB47000749F1 /* Statistics */,
 				7848904E1D3734D700C1106D /* EnergyReading */,
-				784890971D3734D700C1106D /* EnergyReadingQuick */,
 				7848909C1D3734D700C1106D /* EnergyStatistics */,
+				784890971D3734D700C1106D /* EnergyReadingQuick */,
 			);
 			path = Applications;
 			sourceTree = "<group>";

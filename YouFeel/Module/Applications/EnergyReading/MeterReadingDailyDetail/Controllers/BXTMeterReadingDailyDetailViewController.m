@@ -37,7 +37,7 @@
     [self navigationSetting:@"日详情" andRightTitle1:nil andRightImage1:nil andRightTitle2:nil andRightImage2:nil];
     
     NSArray *timeArray = [BXTGlobal yearAndmonthAndDay];
-    self.nowTimeStr = [NSString stringWithFormat:@"%@年%@月", timeArray[0], timeArray[1]];
+    self.nowTimeStr = [NSString stringWithFormat:@"%@-%@", timeArray[0], timeArray[1]];
     self.showTimeStr = self.nowTimeStr;
     
     [self createUI];
@@ -48,7 +48,7 @@
 {
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request energyMeterRecordDayListsWithAboutID:self.transID date:@"2016-07"];
+    [request energyMeterRecordDayListsWithAboutID:self.transID date:self.showTimeStr];
 }
 
 #pragma mark -
@@ -68,6 +68,7 @@
         self.headerView.timeView.text = [self transTime:self.showTimeStr isAdd:NO];
         self.headerView.nextMonthBtn.enabled = YES;
         self.headerView.nextMonthBtn.alpha = 1.0;
+        [self getResource];
     }];
     [[self.headerView.nextMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -75,6 +76,9 @@
         if ([self.showTimeStr isEqualToString:self.nowTimeStr]) {
             self.headerView.nextMonthBtn.enabled = NO;
             self.headerView.nextMonthBtn.alpha = 0.4;
+        }
+        else {
+            [self getResource];
         }
     }];
     [self.scrollView addSubview:self.headerView];
@@ -144,7 +148,7 @@
     }
     
     self.showTimeStr = [NSString stringWithFormat:@"%ld年%ld月", (long)year, (long)month];
-
+    
     return self.showTimeStr;
 }
 
