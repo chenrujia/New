@@ -245,11 +245,11 @@
 {
     if (indexPath.column == 0)
     {
-        self.typeStr = [NSString stringWithFormat:@"%ld", indexPath.row];
+        self.typeStr = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     }
     else if (indexPath.column == 1)
     {
-        self.checkTypeStr = [NSString stringWithFormat:@"%ld", indexPath.row];
+        self.checkTypeStr = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     }
     
     [self getResource];

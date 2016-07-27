@@ -25,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *checkDetailBtn;
 
 @property (weak, nonatomic) IBOutlet UIView *roundView0;
+@property (weak, nonatomic) IBOutlet UIView *roundView01;
+@property (weak, nonatomic) IBOutlet UIView *roundView02;
 @property (weak, nonatomic) IBOutlet UIView *roundView1;
 @property (weak, nonatomic) IBOutlet UIView *roundView2;
 @property (weak, nonatomic) IBOutlet UIView *roundView3;
