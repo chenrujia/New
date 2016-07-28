@@ -244,6 +244,7 @@
                 <outlet property="roundView4" destination="pdF-mX-Mv0" id="Egf-BT-fiN"/>
                 <outlet property="roundView5" destination="WpR-u0-McA" id="4XG-Wj-6Xn"/>
                 <outlet property="valleyNumView" destination="IgJ-Uc-g0v" id="nOv-ir-kf3"/>
+                <outlet property="windView" destination="lKe-QI-2ZC" id="669-Yw-S29"/>
             </connections>
             <point key="canvasLocation" x="194.5" y="452"/>
         </view>

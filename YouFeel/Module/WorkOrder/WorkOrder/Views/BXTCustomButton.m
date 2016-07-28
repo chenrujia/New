@@ -85,9 +85,11 @@
     {
         if (self.tag == 3)
         {
-            CGFloat margin = 40.f;
-            if (IS_IPHONE5) {
-                margin = 25.f;
+            CGFloat margin = 25.f;
+            if (IS_IPHONE6P) {
+                margin = 40.f;
+            } else if (IS_IPHONE6) {
+                margin = 35.f;
             }
             imageX = (SCREEN_WIDTH - 20.f)/4.f - margin;
             imageY = 17;

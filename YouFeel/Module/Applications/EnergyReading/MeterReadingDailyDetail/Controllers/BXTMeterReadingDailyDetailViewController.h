@@ -12,4 +12,9 @@
 
 @property (nonatomic, copy) NSString *transID;
 
+@property (nonatomic, strong) RACSubject *delegateSignal;
+
+/** ---- 解锁 ---- */
+@property (nonatomic, assign) BOOL unlocked;
+
 @end

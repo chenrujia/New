@@ -27,6 +27,7 @@
 @property (nonatomic, copy) NSString *price_type_name;
 @property (nonatomic, copy) NSString *meter_name;
 @property (nonatomic, copy) NSString *pricing_scheme_id;
+@property (nonatomic, copy) NSString *type;
 
 @end
 

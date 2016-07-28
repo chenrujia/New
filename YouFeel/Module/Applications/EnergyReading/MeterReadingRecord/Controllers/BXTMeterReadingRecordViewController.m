@@ -36,6 +36,8 @@
 @property (nonatomic, strong) BXTMeterReadingRecordMonthListInfo *monthListInfo;
 @property (nonatomic, strong) BXTMeterReadingRecordListInfo      *listInfo;
 
+@property (nonatomic, assign) BOOL isListsRequest;
+
 @end
 
 @implementation BXTMeterReadingRecordViewController
@@ -71,6 +73,8 @@
 
 - (void)getResourceShowMonthChartView:(BOOL)showChart
 {
+    self.isListsRequest = !showChart;
+    
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
     if (showChart)
     {
@@ -217,6 +221,7 @@
         @strongify(self);
         BXTMeterReadingViewController *mrvc = [[BXTMeterReadingViewController alloc] init];
         mrvc.transID = self.transID;
+        mrvc.unlocked = self.unlocked;
         mrvc.delegateSignal = [RACSubject subject];
         [mrvc.delegateSignal subscribeNext:^(id x) {
             @strongify(self);
@@ -235,6 +240,8 @@
 - (void)initialHisView:(NSInteger)maxNumber
 {
     self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.filterView_chart.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) lists:self.monthListInfo.lists kwhMeasure:maxNumber kwhNumber:4];
+    self.hisView.footerView.roundView02.hidden = YES;
+    self.hisView.footerView.windView.hidden = YES;
     self.hisView.backgroundColor = [UIColor whiteColor];
     self.hisView.layer.masksToBounds = YES;
     self.hisView.layer.cornerRadius = 10.f;
@@ -243,6 +250,13 @@
         @strongify(self);
         BXTMeterReadingDailyDetailViewController *mrddvc = [[BXTMeterReadingDailyDetailViewController alloc] init];
         mrddvc.transID = self.transID;
+        mrddvc.delegateSignal = [RACSubject subject];
+        [mrddvc.delegateSignal subscribeNext:^(id x) {
+            @strongify(self);
+            self.timeStr = @"";
+            [self.filterView_list.timeBtn setTitle:@"年/月/日" forState:UIControlStateNormal];
+            [self getResourceShowMonthChartView:NO];
+        }];
         [self.navigationController pushViewController:mrddvc animated:YES];
     }];
     [self.scrollView addSubview:self.hisView];
@@ -400,7 +414,6 @@
     if (type == EnergyMeterRecordMonthLists && data.count > 0)
     {
         [BXTGlobal hideMBP];
-        
         [BXTMeterReadingRecordMonthListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"meterReadingID":@"id"};
         }];
@@ -437,6 +450,9 @@
     }
     if (type == EnergyMeterRecordLists && data.count > 0)
     {
+        if (self.isListsRequest) {
+            [BXTGlobal hideMBP];
+        }
         [BXTMeterReadingRecordListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"meterReadingID":@"id"};
         }];

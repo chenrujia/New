@@ -44,9 +44,6 @@
 /** ----  尖峰值不可操作 ---- */
 @property (nonatomic, assign) BOOL unablePeakValue;
 
-/** ----  已解锁 ---- */
-@property (nonatomic, assign) BOOL unlocked;
-
 @end
 
 @implementation BXTMeterReadingViewController
@@ -292,6 +289,7 @@
     
     // 锁定
     cell.NumTextField.userInteractionEnabled = self.unlocked;
+    cell.addImageView.userInteractionEnabled = self.unlocked;
     
     // 初始化
     cell.titleView.text = self.cellTitleArray[indexPath.section];
@@ -460,6 +458,7 @@
     }
     else if (type == EnergyMeterRecordFile && [dic[@"returncode"] intValue] == 0)
     {
+        [BXTGlobal hideMBP];
         for (NSDictionary *dataDict in data) {
             [self.allPhotoArray replaceObjectAtIndex:self.photoIndex withObject:dataDict[@"id"]];
         }
