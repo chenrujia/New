@@ -319,6 +319,7 @@
     }
     
     BXTEnergyMeterListInfo *listInfo = self.dataArray[indexPath.row];
+    // 存储页面颜色
     [self saveViewControllerBgColor:listInfo.type];
     
     BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
