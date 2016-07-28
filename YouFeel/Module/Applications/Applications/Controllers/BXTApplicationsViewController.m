@@ -20,6 +20,7 @@
 #import "UITabBar+badge.h"
 #import "BXTEnergyClassificationViewController.h"
 #import "BXTEnergyReadingQuickViewController.h"
+#import "BXTEnergyStatisticViewController.h"
 
 @interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -44,29 +45,29 @@
     //如果不包含业务统计
     if ([permissonKeys containsString:@"9995"])
     {
-        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源抄表", @"能源统计", @"快捷抄表", @"敬请期待"]];
-        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_metering", @"app_chart", @"app_quick", @"app_symbol"]];
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源抄表", @"能源统计", @"快捷抄表", @"酒店入住率", @"敬请期待"]];
+        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_metering", @"app_chart", @"app_quick", @"app_hotels", @"app_symbol"]];
     }
     else
     {
-        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"能源抄表", @"能源统计", @"快捷抄表", @"敬请期待"]
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"能源抄表", @"能源统计", @"快捷抄表", @"酒店入住率", @"敬请期待"]
                            ];
-        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_metering", @"app_chart", @"app_quick", @"app_symbol"]
+        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_metering", @"app_chart", @"app_quick", @"app_hotels", @"app_symbol"]
                            ];
     }
     
-    [BXTGlobal showLoadingMBP:@"加载中..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /**广告位图片展示**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request appVCAdvertisement];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**请求是否显示OA**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request informOFOA];
-    });
+//    [BXTGlobal showLoadingMBP:@"加载中..."];
+//    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_async(concurrentQueue, ^{
+//        /**广告位图片展示**/
+//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//        [request appVCAdvertisement];
+//    });
+//    dispatch_async(concurrentQueue, ^{
+//        /**请求是否显示OA**/
+//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+//        [request informOFOA];
+//    });
     
     [self createUI];
     NSArray *listArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
@@ -88,7 +89,7 @@
     [self.itemsCollectionView reloadData];
     
     // TODO: -----------------  调试2  -----------------
-//    [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
+    //    [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
 }
 
 - (void)createUI
@@ -205,6 +206,12 @@
         [self.navigationController pushViewController:energyVC animated:YES];
     }
     else if ([title isEqualToString:@"能源统计"])
+    {
+        BXTEnergyStatisticViewController *energyVC = [[BXTEnergyStatisticViewController alloc] init];
+        energyVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:energyVC animated:YES];
+    }
+    else if ([title isEqualToString:@"酒店入住率"])
     {
         [BXTGlobal showText:@"功能完善中..." view:self.view completionBlock:^{
             
