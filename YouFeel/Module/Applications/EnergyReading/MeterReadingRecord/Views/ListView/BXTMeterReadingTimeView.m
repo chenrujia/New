@@ -24,14 +24,13 @@
     self.valueView.text = lists.total_num;
     self.numView.text = lists.use_amount;
     
-    
-    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc] initWithString:[BXTGlobal transformationTime:@"yyyy\nddMM\nHH:mm" withTime:lists.create_time]];
+    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc] initWithString:[BXTGlobal transformationTime:@"yyyy\ndd/MM\nHH:mm" withTime:lists.create_time]];
     [AttributedStr addAttribute:NSFontAttributeName
                           value:[UIFont systemFontOfSize:18.0]
                           range:NSMakeRange(5, 2)];
     [AttributedStr addAttribute:NSForegroundColorAttributeName
                           value:[UIColor whiteColor]
-                          range:NSMakeRange(5, 4)];
+                          range:NSMakeRange(5, 5)];
     
     self.timeView.attributedText = AttributedStr;
 }

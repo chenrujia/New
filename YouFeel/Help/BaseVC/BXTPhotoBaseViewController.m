@@ -92,7 +92,7 @@
             {
                 if (GetImages.count != 0)
                 {
-                    if (self.isSettingVC)
+                    if (self.photoVCType == SettingVCType || self.photoVCType == MeterRecordType)
                     {
                         //取原图
                         [self.selectPhotos removeAllObjects];
@@ -268,7 +268,6 @@
     browser.zoomPhotosToFill = YES;
     browser.enableSwipeToDismiss = YES;
     [browser setCurrentPhotoIndex:index];
-    //    browser.titlePreNumStr = [NSString stringWithFormat:@"%ld%ld%ld", (long)faultPicCount, (long)fixedPicCount, (long)evaluationPicCount];
     [self.navigationController pushViewController:browser animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }
@@ -285,7 +284,7 @@
         imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
         //设置相机支持的类型，拍照和录像
         imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-        if (self.isSettingVC)
+        if (self.photoVCType == SettingVCType || self.photoVCType == MeterRecordType)
         {
             imagePickerController.allowsEditing = YES;
         }
@@ -298,7 +297,7 @@
 - (void)getSelectedPhoto:(NSMutableArray *)photos
 {
     [self.resultPhotos removeAllObjects];
-    if (_isSettingVC)
+    if (self.photoVCType == SettingVCType || self.photoVCType == MeterRecordType)
     {
         self.selectPhotos = photos;
         UIImage *image = [self handleImage];
@@ -439,11 +438,18 @@
         [picker dismissViewControllerAnimated:YES completion:^{
             @strongify(self);
             [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-            if (self.isSettingVC)
+            if (self.photoVCType == SettingVCType)
             {
                 [self showLoadingMBP:@"正在上传..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request uploadHeaderImage:headImage];
+            }
+            else if (self.photoVCType == MeterRecordType)
+            {
+                [BXTGlobal showLoadingMBP:@"正在上传..."];
+                self.meterImage = headImage;
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request energyMeterRecordFileWithImage:headImage];
             }
             else
             {
@@ -462,11 +468,18 @@
              [picker dismissViewControllerAnimated:YES completion:^{
                  @strongify(self);
                  [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-                 if (self.isSettingVC)
+                 if (self.photoVCType == SettingVCType)
                  {
                      [self showLoadingMBP:@"正在上传..."];
                      BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                      [request uploadHeaderImage:img];
+                 }
+                 else if (self.photoVCType == MeterRecordType)
+                 {
+                     [BXTGlobal showLoadingMBP:@"正在上传..."];
+                     self.meterImage = img;
+                     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                     [request energyMeterRecordFileWithImage:img];
                  }
                  else
                  {
@@ -476,7 +489,6 @@
              }];
          }];
     }
-    
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

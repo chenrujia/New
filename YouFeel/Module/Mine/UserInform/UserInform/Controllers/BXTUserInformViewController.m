@@ -33,9 +33,8 @@
     
     // BXTPhotoBaseViewController 包括下面3条
     [BXTGlobal shareGlobal].maxPics = 1;
-    self.isSettingVC = YES;
+    self.photoVCType = SettingVCType;
     self.selectPhotos = [NSMutableArray array];
-    
     
     [self initContentViews];
     

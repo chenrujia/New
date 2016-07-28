@@ -17,6 +17,13 @@
 @import AVFoundation;
 @import MobileCoreServices;
 
+typedef NS_ENUM(NSInteger,PhotoVCType)
+{
+    DefaultVCType = 0,
+    SettingVCType = 1,
+    MeterRecordType = 2
+};
+
 @interface BXTPhotoBaseViewController : BXTBaseViewController<SelectPhotoDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,MLImageCropDelegate>
 
 @property (nonatomic ,strong) BXTPhotosView  *photosView;
@@ -25,7 +32,9 @@
 @property (nonatomic ,strong) NSMutableArray *resultPhotos;
 @property (nonatomic ,strong) NSIndexPath    *indexPath;
 @property (nonatomic ,strong) UITableView    *currentTableView;
-@property (nonatomic, assign) BOOL           isSettingVC;
+@property (nonatomic ,assign) PhotoVCType    photoVCType;
+//新建抄表专用
+@property (nonatomic ,strong) UIImage        *meterImage;
 
 - (void)addImages;
 - (void)loadMWPhotoBrowser:(NSInteger)index;

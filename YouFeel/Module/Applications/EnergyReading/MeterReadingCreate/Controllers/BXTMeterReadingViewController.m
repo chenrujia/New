@@ -48,12 +48,12 @@
 
 @implementation BXTMeterReadingViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationOwnSetting:@"新建抄表" andRightTitle:@"扫描解锁" andRightImage:nil];
     self.view.backgroundColor = colorWithHexString(ValueFUD(EnergyReadingColorStr));
+    self.photoVCType = MeterRecordType;
     
     self.writeArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @"", @" ", nil];
     self.thisValueArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @"", @" ", nil];
@@ -64,18 +64,14 @@
     
     // BXTPhotoBaseViewController 包括下面3条
     [BXTGlobal shareGlobal].maxPics = 1;
-    self.isSettingVC = YES;
     self.selectPhotos = [NSMutableArray array];
-    
     
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
     /**新建抄表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request energyMeterDetailWithID:self.transID];
     
-    
     [self createUI];
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector :@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
@@ -115,7 +111,6 @@
     navView.userInteractionEnabled = YES;
     [self.view addSubview:navView];
     
-    
     // titleLabel
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64, 20, SCREEN_WIDTH-128, 44)];
     titleLabel.font = [UIFont systemFontOfSize:18.f];
@@ -124,7 +119,6 @@
     titleLabel.text = title;
     [navView addSubview:titleLabel];
     
-    
     // leftButton
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     leftButton.frame = CGRectMake(0, 20, 44, 44);
@@ -132,17 +126,20 @@
     [leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
     [navView addSubview:leftButton];
     
-    
-    if (!(image1 || right_title1)) {
+    if (!(image1 || right_title1))
+    {
         return;
     }
     // rightButton1
     UIButton *rightButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [rightButton1 setFrame:CGRectMake(SCREEN_WIDTH - 64.f - 5.f, 20, 64.f, 44.f)];
-    if (image1) {
+    if (image1)
+    {
         rightButton1.frame = CGRectMake(SCREEN_WIDTH - 44.f - 5.f, 20, 44.f, 44.f);
         [rightButton1 setImage:image1 forState:UIControlStateNormal];
-    } else {
+    }
+    else
+    {
         [rightButton1 setTitle:right_title1 forState:UIControlStateNormal];
     }
     rightButton1.titleLabel.font = [UIFont systemFontOfSize:15.f];
@@ -168,14 +165,16 @@
         @weakify(self);
         [qrcVC.delegateSignal subscribeNext:^(NSString *transID) {
             @strongify(self);
-            if ([self.transID isEqualToString:transID]) {
+            if ([self.transID isEqualToString:transID])
+            {
                 [BXTGlobal showText:@"设备解锁成功" view:self.view completionBlock:^{
                     self.unlocked = YES;
                     [self.tableView reloadData];
                 }];
-            } else {
-                [BXTGlobal showText:@"设备不正确，请重试" view:self.view completionBlock:^{
-                }];
+            }
+            else
+            {
+                [BXTGlobal showText:@"设备不正确，请重试" view:self.view completionBlock:nil];
             }
         }];
         [self.navigationController pushViewController:qrcVC animated:YES];
@@ -207,29 +206,33 @@
     }];
     [self.footerView addSubview:cancelBtn];
     
-    
     UIButton *commitBtn = [self createButtonWithTitle:@"提交" btnX:SCREEN_WIDTH / 2 + 5  tilteColor:@"#5DAFF9"];
     [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
-        if ([self.meterReadingInfo.meter_condition containsString:@"3"] && [self.allPhotoArray containsObject:@""]) {
-            [MYAlertAction showAlertWithTitle:@"请将图片添加完整" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+        if ([self.meterReadingInfo.meter_condition containsString:@"3"] && [self.allPhotoArray containsObject:@""])
+        {
+            [MYAlertAction showAlertWithTitle:@"请将图片添加完整" msg:nil chooseBlock:^(NSInteger buttonIdx){
+                
             } buttonsStatement:@"确定", nil];
             return ;
         }
-        for (NSString *num in self.thisNumArray) {
-            if ([num integerValue] < 0) {
+        
+        for (NSString *num in self.thisNumArray)
+        {
+            if ([num integerValue] < 0)
+            {
                 [MYAlertAction showAlertWithTitle:@"本次用量不能为负数，请检查" msg:nil chooseBlock:^(NSInteger buttonIdx) {
                 } buttonsStatement:@"确定", nil];
                 return ;
             }
         }
         
-        
         [BXTGlobal showLoadingMBP:@"数据加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        if (self.thisValueArray.count == 6) {
-            if (self.unablePeakValue) {
+        if (self.thisValueArray.count == 6)
+        {
+            if (self.unablePeakValue)
+            {
                 [self.allPhotoArray replaceObjectAtIndex:4 withObject:@""];
             }
             
@@ -245,7 +248,8 @@
                                     valleySectionPic:self.allPhotoArray[3]
                                       peakSegmentPic:self.allPhotoArray[4]];
         }
-        else {
+        else
+        {
             [request energyMeterRecordAddWithAboutID:self.transID
                                             totalNum:self.thisValueArray[1]
                                        peakPeriodNum:@""
@@ -276,14 +280,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         BXTMeterReadingHeaderCell *cell = [BXTMeterReadingHeaderCell cellWithTableView:tableView];
-        
         cell.meterReadingInfo = self.meterReadingInfo;
         
         return cell;
     }
-    
     
     BXTMeterReadingListCell *cell = [BXTMeterReadingListCell cellWithTableView:tableView];
     
@@ -328,8 +331,10 @@
             cell.thisValueView.text = [NSString stringWithFormat:@"%ld %@", (long)thisValue, self.meterReadingInfo.unit];
             cell.thisNumView.text = [NSString stringWithFormat:@"%ld %@", (long)thisNum, self.meterReadingInfo.unit];
         }
-        else { // 原因：总示数不变，其余textfield清除不会清空，
-            if (indexPath.section != 5) {
+        else
+        { // 原因：总示数不变，其余textfield清除不会清空，
+            if (indexPath.section != 5)
+            {
                 cell.thisValueView.text = @"";
                 cell.thisNumView.text = @"";
             }
@@ -344,7 +349,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         return 110;
     }
     return 175;
@@ -360,18 +366,11 @@
     return 0.01;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
 #pragma mark -
 #pragma mark MLImageCropDelegate
 - (void)cropImage:(UIImage*)cropImage forOriginalImage:(UIImage*)originalImage
 {
-    [self.allImageArray replaceObjectAtIndex:self.photoIndex withObject:cropImage];
-    
+    self.meterImage = cropImage;
     [BXTGlobal showLoadingMBP:@"正在上传..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request energyMeterRecordFileWithImage:cropImage];
@@ -397,7 +396,8 @@
         NSInteger rate = [self.meterReadingInfo.rate integerValue];
         
         // price_type_id:   2-峰谷  OR   单一、阶梯
-        if (![self.meterReadingInfo.price_type_id isEqualToString:@"2"]) {
+        if (![self.meterReadingInfo.price_type_id isEqualToString:@"2"])
+        {
             self.writeArray = [[NSMutableArray alloc] initWithObjects:
                                @"0",
                                [self transToString:lastList.total_num / rate], nil];
@@ -413,7 +413,9 @@
                                  @"0",
                                  [self transToString:lastList.use_amount], nil];
         }
-        else {  // 是否在尖峰期：0否 1是，只有当计价方式为峰谷的时候才需要该值
+        else
+        {
+            // 是否在尖峰期：0否 1是，只有当计价方式为峰谷的时候才需要该值
             self.writeArray = [[NSMutableArray alloc] initWithObjects:
                                @"0",
                                [self transToString:lastList.peak_period_num / rate],
@@ -444,14 +446,16 @@
                                    [self transToString:lastList.total_num], nil];
             self.thisNumArray = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", nil];
             
-            if (![self.meterReadingInfo.is_peak_segment isEqualToString:@"1"]) {
+            if (![self.meterReadingInfo.is_peak_segment isEqualToString:@"1"])
+            {
                 self.unablePeakValue = YES;
                 self.allPhotoArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @" ", @" ", nil];
             }
         }
         
         // check_type: 1-手动   2-自动(隐藏提交按钮)
-        if ([self.meterReadingInfo.check_type isEqualToString:@"2"]) {
+        if ([self.meterReadingInfo.check_type isEqualToString:@"2"])
+        {
             [self.footerView removeFromSuperview];
             self.tableView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);
         }
@@ -459,14 +463,17 @@
     else if (type == EnergyMeterRecordFile && [dic[@"returncode"] intValue] == 0)
     {
         [BXTGlobal hideMBP];
-        for (NSDictionary *dataDict in data) {
+        [self.allImageArray replaceObjectAtIndex:self.photoIndex withObject:self.meterImage];
+        for (NSDictionary *dataDict in data)
+        {
             [self.allPhotoArray replaceObjectAtIndex:self.photoIndex withObject:dataDict[@"id"]];
         }
     }
     else if (type == EnergyMeterRecordAdd && [dic[@"returncode"] intValue] == 0)
     {
         [BXTGlobal showText:@"新建抄表成功" view:self.view completionBlock:^{
-            if (self.delegateSignal) {
+            if (self.delegateSignal)
+            {
                 [self.delegateSignal sendNext:nil];
             }
             [self.navigationController popViewControllerAnimated:YES];
@@ -505,19 +512,9 @@
     return [NSString stringWithFormat:@"%@ %@", sender, self.meterReadingInfo.unit];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

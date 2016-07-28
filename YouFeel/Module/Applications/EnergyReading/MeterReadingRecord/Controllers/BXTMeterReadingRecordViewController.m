@@ -233,7 +233,6 @@
     }];
     [self.footerView addSubview:newMeterBtn];
     
-    
     [self showChartView:YES];
 }
 
@@ -295,7 +294,8 @@
     self.headerView.rangeView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.desc];
     
     // check_type: 1-手动   2-自动(隐藏提交按钮)
-    if ([self.monthListInfo.check_type isEqualToString:@"2"]) {
+    if ([self.monthListInfo.check_type isEqualToString:@"2"])
+    {
         [self.footerView removeFromSuperview];
         self.scrollView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);
         [self hideBgFooterView:YES];
@@ -450,7 +450,8 @@
     }
     if (type == EnergyMeterRecordLists && data.count > 0)
     {
-        if (self.isListsRequest) {
+        if (self.isListsRequest)
+        {
             [BXTGlobal hideMBP];
         }
         [BXTMeterReadingRecordListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
@@ -527,7 +528,8 @@
     self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.filterView_chart.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - CGRectGetMaxY(self.filterView_list.frame) - 70);
     
     // check_type: 1-手动   2-自动(隐藏提交按钮)
-    if ([self.monthListInfo.check_type isEqualToString:@"2"]) {
+    if ([self.monthListInfo.check_type isEqualToString:@"2"])
+    {
         self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.filterView_chart.frame), SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - CGRectGetMaxY(self.filterView_list.frame));
     }
     
