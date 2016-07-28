@@ -175,20 +175,13 @@
     }];
     [searchBar addSubview:searchBtn];
     
-    NSArray *titles = @[@"抄表方式",@"价格类型",@"安装位置",@"筛选   "];
-    NSArray *images = @[@"select_triangle",@"select_triangle",@"select_triangle",@"filter"];
+    NSArray *titles = @[@"抄表方式",@"价格类型",@"安装位置",@"智能筛选"];
+    NSArray *images = @[@"select_triangle",@"select_triangle",@"select_triangle",@"meterFilter"];
     for (NSInteger i = 0; i < 4; i++)
     {
         BXTCustomButton *meterTypeBtn = [[BXTCustomButton alloc] initWithType:EnergyBtnType];
         meterTypeBtn.tag = i;
-        if (i == 3)
-        {
-            meterTypeBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        }
-        else
-        {
-            meterTypeBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-        }
+        meterTypeBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
         meterTypeBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
         [meterTypeBtn setFrame:CGRectMake(i * (CGRectGetWidth(backView.frame)/4.f), CGRectGetMaxY(searchBar.frame), CGRectGetWidth(backView.frame)/4.f, 44.f)];
         [meterTypeBtn setTitle:titles[i] forState:UIControlStateNormal];

@@ -194,14 +194,14 @@
             
             if (self.pushType == ReturnVCTypeOFMeterReadingCreate) {
                 if (self.delegateSignal) {
-                    [self.delegateSignal sendNext:dict[@"qr_content"]];
+                    [self.delegateSignal sendNext:dic[@"meter_id"]];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
                 return;
             }
             if (self.pushType == ReturnVCTypeOFMeterReading) {
                 BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
-                mrrvc.transID = dict[@"qr_content"];
+                mrrvc.transID = dic[@"meter_id"];
                 mrrvc.unlocked = YES;
                 mrrvc.delegateSignal = [RACSubject subject];
                 [self.navigationController pushViewController:mrrvc animated:YES];

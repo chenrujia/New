@@ -37,7 +37,7 @@
             firstkwhLabel.text = [NSString stringWithFormat:@"  kwh\r%ld",(long)measure];
             [self addSubview:firstkwhLabel];
             
-            UILabel *secondkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 70.f, 30.f, 20.f)];
+            UILabel *secondkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 70.f, 30.f, 20.f)];
             secondkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             secondkwhLabel.font = [UIFont systemFontOfSize:11.f];
             secondkwhLabel.adjustsFontSizeToFitWidth = YES;
@@ -45,7 +45,7 @@
             secondkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/6*5];
             [self addSubview:secondkwhLabel];
             
-            UILabel *thridkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 120.f, 30.f, 20.f)];
+            UILabel *thridkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 120.f, 30.f, 20.f)];
             thridkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             thridkwhLabel.font = [UIFont systemFontOfSize:11.f];
             thridkwhLabel.adjustsFontSizeToFitWidth = YES;
@@ -53,7 +53,7 @@
             thridkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/6*4];
             [self addSubview:thridkwhLabel];
             
-            UILabel *fourthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 170.f, 30.f, 20.f)];
+            UILabel *fourthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 170.f, 30.f, 20.f)];
             fourthkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             fourthkwhLabel.font = [UIFont systemFontOfSize:11.f];
             fourthkwhLabel.adjustsFontSizeToFitWidth = YES;
@@ -61,7 +61,7 @@
             fourthkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/2];
             [self addSubview:fourthkwhLabel];
             
-            UILabel *fifthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 220.f, 30.f, 20.f)];
+            UILabel *fifthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 220.f, 30.f, 20.f)];
             fifthkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             fifthkwhLabel.font = [UIFont systemFontOfSize:11.f];
             fifthkwhLabel.adjustsFontSizeToFitWidth = YES;
@@ -69,7 +69,7 @@
             fifthkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/3];
             [self addSubview:fifthkwhLabel];
             
-            UILabel *sixthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 270.f, 30.f, 20.f)];
+            UILabel *sixthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 270.f, 30.f, 20.f)];
             sixthkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             sixthkwhLabel.font = [UIFont systemFontOfSize:11.f];
             sixthkwhLabel.adjustsFontSizeToFitWidth = YES;
@@ -77,11 +77,11 @@
             sixthkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/6];
             [self addSubview:sixthkwhLabel];
             
-            UILabel *seventhkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 320.f, 30.f, 20.f)];
+            UILabel *seventhkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 320.f, 30.f, 20.f)];
             seventhkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             seventhkwhLabel.font = [UIFont systemFontOfSize:11.f];
             seventhkwhLabel.adjustsFontSizeToFitWidth = YES;
-            seventhkwhLabel.textAlignment = NSTextAlignmentCenter;
+            seventhkwhLabel.textAlignment = NSTextAlignmentRight;
             seventhkwhLabel.text = @"0";
             [self addSubview:seventhkwhLabel];
             
@@ -244,7 +244,10 @@
         
         BXTHistogramView *histogramView = [[BXTHistogramView alloc] initWithFrame:CGRectMake(0, 0, 1500, 330.f) lists:datasource kwhMeasure:measure kwhNumber:number block:^(CGFloat temperature, CGFloat humidity, CGFloat windPower, NSArray *energy) {
             NSLog(@"%f,%f,%f,%@",temperature,humidity,windPower,energy);
-            
+            if (number == 4)
+            {
+                self.footerView.checkDetailBtn.hidden = NO;
+            }
             self.footerView.consumptionView.text = [NSString stringWithFormat:@"总能耗：%@", energy[0]];
             self.footerView.peakNumView.text = [NSString stringWithFormat:@"尖峰量：%@", energy[1]];
             self.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%@", energy[2]];

@@ -83,26 +83,10 @@
     }
     else if (_customBtnType == EnergyBtnType)
     {
-        if (self.tag == 3)
-        {
-            CGFloat margin = 25.f;
-            if (IS_IPHONE6P) {
-                margin = 40.f;
-            } else if (IS_IPHONE6) {
-                margin = 35.f;
-            }
-            imageX = (SCREEN_WIDTH - 20.f)/4.f - margin;
-            imageY = 17;
-            imageW = 13.5f;
-            imageH = 10.f;
-        }
-        else
-        {
-            imageX = (SCREEN_WIDTH - 20.f)/4.f - 16.f;
-            imageY = 19;
-            imageW = 10.f;
-            imageH = 6.f;
-        }
+        imageX = (SCREEN_WIDTH - 20.f)/4.f - 25.f;
+        imageY = 19;
+        imageW = 10.f;
+        imageH = 6.f;
     }
     
     return CGRectMake(imageX, imageY, imageW, imageH);
