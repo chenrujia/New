@@ -288,8 +288,8 @@
     BXTMeterReadingListCell *cell = [BXTMeterReadingListCell cellWithTableView:tableView];
     
     // 锁定
-//    cell.NumTextField.userInteractionEnabled = self.unlocked;
-//    cell.addImageView.userInteractionEnabled = self.unlocked;
+    cell.NumTextField.userInteractionEnabled = self.unlocked;
+    cell.addImageView.userInteractionEnabled = self.unlocked;
     
     // 初始化
     cell.titleView.text = self.cellTitleArray[indexPath.section];
