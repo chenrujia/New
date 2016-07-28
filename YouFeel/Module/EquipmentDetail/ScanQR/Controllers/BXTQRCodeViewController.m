@@ -202,6 +202,7 @@
             if (self.pushType == ReturnVCTypeOFMeterReading) {
                 BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
                 mrrvc.transID = dict[@"qr_content"];
+                mrrvc.unlocked = YES;
                 mrrvc.delegateSignal = [RACSubject subject];
                 [self.navigationController pushViewController:mrrvc animated:YES];
                 return;

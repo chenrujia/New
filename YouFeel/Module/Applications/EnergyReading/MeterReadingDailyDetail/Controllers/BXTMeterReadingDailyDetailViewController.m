@@ -37,7 +37,7 @@
     [self navigationSetting:@"日详情" andRightTitle1:nil andRightImage1:nil andRightTitle2:nil andRightImage2:nil];
     
     NSArray *timeArray = [BXTGlobal yearAndmonthAndDay];
-    self.nowTimeStr = [NSString stringWithFormat:@"%@-%@", timeArray[0], timeArray[1]];
+    self.nowTimeStr = [NSString stringWithFormat:@"%@年%@月", timeArray[0], timeArray[1]];
     self.showTimeStr = self.nowTimeStr;
     
     [self createUI];
@@ -46,9 +46,13 @@
 
 - (void)getResource
 {
+    NSString *yearStr = [self.showTimeStr substringToIndex:4];
+    NSString *monthStr = [self.showTimeStr substringWithRange:NSMakeRange(5, self.showTimeStr.length - 6)];
+    NSString *timeStr = [NSString stringWithFormat:@"%@-%@", yearStr, monthStr];
+    
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request energyMeterRecordDayListsWithAboutID:self.transID date:self.showTimeStr];
+    [request energyMeterRecordDayListsWithAboutID:self.transID date:timeStr];
 }
 
 #pragma mark -
@@ -74,6 +78,7 @@
         @strongify(self);
         self.headerView.timeView.text = [self transTime:self.showTimeStr isAdd:YES];
         if ([self.showTimeStr isEqualToString:self.nowTimeStr]) {
+            [self getResource];
             self.headerView.nextMonthBtn.enabled = NO;
             self.headerView.nextMonthBtn.alpha = 0.4;
         }
@@ -96,13 +101,20 @@
     newMeterBtn.layer.cornerRadius = 5;
     [[newMeterBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
+        
         BXTMeterReadingViewController *mrvc = [[BXTMeterReadingViewController alloc] init];
+        mrvc.transID = self.transID;
+        mrvc.unlocked = self.unlocked;
+        mrvc.delegateSignal = [RACSubject subject];
+        [mrvc.delegateSignal subscribeNext:^(id x) {
+            @strongify(self);
+            if (self.delegateSignal) {
+                [self.delegateSignal sendNext:nil];
+            }
+        }];
         [self.navigationController pushViewController:mrvc animated:YES];
     }];
     [self.footerView addSubview:newMeterBtn];
-    
-    
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
 }
 
 - (void)initialHisView:(NSInteger)maxNumber
@@ -111,14 +123,11 @@
     self.hisView.backgroundColor = [UIColor whiteColor];
     self.hisView.layer.masksToBounds = YES;
     self.hisView.layer.cornerRadius = 10.f;
-    @weakify(self);
-    [[self.hisView.footerView.checkDetailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        BXTMeterReadingDailyDetailViewController *mrddvc = [[BXTMeterReadingDailyDetailViewController alloc] init];
-        mrddvc.transID = self.transID;
-        [self.navigationController pushViewController:mrddvc animated:YES];
-    }];
+    self.hisView.footerView.checkDetailBtn.hidden = YES;
     [self.scrollView addSubview:self.hisView];
+    
+    
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
 }
 
 #pragma mark -
@@ -126,7 +135,7 @@
 - (NSString *)transTime:(NSString *)time isAdd:(BOOL)add
 {
     NSInteger year = [[self.showTimeStr substringToIndex:4] integerValue];
-    NSInteger month = [[self.showTimeStr substringWithRange:NSMakeRange(5, self.showTimeStr.length-6)] integerValue];
+    NSInteger month = [[self.showTimeStr substringWithRange:NSMakeRange(5, self.showTimeStr.length-5)] integerValue];
     
     if (!add)
     { // 减法

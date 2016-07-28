@@ -299,14 +299,29 @@
     return cell;
 }
 
+- (void)saveViewControllerBgColor:(NSString *)type
+{
+    NSString *colorStr = @"";
+    switch ([type integerValue]) {
+        case 1:colorStr = @"f45b5b"; break;
+        case 2:colorStr = @"1683e2"; break;
+        case 3:colorStr = @"f5c809"; break;
+        case 4:colorStr = @"f1983e"; break;
+        default: break;
+    }
+    SaveValueTUD(EnergyReadingColorStr, colorStr);
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView.isEditing) {
         return;
     }
     
-    BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
     BXTEnergyMeterListInfo *listInfo = self.dataArray[indexPath.row];
+    [self saveViewControllerBgColor:listInfo.type];
+    
+    BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
     mrrvc.transID = listInfo.energyMeterID;
     [self.navigationController pushViewController:mrrvc animated:YES];
     
