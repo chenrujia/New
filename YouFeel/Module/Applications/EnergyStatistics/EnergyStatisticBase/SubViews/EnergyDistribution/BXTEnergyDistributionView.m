@@ -55,7 +55,6 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request efficiencyDistributionYearWithDate:@"" ppath:@""];
     }
-    
 }
 
 #pragma mark -
