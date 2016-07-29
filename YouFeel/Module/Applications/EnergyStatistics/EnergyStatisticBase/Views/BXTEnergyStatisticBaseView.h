@@ -10,6 +10,8 @@
 #import "BXTGlobal.h"
 #import "BXTHeaderFile.h"
 #import "BXTEnergyStatisticFilterView.h"
+#import "BXTDataRequest.h"
+#import "MJExtension.h"
 
 typedef NS_ENUM(NSInteger, ViewControllerType) {
     ViewControllerTypeOFMonth = 1,  // 选择年和月
@@ -20,6 +22,8 @@ typedef NS_ENUM(NSInteger, ViewControllerType) {
 
 /** ---- 初始化 ---- */
 - (instancetype)initWithFrame:(CGRect)frame VCType:(ViewControllerType)vcType;
+/** ---- 统计类型 ---- */
+@property (nonatomic, assign) ViewControllerType vcType;
 
 /** ---- 年份选择 ---- */
 @property (nonatomic, strong) UIButton *commitBtn;

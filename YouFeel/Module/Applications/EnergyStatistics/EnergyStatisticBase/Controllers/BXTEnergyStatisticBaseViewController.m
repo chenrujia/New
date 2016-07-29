@@ -19,6 +19,9 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) NSInteger currentPage;
 
+/** ---- 显示费用界面 ---- */
+@property (nonatomic, assign) BOOL showCost;
+
 @end
 
 @implementation BXTEnergyStatisticBaseViewController
@@ -29,9 +32,28 @@
     
     self.view.backgroundColor = colorWithHexString(@"eff3f6");
     
-    [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
-    
+    if ([self.titleStr isEqualToString:@"建筑能效分布"]) {
+        [self navigationSetting:self.titleStr andRightTitle:@"    费用" andRightImage:nil];
+    }
+    else {
+        [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
+    }
+
     [self createSegmentedCtr];
+}
+
+- (void)navigationRightButton
+{
+    if (self.showCost) {
+        self.showCost = NO;
+        [self navigationSetting:@"建筑能效分布" andRightTitle:@"    费用" andRightImage:nil];
+    }
+    else {
+        self.showCost = YES;
+        [self navigationSetting:@"建筑能效分布" andRightTitle:@"    能耗" andRightImage:nil];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ESSHOWCOST" object:nil userInfo:@{@"showCost" : [NSNumber numberWithBool:self.showCost]}];
 }
 
 #pragma mark -

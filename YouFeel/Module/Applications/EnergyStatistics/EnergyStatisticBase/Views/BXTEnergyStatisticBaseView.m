@@ -23,9 +23,6 @@
 /** ---- 当前月份 ---- */
 @property (copy, nonatomic) NSString *nowTimeStr;
 
-/** ---- 统计类型 ---- */
-@property (nonatomic, assign) ViewControllerType vcType;
-
 @end
 
 @implementation BXTEnergyStatisticBaseView
@@ -69,7 +66,7 @@
 
 - (void)createTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.filterView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.filterView.frame)) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.filterView.frame), SCREEN_WIDTH, self.frame.size.height - CGRectGetMaxY(self.filterView.frame)) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self addSubview:self.tableView];

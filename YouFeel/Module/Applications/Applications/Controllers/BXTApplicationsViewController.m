@@ -59,9 +59,9 @@
 //    [BXTGlobal showLoadingMBP:@"加载中..."];
 //    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
 //    dispatch_async(concurrentQueue, ^{
-//        /**广告位图片展示**/
-//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [request appVCAdvertisement];
+        /**广告位图片展示**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request appVCAdvertisement];
 //    });
 //    dispatch_async(concurrentQueue, ^{
 //        /**请求是否显示OA**/

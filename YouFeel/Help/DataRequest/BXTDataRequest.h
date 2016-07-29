@@ -107,6 +107,10 @@ typedef NS_ENUM(NSInteger, RequestType) {
     EnergyMeterRecordMonthLists = 94,
     EnergyMeterRecordDayLists = 95,
     EnergyMeterRecordLists = 96,
+    EfficiencySurveyMonth = 97,
+    EfficiencySurveyYear = 98,
+    EfficiencyDistributionMonth = 99,
+    EfficiencyDistributionYear = 100,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -809,6 +813,28 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)energyMeterRecordCalculateWithAboutID:(NSString *)aboutID
                                     startTime:(NSString *)start_time
                                       endTime:(NSString *)end_time;
+
+/**
+ *  建筑能效概况 - 月统计
+ */
+- (void)efficiencySurveyMonthWithDate:(NSString *)date;
+
+/**
+ *  建筑能效概况 - 年统计
+ */
+- (void)efficiencySurveyYearWithDate:(NSString *)date;
+
+/**
+ *  建筑能效分布 - 月统计
+ */
+- (void)efficiencyDistributionMonthWithDate:(NSString *)date
+                                      ppath:(NSString *)ppath;
+
+/**
+ *  建筑能效分布 - 年统计
+ */
+- (void)efficiencyDistributionYearWithDate:(NSString *)date
+                                     ppath:(NSString *)ppath;
 
 
 @end
