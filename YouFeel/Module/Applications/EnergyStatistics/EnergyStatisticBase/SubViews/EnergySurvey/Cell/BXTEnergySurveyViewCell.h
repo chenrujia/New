@@ -42,6 +42,7 @@
 #pragma mark - 能效分布
 /** ---- 能效 ---- */
 @property (nonatomic, strong) BXTEYDTListsInfo *energyListInfo;
+@property (nonatomic, copy) NSString *unit;
 /** ---- 费用 ---- */
 @property (nonatomic, strong) BXTEYDTListsInfo *moneyListInfo;
 

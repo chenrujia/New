@@ -7,14 +7,10 @@
 //
 
 #import "BXTEnergyStatisticBaseView.h"
-#import "BMDatePickerView.h"
 
 #define headerViewH 256
 
 @interface BXTEnergyStatisticBaseView () <UIPickerViewDelegate, UIPickerViewDataSource>
-
-/** ---- 时间选择器 ---- */
-@property (nonatomic, strong) BXTEnergyStatisticFilterView *filterView;
 
 /** ---- 年份选择 ---- */
 @property (nonatomic, strong) UIPickerView *yearPickerView;
@@ -70,6 +66,11 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self addSubview:self.tableView];
+    
+    if (self.vcType == ViewControllerTypeOFNone) {
+        [self.filterView removeFromSuperview];
+        self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, self.frame.size.height);
+    }
 }
 
 - (void)createTimerSelector
@@ -149,7 +150,7 @@
 - (void)createMonthPickerView
 {
     @weakify(self);
-    BMDatePickerView *datePickerView = [BMDatePickerView BMDatePickerViewCertainActionBlock:^(NSString *selectYearMonthString) {
+    self.datePickerView = [BMDatePickerView BMDatePickerViewCertainActionBlock:^(NSString *selectYearMonthString) {
         @strongify(self);
         NSLog(@"选择的时间是: %@", selectYearMonthString);
         
@@ -161,7 +162,8 @@
             [self isNextTimeBtnCanEdit:YES];
         }
     }];
-    [datePickerView show];
+    
+    [self.datePickerView show];
 }
 
 - (void)createYearPickerView
@@ -375,6 +377,14 @@
     self.timeStr = [NSString stringWithFormat:@"%ld年%ld月", (long)year, (long)month];
     
     return self.timeStr;
+}
+
+- (void)initializeTime
+{
+    NSArray *array = [BXTGlobal yearAndmonthAndDay];
+    self.timeStr = array[0];
+    [self.filterView.thisTimeBtn setTitle:[self transYearStr:self.timeStr] forState:UIControlStateNormal];
+    [self isNextTimeBtnCanEdit:NO];
 }
 
 @end

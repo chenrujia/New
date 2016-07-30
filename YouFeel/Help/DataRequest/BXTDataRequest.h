@@ -111,6 +111,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     EfficiencySurveyYear = 98,
     EfficiencyDistributionMonth = 99,
     EfficiencyDistributionYear = 100,
+    EfficiencyTrendMonth = 101,
+    EfficiencyTrendYear = 102,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -836,5 +838,16 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)efficiencyDistributionYearWithDate:(NSString *)date
                                      ppath:(NSString *)ppath;
 
+/**
+ *  建筑能效趋势 - 月统计
+ */
+- (void)efficiencyTrendMonthWithDate:(NSString *)date
+                               ppath:(NSString *)ppath;
+
+/**
+ *  建筑能效趋势 - 年统计
+ */
+- (void)efficiencyTrendYearWithDate:(NSString *)date
+                              ppath:(NSString *)ppath;
 
 @end

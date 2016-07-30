@@ -12,10 +12,13 @@
 #import "BXTEnergyStatisticFilterView.h"
 #import "BXTDataRequest.h"
 #import "MJExtension.h"
+#import "BMDatePickerView.h"
 
+/** ---- 能效趋势特殊 - 判断None ---- */
 typedef NS_ENUM(NSInteger, ViewControllerType) {
     ViewControllerTypeOFMonth = 1,  // 选择年和月
-    ViewControllerTypeOFYear    // 选择年份
+    ViewControllerTypeOFYear,    // 选择年份
+    ViewControllerTypeOFNone
 };
 
 @interface BXTEnergyStatisticBaseView : UIView <UITableViewDelegate, UITableViewDataSource>
@@ -25,9 +28,16 @@ typedef NS_ENUM(NSInteger, ViewControllerType) {
 /** ---- 统计类型 ---- */
 @property (nonatomic, assign) ViewControllerType vcType;
 
+
+/** ---- 时间选择器 ---- */
+@property (nonatomic, strong) BXTEnergyStatisticFilterView *filterView;
 /** ---- 年份选择 ---- */
 @property (nonatomic, strong) UIButton *commitBtn;
 @property (nonatomic, copy) NSString *timeStr;
+/** ---- 月份选择 ---- */
+@property (nonatomic, strong) BMDatePickerView *datePickerView;
+/** ---- 初始化时间 ---- */
+- (void)initializeTime;
 
 /** ---- tableView ---- */
 @property (nonatomic, strong) UITableView *tableView;

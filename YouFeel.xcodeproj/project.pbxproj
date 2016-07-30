@@ -305,6 +305,11 @@
 		78C55A691C47339700FFEB37 /* BXTEquipmentFactoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A611C47339700FFEB37 /* BXTEquipmentFactoryInfo.m */; };
 		78C55A6A1C47339700FFEB37 /* BXTEquipmentParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A631C47339700FFEB37 /* BXTEquipmentParams.m */; };
 		78C55AF61C47AB6100FFEB37 /* BXTApplicationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55AED1C47AB6100FFEB37 /* BXTApplicationsViewController.m */; };
+		78D4860E1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78D4860C1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.m */; };
+		78D4860F1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78D4860D1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.xib */; };
+		78D486121D4C86E8008842FB /* BXTEnergyTrendInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 78D486111D4C86E8008842FB /* BXTEnergyTrendInfo.m */; };
+		78D486161D4C923B008842FB /* BXTEnergyDistributionViewChartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78D486141D4C923B008842FB /* BXTEnergyDistributionViewChartCell.m */; };
+		78D486171D4C923B008842FB /* BXTEnergyDistributionViewChartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78D486151D4C923B008842FB /* BXTEnergyDistributionViewChartCell.xib */; };
 		78E656FF1D49E40500AA3ECD /* BXTEnergyStatisticBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E656FC1D49E40500AA3ECD /* BXTEnergyStatisticBaseViewController.m */; };
 		78E657021D49E84800AA3ECD /* BXTEnergyStatisticFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E657011D49E84800AA3ECD /* BXTEnergyStatisticFilterView.m */; };
 		78E657041D49E86800AA3ECD /* BXTEnergyStatisticFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78E657031D49E86800AA3ECD /* BXTEnergyStatisticFilterView.xib */; };
@@ -1044,6 +1049,14 @@
 		78C55A641C47339700FFEB37 /* DataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModels.h; sourceTree = "<group>"; };
 		78C55AEC1C47AB6100FFEB37 /* BXTApplicationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTApplicationsViewController.h; sourceTree = "<group>"; };
 		78C55AED1C47AB6100FFEB37 /* BXTApplicationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTApplicationsViewController.m; sourceTree = "<group>"; };
+		78D4860B1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergySurveyViewChartCell.h; sourceTree = "<group>"; };
+		78D4860C1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergySurveyViewChartCell.m; sourceTree = "<group>"; };
+		78D4860D1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEnergySurveyViewChartCell.xib; sourceTree = "<group>"; };
+		78D486101D4C86E8008842FB /* BXTEnergyTrendInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyTrendInfo.h; sourceTree = "<group>"; };
+		78D486111D4C86E8008842FB /* BXTEnergyTrendInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyTrendInfo.m; sourceTree = "<group>"; };
+		78D486131D4C923B008842FB /* BXTEnergyDistributionViewChartCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyDistributionViewChartCell.h; sourceTree = "<group>"; };
+		78D486141D4C923B008842FB /* BXTEnergyDistributionViewChartCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyDistributionViewChartCell.m; sourceTree = "<group>"; };
+		78D486151D4C923B008842FB /* BXTEnergyDistributionViewChartCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEnergyDistributionViewChartCell.xib; sourceTree = "<group>"; };
 		78E656FB1D49E40500AA3ECD /* BXTEnergyStatisticBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyStatisticBaseViewController.h; sourceTree = "<group>"; };
 		78E656FC1D49E40500AA3ECD /* BXTEnergyStatisticBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyStatisticBaseViewController.m; sourceTree = "<group>"; };
 		78E657001D49E84800AA3ECD /* BXTEnergyStatisticFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyStatisticFilterView.h; sourceTree = "<group>"; };
@@ -4100,6 +4113,9 @@
 				78F2D26A1D4AEC7100E52EA9 /* BXTEnergySurveyViewCell.h */,
 				78F2D26B1D4AEC7100E52EA9 /* BXTEnergySurveyViewCell.m */,
 				78F2D26C1D4AEC7100E52EA9 /* BXTEnergySurveyViewCell.xib */,
+				78D4860B1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.h */,
+				78D4860C1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.m */,
+				78D4860D1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -4107,6 +4123,9 @@
 		78E657311D4A274E00AA3ECD /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				78D486131D4C923B008842FB /* BXTEnergyDistributionViewChartCell.h */,
+				78D486141D4C923B008842FB /* BXTEnergyDistributionViewChartCell.m */,
+				78D486151D4C923B008842FB /* BXTEnergyDistributionViewChartCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -4277,6 +4296,8 @@
 		78F2D27E1D4B4CDE00E52EA9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				78D486101D4C86E8008842FB /* BXTEnergyTrendInfo.h */,
+				78D486111D4C86E8008842FB /* BXTEnergyTrendInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5056,6 +5077,7 @@
 				78F2D2781D4AF87800E52EA9 /* BXTEnergyTrendBudgetCell.xib in Resources */,
 				9696B7301C900BE500272076 /* BXTCommentTableViewCell.xib in Resources */,
 				9660CEE21C437E2E00176DDE /* BXTMaintenanceViewController.xib in Resources */,
+				78D486171D4C923B008842FB /* BXTEnergyDistributionViewChartCell.xib in Resources */,
 				7868C8641CC87A3A00E84FD3 /* BXTMTPlanListCell.xib in Resources */,
 				784890CC1D3734D700C1106D /* BXTMeterReadingFilterView.xib in Resources */,
 				9652AC311BC90EC9009A666D /* LocalAlbumCell.xib in Resources */,
@@ -5099,6 +5121,7 @@
 				7823C8921C7E9FD500E2858B /* BXTEquipmentListCell.xib in Resources */,
 				781EF2071C3D382C0027FE72 /* BXTCurrentOrderCell.xib in Resources */,
 				96AB062F1C1FB48E0038E2AF /* icon_chose_arrow_sel@2x.png in Resources */,
+				78D4860F1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.xib in Resources */,
 				784E4FB81CA9160700EF2A06 /* BXTRankingCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5438,6 +5461,7 @@
 				78FFB96D1CB5F5D700309339 /* BXTPostionInfo.m in Sources */,
 				78090B301C7DC67A003E1565 /* BXTEPHeaderView.m in Sources */,
 				9652ABED1BC90DCC009A666D /* NSString+Base64.m in Sources */,
+				78D4860E1D4C48F8008842FB /* BXTEnergySurveyViewChartCell.m in Sources */,
 				7829858E1C40AD3500D0837C /* BXTMineCell.m in Sources */,
 				96AC24301CAA45AC001C19F9 /* BXTPhotosView.m in Sources */,
 				78C55AF61C47AB6100FFEB37 /* BXTApplicationsViewController.m in Sources */,
@@ -5463,6 +5487,7 @@
 				786D37321CBBA85E00D307DB /* BXTOtherAffair.m in Sources */,
 				968ED8E61CD9EC2800A76269 /* BXTNewOrderViewController.m in Sources */,
 				7867DD811C4CBEA1000749F1 /* BXTRejectOrderViewController.m in Sources */,
+				78D486161D4C923B008842FB /* BXTEnergyDistributionViewChartCell.m in Sources */,
 				783836851CC5D38300C349E6 /* BXTRepairStateInfo.m in Sources */,
 				7818DBD81C0824D800DC22C6 /* NSMutableArray+pieEx.m in Sources */,
 				7829DDA91CABB65300255469 /* BXTMineDownView.m in Sources */,
@@ -5537,6 +5562,7 @@
 				9652ABF01BC90DCC009A666D /* ANKeyValueStrategy.m in Sources */,
 				78F2D27C1D4B319100E52EA9 /* BXTEnergySurveyInfo.m in Sources */,
 				7893D89B1C7AA8AE00F042D5 /* BXTStatisticsSecondView.m in Sources */,
+				78D486121D4C86E8008842FB /* BXTEnergyTrendInfo.m in Sources */,
 				783DDA531C3FB5670035B927 /* ChineseInclude.m in Sources */,
 				784E4F971CA9045700EF2A06 /* BXTMyIntegralViewController.m in Sources */,
 				96C684981BE76B4B0038A342 /* SideScrollingLayout.m in Sources */,

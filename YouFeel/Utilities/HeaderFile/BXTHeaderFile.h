@@ -12,5 +12,6 @@
 #import "BXTPublicSetting.h"
 #import "BXTGlobal.h"
 #import "BXTDataRequest.h"
+#import "MYAlertAction.h"
 
 #endif

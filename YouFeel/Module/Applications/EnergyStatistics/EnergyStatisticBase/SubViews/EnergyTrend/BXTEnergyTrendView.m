@@ -10,8 +10,14 @@
 #import "BXTEnergyTrendLegendCell.h"
 #import "BXTEnergyTrendCell.h"
 #import "BXTEnergyTrendBudgetCell.h"
+#import "BXTEnergyTrendInfo.h"
+#import "BXTHistogramStatisticsView.h"
 
 @interface BXTEnergyTrendView () <BXTDataResponseDelegate>
+
+@property (nonatomic, strong) BXTHistogramStatisticsView *hisView;
+@property (nonatomic, strong) NSMutableArray *energyArray;
+@property (nonatomic, assign) NSInteger inn;
 
 @end
 
@@ -26,20 +32,23 @@
     return self;
 }
 
+#pragma mark -
+#pragma mark - getResource
 - (void)getResource
 {
-//    if (self.vcType == ViewControllerTypeOFMonth) {
-//        // 建筑能效概况 - 月统计
-//        [BXTGlobal showLoadingMBP:@"数据加载中..."];
-//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [request efficiencySurveyMonthWithDate:@""];
-//    }
-//    else {
-//        // 建筑能效概况 - 年统计
-//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [request efficiencySurveyYearWithDate:@""];
-//    }
-    
+    // TODO: -----------------  月统计 - ViewControllerTypeOFYear -----------------
+    // TODO: -----------------  年统计 - ViewControllerTypeOFNone -----------------
+    if (self.vcType == ViewControllerTypeOFNone) {
+        // 建筑能效概况 - 年统计
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request efficiencyTrendYearWithDate:@"" ppath:@""];
+    }
+    else {
+        // 建筑能效概况 - 月统计
+        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request efficiencyTrendMonthWithDate:@"" ppath:@""];
+    }
 }
 
 #pragma mark -
@@ -95,16 +104,21 @@
 {
     [BXTGlobal hideMBP];
     
-//    NSDictionary *dic = (NSDictionary *)response;
-//    if (type == EfficiencySurveyMonth)
-//    {
-//        self.esInfo = [BXTEnergySurveyInfo mj_objectWithKeyValues:dic[@"data"]];
-//    }
-//    else if (type == EfficiencySurveyYear)
-//    {
-//        self.esInfo = [BXTEnergySurveyInfo mj_objectWithKeyValues:dic[@"data"]];
-//    }
-//    
+    NSDictionary *dic = (NSDictionary *)response;
+    NSArray *data = dic[@"data"];
+    if (type == EfficiencyTrendMonth)
+    {
+        self.energyArray = [[NSMutableArray alloc] init];
+        [self.energyArray addObjectsFromArray:[BXTEnergyTrendInfo mj_objectArrayWithKeyValuesArray:data]];
+        
+        NSLog(@"self.energyArray ---- %@", self.energyArray);
+        
+    }
+    else if (type == EfficiencyTrendYear)
+    {
+        //        self.esInfo = [BXTEnergySurveyInfo mj_objectWithKeyValues:dic[@"data"]];
+    }
+    
     [self.tableView reloadData];
 }
 

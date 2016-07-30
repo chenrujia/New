@@ -38,7 +38,7 @@
     else {
         [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
     }
-
+    
     [self createSegmentedCtr];
 }
 
@@ -91,7 +91,7 @@
             [self.scrollView addSubview:esView];
         }
         else if ([self.titleStr isEqualToString:@"建筑能效趋势"]) {
-            BXTEnergyTrendView *esView = [[BXTEnergyTrendView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(self.scrollView.bounds)) VCType:i];
+            BXTEnergyTrendView *esView = [[BXTEnergyTrendView alloc] initWithFrame:CGRectMake((i - 1) * SCREEN_WIDTH, 0, SCREEN_WIDTH, CGRectGetHeight(self.scrollView.bounds)) VCType:i + 1];
             [self.scrollView addSubview:esView];
         }
     }
