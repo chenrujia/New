@@ -12,6 +12,9 @@
 
 @interface BXTEnergyStatisticBaseView () <UIPickerViewDelegate, UIPickerViewDataSource>
 
+/** ---- 月份选择 ---- */
+@property (nonatomic, strong) BMDatePickerView *datePickerView;
+
 /** ---- 年份选择 ---- */
 @property (nonatomic, strong) UIPickerView *yearPickerView;
 /** ---- 年份数组 ---- */
@@ -152,7 +155,7 @@
     @weakify(self);
     self.datePickerView = [BMDatePickerView BMDatePickerViewCertainActionBlock:^(NSString *selectYearMonthString) {
         @strongify(self);
-        NSLog(@"选择的时间是: %@", selectYearMonthString);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectYearMonthString" object:nil userInfo:@{@"time" : selectYearMonthString}];
         
         self.timeStr = selectYearMonthString;
         [self.filterView.thisTimeBtn setTitle:self.timeStr forState:UIControlStateNormal];

@@ -20,6 +20,11 @@
 
 @implementation BXTEnergySurveyView
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame VCType:(ViewControllerType)vcType
 {
     self = [super initWithFrame:frame VCType:vcType];
@@ -27,13 +32,6 @@
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"1", @"2" , @"3", @"4", @"5", nil];
     
     [self getResource];
-    
-    // datePickerView
-    __weak typeof(self) weakSelf = self;
-    self.datePickerView.selectActionBlock = ^(NSString *selectYearMonthString) {
-        NSLog(@"thisTimeBtn ---- %@", selectYearMonthString);
-        [weakSelf getResource];
-    };
     
     // thisTimeBtn
     @weakify(self);
@@ -59,6 +57,16 @@
         [self getResource];
     }];
     
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"SelectYearMonthString" object:nil] subscribeNext:^(NSNotification *notification) {
+        @strongify(self);
+        
+        NSDictionary *dict = [notification userInfo];
+        if (self.vcType != ViewControllerTypeOFYear) {
+            self.timeStr = dict[@"time"];
+            [self getResource];
+        }
+    }];
+    
     return self;
 }
 
@@ -72,8 +80,9 @@
         [request efficiencySurveyYearWithDate:self.timeStr];
     }
     else {
-        NSString *nowTime = [self.timeStr stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
-        nowTime = [nowTime stringByReplacingOccurrencesOfString:@"月" withString:@""];
+        NSString *year = [self.timeStr substringToIndex:4];
+        NSString *month = [self.timeStr substringWithRange:NSMakeRange(5, self.timeStr.length - 6)];
+        NSString *nowTime = [NSString stringWithFormat:@"%@-%02ld", year, [month integerValue]];
         
         // 建筑能效概况 - 月统计
         [BXTGlobal showLoadingMBP:@"数据加载中..."];

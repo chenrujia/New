@@ -34,8 +34,6 @@ typedef NS_ENUM(NSInteger, ViewControllerType) {
 /** ---- 年份选择 ---- */
 @property (nonatomic, strong) UIButton *commitBtn;
 @property (nonatomic, copy) NSString *timeStr;
-/** ---- 月份选择 ---- */
-@property (nonatomic, strong) BMDatePickerView *datePickerView;
 /** ---- 初始化时间 ---- */
 - (void)initializeTime;
 

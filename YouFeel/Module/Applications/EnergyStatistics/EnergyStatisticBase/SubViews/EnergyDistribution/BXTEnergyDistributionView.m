@@ -16,6 +16,7 @@
 @property (nonatomic, strong) BXTEnergyDistributionInfo *edInfo;
 
 @property (nonatomic, strong) NSMutableArray *chartDataArray;
+@property (nonatomic, strong) NSArray *colorArray;
 
 /** ---- 显示费用 ---- */
 @property (nonatomic, assign) BOOL showCost;
@@ -35,12 +36,47 @@
     
     [self getResource];
     
+    // thisTimeBtn
+    @weakify(self);
+    [[self.filterView.thisTimeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [[self.commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            NSLog(@"thisTimeBtn，%@", self.timeStr);
+            [self getResource];
+        }];
+    }];
+    
+    // lastTimeBtn
+    [[self.filterView.lastTimeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        NSLog(@"lastTimeBtn，%@", self.timeStr);
+        [self getResource];
+    }];
+    
+    // nextTimeBtn
+    [[self.filterView.nextTimeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        NSLog(@"nextTimeBtn，%@", self.timeStr);
+        [self getResource];
+    }];
+    
+    
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ESSHOWCOST" object:nil] subscribeNext:^(NSNotification *notification) {
+        @strongify(self);
+        
         NSDictionary *dict = [notification userInfo];
-        
         self.showCost = [dict[@"showCost"] integerValue] == 1;
-        
         [self.tableView reloadData];
+    }];
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"SelectYearMonthString" object:nil] subscribeNext:^(NSNotification *notification) {
+        @strongify(self);
+        
+        NSDictionary *dict = [notification userInfo];
+        if (self.vcType != ViewControllerTypeOFYear) {
+            self.timeStr = dict[@"time"];
+            [self getResource];
+        }
     }];
     
     return self;
@@ -50,16 +86,21 @@
 #pragma mark - getResource
 - (void)getResource
 {
-    if (self.vcType == ViewControllerTypeOFMonth) {
+    if (self.vcType == ViewControllerTypeOFYear) {
+        // 建筑能效概况 - 年统计
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request efficiencyDistributionYearWithDate:self.timeStr ppath:@""];
+    }
+    else {
+        NSString *year = [self.timeStr substringToIndex:4];
+        NSString *month = [self.timeStr substringWithRange:NSMakeRange(5, self.timeStr.length - 6)];
+        NSString *nowTime = [NSString stringWithFormat:@"%@-%02ld", year, [month integerValue]];
+        
         // 建筑能效概况 - 月统计
         [BXTGlobal showLoadingMBP:@"数据加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request efficiencyDistributionMonthWithDate:@"" ppath:@""];
-    }
-    else {
-        // 建筑能效概况 - 年统计
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request efficiencyDistributionYearWithDate:@"" ppath:@""];
+        [request efficiencyDistributionMonthWithDate:nowTime ppath:@""];
+        
     }
 }
 
@@ -102,6 +143,12 @@
         cell.similarNumView.hidden = YES;
     }
     
+    UIColor *elemColor = [BXTGlobal randomColor];
+    if (indexPath.section - 1 < 15) {
+        elemColor = colorWithHexString(self.colorArray[indexPath.section - 1]);
+    }
+    cell.roundView.backgroundColor = elemColor;
+    
     cell.unit = self.edInfo.unit;
     if (self.showCost) {
         cell.moneyListInfo = self.edInfo.lists[indexPath.section-1];
@@ -141,13 +188,18 @@
     cell.pieView.layer.minRadius = 0;
     
     // 2. fill data
-    NSArray *colorArray = [[NSArray alloc] initWithObjects:@"#E99390", @"#6DA9E8", @"#FBF56B", @"#F2B56F", nil];
+    self.colorArray = [[NSArray alloc] initWithObjects:@"#f484a8", @"#7a9cef", @"#f8a049", @"#f86b3d", @"#9171f3", @"#f9bd34", @"#d251d8", @"#49e3ea", @"#d8505c", @"#f25a8b", @"#45a74f", @"#52b7ce", @"#fd6468", @"#48d2be", @"#5b91d3", nil];
     NSMutableArray *oldDataArray = [[NSMutableArray alloc] init];
     NSMutableArray *pieArray = [[NSMutableArray alloc] init];
     NSInteger sumNum = 0;
     for(int i=0; i<self.chartDataArray.count; i++)
     {
-        MYPieElement *elem = [MYPieElement pieElementWithValue:[self.chartDataArray[i] floatValue] color:colorWithHexString(colorArray[i])];
+        UIColor *elemColor = [BXTGlobal randomColor];
+        if (i<15)
+        {
+            elemColor = colorWithHexString(self.colorArray[i]);
+        }
+        MYPieElement *elem = [MYPieElement pieElementWithValue:[self.chartDataArray[i] floatValue] color:elemColor];
         elem.title = [NSString stringWithFormat:@"%@%%", self.chartDataArray[i]];
         if ([self.chartDataArray[i] isEqualToString:@"0%"]) {
             elem.title = @"";
@@ -171,7 +223,7 @@
     if (isAllZero)
     {
         [cell.pieView.layer deleteValues:oldDataArray animated:YES];
-        MYPieElement *elem = [MYPieElement pieElementWithValue:1 color:colorWithHexString(colorArray[0])];
+        MYPieElement *elem = [MYPieElement pieElementWithValue:1 color:colorWithHexString(self.colorArray[0])];
         elem.title = @"";
         [cell.pieView.layer addValues:@[elem] animated:NO];
     }
@@ -218,6 +270,11 @@
             return @{@"energyID":@"id"};
         }];
         self.edInfo = [BXTEnergyDistributionInfo mj_objectWithKeyValues:dic[@"data"]];
+        
+        self.chartDataArray = [[NSMutableArray alloc] init];
+        for (BXTEYDTListsInfo *list in self.edInfo.lists) {
+            [self.chartDataArray addObject:[NSString stringWithFormat:@"%.2f", list.energy_consumption_per]];
+        }
     }
     
     [self.tableView reloadData];

@@ -32,7 +32,7 @@
     self.nextTimeBtn.layer.cornerRadius = 5;
     
     [self.thisTimeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
-    [self.thisTimeBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 85, 0, -85)];
+    [self.thisTimeBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 95, 0, -95)];
     
     self.nextTimeBtn.enabled = NO;
     self.nextTimeBtn.alpha = 0.4;
