@@ -10,8 +10,16 @@
 #import "MYPieView.h"
 #import "MYPieElement.h"
 #import "BXTEnergyDistributionInfo.h"
+#import "BXTGlobal.h"
 
 @interface BXTEnergyDistributionViewChartCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UIButton *energyBtn;
+@property (weak, nonatomic) IBOutlet UIButton *formatBtn;
+@property (weak, nonatomic) IBOutlet UIButton *buildingBtn;
+@property (weak, nonatomic) IBOutlet UIButton *areaBtn;
+@property (weak, nonatomic) IBOutlet UIButton *systemBtn;
+@property (weak, nonatomic) IBOutlet UILabel *showLevelView;
 
 @property (weak, nonatomic) IBOutlet MYPieView *pieView;
 

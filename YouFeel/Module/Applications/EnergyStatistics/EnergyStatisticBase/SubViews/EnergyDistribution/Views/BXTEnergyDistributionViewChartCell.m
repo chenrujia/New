@@ -31,11 +31,11 @@
 {
     _energyListInfo = energyListInfo;
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %ld %@", energyListInfo.mom_energy_consumption, self.unit];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %ld %@", (long)energyListInfo.mom_energy_consumption, self.unit];
     self.circleImageView.image = [self judgeImage:energyListInfo.mom_energy_consumption_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", energyListInfo.mom_energy_consumption_per];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %.ld %@", energyListInfo.an_energy_consumption, self.unit];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %.ld %@", (long)energyListInfo.an_energy_consumption, self.unit];
     self.similarImageView.image = [self judgeImage:energyListInfo.an_energy_consumption_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", energyListInfo.an_energy_consumption_per];
 }
@@ -44,11 +44,11 @@
 {
     _moneyListInfo = moneyListInfo;
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %ld 元", moneyListInfo.mom_money];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %ld 元", (long)moneyListInfo.mom_money];
     self.circleImageView.image = [self judgeImage:moneyListInfo.mom_money_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", moneyListInfo.mom_money_per];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %.ld 元", moneyListInfo.an_money];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %.ld 元", (long)moneyListInfo.an_money];
     self.similarImageView.image = [self judgeImage:moneyListInfo.an_money_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", moneyListInfo.an_money_per];
 }
@@ -70,6 +70,27 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    self.energyBtn.layer.cornerRadius = 15;
+    self.energyBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
+    self.energyBtn.layer.borderWidth = 2;
+    
+    self.formatBtn.layer.cornerRadius = 15;
+    self.formatBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
+    self.formatBtn.layer.borderWidth = 2;
+    
+    self.buildingBtn.layer.cornerRadius = 15;
+    self.buildingBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
+    self.buildingBtn.layer.borderWidth = 2;
+    
+    self.areaBtn.layer.cornerRadius = 15;
+    self.areaBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
+    self.areaBtn.layer.borderWidth = 2;
+    
+    self.systemBtn.layer.cornerRadius = 15;
+    self.systemBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
+    self.systemBtn.layer.borderWidth = 2;
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

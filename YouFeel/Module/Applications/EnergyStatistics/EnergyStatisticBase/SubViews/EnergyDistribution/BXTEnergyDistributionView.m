@@ -94,7 +94,7 @@
     else {
         NSString *year = [self.timeStr substringToIndex:4];
         NSString *month = [self.timeStr substringWithRange:NSMakeRange(5, self.timeStr.length - 6)];
-        NSString *nowTime = [NSString stringWithFormat:@"%@-%02ld", year, [month integerValue]];
+        NSString *nowTime = [NSString stringWithFormat:@"%@-%02ld", year, (long)[month integerValue]];
         
         // 建筑能效概况 - 月统计
         [BXTGlobal showLoadingMBP:@"数据加载中..."];
@@ -164,13 +164,13 @@
 {
     if (self.vcType == ViewControllerTypeOFYear) {
         if (indexPath.section == 0) {
-            return 283;
+            return 370;
         }
         return 70;
     }
     
     if (indexPath.section == 0) {
-        return 310;
+        return 400;
     }
     return 100;
 }

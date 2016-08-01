@@ -82,7 +82,7 @@
     else {
         NSString *year = [self.timeStr substringToIndex:4];
         NSString *month = [self.timeStr substringWithRange:NSMakeRange(5, self.timeStr.length - 6)];
-        NSString *nowTime = [NSString stringWithFormat:@"%@-%02ld", year, [month integerValue]];
+        NSString *nowTime = [NSString stringWithFormat:@"%@-%02ld", year, (long)[month integerValue]];
         
         // 建筑能效概况 - 月统计
         [BXTGlobal showLoadingMBP:@"数据加载中..."];
