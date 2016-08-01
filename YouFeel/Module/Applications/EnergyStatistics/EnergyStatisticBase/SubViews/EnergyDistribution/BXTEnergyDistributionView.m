@@ -10,6 +10,7 @@
 #import "BXTEnergyDistributionInfo.h"
 #import "BXTEnergySurveyViewCell.h"
 #import "BXTEnergyDistributionViewChartCell.h"
+#import "BXTEnergyReadingFilterInfo.h"
 
 @interface BXTEnergyDistributionView () <BXTDataResponseDelegate>
 
@@ -20,6 +21,23 @@
 
 /** ---- 显示费用 ---- */
 @property (nonatomic, assign) BOOL showCost;
+
+/** ---- 选择 ---- */
+@property (nonatomic, strong) UIView *selectBgView;
+@property (nonatomic, strong) UITableView *selectTableView;
+@property (nonatomic, strong) NSMutableArray *selectArray;
+
+/** ---- 选中的按钮 ---- */
+@property (nonatomic, assign) NSInteger selectedBtn;
+/** ---- 存值 ---- */
+@property (nonatomic, strong) NSMutableArray *allDataArray;
+/** ---- 选中index数组 ---- */
+@property (nonatomic, strong) NSMutableArray *selectedNumArray;
+
+/** ---- 存储显示值 ---- */
+@property (nonatomic, strong) NSMutableArray *showInfoArray;
+///** ---- 显示逻辑 ---- */
+@property (nonatomic, copy) NSString *showInfoStr;
 
 @end
 
@@ -33,6 +51,7 @@
 - (instancetype)initWithFrame:(CGRect)frame VCType:(ViewControllerType)vcType
 {
     self = [super initWithFrame:frame VCType:vcType];
+    
     
     [self getResource];
     
@@ -86,33 +105,73 @@
 #pragma mark - getResource
 - (void)getResource
 {
-    if (self.vcType == ViewControllerTypeOFYear) {
-        // 建筑能效概况 - 年统计
+    self.selectedBtn = 0;
+    self.allDataArray = [[NSMutableArray alloc] init];
+    self.selectedNumArray = [[NSMutableArray alloc] initWithObjects:@"-1", @"-1", @"-1", @"-1", @"-1", nil];
+    self.showInfoStr = @"层级：电能";
+    self.showInfoArray = [[NSMutableArray alloc] initWithObjects:self.showInfoStr, @"", @"", @"", @"", nil];
+    
+    
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        if (self.vcType == ViewControllerTypeOFYear) {
+            // 建筑能效概况 - 年统计
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request efficiencyDistributionYearWithDate:self.timeStr ppath:@""];
+        }
+        else {
+            NSString *year = [self.timeStr substringToIndex:4];
+            NSString *month = [self.timeStr substringWithRange:NSMakeRange(5, self.timeStr.length - 6)];
+            NSString *nowTime = [NSString stringWithFormat:@"%@-%02ld", year, (long)[month integerValue]];
+            
+            // 建筑能效概况 - 月统计
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request efficiencyDistributionMonthWithDate:nowTime ppath:@""];
+        }
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**筛选条件**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request efficiencyDistributionYearWithDate:self.timeStr ppath:@""];
-    }
-    else {
-        NSString *year = [self.timeStr substringToIndex:4];
-        NSString *month = [self.timeStr substringWithRange:NSMakeRange(5, self.timeStr.length - 6)];
-        NSString *nowTime = [NSString stringWithFormat:@"%@-%02ld", year, (long)[month integerValue]];
-        
-        // 建筑能效概况 - 月统计
-        [BXTGlobal showLoadingMBP:@"数据加载中..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request efficiencyDistributionMonthWithDate:nowTime ppath:@""];
-        
-    }
+        [request energyMeasuremenLevelListsWithType:@"1"];
+    });
 }
 
 #pragma mark -
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (tableView == self.selectTableView) {
+        return 1;
+    }
     return self.edInfo.lists.count + 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (tableView == self.selectTableView) {
+        return self.selectArray.count;
+    }
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.selectTableView)
+    {
+        static NSString *cellID = @"cellSelect";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+        }
+        
+        cell.textLabel.text = self.selectArray[indexPath.row];
+        
+        return cell;
+    }
+    
+    
     if (indexPath.section == 0) {
         BXTEnergyDistributionViewChartCell *cell = [BXTEnergyDistributionViewChartCell cellWithTableView:tableView];
         
@@ -130,6 +189,72 @@
         else {
             cell.energyListInfo = self.edInfo.total;
         }
+        
+
+        // 按钮点击事件
+        @weakify(self);
+        [[cell.energyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            self.selectedBtn = 0;
+            self.selectArray = [[NSMutableArray alloc] initWithObjects:@"电能", @"水", @"燃气", @"热能", nil];
+            [self createSelectTableView];
+        }];
+        [[cell.formatBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            self.selectedBtn = 1;
+            [self reloadDataWithIndexOFSelectedRow:self.selectedBtn];
+            [self createSelectTableView];
+        }];
+        [[cell.buildingBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            self.selectedBtn = 2;
+            [self reloadDataWithIndexOFSelectedRow:self.selectedBtn];
+            [self createSelectTableView];
+        }];
+        [[cell.areaBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            self.selectedBtn = 3;
+            [self reloadDataWithIndexOFSelectedRow:self.selectedBtn];
+            [self createSelectTableView];
+        }];
+        [[cell.systemBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            self.selectedBtn = 4;
+            [self reloadDataWithIndexOFSelectedRow:self.selectedBtn];
+            [self createSelectTableView];
+        }];
+        
+        // 刷新按钮
+        cell.buildingBtn.enabled = self.selectedBtn >= 1;
+        cell.areaBtn.enabled = self.selectedBtn >= 2;
+        cell.systemBtn.enabled = self.selectedBtn >= 3;
+        if (self.selectedBtn == 1) {
+            cell.formatBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+            [cell.formatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        } else if (self.selectedBtn == 2) {
+            cell.formatBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+            [cell.formatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            cell.buildingBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+            [cell.buildingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        } else if (self.selectedBtn == 3) {
+            cell.formatBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+            [cell.formatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            cell.buildingBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+            [cell.buildingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            cell.areaBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+            [cell.areaBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        } else if (self.selectedBtn == 4) {
+            cell.formatBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+            [cell.formatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            cell.buildingBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+            [cell.buildingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            cell.areaBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+            [cell.areaBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            cell.systemBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+            [cell.systemBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+        
+        cell.showLevelView.text = self.showInfoStr;
         
         return cell;
     }
@@ -162,6 +287,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.selectTableView) {
+        return 50;
+    }
+    
     if (self.vcType == ViewControllerTypeOFYear) {
         if (indexPath.section == 0) {
             return 370;
@@ -177,15 +306,182 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.selectTableView) {
+
+        if (self.selectedBtn == 0) {
+            NSString *showStr = [NSString stringWithFormat:@"层级：%@", self.selectArray[indexPath.row]];
+            [self.showInfoArray replaceObjectAtIndex:0 withObject:showStr];
+            
+            [BXTGlobal showLoadingMBP:@"数据加载中..."];
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request energyMeasuremenLevelListsWithType:[NSString stringWithFormat:@"%ld", indexPath.row + 1]];
+        }
+        else {
+            [self.selectedNumArray replaceObjectAtIndex:self.selectedBtn withObject:[NSString stringWithFormat:@"%ld", indexPath.row]];
+            
+            NSString *showStr = [NSString stringWithFormat:@">%@", self.selectArray[indexPath.row]];
+            [self.showInfoArray replaceObjectAtIndex:self.selectedBtn withObject:showStr];
+        }
+        
+        [self removeSelectTableView];
+    }
+    
+    
+    // 层级显示
+    NSString *showStr = @"";
+    for (int i = 0; i <= self.selectedBtn; i++) {
+        showStr = [NSString stringWithFormat:@"%@%@", showStr, self.showInfoArray[i]];
+    }
+    self.showInfoStr = showStr;
+    
+    
+    [self.tableView reloadData];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark getDataResource
+- (void)requestResponseData:(id)response requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    if (type == EfficiencyDistributionMonth)
+    {
+        [BXTEYDTListsInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"energyID":@"id"};
+        }];
+        self.edInfo = [BXTEnergyDistributionInfo mj_objectWithKeyValues:dic[@"data"]];
+        
+        self.chartDataArray = [[NSMutableArray alloc] init];
+        for (BXTEYDTListsInfo *list in self.edInfo.lists) {
+            [self.chartDataArray addObject:[NSString stringWithFormat:@"%.2f", list.energy_consumption_per]];
+        }
+        
+    }
+    else if (type == EfficiencyDistributionYear)
+    {
+        [BXTEYDTListsInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"energyID":@"id"};
+        }];
+        self.edInfo = [BXTEnergyDistributionInfo mj_objectWithKeyValues:dic[@"data"]];
+        
+        self.chartDataArray = [[NSMutableArray alloc] init];
+        for (BXTEYDTListsInfo *list in self.edInfo.lists) {
+            [self.chartDataArray addObject:[NSString stringWithFormat:@"%.2f", list.energy_consumption_per]];
+        }
+    }
+    else if (type == EnergyMeasuremenLevelListsOne || type == EnergyMeasuremenLevelListsTwo || type == EnergyMeasuremenLevelListsThree || type == EnergyMeasuremenLevelListsFour)
+    {
+        NSMutableArray *listArray = [[NSMutableArray alloc] init];
+        [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"filterID":@"id"};
+        }];
+        [listArray addObjectsFromArray:[BXTEnergyReadingFilterInfo mj_objectArrayWithKeyValuesArray:dic[@"data"]]];
+        
+        self.allDataArray = listArray;
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)requestError:(NSError *)error requeseType:(RequestType)type
+{
+    [BXTGlobal hideMBP];
+}
+
+#pragma mark -
+#pragma mark - Other
+- (void)reloadDataWithIndexOFSelectedRow:(NSInteger)selectedRow
+{
+    if (selectedRow == 4) {
+        NSInteger index1 = [self.selectedNumArray[self.selectedBtn -3] integerValue];
+        BXTEnergyReadingFilterInfo *firstList = self.allDataArray[index1];
+        NSInteger index2 = [self.selectedNumArray[self.selectedBtn - 2] integerValue];
+        BXTEnergyReadingFilterInfo *secondList = firstList.lists[index2];
+        NSInteger index3 = [self.selectedNumArray[self.selectedBtn - 1] integerValue];
+        BXTEnergyReadingFilterInfo *thirdList = secondList.lists[index3];
+        
+        NSMutableArray *forthArray = [[NSMutableArray alloc] init];
+        for (BXTEnergyReadingFilterInfo *forthList in thirdList.lists) {
+            [forthArray addObject:forthList.name];
+        }
+        self.selectArray = forthArray;
+    }
+    else if (selectedRow == 3) {
+        NSInteger index1 = [self.selectedNumArray[self.selectedBtn - 2] integerValue];
+        BXTEnergyReadingFilterInfo *firstList = self.allDataArray[index1];
+        NSInteger index2 = [self.selectedNumArray[self.selectedBtn - 1] integerValue];
+        BXTEnergyReadingFilterInfo *secondList = firstList.lists[index2];
+        NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
+        for (BXTEnergyReadingFilterInfo *thirdList in secondList.lists) {
+            [thirdArray addObject:thirdList.name];
+        }
+        self.selectArray = thirdArray;
+    }
+    else if (selectedRow == 2) {
+        NSInteger index1 = [self.selectedNumArray[self.selectedBtn - 1] integerValue];
+        BXTEnergyReadingFilterInfo *firstList = self.allDataArray[index1];
+        NSMutableArray *secondArray = [[NSMutableArray alloc] init];
+        for (BXTEnergyReadingFilterInfo *secondList in firstList.lists) {
+            [secondArray addObject:secondList.name];
+        }
+        self.selectArray = secondArray;
+    }
+    else if (selectedRow == 1) {
+        NSMutableArray *firstArray = [[NSMutableArray alloc] init];
+        for (BXTEnergyReadingFilterInfo *firstList in self.allDataArray) {
+            [firstArray addObject:firstList.name];
+        }
+        self.selectArray = firstArray;
+    }
+}
+
+- (void)createSelectTableView
+{
+    self.selectBgView = [[UIView alloc] initWithFrame:self.bounds];
+    self.selectBgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
+    self.selectBgView.tag = 102;
+    [self addSubview:self.selectBgView];
+    
+    // selectTableView
+    CGFloat tableViewH = self.selectArray.count * 50 + 10;
+    if (self.selectArray.count >= 6)
+    {
+        tableViewH = 6 * 50 + 10;
+    }
+    self.selectTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - tableViewH - 50, SCREEN_WIDTH, tableViewH) style:UITableViewStylePlain];
+    self.selectTableView.delegate = self;
+    self.selectTableView.dataSource = self;
+    [self addSubview:self.selectTableView];
+    
+    // toolView
+    UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 50, SCREEN_WIDTH, 50)];
+    toolView.backgroundColor = colorWithHexString(@"#EEF3F6");
+    [self.selectBgView addSubview:toolView];
+    
+    // sure
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
+    [sureBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    sureBtn.backgroundColor = [UIColor whiteColor];
+    @weakify(self);
+    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        self.selectedBtn -= 1;
+        [self removeSelectTableView];
+    }];
+    sureBtn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    sureBtn.layer.borderWidth = 0.5;
+    [toolView addSubview:sureBtn];
 }
 
 - (void)reloadChartDataWithCell:(BXTEnergyDistributionViewChartCell *)cell
 {
     //  ---------- 饼状图 ----------
     // 1. create pieView
-    cell.pieView.layer.minRadius = 0;
+    cell.pieView.layer.minRadius = 45;
     
     // 2. fill data
     self.colorArray = [[NSArray alloc] initWithObjects:@"#f484a8", @"#7a9cef", @"#f8a049", @"#f86b3d", @"#9171f3", @"#f9bd34", @"#d251d8", @"#49e3ea", @"#d8505c", @"#f25a8b", @"#45a74f", @"#52b7ce", @"#fd6468", @"#48d2be", @"#5b91d3", nil];
@@ -244,45 +540,27 @@
     
 }
 
-#pragma mark -
-#pragma mark getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
+- (void)removeSelectTableView
 {
-    [BXTGlobal hideMBP];
-    
-    NSDictionary *dic = (NSDictionary *)response;
-    if (type == EfficiencyDistributionMonth)
-    {
-        [BXTEYDTListsInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"energyID":@"id"};
-        }];
-        self.edInfo = [BXTEnergyDistributionInfo mj_objectWithKeyValues:dic[@"data"]];
-        
-        self.chartDataArray = [[NSMutableArray alloc] init];
-        for (BXTEYDTListsInfo *list in self.edInfo.lists) {
-            [self.chartDataArray addObject:[NSString stringWithFormat:@"%.2f", list.energy_consumption_per]];
-        }
-        
-    }
-    else if (type == EfficiencyDistributionYear)
-    {
-        [BXTEYDTListsInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"energyID":@"id"};
-        }];
-        self.edInfo = [BXTEnergyDistributionInfo mj_objectWithKeyValues:dic[@"data"]];
-        
-        self.chartDataArray = [[NSMutableArray alloc] init];
-        for (BXTEYDTListsInfo *list in self.edInfo.lists) {
-            [self.chartDataArray addObject:[NSString stringWithFormat:@"%.2f", list.energy_consumption_per]];
-        }
-    }
-    
-    [self.tableView reloadData];
+    [self.selectTableView removeFromSuperview];
+    self.selectTableView = nil;
+    [self.selectBgView removeFromSuperview];
 }
 
-- (void)requestError:(NSError *)error requeseType:(RequestType)type
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [BXTGlobal hideMBP];
+    UITouch *touch = [touches anyObject];
+    UIView *view = touch.view;
+    if (view.tag == 102)
+    {
+        if (_selectTableView)
+        {
+            self.selectedBtn -= 1;
+            [self.selectTableView removeFromSuperview];
+            self.selectTableView = nil;
+        }
+        [view removeFromSuperview];
+    }
 }
 
 @end

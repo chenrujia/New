@@ -72,9 +72,9 @@
     // Initialization code
     
     self.energyBtn.layer.cornerRadius = 15;
-    self.energyBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
-    self.energyBtn.layer.borderWidth = 2;
-    
+    self.energyBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
+    [self.energyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
     self.formatBtn.layer.cornerRadius = 15;
     self.formatBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
     self.formatBtn.layer.borderWidth = 2;
@@ -82,14 +82,17 @@
     self.buildingBtn.layer.cornerRadius = 15;
     self.buildingBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
     self.buildingBtn.layer.borderWidth = 2;
+    self.buildingBtn.enabled = NO;
     
     self.areaBtn.layer.cornerRadius = 15;
     self.areaBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
     self.areaBtn.layer.borderWidth = 2;
+    self.areaBtn.enabled = NO;
     
     self.systemBtn.layer.cornerRadius = 15;
     self.systemBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
     self.systemBtn.layer.borderWidth = 2;
+    self.systemBtn.enabled = NO;
     
 }
 
