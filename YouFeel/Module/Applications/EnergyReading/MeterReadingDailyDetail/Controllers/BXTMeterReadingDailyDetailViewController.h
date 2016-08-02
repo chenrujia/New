@@ -10,11 +10,11 @@
 
 @interface BXTMeterReadingDailyDetailViewController : BXTEnergyBaseViewController
 
-@property (nonatomic, copy) NSString *transID;
-
+@property (nonatomic, copy  ) NSString   *transID;
 @property (nonatomic, strong) RACSubject *delegateSignal;
-
+@property (copy, nonatomic  ) NSString   *nowTimeStr;
+@property (copy, nonatomic  ) NSString   *showTimeStr;
 /** ---- 解锁 ---- */
-@property (nonatomic, assign) BOOL unlocked;
+@property (nonatomic, assign) BOOL       unlocked;
 
 @end

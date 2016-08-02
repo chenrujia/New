@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, BrokenLineType) {
     WindPowerType = 3
 };
 
-typedef void (^ChoosedDatesourece)(CGFloat temperature,CGFloat humidity,CGFloat windPower,NSArray *energy);
+typedef void (^ChoosedDatesourece)(CGFloat temperature,CGFloat humidity,CGFloat windPower,NSArray *energy,NSInteger index);
 
 @interface BXTHistogramView : UIView
 {

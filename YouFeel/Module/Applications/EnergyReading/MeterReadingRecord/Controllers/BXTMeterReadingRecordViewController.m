@@ -35,8 +35,7 @@
 @property (nonatomic, assign) BOOL                               isHideChart;
 @property (nonatomic, strong) BXTMeterReadingRecordMonthListInfo *monthListInfo;
 @property (nonatomic, strong) BXTMeterReadingRecordListInfo      *listInfo;
-
-@property (nonatomic, assign) BOOL isListsRequest;
+@property (nonatomic, assign) BOOL                               isListsRequest;
 
 @end
 
@@ -45,7 +44,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self navigationSetting:@"能源抄表" andRightTitle1:nil andRightImage1:[UIImage imageNamed:@"energy_list"] andRightTitle2:@"能耗计算" andRightImage2:nil];
     
     self.isShowArray = [[NSMutableArray alloc] init];
@@ -57,12 +55,11 @@
 - (void)getResource
 {
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
-    
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         // 计量表 - 抄表记录，月
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterRecordMonthListsWithAboutID:self.transID year:@""];
+        [request energyMeterRecordMonthListsWithAboutID:self.transID year:self.yearStr];
     });
     dispatch_async(concurrentQueue, ^{
         // 计量表 - 抄表记录，列表
@@ -74,7 +71,6 @@
 - (void)getResourceShowMonthChartView:(BOOL)showChart
 {
     self.isListsRequest = !showChart;
-    
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
     if (showChart)
     {
@@ -92,13 +88,18 @@
 
 - (void)navigationLeftButton
 {
-    if (self.delegateSignal) {
-        for (UIViewController *temp in self.navigationController.viewControllers) {
-            if ([temp isKindOfClass:[BXTEnergyClassificationViewController class]]) {
+    if (self.delegateSignal)
+    {
+        for (UIViewController *temp in self.navigationController.viewControllers)
+        {
+            if ([temp isKindOfClass:[BXTEnergyClassificationViewController class]])
+            {
                 [self.navigationController popToViewController:temp animated:YES];
             }
         }
-    } else {
+    }
+    else
+    {
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
@@ -249,6 +250,8 @@
         @strongify(self);
         BXTMeterReadingDailyDetailViewController *mrddvc = [[BXTMeterReadingDailyDetailViewController alloc] init];
         mrddvc.transID = self.transID;
+        BXTRecordMonthListsInfo *recordInfo = self.monthListInfo.lists[self.hisView.selectIndex];
+        mrddvc.showTimeStr = [NSString stringWithFormat:@"%@年%ld月", self.yearStr, (long)recordInfo.month];
         mrddvc.delegateSignal = [RACSubject subject];
         [mrddvc.delegateSignal subscribeNext:^(id x) {
             @strongify(self);

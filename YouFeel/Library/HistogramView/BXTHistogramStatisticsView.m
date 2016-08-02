@@ -23,7 +23,10 @@
         scrollView.layer.borderWidth = 1.f;
         scrollView.contentSize = CGSizeMake(50 * datasource.count, 0);
         scrollView.bounces = NO;
-        [scrollView setContentOffset:CGPointMake(50 * datasource.count - sco_width, 0)];
+        if (50 * datasource.count > sco_width)
+        {
+            [scrollView setContentOffset:CGPointMake(50 * datasource.count - sco_width, 0)];
+        }
         [self addSubview:scrollView];
         
         //电量
@@ -237,13 +240,11 @@
             [self addSubview:secondHumLabel];
         }
         
-        // BXTHistogramFooterView
         self.footerView = [BXTHistogramFooterView viewForHistogramFooterView];
         self.footerView.frame = CGRectMake(0, 370, self.frame.size.width, 100);
         [self addSubview:self.footerView];
         
-        BXTHistogramView *histogramView = [[BXTHistogramView alloc] initWithFrame:CGRectMake(0, 0, 1500, 330.f) lists:datasource kwhMeasure:measure kwhNumber:number block:^(CGFloat temperature, CGFloat humidity, CGFloat windPower, NSArray *energy) {
-            NSLog(@"%f,%f,%f,%@",temperature,humidity,windPower,energy);
+        BXTHistogramView *histogramView = [[BXTHistogramView alloc] initWithFrame:CGRectMake(0, 0, 50 * datasource.count, 330.f) lists:datasource kwhMeasure:measure kwhNumber:number block:^(CGFloat temperature, CGFloat humidity, CGFloat windPower, NSArray *energy,NSInteger index) {
             if (number == 4)
             {
                 self.footerView.checkDetailBtn.hidden = NO;
@@ -253,6 +254,7 @@
             self.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%@", energy[2]];
             self.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%@", energy[3]];
             self.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%@", energy[4]];
+            self.selectIndex = index;
         }];
         [scrollView addSubview:histogramView];
 

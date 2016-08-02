@@ -16,10 +16,9 @@
     return [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingDailyDetailFilterView" owner:nil options:nil] lastObject];
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
-    // Initialization code
-    
     self.layer.cornerRadius = 10;
     
     self.lastMonthBtn.layer.borderWidth = 1;
@@ -29,17 +28,6 @@
     self.nextMonthBtn.layer.borderWidth = 1;
     self.nextMonthBtn.layer.borderColor = [colorWithHexString(@"#95CAF7") CGColor];
     self.nextMonthBtn.layer.cornerRadius = 5;
-    
-    
-    self.timeView.text = [self returnTransTimeStr];
-    self.nextMonthBtn.enabled = NO;
-    self.nextMonthBtn.alpha = 0.4;
-}
-
-- (NSString *)returnTransTimeStr
-{
-    NSArray *array = [BXTGlobal yearAndmonthAndDay];
-    return [NSString stringWithFormat:@"%@年%@月", array[0], array[1]];
 }
 
 @end
