@@ -243,9 +243,8 @@
         self.footerView.frame = CGRectMake(0, 370, self.frame.size.width, 100);
         [self addSubview:self.footerView];
         
-        BXTHistogramView *histogramView = [[BXTHistogramView alloc] initWithFrame:CGRectMake(0, 0, 1500, 330.f) lists:datasource kwhMeasure:measure kwhNumber:number statisticsType:s_type block:^(CGFloat temperature, CGFloat humidity, CGFloat windPower, NSArray *energy) {
-            NSLog(@"%f,%f,%f,%@",temperature,humidity,windPower,energy);
-            if (number == 4)
+        BXTHistogramView *histogramView = [[BXTHistogramView alloc] initWithFrame:CGRectMake(0, 0, 1500, 330.f) lists:datasource kwhMeasure:measure kwhNumber:number statisticsType:s_type block:^(CGFloat temperature, CGFloat humidity, CGFloat windPower, NSArray *energy,NSInteger index) {
+            if (s_type == MonthType)
             {
                 self.footerView.checkDetailBtn.hidden = NO;
             }
