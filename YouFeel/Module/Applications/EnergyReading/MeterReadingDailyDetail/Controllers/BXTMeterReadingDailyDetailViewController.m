@@ -119,7 +119,7 @@
 
 - (void)initialHisView:(NSInteger)maxNumber
 {
-    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) lists:self.dayListInfo.lists kwhMeasure:maxNumber kwhNumber:6];
+    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) lists:self.dayListInfo.lists kwhMeasure:maxNumber kwhNumber:6 statisticsType:DayType];
     self.hisView.backgroundColor = [UIColor whiteColor];
     self.hisView.layer.masksToBounds = YES;
     self.hisView.layer.cornerRadius = 10.f;

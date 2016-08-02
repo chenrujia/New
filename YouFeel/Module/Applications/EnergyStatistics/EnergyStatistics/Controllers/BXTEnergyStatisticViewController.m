@@ -9,6 +9,7 @@
 #import "BXTEnergyStatisticViewController.h"
 #import "BXTEnergyStatisticsView.h"
 #import "BXTEnergyStatisticBaseViewController.h"
+#import "BXTGlobal.h"
 
 @interface BXTEnergyStatisticViewController ()
 

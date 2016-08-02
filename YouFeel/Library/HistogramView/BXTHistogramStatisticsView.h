@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "BXTHistogramFooterView.h"
+#import "BXTHistogramView.h"
 
 @interface BXTHistogramStatisticsView : UIView
 
 @property (nonatomic, strong) BXTHistogramFooterView *footerView;
 
-- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)lists kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number;
+- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number statisticsType:(StatisticsType)s_type;
 
 @end

@@ -15,20 +15,20 @@
 
 @implementation BXTHistogramView
 
-- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number block:(ChoosedDatesourece)block
+- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number statisticsType:(StatisticsType)s_type block:(ChoosedDatesourece)block
 {
     self = [super initWithFrame:frame];
     if (self)
     {
         self.kwhNumber = number;
-
+        self.statisticsType = s_type;
         isFirst = YES;
         self.datasource = datasource;
         self.datasourceBlock = block;
         NSMutableArray *temArray = [NSMutableArray array];
         NSMutableArray *humArray = [NSMutableArray array];
         NSMutableArray *energyArray = [NSMutableArray array];
-        if (self.kwhNumber > 4)
+        if (self.statisticsType == DayType)
         {
             NSMutableArray *windArray = [NSMutableArray array];
             for (NSInteger i = 0; i < datasource.count; i++)
@@ -41,7 +41,7 @@
             }
             self.windPowerArray = windArray;
         }
-        else
+        else if (self.statisticsType == MonthType)
         {
             for (NSInteger i = 0; i < datasource.count; i++)
             {
@@ -50,6 +50,10 @@
                 [humArray addObject:@(recordInfo.data.humidity)];
                 [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.peak_period_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
             }
+        }
+        else if (self.statisticsType == BudgetType)
+        {
+            
         }
         
         self.temperatureArray = temArray;

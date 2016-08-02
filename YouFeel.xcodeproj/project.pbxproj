@@ -311,6 +311,8 @@
 		78A1B86A1C8428CF00F252BE /* BXTEPSystemRateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B8681C8428CF00F252BE /* BXTEPSystemRateCell.m */; };
 		78A1B86B1C8428CF00F252BE /* BXTEPSystemRateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */; };
 		78A1B86E1C8430C000F252BE /* BXTEPSystemRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A1B86D1C8430C000F252BE /* BXTEPSystemRate.m */; };
+		78AF1A401D50796A00F6C17A /* BXTEnergyTrendHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78AF1A3E1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.m */; };
+		78AF1A411D50796A00F6C17A /* BXTEnergyTrendHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78AF1A3F1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.xib */; };
 		78C55A651C47339700FFEB37 /* BXTCurrentOrderData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A581C47339700FFEB37 /* BXTCurrentOrderData.m */; };
 		78C55A671C47339700FFEB37 /* BXTEquipmentControlUserArr.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A5D1C47339700FFEB37 /* BXTEquipmentControlUserArr.m */; };
 		78C55A681C47339700FFEB37 /* BXTEquipmentData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C55A5F1C47339700FFEB37 /* BXTEquipmentData.m */; };
@@ -1054,6 +1056,9 @@
 		78A1B8691C8428CF00F252BE /* BXTEPSystemRateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEPSystemRateCell.xib; sourceTree = "<group>"; };
 		78A1B86C1C8430C000F252BE /* BXTEPSystemRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEPSystemRate.h; sourceTree = "<group>"; };
 		78A1B86D1C8430C000F252BE /* BXTEPSystemRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEPSystemRate.m; sourceTree = "<group>"; };
+		78AF1A3D1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyTrendHeaderCell.h; sourceTree = "<group>"; };
+		78AF1A3E1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyTrendHeaderCell.m; sourceTree = "<group>"; };
+		78AF1A3F1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEnergyTrendHeaderCell.xib; sourceTree = "<group>"; };
 		78C55A571C47339700FFEB37 /* BXTCurrentOrderData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCurrentOrderData.h; sourceTree = "<group>"; };
 		78C55A581C47339700FFEB37 /* BXTCurrentOrderData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCurrentOrderData.m; sourceTree = "<group>"; };
 		78C55A5C1C47339700FFEB37 /* BXTEquipmentControlUserArr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEquipmentControlUserArr.h; sourceTree = "<group>"; };
@@ -2768,6 +2773,9 @@
 		7867A0EB1D4EF8CA00A0D4F6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				78AF1A3D1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.h */,
+				78AF1A3E1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.m */,
+				78AF1A3F1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.xib */,
 				7867A0F21D4EF8CA00A0D4F6 /* BXTEnergyTrendLegendCell.h */,
 				7867A0F31D4EF8CA00A0D4F6 /* BXTEnergyTrendLegendCell.m */,
 				7867A0F41D4EF8CA00A0D4F6 /* BXTEnergyTrendLegendCell.xib */,
@@ -5071,6 +5079,7 @@
 				967C3D4B1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.xib in Resources */,
 				967C3D461C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.xib in Resources */,
 				78426B571C7C406400BAE0F4 /* BXTMTPlanHeaderView.xib in Resources */,
+				78AF1A411D50796A00F6C17A /* BXTEnergyTrendHeaderCell.xib in Resources */,
 				7867A0DF1D4EF3B600A0D4F6 /* BXTEnergySurveyViewChartCell.xib in Resources */,
 				96EBFCD21CA63C3700F93AB0 /* BXTPlaceTableViewCell.xib in Resources */,
 				786D37461CBBC0E800D307DB /* BXTCertificationManageInfoCell.xib in Resources */,
@@ -5320,6 +5329,7 @@
 				783DDA4B1C3FB4A50035B927 /* HanyuPinyinOutputFormat.m in Sources */,
 				7818DBDE1C0824D800DC22C6 /* PNCircleChart.m in Sources */,
 				9652ABF61BC90DCC009A666D /* NSString+ANKeyValue.m in Sources */,
+				78AF1A401D50796A00F6C17A /* BXTEnergyTrendHeaderCell.m in Sources */,
 				7867DC2D1C4CBA5B000749F1 /* BXTGroupInfo.m in Sources */,
 				78426B631C7C61F500BAE0F4 /* BXTMTCompletionFooter.m in Sources */,
 				78472C4F1D3C6D3600F89BA2 /* BXTMeterReadingListCell.m in Sources */,
