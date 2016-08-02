@@ -15,6 +15,12 @@ typedef NS_ENUM(NSInteger, BrokenLineType) {
     WindPowerType = 3
 };
 
+typedef NS_ENUM(NSInteger, StatisticsType) {
+    MonthType = 1,
+    DayType = 2,
+    BudgetType = 3
+};
+
 typedef void (^ChoosedDatesourece)(CGFloat temperature,CGFloat humidity,CGFloat windPower,NSArray *energy,NSInteger index);
 
 @interface BXTHistogramView : UIView
@@ -31,7 +37,8 @@ typedef void (^ChoosedDatesourece)(CGFloat temperature,CGFloat humidity,CGFloat 
 @property (nonatomic, strong) NSArray            *totalEnergyArray;
 @property (nonatomic, assign) NSInteger          kwhMeasure;
 @property (nonatomic, assign) NSInteger          kwhNumber;
+@property (nonatomic, assign) StatisticsType    statisticsType;
 
-- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number block:(ChoosedDatesourece)block;
+- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number statisticsType:(StatisticsType)s_type block:(ChoosedDatesourece)block;
 
 @end

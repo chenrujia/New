@@ -340,6 +340,9 @@
 {
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
+    if ([dic[@"returncode"] isEqualToString:@"002"]) {
+        [BXTGlobal hideMBP];
+    }
     if (type == EnergyMeterListsOne)
     {
         [BXTGlobal hideMBP];

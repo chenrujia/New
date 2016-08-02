@@ -36,6 +36,8 @@
 
 /** ---- 存储显示值 ---- */
 @property (nonatomic, strong) NSMutableArray *showInfoArray;
+/** ---- 存储显示值ID ---- */
+@property (nonatomic, copy) NSString *showInfoID;
 ///** ---- 显示逻辑 ---- */
 @property (nonatomic, copy) NSString *showInfoStr;
 
@@ -110,7 +112,7 @@
     self.selectedNumArray = [[NSMutableArray alloc] initWithObjects:@"-1", @"-1", @"-1", @"-1", @"-1", nil];
     self.showInfoStr = @"层级：电能";
     self.showInfoArray = [[NSMutableArray alloc] initWithObjects:self.showInfoStr, @"", @"", @"", @"", nil];
-    
+    self.showInfoID = @"1";
     
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
     
@@ -136,6 +138,27 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeasuremenLevelListsWithType:@"1"];
     });
+}
+
+- (void)getResourceOnlyList
+{
+    if (self.selectedBtn != 0) {
+        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    }
+    if (self.vcType == ViewControllerTypeOFYear) {
+        // 建筑能效概况 - 年统计
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request efficiencyDistributionYearWithDate:self.timeStr ppath:self.showInfoID];
+    }
+    else {
+        NSString *year = [self.timeStr substringToIndex:4];
+        NSString *month = [self.timeStr substringWithRange:NSMakeRange(5, self.timeStr.length - 6)];
+        NSString *nowTime = [NSString stringWithFormat:@"%@-%02ld", year, (long)[month integerValue]];
+        
+        // 建筑能效概况 - 月统计
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request efficiencyDistributionMonthWithDate:nowTime ppath:self.showInfoID];
+    }
 }
 
 #pragma mark -
@@ -166,7 +189,14 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
         }
         
-        cell.textLabel.text = self.selectArray[indexPath.row];
+        if (self.selectedBtn == 0) {
+            cell.textLabel.text = self.selectArray[indexPath.row];
+        }
+        else {
+            BXTEnergyReadingFilterInfo *info = self.selectArray[indexPath.row];
+            cell.textLabel.text = info.name;
+        }
+        
         
         return cell;
     }
@@ -175,6 +205,7 @@
     if (indexPath.section == 0) {
         BXTEnergyDistributionViewChartCell *cell = [BXTEnergyDistributionViewChartCell cellWithTableView:tableView];
         
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (self.vcType == ViewControllerTypeOFYear) {
             cell.similarView.hidden = YES;
             cell.similarImageView.hidden = YES;
@@ -182,14 +213,15 @@
         }
         
         [self reloadChartDataWithCell:cell];
-        cell.unit = self.edInfo.unit;
-        if (self.showCost) {
-            cell.moneyListInfo = self.edInfo.total;
+        if (self.edInfo.lists.count != 0) {
+            cell.unit = self.edInfo.unit;
+            if (self.showCost) {
+                cell.moneyListInfo = self.edInfo.total;
+            }
+            else {
+                cell.energyListInfo = self.edInfo.total;
+            }
         }
-        else {
-            cell.energyListInfo = self.edInfo.total;
-        }
-        
         
         // 按钮点击事件
         @weakify(self);
@@ -317,6 +349,7 @@
         if (self.selectedBtn == 0) {
             NSString *showStr = [NSString stringWithFormat:@"层级：%@", self.selectArray[indexPath.row]];
             [self.showInfoArray replaceObjectAtIndex:0 withObject:showStr];
+            self.showInfoID = [NSString stringWithFormat:@"%ld", indexPath.row + 1];
             
             [BXTGlobal showLoadingMBP:@"数据加载中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -325,24 +358,26 @@
         else {
             [self.selectedNumArray replaceObjectAtIndex:self.selectedBtn withObject:[NSString stringWithFormat:@"%ld", indexPath.row]];
             
-            NSString *showStr = [NSString stringWithFormat:@">%@", self.selectArray[indexPath.row]];
+            BXTEnergyReadingFilterInfo *info = self.selectArray[indexPath.row];
+            NSString *showStr = [NSString stringWithFormat:@">%@", info.name];
             [self.showInfoArray replaceObjectAtIndex:self.selectedBtn withObject:showStr];
-            
+            self.showInfoID = info.ppath;
         }
         
         [self removeSelectTableView];
+        
+        // 更新列表
+        [self getResourceOnlyList];
+        
+        // 层级显示
+        NSString *showStr = @"";
+        for (int i = 0; i <= self.selectedBtn; i++) {
+            showStr = [NSString stringWithFormat:@"%@%@", showStr, self.showInfoArray[i]];
+        }
+        self.showInfoStr = showStr;
+        
+        [self.tableView reloadData];
     }
-    
-    
-    // 层级显示
-    NSString *showStr = @"";
-    for (int i = 0; i <= self.selectedBtn; i++) {
-        showStr = [NSString stringWithFormat:@"%@%@", showStr, self.showInfoArray[i]];
-    }
-    self.showInfoStr = showStr;
-    
-    
-    [self.tableView reloadData];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -412,7 +447,7 @@
         
         NSMutableArray *forthArray = [[NSMutableArray alloc] init];
         for (BXTEnergyReadingFilterInfo *forthList in thirdList.lists) {
-            [forthArray addObject:forthList.name];
+            [forthArray addObject:forthList];
         }
         self.selectArray = forthArray;
     }
@@ -423,7 +458,7 @@
         BXTEnergyReadingFilterInfo *secondList = firstList.lists[index2];
         NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
         for (BXTEnergyReadingFilterInfo *thirdList in secondList.lists) {
-            [thirdArray addObject:thirdList.name];
+            [thirdArray addObject:thirdList];
         }
         self.selectArray = thirdArray;
     }
@@ -432,14 +467,14 @@
         BXTEnergyReadingFilterInfo *firstList = self.allDataArray[index1];
         NSMutableArray *secondArray = [[NSMutableArray alloc] init];
         for (BXTEnergyReadingFilterInfo *secondList in firstList.lists) {
-            [secondArray addObject:secondList.name];
+            [secondArray addObject:secondList];
         }
         self.selectArray = secondArray;
     }
     else if (selectedRow == 1) {
         NSMutableArray *firstArray = [[NSMutableArray alloc] init];
         for (BXTEnergyReadingFilterInfo *firstList in self.allDataArray) {
-            [firstArray addObject:firstList.name];
+            [firstArray addObject:firstList];
         }
         self.selectArray = firstArray;
     }

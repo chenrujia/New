@@ -8,11 +8,10 @@
 
 #import "BXTHistogramStatisticsView.h"
 #import "BXTGlobal.h"
-#import "BXTHistogramView.h"
 
 @implementation BXTHistogramStatisticsView
 
-- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number
+- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number statisticsType:(StatisticsType)s_type
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -244,8 +243,8 @@
         self.footerView.frame = CGRectMake(0, 370, self.frame.size.width, 100);
         [self addSubview:self.footerView];
         
-        BXTHistogramView *histogramView = [[BXTHistogramView alloc] initWithFrame:CGRectMake(0, 0, 50 * datasource.count, 330.f) lists:datasource kwhMeasure:measure kwhNumber:number block:^(CGFloat temperature, CGFloat humidity, CGFloat windPower, NSArray *energy,NSInteger index) {
-            if (number == 4)
+        BXTHistogramView *histogramView = [[BXTHistogramView alloc] initWithFrame:CGRectMake(0, 0, 1500, 330.f) lists:datasource kwhMeasure:measure kwhNumber:number statisticsType:s_type block:^(CGFloat temperature, CGFloat humidity, CGFloat windPower, NSArray *energy,NSInteger index) {
+            if (s_type == MonthType)
             {
                 self.footerView.checkDetailBtn.hidden = NO;
             }

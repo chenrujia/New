@@ -45,14 +45,14 @@
     //如果不包含业务统计
     if ([permissonKeys containsString:@"9995"])
     {
-        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源抄表", @"能源统计", @"快捷抄表", @"酒店入住率", @"敬请期待"]];
-        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_metering", @"app_chart", @"app_quick", @"app_hotels", @"app_symbol"]];
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源抄表", @"能源统计", @"快捷抄表", @"敬请期待"]];
+        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_metering", @"app_chart", @"app_quick", @"app_symbol"]];
     }
     else
     {
-        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"能源抄表", @"能源统计", @"快捷抄表", @"酒店入住率", @"敬请期待"]
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"能源抄表", @"能源统计", @"快捷抄表", @"敬请期待"]
                            ];
-        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_metering", @"app_chart", @"app_quick", @"app_hotels", @"app_symbol"]
+        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_metering", @"app_chart", @"app_quick", @"app_symbol"]
                            ];
     }
     

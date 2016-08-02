@@ -7,6 +7,7 @@
 //
 
 #import "BXTEnergyTrendView.h"
+#import "BXTEnergyTrendHeaderCell.h"
 #import "BXTEnergyTrendLegendCell.h"
 #import "BXTEnergyTrendCell.h"
 #import "BXTEnergyTrendBudgetCell.h"
@@ -43,7 +44,8 @@
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request efficiencyTrendYearWithDate:@"" ppath:@""];
     }
-    else {
+    else
+    {
         // 建筑能效概况 - 月统计
         [BXTGlobal showLoadingMBP:@"数据加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -55,27 +57,30 @@
 #pragma mark - tableView代理方法
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        BXTEnergyTrendCell *cell = [BXTEnergyTrendCell cellWithTableView:tableView];
-        
-        
+    if (indexPath.section == 0)
+    {
+        BXTEnergyTrendHeaderCell *cell = [BXTEnergyTrendHeaderCell cellWithTableView:tableView];
+//        cell.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, + 10, SCREEN_WIDTH - 20.f, 470.f) lists:self.energyArray kwhMeasure:20000 kwhNumber:6 statisticsType:BudgetType];
+//        cell.hisView.backgroundColor = [UIColor whiteColor];
+//        cell.hisView.layer.masksToBounds = YES;
+//        cell.hisView.layer.cornerRadius = 10.f;
+
         return cell;
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 1)
+    {
         BXTEnergyTrendLegendCell *cell = [BXTEnergyTrendLegendCell cellWithTableView:tableView];
         
-        
         return cell;
     }
-    else if (indexPath.section == 2) {
+    else if (indexPath.section == 2)
+    {
         BXTEnergyTrendCell *cell = [BXTEnergyTrendCell cellWithTableView:tableView];
-        
         
         return cell;
     }
     
     BXTEnergyTrendBudgetCell *cell = [BXTEnergyTrendBudgetCell cellWithTableView:tableView];
-    
     
     return cell;
 }
@@ -83,7 +88,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 250;
+        return 500;
     } else if (indexPath.section == 1) {
         return 50;
     } else if (indexPath.section == 2) {
@@ -94,7 +99,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
