@@ -1369,6 +1369,62 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)efficiencySurveyMonthWithDate:(NSString *)date
+{
+    self.requestType = EfficiencySurveyMonth;
+    NSDictionary *dic = @{@"date": date};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=efficiency_survey_month",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)efficiencySurveyYearWithDate:(NSString *)date
+{
+    self.requestType = EfficiencySurveyYear;
+    NSDictionary *dic = @{@"date": date};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=efficiency_survey_year",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)efficiencyDistributionMonthWithDate:(NSString *)date
+                                      ppath:(NSString *)ppath
+{
+    self.requestType = EfficiencyDistributionMonth;
+    NSDictionary *dic = @{@"date": date,
+                          @"ppath": ppath};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=efficiency_distribution_month",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)efficiencyDistributionYearWithDate:(NSString *)date
+                                     ppath:(NSString *)ppath
+{
+    self.requestType = EfficiencyDistributionYear;
+    NSDictionary *dic = @{@"date": date,
+                          @"ppath": ppath};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=efficiency_distribution_year",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)efficiencyTrendMonthWithDate:(NSString *)date
+                               ppath:(NSString *)ppath
+{
+    self.requestType = EfficiencyTrendMonth;
+    NSDictionary *dic = @{@"date": date,
+                          @"ppath": ppath};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=efficiency_trend_month",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)efficiencyTrendYearWithDate:(NSString *)date
+                              ppath:(NSString *)ppath
+{
+    self.requestType = EfficiencyTrendYear;
+    NSDictionary *dic = @{@"date": date,
+                          @"ppath": ppath};
+    NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=efficiency_trend_year",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)postRequest:(NSString *)url
      withParameters:(NSDictionary *)parameters
 {
