@@ -179,7 +179,7 @@
     
     
     // headerView
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(40, (SCREEN_HEIGHT - headerViewH) / 2, SCREEN_WIDTH - 80, headerViewH)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(40, (self.frame.size.height - headerViewH) / 2, SCREEN_WIDTH - 80, headerViewH)];
     headerView.backgroundColor = [UIColor whiteColor];
     headerView.layer.cornerRadius = 5;
     [bgView addSubview:headerView];

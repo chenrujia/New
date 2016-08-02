@@ -190,7 +190,7 @@
             cell.energyListInfo = self.edInfo.total;
         }
         
-
+        
         // 按钮点击事件
         @weakify(self);
         [[cell.energyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -221,7 +221,14 @@
             @strongify(self);
             self.selectedBtn = 4;
             [self reloadDataWithIndexOFSelectedRow:self.selectedBtn];
-            [self createSelectTableView];
+            if (self.selectArray.count == 0) {
+                [BXTGlobal showText:@"租区无数据" view:self completionBlock:^{
+                    return ;
+                }];
+            } else {
+                [self createSelectTableView];
+            }
+            
         }];
         
         // 刷新按钮
@@ -307,7 +314,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.selectTableView) {
-
+        
         if (self.selectedBtn == 0) {
             NSString *showStr = [NSString stringWithFormat:@"层级：%@", self.selectArray[indexPath.row]];
             [self.showInfoArray replaceObjectAtIndex:0 withObject:showStr];
@@ -321,6 +328,7 @@
             
             NSString *showStr = [NSString stringWithFormat:@">%@", self.selectArray[indexPath.row]];
             [self.showInfoArray replaceObjectAtIndex:self.selectedBtn withObject:showStr];
+            
         }
         
         [self removeSelectTableView];
