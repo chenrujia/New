@@ -31,7 +31,7 @@
         if (self.statisticsType == DayType)
         {
             NSMutableArray *windArray = [NSMutableArray array];
-            for (NSInteger i = 0; i < datasource.count; i++)
+            for (NSInteger i = 0; i < self.datasource.count; i++)
             {
                 BXTRecordDayListsInfo *recordInfo = datasource[i];
                 [temArray addObject:@(recordInfo.data.temperature)];
@@ -43,7 +43,7 @@
         }
         else if (self.statisticsType == MonthType)
         {
-            for (NSInteger i = 0; i < datasource.count; i++)
+            for (NSInteger i = 0; i < self.datasource.count; i++)
             {
                 BXTRecordMonthListsInfo *recordInfo = datasource[i];
                 [temArray addObject:@(recordInfo.data.temperature)];
@@ -262,7 +262,7 @@
             win = [self.windPowerArray[selectIndex] floatValue];
         }
         NSArray *energyArray = self.totalEnergyArray[selectIndex];
-        self.datasourceBlock(tem,hum,win,energyArray);
+        self.datasourceBlock(tem,hum,win,energyArray,selectIndex);
     }
 }
 

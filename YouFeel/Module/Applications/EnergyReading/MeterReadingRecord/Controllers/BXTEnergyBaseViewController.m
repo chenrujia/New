@@ -42,7 +42,8 @@
     self.yearStr = array[0];
     
     self.yearArray = [[NSMutableArray alloc] init];
-    for (int i = 2001; i<=[self.yearStr intValue]; i++) {
+    for (int i = 2001; i<=[self.yearStr intValue]; i++)
+    {
         [self.yearArray addObject:[NSString stringWithFormat:@"%d", i]];
     }
 }
@@ -61,7 +62,6 @@
     navView.userInteractionEnabled = YES;
     [self.view addSubview:navView];
     
-    
     // titleLabel
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64, 20, SCREEN_WIDTH-128, 44)];
     titleLabel.font = [UIFont systemFontOfSize:18.f];
@@ -70,7 +70,6 @@
     titleLabel.text = title;
     [navView addSubview:titleLabel];
     
-    
     // leftButton
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     leftButton.frame = CGRectMake(0, 20, 44, 44);
@@ -78,33 +77,39 @@
     [leftButton addTarget:self action:@selector(navigationLeftButton) forControlEvents:UIControlEventTouchUpInside];
     [navView addSubview:leftButton];
     
-    
-    if (!(image1 || right_title1)) {
+    if (!(image1 || right_title1))
+    {
         return;
     }
     // rightButton1
     self.rightButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.rightButton1 setFrame:CGRectMake(SCREEN_WIDTH - 64.f - 5.f, 20, 64.f, 44.f)];
-    if (image1) {
+    if (image1)
+    {
         self.rightButton1.frame = CGRectMake(SCREEN_WIDTH - 44.f - 5.f, 20, 44.f, 44.f);
         [self.rightButton1 setImage:image1 forState:UIControlStateNormal];
-    } else {
+    }
+    else
+    {
         [self.rightButton1 setTitle:right_title1 forState:UIControlStateNormal];
     }
     self.rightButton1.titleLabel.font = [UIFont systemFontOfSize:15.f];
     [self.rightButton1 addTarget:self action:@selector(navigationRightButton1) forControlEvents:UIControlEventTouchUpInside];
     [navView addSubview:self.rightButton1];
     
-    
-    if (!(image2 || right_title2)) {
+    if (!(image2 || right_title2))
+    {
         return;
     }
     // rightButton2
     UIButton *rightButton2 = [UIButton buttonWithType:UIButtonTypeCustom];
     [rightButton2 setFrame:CGRectMake(CGRectGetMinX(self.rightButton1.frame) - 65, 20, 64.f, 44.f)];
-    if (image2) {
+    if (image2)
+    {
         [rightButton2 setImage:image2 forState:UIControlStateNormal];
-    } else {
+    }
+    else
+    {
         [rightButton2 setTitle:right_title2 forState:UIControlStateNormal];
     }
     rightButton2.titleLabel.font = [UIFont systemFontOfSize:15.f];
@@ -137,7 +142,6 @@
     bgView.tag = 103;
     [self.view addSubview:bgView];
     
-    
     // headerView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(40, (SCREEN_HEIGHT - headerViewH) / 2, SCREEN_WIDTH - 80, headerViewH)];
     headerView.backgroundColor = [UIColor whiteColor];
@@ -157,7 +161,6 @@
     line.backgroundColor = colorWithHexString(@"e2e6e8");
     [headerView addSubview:line];
     
-    
     // self.yearPickerView
     self.yearPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40, headerViewW, 162)];
     self.yearPickerView.delegate = self;
@@ -167,7 +170,6 @@
     NSInteger index = [self.yearStr integerValue] - 2001;
     self.yearStr = self.yearArray[index];
     [self.yearPickerView selectRow:index inComponent:0 animated:YES];
-    
     
     // 按钮
     UIButton *cancelBtn = [self createButtonWithTitle:@"取消" btnX:10 tilteColor:@"#FFFFFF"];

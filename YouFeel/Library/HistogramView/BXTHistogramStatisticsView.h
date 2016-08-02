@@ -13,6 +13,7 @@
 @interface BXTHistogramStatisticsView : UIView
 
 @property (nonatomic, strong) BXTHistogramFooterView *footerView;
+@property (nonatomic, assign) NSInteger              selectIndex;
 
 - (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number statisticsType:(StatisticsType)s_type;
 

@@ -138,7 +138,7 @@
                         <constraint firstAttribute="width" constant="100" id="YyW-dd-mYt"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" title="查看每日详情">
+                    <state key="normal" title="查看当月详情">
                         <color key="titleColor" red="0.30588235294117649" green="0.6588235294117647" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>

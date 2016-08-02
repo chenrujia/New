@@ -14,32 +14,22 @@
 
 @interface BXTMeterReadingDailyDetailViewController () <BXTDataResponseDelegate>
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-
+@property (nonatomic, strong) UIScrollView                         *scrollView;
 @property (nonatomic, strong) BXTMeterReadingDailyDetailFilterView *headerView;
-@property (nonatomic, strong) BXTHistogramStatisticsView *hisView;
-
-@property (nonatomic, strong) UIView *footerView;
-
-@property (nonatomic, strong) BXTMeterReadingRecordDayListInfo *dayListInfo;
-
-@property (copy, nonatomic) NSString *nowTimeStr;
-@property (copy, nonatomic) NSString *showTimeStr;
+@property (nonatomic, strong) BXTHistogramStatisticsView           *hisView;
+@property (nonatomic, strong) UIView                               *footerView;
+@property (nonatomic, strong) BXTMeterReadingRecordDayListInfo     *dayListInfo;
 
 @end
 
 @implementation BXTMeterReadingDailyDetailViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"日详情" andRightTitle1:nil andRightImage1:nil andRightTitle2:nil andRightImage2:nil];
-    
     NSArray *timeArray = [BXTGlobal yearAndmonthAndDay];
     self.nowTimeStr = [NSString stringWithFormat:@"%@年%@月", timeArray[0], timeArray[1]];
-    self.showTimeStr = self.nowTimeStr;
-    
     [self createUI];
     [self getResource];
 }
@@ -66,6 +56,12 @@
     // headerView
     self.headerView = [BXTMeterReadingDailyDetailFilterView viewForBXTMeterReadingDailyDetailFilterView];
     self.headerView.frame = CGRectMake(10, 0 , SCREEN_WIDTH - 20, 50);
+    if ([self.showTimeStr isEqualToString:self.nowTimeStr])
+    {
+        self.headerView.nextMonthBtn.enabled = NO;
+        self.headerView.nextMonthBtn.alpha = 0.4;
+    }
+    self.headerView.timeView.text = self.showTimeStr;
     @weakify(self);
     [[self.headerView.lastMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -77,12 +73,14 @@
     [[self.headerView.nextMonthBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         self.headerView.timeView.text = [self transTime:self.showTimeStr isAdd:YES];
-        if ([self.showTimeStr isEqualToString:self.nowTimeStr]) {
+        if ([self.showTimeStr isEqualToString:self.nowTimeStr])
+        {
             [self getResource];
             self.headerView.nextMonthBtn.enabled = NO;
             self.headerView.nextMonthBtn.alpha = 0.4;
         }
-        else {
+        else
+        {
             [self getResource];
         }
     }];
@@ -101,14 +99,14 @@
     newMeterBtn.layer.cornerRadius = 5;
     [[newMeterBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
         BXTMeterReadingViewController *mrvc = [[BXTMeterReadingViewController alloc] init];
         mrvc.transID = self.transID;
         mrvc.unlocked = self.unlocked;
         mrvc.delegateSignal = [RACSubject subject];
         [mrvc.delegateSignal subscribeNext:^(id x) {
             @strongify(self);
-            if (self.delegateSignal) {
+            if (self.delegateSignal)
+            {
                 [self.delegateSignal sendNext:nil];
             }
         }];
@@ -173,6 +171,15 @@
             return @{@"meterReadingID":@"id"};
         }];
         self.dayListInfo = [BXTMeterReadingRecordDayListInfo mj_objectWithKeyValues:data[0]];
+        
+        //如果是自动阶梯，则隐藏新建抄表
+        if ([self.dayListInfo.check_type isEqualToString:@"2"])
+        {
+            [self.footerView removeFromSuperview];
+            self.scrollView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);
+            self.headerView.frame = CGRectMake(10, 0 , SCREEN_WIDTH - 20, 50);
+        }
+        
         NSInteger count = self.dayListInfo.lists.count;
         if (count > 0)
         {
