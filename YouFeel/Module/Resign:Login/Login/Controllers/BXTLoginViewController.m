@@ -32,6 +32,7 @@
 
 - (IBAction)loginAction:(id)sender;
 - (IBAction)loginByWeiXin:(id)sender;
+- (IBAction)cancelAction:(id)sender;
 
 @end
 
@@ -66,13 +67,20 @@
     }];
     
     [self.nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
+    if ([BXTGlobal shareGlobal].userName)
+    {
+        self.nameTF.text = [BXTGlobal shareGlobal].userName;
+    }
     if ([BXTGlobal getUserProperty:U_USERNAME])
     {
         self.nameTF.text = [BXTGlobal getUserProperty:U_USERNAME];
     }
     [[self.nameTF.rac_textSignal filter:^BOOL(id value) {
-        NSString *str = value;
-        return str.length == 11;
+        @strongify(self);
+        NSString *text = value;
+        self.userNameCancel.hidden = text.length > 0 ? NO : YES;
+        self.passWordCancel.hidden = YES;
+        return text.length == 11;
     }] subscribeNext:^(id x) {
         @strongify(self);
         self.userName = x;
@@ -81,6 +89,9 @@
     [self.passwordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
     [self.passwordTF.rac_textSignal subscribeNext:^(id x) {
         @strongify(self);
+        NSString *text = x;
+        self.passWordCancel.hidden = text.length > 0 ? NO : YES;
+        self.userNameCancel.hidden = YES;
         self.passWord = x;
     }];
 }
@@ -111,7 +122,6 @@
         self.wx_bottom.constant = 20.f;
         [self.wxLogin layoutIfNeeded];
     }
-    // TODO: -----------------  调试2  -----------------
     [self.view layoutSubviews];
 }
 
@@ -133,7 +143,8 @@
 {
     if ([BXTGlobal validateMobile:self.userName])
     {
-        if ([BXTGlobal isBlankString:self.passWord]) {
+        if ([BXTGlobal isBlankString:self.passWord])
+        {
             [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写登录密码" chooseBlock:^(NSInteger buttonIdx) {
                 
             } buttonsStatement:@"确定", nil];
@@ -201,6 +212,22 @@
             
         } buttonsStatement:@"确定", nil];
     }
+}
+
+- (IBAction)cancelAction:(id)sender
+{
+    UIButton *btn = sender;
+    if (btn.tag == 0)
+    {
+        self.nameTF.text = @"";
+        self.userName = nil;
+    }
+    else
+    {
+        self.passwordTF.text = @"";
+        self.passWord = nil;
+    }
+    btn.hidden = YES;
 }
 
 #pragma mark -

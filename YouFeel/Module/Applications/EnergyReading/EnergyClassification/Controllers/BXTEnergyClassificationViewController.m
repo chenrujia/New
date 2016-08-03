@@ -249,18 +249,17 @@
     
     // TODO: -----------------  调试  -----------------
     __weak __typeof(self) weakSelf = self;
-    self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:PlaceSearchType block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
-        
-        if (isFilter) {
+    self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:FilterSearchType block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
+        if (isFilter)
+        {
             self.measurementPath = classifyInfo.itemID;
         }
-        else {
+        else
+        {
             self.placeID = classifyInfo.itemID;
         }
         
         [self getResourceWithTag:self.btnTag+1 hasMeasurementList:NO];
-        NSLog(@"-------------------------- %@", classifyInfo.itemID);
-        
         
         UIView *view = [weakSelf.view viewWithTag:101];
         [UIView animateWithDuration:0.3f animations:^{

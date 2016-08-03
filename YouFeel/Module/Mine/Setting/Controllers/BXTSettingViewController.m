@@ -66,8 +66,9 @@
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request exitLogin];
                 [[RCIM sharedRCIM] disconnect];
-                [[ANKeyValueTable userDefaultTable] clear];
                 [BXTGlobal shareGlobal].isRepair = NO;
+                [BXTGlobal shareGlobal].userName = [BXTGlobal getUserProperty:U_USERNAME];
+                [[ANKeyValueTable userDefaultTable] clear];
 
                 [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndResign" bundle:nil];
@@ -84,7 +85,7 @@
 
 
 #pragma mark -
-#pragma mark - tableView代理方法
+#pragma mark tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.dataArray.count;
