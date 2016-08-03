@@ -39,7 +39,7 @@
                         </variation>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JUr-iT-Tua">
-                        <rect key="frame" x="105" y="14" width="155" height="21"/>
+                        <rect key="frame" x="105" y="14" width="165" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="0cx-Y4-K8R"/>
                         </constraints>
@@ -47,7 +47,7 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="比例: 0%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4aD-hL-ybJ">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="比例: 00.00%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4aD-hL-ybJ">
                         <rect key="frame" x="270" y="14" width="90" height="21"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="90" id="hen-7P-HRC"/>
@@ -58,16 +58,16 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="energyStatistics_Minus" translatesAutoresizingMaskIntoConstraints="NO" id="WBZ-JV-FhR">
-                        <rect key="frame" x="296" y="44" width="14" height="14"/>
+                        <rect key="frame" x="286" y="44" width="14" height="14"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="14" id="DP8-Pk-hKH"/>
                             <constraint firstAttribute="height" constant="14" id="nnf-Rd-cRg"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VYT-lu-Pfg">
-                        <rect key="frame" x="320" y="40" width="50" height="21"/>
+                        <rect key="frame" x="310" y="40" width="60" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="50" id="Zwo-ek-dz9"/>
+                            <constraint firstAttribute="width" constant="60" id="Zwo-ek-dz9"/>
                             <constraint firstAttribute="height" constant="21" id="s9P-Mh-dBN"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -75,7 +75,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="同比: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iIu-T7-irW">
-                        <rect key="frame" x="25" y="66" width="261" height="21"/>
+                        <rect key="frame" x="25" y="66" width="251" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="cAq-F6-riS"/>
                         </constraints>
@@ -84,16 +84,16 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="energyStatistics_Minus" translatesAutoresizingMaskIntoConstraints="NO" id="e0C-EF-Izh">
-                        <rect key="frame" x="296" y="70" width="14" height="14"/>
+                        <rect key="frame" x="286" y="70" width="14" height="14"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="14" id="8Dn-mW-yQW"/>
                             <constraint firstAttribute="height" constant="14" id="vOV-Z5-0to"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h95-rx-3Z9">
-                        <rect key="frame" x="320" y="66" width="50" height="21"/>
+                        <rect key="frame" x="310" y="66" width="60" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="50" id="IeD-NF-mse"/>
+                            <constraint firstAttribute="width" constant="60" id="IeD-NF-mse"/>
                             <constraint firstAttribute="height" constant="21" id="T67-1d-rV0"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -101,7 +101,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="环比: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qnl-G3-QsX">
-                        <rect key="frame" x="25" y="40" width="261" height="21"/>
+                        <rect key="frame" x="25" y="40" width="251" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="sEN-V2-8Eo"/>
                         </constraints>
@@ -128,7 +128,7 @@
                     <constraint firstItem="U93-g0-dzV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="fWt-O1-vjZ"/>
                     <constraint firstItem="VYT-lu-Pfg" firstAttribute="top" secondItem="4aD-hL-ybJ" secondAttribute="bottom" constant="5" id="hnw-eC-rsH"/>
                     <constraint firstItem="WBZ-JV-FhR" firstAttribute="leading" secondItem="qnl-G3-QsX" secondAttribute="trailing" constant="10" id="lf1-bm-Sey"/>
-                    <constraint firstItem="4aD-hL-ybJ" firstAttribute="leading" secondItem="JUr-iT-Tua" secondAttribute="trailing" constant="10" id="nic-de-haC"/>
+                    <constraint firstItem="4aD-hL-ybJ" firstAttribute="leading" secondItem="JUr-iT-Tua" secondAttribute="trailing" id="nic-de-haC"/>
                     <constraint firstItem="VYT-lu-Pfg" firstAttribute="leading" secondItem="WBZ-JV-FhR" secondAttribute="trailing" constant="10" id="ohr-al-9cj"/>
                     <constraint firstItem="e0C-EF-Izh" firstAttribute="top" secondItem="WBZ-JV-FhR" secondAttribute="bottom" constant="12" id="sDb-HJ-WGl"/>
                     <constraint firstItem="h95-rx-3Z9" firstAttribute="leading" secondItem="e0C-EF-Izh" secondAttribute="trailing" constant="10" id="yWV-zR-R65"/>

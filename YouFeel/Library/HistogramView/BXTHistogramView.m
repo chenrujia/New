@@ -52,7 +52,7 @@
                 [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.peak_period_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
             }
         }
-        else if (self.statisticsType == BudgetType || self.statisticsType == EnergyType)
+        else if (self.statisticsType == BudgetYearType || self.statisticsType == EnergyYearType || self.statisticsType == BudgetMonthType || self.statisticsType == EnergyMonthType)
         {
             for (BXTEnergyTrendInfo *trendInfo in datasource) {
                 if ([trendInfo.temperature isEqualToString:@"-"]) {
@@ -66,7 +66,7 @@
                     [humArray addObject:@([trendInfo.humidity integerValue])];
                 }
                 
-                if (self.statisticsType == BudgetType) {
+                if (self.statisticsType == BudgetYearType || self.statisticsType == BudgetMonthType) {
                     [energyArray addObject:@[@(trendInfo.money),@(0),@(0),@(0),@(0)]];
                 }
                 else {
@@ -151,10 +151,15 @@
             BXTRecordDayListsInfo *recordInfo = self.datasource[i];
             [self drawDate:[NSString stringWithFormat:@"%ld号",(long)recordInfo.day] index:i rect:rect];
         }
-        else if (self.statisticsType == BudgetType || self.statisticsType == EnergyType)
+        else if (self.statisticsType == BudgetMonthType || self.statisticsType == EnergyMonthType)
         {
             BXTEnergyTrendInfo *recordInfo = self.datasource[i];
             [self drawDate:[NSString stringWithFormat:@"%@月",recordInfo.month] index:i rect:rect];
+        }
+        else if (self.statisticsType == BudgetYearType || self.statisticsType == EnergyYearType)
+        {
+            BXTEnergyTrendInfo *recordInfo = self.datasource[i];
+            [self drawDate:[NSString stringWithFormat:@"%@年",recordInfo.year] index:i rect:rect];
         }
         isFirst = NO;
     }
