@@ -32,7 +32,7 @@
     
     self.view.backgroundColor = colorWithHexString(@"eff3f6");
     
-    if ([self.titleStr isEqualToString:@"建筑能效分布"]) {
+    if ([self.titleStr isEqualToString:@"建筑能效分布"] || [self.titleStr isEqualToString:@"建筑能效趋势"]) {
         [self navigationSetting:self.titleStr andRightTitle:@"    费用" andRightImage:nil];
     }
     else {
@@ -44,13 +44,25 @@
 
 - (void)navigationRightButton
 {
-    if (self.showCost) {
-        self.showCost = NO;
-        [self navigationSetting:@"建筑能效分布" andRightTitle:@"    费用" andRightImage:nil];
+    if ([self.titleStr isEqualToString:@"建筑能效分布"]) {
+        if (self.showCost) {
+            self.showCost = NO;
+            [self navigationSetting:@"建筑能效分布" andRightTitle:@"    费用" andRightImage:nil];
+        }
+        else {
+            self.showCost = YES;
+            [self navigationSetting:@"建筑能效分布" andRightTitle:@"    能耗" andRightImage:nil];
+        }
     }
-    else {
-        self.showCost = YES;
-        [self navigationSetting:@"建筑能效分布" andRightTitle:@"    能耗" andRightImage:nil];
+    else if ([self.titleStr isEqualToString:@"建筑能效趋势"]) {
+        if (self.showCost) {
+            self.showCost = NO;
+            [self navigationSetting:@"建筑能效趋势" andRightTitle:@"    费用" andRightImage:nil];
+        }
+        else {
+            self.showCost = YES;
+            [self navigationSetting:@"建筑能效趋势" andRightTitle:@"    能耗" andRightImage:nil];
+        }
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ESSHOWCOST" object:nil userInfo:@{@"showCost" : [NSNumber numberWithBool:self.showCost]}];

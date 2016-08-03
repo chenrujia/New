@@ -243,6 +243,7 @@
         self.footerView.frame = CGRectMake(0, 370, self.frame.size.width, 100);
         [self addSubview:self.footerView];
         
+        
         BXTHistogramView *histogramView = [[BXTHistogramView alloc] initWithFrame:CGRectMake(0, 0, 1500, 330.f) lists:datasource kwhMeasure:measure kwhNumber:number statisticsType:s_type block:^(CGFloat temperature, CGFloat humidity, CGFloat windPower, NSArray *energy,NSInteger index) {
             if (s_type == MonthType)
             {
@@ -254,6 +255,10 @@
             self.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%@", energy[3]];
             self.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%@", energy[4]];
             self.selectIndex = index;
+            
+            if (s_type == BudgetType || s_type == EnergyType) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTHistogramViewSelectIndex" object:nil userInfo:@{@"index": @(index)}];
+            }
         }];
         [scrollView addSubview:histogramView];
 

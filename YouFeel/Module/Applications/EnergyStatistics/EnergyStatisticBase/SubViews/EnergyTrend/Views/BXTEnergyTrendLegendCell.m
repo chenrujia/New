@@ -18,6 +18,7 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEnergyTrendLegendCell" owner:nil options:nil] lastObject];
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }

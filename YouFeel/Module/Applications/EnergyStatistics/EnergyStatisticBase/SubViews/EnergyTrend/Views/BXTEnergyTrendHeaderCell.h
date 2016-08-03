@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BXTHistogramStatisticsView.h"
+#import "BXTGlobal.h"
 
 @interface BXTEnergyTrendHeaderCell : UITableViewCell
 
@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *systemBtn;
 @property (weak, nonatomic) IBOutlet UILabel *showLevelView;
 
-@property (weak, nonatomic) IBOutlet UIView *hisView;
+@property (weak, nonatomic) IBOutlet UIView *hisBgView;
 
 @property (weak, nonatomic) IBOutlet UILabel *timeView;
 

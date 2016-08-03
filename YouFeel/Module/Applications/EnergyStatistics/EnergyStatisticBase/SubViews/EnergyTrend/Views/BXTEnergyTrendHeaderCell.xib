@@ -175,13 +175,12 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="Tc8-DT-rmj"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5xm-K7-fRW">
                         <rect key="frame" x="0.0" y="80" width="375" height="389.5"/>
-                        <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </subviews>
                 <constraints>
@@ -202,7 +201,7 @@
                 <outlet property="buildingBtn" destination="SHg-UC-BNa" id="Joe-2X-KZH"/>
                 <outlet property="energyBtn" destination="azh-XM-8J1" id="o6n-Nh-Lb9"/>
                 <outlet property="formatBtn" destination="RCr-5t-cV2" id="5HD-E4-2oc"/>
-                <outlet property="hisView" destination="5xm-K7-fRW" id="z01-kb-263"/>
+                <outlet property="hisBgView" destination="5xm-K7-fRW" id="0Nd-FV-Qec"/>
                 <outlet property="showLevelView" destination="qcm-Yv-87l" id="dcD-w3-8Po"/>
                 <outlet property="systemBtn" destination="4lZ-Q0-47g" id="adA-YH-Lxv"/>
                 <outlet property="timeView" destination="Y9R-vI-ddn" id="Be6-Qy-Oin"/>

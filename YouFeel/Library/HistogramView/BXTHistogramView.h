@@ -18,7 +18,8 @@ typedef NS_ENUM(NSInteger, BrokenLineType) {
 typedef NS_ENUM(NSInteger, StatisticsType) {
     MonthType = 1,
     DayType = 2,
-    BudgetType = 3
+    BudgetType = 3,
+    EnergyType
 };
 
 typedef void (^ChoosedDatesourece)(CGFloat temperature,CGFloat humidity,CGFloat windPower,NSArray *energy,NSInteger index);
