@@ -23,9 +23,9 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="气温: 30.c" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DK7-gu-ev2">
-                        <rect key="frame" x="25" y="14" width="90" height="21"/>
+                        <rect key="frame" x="25" y="14" width="110" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="90" id="JnX-03-Zga"/>
+                            <constraint firstAttribute="width" constant="110" id="JnX-03-Zga"/>
                             <constraint firstAttribute="height" constant="21" id="mk7-VR-XJh"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -33,7 +33,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xFV-23-87I">
-                        <rect key="frame" x="135" y="19.5" width="10" height="10"/>
+                        <rect key="frame" x="135" y="19" width="10" height="10"/>
                         <color key="backgroundColor" red="0.26666666666666666" green="0.54117647058823526" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="10" id="Otw-hm-RrQ"/>
@@ -41,7 +41,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="湿度: 70%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GgB-I2-6UW">
-                        <rect key="frame" x="150" y="14" width="90" height="21"/>
+                        <rect key="frame" x="150" y="14" width="215" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="FH7-Tq-dOv"/>
                             <constraint firstAttribute="width" constant="90" id="bY6-xX-vwa"/>
@@ -49,16 +49,22 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="bY6-xX-vwa"/>
+                            </mask>
+                        </variation>
                     </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="rIM-vp-ych" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="0ME-rT-mKc"/>
-                    <constraint firstItem="xFV-23-87I" firstAttribute="leading" secondItem="DK7-gu-ev2" secondAttribute="trailing" constant="20" id="8Hu-zf-3Oo"/>
+                    <constraint firstItem="xFV-23-87I" firstAttribute="leading" secondItem="DK7-gu-ev2" secondAttribute="trailing" id="8Hu-zf-3Oo"/>
                     <constraint firstItem="DK7-gu-ev2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="C83-AQ-sFx"/>
                     <constraint firstItem="xFV-23-87I" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="GZX-lK-iIc"/>
                     <constraint firstItem="rIM-vp-ych" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="QuX-zC-X48"/>
                     <constraint firstItem="GgB-I2-6UW" firstAttribute="leading" secondItem="xFV-23-87I" secondAttribute="trailing" constant="5" id="T7n-OP-XVa"/>
                     <constraint firstItem="GgB-I2-6UW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="TQz-1z-pRb"/>
+                    <constraint firstAttribute="trailing" secondItem="GgB-I2-6UW" secondAttribute="trailing" constant="10" id="VAi-Bv-1GU"/>
                     <constraint firstItem="DK7-gu-ev2" firstAttribute="leading" secondItem="rIM-vp-ych" secondAttribute="trailing" constant="5" id="kL7-P8-Wr4"/>
                 </constraints>
             </tableViewCellContentView>

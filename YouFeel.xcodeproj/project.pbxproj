@@ -2750,12 +2750,12 @@
 		7867A0D51D4EF3B600A0D4F6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7867A0D61D4EF3B600A0D4F6 /* BXTEnergySurveyViewCell.h */,
-				7867A0D71D4EF3B600A0D4F6 /* BXTEnergySurveyViewCell.m */,
-				7867A0D81D4EF3B600A0D4F6 /* BXTEnergySurveyViewCell.xib */,
 				7867A0D91D4EF3B600A0D4F6 /* BXTEnergySurveyViewChartCell.h */,
 				7867A0DA1D4EF3B600A0D4F6 /* BXTEnergySurveyViewChartCell.m */,
 				7867A0DB1D4EF3B600A0D4F6 /* BXTEnergySurveyViewChartCell.xib */,
+				7867A0D61D4EF3B600A0D4F6 /* BXTEnergySurveyViewCell.h */,
+				7867A0D71D4EF3B600A0D4F6 /* BXTEnergySurveyViewCell.m */,
+				7867A0D81D4EF3B600A0D4F6 /* BXTEnergySurveyViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";

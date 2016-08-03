@@ -197,7 +197,6 @@
             cell.textLabel.text = info.name;
         }
         
-        
         return cell;
     }
     
@@ -205,7 +204,6 @@
     if (indexPath.section == 0) {
         BXTEnergyDistributionViewChartCell *cell = [BXTEnergyDistributionViewChartCell cellWithTableView:tableView];
         
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (self.vcType == ViewControllerTypeOFYear) {
             cell.similarView.hidden = YES;
             cell.similarImageView.hidden = YES;
@@ -349,14 +347,14 @@
         if (self.selectedBtn == 0) {
             NSString *showStr = [NSString stringWithFormat:@"层级：%@", self.selectArray[indexPath.row]];
             [self.showInfoArray replaceObjectAtIndex:0 withObject:showStr];
-            self.showInfoID = [NSString stringWithFormat:@"%ld", indexPath.row + 1];
+            self.showInfoID = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
             
             [BXTGlobal showLoadingMBP:@"数据加载中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request energyMeasuremenLevelListsWithType:[NSString stringWithFormat:@"%ld", indexPath.row + 1]];
+            [request energyMeasuremenLevelListsWithType:[NSString stringWithFormat:@"%ld", (long)indexPath.row + 1]];
         }
         else {
-            [self.selectedNumArray replaceObjectAtIndex:self.selectedBtn withObject:[NSString stringWithFormat:@"%ld", indexPath.row]];
+            [self.selectedNumArray replaceObjectAtIndex:self.selectedBtn withObject:[NSString stringWithFormat:@"%ld", (long)indexPath.row]];
             
             BXTEnergyReadingFilterInfo *info = self.selectArray[indexPath.row];
             NSString *showStr = [NSString stringWithFormat:@">%@", info.name];

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BXTEnergyTrendInfo.h"
 
 @interface BXTEnergyTrendBudgetCell : UITableViewCell
 
@@ -15,6 +16,9 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *differenceNumView;
 @property (weak, nonatomic) IBOutlet UILabel *differenceRateView;
+
+@property (nonatomic, strong) BXTEnergyTrendInfo *energyTrendInfo;
+@property (nonatomic, strong) BXTEnergyTrendInfo *moneyTrendInfo;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

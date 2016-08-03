@@ -107,8 +107,8 @@
             thridTemLabel.textColor = colorWithHexString(@"FDD400");
             thridTemLabel.font = [UIFont systemFontOfSize:9.f];
             thridTemLabel.textAlignment = NSTextAlignmentLeft;
-            NSString *content = @"-50°\r100%rh";
-            NSRange range = [content rangeOfString:@"100%rh"];
+            NSString *content = @"-50°\r100%";
+            NSRange range = [content rangeOfString:@"100%"];
             NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:content];
             [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"50A1F9") range:range];
             thridTemLabel.attributedText = attributeStr;
@@ -119,7 +119,7 @@
             firstHumLabel.textColor = colorWithHexString(@"50A1F9");
             firstHumLabel.font = [UIFont systemFontOfSize:11.f];
             firstHumLabel.textAlignment = NSTextAlignmentLeft;
-            firstHumLabel.text = @"50%rh";
+            firstHumLabel.text = @"50%";
             [self addSubview:firstHumLabel];
             
             UILabel *secondHumLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(scrollView.frame) + 5.f, 210.f, 40.f, 40.f)];
@@ -128,7 +128,7 @@
             secondHumLabel.textColor = colorWithHexString(@"50A1F9");
             secondHumLabel.font = [UIFont systemFontOfSize:11.f];
             secondHumLabel.textAlignment = NSTextAlignmentLeft;
-            NSString *humContent = @"0%rh\r10级";
+            NSString *humContent = @"0%\r10级";
             NSRange humRange = [humContent rangeOfString:@"10级"];
             NSMutableAttributedString *humAttributeStr = [[NSMutableAttributedString alloc] initWithString:humContent];
             [humAttributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"ef6868") range:humRange];
@@ -191,7 +191,7 @@
             fifthkwhLabel.textAlignment = NSTextAlignmentRight;
             fifthkwhLabel.text = @"0";
             [self addSubview:fifthkwhLabel];
-
+            
             //温度
             UILabel *firstTemLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(scrollView.frame) + 5.f, 20.f, 30.f, 20.f)];
             firstTemLabel.textColor = colorWithHexString(@"FDD400");
@@ -212,8 +212,8 @@
             thridTemLabel.textColor = colorWithHexString(@"FDD400");
             thridTemLabel.font = [UIFont systemFontOfSize:9.f];
             thridTemLabel.textAlignment = NSTextAlignmentLeft;
-            NSString *content = @"-50°\r100%rh";
-            NSRange range = [content rangeOfString:@"100%rh"];
+            NSString *content = @"-50°\r100%";
+            NSRange range = [content rangeOfString:@"100%"];
             NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:content];
             [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"50A1F9") range:range];
             thridTemLabel.attributedText = attributeStr;
@@ -224,14 +224,14 @@
             firstHumLabel.textColor = colorWithHexString(@"50A1F9");
             firstHumLabel.font = [UIFont systemFontOfSize:11.f];
             firstHumLabel.textAlignment = NSTextAlignmentLeft;
-            firstHumLabel.text = @"50%rh";
+            firstHumLabel.text = @"50%";
             [self addSubview:firstHumLabel];
             
             UILabel *secondHumLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(scrollView.frame) + 5.f, 320.f, 40.f, 20.f)];
             secondHumLabel.textColor = colorWithHexString(@"50A1F9");
             secondHumLabel.font = [UIFont systemFontOfSize:11.f];
             secondHumLabel.textAlignment = NSTextAlignmentLeft;
-            NSString *humContent = @"0%rh";
+            NSString *humContent = @"0%";
             NSRange humRange = [humContent rangeOfString:@"10级"];
             NSMutableAttributedString *humAttributeStr = [[NSMutableAttributedString alloc] initWithString:humContent];
             [humAttributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"ef6868") range:humRange];
@@ -243,20 +243,28 @@
         self.footerView.frame = CGRectMake(0, 370, self.frame.size.width, 100);
         [self addSubview:self.footerView];
         
+        
         BXTHistogramView *histogramView = [[BXTHistogramView alloc] initWithFrame:CGRectMake(0, 0, 1500, 330.f) lists:datasource kwhMeasure:measure kwhNumber:number statisticsType:s_type block:^(CGFloat temperature, CGFloat humidity, CGFloat windPower, NSArray *energy,NSInteger index) {
             if (s_type == MonthType)
             {
                 self.footerView.checkDetailBtn.hidden = NO;
             }
-            self.footerView.consumptionView.text = [NSString stringWithFormat:@"总能耗：%@", energy[0]];
-            self.footerView.peakNumView.text = [NSString stringWithFormat:@"尖峰量：%@", energy[1]];
-            self.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%@", energy[2]];
-            self.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%@", energy[3]];
-            self.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%@", energy[4]];
+            if (s_type == MonthType || s_type == DayType) {
+                self.footerView.consumptionView.text = [NSString stringWithFormat:@"总能耗：%@", energy[0]];
+                self.footerView.peakNumView.text = [NSString stringWithFormat:@"尖峰量：%@", energy[1]];
+                self.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%@", energy[2]];
+                self.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%@", energy[3]];
+                self.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%@", energy[4]];
+            }
             self.selectIndex = index;
+            
+            
+            if (s_type == BudgetYearType || s_type == EnergyYearType || s_type == BudgetMonthType || s_type == EnergyMonthType) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTHistogramViewSelectIndex" object:nil userInfo:@{@"index": @(index), @"s_type": @(s_type)}];
+            }
         }];
         [scrollView addSubview:histogramView];
-
+        
     }
     return self;
 }

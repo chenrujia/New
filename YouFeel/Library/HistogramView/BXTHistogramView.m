@@ -10,6 +10,7 @@
 #import <math.h>
 #import "BXTMeterReadingRecordMonthListInfo.h"
 #import "BXTMeterReadingRecordDayListInfo.h"
+#import "BXTEnergyTrendInfo.h"
 
 #define StatisticsHeight(rect) rect.size.height - 30.f
 
@@ -51,9 +52,27 @@
                 [energyArray addObject:@[@(recordInfo.data.use_amount),@(recordInfo.data.peak_segment_amount),@(recordInfo.data.peak_period_amount),@(recordInfo.data.flat_section_amount),@(recordInfo.data.valley_section_amount)]];
             }
         }
-        else if (self.statisticsType == BudgetType)
+        else if (self.statisticsType == BudgetYearType || self.statisticsType == EnergyYearType || self.statisticsType == BudgetMonthType || self.statisticsType == EnergyMonthType)
         {
-            
+            for (BXTEnergyTrendInfo *trendInfo in datasource) {
+                if ([trendInfo.temperature isEqualToString:@"-"]) {
+                    [temArray addObject:@(0)];
+                } else {
+                    [temArray addObject:@([trendInfo.temperature integerValue])];
+                }
+                if ([trendInfo.humidity isEqualToString:@"-"]) {
+                    [humArray addObject:@(0)];
+                } else {
+                    [humArray addObject:@([trendInfo.humidity integerValue])];
+                }
+                
+                if (self.statisticsType == BudgetYearType || self.statisticsType == BudgetMonthType) {
+                    [energyArray addObject:@[@(trendInfo.money),@(0),@(0),@(0),@(0)]];
+                }
+                else {
+                    [energyArray addObject:@[@(trendInfo.energy_consumption),@(0),@(0),@(0),@(0)]];
+                }
+            }
         }
         
         self.temperatureArray = temArray;
@@ -73,7 +92,7 @@
     CGContextAddRect(ctx, rect);
     [colorWithHexString(@"EDEEEF") set];
     CGContextFillPath(ctx);
-
+    
     CGFloat scale = (StatisticsHeight(rect))/self.kwhMeasure;
     
     //矩形柱
@@ -92,7 +111,7 @@
         //尖峰
         CGFloat peak = [totalArray[1] floatValue] + [totalArray[2] floatValue] + [totalArray[3] floatValue] + [totalArray[4] floatValue];
         peak = StatisticsHeight(rect) - peak * scale;
-
+        
         CGContextAddRect(ctx, CGRectMake(10 + 50 * i, peak, 40, StatisticsHeight(rect) - peak));
         [colorWithHexString(@"F3639B") set];
         CGContextFillPath(ctx);
@@ -122,17 +141,26 @@
         CGContextFillPath(ctx);
         
         //时间
-        if (self.kwhNumber > 4)
-        {
-            BXTRecordDayListsInfo *recordInfo = self.datasource[i];
-            [self drawDate:[NSString stringWithFormat:@"%ld号",(long)recordInfo.day] index:i rect:rect];
-        }
-        else
+        if (self.statisticsType == MonthType)
         {
             BXTRecordMonthListsInfo *recordInfo = self.datasource[i];
             [self drawDate:[NSString stringWithFormat:@"%ld月",(long)recordInfo.month] index:i rect:rect];
         }
-        
+        else if (self.statisticsType == DayType)
+        {
+            BXTRecordDayListsInfo *recordInfo = self.datasource[i];
+            [self drawDate:[NSString stringWithFormat:@"%ld号",(long)recordInfo.day] index:i rect:rect];
+        }
+        else if (self.statisticsType == BudgetMonthType || self.statisticsType == EnergyMonthType)
+        {
+            BXTEnergyTrendInfo *recordInfo = self.datasource[i];
+            [self drawDate:[NSString stringWithFormat:@"%@月",recordInfo.month] index:i rect:rect];
+        }
+        else if (self.statisticsType == BudgetYearType || self.statisticsType == EnergyYearType)
+        {
+            BXTEnergyTrendInfo *recordInfo = self.datasource[i];
+            [self drawDate:[NSString stringWithFormat:@"%@年",recordInfo.year] index:i rect:rect];
+        }
         isFirst = NO;
     }
     

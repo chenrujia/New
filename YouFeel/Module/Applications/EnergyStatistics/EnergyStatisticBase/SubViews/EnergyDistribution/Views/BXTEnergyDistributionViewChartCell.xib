@@ -16,7 +16,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="环比: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XFy-9c-nQi">
-                        <rect key="frame" x="25" y="340" width="261" height="21"/>
+                        <rect key="frame" x="25" y="340" width="251" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="3ze-fg-mBb"/>
                         </constraints>
@@ -25,24 +25,24 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="energyStatistics_Minus" translatesAutoresizingMaskIntoConstraints="NO" id="9ze-pv-R2v">
-                        <rect key="frame" x="296" y="344" width="14" height="14"/>
+                        <rect key="frame" x="286" y="344" width="14" height="14"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="14" id="Xeu-dw-BCb"/>
                             <constraint firstAttribute="height" constant="14" id="v15-rS-HlT"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVX-br-ZWG">
-                        <rect key="frame" x="320" y="340" width="50" height="21"/>
+                        <rect key="frame" x="310" y="340" width="60" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="JXc-Am-x5U"/>
-                            <constraint firstAttribute="width" constant="50" id="X0Q-up-ZBl"/>
+                            <constraint firstAttribute="width" constant="60" id="X0Q-up-ZBl"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.33333333329999998" green="0.33725490200000002" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="同比: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbg-wI-nuD">
-                        <rect key="frame" x="25" y="366" width="261" height="21"/>
+                        <rect key="frame" x="25" y="366" width="251" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="AwK-NW-BnE"/>
                         </constraints>
@@ -51,17 +51,17 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="energyStatistics_Minus" translatesAutoresizingMaskIntoConstraints="NO" id="uF2-Uj-pHZ">
-                        <rect key="frame" x="296" y="370" width="14" height="14"/>
+                        <rect key="frame" x="286" y="370" width="14" height="14"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="14" id="NnY-u2-anJ"/>
                             <constraint firstAttribute="height" constant="14" id="tze-aS-Zgv"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dsk-3i-uVu">
-                        <rect key="frame" x="320" y="366" width="50" height="21"/>
+                        <rect key="frame" x="310" y="366" width="60" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="H7v-Hq-WIH"/>
-                            <constraint firstAttribute="width" constant="50" id="OKo-kc-W0C"/>
+                            <constraint firstAttribute="width" constant="60" id="OKo-kc-W0C"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.33333333329999998" green="0.33725490200000002" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
@@ -226,8 +226,14 @@
                         <rect key="frame" x="0.0" y="90" width="375" height="240"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="height" constant="240" id="9Jv-lm-jsN"/>
                             <constraint firstAttribute="width" secondItem="ALs-MD-5bT" secondAttribute="height" multiplier="25:16" id="BCs-IL-1Uy"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="BCs-IL-1Uy"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <constraints>
