@@ -11,6 +11,8 @@
 @interface BXTLoginViewController : BXTBaseViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *wxLogin;
+@property (weak, nonatomic) IBOutlet UIButton *userNameCancel;
+@property (weak, nonatomic) IBOutlet UIButton *passWordCancel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *wx_bottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *logo_y;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *login_back_y;

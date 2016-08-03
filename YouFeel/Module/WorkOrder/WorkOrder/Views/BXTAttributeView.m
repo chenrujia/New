@@ -72,11 +72,7 @@
         btn.tag = i;
         [view addSubview:btn];
         
-        if (i == 0)
-        {
-            [view btnClick:btn];
-        }
-        else if (i == texts.count - 1)
+        if (i == texts.count - 1)
         {
             view.height = CGRectGetMaxY(btn.frame) + 10;
             view.x = 0;

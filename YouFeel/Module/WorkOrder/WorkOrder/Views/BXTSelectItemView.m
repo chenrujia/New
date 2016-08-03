@@ -34,15 +34,18 @@
         [self.currentTable registerNib:[UINib nibWithNibName:@"BXTPlaceTableViewCell" bundle:nil] forCellReuseIdentifier:@"RowCell"];
         [self addSubview:self.currentTable];
         
-        UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [doneBtn setFrame:CGRectMake(20.f, CGRectGetHeight(self.frame) - 64.f, CGRectGetWidth(self.frame) - 40.f, 44.f)];
-        [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
-        [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
-        [doneBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        doneBtn.layer.cornerRadius = 4.f;
-        doneBtn.titleLabel.font = [UIFont systemFontOfSize:18.f];
-        [doneBtn addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:doneBtn];
+        if (self.searchType == FilterSearchType)
+        {
+            UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [doneBtn setFrame:CGRectMake(20.f, CGRectGetHeight(self.frame) - 64.f, CGRectGetWidth(self.frame) - 40.f, 44.f)];
+            [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
+            [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
+            [doneBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            doneBtn.layer.cornerRadius = 4.f;
+            doneBtn.titleLabel.font = [UIFont systemFontOfSize:18.f];
+            [doneBtn addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:doneBtn];
+        }
         
         NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
         self.mutableArray = mutableArray;

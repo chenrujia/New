@@ -417,6 +417,11 @@ static CGFloat const ChooseViewHeight  = 328.f;
 #pragma mark 提交按钮
 - (void)commitOrder:(NSString *)isMySelf
 {
+    if (!self.selectOrderInfo)
+    {
+        [self showAlertView:@"请选择工单类型" message:nil];
+        return;
+    }
     if (!self.placeInfo && !self.adsText)
     {
         [self showAlertView:@"请确定报修位置" message:nil];
@@ -502,6 +507,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
     else
     {
         subview = self.openSwitch;
+        self.selectTimeDic = nil;
         self.dateSelectBtnBV.hidden = YES;
     }
     [self updateContentView];

@@ -13,7 +13,8 @@ typedef NS_ENUM(NSInteger, SearchVCType)
 {
     PlaceSearchType,//位置筛选
     FaultSearchType,//故障类型筛选
-    DepartmentSearchType//部门筛选
+    DepartmentSearchType,//部门筛选
+    FilterSearchType//筛选
 };
 
 typedef void (^ChooseItem)(BXTBaseClassifyInfo *classifyInfo,NSString *name);
