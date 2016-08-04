@@ -33,6 +33,7 @@
         {
             UILabel *firstkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 10.f, 35.f, 40.f)];
             firstkwhLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            firstkwhLabel.textAlignment = NSTextAlignmentRight;
             firstkwhLabel.numberOfLines = 0;
             firstkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             firstkwhLabel.font = [UIFont systemFontOfSize:11.f];
@@ -154,6 +155,7 @@
         {
             UILabel *firstkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 10.f, 35.f, 40.f)];
             firstkwhLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            firstkwhLabel.textAlignment = NSTextAlignmentCenter;
             firstkwhLabel.numberOfLines = 0;
             firstkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             firstkwhLabel.font = [UIFont systemFontOfSize:11.f];
@@ -249,7 +251,8 @@
             {
                 self.footerView.checkDetailBtn.hidden = NO;
             }
-            if (s_type == MonthType || s_type == DayType) {
+            if (s_type == MonthType || s_type == DayType)
+            {
                 self.footerView.consumptionView.text = [NSString stringWithFormat:@"总能耗：%@", energy[0]];
                 self.footerView.peakNumView.text = [NSString stringWithFormat:@"尖峰量：%@", energy[1]];
                 self.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%@", energy[2]];
@@ -257,7 +260,6 @@
                 self.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%@", energy[4]];
             }
             self.selectIndex = index;
-            
             
             if (s_type == BudgetYearType || s_type == EnergyYearType || s_type == BudgetMonthType || s_type == EnergyMonthType) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTHistogramViewSelectIndex" object:nil userInfo:@{@"index": @(index), @"s_type": @(s_type)}];
