@@ -38,6 +38,9 @@
     self.similarView.text = [NSString stringWithFormat:@"同比: %.ld %@", (long)energyListInfo.an_energy_consumption, self.unit];
     self.similarImageView.image = [self judgeImage:energyListInfo.an_energy_consumption_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", energyListInfo.an_energy_consumption_per];
+    
+    self.trueNumView.text = [NSString stringWithFormat:@"绝对能耗: %ld %@", (long)energyListInfo.true_energy_consumption, self.unit];
+    self.statisticErrorView.text = [NSString stringWithFormat:@"统计误差: %ld", (long)energyListInfo.true_energy_consumption_diff];
 }
 
 - (void)setMoneyListInfo:(BXTEYDTTotalInfo *)moneyListInfo
@@ -51,6 +54,9 @@
     self.similarView.text = [NSString stringWithFormat:@"同比: %.ld 元", (long)moneyListInfo.an_money];
     self.similarImageView.image = [self judgeImage:moneyListInfo.an_money_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", moneyListInfo.an_money_per];
+    
+    self.trueNumView.text = [NSString stringWithFormat:@"绝对费用: %ld 元", (long)moneyListInfo.true_money];
+    self.statisticErrorView.text = [NSString stringWithFormat:@"统计误差: %ld", (long)moneyListInfo.true_money_diff];
 }
 
 #pragma mark -
@@ -74,7 +80,7 @@
     self.energyBtn.layer.cornerRadius = 15;
     self.energyBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
     [self.energyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-
+    
     self.formatBtn.layer.cornerRadius = 15;
     self.formatBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
     self.formatBtn.layer.borderWidth = 2;
@@ -89,11 +95,8 @@
     self.areaBtn.layer.borderWidth = 2;
     self.areaBtn.enabled = NO;
     
-    self.systemBtn.layer.cornerRadius = 15;
-    self.systemBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
-    self.systemBtn.layer.borderWidth = 2;
-    self.systemBtn.enabled = NO;
-    
+    self.trueNumView.hidden = YES;
+    self.statisticErrorView.hidden = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

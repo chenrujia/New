@@ -37,7 +37,11 @@
             firstkwhLabel.numberOfLines = 0;
             firstkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             firstkwhLabel.font = [UIFont systemFontOfSize:11.f];
-            firstkwhLabel.text = [NSString stringWithFormat:@"  kwh\r%ld",(long)measure];
+            NSString *unitStr = @"Kwh";
+            if (s_type == BudgetYearType || s_type == BudgetMonthType) {
+                unitStr = @"元";
+            }
+            firstkwhLabel.text = [NSString stringWithFormat:@"  %@\r%ld", unitStr, (long)measure];
             [self addSubview:firstkwhLabel];
             
             UILabel *secondkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 70.f, 30.f, 20.f)];
@@ -159,7 +163,11 @@
             firstkwhLabel.numberOfLines = 0;
             firstkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             firstkwhLabel.font = [UIFont systemFontOfSize:11.f];
-            firstkwhLabel.text = [NSString stringWithFormat:@"  kwh\r%ld",(long)measure];
+            NSString *unitStr = @"Kwh";
+            if (s_type == BudgetYearType || s_type == BudgetMonthType) {
+                unitStr = @"元";
+            }
+            firstkwhLabel.text = [NSString stringWithFormat:@"  %@\r%ld", unitStr, (long)measure];
             [self addSubview:firstkwhLabel];
             
             UILabel *secondkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 95.f, 35.f, 20.f)];

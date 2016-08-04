@@ -221,6 +221,15 @@
             }
         }
         
+        if (self.selectedBtn == 3 && [self.showInfoArray[3] isEqualToString:@">公区"]) {
+            if (self.vcType == ViewControllerTypeOFYear) {
+                cell.similarView.hidden = NO;
+                cell.similarView.text = @"仅公区显示以下值：";
+            }
+            cell.trueNumView.hidden = NO;
+            cell.statisticErrorView.hidden = NO;
+        }
+        
         // 按钮点击事件
         @weakify(self);
         [[cell.energyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -247,23 +256,11 @@
             [self reloadDataWithIndexOFSelectedRow:self.selectedBtn];
             [self createSelectTableView];
         }];
-        [[cell.systemBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            @strongify(self);
-            self.selectedBtn = 4;
-            [self reloadDataWithIndexOFSelectedRow:self.selectedBtn];
-            if (self.selectArray.count == 0) {
-                [BXTGlobal showText:@"租区无数据" view:self completionBlock:^{
-                    return ;
-                }];
-            } else {
-                [self createSelectTableView];
-            }
-        }];
+        
         
         // 刷新按钮
         cell.buildingBtn.enabled = self.selectedBtn >= 1;
         cell.areaBtn.enabled = self.selectedBtn >= 2;
-        cell.systemBtn.enabled = self.selectedBtn >= 3;
         if (self.selectedBtn == 1) {
             cell.formatBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
             [cell.formatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -279,15 +276,6 @@
             [cell.buildingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             cell.areaBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
             [cell.areaBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        } else if (self.selectedBtn == 4) {
-            cell.formatBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
-            [cell.formatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            cell.buildingBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
-            [cell.buildingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            cell.areaBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
-            [cell.areaBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            cell.systemBtn.backgroundColor = colorWithHexString(@"#5DAFF9");
-            [cell.systemBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
         
         cell.showLevelView.text = self.showInfoStr;
@@ -329,12 +317,18 @@
     
     if (self.vcType == ViewControllerTypeOFYear) {
         if (indexPath.section == 0) {
+            if (self.selectedBtn == 3 && [self.showInfoArray[3] isEqualToString:@">公区"]) {
+                return 450;
+            }
             return 370;
         }
         return 70;
     }
     
     if (indexPath.section == 0) {
+        if (self.selectedBtn == 3 && [self.showInfoArray[3] isEqualToString:@">公区"]) {
+            return 450;
+        }
         return 400;
     }
     return 100;
@@ -570,6 +564,15 @@
         return [(MYPieElement *)elem title];
     };
     cell.pieView.layer.showTitles = ShowTitlesAlways;
+    
+    
+    if (self.showCost) {
+        cell.sumShowView.text = [NSString stringWithFormat:@"总金额\r%ld元", (long)self.edInfo.total.money];
+    }
+    else {
+        cell.sumShowView.text = [NSString stringWithFormat:@"总能耗\r%ldKwh", (long)self.edInfo.total.energy_consumption];
+    }
+    
     
     // 4. didClick
     //    __weak typeof(self) weakSelf = self;

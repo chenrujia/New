@@ -24,6 +24,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *similarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *similarNumView;
 
+@property (weak, nonatomic) IBOutlet UILabel *trueNumView;
+@property (weak, nonatomic) IBOutlet UILabel *statisticErrorView;
+
 @property (nonatomic, strong) BXTEnergyTrendInfo *energyTrendInfo;
 @property (nonatomic, strong) BXTEnergyTrendInfo *moneyTrendInfo;
 

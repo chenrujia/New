@@ -37,6 +37,9 @@
     self.similarView.text = [NSString stringWithFormat:@"同比: %ld Kwh", (long)energyTrendInfo.an_energy_consumption];
     self.similarImageView.image = [self judgeImage:energyTrendInfo.an_energy_consumption_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", energyTrendInfo.an_energy_consumption_per];
+    
+    self.trueNumView.text = [NSString stringWithFormat:@"绝对能耗: %ld Kwh", (long)energyTrendInfo.true_energy_consumption];
+    self.statisticErrorView.text = [NSString stringWithFormat:@"统计误差: %ld", (long)energyTrendInfo.true_energy_consumption_diff];
 }
 
 - (void)setMoneyTrendInfo:(BXTEnergyTrendInfo *)moneyTrendInfo
@@ -53,6 +56,9 @@
     self.similarView.text = [NSString stringWithFormat:@"同比: %.ld 元", (long)moneyTrendInfo.an_money];
     self.similarImageView.image = [self judgeImage:moneyTrendInfo.an_money_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", moneyTrendInfo.an_money_per];
+    
+    self.trueNumView.text = [NSString stringWithFormat:@"绝对费用: %ld 元", (long)moneyTrendInfo.true_money];
+    self.statisticErrorView.text = [NSString stringWithFormat:@"统计误差: %ld", (long)moneyTrendInfo.true_money_diff];
 }
 
 #pragma mark -
@@ -74,6 +80,9 @@
     // Initialization code
     
     self.roundView.layer.cornerRadius = 5;
+    
+    self.trueNumView.hidden = YES;
+    self.statisticErrorView.hidden = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
