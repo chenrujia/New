@@ -37,8 +37,6 @@
     self.similarView.text = [NSString stringWithFormat:@"同比: %ld Kwh", (long)energyTrendInfo.an_energy_consumption];
     self.similarImageView.image = [self judgeImage:energyTrendInfo.an_energy_consumption_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", energyTrendInfo.an_energy_consumption_per];
-    
-    
 }
 
 - (void)setMoneyTrendInfo:(BXTEnergyTrendInfo *)moneyTrendInfo
