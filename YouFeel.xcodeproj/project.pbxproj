@@ -127,6 +127,8 @@
 		783E6C271C51BFF400DC13FB /* BXTFloorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C121C51BFF400DC13FB /* BXTFloorInfo.m */; };
 		783E6C2B1C51BFF400DC13FB /* BXTFaultInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C1D1C51BFF400DC13FB /* BXTFaultInfo.m */; };
 		783E6C2D1C51BFF400DC13FB /* BXTCustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 783E6C221C51BFF400DC13FB /* BXTCustomImageView.m */; };
+		7840FF451D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7840FF431D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.m */; };
+		7840FF461D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7840FF441D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.xib */; };
 		784177DE1CDC977900CCA953 /* UITabBar+badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 784177DD1CDC977900CCA953 /* UITabBar+badge.m */; };
 		78426B511C7C389F00BAE0F4 /* BXTMTStatisticsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78426B4F1C7C389F00BAE0F4 /* BXTMTStatisticsCell.m */; };
 		78426B521C7C389F00BAE0F4 /* BXTMTStatisticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78426B501C7C389F00BAE0F4 /* BXTMTStatisticsCell.xib */; };
@@ -733,6 +735,9 @@
 		783E6C1D1C51BFF400DC13FB /* BXTFaultInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTFaultInfo.m; sourceTree = "<group>"; };
 		783E6C211C51BFF400DC13FB /* BXTCustomImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCustomImageView.h; sourceTree = "<group>"; };
 		783E6C221C51BFF400DC13FB /* BXTCustomImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCustomImageView.m; sourceTree = "<group>"; };
+		7840FF421D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyTrendHiddenCell.h; sourceTree = "<group>"; };
+		7840FF431D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyTrendHiddenCell.m; sourceTree = "<group>"; };
+		7840FF441D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEnergyTrendHiddenCell.xib; sourceTree = "<group>"; };
 		784177DC1CDC977900CCA953 /* UITabBar+badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+badge.h"; sourceTree = "<group>"; };
 		784177DD1CDC977900CCA953 /* UITabBar+badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+badge.m"; sourceTree = "<group>"; };
 		78426B4E1C7C389F00BAE0F4 /* BXTMTStatisticsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTStatisticsCell.h; sourceTree = "<group>"; };
@@ -2782,6 +2787,9 @@
 				7867A0EF1D4EF8CA00A0D4F6 /* BXTEnergyTrendCell.h */,
 				7867A0F01D4EF8CA00A0D4F6 /* BXTEnergyTrendCell.m */,
 				7867A0F11D4EF8CA00A0D4F6 /* BXTEnergyTrendCell.xib */,
+				7840FF421D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.h */,
+				7840FF431D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.m */,
+				7840FF441D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.xib */,
 				7867A0EC1D4EF8CA00A0D4F6 /* BXTEnergyTrendBudgetCell.h */,
 				7867A0ED1D4EF8CA00A0D4F6 /* BXTEnergyTrendBudgetCell.m */,
 				7867A0EE1D4EF8CA00A0D4F6 /* BXTEnergyTrendBudgetCell.xib */,
@@ -5103,6 +5111,7 @@
 				7851A0311CA3C60900255B8A /* BXTMainTableViewCell.xib in Resources */,
 				784890CA1D3734D700C1106D /* BXTMeterReadingHeaderView.xib in Resources */,
 				7823C88D1C7E92A800E2858B /* BXTEPLocationCell.xib in Resources */,
+				7840FF461D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.xib in Resources */,
 				784890D21D3734D700C1106D /* BXTMeterReadingTimeView.xib in Resources */,
 				964C4AC41C157C7B00E6C8C4 /* Assets.xcassets in Resources */,
 				78472C501D3C6D3600F89BA2 /* BXTMeterReadingListCell.xib in Resources */,
@@ -5556,6 +5565,7 @@
 				781D86541CBF784900F01EF7 /* BXTMailRootInfo.m in Sources */,
 				788FACF21CEF135000F142A4 /* BXTPlaceListInfo.m in Sources */,
 				96E6F5781D124F91006FB64E /* NSObject+GJRedDotHandler.m in Sources */,
+				7840FF451D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.m in Sources */,
 				7893D9141C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m in Sources */,
 				78E6572F1D4A270800AA3ECD /* BXTEnergyTrendView.m in Sources */,
 				9652ABEC1BC90DCC009A666D /* NSData+CommonCrypto.m in Sources */,

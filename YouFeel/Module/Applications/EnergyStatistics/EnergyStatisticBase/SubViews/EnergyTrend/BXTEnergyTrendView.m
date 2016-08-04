@@ -238,7 +238,7 @@
             else {
                 self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:EnergyYearType];
             }
-            cell.timeView.text = [NSString stringWithFormat:@"时间：%@年%@月", trendInfo.year, trendInfo.month];
+            cell.timeView.text = [NSString stringWithFormat:@"时间：%@年", trendInfo.year];
         }
         else {
             
@@ -248,7 +248,7 @@
             else {
                 self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:EnergyMonthType];
             }
-            cell.timeView.text = [NSString stringWithFormat:@"时间：%@年", trendInfo.year];
+            cell.timeView.text = [NSString stringWithFormat:@"时间：%@年%@月", trendInfo.year, trendInfo.month];
         }
         
         self.hisView.backgroundColor = [UIColor whiteColor];
