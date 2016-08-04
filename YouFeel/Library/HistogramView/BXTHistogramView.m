@@ -54,25 +54,39 @@
         }
         else if (self.statisticsType == BudgetYearType || self.statisticsType == EnergyYearType || self.statisticsType == BudgetMonthType || self.statisticsType == EnergyMonthType)
         {
-            for (BXTEnergyTrendInfo *trendInfo in datasource) {
-                if ([trendInfo.temperature isEqualToString:@"-"]) {
+            NSMutableArray *moneyBudgetArray = [NSMutableArray array];
+            for (BXTEnergyTrendInfo *trendInfo in datasource)
+            {
+                if ([trendInfo.temperature isEqualToString:@"-"])
+                {
                     [temArray addObject:@(0)];
-                } else {
+                }
+                else
+                {
                     [temArray addObject:@([trendInfo.temperature integerValue])];
                 }
-                if ([trendInfo.humidity isEqualToString:@"-"]) {
+                
+                if ([trendInfo.humidity isEqualToString:@"-"])
+                {
                     [humArray addObject:@(0)];
-                } else {
+                }
+                else
+                {
                     [humArray addObject:@([trendInfo.humidity integerValue])];
                 }
                 
-                if (self.statisticsType == BudgetYearType || self.statisticsType == BudgetMonthType) {
+                if (self.statisticsType == BudgetYearType || self.statisticsType == BudgetMonthType)
+                {
                     [energyArray addObject:@[@(trendInfo.money),@(0),@(0),@(0),@(0)]];
                 }
-                else {
+                else
+                {
                     [energyArray addObject:@[@(trendInfo.energy_consumption),@(0),@(0),@(0),@(0)]];
                 }
+                
+                [moneyBudgetArray addObject:trendInfo.money_budget];
             }
+            self.moneyArray = moneyBudgetArray;
         }
         
         self.temperatureArray = temArray;
@@ -188,6 +202,12 @@
     {
         [self drawBrokenLine:ctx points:self.windPowerArray color:colorWithHexString(@"EC6868") type:WindPowerType rect:rect];
     }
+    
+    /********************************预算折线图*******************************/
+    if (self.statisticsType == BudgetYearType || self.statisticsType == EnergyYearType || self.statisticsType == BudgetMonthType || self.statisticsType == EnergyMonthType)
+    {
+        [self drawBrokenLine:ctx points:self.moneyArray color:colorWithHexString(@"FD8C98") type:MoneyBudgetType rect:rect];
+    }
 }
 
 //日期
@@ -224,6 +244,10 @@
         {
             point = StatisticsHeight(rect) - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f) * 10.f;
         }
+        else if (type == MoneyBudgetType)
+        {
+            point = StatisticsHeight(rect) - point * ((StatisticsHeight(rect))/self.kwhMeasure);
+        }
         
         if (i == 0)
         {
@@ -255,6 +279,10 @@
         else if (type == WindPowerType)
         {
             point = StatisticsHeight(rect) - point * ((StatisticsHeight(rect))/self.kwhNumber/50.f) * 10.f;
+        }
+        else if (type == MoneyBudgetType)
+        {
+            point = StatisticsHeight(rect) - point * ((StatisticsHeight(rect))/self.kwhMeasure);
         }
         
         [color set];
