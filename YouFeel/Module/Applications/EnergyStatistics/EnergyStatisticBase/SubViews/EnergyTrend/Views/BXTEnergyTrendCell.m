@@ -46,7 +46,7 @@
     _moneyTrendInfo = moneyTrendInfo;
     
     self.consumptionView.text = [NSString stringWithFormat:@"总费用：%ld 元", (long)moneyTrendInfo.money];
-//    self.unitConsumptionView.text = [NSString stringWithFormat:@"单位面积费用：%ld 元", (long)moneyTrendInfo.money_unit_area];
+    self.unitConsumptionView.text = [NSString stringWithFormat:@"单位面积费用：%ld 元", (long)moneyTrendInfo.money_unit_area];
     
     self.circleView.text = [NSString stringWithFormat:@"环比: %ld 元", (long)moneyTrendInfo.mom_money];
     self.circleImageView.image = [self judgeImage:moneyTrendInfo.mom_money_sign];
