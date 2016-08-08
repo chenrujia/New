@@ -1,21 +1,21 @@
 //
-//  BXTEnergyTrendCell.m
+//  BXTEnergyTrendHiddenCell.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/7/28.
+//  Created by 满孝意 on 16/8/4.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTEnergyTrendCell.h"
+#import "BXTEnergyTrendHiddenCell.h"
 
-@implementation BXTEnergyTrendCell
+@implementation BXTEnergyTrendHiddenCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
-    static NSString *cellID = @"BXTEnergyTrendCell";
-    BXTEnergyTrendCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    static NSString *cellID = @"BXTEnergyTrendHiddenCell";
+    BXTEnergyTrendHiddenCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEnergyTrendCell" owner:nil options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEnergyTrendHiddenCell" owner:nil options:nil] lastObject];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -28,7 +28,6 @@
     _energyTrendInfo = energyTrendInfo;
     
     self.consumptionView.text = [NSString stringWithFormat:@"总能耗：%ld Kwh", (long)energyTrendInfo.energy_consumption];
-    self.unitConsumptionView.text = [NSString stringWithFormat:@"单位面积能耗：%ld Kwh", (long)energyTrendInfo.energy_consumption_unit_area];
     
     self.circleView.text = [NSString stringWithFormat:@"环比: %ld Kwh", (long)energyTrendInfo.mom_energy_consumption];
     self.circleImageView.image = [self judgeImage:energyTrendInfo.mom_energy_consumption_sign];
@@ -47,7 +46,6 @@
     _moneyTrendInfo = moneyTrendInfo;
     
     self.consumptionView.text = [NSString stringWithFormat:@"总费用：%ld 元", (long)moneyTrendInfo.money];
-    self.unitConsumptionView.text = [NSString stringWithFormat:@"单位面积费用：%ld 元", (long)moneyTrendInfo.money_unit_area];
     
     self.circleView.text = [NSString stringWithFormat:@"环比: %ld 元", (long)moneyTrendInfo.mom_money];
     self.circleImageView.image = [self judgeImage:moneyTrendInfo.mom_money_sign];
@@ -80,14 +78,10 @@
     // Initialization code
     
     self.roundView.layer.cornerRadius = 5;
-    
-    self.trueNumView.hidden = YES;
-    self.statisticErrorView.hidden = YES;
 }
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    
+
     // Configure the view for the selected state
 }
 

@@ -55,6 +55,7 @@
         else if (self.statisticsType == BudgetYearType || self.statisticsType == EnergyYearType || self.statisticsType == BudgetMonthType || self.statisticsType == EnergyMonthType)
         {
             NSMutableArray *moneyBudgetArray = [NSMutableArray array];
+            NSMutableArray *energyBudgetArray = [NSMutableArray array];
             for (BXTEnergyTrendInfo *trendInfo in datasource)
             {
                 if ([trendInfo.temperature isEqualToString:@"-"])
@@ -85,8 +86,10 @@
                 }
                 
                 [moneyBudgetArray addObject:trendInfo.money_budget];
+                [energyBudgetArray addObject:trendInfo.energy_consumption_budget];
             }
             self.moneyArray = moneyBudgetArray;
+            self.energyArray = energyBudgetArray;
         }
         
         self.temperatureArray = temArray;
@@ -204,9 +207,13 @@
     }
     
     /********************************预算折线图*******************************/
-    if (self.statisticsType == BudgetYearType || self.statisticsType == EnergyYearType || self.statisticsType == BudgetMonthType || self.statisticsType == EnergyMonthType)
+    if (self.statisticsType == BudgetYearType || self.statisticsType == BudgetMonthType)
     {
         [self drawBrokenLine:ctx points:self.moneyArray color:colorWithHexString(@"FD8C98") type:MoneyBudgetType rect:rect];
+    }
+    else if (self.statisticsType == EnergyYearType || self.statisticsType == EnergyMonthType)
+    {
+        [self drawBrokenLine:ctx points:self.energyArray color:colorWithHexString(@"FD8C98") type:MoneyBudgetType rect:rect];
     }
 }
 

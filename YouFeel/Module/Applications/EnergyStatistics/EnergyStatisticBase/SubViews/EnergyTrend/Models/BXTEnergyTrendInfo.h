@@ -36,5 +36,9 @@
 @property (nonatomic, copy  ) NSString  *energy_consumption_budget_diff_per;
 @property (nonatomic, assign) NSInteger energy_consumption_unit_area;
 @property (nonatomic, copy  ) NSString  *mom_energy_consumption_per;
+@property (nonatomic, assign) NSInteger true_money_diff;
+@property (nonatomic, assign) NSInteger true_money;
+@property (nonatomic, assign) NSInteger true_energy_consumption_diff;
+@property (nonatomic, assign) NSInteger true_energy_consumption;
 
 @end

@@ -34,6 +34,10 @@
 @property (nonatomic, assign) NSInteger mom_energy_consumption_sign;
 @property (nonatomic, assign) NSInteger an_energy_consumption;
 @property (nonatomic, assign) NSInteger mom_energy_consumption;
+@property (nonatomic, assign) NSInteger true_money_diff;
+@property (nonatomic, assign) NSInteger true_money;
+@property (nonatomic, assign) NSInteger true_energy_consumption_diff;
+@property (nonatomic, assign) NSInteger true_energy_consumption;
 
 @end
 

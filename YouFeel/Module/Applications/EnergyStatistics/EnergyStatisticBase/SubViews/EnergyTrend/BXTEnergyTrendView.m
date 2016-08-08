@@ -10,6 +10,7 @@
 #import "BXTEnergyTrendHeaderCell.h"
 #import "BXTEnergyTrendLegendCell.h"
 #import "BXTEnergyTrendCell.h"
+#import "BXTEnergyTrendHiddenCell.h"
 #import "BXTEnergyTrendBudgetCell.h"
 #import "BXTEnergyTrendInfo.h"
 #import "BXTHistogramStatisticsView.h"
@@ -238,7 +239,7 @@
             else {
                 self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:EnergyYearType];
             }
-            cell.timeView.text = [NSString stringWithFormat:@"时间：%@年%@月", trendInfo.year, trendInfo.month];
+            cell.timeView.text = [NSString stringWithFormat:@"时间：%@年", trendInfo.year];
         }
         else {
             
@@ -248,7 +249,7 @@
             else {
                 self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:EnergyMonthType];
             }
-            cell.timeView.text = [NSString stringWithFormat:@"时间：%@年", trendInfo.year];
+            cell.timeView.text = [NSString stringWithFormat:@"时间：%@年%@月", trendInfo.year, trendInfo.month];
         }
         
         self.hisView.backgroundColor = [UIColor whiteColor];
@@ -346,7 +347,45 @@
     }
     else if (indexPath.section == 2)
     {
+        if (self.selectedBtn >= 3) {
+            BXTEnergyTrendHiddenCell *cell = [BXTEnergyTrendHiddenCell cellWithTableView:tableView];
+            
+            if (self.vcType == ViewControllerTypeOFNone) {
+                cell.similarView.hidden = YES;
+                cell.similarImageView.hidden = YES;
+                cell.similarNumView.hidden = YES;
+            }
+            
+            if (self.showCost) {
+                cell.moneyTrendInfo = trendInfo;
+            } else {
+                cell.energyTrendInfo = trendInfo;
+            }
+            
+            if (self.selectedBtn == 3 && [self.showInfoArray[3] isEqualToString:@">公区"]) {
+                if (self.vcType == ViewControllerTypeOFNone) {
+                    cell.similarView.hidden = NO;
+                    cell.similarView.text = @"仅公区显示以下值：";
+                }
+                cell.trueNumView.hidden = NO;
+                cell.statisticErrorView.hidden = NO;
+            } else {
+                cell.trueNumView.hidden = YES;
+                cell.statisticErrorView.hidden = YES;
+            }
+            
+            return cell;
+        }
+        
         BXTEnergyTrendCell *cell = [BXTEnergyTrendCell cellWithTableView:tableView];
+        
+        if (self.selectedBtn == 3 && [self.showInfoArray[3] isEqualToString:@">公区"]) {
+            cell.trueNumView.hidden = NO;
+            cell.statisticErrorView.hidden = NO;
+        } else {
+            cell.trueNumView.hidden = YES;
+            cell.statisticErrorView.hidden = YES;
+        }
         
         if (self.vcType == ViewControllerTypeOFNone) {
             cell.similarView.hidden = YES;
@@ -387,6 +426,27 @@
         return 50;
     }
     else if (indexPath.section == 2) {
+        if (self.selectedBtn == 3 && [self.showInfoArray[3] isEqualToString:@">公区"]) {
+            if (self.selectedBtn >= 3) {
+                if (self.vcType == ViewControllerTypeOFNone) {
+                    return 145;
+                }
+                return 150;
+            }
+            
+            if (self.vcType == ViewControllerTypeOFNone) {
+                return 145;
+            }
+            return 175;
+        }
+        
+        if (self.selectedBtn >= 3) {
+            if (self.vcType == ViewControllerTypeOFNone) {
+                return 65;
+            }
+            return 95;
+        }
+        
         if (self.vcType == ViewControllerTypeOFNone) {
             return 95;
         }
@@ -597,8 +657,10 @@
             BXTEnergyTrendInfo *recordInfo = self.energyArray[i];
             if (showCost) {
                 max = recordInfo.money > max ? recordInfo.money : max;
+                max = [recordInfo.money_budget integerValue] > max ? [recordInfo.money_budget integerValue] : max;
             } else {
                 max = recordInfo.energy_consumption > max ? recordInfo.energy_consumption : max;
+                max = [recordInfo.energy_consumption_budget integerValue] > max ? [recordInfo.energy_consumption_budget integerValue] : max;
             }
         }
         CGFloat fn = max/4.f;
@@ -615,7 +677,6 @@
         } while (i > 0);
         self.inn *= 4;
     }
-    NSLog(@"self.inn ----- %ld", (long)self.inn);
 }
 
 @end

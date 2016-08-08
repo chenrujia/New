@@ -39,6 +39,7 @@ typedef void (^ChoosedDatesourece)(CGFloat temperature,CGFloat humidity,CGFloat 
 @property (nonatomic, strong) NSArray            *humidityArray;
 @property (nonatomic, strong) NSArray            *windPowerArray;
 @property (nonatomic, strong) NSArray            *moneyArray;
+@property (nonatomic, strong) NSArray            *energyArray;
 @property (nonatomic, strong) NSArray            *totalEnergyArray;
 @property (nonatomic, assign) NSInteger          kwhMeasure;
 @property (nonatomic, assign) NSInteger          kwhNumber;

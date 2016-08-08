@@ -1,20 +1,19 @@
 //
-//  BXTEnergyTrendCell.h
+//  BXTEnergyTrendHiddenCell.h
 //  YouFeel
 //
-//  Created by 满孝意 on 16/7/28.
+//  Created by 满孝意 on 16/8/4.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "BXTEnergyTrendInfo.h"
 
-@interface BXTEnergyTrendCell : UITableViewCell
+@interface BXTEnergyTrendHiddenCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIView *roundView;
 
 @property (weak, nonatomic) IBOutlet UILabel *consumptionView;
-@property (weak, nonatomic) IBOutlet UILabel *unitConsumptionView;
 
 @property (weak, nonatomic) IBOutlet UILabel *circleView;
 @property (weak, nonatomic) IBOutlet UIImageView *circleImageView;
