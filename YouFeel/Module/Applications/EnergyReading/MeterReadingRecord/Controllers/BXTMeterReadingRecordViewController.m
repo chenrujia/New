@@ -317,8 +317,8 @@
     
     // 3. 显示footer值
     // 1> 能源节点
-    UILabel *nodeLabel = [self createLabelWithTitle:@"能源节点：" content:@"发送到发送到发送到发大水发大水发撒的发送到发送到发的所发生的"];
-    
+//    UILabel *nodeLabel = [self createLabelWithTitle:@"能源节点：" content:@"发送到发送到发送到发大水发大水发撒的发送到发送到发的所发生的"];
+    UILabel *nodeLabel =  [self createLabelWithTitle:@"能源节点：" content:@"发送到发送到发送到发大水发大水发撒的发送到发送到发的所发生的" lableX:110];
     
     self.headerView.setPlaceView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.place_name];
     self.headerView.serviceView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.server_area];
@@ -334,15 +334,15 @@
     }
 }
 
-- (UILabel *)createLabelWithTitle:(NSString *)titleStr content:(NSString *)content
+- (UILabel *)createLabelWithTitle:(NSString *)titleStr content:(NSString *)content lableX:(CGFloat)labelX
 {
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, 70, 17)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, labelX, 70, 17)];
     titleLabel.text = titleStr;
     titleLabel.font = [UIFont systemFontOfSize:14];
     [self.headerView addSubview:titleLabel];
     
     CGSize contentSize = MB_MULTILINE_TEXTSIZE(content, [UIFont systemFontOfSize:14], CGSizeMake(HeaderViewW - 90, CGFLOAT_MAX), NSLineBreakByWordWrapping);
-    UILabel *contentIntro = [[UILabel alloc] initWithFrame:CGRectMake(80, 110, HeaderViewW - 90, contentSize.height)];
+    UILabel *contentIntro = [[UILabel alloc] initWithFrame:CGRectMake(80, labelX, HeaderViewW - 90, contentSize.height)];
     contentIntro.text = content;
     contentIntro.font = [UIFont systemFontOfSize:14];
     contentIntro.numberOfLines = 0;
