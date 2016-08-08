@@ -16,7 +16,7 @@
 @property (weak, nonatomic  ) IBOutlet UISwitch    *autoSwitch;
 @property (weak, nonatomic  ) IBOutlet UIButton    *commitBtn;
 @property (weak, nonatomic  ) IBOutlet UISearchBar *searchBarView;
-@property (nonatomic, copy  ) NSString             *faultTypeID;
+@property (nonatomic, copy  ) NSString             *selectedID;
 @property (nonatomic, assign) SearchVCType         searchType;
 @property (nonatomic, copy  ) ChooseItem           selectItemBlock;
 //判断是否是从维修过程过来的

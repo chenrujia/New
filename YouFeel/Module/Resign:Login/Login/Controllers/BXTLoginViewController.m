@@ -70,6 +70,8 @@
     if ([BXTGlobal shareGlobal].userName)
     {
         self.nameTF.text = [BXTGlobal shareGlobal].userName;
+        self.userName = [BXTGlobal shareGlobal].userName;
+        [BXTGlobal shareGlobal].userName = nil;
     }
     if ([BXTGlobal getUserProperty:U_USERNAME])
     {
@@ -249,7 +251,6 @@
         }];
         BXTAbroadUserInfo *abUserInfo = [BXTAbroadUserInfo mj_objectWithKeyValues:userInfoDic];
         
-        [BXTGlobal setUserProperty:abUserInfo.username withKey:U_USERNAME];
         [BXTGlobal setUserProperty:abUserInfo.gender withKey:U_SEX];
         [BXTGlobal setUserProperty:abUserInfo.name withKey:U_NAME];
         [BXTGlobal setUserProperty:abUserInfo.pic withKey:U_HEADERIMAGE];

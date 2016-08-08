@@ -44,10 +44,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"能源抄表" andRightTitle1:nil andRightImage1:[UIImage imageNamed:@"energy_list"] andRightTitle2:@"能耗计算" andRightImage2:nil];
-    
+    [self navigationSetting:@"能源抄表" andRightTitle1:nil andRightImage1:[UIImage imageNamed:@"energy_bar_graph"] andRightTitle2:@"能耗计算" andRightImage2:nil];
     self.isShowArray = [[NSMutableArray alloc] init];
-    
+    self.isHideChart = YES;
     [self createUI];
     [self getResource];
 }
@@ -233,8 +232,6 @@
         [self.navigationController pushViewController:mrvc animated:YES];
     }];
     [self.footerView addSubview:newMeterBtn];
-    
-    [self showChartView:YES];
 }
 
 - (void)initialHisView:(NSInteger)maxNumber
@@ -264,6 +261,8 @@
     [self.scrollView addSubview:self.hisView];
     
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
+    
+    [self showChartView:NO];
 }
 
 #pragma mark -
@@ -272,7 +271,7 @@
 {
     NSInteger year = [self.yearStr integerValue];
     if (!isAdd)
-    { // 减法
+    {
         year -= 1;
     }
     else
@@ -451,7 +450,7 @@
         }
         [self refreshUIWithData];
     }
-    if (type == EnergyMeterRecordLists && data.count > 0)
+    else if (type == EnergyMeterRecordLists && data.count > 0)
     {
         if (self.isListsRequest)
         {

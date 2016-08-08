@@ -45,16 +45,17 @@
 @property (nonatomic, strong) UIScrollView      *scrollerView;
 
 /** ---- 1电、2水、3燃气、4热能 ---- */
-@property (nonatomic, assign) NSInteger btnTag;
-@property (nonatomic, copy) NSString *checkType;
-@property (nonatomic, copy) NSString *priceType;
-@property (nonatomic, copy) NSString *placeID;
-@property (nonatomic, copy) NSString *measurementPath;
+@property (nonatomic, assign) NSInteger         btnTag;
+@property (nonatomic, copy  ) NSString          *checkType;
+@property (nonatomic, copy  ) NSString          *priceType;
+@property (nonatomic, copy  ) NSString          *placeID;
+//筛选条件
+@property (nonatomic, copy  ) NSString          *filterCondition;
 
-@property (nonatomic, strong) NSArray *filterArrayOne;
-@property (nonatomic, strong) NSArray *filterArrayTwo;
-@property (nonatomic, strong) NSArray *filterArrayThree;
-@property (nonatomic, strong) NSArray *filterArrayFour;
+@property (nonatomic, strong) NSArray           *filterArrayOne;
+@property (nonatomic, strong) NSArray           *filterArrayTwo;
+@property (nonatomic, strong) NSArray           *filterArrayThree;
+@property (nonatomic, strong) NSArray           *filterArrayFour;
 
 @end
 
@@ -69,7 +70,7 @@
     self.checkType = @"";
     self.priceType = @"";
     self.placeID = @"";
-    self.measurementPath = @"";
+    self.filterCondition = @"";
     self.filterArrayOne = [[NSArray alloc] init];
     self.filterArrayTwo = [[NSArray alloc] init];
     self.filterArrayThree = [[NSArray alloc] init];
@@ -246,19 +247,18 @@
     CGRect viewRect = CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT);
     CGRect tableRect =  CGRectMake(0, 20, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT - 20.f - 64.f);
     
+    NSString *selectID = isFilter ? self.filterCondition : self.placeID;
     
-    // TODO: -----------------  调试  -----------------
     __weak __typeof(self) weakSelf = self;
-    self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:FilterSearchType block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
+    self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:FilterSearchType defaultSelected:selectID block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
         if (isFilter)
         {
-            self.measurementPath = classifyInfo.itemID;
+            self.filterCondition = classifyInfo.itemID;
         }
         else
         {
             self.placeID = classifyInfo.itemID;
         }
-        
         [self getResourceWithTag:self.btnTag+1 hasMeasurementList:NO];
         
         UIView *view = [weakSelf.view viewWithTag:101];
@@ -272,7 +272,6 @@
     }];
     self.chooseItemView.backgroundColor = colorWithHexString(@"eff3f6");
     [self.view addSubview:self.chooseItemView];
-    
     
     [UIView animateWithDuration:0.3f animations:^{
         [self.chooseItemView setFrame:CGRectMake(SCREEN_WIDTH/4.f, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
@@ -321,12 +320,13 @@
                                 checkType:self.checkType
                                 priceType:self.priceType
                                   placeID:self.placeID
-                          measurementPath:self.measurementPath
+                          measurementPath:self.filterCondition
                                searchName:@""];
     });
     dispatch_async(concurrentQueue, ^{
         /**筛选条件**/
-        if (isRight) {
+        if (isRight)
+        {
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request energyMeasuremenLevelListsWithType:[NSString stringWithFormat:@"%ld", (long)tag]];
         }

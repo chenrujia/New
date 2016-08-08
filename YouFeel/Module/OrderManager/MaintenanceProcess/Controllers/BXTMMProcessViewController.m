@@ -224,7 +224,7 @@
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTSearchItemViewController *searchVC = (BXTSearchItemViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTSearchItemViewController"];
-        searchVC.faultTypeID = self.faultTypeID;
+        searchVC.selectedID = self.faultTypeID;
         @weakify(self);
         [searchVC userChoosePlace:self.fau_dataSource isProgress:NO type:FaultSearchType block:^(BXTBaseClassifyInfo *classifyInfo,NSString *name) {
             @strongify(self);
