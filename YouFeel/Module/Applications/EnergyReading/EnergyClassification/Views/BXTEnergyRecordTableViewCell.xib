@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -31,7 +31,7 @@
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="constraints">
-                                <include reference="EIq-bO-hMd"/>
+                                <exclude reference="EIq-bO-hMd"/>
                             </mask>
                         </variation>
                     </label>
@@ -70,25 +70,6 @@
                             <mask key="constraints">
                                 <include reference="1Mf-RQ-Eel"/>
                                 <include reference="rKc-xv-VFh"/>
-                            </mask>
-                        </variation>
-                    </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nfc" translatesAutoresizingMaskIntoConstraints="NO" id="ffU-6G-jGU">
-                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="24" id="EIa-LV-hyI"/>
-                            <constraint firstAttribute="height" constant="24" id="jOG-np-YA6"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="EIa-LV-hyI"/>
-                                <exclude reference="jOG-np-YA6"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="EIa-LV-hyI"/>
-                                <include reference="jOG-np-YA6"/>
                             </mask>
                         </variation>
                     </imageView>
@@ -228,7 +209,6 @@
                     <constraint firstItem="EEX-j8-1RG" firstAttribute="leading" secondItem="ElG-eS-V3b" secondAttribute="trailing" constant="10" id="Zg7-fe-FTn"/>
                     <constraint firstItem="vA1-sN-WAr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="bXH-A6-NxQ"/>
                     <constraint firstItem="5q5-QK-6Py" firstAttribute="top" secondItem="F9j-YO-9jJ" secondAttribute="bottom" constant="2" id="bwZ-zD-z2D"/>
-                    <constraint firstItem="ElG-eS-V3b" firstAttribute="leading" secondItem="ffU-6G-jGU" secondAttribute="trailing" constant="10" id="dMe-3W-T4d"/>
                     <constraint firstItem="ElG-eS-V3b" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="ieg-aG-S8l"/>
                     <constraint firstItem="zkm-Y2-x6e" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="kXt-dn-ViN"/>
                     <constraint firstItem="eyk-6X-hic" firstAttribute="top" secondItem="vA1-sN-WAr" secondAttribute="bottom" constant="5" id="lhr-JN-Uit"/>
@@ -236,15 +216,14 @@
                     <constraint firstAttribute="trailing" secondItem="F9j-YO-9jJ" secondAttribute="trailing" constant="10" id="nSq-Y9-dsc"/>
                     <constraint firstAttribute="trailing" secondItem="eyk-6X-hic" secondAttribute="trailing" constant="10" id="rmh-TX-Yzy"/>
                     <constraint firstAttribute="trailing" secondItem="5q5-QK-6Py" secondAttribute="trailing" constant="10" id="s3x-G0-cDA"/>
-                    <constraint firstItem="ffU-6G-jGU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="vU5-HU-JGG"/>
                     <constraint firstItem="5q5-QK-6Py" firstAttribute="leading" secondItem="GT9-aI-Yle" secondAttribute="trailing" constant="10" id="wQ4-if-Wa8"/>
+                    <constraint firstItem="ElG-eS-V3b" firstAttribute="leading" secondItem="vA1-sN-WAr" secondAttribute="trailing" constant="10" id="x1L-1G-AYs"/>
                 </constraints>
                 <variation key="default">
                     <mask key="subviews">
                         <exclude reference="vA1-sN-WAr"/>
                         <exclude reference="EEX-j8-1RG"/>
                         <exclude reference="ElG-eS-V3b"/>
-                        <exclude reference="ffU-6G-jGU"/>
                         <exclude reference="eyk-6X-hic"/>
                         <exclude reference="GT9-aI-Yle"/>
                         <exclude reference="zkm-Y2-x6e"/>
@@ -253,31 +232,30 @@
                         <exclude reference="idw-cg-QJ2"/>
                     </mask>
                     <mask key="constraints">
-                        <exclude reference="AG4-uV-D8M"/>
-                        <exclude reference="kXt-dn-ViN"/>
-                        <exclude reference="bwZ-zD-z2D"/>
-                        <exclude reference="s3x-G0-cDA"/>
-                        <exclude reference="wQ4-if-Wa8"/>
-                        <exclude reference="7zD-eb-FEY"/>
-                        <exclude reference="Yu3-al-MLc"/>
-                        <exclude reference="nSq-Y9-dsc"/>
-                        <exclude reference="3Vb-wi-gfW"/>
-                        <exclude reference="AtE-vn-6Et"/>
-                        <exclude reference="GGT-G6-QA0"/>
                         <exclude reference="Tl3-pU-7ph"/>
                         <exclude reference="bXH-A6-NxQ"/>
-                        <exclude reference="WZD-ud-8CR"/>
-                        <exclude reference="Zg7-fe-FTn"/>
-                        <exclude reference="nCf-xV-B5e"/>
-                        <exclude reference="dMe-3W-T4d"/>
-                        <exclude reference="ieg-aG-S8l"/>
-                        <exclude reference="LmD-Ta-1Bd"/>
-                        <exclude reference="OmB-kz-XjK"/>
+                        <exclude reference="AG4-uV-D8M"/>
+                        <exclude reference="kXt-dn-ViN"/>
                         <exclude reference="4no-a1-Ofh"/>
                         <exclude reference="9bx-LA-5eA"/>
                         <exclude reference="lhr-JN-Uit"/>
                         <exclude reference="rmh-TX-Yzy"/>
-                        <exclude reference="vU5-HU-JGG"/>
+                        <exclude reference="LmD-Ta-1Bd"/>
+                        <exclude reference="OmB-kz-XjK"/>
+                        <exclude reference="7zD-eb-FEY"/>
+                        <exclude reference="Yu3-al-MLc"/>
+                        <exclude reference="nSq-Y9-dsc"/>
+                        <exclude reference="bwZ-zD-z2D"/>
+                        <exclude reference="s3x-G0-cDA"/>
+                        <exclude reference="wQ4-if-Wa8"/>
+                        <exclude reference="3Vb-wi-gfW"/>
+                        <exclude reference="AtE-vn-6Et"/>
+                        <exclude reference="GGT-G6-QA0"/>
+                        <exclude reference="ieg-aG-S8l"/>
+                        <exclude reference="x1L-1G-AYs"/>
+                        <exclude reference="WZD-ud-8CR"/>
+                        <exclude reference="Zg7-fe-FTn"/>
+                        <exclude reference="nCf-xV-B5e"/>
                     </mask>
                 </variation>
                 <variation key="heightClass=regular-widthClass=compact">
@@ -285,7 +263,6 @@
                         <include reference="vA1-sN-WAr"/>
                         <include reference="EEX-j8-1RG"/>
                         <include reference="ElG-eS-V3b"/>
-                        <include reference="ffU-6G-jGU"/>
                         <include reference="eyk-6X-hic"/>
                         <include reference="GT9-aI-Yle"/>
                         <include reference="zkm-Y2-x6e"/>
@@ -294,43 +271,41 @@
                         <include reference="idw-cg-QJ2"/>
                     </mask>
                     <mask key="constraints">
-                        <include reference="AG4-uV-D8M"/>
-                        <include reference="kXt-dn-ViN"/>
-                        <include reference="bwZ-zD-z2D"/>
-                        <include reference="s3x-G0-cDA"/>
-                        <include reference="wQ4-if-Wa8"/>
-                        <include reference="7zD-eb-FEY"/>
-                        <include reference="Yu3-al-MLc"/>
-                        <include reference="nSq-Y9-dsc"/>
-                        <include reference="3Vb-wi-gfW"/>
-                        <include reference="AtE-vn-6Et"/>
-                        <include reference="GGT-G6-QA0"/>
                         <include reference="Tl3-pU-7ph"/>
                         <include reference="bXH-A6-NxQ"/>
-                        <include reference="WZD-ud-8CR"/>
-                        <include reference="Zg7-fe-FTn"/>
-                        <include reference="nCf-xV-B5e"/>
-                        <include reference="dMe-3W-T4d"/>
-                        <include reference="ieg-aG-S8l"/>
-                        <include reference="LmD-Ta-1Bd"/>
-                        <include reference="OmB-kz-XjK"/>
+                        <include reference="AG4-uV-D8M"/>
+                        <include reference="kXt-dn-ViN"/>
                         <include reference="4no-a1-Ofh"/>
                         <include reference="9bx-LA-5eA"/>
                         <include reference="lhr-JN-Uit"/>
                         <include reference="rmh-TX-Yzy"/>
-                        <include reference="vU5-HU-JGG"/>
+                        <include reference="LmD-Ta-1Bd"/>
+                        <include reference="OmB-kz-XjK"/>
+                        <include reference="7zD-eb-FEY"/>
+                        <include reference="Yu3-al-MLc"/>
+                        <include reference="nSq-Y9-dsc"/>
+                        <include reference="bwZ-zD-z2D"/>
+                        <include reference="s3x-G0-cDA"/>
+                        <include reference="wQ4-if-Wa8"/>
+                        <include reference="3Vb-wi-gfW"/>
+                        <include reference="AtE-vn-6Et"/>
+                        <include reference="GGT-G6-QA0"/>
+                        <include reference="ieg-aG-S8l"/>
+                        <include reference="x1L-1G-AYs"/>
+                        <include reference="WZD-ud-8CR"/>
+                        <include reference="Zg7-fe-FTn"/>
+                        <include reference="nCf-xV-B5e"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
             <connections>
-                <outlet property="NFCImage" destination="ffU-6G-jGU" id="lIb-pc-CPG"/>
                 <outlet property="energyNode" destination="5q5-QK-6Py" id="nbA-p0-wTW"/>
                 <outlet property="energyNumber" destination="vA1-sN-WAr" id="xW7-KZ-FxP"/>
                 <outlet property="energyPlace" destination="idw-cg-QJ2" id="kNr-so-FtO"/>
                 <outlet property="energySubName" destination="F9j-YO-9jJ" id="Gu5-AO-huh"/>
+                <outlet property="firstImage" destination="EEX-j8-1RG" id="5Cf-IK-QPs"/>
                 <outlet property="iconImage" destination="GT9-aI-Yle" id="zQB-jS-tXq"/>
-                <outlet property="photoImage" destination="EEX-j8-1RG" id="CJu-PZ-NHr"/>
-                <outlet property="scanImage" destination="ElG-eS-V3b" id="Vnj-9t-kv7"/>
+                <outlet property="secondImage" destination="ElG-eS-V3b" id="iAa-7J-ItR"/>
                 <outlet property="starView" destination="zkm-Y2-x6e" id="1pp-Yv-tmi"/>
             </connections>
             <point key="canvasLocation" x="667" y="331.5"/>
@@ -339,7 +314,6 @@
     <resources>
         <image name="energy_Manual_Gu_Feng" width="84" height="84"/>
         <image name="energy_favourite_unstar" width="29" height="29"/>
-        <image name="nfc" width="23" height="23"/>
         <image name="photo" width="23" height="23"/>
         <image name="scan_it" width="23" height="23"/>
     </resources>

@@ -30,7 +30,7 @@
     
     self.iconView.image = [self returnIconImageWithCheckPriceType:meterReadingInfo.check_price_type];
     
-    [self refreshFilterView:meterReadingInfo.meter_condition];
+    [self refreshFilterView:meterReadingInfo.meter_condition checkPriceType:meterReadingInfo.check_price_type];
     
     self.titleView.text = [NSString stringWithFormat:@"%@", meterReadingInfo.meter_name];
     self.codeView.text = [NSString stringWithFormat:@"编号：%@", meterReadingInfo.code_number];
@@ -46,7 +46,7 @@
     
     self.iconView.image = [self returnIconImageWithCheckPriceType:energyConsumptionInfo.check_price_type];
     
-    [self refreshFilterView:energyConsumptionInfo.meter_condition];
+    [self refreshFilterView:energyConsumptionInfo.meter_condition checkPriceType:energyConsumptionInfo.check_price_type];
     
     self.titleView.text = [NSString stringWithFormat:@"%@", energyConsumptionInfo.meter_name];
     self.codeView.text = [NSString stringWithFormat:@"编号：%@", energyConsumptionInfo.code_number];
@@ -59,20 +59,25 @@
  1 二维码扫描
  2 NFC扫描
  3 拍照
+ 1.手动，单一 2.手动，峰谷 3.手动，阶梯 4.自动，单一 5.自动，峰谷 6.自动，阶梯
  */
-- (void)refreshFilterView:(NSString *)meter_condition
+- (void)refreshFilterView:(NSString *)meter_condition checkPriceType:(NSString *)check_price_type
 {
-    self.scanImage.hidden = YES;
-    self.NFCImage.hidden = YES;
-    self.photoImage.hidden = YES;
-    if ([meter_condition rangeOfString:@"1"].location != NSNotFound) {
-        self.scanImage.hidden = NO;
+    self.firstImage.hidden = YES;
+    self.secondImage.hidden = YES;
+    
+    if ([check_price_type integerValue] == 4 || [check_price_type integerValue] == 5 || [check_price_type integerValue] == 6) {
+        
     }
-    if ([meter_condition rangeOfString:@"2"].location != NSNotFound) {
-        //self.NFCImage.hidden = NO;
+    else if ([meter_condition rangeOfString:@"3"].location != NSNotFound) {
+        self.firstImage.hidden = NO;
+        if ([meter_condition rangeOfString:@"1"].location != NSNotFound) {
+            self.secondImage.hidden = NO;
+        }
     }
-    if ([meter_condition rangeOfString:@"3"].location != NSNotFound) {
-        self.photoImage.hidden = NO;
+    else if ([meter_condition rangeOfString:@"1"].location != NSNotFound) {
+        self.firstImage.hidden = NO;
+        self.firstImage.image = [UIImage imageNamed:@"scan_it"];
     }
 }
 

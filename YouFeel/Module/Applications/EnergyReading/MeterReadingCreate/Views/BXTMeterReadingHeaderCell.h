@@ -21,9 +21,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *stateView;
 @property (weak, nonatomic) IBOutlet UILabel *lastTimeView;
 
-@property (weak, nonatomic) IBOutlet UIImageView *NFCImage;
-@property (weak, nonatomic) IBOutlet UIImageView *scanImage;
-@property (weak, nonatomic) IBOutlet UIImageView *photoImage;
+@property (weak, nonatomic) IBOutlet UIImageView *firstImage;
+@property (weak, nonatomic) IBOutlet UIImageView *secondImage;
 
 /** ---- 新建抄表 ---- */
 @property (nonatomic, strong) BXTMeterReadingInfo *meterReadingInfo;

@@ -10,6 +10,8 @@
 
 @interface BXTMeterReadingHeaderView : UIView
 
+@property (weak, nonatomic) IBOutlet UIButton *starView;
+
 @property (weak, nonatomic) IBOutlet UIButton *bgViewBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *openImage;
 

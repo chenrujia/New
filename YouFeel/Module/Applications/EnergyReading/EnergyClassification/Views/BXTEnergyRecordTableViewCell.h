@@ -11,9 +11,8 @@
 
 @interface BXTEnergyRecordTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *NFCImage;
-@property (weak, nonatomic) IBOutlet UIImageView *scanImage;
-@property (weak, nonatomic) IBOutlet UIImageView *photoImage;
+@property (weak, nonatomic) IBOutlet UIImageView *firstImage;
+@property (weak, nonatomic) IBOutlet UIImageView *secondImage;
 
 //收藏
 @property (weak, nonatomic) IBOutlet UIButton *starView;

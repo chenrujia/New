@@ -12,7 +12,7 @@
 typedef NS_ENUM(NSInteger, ReturnVCType) {
     ReturnVCTypeOFMeterReadingCreate = 1,   // 新建抄表扫描
     ReturnVCTypeOFMeterReading,     // 能源抄表扫描
-    ReturnVCTypeOFOther
+    ReturnVCTypeOFOther // 不传 默认为此
 };
 
 @interface BXTQRCodeViewController : BXTQRBaseViewController

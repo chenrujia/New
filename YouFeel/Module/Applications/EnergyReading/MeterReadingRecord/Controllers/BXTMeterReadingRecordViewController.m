@@ -6,6 +6,8 @@
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
+#define HeaderViewW self.headerView.frame.size.width
+
 #import "BXTMeterReadingRecordViewController.h"
 #import "BXTMeterReadingHeaderView.h"
 #import "BXTMeterReadingFilterView.h"
@@ -36,6 +38,8 @@
 @property (nonatomic, strong) BXTMeterReadingRecordMonthListInfo *monthListInfo;
 @property (nonatomic, strong) BXTMeterReadingRecordListInfo      *listInfo;
 @property (nonatomic, assign) BOOL                               isListsRequest;
+
+@property (nonatomic, copy) NSString *introInfo;
 
 @end
 
@@ -285,23 +289,66 @@
 
 - (void)refreshUIWithData
 {
-    // self.headerView 赋值
+    // 1. 收藏按钮
+    __block BOOL is_collect = [self.monthListInfo.is_collect integerValue] == 1;
+    @weakify(self);
+    [[self.headerView.starView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        // 收藏按钮设置
+        self.introInfo = is_collect ? @"取消收藏成功" : @"收藏成功";
+        NSString *imageStr = is_collect ? @"energy_favourite_unstar" : @"energy_favourite_star";
+        [self.headerView.starView setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];
+        is_collect = !is_collect;
+        
+        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterFavoriteAddWithAboutID:self.monthListInfo.meterReadingID delIDs:@""];
+    }];
+    
+    
+    // 2. self.headerView 赋值
+    NSString *imageStr = [self.monthListInfo.is_collect isEqualToString:@"1"] ? @"energy_favourite_star" : @"energy_favourite_unstar";
+    [self.headerView.starView setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];
     self.headerView.iconImageView.image = [self returnIconImageWithCheckPriceType:self.monthListInfo.check_price_type];
     self.headerView.titleView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.meter_name];
     self.headerView.codeView.text = [NSString stringWithFormat:@"编号：%@", self.monthListInfo.code_number];
     self.headerView.rateView.text = [NSString stringWithFormat:@"倍率：%@", self.monthListInfo.rate];
     
+    
+    // 3. 显示footer值
+    // 1> 能源节点
+    UILabel *nodeLabel = [self createLabelWithTitle:@"能源节点：" content:@"发送到发送到发送到发大水发大水发撒的发送到发送到发的所发生的"];
+    
+    
     self.headerView.setPlaceView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.place_name];
     self.headerView.serviceView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.server_area];
     self.headerView.rangeView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.desc];
     
-    // check_type: 1-手动   2-自动(隐藏提交按钮)
+    
+    // 4. check_type: 1-手动   2-自动(隐藏提交按钮)
     if ([self.monthListInfo.check_type isEqualToString:@"2"])
     {
         [self.footerView removeFromSuperview];
         self.scrollView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);
         [self hideBgFooterView:YES];
     }
+}
+
+- (UILabel *)createLabelWithTitle:(NSString *)titleStr content:(NSString *)content
+{
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, 70, 17)];
+    titleLabel.text = titleStr;
+    titleLabel.font = [UIFont systemFontOfSize:14];
+    [self.headerView addSubview:titleLabel];
+    
+    CGSize contentSize = MB_MULTILINE_TEXTSIZE(content, [UIFont systemFontOfSize:14], CGSizeMake(HeaderViewW - 90, CGFLOAT_MAX), NSLineBreakByWordWrapping);
+    UILabel *contentIntro = [[UILabel alloc] initWithFrame:CGRectMake(80, 110, HeaderViewW - 90, contentSize.height)];
+    contentIntro.text = content;
+    contentIntro.font = [UIFont systemFontOfSize:14];
+    contentIntro.numberOfLines = 0;
+    [self.headerView addSubview:contentIntro];
+    
+    return contentIntro;
 }
 
 #pragma mark -
@@ -475,6 +522,13 @@
         
         [self.tableView reloadData];
     }
+    else if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
+    {
+        [BXTGlobal hideMBP];
+        [BXTGlobal showText:self.introInfo view:self.view completionBlock:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHTABLEVIEWOFLIST object:nil];
+        }];
+    }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
@@ -502,6 +556,7 @@
     }
 }
 
+// TODO: -----------------  调试  -----------------
 - (void)hideBgFooterView:(BOOL)isSelected
 {
     if (isSelected)

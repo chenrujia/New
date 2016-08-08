@@ -24,6 +24,8 @@
 #define SaveValueTUD(key, value) [[NSUserDefaults standardUserDefaults] setObject:value forKey:key]; [[NSUserDefaults standardUserDefaults] synchronize]
 /** ---- 取值 ---- */
 #define ValueFUD(key) [[NSUserDefaults standardUserDefaults] objectForKey:key]
+/** ---- 刷新列表 ---- */
+#define REFRESHTABLEVIEWOFLIST  @"REFRESHTABLEVIEWOFLIST"
 
 @interface BXTGlobal : NSObject
 
