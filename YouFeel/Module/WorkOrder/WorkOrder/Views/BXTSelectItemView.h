@@ -48,11 +48,11 @@ typedef void (^ChooseItem)(BXTBaseClassifyInfo *classifyInfo,NSString *name);
 //判断是否是从维修过程过来的
 @property (nonatomic, assign) BOOL         isProgress;
 
-@property (nonatomic, copy  ) NSString     *faultTypeID;
+@property (nonatomic, copy  ) NSString     *selectID;
 @property (nonatomic, assign) SearchVCType searchType;
 @property (nonatomic, copy  ) ChooseItem   selectItemBlock;
 
-- (instancetype)initWithFrame:(CGRect)frame tableViewFrame:(CGRect)tableFrame datasource:(NSArray *)array isProgress:(BOOL)progress type:(SearchVCType)type block:(ChooseItem)itemBlock;
+- (instancetype)initWithFrame:(CGRect)frame tableViewFrame:(CGRect)tableFrame datasource:(NSArray *)array isProgress:(BOOL)progress type:(SearchVCType)type defaultSelected:(NSString *)itemID block:(ChooseItem)itemBlock;
 
 //过滤出复合筛选字符串的数据
 - (NSMutableArray *)filterItemsWithData:(NSArray *)array searchString:(NSString *)searchStr lastLevelTitle:(NSString *)lastTitle;

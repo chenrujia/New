@@ -39,10 +39,9 @@
     // Do any additional setup after loading the view.
     
     self.dataArray = [[NSMutableArray alloc] init];
-    self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
+    self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"0", nil];
     self.typeArray = @[@"员工全部工作量统计", @"员工日常工作量统计", @"员工维保工作量统计"];
     self.typeStr = @"0";
-    
     
     // 添加下拉菜单
     DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
@@ -50,7 +49,6 @@
     menu.dataSource = self;
     [self.rootScrollView addSubview:menu];
     [menu selectDefalutIndexPath];
-    
 }
 
 #pragma mark -
@@ -58,12 +56,10 @@
 - (void)createUI
 {
     [self.tableView removeFromSuperview];
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 54, SCREEN_WIDTH, SCREEN_HEIGHT-100-54) style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.rootScrollView addSubview:self.tableView];
-    
     
     // 提示
     self.bgView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -79,7 +75,6 @@
 
 - (void)createWorkIoadViewOfIndex:(NSInteger)index WithTableViewCell:(BXTWorkloadCell *)newCell
 {
-    
     NSDictionary *dataDict = self.dataArray[index];
     NSArray *workloadArray = dataDict[@"user_lists"];
     NSMutableArray *sumArray = [[NSMutableArray alloc] initWithObjects:@"0", nil];
@@ -103,7 +98,6 @@
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(15, bgViewY+(bgViewH+Margin)*i, SCREEN_WIDTH-15, bgViewH)];
         bgView.backgroundColor = [UIColor clearColor];
         [newCell.contentView addSubview:bgView];
-        
         
         UIButton *nameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         nameBtn.frame = CGRectMake(0, 5, 70, 30);
@@ -136,19 +130,17 @@
         [straightPieChart addDataToRepresent:[dict[@"not_completed_num"] intValue] WithColor:colorWithHexString(@"#F9D063")];
         [straightPieChart addDataToRepresent:[dict[@"no_number"] intValue] WithColor:colorWithHexString(@"#FD7070")];
         
-        
-        
         // countLabel
         UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(straightPieChart.frame) + 10, 10, 30, 20)];
         countLabel.text =  [NSString stringWithFormat:@"%@", dict[@"sum_number"]];
-        if ([dict[@"sum_number"] integerValue] == 0) {
+        if ([dict[@"sum_number"] integerValue] == 0)
+        {
             countLabel.text = @"";
         }
         countLabel.textColor = colorWithHexString(@"#666666");
         countLabel.font = [UIFont systemFontOfSize:14];
         [bgView addSubview:countLabel];
     }
-    
 }
 
 - (void)transShowView:(NSDictionary *)dict
@@ -202,20 +194,21 @@
 
 #pragma mark -
 #pragma mark - tableView代理方法
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.dataArray.count;
 }
 
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.isShowArray[section] isEqualToString:@"1"]) {
+    if ([self.isShowArray[section] isEqualToString:@"1"])
+    {
         return  1;
     }
     return  0;
 }
 
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID = @"Cell";
     BXTWorkloadCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
@@ -229,7 +222,8 @@
     
     NSDictionary *dataDict = self.dataArray[indexPath.section];
     NSArray *workloadArray = dataDict[@"user_lists"];
-    if (workloadArray.count != 0) {
+    if (workloadArray.count != 0)
+    {
         [self createWorkIoadViewOfIndex:indexPath.section WithTableViewCell:cell];
     }
     
@@ -241,7 +235,8 @@
     NSDictionary *dataDict = self.dataArray[indexPath.section];
     NSArray *workloadArray = dataDict[@"user_lists"];
     CGFloat viViewH = (workloadArray.count-1) * (bgViewH+Margin) + 80;
-    if (workloadArray.count == 0) {
+    if (workloadArray.count == 0)
+    {
         viViewH = 0;
     }
     return viViewH;
@@ -312,12 +307,11 @@
     else
     {
         NSUInteger index = [self.isShowArray indexOfObject:@"1"];
-        
-        if(index != NSNotFound) {
+        if(index != NSNotFound)
+        {
             [self.isShowArray replaceObjectAtIndex:index withObject:@"0"];
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationFade];
         }
-        
         [self.isShowArray replaceObjectAtIndex:btn.tag withObject:@"1"];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:btn.tag] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -325,7 +319,8 @@
 
 #pragma mark -
 #pragma mark - 父类点击事件
-- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index {
+- (void)segmentView:(SegmentView *)segmentView didSelectedSegmentAtIndex:(NSInteger)index
+{
     NSMutableArray *dateArray;
     switch (index) {
         case 0:
@@ -368,17 +363,15 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
-    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == Statistics_Workload && data.count > 0) {
+    if (type == Statistics_Workload && data.count > 0)
+    {
         self.dataArray = dic[@"data"];
-        
         for (int i=0; i<data.count-1; i++)
         {
             [self.isShowArray addObject:@"0"];
         }
-        
         [self createUI];
     }
 }
@@ -388,7 +381,6 @@
     [self hideMBP];
 }
 
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self showView:NO];
@@ -396,7 +388,8 @@
 
 - (void)showView:(BOOL)isShow
 {
-    if (isShow) {
+    if (isShow)
+    {
         [UIView animateWithDuration:0.25 animations:^{
             self.bgView.alpha = 1.0;
             self.showView.alpha = 1.0;
@@ -405,7 +398,8 @@
             self.showView.center = self.bgView.center;
         }];
     }
-    else {
+    else
+    {
         [UIView animateWithDuration:0.25 animations:^{
             self.bgView.alpha = 0.0;
             self.showView.alpha = 0.0;
@@ -414,7 +408,6 @@
             self.showView.center = self.bgView.center;
         }];
     }
-    
 }
 
 - (void)didReceiveMemoryWarning

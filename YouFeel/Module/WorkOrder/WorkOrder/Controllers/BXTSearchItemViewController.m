@@ -53,7 +53,7 @@
     
     CGRect viewRect = CGRectMake(0, KNAVIVIEWHEIGHT + 44.f + 50.f, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 44.f - 50.f - 68.f);
     CGRect tableRect = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 44.f - 50.f - 68.f);
-    self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:self.dataSource isProgress:self.isProgress type:self.searchType block:nil];
+    self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:self.dataSource isProgress:self.isProgress type:self.searchType defaultSelected:self.selectedID block:nil];
     self.chooseItemView.searchBarView = self.searchBarView;
     [self.view addSubview:self.chooseItemView];
 }

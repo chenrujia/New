@@ -17,7 +17,7 @@
 
 @implementation BXTSelectItemView
 
-- (instancetype)initWithFrame:(CGRect)frame tableViewFrame:(CGRect)tableFrame datasource:(NSArray *)array isProgress:(BOOL)progress type:(SearchVCType)type block:(ChooseItem)itemBlock
+- (instancetype)initWithFrame:(CGRect)frame tableViewFrame:(CGRect)tableFrame datasource:(NSArray *)array isProgress:(BOOL)progress type:(SearchVCType)type defaultSelected:(NSString *)itemID block:(ChooseItem)itemBlock
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -25,6 +25,7 @@
         self.dataSource = array;
         self.isProgress = progress;
         self.searchType = type;
+        self.selectID = itemID;
         self.selectItemBlock = itemBlock;
         self.isOpen = YES;
     
@@ -36,8 +37,20 @@
         
         if (self.searchType == FilterSearchType)
         {
+            CGFloat width = (frame.size.width - 50.f)/2.f;
+            
+            UIButton *resetBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [resetBtn setFrame:CGRectMake(15.f, CGRectGetHeight(self.frame) - 64.f, width, 44.f)];
+            [resetBtn setBackgroundColor:colorWithHexString(@"AFB3BB")];
+            [resetBtn setTitle:@"重置" forState:UIControlStateNormal];
+            [resetBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            resetBtn.layer.cornerRadius = 4.f;
+            resetBtn.titleLabel.font = [UIFont systemFontOfSize:18.f];
+            [resetBtn addTarget:self action:@selector(resetClick) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:resetBtn];
+            
             UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [doneBtn setFrame:CGRectMake(20.f, CGRectGetHeight(self.frame) - 64.f, CGRectGetWidth(self.frame) - 40.f, 44.f)];
+            [doneBtn setFrame:CGRectMake(15.f + width + 20.f, CGRectGetHeight(self.frame) - 64.f, width, 44.f)];
             [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
             [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
             [doneBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -63,19 +76,8 @@
             BXTBaseClassifyInfo *classifyInfo = self.dataSource[i];
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithObjects:classifyInfo, nil];
             [self.mutableArray addObject:tempArray];
-            if (self.searchType == FaultSearchType && [classifyInfo.itemID isEqualToString:self.faultTypeID])
-            {
-                NSMutableArray *emptyArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
-                [self.marksArray addObject:emptyArray];
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:i];
-                self.lastIndexPath = indexPath;
-                [self refreshTableForAdd:indexPath refreshNow:NO];
-            }
-            else
-            {
-                NSMutableArray *emptyArray = [[NSMutableArray alloc] init];
-                [self.marksArray addObject:emptyArray];
-            }
+            NSMutableArray *emptyArray = [[NSMutableArray alloc] init];
+            [self.marksArray addObject:emptyArray];
         }
         
         [self.currentTable reloadData];
@@ -91,6 +93,11 @@
                                           cancelButtonTitle:@"确定"
                                           otherButtonTitles:nil];
     [alert show];
+}
+
+- (void)resetClick
+{
+    
 }
 
 - (void)doneClick
