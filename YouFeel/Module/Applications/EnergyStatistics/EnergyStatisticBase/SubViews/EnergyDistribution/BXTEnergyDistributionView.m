@@ -114,6 +114,7 @@
     self.showInfoArray = [[NSMutableArray alloc] initWithObjects:self.showInfoStr, @"", @"", @"", @"", nil];
     self.showInfoID = @"1";
     
+    
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
     
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
