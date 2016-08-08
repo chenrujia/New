@@ -15,7 +15,8 @@
 {
     static NSString *cellID = @"cell";
     BXTEquipmentInformCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEquipmentInformCell" owner:nil options:nil] lastObject];
     }
     

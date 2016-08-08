@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *detailView;
 @property (weak, nonatomic) IBOutlet UILabel *statusView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *title_width;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

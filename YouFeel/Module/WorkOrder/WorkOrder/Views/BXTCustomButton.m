@@ -46,7 +46,7 @@
     else if (_customBtnType == EnergyBtnType)
     {
         titleX = 0.f;
-        titleW = (SCREEN_WIDTH - 20.f)/4.f - 20.f;
+        titleW = (SCREEN_WIDTH - 20.f)/4.f - 5.f;
         titleH = contentRect.size.height - titleY;
     }
     
@@ -83,10 +83,20 @@
     }
     else if (_customBtnType == EnergyBtnType)
     {
-        imageX = (SCREEN_WIDTH - 20.f)/4.f - 25.f;
-        imageY = 19;
-        imageW = 10.f;
-        imageH = 6.f;
+        if (self.tag == 3)
+        {
+            imageX = (SCREEN_WIDTH - 20.f)/4.f - 13.f;
+            imageY = 17;
+            imageW = 13.5f;
+            imageH = 10.f;
+        }
+        else
+        {
+            imageX = (SCREEN_WIDTH - 20.f)/4.f - 10.f;
+            imageY = 19;
+            imageW = 10.f;
+            imageH = 6.f;
+        }
     }
     
     return CGRectMake(imageX, imageY, imageW, imageH);
