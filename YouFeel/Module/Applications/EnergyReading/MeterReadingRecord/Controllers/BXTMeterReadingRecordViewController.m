@@ -319,6 +319,7 @@
     // 1> 能源节点
     UILabel *nodeLabel = [self createLabelWithTitle:@"能源节点：" content:@"发送到发送到发送到发大水发大水发撒的发送到发送到发的所发生的"];
     
+    
     self.headerView.setPlaceView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.place_name];
     self.headerView.serviceView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.server_area];
     self.headerView.rangeView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.desc];
