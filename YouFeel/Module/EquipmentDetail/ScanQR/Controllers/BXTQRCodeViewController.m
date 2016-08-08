@@ -12,6 +12,7 @@
 #import "BXTEquipmentViewController.h"
 #import "BXTNewWorkOrderViewController.h"
 #import "BXTMeterReadingRecordViewController.h"
+#import "BXTGlobal.h"
 
 @interface BXTQRBaseViewController () <BXTDataResponseDelegate>
 
@@ -192,14 +193,34 @@
             NSDictionary *dict = data[0];
             NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
             
+            /** ---- meter_id为空 - 请扫描正确的计量表 ---- */
             if (self.pushType == ReturnVCTypeOFMeterReadingCreate) {
-                if (self.delegateSignal) {
+                if ([BXTGlobal isBlankString:dic[@"meter_id"]]) {
+                    [MYAlertAction showAlertWithTitle:@"请扫描正确的计量表" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+                        if (buttonIdx == 0) {
+                            [self.navigationController popViewControllerAnimated:YES];
+                        } else {
+                            [self reStartDevice];
+                        }
+                    } buttonsStatement:@"返回", @"重试", nil];
+                }
+                else if (self.delegateSignal) {
                     [self.delegateSignal sendNext:dic[@"meter_id"]];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
                 return;
             }
-            if (self.pushType == ReturnVCTypeOFMeterReading) {
+            else if (self.pushType == ReturnVCTypeOFMeterReading) {
+                if ([BXTGlobal isBlankString:dic[@"meter_id"]]) {
+                    [MYAlertAction showAlertWithTitle:@"请扫描正确的计量表" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+                        if (buttonIdx == 0) {
+                            [self.navigationController popViewControllerAnimated:YES];
+                        } else {
+                            [self reStartDevice];
+                        }
+                    } buttonsStatement:@"返回", @"重试", nil];
+                    return;
+                }
                 BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
                 mrrvc.transID = dic[@"meter_id"];
                 mrrvc.unlocked = YES;
@@ -207,44 +228,50 @@
                 [self.navigationController pushViewController:mrrvc animated:YES];
                 return;
             }
-            
-            [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
-                if (buttonIdx == 1) {
-                    BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_content"] orderID:nil];
-                    epvc.pushType = PushType_Scan;
-                    [self.navigationController pushViewController:epvc animated:YES];
-                }
-                else if (buttonIdx == 2) {
-                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-                    BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
-                    newVC.isNewWorkOrder = YES;
-                    NSArray *qr_moreArray = dict[@"qr_more"];
-                    NSDictionary *transDict = qr_moreArray[0];
-                    NSDictionary *finalDict = @{@"deviceName":  [NSString stringWithFormat:@"%@\r%@", transDict[@"name"], transDict[@"code_number"]],
-                                                @"deviceID": [NSString stringWithFormat:@"%@", transDict[@"id"]],
-                                                @"placeName": [NSString stringWithFormat:@"%@", transDict[@"place_name"]],
-                                                @"placeID": [NSString stringWithFormat:@"%@", transDict[@"place_id"]]};
-                    [newVC deviceInfoWithDictionary:finalDict];
-                    [self.navigationController pushViewController:newVC animated:YES];
-                }
-                else {
-                    [self reStartDevice];
-                }
-            } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"查看设备详情", @"设备报修", nil];
+            else {
+                [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
+                    if (buttonIdx == 1) {
+                        BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_content"] orderID:nil];
+                        epvc.pushType = PushType_Scan;
+                        [self.navigationController pushViewController:epvc animated:YES];
+                    }
+                    else if (buttonIdx == 2) {
+                        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+                        BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
+                        newVC.isNewWorkOrder = YES;
+                        NSArray *qr_moreArray = dict[@"qr_more"];
+                        NSDictionary *transDict = qr_moreArray[0];
+                        NSDictionary *finalDict = @{@"deviceName":  [NSString stringWithFormat:@"%@\r%@", transDict[@"name"], transDict[@"code_number"]],
+                                                    @"deviceID": [NSString stringWithFormat:@"%@", transDict[@"id"]],
+                                                    @"placeName": [NSString stringWithFormat:@"%@", transDict[@"place_name"]],
+                                                    @"placeID": [NSString stringWithFormat:@"%@", transDict[@"place_id"]]};
+                        [newVC deviceInfoWithDictionary:finalDict];
+                        [self.navigationController pushViewController:newVC animated:YES];
+                    }
+                    else {
+                        [self reStartDevice];
+                    }
+                } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"查看设备详情", @"设备报修", nil];
+            }
         }
     }
     else
     {
-        [MYAlertAction showAlertWithTitle:@"扫描结果无效，请重试" msg:nil chooseBlock:^(NSInteger buttonIdx) {
+        /** ----  默认ReturnVCTypeOFOther
+         002 - 请扫描正确的设备  ---- */
+        NSString *titleStr = @"扫描结果无效，请重试";
+        if (self.pushType == ReturnVCTypeOFMeterReadingCreate || self.pushType == ReturnVCTypeOFMeterReading) {
+            titleStr = @"请扫描正确的设备";
+        }
+        
+        [MYAlertAction showAlertWithTitle:titleStr msg:nil chooseBlock:^(NSInteger buttonIdx) {
             if (buttonIdx == 0) {
                 [self.navigationController popViewControllerAnimated:YES];
-            }
-            else {
+            } else {
                 [self reStartDevice];
             }
         } buttonsStatement:@"返回", @"重试", nil];
     }
-    
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
