@@ -40,7 +40,7 @@
             CGFloat width = (frame.size.width - 50.f)/2.f;
             
             UIButton *resetBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [resetBtn setFrame:CGRectMake(15.f, CGRectGetHeight(self.frame) - 64.f, width, 44.f)];
+            [resetBtn setFrame:CGRectMake(15.f, CGRectGetHeight(self.frame) - 54.f, width, 44.f)];
             [resetBtn setBackgroundColor:colorWithHexString(@"AFB3BB")];
             [resetBtn setTitle:@"重置" forState:UIControlStateNormal];
             [resetBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -50,7 +50,7 @@
             [self addSubview:resetBtn];
             
             UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [doneBtn setFrame:CGRectMake(15.f + width + 20.f, CGRectGetHeight(self.frame) - 64.f, width, 44.f)];
+            [doneBtn setFrame:CGRectMake(15.f + width + 20.f, CGRectGetHeight(self.frame) - 54.f, width, 44.f)];
             [doneBtn setBackgroundColor:colorWithHexString(@"3cafff")];
             [doneBtn setTitle:@"确定" forState:UIControlStateNormal];
             [doneBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -97,7 +97,20 @@
 
 - (void)resetClick
 {
+    [self.marksArray removeAllObjects];
+    [self.mutableArray removeAllObjects];
     
+    for (NSInteger i = 0; i < self.dataSource.count; i++)
+    {
+        BXTBaseClassifyInfo *classifyInfo = self.dataSource[i];
+        NSMutableArray *tempArray = [[NSMutableArray alloc] initWithObjects:classifyInfo, nil];
+        [self.mutableArray addObject:tempArray];
+        NSMutableArray *emptyArray = [[NSMutableArray alloc] init];
+        [self.marksArray addObject:emptyArray];
+    }
+    
+    [self.currentTable reloadData];
+    self.selectItemBlock(nil,nil);
 }
 
 - (void)doneClick

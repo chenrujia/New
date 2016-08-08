@@ -40,7 +40,8 @@
 @property (nonatomic, strong) NSMutableArray    *meterArray;
 //价格类型数据
 @property (nonatomic, strong) NSMutableArray    *priceArray;
-@property (nonatomic, strong) BXTSelectItemView *chooseItemView;
+@property (nonatomic, strong) BXTSelectItemView *placeItemView;
+@property (nonatomic, strong) BXTSelectItemView *filterItemView;
 @property (nonatomic, strong) UITableView       *chooseTableView;
 @property (nonatomic, strong) UIScrollView      *scrollerView;
 
@@ -56,6 +57,7 @@
 @property (nonatomic, strong) NSArray           *filterArrayTwo;
 @property (nonatomic, strong) NSArray           *filterArrayThree;
 @property (nonatomic, strong) NSArray           *filterArrayFour;
+@property (nonatomic, assign) BOOL              isFilter;
 
 @end
 
@@ -183,7 +185,18 @@
         BXTCustomButton *meterTypeBtn = [[BXTCustomButton alloc] initWithType:EnergyBtnType];
         meterTypeBtn.tag = i;
         meterTypeBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        meterTypeBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
+        if (IS_IPHONE6P)
+        {
+            meterTypeBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
+        }
+        else if (IS_IPHONE6)
+        {
+            meterTypeBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+        }
+        else
+        {
+            meterTypeBtn.titleLabel.font = [UIFont systemFontOfSize:13.f];
+        }
         [meterTypeBtn setFrame:CGRectMake(i * (CGRectGetWidth(backView.frame)/4.f), CGRectGetMaxY(searchBar.frame), CGRectGetWidth(backView.frame)/4.f, 44.f)];
         [meterTypeBtn setTitle:titles[i] forState:UIControlStateNormal];
         [meterTypeBtn setTitleColor:colorWithHexString(@"#6E6E6E") forState:UIControlStateNormal];
@@ -244,38 +257,80 @@
     backView.tag = 101;
     [self.view addSubview:backView];
     
+    self.isFilter = isFilter;
+    
     CGRect viewRect = CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT);
     CGRect tableRect =  CGRectMake(0, 20, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT - 20.f - 64.f);
     
-    NSString *selectID = isFilter ? self.filterCondition : self.placeID;
-    
     __weak __typeof(self) weakSelf = self;
-    self.chooseItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:FilterSearchType defaultSelected:selectID block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
-        if (isFilter)
+    if (isFilter)
+    {
+        if (!self.filterItemView)
         {
-            self.filterCondition = classifyInfo.itemID;
+            self.filterItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:FilterSearchType defaultSelected:self.filterCondition block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
+                if (classifyInfo)
+                {
+                    self.filterCondition = classifyInfo.itemID;
+                }
+                else
+                {
+                    self.filterCondition = @"";
+                }
+                [self getResourceWithTag:self.btnTag+1 hasMeasurementList:NO];
+                
+                UIView *view = [weakSelf.view viewWithTag:101];
+                [UIView animateWithDuration:0.3f animations:^{
+                    [weakSelf.filterItemView setFrame:CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
+                } completion:^(BOOL finished) {
+                    [view removeFromSuperview];
+                }];
+            }];
+            self.filterItemView.backgroundColor = colorWithHexString(@"eff3f6");
+            [self.view addSubview:self.filterItemView];
         }
         else
         {
-            self.placeID = classifyInfo.itemID;
+            [self.view bringSubviewToFront:self.filterItemView];
         }
-        [self getResourceWithTag:self.btnTag+1 hasMeasurementList:NO];
         
-        UIView *view = [weakSelf.view viewWithTag:101];
         [UIView animateWithDuration:0.3f animations:^{
-            [weakSelf.chooseItemView setFrame:CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
-        } completion:^(BOOL finished) {
-            [weakSelf.chooseItemView removeFromSuperview];
-            weakSelf.chooseItemView = nil;
-            [view removeFromSuperview];
+            [self.filterItemView setFrame:CGRectMake(SCREEN_WIDTH/4.f, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
         }];
-    }];
-    self.chooseItemView.backgroundColor = colorWithHexString(@"eff3f6");
-    [self.view addSubview:self.chooseItemView];
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        [self.chooseItemView setFrame:CGRectMake(SCREEN_WIDTH/4.f, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
-    }];
+    }
+    else
+    {
+        if (!self.placeItemView)
+        {
+            self.placeItemView = [[BXTSelectItemView alloc] initWithFrame:viewRect tableViewFrame:tableRect datasource:datasource isProgress:NO type:FilterSearchType defaultSelected:self.placeID block:^(BXTBaseClassifyInfo *classifyInfo, NSString *name) {
+                if (classifyInfo)
+                {
+                    self.placeID = classifyInfo.itemID;
+                }
+                else
+                {
+                    self.placeID = @"";
+                }
+                [self getResourceWithTag:self.btnTag+1 hasMeasurementList:NO];
+                
+                UIView *view = [weakSelf.view viewWithTag:101];
+                [UIView animateWithDuration:0.3f animations:^{
+                    [weakSelf.placeItemView setFrame:CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
+                } completion:^(BOOL finished) {
+                    [view removeFromSuperview];
+                }];
+            }];
+            self.placeItemView.backgroundColor = colorWithHexString(@"eff3f6");
+            [self.view addSubview:self.placeItemView];
+        }
+        else
+        {
+            [self.view bringSubviewToFront:self.placeItemView];
+        }
+        
+        [UIView animateWithDuration:0.3f animations:^{
+            [self.placeItemView setFrame:CGRectMake(SCREEN_WIDTH/4.f, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
+        }];
+    }
 }
 
 #pragma mark -
@@ -311,7 +366,7 @@
     }];
 }
 
-- (void)getResourceWithTag:(NSInteger )tag hasMeasurementList:(BOOL)isRight
+- (void)getResourceWithTag:(NSInteger)tag hasMeasurementList:(BOOL)isRight
 {
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
@@ -544,13 +599,20 @@
                 [view removeFromSuperview];
             }];
         }
-        if (self.chooseItemView)
+        BXTSelectItemView *tempItemView;
+        if (self.isFilter)
+        {
+            tempItemView = self.filterItemView;
+        }
+        else
+        {
+            tempItemView = self.placeItemView;
+        }
+        if (tempItemView)
         {
             [UIView animateWithDuration:0.3f animations:^{
-                [self.chooseItemView setFrame:CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
+                [tempItemView setFrame:CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
             } completion:^(BOOL finished) {
-                [self.chooseItemView removeFromSuperview];
-                self.chooseItemView = nil;
                 [view removeFromSuperview];
             }];
         }

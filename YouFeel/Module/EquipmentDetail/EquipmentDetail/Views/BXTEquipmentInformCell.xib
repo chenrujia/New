@@ -62,6 +62,7 @@
                 <outlet property="detailView" destination="l3n-d0-SqK" id="kXj-RC-Ls5"/>
                 <outlet property="statusView" destination="uzA-Ed-Gk4" id="n0e-bz-DdJ"/>
                 <outlet property="titleView" destination="SB4-E7-Hrc" id="tXp-7G-yMl"/>
+                <outlet property="title_width" destination="lG1-Tz-MWs" id="01U-lS-ffH"/>
             </connections>
             <point key="canvasLocation" x="347.5" y="418"/>
         </tableViewCell>

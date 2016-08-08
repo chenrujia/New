@@ -123,8 +123,11 @@
     }
     
     BXTEquipmentInformCell *cell = [BXTEquipmentInformCell cellWithTableView:tableView];
-    
-    cell.titleView.text = [NSString stringWithFormat:@"%@:", self.titleArray[indexPath.section][indexPath.row]];
+    NSString *title = [NSString stringWithFormat:@"%@:", self.titleArray[indexPath.section][indexPath.row]];
+    CGSize title_size = MB_MULTILINE_TEXTSIZE(title, [UIFont boldSystemFontOfSize:15.f], CGSizeMake(1000.f, 100.f), NSLineBreakByWordWrapping);
+    cell.title_width.constant = title_size.width;
+    [cell.contentView layoutIfNeeded];
+    cell.titleView.text = title;
     if (self.detailArray.count != 0)
     {
         cell.detailView.text = self.detailArray[indexPath.section][indexPath.row];

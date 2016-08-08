@@ -1212,7 +1212,7 @@
         default: break;
     }
     
-    // type=1(2,3,4)就是电，水，燃气，热能
+    // type = (1,2,3,4)就是电，水，燃气，热能
     NSDictionary *dic = @{@"type": type,
                           @"check_type": check_type,
                           @"price_type": price_type,
