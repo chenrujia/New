@@ -40,7 +40,7 @@
 @property (nonatomic, assign) BOOL                               isListsRequest;
 
 @property (nonatomic, copy) NSString *introInfo;
-
+@property (nonatomic, assign) CGFloat maxLabelY;
 @end
 
 @implementation BXTMeterReadingRecordViewController
@@ -48,7 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"能源抄表" andRightTitle1:nil andRightImage1:[UIImage imageNamed:@"energy_bar_graph"] andRightTitle2:@"能耗计算" andRightImage2:nil];
+    [self navigationSetting:@"能源抄表" andRightTitle1:nil andRightImage1:[UIImage imageNamed:@"energy_bar_graph"] andRightTitle2:nil andRightImage2:[UIImage imageNamed:@"energy_consumption"]];
     self.isShowArray = [[NSMutableArray alloc] init];
     self.isHideChart = YES;
     [self createUI];
@@ -58,6 +58,7 @@
 - (void)getResource
 {
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         // 计量表 - 抄表记录，月
@@ -537,6 +538,105 @@
 
 #pragma mark -
 #pragma mark 方法
+- (NSString *)transTimeIsAdd:(BOOL)isAdd
+{
+    NSInteger year = [self.yearStr integerValue];
+    if (!isAdd)
+    {
+        year -= 1;
+    }
+    else
+    {
+        year += 1;
+    }
+    self.yearStr = [NSString stringWithFormat:@"%ld", (long)year];
+    
+    return self.yearStr;
+}
+
+- (void)refreshUIWithData
+{
+    // 1. 收藏按钮
+    __block BOOL is_collect = [self.monthListInfo.is_collect integerValue] == 1;
+    @weakify(self);
+    [[self.headerView.starView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        // 收藏按钮设置
+        self.introInfo = is_collect ? @"取消收藏成功" : @"收藏成功";
+        NSString *imageStr = is_collect ? @"energy_favourite_unstar" : @"energy_favourite_star";
+        [self.headerView.starView setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];
+        is_collect = !is_collect;
+        
+        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterFavoriteAddWithAboutID:self.monthListInfo.meterReadingID delIDs:@""];
+    }];
+    
+    
+    // 2. self.headerView 赋值
+    NSString *imageStr = [self.monthListInfo.is_collect isEqualToString:@"1"] ? @"energy_favourite_star" : @"energy_favourite_unstar";
+    [self.headerView.starView setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];
+    self.headerView.iconImageView.image = [self returnIconImageWithCheckPriceType:self.monthListInfo.check_price_type];
+    self.headerView.titleView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.meter_name];
+    self.headerView.codeView.text = [NSString stringWithFormat:@"编号：%@", self.monthListInfo.code_number];
+    self.headerView.rateView.text = [NSString stringWithFormat:@"倍率：%@", self.monthListInfo.rate];
+    
+    
+    // 3. 显示footer值
+    // 1> 能源节点
+    UILabel *nodeLabel =  [self createLabelWithTitle:@"能源节点：" content:self.monthListInfo.measurement_path_name labelY:10];
+    
+    // 2> 安装位置
+    UILabel *setPlaceLabel =  [self createLabelWithTitle:@"安装位置：" content:self.monthListInfo.place_name labelY:CGRectGetMaxY(nodeLabel.frame) + 5];
+    self.maxLabelY = CGRectGetMaxY(setPlaceLabel.frame);
+    
+    // 3> 服务位置
+    if (![BXTGlobal isBlankString:self.monthListInfo.server_area]) {
+        UILabel *servicePlaceLabel =  [self createLabelWithTitle:@"服务位置：" content:self.monthListInfo.server_area labelY:CGRectGetMaxY(setPlaceLabel.frame) + 5];
+        self.maxLabelY = CGRectGetMaxY(servicePlaceLabel.frame);
+        
+        if (![BXTGlobal isBlankString:self.monthListInfo.desc]) {
+            // 4> 范围说明
+            UILabel *rangeIntroLabel =  [self createLabelWithTitle:@"范围说明：" content:self.monthListInfo.desc labelY:CGRectGetMaxY(servicePlaceLabel.frame) + 5];
+            self.maxLabelY = CGRectGetMaxY(rangeIntroLabel.frame);
+        }
+    }
+    else {
+        if (![BXTGlobal isBlankString:self.monthListInfo.desc]) {
+            // 4> 范围说明
+            UILabel *rangeIntroLabel =  [self createLabelWithTitle:@"范围说明：" content:self.monthListInfo.desc labelY:CGRectGetMaxY(setPlaceLabel.frame) + 5];
+            self.maxLabelY = CGRectGetMaxY(rangeIntroLabel.frame);
+        }
+    }
+    
+    
+    // 4. check_type: 1-手动   2-自动(隐藏提交按钮)
+    if ([self.monthListInfo.check_type isEqualToString:@"2"])
+    {
+        [self.footerView removeFromSuperview];
+        self.scrollView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);
+        [self hideBgFooterView:YES];
+    }
+}
+
+- (UILabel *)createLabelWithTitle:(NSString *)titleStr content:(NSString *)content labelY:(CGFloat)labelY
+{
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, labelY, 70, 17)];
+    titleLabel.text = titleStr;
+    titleLabel.font = [UIFont systemFontOfSize:14];
+    [self.headerView.bgFooterView addSubview:titleLabel];
+    
+    CGSize contentSize = MB_MULTILINE_TEXTSIZE(content, [UIFont systemFontOfSize:14], CGSizeMake(HeaderViewW - 90, CGFLOAT_MAX), NSLineBreakByWordWrapping);
+    UILabel *contentIntro = [[UILabel alloc] initWithFrame:CGRectMake(80, labelY, HeaderViewW - 90, contentSize.height)];
+    contentIntro.text = content;
+    contentIntro.textColor = colorWithHexString(@"666666");
+    contentIntro.font = [UIFont systemFontOfSize:14];
+    contentIntro.numberOfLines = 0;
+    [self.headerView.bgFooterView addSubview:contentIntro];
+    
+    return contentIntro;
+}
+
 - (void)showChartView:(BOOL)showChart
 {
     if (showChart)
@@ -568,7 +668,7 @@
     else
     {
         self.headerView.bgViewBtn.selected = YES;
-        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 180);
+        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 101 + self.maxLabelY + 10);
         self.headerView.bgFooterView.hidden = NO;
         self.headerView.openImage.image = [UIImage imageNamed:@"energy_open"];
     }

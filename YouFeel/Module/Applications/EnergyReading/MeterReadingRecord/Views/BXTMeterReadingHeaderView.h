@@ -22,8 +22,4 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bgFooterView;
 
-@property (weak, nonatomic) IBOutlet UILabel *setPlaceView;
-@property (weak, nonatomic) IBOutlet UILabel *serviceView;
-@property (weak, nonatomic) IBOutlet UILabel *rangeView;
-
 @end
