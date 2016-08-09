@@ -89,30 +89,24 @@ typedef NS_ENUM(NSInteger, RequestType) {
     DeleteNews = 76,
     InformOFOA = 77,
     AppVCAdvertisement = 78,
-    EnergyMeterListsOne = 79,
-    EnergyMeterListsTwo = 80,
-    EnergyMeterListsThree = 81,
-    EnergyMeterListsFour = 82,
-    EnergyMeterDetail = 83,
-    EnergyMeasuremenLevelListsOne = 84,
-    EnergyMeasuremenLevelListsTwo = 85,
-    EnergyMeasuremenLevelListsThree = 86,
-    EnergyMeasuremenLevelListsFour = 87,
-    MeterFavoriteAdd = 88,
-    MeterFavoriteDel = 89,
-    MeterFavoriteLists = 90,
-    EnergyMeterRecordFile = 91,
-    EnergyMeterRecordAdd = 92,
-    EnergyMeterRecordCalculate = 93,
-    EnergyMeterRecordMonthLists = 94,
-    EnergyMeterRecordDayLists = 95,
-    EnergyMeterRecordLists = 96,
-    EfficiencySurveyMonth = 97,
-    EfficiencySurveyYear = 98,
-    EfficiencyDistributionMonth = 99,
-    EfficiencyDistributionYear = 100,
-    EfficiencyTrendMonth = 101,
-    EfficiencyTrendYear = 102,
+    EnergyMeterLists = 79,
+    EnergyMeterDetail = 80,
+    EnergyMeasuremenLevelLists = 81,
+    MeterFavoriteAdd = 82,
+    MeterFavoriteDel = 83,
+    MeterFavoriteLists = 84,
+    EnergyMeterRecordFile = 85,
+    EnergyMeterRecordAdd = 86,
+    EnergyMeterRecordCalculate = 87,
+    EnergyMeterRecordMonthLists = 88,
+    EnergyMeterRecordDayLists = 89,
+    EnergyMeterRecordLists = 90,
+    EfficiencySurveyMonth = 91,
+    EfficiencySurveyYear = 92,
+    EfficiencyDistributionMonth = 93,
+    EfficiencyDistributionYear = 94,
+    EfficiencyTrendMonth = 95,
+    EfficiencyTrendYear = 96,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -745,7 +739,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
                        priceType:(NSString *)price_type
                          placeID:(NSString *)place_id
                  measurementPath:(NSString *)measurement_path
-                      searchName:(NSString *)search_name;
+                      searchName:(NSString *)search_name
+                            page:(NSInteger)page;
 
 /**
  *  计量层级树形列表

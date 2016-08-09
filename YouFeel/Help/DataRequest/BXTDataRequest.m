@@ -1203,15 +1203,9 @@
                          placeID:(NSString *)place_id
                  measurementPath:(NSString *)measurement_path
                       searchName:(NSString *)search_name
+                            page:(NSInteger)page
 {
-    switch ([type integerValue]) {
-        case 1: self.requestType = EnergyMeterListsOne; break;
-        case 2: self.requestType = EnergyMeterListsTwo; break;
-        case 3: self.requestType = EnergyMeterListsThree; break;
-        case 4: self.requestType = EnergyMeterListsFour; break;
-        default: break;
-    }
-    
+    self.requestType = EnergyMeterLists;
     // type = (1,2,3,4)就是电，水，燃气，热能
     NSDictionary *dic = @{@"type": type,
                           @"check_type": check_type,
@@ -1219,20 +1213,16 @@
                           @"place_id": place_id,
                           @"measurement_path": measurement_path,
                           @"search_name": search_name,
-                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                          @"pagesize":@"10"};
     NSString *url = [NSString stringWithFormat:@"%@&module=Energy&opt=meter_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
 
 - (void)energyMeasuremenLevelListsWithType:(NSString *)type
 {
-    switch ([type integerValue]) {
-        case 1: self.requestType = EnergyMeasuremenLevelListsOne; break;
-        case 2: self.requestType = EnergyMeasuremenLevelListsTwo; break;
-        case 3: self.requestType = EnergyMeasuremenLevelListsThree; break;
-        case 4: self.requestType = EnergyMeasuremenLevelListsFour; break;
-        default: break;
-    }
+    self.requestType = EnergyMeasuremenLevelLists;
     
     NSDictionary *dic = @{@"type": type};
     NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=measurement_level_lists",[BXTGlobal shareGlobal].baseURL];
@@ -1243,7 +1233,8 @@
                                    delIDs:(NSString *)del_ids
 {
     self.requestType = MeterFavoriteAdd;
-    if ([BXTGlobal isBlankString:aboutID]) {
+    if ([BXTGlobal isBlankString:aboutID])
+    {
         self.requestType = MeterFavoriteDel;
     }
     

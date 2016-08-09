@@ -393,7 +393,6 @@
         for (BXTEYDTListsInfo *list in self.edInfo.lists) {
             [self.chartDataArray addObject:[NSString stringWithFormat:@"%.2f", list.energy_consumption_per]];
         }
-        
     }
     else if (type == EfficiencyDistributionYear)
     {
@@ -407,7 +406,7 @@
             [self.chartDataArray addObject:[NSString stringWithFormat:@"%.2f", list.energy_consumption_per]];
         }
     }
-    else if (type == EnergyMeasuremenLevelListsOne || type == EnergyMeasuremenLevelListsTwo || type == EnergyMeasuremenLevelListsThree || type == EnergyMeasuremenLevelListsFour)
+    else if (type == EnergyMeasuremenLevelLists)
     {
         NSMutableArray *listArray = [[NSMutableArray alloc] init];
         [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
