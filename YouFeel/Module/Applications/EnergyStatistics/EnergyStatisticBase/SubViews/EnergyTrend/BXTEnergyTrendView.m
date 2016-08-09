@@ -517,7 +517,7 @@
         
         [self dealDataSourceIsShowCost:NO];
     }
-    else if (type == EnergyMeasuremenLevelListsOne || type == EnergyMeasuremenLevelListsTwo || type == EnergyMeasuremenLevelListsThree || type == EnergyMeasuremenLevelListsFour)
+    else if (type == EnergyMeasuremenLevelLists)
     {
         NSMutableArray *listArray = [[NSMutableArray alloc] init];
         [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{

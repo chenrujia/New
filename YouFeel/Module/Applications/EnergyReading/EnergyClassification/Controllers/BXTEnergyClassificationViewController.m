@@ -19,19 +19,22 @@
 #import "BXTEnergyReadingFilterInfo.h"
 #import "BXTQRCodeViewController.h"
 
-#define KBUTTONHEIGHT 46.f
+#define KBUTTONHEIGHT 46
 #define METERTABLETAG 666
 #define PRICETABLETAG 888
-#define LISTVIEWTAG 1000
 
-@interface BXTEnergyClassificationViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate, BXTDataResponseDelegate>
+@interface BXTEnergyClassificationViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
 {
-    BXTMenuItemButton *btnOne;
-    BXTMenuItemButton *btnTwo;
-    BXTMenuItemButton *btnThree;
-    BXTMenuItemButton *btnFour;
-    UIView *leftView;
-    UIView *rightView;
+    BXTMenuItemButton *electricBtn;//电
+    BXTMenuItemButton *waterBtn;//水
+    BXTMenuItemButton *gasBtn;//燃气
+    BXTMenuItemButton *heatBtn;//热能
+    BXTMeterReadingListView *electricView;
+    BXTMeterReadingListView *waterView;
+    BXTMeterReadingListView *gasView;
+    BXTMeterReadingListView *heatView;
+    UIView *leftWhiteView;//左侧白色小方形块
+    UIView *rightWhiteView;//右侧白色小方形块
     NSInteger currentPage;
 }
 
@@ -44,7 +47,6 @@
 @property (nonatomic, strong) BXTSelectItemView *filterItemView;
 @property (nonatomic, strong) UITableView       *chooseTableView;
 @property (nonatomic, strong) UIScrollView      *scrollerView;
-
 /** ---- 1电、2水、3燃气、4热能 ---- */
 @property (nonatomic, assign) NSInteger         btnTag;
 @property (nonatomic, copy  ) NSString          *checkType;
@@ -52,11 +54,6 @@
 @property (nonatomic, copy  ) NSString          *placeID;
 //筛选条件
 @property (nonatomic, copy  ) NSString          *filterCondition;
-
-@property (nonatomic, strong) NSArray           *filterArrayOne;
-@property (nonatomic, strong) NSArray           *filterArrayTwo;
-@property (nonatomic, strong) NSArray           *filterArrayThree;
-@property (nonatomic, strong) NSArray           *filterArrayFour;
 @property (nonatomic, assign) BOOL              isFilter;
 
 @end
@@ -73,14 +70,11 @@
     self.priceType = @"";
     self.placeID = @"";
     self.filterCondition = @"";
-    self.filterArrayOne = [[NSArray alloc] init];
-    self.filterArrayTwo = [[NSArray alloc] init];
-    self.filterArrayThree = [[NSArray alloc] init];
-    self.filterArrayFour = [[NSArray alloc] init];
+    self.meterArray = [[NSMutableArray alloc] initWithObjects:@"默认",@"手动抄表",@"自动抄表", nil];
+    self.priceArray = [[NSMutableArray alloc] initWithObjects:@"默认",@"单一",@"峰谷",@"阶梯", nil];
     
     [self initialEnergyClass];
     [self initialSearchBarAndFilter];
-    [self requestDatasoure];
 }
 
 - (void)navigationRightButton
@@ -112,44 +106,44 @@
     
     CGFloat width = (SCREEN_WIDTH - 20.f)/4.f;
     
-    btnOne = [[BXTMenuItemButton alloc] initWithFrame:CGRectMake(10.f, KNAVIVIEWHEIGHT, width, KBUTTONHEIGHT) drawType:DrawMiddle backgroudColor:self.colorArray[0]];
-    btnOne.tag = 0;
-    [btnOne setTitle:@"电能" forState:UIControlStateNormal];
-    [btnOne setTitleColor:self.colorArray[0] forState:UIControlStateNormal];
-    [btnOne addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btnOne];
+    electricBtn = [[BXTMenuItemButton alloc] initWithFrame:CGRectMake(10.f, KNAVIVIEWHEIGHT, width, KBUTTONHEIGHT) drawType:DrawMiddle backgroudColor:self.colorArray[0]];
+    electricBtn.tag = 0;
+    [electricBtn setTitle:@"电能" forState:UIControlStateNormal];
+    [electricBtn setTitleColor:self.colorArray[0] forState:UIControlStateNormal];
+    [electricBtn addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:electricBtn];
     
-    btnTwo = [[BXTMenuItemButton alloc] initWithFrame:CGRectMake(10.f + width, KNAVIVIEWHEIGHT, width, KBUTTONHEIGHT) drawType:DrawLeft backgroudColor:[UIColor whiteColor]];
-    btnTwo.drawColor = self.colorArray[0];
-    btnTwo.tag = 1;
-    [btnTwo setTitle:@"水" forState:UIControlStateNormal];
-    [btnTwo setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btnTwo addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btnTwo];
+    waterBtn = [[BXTMenuItemButton alloc] initWithFrame:CGRectMake(10.f + width, KNAVIVIEWHEIGHT, width, KBUTTONHEIGHT) drawType:DrawLeft backgroudColor:[UIColor whiteColor]];
+    waterBtn.drawColor = self.colorArray[0];
+    waterBtn.tag = 1;
+    [waterBtn setTitle:@"水" forState:UIControlStateNormal];
+    [waterBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [waterBtn addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:waterBtn];
     
-    btnThree = [[BXTMenuItemButton alloc] initWithFrame:CGRectMake(10.f + 2.f * width, KNAVIVIEWHEIGHT, width, KBUTTONHEIGHT) drawType:DrawNot backgroudColor:self.colorArray[0]];
-    btnThree.tag = 2;
-    [btnThree setTitle:@"燃气" forState:UIControlStateNormal];
-    [btnThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btnThree addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btnThree];
+    gasBtn = [[BXTMenuItemButton alloc] initWithFrame:CGRectMake(10.f + 2.f * width, KNAVIVIEWHEIGHT, width, KBUTTONHEIGHT) drawType:DrawNot backgroudColor:self.colorArray[0]];
+    gasBtn.tag = 2;
+    [gasBtn setTitle:@"燃气" forState:UIControlStateNormal];
+    [gasBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [gasBtn addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:gasBtn];
     
-    btnFour = [[BXTMenuItemButton alloc] initWithFrame:CGRectMake(10.f + 3.f * width, KNAVIVIEWHEIGHT, width, KBUTTONHEIGHT) drawType:DrawNot backgroudColor:self.colorArray[0]];
-    btnFour.tag = 3;
-    [btnFour setTitle:@"热能" forState:UIControlStateNormal];
-    [btnFour setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btnFour addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btnFour];
+    heatBtn = [[BXTMenuItemButton alloc] initWithFrame:CGRectMake(10.f + 3.f * width, KNAVIVIEWHEIGHT, width, KBUTTONHEIGHT) drawType:DrawNot backgroudColor:self.colorArray[0]];
+    heatBtn.tag = 3;
+    [heatBtn setTitle:@"热能" forState:UIControlStateNormal];
+    [heatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [heatBtn addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:heatBtn];
     
-    leftView = [[UIView alloc] initWithFrame:CGRectMake(10.f, CGRectGetMaxY(btnOne.frame), 10.f, 10.f)];
-    leftView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:leftView];
+    leftWhiteView = [[UIView alloc] initWithFrame:CGRectMake(10.f, CGRectGetMaxY(electricBtn.frame), 10.f, 10.f)];
+    leftWhiteView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:leftWhiteView];
 }
 
 //大白色背景、搜索框、筛选条件按钮
 - (void)initialSearchBarAndFilter
 {
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(10.f, CGRectGetMaxY(btnOne.frame), SCREEN_WIDTH - 20.f, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - KBUTTONHEIGHT - 10.f)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(10.f, CGRectGetMaxY(electricBtn.frame), SCREEN_WIDTH - 20.f, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - KBUTTONHEIGHT - 10.f)];
     backView.backgroundColor = [UIColor whiteColor];
     backView.layer.masksToBounds = YES;
     backView.layer.cornerRadius = 10.f;
@@ -218,15 +212,31 @@
     
     for (NSInteger i = 0; i < 4; i++)
     {
-        BXTMeterReadingListView *meterView = [[BXTMeterReadingListView alloc] initWithFrame:CGRectMake(i * CGRectGetWidth(self.scrollerView.frame), 0, CGRectGetWidth(self.scrollerView.frame), CGRectGetHeight(self.scrollerView.frame)) datasource:nil];
-        meterView.tag = i + LISTVIEWTAG;
+        NSString *energyType = [NSString stringWithFormat:@"%ld",(long)(i + 1)];
+        BXTMeterReadingListView *meterView = [[BXTMeterReadingListView alloc] initWithFrame:CGRectMake(i * CGRectGetWidth(self.scrollerView.frame), 0, CGRectGetWidth(self.scrollerView.frame), CGRectGetHeight(self.scrollerView.frame)) energyType:energyType checkType:self.checkType priceType:self.priceType filterCondition:self.filterCondition searchName:@""];
+        if (i == 0)
+        {
+            electricView = meterView;
+        }
+        else if (i == 1)
+        {
+            waterView = meterView;
+        }
+        else if (i == 2)
+        {
+            gasView = meterView;
+        }
+        else
+        {
+            heatView = meterView;
+        }
         [self.scrollerView addSubview:meterView];
     }
     
-    rightView = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 20.f, CGRectGetMaxY(btnOne.frame), 10.f, 10.f)];
-    rightView.backgroundColor = [UIColor whiteColor];
-    rightView.hidden = YES;
-    [self.view addSubview:rightView];
+    rightWhiteView = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 20.f, CGRectGetMaxY(electricBtn.frame), 10.f, 10.f)];
+    rightWhiteView.backgroundColor = [UIColor whiteColor];
+    rightWhiteView.hidden = YES;
+    [self.view addSubview:rightWhiteView];
 }
 
 - (void)initialTableView:(NSInteger)tag
@@ -276,8 +286,9 @@
                 {
                     self.filterCondition = @"";
                 }
-                [self getResourceWithTag:self.btnTag+1 hasMeasurementList:NO];
-                
+                BXTMeterReadingListView *meterListView = [self currentMeterListView];
+                [meterListView changeFilterCondition:self.filterCondition];
+
                 UIView *view = [weakSelf.view viewWithTag:101];
                 [UIView animateWithDuration:0.3f animations:^{
                     [weakSelf.filterItemView setFrame:CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
@@ -310,7 +321,8 @@
                 {
                     self.placeID = @"";
                 }
-                [self getResourceWithTag:self.btnTag+1 hasMeasurementList:NO];
+                BXTMeterReadingListView *meterListView = [self currentMeterListView];
+                [meterListView changePlaceID:self.placeID];
                 
                 UIView *view = [weakSelf.view viewWithTag:101];
                 [UIView animateWithDuration:0.3f animations:^{
@@ -333,151 +345,26 @@
     }
 }
 
-#pragma mark -
-#pragma mark 在这里处理数据请求
-- (void)requestDatasoure
+- (BXTMeterReadingListView *)currentMeterListView
 {
-    self.meterArray = [[NSMutableArray alloc] initWithObjects:@"默认",@"手动抄表",@"自动抄表", nil];
-    self.priceArray = [[NSMutableArray alloc] initWithObjects:@"默认",@"单一",@"峰谷",@"阶梯", nil];
-    
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /**电**/
-        [self getResourceWithTag:1 hasMeasurementList:YES];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**水**/
-        [self getResourceWithTag:2 hasMeasurementList:YES];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**燃气**/
-        [self getResourceWithTag:3 hasMeasurementList:YES];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**热能**/
-        [self getResourceWithTag:4 hasMeasurementList:YES];
-    });
-    
-    @weakify(self);
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:REFRESHTABLEVIEWOFLIST object:nil] subscribeNext:^(id x) {
-        @strongify(self);
-        [self getResourceWithTag:self.btnTag + 1 hasMeasurementList:YES];
-    }];
-}
-
-- (void)getResourceWithTag:(NSInteger)tag hasMeasurementList:(BOOL)isRight
-{
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        [request energyMeterListsWithType:[NSString stringWithFormat:@"%ld", (long)tag]
-                                checkType:self.checkType
-                                priceType:self.priceType
-                                  placeID:self.placeID
-                          measurementPath:self.filterCondition
-                               searchName:@""];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**筛选条件**/
-        if (isRight)
-        {
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request energyMeasuremenLevelListsWithType:[NSString stringWithFormat:@"%ld", (long)tag]];
-        }
-    });
-}
-
-#pragma mark -
-#pragma mark - getDataResource
-- (void)requestResponseData:(id)response requeseType:(RequestType)type
-{
-    NSDictionary *dic = (NSDictionary *)response;
-    NSArray *data = [dic objectForKey:@"data"];
-    if ([dic[@"returncode"] isEqualToString:@"002"]) {
-        [BXTGlobal hideMBP];
-    }
-    if (type == EnergyMeterListsOne)
+    BXTMeterReadingListView *meterListView;
+    if (self.btnTag == 0)
     {
-        [BXTGlobal hideMBP];
-        [self dealData:data tag:LISTVIEWTAG];
+        meterListView = electricView;
     }
-    if (type == EnergyMeterListsTwo)
+    else if (self.btnTag == 1)
     {
-        [self dealData:data tag:LISTVIEWTAG + 1];
+        meterListView = waterView;
     }
-    if (type == EnergyMeterListsThree)
+    else if (self.btnTag == 2)
     {
-        [self dealData:data tag:LISTVIEWTAG + 2];
+        meterListView = gasView;
     }
-    if (type == EnergyMeterListsFour)
+    else if (self.btnTag == 3)
     {
-        [self dealData:data tag:LISTVIEWTAG + 3];
+        meterListView = heatView;
     }
-    if (type == EnergyMeasuremenLevelListsOne)
-    {
-        NSMutableArray *listArray = [[NSMutableArray alloc] init];
-        [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"filterID":@"id"};
-        }];
-        [listArray addObjectsFromArray:[BXTEnergyReadingFilterInfo mj_objectArrayWithKeyValuesArray:data]];
-        self.filterArrayOne = listArray;
-    }
-    if (type == EnergyMeasuremenLevelListsTwo)
-    {
-        NSMutableArray *listArray = [[NSMutableArray alloc] init];
-        [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"filterID":@"id"};
-        }];
-        [listArray addObjectsFromArray:[BXTEnergyReadingFilterInfo mj_objectArrayWithKeyValuesArray:data]];
-        self.filterArrayTwo = listArray;
-    }
-    if (type == EnergyMeasuremenLevelListsThree)
-    {
-        NSMutableArray *listArray = [[NSMutableArray alloc] init];
-        [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"filterID":@"id"};
-        }];
-        [listArray addObjectsFromArray:[BXTEnergyReadingFilterInfo mj_objectArrayWithKeyValuesArray:data]];
-        self.filterArrayThree = listArray;
-    }
-    if (type == EnergyMeasuremenLevelListsFour)
-    {
-        NSMutableArray *listArray = [[NSMutableArray alloc] init];
-        [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"filterID":@"id"};
-        }];
-        [listArray addObjectsFromArray:[BXTEnergyReadingFilterInfo mj_objectArrayWithKeyValuesArray:data]];
-        self.filterArrayFour = listArray;
-    }
-    
-    [self.chooseTableView reloadData];
-}
-
-- (void)dealData:(NSArray *)data tag:(NSInteger)tag
-{
-    NSMutableArray *listArray = [[NSMutableArray alloc] init];
-    [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-        return @{@"energyMeterID":@"id"};
-    }];
-    [listArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
-    
-    // 赋值
-    for (BXTMeterReadingListView *listView in self.scrollerView.subviews)
-    {
-        if ([listView isKindOfClass:[BXTMeterReadingListView class]])
-        {
-            if (listView.tag == tag)
-            {
-                listView.datasource = (NSArray *)listArray;
-            }
-        }
-    }
-}
-
-- (void)requestError:(NSError *)error requeseType:(RequestType)type
-{
-    [BXTGlobal hideMBP];
+    return meterListView;
 }
 
 #pragma mark -
@@ -495,61 +382,61 @@
     
     [self.scrollerView setContentOffset:CGPointMake(btn.tag * CGRectGetWidth(self.scrollerView.frame), 0) animated:YES];
     
-    if (btn == btnOne)
+    if (btn == electricBtn)
     {
-        leftView.hidden = NO;
-        rightView.hidden = YES;
+        leftWhiteView.hidden = NO;
+        rightWhiteView.hidden = YES;
         
-        [btnTwo setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btnThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btnFour setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [waterBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [gasBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [heatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        [btnOne changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawMiddle];
-        [btnTwo changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawLeft];
-        [btnThree changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
-        [btnFour changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
+        [electricBtn changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawMiddle];
+        [waterBtn changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawLeft];
+        [gasBtn changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
+        [heatBtn changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
     }
-    else if (btn == btnTwo)
+    else if (btn == waterBtn)
     {
-        leftView.hidden = YES;
-        rightView.hidden = YES;
+        leftWhiteView.hidden = YES;
+        rightWhiteView.hidden = YES;
         
-        [btnOne setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btnThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btnFour setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [electricBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [gasBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [heatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        [btnOne changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawRight];
-        [btnTwo changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawMiddle];
-        [btnThree changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawLeft];
-        [btnFour changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
+        [electricBtn changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawRight];
+        [waterBtn changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawMiddle];
+        [gasBtn changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawLeft];
+        [heatBtn changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
     }
-    else if (btn == btnThree)
+    else if (btn == gasBtn)
     {
-        leftView.hidden = YES;
-        rightView.hidden = YES;
+        leftWhiteView.hidden = YES;
+        rightWhiteView.hidden = YES;
         
-        [btnOne setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btnTwo setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btnFour setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [electricBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [waterBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [heatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        [btnOne changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
-        [btnTwo changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawRight];
-        [btnThree changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawMiddle];
-        [btnFour changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawLeft];
+        [electricBtn changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
+        [waterBtn changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawRight];
+        [gasBtn changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawMiddle];
+        [heatBtn changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawLeft];
     }
-    else if (btn == btnFour)
+    else if (btn == heatBtn)
     {
-        leftView.hidden = YES;
-        rightView.hidden = NO;
+        leftWhiteView.hidden = YES;
+        rightWhiteView.hidden = NO;
         
-        [btnOne setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btnTwo setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btnThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [electricBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [waterBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [gasBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        [btnOne changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
-        [btnTwo changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
-        [btnThree changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawRight];
-        [btnFour changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawMiddle];
+        [electricBtn changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
+        [waterBtn changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawNot];
+        [gasBtn changeDrawColor:self.colorArray[btn.tag] backgroudColor:[UIColor whiteColor] drawType:DrawRight];
+        [heatBtn changeDrawColor:[UIColor whiteColor] backgroudColor:self.colorArray[btn.tag] drawType:DrawMiddle];
     }
 }
 
@@ -574,10 +461,10 @@
     {
         //TODO: 这里的数据是假的，是接口返回的筛选条件
         switch (self.btnTag) {
-            case 0: [self initialPlaceOrFilter:self.filterArrayOne isFilter:YES]; break;
-            case 1: [self initialPlaceOrFilter:self.filterArrayTwo isFilter:YES]; break;
-            case 2: [self initialPlaceOrFilter:self.filterArrayThree isFilter:YES]; break;
-            case 3: [self initialPlaceOrFilter:self.filterArrayFour isFilter:YES]; break;
+            case 0: [self initialPlaceOrFilter:electricView.energyFilterArray isFilter:YES]; break;
+            case 1: [self initialPlaceOrFilter:waterView.energyFilterArray isFilter:YES]; break;
+            case 2: [self initialPlaceOrFilter:gasView.energyFilterArray isFilter:YES]; break;
+            case 3: [self initialPlaceOrFilter:heatView.energyFilterArray isFilter:YES]; break;
             default: break;
         }
     }
@@ -652,22 +539,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     if (tableView.tag == METERTABLETAG)
     {
-        NSLog(@"------------ %@", self.meterArray[indexPath.row]);
+        [BXTGlobal showLoadingMBP:@"数据加载中..."];
         self.checkType = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+        BXTMeterReadingListView *meterListView = [self currentMeterListView];
+        [meterListView changeCheckType:self.checkType];
     }
     else if (tableView.tag == PRICETABLETAG)
     {
-        NSLog(@"------------ %@", self.priceArray[indexPath.row]);
+        [BXTGlobal showLoadingMBP:@"数据加载中..."];
         self.priceType = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+        BXTMeterReadingListView *meterListView = [self currentMeterListView];
+        [meterListView changePriceType:self.priceType];
     }
     
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
-    [self getResourceWithTag:self.btnTag + 1 hasMeasurementList:NO];
-    
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UIView *view = [self.view viewWithTag:101];
     if (view)
     {
@@ -698,19 +586,19 @@
     
     if (currentPage == 0)
     {
-        [self menuButtonClick:btnOne];
+        [self menuButtonClick:electricBtn];
     }
     else if (currentPage == 1)
     {
-        [self menuButtonClick:btnTwo];
+        [self menuButtonClick:waterBtn];
     }
     else if (currentPage == 2)
     {
-        [self menuButtonClick:btnThree];
+        [self menuButtonClick:gasBtn];
     }
     else if (currentPage == 3)
     {
-        [self menuButtonClick:btnFour];
+        [self menuButtonClick:heatBtn];
     }
 }
 

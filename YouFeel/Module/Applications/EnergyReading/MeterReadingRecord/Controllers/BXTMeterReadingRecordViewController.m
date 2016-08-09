@@ -305,7 +305,6 @@
         [request energyMeterFavoriteAddWithAboutID:self.monthListInfo.meterReadingID delIDs:@""];
     }];
     
-    
     // 2. self.headerView 赋值
     NSString *imageStr = [self.monthListInfo.is_collect isEqualToString:@"1"] ? @"energy_favourite_star" : @"energy_favourite_unstar";
     [self.headerView.starView setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];

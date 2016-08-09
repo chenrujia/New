@@ -85,14 +85,28 @@
     {
         if (self.tag == 3)
         {
-            imageX = (SCREEN_WIDTH - 20.f)/4.f - 13.f;
+            if (IS_IPHONE6P)
+            {
+                imageX = (SCREEN_WIDTH - 20.f)/4.f - 21.f;
+            }
+            else
+            {
+                imageX = (SCREEN_WIDTH - 20.f)/4.f - 13.f;
+            }
             imageY = 17;
             imageW = 13.5f;
             imageH = 10.f;
         }
         else
         {
-            imageX = (SCREEN_WIDTH - 20.f)/4.f - 10.f;
+            if (IS_IPHONE6P)
+            {
+                imageX = (SCREEN_WIDTH - 20.f)/4.f - 18.f;
+            }
+            else
+            {
+                imageX = (SCREEN_WIDTH - 20.f)/4.f - 10.f;
+            }
             imageY = 19;
             imageW = 10.f;
             imageH = 6.f;

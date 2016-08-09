@@ -16,29 +16,28 @@
 
 @interface BXTEnergyReadingSearchViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, UISearchBarDelegate, BXTDataResponseDelegate>
 
-@property (nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UISearchBar    *searchBar;
+@property (nonatomic, strong) UITableView    *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
-
-@property (nonatomic, assign) NSInteger transPushType;
+@property (nonatomic, assign) NSInteger      transPushType;
 
 @end
 
 @implementation BXTEnergyReadingSearchViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self navigationSetting:@"搜索计量表" andRightTitle:nil andRightImage:nil];
-    
     self.dataArray = [[NSMutableArray alloc] init];
-    
     [self createUI];
 }
 
 - (instancetype)initWithSearchPushType:(SearchPushType)pushType
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         self.transPushType = pushType;
     }
     return self;
@@ -49,19 +48,22 @@
 - (void)getResourceWithPushType:(SearchPushType)pushType SearchName:(NSString *)searchName
 {
     [BXTGlobal showLoadingMBP:@"搜索中..."];
-    
-    if (pushType == SearchPushTypeOFQuick) {
+    if (pushType == SearchPushTypeOFQuick)
+    {
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeterFavoriteListsWithType:@"" checkType:@"" page:1 searchName:searchName];
     }
-    else {
+    else
+    {
+        //!!!: 分页处理，1是固定值
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeterListsWithType:[NSString stringWithFormat:@"%ld", (long)pushType]
                                 checkType:@""
                                 priceType:@""
                                   placeID:@""
                           measurementPath:@""
-                               searchName:searchName];
+                               searchName:searchName
+                                     page:1];
         
     }
 }
@@ -77,7 +79,6 @@
     self.searchBar.placeholder = @"搜索";
     [self.view addSubview:self.searchBar];
     
-    
     // UITableView - tableView_Search
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT + 55, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 55) style:UITableViewStyleGrouped];
     self.tableView.rowHeight = 106.f;
@@ -86,7 +87,6 @@
     self.tableView.emptyDataSetDelegate = self;
     self.tableView.emptyDataSetSource = self;
     [self.view addSubview:self.tableView];
-    
     
     // UITableView - tableView_Search - tableHeaderView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
@@ -97,7 +97,6 @@
     alertLabel.font = [UIFont systemFontOfSize:15];
     alertLabel.textAlignment = NSTextAlignmentLeft;
     [headerView addSubview:alertLabel];
-    
 }
 
 #pragma mark -
@@ -106,8 +105,10 @@
 {
     NSLog(@"should begin");
     searchBar.showsCancelButton = YES;
-    for(UIView *view in  [[[searchBar subviews] objectAtIndex:0] subviews]) {
-        if([view isKindOfClass:[NSClassFromString(@"UINavigationButton") class]]) {
+    for(UIView *view in  [[[searchBar subviews] objectAtIndex:0] subviews])
+    {
+        if([view isKindOfClass:[NSClassFromString(@"UINavigationButton") class]])
+        {
             UIButton * cancel =(UIButton *)view;
             [cancel  setTintColor:[UIColor whiteColor]];
         }
@@ -134,8 +135,10 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if ([BXTGlobal isBlankString:searchText]) {
-        if (self.dataArray.count != 0) {
+    if ([BXTGlobal isBlankString:searchText])
+    {
+        if (self.dataArray.count != 0)
+        {
             [self.dataArray removeAllObjects];
         }
         [self.tableView reloadData];
@@ -149,7 +152,8 @@
 #pragma mark UITableViewDelegate & UITableViewDatasource
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return 0.1;
     }
     return 10;
@@ -172,9 +176,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     BXTEnergyRecordTableViewCell *cell = [BXTEnergyRecordTableViewCell cellWithTableView:tableView];
-    
     cell.listInfo = self.dataArray[indexPath.row];
     
     return cell;
@@ -182,12 +184,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
     BXTEnergyMeterListInfo *listInfo = self.dataArray[indexPath.row];
     mrrvc.transID = listInfo.energyMeterID;
     [self.navigationController pushViewController:mrrvc animated:YES];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -195,12 +197,12 @@
     [self.view endEditing:YES];
 }
 
-- (void)refreshAllInformWithShopID:(NSString *)shopID shopAddress:(NSString *)shopAddress {
+- (void)refreshAllInformWithShopID:(NSString *)shopID shopAddress:(NSString *)shopAddress
+{
     BXTHeadquartersInfo *companyInfo = [[BXTHeadquartersInfo alloc] init];
     companyInfo.company_id = shopID;
     companyInfo.name = shopAddress;
     [BXTGlobal setUserProperty:companyInfo withKey:U_COMPANY];
-    
     
     NSString *url = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
     [BXTGlobal shareGlobal].baseURL = url;
@@ -225,7 +227,8 @@
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     
-    if (self.dataArray.count != 0) {
+    if (self.dataArray.count != 0)
+    {
         [self.dataArray removeAllObjects];
     }
     
@@ -242,19 +245,9 @@
     [BXTGlobal hideMBP];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
