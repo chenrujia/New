@@ -33,7 +33,7 @@
     self.view.backgroundColor = colorWithHexString(@"eff3f6");
     
     if ([self.titleStr isEqualToString:@"建筑能效分布"] || [self.titleStr isEqualToString:@"建筑能效趋势"]) {
-        [self navigationSetting:self.titleStr andRightTitle:@"    费用" andRightImage:nil];
+        [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:[UIImage imageNamed:@"energyStatistics_money"]];
     }
     else {
         [self navigationSetting:self.titleStr andRightTitle:nil andRightImage:nil];
@@ -47,21 +47,21 @@
     if ([self.titleStr isEqualToString:@"建筑能效分布"]) {
         if (self.showCost) {
             self.showCost = NO;
-            [self navigationSetting:@"建筑能效分布" andRightTitle:@"    费用" andRightImage:nil];
+            [self navigationSetting:@"建筑能效分布" andRightTitle:nil andRightImage:[UIImage imageNamed:@"energyStatistics_money"]];
         }
         else {
             self.showCost = YES;
-            [self navigationSetting:@"建筑能效分布" andRightTitle:@"    能耗" andRightImage:nil];
+            [self navigationSetting:@"建筑能效分布" andRightTitle:nil andRightImage:[UIImage imageNamed:@"energyStatistics_energy_consumption"]];
         }
     }
     else if ([self.titleStr isEqualToString:@"建筑能效趋势"]) {
         if (self.showCost) {
             self.showCost = NO;
-            [self navigationSetting:@"建筑能效趋势" andRightTitle:@"    费用" andRightImage:nil];
+            [self navigationSetting:@"建筑能效趋势" andRightTitle:nil andRightImage:[UIImage imageNamed:@"energyStatistics_money"]];
         }
         else {
             self.showCost = YES;
-            [self navigationSetting:@"建筑能效趋势" andRightTitle:@"    能耗" andRightImage:nil];
+            [self navigationSetting:@"建筑能效趋势" andRightTitle:nil andRightImage:[UIImage imageNamed:@"energyStatistics_energy_consumption"]];
         }
     }
     
