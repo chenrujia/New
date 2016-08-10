@@ -195,7 +195,7 @@
             
             /** ---- meter_id为空 - 请扫描正确的计量表 ---- */
             if (self.pushType == ReturnVCTypeOFMeterReadingCreate) {
-                if ([BXTGlobal isBlankString:dic[@"meter_id"]]) {
+                if ([BXTGlobal isBlankString:dic[@"meter_id"]] || [dic[@"meter_lock"] integerValue] == 0) {
                     [MYAlertAction showAlertWithTitle:@"请扫描正确的计量表" msg:nil chooseBlock:^(NSInteger buttonIdx) {
                         if (buttonIdx == 0) {
                             [self.navigationController popViewControllerAnimated:YES];
@@ -211,7 +211,7 @@
                 return;
             }
             else if (self.pushType == ReturnVCTypeOFMeterReading) {
-                if ([BXTGlobal isBlankString:dic[@"meter_id"]]) {
+                if ([BXTGlobal isBlankString:dic[@"meter_id"]] || [dic[@"meter_lock"] integerValue] == 0) {
                     [MYAlertAction showAlertWithTitle:@"请扫描正确的计量表" msg:nil chooseBlock:^(NSInteger buttonIdx) {
                         if (buttonIdx == 0) {
                             [self.navigationController popViewControllerAnimated:YES];

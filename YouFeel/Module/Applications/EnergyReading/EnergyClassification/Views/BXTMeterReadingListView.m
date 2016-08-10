@@ -137,7 +137,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
     BXTEnergyMeterListInfo *listInfo = self.datasource[indexPath.row];
     mrrvc.transID = listInfo.energyMeterID;
@@ -154,6 +154,7 @@
     NSDictionary *dic = (NSDictionary *)response;
     if (type == EnergyMeterLists)
     {
+        [BXTGlobal hideMBP];
         NSArray *data = dic[@"data"];
         if (self.currentPage == 1 && self.datasource.count > 0)
         {
@@ -169,6 +170,7 @@
     }
     else if (type == EnergyMeasuremenLevelLists)
     {
+        [BXTGlobal hideMBP];
         NSArray *data = dic[@"data"];
         NSMutableArray *filterDataArray = [[NSMutableArray alloc] init];
         [BXTEnergyReadingFilterInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
@@ -179,6 +181,7 @@
     }
     else if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
     {
+        [BXTGlobal hideMBP];
         [BXTGlobal showText:self.introInfo view:self completionBlock:^{
             [self requestDatasource];
         }];

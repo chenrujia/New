@@ -324,6 +324,13 @@
     
     BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
     mrrvc.transID = listInfo.energyMeterID;
+    mrrvc.delegateSignal = [RACSubject subject];
+    @weakify(self);
+    [mrrvc.delegateSignal subscribeNext:^(id x) {
+        @strongify(self);
+        self.currentPage = 1;
+        [self.tableView.mj_header beginRefreshing];
+    }];
     [self.navigationController pushViewController:mrrvc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

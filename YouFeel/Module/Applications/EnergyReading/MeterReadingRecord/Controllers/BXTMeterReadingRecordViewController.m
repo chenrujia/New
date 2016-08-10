@@ -23,6 +23,7 @@
 #import "BXTMeterReadingRecordListInfo.h"
 #import <math.h>
 #import "BXTEnergyClassificationViewController.h"
+#import "BXTEnergyReadingQuickViewController.h"
 
 @interface BXTMeterReadingRecordViewController () <UITableViewDelegate, UITableViewDataSource, BXTDataResponseDelegate>
 
@@ -41,6 +42,7 @@
 
 @property (nonatomic, copy) NSString *introInfo;
 @property (nonatomic, assign) CGFloat maxLabelY;
+
 @end
 
 @implementation BXTMeterReadingRecordViewController
@@ -99,6 +101,11 @@
             if ([temp isKindOfClass:[BXTEnergyClassificationViewController class]])
             {
                 [self.navigationController popToViewController:temp animated:YES];
+            }
+            else if ([temp isKindOfClass:[BXTEnergyReadingQuickViewController class]])
+            {
+                [self.delegateSignal sendNext:nil];
+                [self.navigationController popViewControllerAnimated:YES];
             }
         }
     }
@@ -295,7 +302,8 @@
     if ([self.isShowArray[indexPath.section] isEqualToString:@"1"])
     {
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
-        maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:cell.footerView.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
+        CGRect rect = CGRectMake(0, 0, SCREEN_WIDTH - 81, 130);
+        maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
         cell.footerView.layer.mask = maskLayer;
     }
     
@@ -338,7 +346,8 @@
         // headerView
         view.showView.layer.masksToBounds = YES;
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
-        maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:view.showView.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
+        CGRect rect = CGRectMake(0, 0, SCREEN_WIDTH - 81, 60);
+        maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
         view.showView.layer.mask = maskLayer;
     }
     else
@@ -576,6 +585,9 @@
 
 - (void)hideBgFooterView:(BOOL)isSelected
 {
+    self.headerView.titleView.numberOfLines = isSelected;
+    self.headerView.codeView.numberOfLines = isSelected;
+    
     if (isSelected)
     {
         self.headerView.bgViewBtn.selected = NO;
@@ -586,9 +598,12 @@
     else
     {
         self.headerView.bgViewBtn.selected = YES;
-        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 101 + self.maxLabelY + 10);
+        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, CGRectGetMaxY(self.headerView.rateView.frame) + 15 + self.maxLabelY + 10);
         self.headerView.bgFooterView.hidden = NO;
         self.headerView.openImage.image = [UIImage imageNamed:@"energy_open"];
+        
+        [self.headerView layoutIfNeeded];
+        self.headerView.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, CGRectGetMaxY(self.headerView.rateView.frame) + 15 + self.maxLabelY + 10);
     }
     
     // filterView_chart
