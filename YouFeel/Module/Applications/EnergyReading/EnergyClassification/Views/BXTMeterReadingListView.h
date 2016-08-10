@@ -31,5 +31,6 @@
 - (void)changePriceType:(NSString *)priceType;
 - (void)changePlaceID:(NSString *)placeID;
 - (void)changeFilterCondition:(NSString *)filterCondition;
+- (void)requestDatasource;
 
 @end

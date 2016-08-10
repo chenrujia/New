@@ -44,21 +44,15 @@
 
 @implementation BXTEnergyReadingQuickViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self navigationSetting:@"快捷抄表" andRightTitle:@"    编辑" andRightImage:nil];
-    
-    
     self.dataArray = [[NSMutableArray alloc] init];
     self.selectedArray = [[NSMutableArray alloc] init];
     self.typeStr = @"";
     self.checkTypeStr = @"";
-    
-    
     [self createUI];
-    
     
     self.currentPage = 1;
     __weak __typeof(self) weakSelf = self;
@@ -71,6 +65,13 @@
         [weakSelf getResource];
     }];
     [self.tableView.mj_header beginRefreshing];
+    
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:REFRESHTABLEVIEWOFLIST object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        self.currentPage = 1;
+        [weakSelf getResource];
+    }];
 }
 
 - (void)navigationRightButton
@@ -80,7 +81,8 @@
 
 - (void)changeSelectedState:(BOOL)selectedState
 {
-    if (selectedState) {
+    if (selectedState)
+    {
         [self navigationSetting:@"快捷抄表" andRightTitle:@"    编辑" andRightImage:nil];
         [self.tableView setEditing:NO animated:YES];
         
@@ -91,7 +93,8 @@
             
         }];
     }
-    else {
+    else
+    {
         [self navigationSetting:@"快捷抄表" andRightTitle:@"    取消" andRightImage:nil];
         [self.tableView setEditing:YES animated:YES];
         
@@ -131,7 +134,6 @@
     }];
     [self.view addSubview:searchBtn];
     
-    
     // 添加下拉菜单
     self.typeArray = [[NSMutableArray alloc] initWithObjects:@"计量表类型", @"电能表", @"水表", @"燃气表", @"热能表", nil];
     self.modeArray = [[NSMutableArray alloc] initWithObjects:@"抄表方式", @"手动抄表", @"自动抄表", nil];
@@ -139,7 +141,6 @@
     self.menu.delegate = self;
     self.menu.dataSource = self;
     [self.view addSubview:self.menu];
-    
     
     // UITableView
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.menu.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.menu.frame)) style:UITableViewStyleGrouped];
@@ -150,7 +151,6 @@
     self.tableView.emptyDataSetSource = self;
     self.tableView.allowsMultipleSelectionDuringEditing = YES;
     [self.view addSubview: self.tableView];
-    
     
     // self.footerView
     self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 50)];
@@ -171,17 +171,18 @@
     [self.deleteBtn setTitleColor:colorWithHexString(@"#5BABF5") forState:UIControlStateNormal];
     [self.footerView addSubview:self.deleteBtn];
     
-    
     [[self.selectAllBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
         self.isAllSelected = !self.isAllSelected;
-        
-        for (int i = 0; i<self.dataArray.count; i++) {
+        for (int i = 0; i<self.dataArray.count; i++)
+        {
             NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
-            if (self.isAllSelected) {   // 全选
+            if (self.isAllSelected)
+            {   // 全选
                 [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
-            } else {    //反选
+            }
+            else
+            {    //反选
                 [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             }
         }
@@ -189,22 +190,20 @@
     
     [[self.deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
         [MYAlertAction showAlertWithTitle:@"确定删除所选抄表" msg:nil chooseBlock:^(NSInteger buttonIdx) {
-            if (buttonIdx == 0) {
+            if (buttonIdx == 0)
+            {
                 NSMutableArray *deleteArrarys = [NSMutableArray array];
-                for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
+                for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows)
+                {
                     [deleteArrarys addObject:self.dataArray[indexPath.row]];
                 }
-                
                 NSMutableArray *idsArray = [[NSMutableArray alloc] init];
-                for (BXTEnergyMeterListInfo *messageInfo in deleteArrarys) {
+                for (BXTEnergyMeterListInfo *messageInfo in deleteArrarys)
+                {
                     [idsArray addObject:messageInfo.energyMeterID];
                 }
-                
                 NSString *idsStr = [idsArray componentsJoinedByString:@","];
-                NSLog(@"idsStr -------- %@", idsStr);
-                
                 // TODO: -----------------  调试  -----------------
                 [self showLoadingMBP:@"删除中..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -302,7 +301,8 @@
 - (void)saveViewControllerBgColor:(NSString *)type
 {
     NSString *colorStr = @"";
-    switch ([type integerValue]) {
+    switch ([type integerValue])
+    {
         case 1:colorStr = @"f45b5b"; break;
         case 2:colorStr = @"1683e2"; break;
         case 3:colorStr = @"f5c809"; break;
@@ -314,7 +314,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.isEditing) {
+    if (tableView.isEditing)
+    {
         return;
     }
     
@@ -341,7 +342,8 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
         [self.dataArray removeObject:self.dataArray[indexPath.row]];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -407,19 +409,9 @@
     [self.tableView.mj_footer endRefreshing];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
