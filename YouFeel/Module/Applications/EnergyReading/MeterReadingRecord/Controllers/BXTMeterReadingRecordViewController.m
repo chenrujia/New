@@ -574,7 +574,6 @@
     }
 }
 
-// TODO: -----------------  调试  -----------------
 - (void)hideBgFooterView:(BOOL)isSelected
 {
     if (isSelected)
