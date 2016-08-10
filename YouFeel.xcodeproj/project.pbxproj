@@ -440,6 +440,7 @@
 		969701F21C88109D0048391F /* BXTDeviceStateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969701F11C88109D0048391F /* BXTDeviceStateViewController.m */; };
 		969701F61C881C590048391F /* BXTInfoNotesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969701F41C881C590048391F /* BXTInfoNotesTableViewCell.m */; };
 		969701F71C881C590048391F /* BXTInfoNotesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969701F51C881C590048391F /* BXTInfoNotesTableViewCell.xib */; };
+		96A4E1F41D59B35B00ADF29E /* LSCoreToolCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A4E1F31D59B35B00ADF29E /* LSCoreToolCenter.m */; };
 		96A787871CBC9A39007510A4 /* BXTSpecialOrderInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A787861CBC9A39007510A4 /* BXTSpecialOrderInfo.m */; };
 		96AABA541BE0BB220071B6FA /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96AABA4F1BE0BB220071B6FA /* RongCloudKit.strings */; };
 		96AABA551BE0BB220071B6FA /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96AABA521BE0BB220071B6FA /* RongCloudKit.strings */; };
@@ -1290,6 +1291,8 @@
 		969701F31C881C590048391F /* BXTInfoNotesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTInfoNotesTableViewCell.h; sourceTree = "<group>"; };
 		969701F41C881C590048391F /* BXTInfoNotesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTInfoNotesTableViewCell.m; sourceTree = "<group>"; };
 		969701F51C881C590048391F /* BXTInfoNotesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTInfoNotesTableViewCell.xib; sourceTree = "<group>"; };
+		96A4E1F21D59B35B00ADF29E /* LSCoreToolCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSCoreToolCenter.h; sourceTree = "<group>"; };
+		96A4E1F31D59B35B00ADF29E /* LSCoreToolCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSCoreToolCenter.m; sourceTree = "<group>"; };
 		96A787851CBC9A39007510A4 /* BXTSpecialOrderInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSpecialOrderInfo.h; sourceTree = "<group>"; };
 		96A787861CBC9A39007510A4 /* BXTSpecialOrderInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSpecialOrderInfo.m; sourceTree = "<group>"; };
 		96AABA331BE0765A0071B6FA /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -4602,6 +4605,8 @@
 			children = (
 				9652AB441BC90791009A666D /* AssetHelper.h */,
 				9652AB451BC90791009A666D /* AssetHelper.m */,
+				96A4E1F21D59B35B00ADF29E /* LSCoreToolCenter.h */,
+				96A4E1F31D59B35B00ADF29E /* LSCoreToolCenter.m */,
 			);
 			path = AssetHelper;
 			sourceTree = "<group>";
@@ -5325,6 +5330,7 @@
 				96B191CA1CBB8DB100F5F6A8 /* BXTMMProcessViewController.m in Sources */,
 				784890BB1D3734D700C1106D /* BXTEnergyConsumptionViewController.m in Sources */,
 				782985951C40B4CB00D0837C /* BXTSettingTableViewCell.m in Sources */,
+				96A4E1F41D59B35B00ADF29E /* LSCoreToolCenter.m in Sources */,
 				78E657021D49E84800AA3ECD /* BXTEnergyStatisticFilterView.m in Sources */,
 				7893D8E51C7ADA8000F042D5 /* BXTProfessionHeader.m in Sources */,
 				960221471BC9201400010072 /* NSString+URL.m in Sources */,

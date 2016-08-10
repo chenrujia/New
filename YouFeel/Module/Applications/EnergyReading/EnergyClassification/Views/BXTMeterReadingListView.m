@@ -62,11 +62,6 @@
         }];
         
         [self requestDatasource];
-        @weakify(self);
-        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:REFRESHTABLEVIEWOFLIST object:nil] subscribeNext:^(id x) {
-            @strongify(self);
-            [self requestDatasource];
-        }];
         
         //获取筛选条件
         BXTDataRequest *filterRequest = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -102,7 +97,6 @@
 - (void)requestDatasource
 {
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
-    
     //获取能源列表数据
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
     [dataRequest energyMeterListsWithType:self.energyType checkType:self.checkType priceType:self.priceType placeID:self.placeID measurementPath:self.filterCondition searchName:self.searchName page:self.currentPage];

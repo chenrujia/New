@@ -65,7 +65,6 @@
     [super viewDidLoad];
     [self navigationSetting:@"能源抄表" backColor:colorWithHexString(@"f45b5b") rightImage:[UIImage imageNamed:@"scan_energy"]];
     SaveValueTUD(EnergyReadingColorStr, @"#f45b5b");
-    
     self.checkType = @"";
     self.priceType = @"";
     self.placeID = @"";
@@ -75,6 +74,13 @@
     
     [self initialEnergyClass];
     [self initialSearchBarAndFilter];
+    
+    @weakify(self);
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:REFRESHTABLEVIEWOFLIST object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        BXTMeterReadingListView *meterListView = [self currentMeterListView];
+        [meterListView requestDatasource];
+    }];
 }
 
 - (void)navigationRightButton
@@ -459,7 +465,7 @@
     }
     else if (btn.tag == 3)
     {
-        //TODO: 这里的数据是假的，是接口返回的筛选条件
+        //TODO: 这里有问题，记得用算法处理！！！
         switch (self.btnTag) {
             case 0: [self initialPlaceOrFilter:electricView.energyFilterArray isFilter:YES]; break;
             case 1: [self initialPlaceOrFilter:waterView.energyFilterArray isFilter:YES]; break;
