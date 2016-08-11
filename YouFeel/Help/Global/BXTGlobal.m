@@ -286,12 +286,15 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSInteger year = [components year];
     NSInteger month = [components month];
     
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSRange range = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[NSDate date]];
-    NSUInteger numberOfDaysInMonth = range.length;
+//    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+//    NSRange range = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[NSDate date]];
+//    NSUInteger numberOfDaysInMonth = range.length;
     
     NSString *startTime = [NSString stringWithFormat:@"%ld-%2.ld-01", (long)year, (long)month];
-    NSString *endTime = [NSString stringWithFormat:@"%ld-%2.ld-%2.ld",(long)year, (long)month, (unsigned long)numberOfDaysInMonth];
+//    NSString *endTime = [NSString stringWithFormat:@"%ld-%2.ld-%2.ld",(long)year, (long)month, (unsigned long)numberOfDaysInMonth];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *endTime = [formatter stringFromDate:[NSDate date]];
     
     return [NSArray arrayWithObjects:startTime, endTime, nil];
 }
@@ -303,7 +306,10 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSInteger year = [components year];
     
     NSString *startTime = [NSString stringWithFormat:@"%ld-01-01", (long)year];
-    NSString *endTime = [NSString stringWithFormat:@"%ld-12-31",(long)year];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *endTime = [formatter stringFromDate:[NSDate date]];
+//    NSString *endTime = [NSString stringWithFormat:@"%ld-12-31",(long)year];
     
     return [NSArray arrayWithObjects:startTime, endTime, nil];
 }
@@ -313,8 +319,10 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *dateStr = [formatter stringFromDate:[NSDate date]];
-    return [NSArray arrayWithObjects:dateStr, dateStr, nil];
+    NSString *startStr = [formatter stringFromDate:[NSDate date]];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *endStr = [formatter stringFromDate:[NSDate date]];
+    return [NSArray arrayWithObjects:startStr, endStr, nil];
 }
 
 // 获取几天前及今天的数组
@@ -328,7 +336,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *beforeDateStr = [formatter stringFromDate:newDate];
-    
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *dateStr = [formatter stringFromDate:[NSDate date]];
     
     return [NSArray arrayWithObjects:beforeDateStr, dateStr, nil];

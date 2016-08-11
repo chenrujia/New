@@ -70,15 +70,19 @@
         self.maintenanceState = @"已修好";
         self.mmLog = notes;
         self.faultTypeID = faultTypeID;
+        BXTFaultInfo *faultInfo = [[BXTFaultInfo alloc] init];
+        faultInfo.faulttype = faultTypeName;
+        faultInfo.fault_id = faultTypeID;
+        self.choosedFaultInfo = faultInfo;
         
-        if (![BXTGlobal isBlankString:placeID]) {
+        if (![BXTGlobal isBlankString:placeID])
+        {
             BXTPlaceInfo *placeInfo = [BXTPlaceInfo new];
             placeInfo.placeID = placeID;
             placeInfo.place = placeName;
             self.repairPlace = placeName;
             self.choosedPlaceInfo = placeInfo;
         }
-        
     }
     return self;
 }
@@ -607,7 +611,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    
+    [self hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

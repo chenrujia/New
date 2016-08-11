@@ -950,7 +950,7 @@
 
 - (void)cancelTheRepair
 {
-    if ([self.repairDetail.repairstate integerValue] == 1)
+    if ([self.repairDetail.repairstate integerValue] == 1 || [self.repairDetail.repairstate integerValue] == 2)
     {
         if (IS_IOS_8)
         {
@@ -994,8 +994,8 @@
 
 - (void)endMaintence
 {
-    NSLog(@" ------ %@ ----- %@", self.repairDetail.place_id, self.repairDetail.place_name);
-    if ([self.repairDetail.place_id isEqualToString:@"0"] || [BXTGlobal isBlankString:self.repairDetail.place_id]) {
+    if ([self.repairDetail.place_id isEqualToString:@"0"] || [BXTGlobal isBlankString:self.repairDetail.place_id])
+    {
         self.repairDetail.place_id = @"";
         self.repairDetail.place_name = @"";
     }

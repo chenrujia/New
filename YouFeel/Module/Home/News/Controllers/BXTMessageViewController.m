@@ -24,17 +24,14 @@
 
 @interface BXTMessageViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
-@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) UITableView    *tableView;
 @property (strong, nonatomic) NSMutableArray *dataArray;
-@property (nonatomic, assign) NSInteger currentPage;
-
+@property (nonatomic, assign) NSInteger      currentPage;
 /** ---- 是否全选 ---- */
-@property (nonatomic ,assign)BOOL isAllSelected;
-
-@property (nonatomic, strong) UIView *footerView;
-@property (nonatomic, strong) UIButton *selectAllBtn;
-@property (nonatomic, strong) UIButton *deleteBtn;
-
+@property (nonatomic ,assign) BOOL           isAllSelected;
+@property (nonatomic, strong) UIView         *footerView;
+@property (nonatomic, strong) UIButton       *selectAllBtn;
+@property (nonatomic, strong) UIButton       *deleteBtn;
 @property (strong, nonatomic) NSMutableArray *selectedArray;
 
 @end
@@ -44,11 +41,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self navigationSetting:@"消息" andRightTitle:@"    编辑" andRightImage:nil];
-    
     [self createUI];
-    
     self.currentPage = 1;
     __weak __typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -81,11 +75,8 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    //    self.tableView.emptyDataSetSource = self;
-    //    self.tableView.emptyDataSetDelegate = self;
     self.tableView.allowsMultipleSelectionDuringEditing = YES;
     [self.view addSubview:self.tableView];
-    
     
     // self.footerView
     self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 50)];
@@ -109,14 +100,16 @@
     @weakify(self);
     [[self.selectAllBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
         self.isAllSelected = !self.isAllSelected;
-        
-        for (int i = 0; i<self.dataArray.count; i++) {
+        for (int i = 0; i<self.dataArray.count; i++)
+        {
             NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
-            if (self.isAllSelected) {   // 全选
+            if (self.isAllSelected)
+            {   // 全选
                 [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
-            } else {    //反选
+            }
+            else
+            {    //反选
                 [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             }
         }
@@ -126,20 +119,23 @@
         @strongify(self);
         
         [MYAlertAction showAlertWithTitle:@"确定删除所选消息" msg:nil chooseBlock:^(NSInteger buttonIdx) {
-            if (buttonIdx == 0) {
+            if (buttonIdx == 0)
+            {
                 NSMutableArray *deleteArrarys = [NSMutableArray array];
-                for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
+                
+                for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows)
+                {
                     [deleteArrarys addObject:self.dataArray[indexPath.row]];
                 }
-                
+
                 NSMutableArray *idsArray = [[NSMutableArray alloc] init];
-                for (BXTMessageInfo *messageInfo in deleteArrarys) {
+                
+                for (BXTMessageInfo *messageInfo in deleteArrarys)
+                {
                     [idsArray addObject:messageInfo.messageID];
                 }
                 
                 NSString *idsStr = [idsArray componentsJoinedByString:@","];
-                NSLog(@"idsStr -------- %@", idsStr);
-                
                 
                 [self showLoadingMBP:@"删除中..."];
                 /**获取消息**/
@@ -152,7 +148,8 @@
 
 - (void)changeSelectedState:(BOOL)selectedState
 {
-    if (selectedState) {
+    if (selectedState)
+    {
         [self navigationSetting:@"消息" andRightTitle:@"    编辑" andRightImage:nil];
         [self.tableView setEditing:NO animated:YES];
         
@@ -163,10 +160,10 @@
             
         }];
     }
-    else {
+    else
+    {
         [self navigationSetting:@"消息" andRightTitle:@"    取消" andRightImage:nil];
         [self.tableView setEditing:YES animated:YES];
-        
         [UIView animateWithDuration:0.25 animations:^{
             self.tableView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 50);
             self.footerView.center = CGPointMake(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 25);
@@ -208,12 +205,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.isEditing) {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (tableView.isEditing)
+    {
         return;
     }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     BXTMessageInfo *messageInfo = self.dataArray[indexPath.row];
     if ([messageInfo.notice_type integerValue] == 1)
     {
@@ -241,15 +237,6 @@
             
             BXTReaciveOrdersViewController *reaciveVC = [[BXTReaciveOrdersViewController alloc] initWithTaskType:2];
             [self.navigationController pushViewController:reaciveVC animated:YES];
-        }
-        else if ([messageInfo.event_type isEqualToString:@"5"])
-        {
-            [[BXTGlobal shareGlobal].assignOrderIDs addObject:messageInfo.about_id];
-            BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsVoice:NO];
-            if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
-            {
-                [self.navigationController pushViewController:newOrderVC animated:YES];
-            }
         }
         else if (![messageInfo.event_type isEqualToString:@"12"])
         {

@@ -75,19 +75,15 @@
     [doFilterVC.delegateSignal subscribeNext:^(NSArray *transArray) {
         NSLog(@"transArray --- %@", transArray);
         @strongify(self);
-        
         self.transTimeArray = transArray[0];
         self.transGroupStr = transArray[1];
-        
         NSArray *stateArray = transArray[2];
         self.transStateStr = stateArray[0];
         self.transFaultCarriedState = stateArray[1];
-        
         if (transArray.count == 4)
         {
             self.transCollectionID = transArray[3];
         }
-        
         self.currentPage = 1;
         [self getResource];
     }];
@@ -98,6 +94,21 @@
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    NSString *startTime = self.transTimeArray[0];
+    NSString *endTime = self.transTimeArray[1];
+    NSString *overTime = @"";
+    if (startTime.length > 0)
+    {
+        startTime = [BXTGlobal transTimeStampWithTime:startTime withType:@"yyyy-MM-dd"];
+    }
+    if (endTime.length > 0)
+    {
+        overTime = [BXTGlobal transTimeStampWithTime:endTime withType:@"yyyy-MM-dd HH:mm:ss"];
+        if ([overTime isEqualToString:@"0"])
+        {
+            overTime = [BXTGlobal transTimeStampWithTime:endTime withType:@"yyyy-MM-dd"];
+        }
+    }
     [request listOfRepairOrderWithTaskType:@"1"
                             repairListType:OtherList
                                faulttypeID:@""
@@ -106,8 +117,8 @@
                               dailyTimeout:@""
                          inspectionTimeout:@""
                                   timeName:@"fault_time"
-                                  tmeStart:self.transTimeArray[0]
-                                  timeOver:self.transTimeArray[1]
+                                  tmeStart:startTime
+                                  timeOver:overTime
                                 subgroupID:self.transGroupStr
                                    placeID:@""
                                repairState:self.transRepairStateStr
