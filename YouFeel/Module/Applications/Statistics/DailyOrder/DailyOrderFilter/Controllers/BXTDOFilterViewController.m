@@ -42,7 +42,6 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"筛选" andRightTitle:nil andRightImage:nil];
-    
     self.titleArray =[[NSMutableArray alloc] initWithObjects:@"时间范围", @"专业分组", @"工单状态", nil];
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"请选择", @"请选择", nil];
     self.transArray = [[NSMutableArray alloc] initWithObjects:@[@"", @""], @"", @[@"", @""], nil];
@@ -53,11 +52,9 @@
     self.specialOrderArray = [[NSMutableArray alloc] init];
     self.specialOrderIDArray = [[NSMutableArray alloc] init];
     
-    
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
-    
     
     [self showLoadingMBP:@"数据加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
@@ -82,7 +79,7 @@
 }
 
 #pragma mark -
-#pragma mark - createUI
+#pragma mark createUI
 - (void)createUI
 {
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT- KNAVIVIEWHEIGHT) style:UITableViewStyleGrouped];
@@ -106,15 +103,17 @@
     @weakify(self);
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
-        if (self.transArray.count == 4 && [BXTGlobal isBlankString:self.transArray[3]]) {
+        if (self.transArray.count == 4 && [BXTGlobal isBlankString:self.transArray[3]])
+        {
             [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请选择维修好原因" chooseBlock:^(NSInteger buttonIdx) {
                 
             } buttonsStatement:@"确定", nil];
         }
-        else {
+        else
+        {
             [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
-                if (self.delegateSignal) {
+                if (self.delegateSignal)
+                {
                     [self.delegateSignal sendNext:self.transArray];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
@@ -126,7 +125,7 @@
 }
 
 #pragma mark -
-#pragma mark - tableView代理方法
+#pragma mark tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (tableView == self.selectTableView)
@@ -176,7 +175,8 @@
     
     static NSString *cellID = @"cell";
     BXTEPFilterCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEPFilterCell" owner:nil options:nil] lastObject];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
@@ -204,70 +204,79 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.selectTableView) {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (tableView == self.selectTableView)
+    {
         NSString *selectRow  = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
-        
-        if (self.showSelectedRow != 1) {  // 单选
+        // 单选
+        if (self.showSelectedRow != 1)
+        {
             //判断数组中有没有被选中行的行号,
-            if ([self.mulitSelectArray containsObject:selectRow]) {
+            if ([self.mulitSelectArray containsObject:selectRow])
+            {
                 [self.mulitSelectArray removeObject:selectRow];
             }
-            else {
-                if (self.mulitSelectArray.count == 1) {
+            else
+            {
+                if (self.mulitSelectArray.count == 1)
+                {
                     [self.mulitSelectArray replaceObjectAtIndex:0 withObject:selectRow];
-                } else {
+                }
+                else
+                {
                     [self.mulitSelectArray addObject:selectRow];
                 }
             }
         }
-        else {  // 多选
+        else
+        {
             //判断数组中有没有被选中行的行号,
-            if ([self.mulitSelectArray containsObject:selectRow]) {
+            if ([self.mulitSelectArray containsObject:selectRow])
+            {
                 [self.mulitSelectArray removeObject:selectRow];
             }
-            else {
+            else
+            {
                 [self.mulitSelectArray addObject:selectRow];
             }
         }
-        
         [tableView reloadData];
+        
         return;
     }
-    
-    
     [self createTableViewWithIndex:indexPath.section];
-    
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
-#pragma mark - 方法
+#pragma mark 方法
 - (void)createTableViewWithIndex:(NSInteger)index
 {
     self.showSelectedRow = index;
-    if (index == 0) {
+    if (index == 0)
+    {
         self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"今天", @"本周", @"本月",@"本年", nil];
     }
-    else if (index == 1) {
+    else if (index == 1)
+    {
         self.selectArray = self.subgroupArray;
     }
-    else if (index == 2) {
+    else if (index == 2)
+    {
         self.selectArray = [[NSMutableArray alloc] initWithObjects:@"全部", @"已修好", @"未修好", @"未完成", nil];
     }
-    else if (index == 3) {
+    else if (index == 3)
+    {
         self.selectArray = self.specialOrderArray;
     }
-    
     self.selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.selectBgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
     self.selectBgView.tag = 102;
     [self.view addSubview:self.selectBgView];
     
-    
     // selectTableView
     CGFloat tableViewH = self.selectArray.count * 50 + 10;
-    if (self.selectArray.count >= 6) {
+    if (self.selectArray.count >= 6)
+    {
         tableViewH = 6 * 50 + 10;
     }
     self.selectTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - tableViewH-50, SCREEN_WIDTH, tableViewH) style:UITableViewStylePlain];
@@ -288,13 +297,11 @@
     @weakify(self);
     [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        
         NSString *finalStr =@"";
         NSString *finalNumStr = @"";
         for (id object in self.mulitSelectArray)
         {
             finalStr = [finalStr stringByAppendingString:[NSString stringWithFormat:@" %@", self.selectArray[[object intValue]]]];
-            
             if (index == 0)
             {
                 finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", object]];
@@ -330,7 +337,8 @@
             {
                 [self.transArray replaceObjectAtIndex:index withObject:[self transTime:finalNumStr]];
             }
-            if (index == 2) {
+            if (index == 2)
+            {
                 [self.transArray replaceObjectAtIndex:index withObject:self.repairstateArray[[finalNumStr intValue]]];
             }
             
@@ -354,7 +362,8 @@
     UIView *view = touch.view;
     if (view.tag == 102)
     {
-        if (_selectTableView) {
+        if (_selectTableView)
+        {
             [self.mulitSelectArray removeAllObjects];
             [_selectTableView removeFromSuperview];
             _selectTableView = nil;
@@ -364,7 +373,7 @@
 }
 
 #pragma mark -
-#pragma mark - getDataResource
+#pragma mark getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
@@ -404,7 +413,7 @@
 }
 
 #pragma mark -
-#pragma mark - 刷新列表
+#pragma mark 刷新列表
 - (void)refreshTableView:(BOOL)isMore
 {
     if (isMore)

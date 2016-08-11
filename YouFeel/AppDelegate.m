@@ -468,7 +468,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 [[BXTGlobal shareGlobal].assignOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
                 BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsVoice:YES];
                 newOrderVC.hidesBottomBarWhenPushed = YES;
-                
                 if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
                 {
                     if ([BXTGlobal shareGlobal].presentNav)
@@ -765,10 +764,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         UIViewController *mailController = [tabbarC.viewControllers objectAtIndex:1];
         
         mailController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [[RCIMClient sharedRCIMClient] getTotalUnreadCount]];
-        if ([[RCIMClient sharedRCIMClient] getTotalUnreadCount] == 0) {
+        if ([[RCIMClient sharedRCIMClient] getTotalUnreadCount] == 0)
+        {
             mailController.tabBarItem.badgeValue = nil;
         }
-        
     });
 }
 
