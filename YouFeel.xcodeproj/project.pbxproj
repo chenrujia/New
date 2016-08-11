@@ -96,6 +96,8 @@
 		782D6BC41C0D6CFC00E1828F /* SPChartUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BBE1C0D6CFC00E1828F /* SPChartUtil.m */; };
 		782D6BC51C0D6CFC00E1828F /* SPChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BC01C0D6CFC00E1828F /* SPChartView.m */; };
 		782D6BD31C0D88B300E1828F /* SPChartPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 782D6BD21C0D88B300E1828F /* SPChartPopup.m */; };
+		782F387E1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 782F387C1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.m */; };
+		782F387F1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782F387D1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.xib */; };
 		78328DE71D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 78328DE61D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.m */; };
 		783493B11CD0622000748BAC /* BMDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 783493AF1CD0622000748BAC /* BMDatePickerView.m */; };
 		783493B21CD0622000748BAC /* BMDatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 783493B01CD0622000748BAC /* BMDatePickerView.xib */; };
@@ -679,6 +681,9 @@
 		782D6BC01C0D6CFC00E1828F /* SPChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPChartView.m; sourceTree = "<group>"; };
 		782D6BD11C0D88B300E1828F /* SPChartPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPChartPopup.h; sourceTree = "<group>"; };
 		782D6BD21C0D88B300E1828F /* SPChartPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPChartPopup.m; sourceTree = "<group>"; };
+		782F387B1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyDistributionViewCell.h; sourceTree = "<group>"; };
+		782F387C1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyDistributionViewCell.m; sourceTree = "<group>"; };
+		782F387D1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEnergyDistributionViewCell.xib; sourceTree = "<group>"; };
 		78328DE51D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterReadingRecordDayListInfo.h; sourceTree = "<group>"; };
 		78328DE61D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterReadingRecordDayListInfo.m; sourceTree = "<group>"; };
 		783493AE1CD0622000748BAC /* BMDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDatePickerView.h; sourceTree = "<group>"; };
@@ -2774,6 +2779,9 @@
 				7867A0E61D4EF8C400A0D4F6 /* BXTEnergyDistributionViewChartCell.h */,
 				7867A0E71D4EF8C400A0D4F6 /* BXTEnergyDistributionViewChartCell.m */,
 				7867A0E81D4EF8C400A0D4F6 /* BXTEnergyDistributionViewChartCell.xib */,
+				782F387B1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.h */,
+				782F387C1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.m */,
+				782F387D1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -5130,6 +5138,7 @@
 				78090B321C7DC68F003E1565 /* BXTEPHeaderView.xib in Resources */,
 				96F8C5F31C439A450035F187 /* BXTChangeStateViewController.xib in Resources */,
 				7829858F1C40AD3500D0837C /* BXTMineCell.xib in Resources */,
+				782F387F1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.xib in Resources */,
 				78EFEEED1CAE6CBF0011F9E9 /* BXTProjectInformContentCell.xib in Resources */,
 				78624F301D2B8C960024215F /* BXTHistogramFooterView.xib in Resources */,
 				78E657131D4A18AF00AA3ECD /* BXTEnergyStatisticsView.xib in Resources */,
@@ -5459,6 +5468,7 @@
 				788FACEF1CEEF33B00F142A4 /* BXTCertificationCompleteViewController.m in Sources */,
 				784177DE1CDC977900CCA953 /* UITabBar+badge.m in Sources */,
 				7893D8A11C7AA8CC00F042D5 /* BXTStatisticsForthView.m in Sources */,
+				782F387E1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.m in Sources */,
 				7867DC961C4CBB47000749F1 /* MYPieElement.m in Sources */,
 				782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */,
 				967C3D4A1C4620990078F1D6 /* BXTMaintenceNotesTableViewCell.m in Sources */,

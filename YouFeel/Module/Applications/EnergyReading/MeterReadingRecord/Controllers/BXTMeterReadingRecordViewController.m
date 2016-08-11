@@ -272,8 +272,6 @@
     }];
     [self.scrollView addSubview:self.hisView];
     
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
-    
     [self showChartView:NO];
 }
 
