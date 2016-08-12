@@ -22,7 +22,9 @@
 /** ---- num - 量 ---- */
 @property (weak, nonatomic) IBOutlet UILabel *numView;
 @property (weak, nonatomic) IBOutlet UIButton *showViewBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *openImage;
 
+@property (nonatomic, copy) NSString *unit;
 @property (nonatomic, strong) BXTRecordListsInfo *lists;
 
 + (instancetype)viewForMeterReadingTime;

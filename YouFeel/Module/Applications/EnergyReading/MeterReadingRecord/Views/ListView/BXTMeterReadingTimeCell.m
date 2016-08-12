@@ -28,21 +28,21 @@
 - (void)setLists:(BXTRecordListsInfo *)lists
 {
     _lists = lists;
+        
+    self.peakValueView.text = [NSString stringWithFormat:@"%@ %@", lists.peak_segment_num, self.unit];
+    self.peakNumView.text = [NSString stringWithFormat:@"%@ %@", lists.peak_segment_amount, self.unit];
     
-    self.peakValueView.text = lists.peak_segment_num;
-    self.peakNumView.text = lists.peak_segment_amount;
+    self.apexValueView.text = [NSString stringWithFormat:@"%@ %@", lists.peak_period_num, self.unit];
+    self.apexNumView.text = [NSString stringWithFormat:@"%@ %@", lists.peak_period_amount, self.unit];
     
-    self.apexValueView.text = lists.peak_period_num;
-    self.apexNumView.text = lists.peak_period_amount;
+    self.levelValueView.text = [NSString stringWithFormat:@"%@ %@", lists.flat_section_num, self.unit];
+    self.levelNumView.text = [NSString stringWithFormat:@"%@ %@", lists.flat_section_amount, self.unit];
     
-    self.levelValueView.text = lists.flat_section_num;
-    self.levelNumView.text = lists.flat_section_amount;
+    self.valleyValueView.text = [NSString stringWithFormat:@"%@ %@", lists.valley_section_num, self.unit];
+    self.valleyNumView.text = [NSString stringWithFormat:@"%@ %@", lists.valley_section_amount, self.unit];
     
-    self.valleyValueView.text = lists.valley_section_num;
-    self.valleyNumView.text = lists.valley_section_amount;
-    
-    self.temperatureView.text = [NSString stringWithFormat:@"%2.ld℃", (long)[lists.temperature integerValue]];
-    self.humidityView.text = [NSString stringWithFormat:@"%@%%rh", lists.humidity];
+    self.temperatureView.text = [NSString stringWithFormat:@"%.0f℃", [lists.temperature floatValue]];
+    self.humidityView.text = [NSString stringWithFormat:@"%@%%", lists.humidity];
     self.windForceView.text = [NSString stringWithFormat:@"%@级", lists.wind_force];
 }
 

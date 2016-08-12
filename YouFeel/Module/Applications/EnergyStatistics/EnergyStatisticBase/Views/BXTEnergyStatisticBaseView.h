@@ -13,6 +13,7 @@
 #import "BXTDataRequest.h"
 #import "MJExtension.h"
 #import "BMDatePickerView.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 /** ---- 能效趋势特殊 - 判断None ---- */
 typedef NS_ENUM(NSInteger, ViewControllerType) {
@@ -21,7 +22,7 @@ typedef NS_ENUM(NSInteger, ViewControllerType) {
     ViewControllerTypeOFNone
 };
 
-@interface BXTEnergyStatisticBaseView : UIView <UITableViewDelegate, UITableViewDataSource>
+@interface BXTEnergyStatisticBaseView : UIView <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 /** ---- 初始化 ---- */
 - (instancetype)initWithFrame:(CGRect)frame VCType:(ViewControllerType)vcType;

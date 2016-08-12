@@ -68,6 +68,8 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.filterView.frame), SCREEN_WIDTH, self.frame.size.height - CGRectGetMaxY(self.filterView.frame)) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
     [self addSubview:self.tableView];
     
     if (self.vcType == ViewControllerTypeOFNone) {
@@ -299,6 +301,13 @@
 {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark DZNEmptyDataSetDelegate & DZNEmptyDataetSource
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIImage imageNamed:@"noData_default"];
 }
 
 #pragma mark -

@@ -283,6 +283,7 @@
     if (indexPath.section == 0)
     {
         BXTMeterReadingHeaderCell *cell = [BXTMeterReadingHeaderCell cellWithTableView:tableView];
+        
         cell.meterReadingInfo = self.meterReadingInfo;
         
         return cell;
@@ -458,6 +459,11 @@
         {
             [self.footerView removeFromSuperview];
             self.tableView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);
+        }
+        
+        // meterReadingInfo.meter_condition 三个没有，进来直接解锁
+        if ([self.meterReadingInfo.meter_condition rangeOfString:@"1"].location == NSNotFound && [self.meterReadingInfo.meter_condition rangeOfString:@"2"].location == NSNotFound && [self.meterReadingInfo.meter_condition rangeOfString:@"3"].location == NSNotFound) {
+            self.unlocked = YES;
         }
     }
     else if (type == EnergyMeterRecordFile && [dic[@"returncode"] intValue] == 0)

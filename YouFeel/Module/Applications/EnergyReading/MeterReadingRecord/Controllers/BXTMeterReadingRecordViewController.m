@@ -254,6 +254,7 @@
     self.hisView.backgroundColor = [UIColor whiteColor];
     self.hisView.layer.masksToBounds = YES;
     self.hisView.layer.cornerRadius = 10.f;
+    self.hisView.footerView.checkDetailBtn.hidden = NO;
     @weakify(self);
     [[self.hisView.footerView.checkDetailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -271,6 +272,16 @@
         [self.navigationController pushViewController:mrddvc animated:YES];
     }];
     [self.scrollView addSubview:self.hisView];
+    
+    
+    // 默认值
+    BXTRecordMonthListsInfo *recordInfo = self.monthListInfo.lists[self.monthListInfo.lists.count - 1];
+    self.hisView.footerView.consumptionView.text = [NSString stringWithFormat:@"总能耗：%ld", (long)recordInfo.data.use_amount];
+    self.hisView.footerView.peakNumView.text = [NSString stringWithFormat:@"尖峰量：%ld", (long)recordInfo.data.peak_segment_amount];
+    self.hisView.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%ld", (long)recordInfo.data.peak_period_amount];
+    self.hisView.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%ld", (long)recordInfo.data.flat_section_amount];
+    self.hisView.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%ld", (long)recordInfo.data.valley_section_amount];
+    
     
     [self showChartView:NO];
 }
@@ -295,12 +306,13 @@
 {
     BXTMeterReadingTimeCell *cell = [BXTMeterReadingTimeCell cellWithTableView:tableView];
     
+    cell.unit = self.listInfo.unit;
     cell.lists = self.listInfo.lists[indexPath.section];
     
     if ([self.isShowArray[indexPath.section] isEqualToString:@"1"])
     {
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
-        CGRect rect = CGRectMake(0, 0, SCREEN_WIDTH - 81, 130);
+        CGRect rect = CGRectMake(0, 0, SCREEN_WIDTH - 81, 245);
         maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
         cell.footerView.layer.mask = maskLayer;
     }
@@ -310,12 +322,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 130;
+    return 245;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 60;
+    return 80;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -336,15 +348,22 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     BXTMeterReadingTimeView *view = [BXTMeterReadingTimeView viewForMeterReadingTime];
+    
     view.showViewBtn.tag = section;
+    view.unit = self.listInfo.unit;
     view.lists = self.listInfo.lists[section];
+    if ([self.isShowArray[section] isEqualToString:@"1"]) {
+        view.openImage.image = [UIImage imageNamed:@"energy_open"];
+    } else {
+        view.openImage.image = [UIImage imageNamed:@"energy_close"];
+    }
     
     if ([self.isShowArray[section] isEqualToString:@"1"])
     {
         // headerView
         view.showView.layer.masksToBounds = YES;
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
-        CGRect rect = CGRectMake(0, 0, SCREEN_WIDTH - 81, 60);
+        CGRect rect = CGRectMake(0, 0, SCREEN_WIDTH - 81, 80);
         maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
         view.showView.layer.mask = maskLayer;
     }

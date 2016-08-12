@@ -125,6 +125,15 @@
     [self.scrollView addSubview:self.hisView];
     
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
+    
+    
+    // 默认值
+    BXTRecordDayListsInfo *recordInfo = self.dayListInfo.lists[self.dayListInfo.lists.count - 1];
+    self.hisView.footerView.consumptionView.text = [NSString stringWithFormat:@"总能耗：%ld", (long)recordInfo.data.use_amount];
+    self.hisView.footerView.peakNumView.text = [NSString stringWithFormat:@"尖峰量：%ld", (long)recordInfo.data.peak_segment_amount];
+    self.hisView.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%ld", (long)recordInfo.data.peak_period_amount];
+    self.hisView.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%ld", (long)recordInfo.data.flat_section_amount];
+    self.hisView.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%ld", (long)recordInfo.data.valley_section_amount];
 }
 
 #pragma mark -

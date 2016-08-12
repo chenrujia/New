@@ -33,10 +33,10 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上期值：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E71-AH-gF9">
-                                <rect key="frame" x="10" y="55" width="56" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上期值：" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E71-AH-gF9">
+                                <rect key="frame" x="10" y="55" width="70" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="56" id="52L-ps-7cE"/>
+                                    <constraint firstAttribute="width" constant="70" id="52L-ps-7cE"/>
                                     <constraint firstAttribute="height" constant="21" id="jo2-my-REW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -53,10 +53,10 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本次值：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5J-go-Y9I">
-                                <rect key="frame" x="10" y="107" width="56" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本次值：" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5J-go-Y9I">
+                                <rect key="frame" x="10" y="107" width="70" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="56" id="chg-Tz-wXh"/>
+                                    <constraint firstAttribute="width" constant="70" id="chg-Tz-wXh"/>
                                     <constraint firstAttribute="height" constant="21" id="uKc-cx-dl3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -89,7 +89,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVs-2Q-EuB">
-                                <rect key="frame" x="66" y="107" width="185" height="21"/>
+                                <rect key="frame" x="80" y="107" width="171" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="teX-4f-NaT"/>
                                 </constraints>
@@ -115,7 +115,7 @@
                                 <state key="normal" image="Add_button"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PKp-Vy-L4e">
-                                <rect key="frame" x="66" y="55" width="185" height="21"/>
+                                <rect key="frame" x="80" y="55" width="171" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Jxn-q3-cVQ"/>
                                 </constraints>
