@@ -8,7 +8,7 @@
 
 #import "BXTEnergyDistributionView.h"
 #import "BXTEnergyDistributionInfo.h"
-#import "BXTEnergySurveyViewCell.h"
+#import "BXTEnergyDistributionViewCell.h"
 #import "BXTEnergyDistributionViewChartCell.h"
 #import "BXTEnergyReadingFilterInfo.h"
 
@@ -285,7 +285,7 @@
     }
     
     
-    BXTEnergySurveyViewCell *cell = [BXTEnergySurveyViewCell cellWithTableView:tableView];
+    BXTEnergyDistributionViewCell *cell = [BXTEnergyDistributionViewCell cellWithTableView:tableView];
     
     if (self.vcType == ViewControllerTypeOFYear) {
         cell.similarView.hidden = YES;
@@ -323,7 +323,7 @@
             }
             return 370;
         }
-        return 70;
+        return 95;
     }
     
     if (indexPath.section == 0) {
@@ -332,7 +332,7 @@
         }
         return 400;
     }
-    return 100;
+    return 120;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *humidityView;
 @property (weak, nonatomic) IBOutlet UILabel *windForceView;
 
+@property (nonatomic, copy) NSString *unit;
 @property (nonatomic, strong) BXTRecordListsInfo *lists;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;

@@ -21,8 +21,8 @@
     _lists = lists;
     
     self.nameView.text = lists.name;
-    self.valueView.text = lists.total_num;
-    self.numView.text = lists.use_amount;
+    self.valueView.text = [NSString stringWithFormat:@"%@ %@", lists.total_num, self.unit];
+    self.numView.text = [NSString stringWithFormat:@"%@ %@", lists.use_amount, self.unit];
     
     NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc] initWithString:[BXTGlobal transformationTime:@"yyyy\ndd/MM\nHH:mm" withTime:lists.create_time]];
     [AttributedStr addAttribute:NSFontAttributeName

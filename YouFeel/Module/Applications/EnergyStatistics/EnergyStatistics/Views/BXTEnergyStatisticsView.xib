@@ -13,17 +13,17 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="geq-Zv-yiH">
-                    <rect key="frame" x="10" y="10" width="355" height="300"/>
+                    <rect key="frame" x="15" y="20" width="345" height="340"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qgd-Kc-gsL" userLabel="line">
-                            <rect key="frame" x="10" y="49" width="335" height="0.5"/>
+                            <rect key="frame" x="10" y="49" width="325" height="0.5"/>
                             <color key="backgroundColor" red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="0.5" id="XvL-I9-Ngu"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="建筑能效概况" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jvu-ZZ-8wo">
-                            <rect key="frame" x="10" y="15" width="335" height="21"/>
+                            <rect key="frame" x="10" y="15" width="325" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="lMF-yc-nJU"/>
                             </constraints>
@@ -32,13 +32,13 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="energyStatistics_round" translatesAutoresizingMaskIntoConstraints="NO" id="iod-eG-ZD8">
-                            <rect key="frame" x="77" y="74" width="201" height="201"/>
+                            <rect key="frame" x="52" y="74" width="241" height="241"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="iod-eG-ZD8" secondAttribute="height" multiplier="1:1" id="y0o-KQ-RCT"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XqN-PP-Dzi">
-                            <rect key="frame" x="0.0" y="0.0" width="355" height="300"/>
+                            <rect key="frame" x="0.0" y="0.0" width="345" height="340"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -55,22 +55,22 @@
                         <constraint firstAttribute="bottom" secondItem="XqN-PP-Dzi" secondAttribute="bottom" id="dDB-Vb-gBR"/>
                         <constraint firstItem="jvu-ZZ-8wo" firstAttribute="leading" secondItem="geq-Zv-yiH" secondAttribute="leading" constant="10" id="gEg-R2-WFp"/>
                         <constraint firstAttribute="trailing" secondItem="qgd-Kc-gsL" secondAttribute="trailing" constant="10" id="ijm-gO-09u"/>
-                        <constraint firstAttribute="width" secondItem="geq-Zv-yiH" secondAttribute="height" multiplier="71:60" id="jx0-19-SwF"/>
+                        <constraint firstAttribute="width" secondItem="geq-Zv-yiH" secondAttribute="height" multiplier="71:70" id="jx0-19-SwF"/>
                         <constraint firstAttribute="bottom" secondItem="iod-eG-ZD8" secondAttribute="bottom" constant="25" id="yW9-F3-sbp"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Qk-YJ-qyR">
-                    <rect key="frame" x="10" y="320" width="172.5" height="200"/>
+                    <rect key="frame" x="15" y="380" width="162" height="207.5"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eIW-Qa-EVs" userLabel="line">
-                            <rect key="frame" x="10" y="50" width="152.5" height="0.5"/>
+                            <rect key="frame" x="10" y="50" width="142" height="0.5"/>
                             <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="0.5" id="od5-ad-p99"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="建筑能效分布" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rTC-GI-dUU">
-                            <rect key="frame" x="10" y="15" width="152.5" height="21"/>
+                            <rect key="frame" x="10" y="15" width="142" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="NiY-De-tjr"/>
                             </constraints>
@@ -79,13 +79,13 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="energyStatistics_Circles" translatesAutoresizingMaskIntoConstraints="NO" id="4As-iX-6Rd">
-                            <rect key="frame" x="26" y="66" width="119" height="119"/>
+                            <rect key="frame" x="18" y="66" width="126.5" height="126.5"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="4As-iX-6Rd" secondAttribute="height" multiplier="1:1" id="DMP-gd-zzB"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ish-Gs-5ZV">
-                            <rect key="frame" x="0.0" y="0.0" width="172.5" height="200"/>
+                            <rect key="frame" x="0.0" y="0.0" width="162" height="207.5"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -102,22 +102,22 @@
                         <constraint firstItem="rTC-GI-dUU" firstAttribute="top" secondItem="1Qk-YJ-qyR" secondAttribute="top" constant="15" id="aax-kz-lEj"/>
                         <constraint firstItem="4As-iX-6Rd" firstAttribute="centerX" secondItem="1Qk-YJ-qyR" secondAttribute="centerX" id="rCg-Zz-xTL"/>
                         <constraint firstAttribute="trailing" secondItem="rTC-GI-dUU" secondAttribute="trailing" constant="10" id="roY-XR-gtg"/>
-                        <constraint firstAttribute="width" secondItem="1Qk-YJ-qyR" secondAttribute="height" multiplier="43:50" id="t9Z-Uo-6aL"/>
+                        <constraint firstAttribute="width" secondItem="1Qk-YJ-qyR" secondAttribute="height" multiplier="43:55" id="t9Z-Uo-6aL"/>
                         <constraint firstItem="rTC-GI-dUU" firstAttribute="leading" secondItem="1Qk-YJ-qyR" secondAttribute="leading" constant="10" id="z2O-Ai-xPL"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mKy-G7-qn5">
-                    <rect key="frame" x="192" y="320" width="172.5" height="200"/>
+                    <rect key="frame" x="197" y="380" width="162.5" height="207.5"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c9L-ZL-Bn2" userLabel="line">
-                            <rect key="frame" x="10" y="50" width="152.5" height="0.5"/>
+                            <rect key="frame" x="10" y="50" width="142.5" height="0.5"/>
                             <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="0.5" id="Mxm-eh-dAg"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="建筑能效趋势" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oQr-hR-ltN">
-                            <rect key="frame" x="10" y="15" width="152.5" height="21"/>
+                            <rect key="frame" x="10" y="15" width="142.5" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="QwP-we-eEM"/>
                             </constraints>
@@ -126,13 +126,13 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="energyStatistics_Columnar" translatesAutoresizingMaskIntoConstraints="NO" id="251-Bg-eUb">
-                            <rect key="frame" x="17" y="75" width="138.5" height="99.5"/>
+                            <rect key="frame" x="7" y="75" width="148.5" height="107.5"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="251-Bg-eUb" secondAttribute="height" multiplier="148:107" id="OSz-Yj-v2s"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sNj-Fa-LnI">
-                            <rect key="frame" x="0.0" y="0.0" width="172.5" height="200"/>
+                            <rect key="frame" x="0.0" y="0.0" width="162.5" height="207.5"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -142,7 +142,7 @@
                         <constraint firstItem="oQr-hR-ltN" firstAttribute="leading" secondItem="mKy-G7-qn5" secondAttribute="leading" constant="10" id="4Eg-pz-pnu"/>
                         <constraint firstAttribute="bottom" secondItem="sNj-Fa-LnI" secondAttribute="bottom" id="FdO-EW-ZXC"/>
                         <constraint firstAttribute="bottom" secondItem="251-Bg-eUb" secondAttribute="bottom" constant="25" id="Jrq-Ft-50A"/>
-                        <constraint firstAttribute="width" secondItem="mKy-G7-qn5" secondAttribute="height" multiplier="43:50" id="Ml8-Wh-6nJ"/>
+                        <constraint firstAttribute="width" secondItem="mKy-G7-qn5" secondAttribute="height" multiplier="43:55" id="Ml8-Wh-6nJ"/>
                         <constraint firstItem="c9L-ZL-Bn2" firstAttribute="leading" secondItem="mKy-G7-qn5" secondAttribute="leading" constant="10" id="XYt-Hw-xUv"/>
                         <constraint firstItem="sNj-Fa-LnI" firstAttribute="top" secondItem="mKy-G7-qn5" secondAttribute="top" id="Xjq-S6-hsH"/>
                         <constraint firstItem="sNj-Fa-LnI" firstAttribute="leading" secondItem="mKy-G7-qn5" secondAttribute="leading" id="YSA-8B-LKG"/>
@@ -153,35 +153,21 @@
                         <constraint firstItem="251-Bg-eUb" firstAttribute="centerX" secondItem="mKy-G7-qn5" secondAttribute="centerX" id="sFZ-Y5-QMQ"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="能效成本统计（开发中）" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6U-Pj-tGY">
-                    <rect key="frame" x="10" y="530" width="355" height="60"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="60" id="jtc-23-ILc"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <constraints>
                 <constraint firstItem="mKy-G7-qn5" firstAttribute="bottom" secondItem="1Qk-YJ-qyR" secondAttribute="bottom" id="0D5-bn-tMe"/>
-                <constraint firstAttribute="trailing" secondItem="geq-Zv-yiH" secondAttribute="trailing" constant="10" id="4zZ-ev-WlC"/>
-                <constraint firstItem="mKy-G7-qn5" firstAttribute="leading" secondItem="1Qk-YJ-qyR" secondAttribute="trailing" constant="10" id="5Zp-sj-LFX"/>
-                <constraint firstItem="geq-Zv-yiH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="GVy-Hw-9Ro"/>
-                <constraint firstAttribute="trailing" secondItem="mKy-G7-qn5" secondAttribute="trailing" constant="10" id="JzK-7B-ATM"/>
-                <constraint firstItem="1Qk-YJ-qyR" firstAttribute="top" secondItem="geq-Zv-yiH" secondAttribute="bottom" constant="10" id="MZi-9c-xuu"/>
-                <constraint firstItem="Z6U-Pj-tGY" firstAttribute="top" secondItem="mKy-G7-qn5" secondAttribute="bottom" constant="10" id="VaN-XP-wNn"/>
-                <constraint firstAttribute="trailing" secondItem="Z6U-Pj-tGY" secondAttribute="trailing" constant="10" id="ei2-Ac-ZL1"/>
-                <constraint firstItem="Z6U-Pj-tGY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="gIi-dS-SKq"/>
+                <constraint firstAttribute="trailing" secondItem="geq-Zv-yiH" secondAttribute="trailing" constant="15" id="4zZ-ev-WlC"/>
+                <constraint firstItem="mKy-G7-qn5" firstAttribute="leading" secondItem="1Qk-YJ-qyR" secondAttribute="trailing" constant="20" id="5Zp-sj-LFX"/>
+                <constraint firstItem="geq-Zv-yiH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="GVy-Hw-9Ro"/>
+                <constraint firstAttribute="trailing" secondItem="mKy-G7-qn5" secondAttribute="trailing" constant="15" id="JzK-7B-ATM"/>
+                <constraint firstItem="1Qk-YJ-qyR" firstAttribute="top" secondItem="geq-Zv-yiH" secondAttribute="bottom" constant="20" id="MZi-9c-xuu"/>
                 <constraint firstItem="mKy-G7-qn5" firstAttribute="top" secondItem="1Qk-YJ-qyR" secondAttribute="top" id="hTq-7b-OPh"/>
-                <constraint firstItem="geq-Zv-yiH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="nSM-QJ-U5K"/>
-                <constraint firstItem="1Qk-YJ-qyR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="u9s-Y7-aSw"/>
+                <constraint firstItem="geq-Zv-yiH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="nSM-QJ-U5K"/>
+                <constraint firstItem="1Qk-YJ-qyR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="u9s-Y7-aSw"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="costStatisticsView" destination="Z6U-Pj-tGY" id="AUZ-0n-a6m"/>
                 <outlet property="distributionBtn" destination="Ish-Gs-5ZV" id="5eb-ZL-CTt"/>
                 <outlet property="surveyBtn" destination="XqN-PP-Dzi" id="Bc9-50-j9o"/>
                 <outlet property="trendBtn" destination="sNj-Fa-LnI" id="3ia-g1-M0P"/>

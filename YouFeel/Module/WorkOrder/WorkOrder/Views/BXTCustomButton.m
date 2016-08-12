@@ -91,7 +91,7 @@
             }
             else
             {
-                imageX = (SCREEN_WIDTH - 20.f)/4.f - 13.f;
+                imageX = (SCREEN_WIDTH - 20.f)/4.f - 16.f;
             }
             imageY = 17;
             imageW = 13.5f;

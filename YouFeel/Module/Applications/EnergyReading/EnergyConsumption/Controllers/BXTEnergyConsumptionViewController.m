@@ -7,7 +7,7 @@
 //
 
 #import "BXTEnergyConsumptionViewController.h"
-#import "BXTMeterReadingHeaderCell.h"
+#import "BXTEnergyConsumptionHeaderCell.h"
 #import "BXTEnergyConsumptionFiterCell.h"
 #import "BXTEnergyConsumptionInfo.h"
 #import "MJExtension.h"
@@ -82,9 +82,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        BXTMeterReadingHeaderCell *cell = [BXTMeterReadingHeaderCell cellWithTableView:tableView];
+        BXTEnergyConsumptionHeaderCell *cell = [BXTEnergyConsumptionHeaderCell cellWithTableView:tableView];
         
-        cell.lastTimeView.hidden = YES;
         cell.energyConsumptionInfo = self.energyConsInfo;
         
         return cell;

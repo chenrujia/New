@@ -294,7 +294,7 @@
                 }
                 BXTMeterReadingListView *meterListView = [self currentMeterListView];
                 [meterListView changeFilterCondition:self.filterCondition];
-
+                
                 UIView *view = [weakSelf.view viewWithTag:101];
                 [UIView animateWithDuration:0.3f animations:^{
                     [weakSelf.filterItemView setFrame:CGRectMake(SCREEN_WIDTH, 0.f, SCREEN_WIDTH/4.f * 3.f, SCREEN_HEIGHT)];
@@ -546,17 +546,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     if (tableView.tag == METERTABLETAG)
     {
-        [BXTGlobal showLoadingMBP:@"数据加载中..."];
         self.checkType = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
         BXTMeterReadingListView *meterListView = [self currentMeterListView];
         [meterListView changeCheckType:self.checkType];
     }
     else if (tableView.tag == PRICETABLETAG)
     {
-        [BXTGlobal showLoadingMBP:@"数据加载中..."];
         self.priceType = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
         BXTMeterReadingListView *meterListView = [self currentMeterListView];
         [meterListView changePriceType:self.priceType];

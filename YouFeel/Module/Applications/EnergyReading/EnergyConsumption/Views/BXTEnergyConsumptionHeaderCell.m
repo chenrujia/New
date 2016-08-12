@@ -1,22 +1,22 @@
 //
-//  BXTMeterReadingHeaderCell.m
+//  BXTEnergyConsumptionHeaderCell.m
 //  YouFeel
 //
-//  Created by 满孝意 on 16/6/28.
+//  Created by 满孝意 on 16/8/12.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTMeterReadingHeaderCell.h"
+#import "BXTEnergyConsumptionHeaderCell.h"
 #import "BXTGlobal.h"
 
-@implementation BXTMeterReadingHeaderCell
+@implementation BXTEnergyConsumptionHeaderCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
-    static NSString *cellID = @"HeaderCell";
-    BXTMeterReadingHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    static NSString *cellID = @"BXTEnergyConsumptionHeaderCell";
+    BXTEnergyConsumptionHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMeterReadingHeaderCell" owner:nil options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTEnergyConsumptionHeaderCell" owner:nil options:nil] lastObject];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -25,25 +25,19 @@
     return cell;
 }
 
-- (void)setMeterReadingInfo:(BXTMeterReadingInfo *)meterReadingInfo
+- (void)setEnergyConsumptionInfo:(BXTEnergyConsumptionInfo *)energyConsumptionInfo
 {
-    _meterReadingInfo = meterReadingInfo;
+    _energyConsumptionInfo = energyConsumptionInfo;
     
-    self.iconView.image = [self returnIconImageWithCheckPriceType:meterReadingInfo.check_price_type];
+    self.iconView.image = [self returnIconImageWithCheckPriceType:energyConsumptionInfo.check_price_type];
     
-    [self refreshFilterView:meterReadingInfo.meter_condition checkPriceType:meterReadingInfo.check_price_type];
+    [self refreshFilterView:energyConsumptionInfo.meter_condition checkPriceType:energyConsumptionInfo.check_price_type];
     
-    self.titleView.text = [NSString stringWithFormat:@"%@", meterReadingInfo.meter_name];
-    self.codeView.text = [NSString stringWithFormat:@"编号: %@", meterReadingInfo.code_number];
-    self.rateView.text = [NSString stringWithFormat:@"倍率: %@", meterReadingInfo.rate];
-    self.stateView.text = [NSString stringWithFormat:@"状态: %@", meterReadingInfo.state_name];
-    
-    
-    self.lastTimeView.text = [NSString stringWithFormat:@"上次抄表时间: %@", meterReadingInfo.last.create_time];
-    if ([BXTGlobal isBlankString:meterReadingInfo.last.create_time]) {
-        self.lastTimeView.text = @"上次抄表时间: 暂无";
-    }
-} 
+    self.titleView.text = [NSString stringWithFormat:@"%@", energyConsumptionInfo.meter_name];
+    self.codeView.text = [NSString stringWithFormat:@"编号: %@", energyConsumptionInfo.code_number];
+    self.rateView.text = [NSString stringWithFormat:@"倍率: %@", energyConsumptionInfo.rate];
+    self.stateView.text = [NSString stringWithFormat:@"状态: %@", energyConsumptionInfo.state_name];
+}
 
 /**
  *  meter_condition:
