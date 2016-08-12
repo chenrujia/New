@@ -18,27 +18,20 @@
 @interface BXTEnergyReadingQuickViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, BXTDataResponseDelegate, DOPDropDownMenuDelegate, DOPDropDownMenuDataSource>
 
 @property (nonatomic, strong) DOPDropDownMenu *menu;
-
-@property (nonatomic, strong) NSMutableArray *typeArray;
-@property (nonatomic, strong) NSMutableArray *modeArray;
-
-@property (nonatomic, copy) NSString *typeStr;
-@property (nonatomic, copy) NSString *checkTypeStr;
-
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, assign) NSInteger currentPage;
-
-@property (nonatomic, copy) NSString *introInfo;
-
+@property (nonatomic, strong) NSMutableArray  *typeArray;
+@property (nonatomic, strong) NSMutableArray  *modeArray;
+@property (nonatomic, copy  ) NSString        *typeStr;
+@property (nonatomic, copy  ) NSString        *checkTypeStr;
+@property (nonatomic, strong) UITableView     *tableView;
+@property (nonatomic, strong) NSMutableArray  *dataArray;
+@property (nonatomic, assign) NSInteger       currentPage;
+@property (nonatomic, copy  ) NSString        *introInfo;
 /** ---- 是否全选 ---- */
-@property (nonatomic ,assign)BOOL isAllSelected;
-
-@property (nonatomic, strong) UIView *footerView;
-@property (nonatomic, strong) UIButton *selectAllBtn;
-@property (nonatomic, strong) UIButton *deleteBtn;
-
-@property (strong, nonatomic) NSMutableArray *selectedArray;
+@property (nonatomic ,assign) BOOL            isAllSelected;
+@property (nonatomic, strong) UIView          *footerView;
+@property (nonatomic, strong) UIButton        *selectAllBtn;
+@property (nonatomic, strong) UIButton        *deleteBtn;
+@property (strong, nonatomic) NSMutableArray  *selectedArray;
 
 @end
 
@@ -108,7 +101,7 @@
 }
 
 #pragma mark -
-#pragma mark - getResource
+#pragma mark getResource
 - (void)getResource
 {
     [self showLoadingMBP:@"加载中..."];
@@ -298,42 +291,17 @@
     return cell;
 }
 
-- (void)saveViewControllerBgColor:(NSString *)type
-{
-    NSString *colorStr = @"";
-    switch ([type integerValue])
-    {
-        case 1:colorStr = @"f45b5b"; break;
-        case 2:colorStr = @"1683e2"; break;
-        case 3:colorStr = @"f5c809"; break;
-        case 4:colorStr = @"f1983e"; break;
-        default: break;
-    }
-    SaveValueTUD(EnergyReadingColorStr, colorStr);
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView.isEditing)
     {
         return;
     }
-    
     BXTEnergyMeterListInfo *listInfo = self.dataArray[indexPath.row];
-    // 存储页面颜色
-    [self saveViewControllerBgColor:listInfo.type];
-    
+    [BXTGlobal shareGlobal].energyType = [listInfo.type integerValue];
     BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
     mrrvc.transID = listInfo.energyMeterID;
-    mrrvc.delegateSignal = [RACSubject subject];
-    @weakify(self);
-    [mrrvc.delegateSignal subscribeNext:^(id x) {
-        @strongify(self);
-        self.currentPage = 1;
-        [self.tableView.mj_header beginRefreshing];
-    }];
     [self.navigationController pushViewController:mrrvc animated:YES];
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

@@ -40,7 +40,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     if (_isQQSimulator)
     {
         [self drawTitle];
@@ -94,9 +93,12 @@
         @strongify(self);
         //开关闪光灯
         [super openOrCloseFlash];
-        if (self.isOpenFlash) {
+        if (self.isOpenFlash)
+        {
             [_btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_down"] forState:UIControlStateNormal];
-        } else {
+        }
+        else
+        {
             [_btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_nor"] forState:UIControlStateNormal];
         }
     }];
@@ -109,15 +111,17 @@
     [[_btnPhoto rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         //打开相册
-        if ([LBXScanWrapper isGetPhotoPermission]) {
+        if ([LBXScanWrapper isGetPhotoPermission])
+        {
             [self openLocalPhoto];
-        } else {
+        }
+        else
+        {
             [self showError:@"      请到设置->隐私中开启本程序相册权限     "];
         }
     }];
     
     [_bottomItemsView addSubview:_btnFlash];
-    //[_bottomItemsView addSubview:_btnPhoto];
 }
 
 #pragma mark -
@@ -149,9 +153,6 @@
     [LBXScanWrapper systemVibrate];
     //声音提醒
     [LBXScanWrapper systemSound];
-    
-    //[self popAlertMsgWithScanResult:strResult];
-    
     [self showNextVCWithScanResult:scanResult];
 }
 
@@ -171,8 +172,6 @@
 
 - (void)showNextVCWithScanResult:(LBXScanResult*)strResult
 {
-    NSLog(@"\n------------------>%@\n ------------------>%@\n ------------------>%@", strResult.imgScanned, strResult.strScanned, strResult.strBarCodeType);
-    
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request scanResultWithContent:strResult.strScanned];
@@ -183,39 +182,48 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [self hideMBP];
-    
     NSDictionary *dic = (NSDictionary *)response;
+    NSLog(@"扫描结果：%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
     if ([dic[@"returncode"] integerValue] == 0)
     {
         if (data.count > 0)
         {
             NSDictionary *dict = data[0];
-            NSLog(@"%@ -- %@", dict[@"qr_type"], dict[@"qr_content"]);
-            
             /** ---- meter_id为空 - 请扫描正确的计量表 ---- */
-            if (self.pushType == ReturnVCTypeOFMeterReadingCreate) {
-                if ([BXTGlobal isBlankString:dic[@"meter_id"]] || [dic[@"meter_lock"] integerValue] == 0) {
+            if (self.pushType == ReturnVCTypeOFMeterReadingCreate)
+            {
+                if ([BXTGlobal isBlankString:dic[@"meter_id"]] || [dic[@"meter_lock"] integerValue] == 0)
+                {
                     [MYAlertAction showAlertWithTitle:@"请扫描正确的计量表" msg:nil chooseBlock:^(NSInteger buttonIdx) {
-                        if (buttonIdx == 0) {
+                        if (buttonIdx == 0)
+                        {
                             [self.navigationController popViewControllerAnimated:YES];
-                        } else {
+                        }
+                        else
+                        {
                             [self reStartDevice];
                         }
                     } buttonsStatement:@"返回", @"重试", nil];
                 }
-                else if (self.delegateSignal) {
+                else if (self.delegateSignal)
+                {
                     [self.delegateSignal sendNext:dic[@"meter_id"]];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
                 return;
             }
-            else if (self.pushType == ReturnVCTypeOFMeterReading) {
-                if ([BXTGlobal isBlankString:dic[@"meter_id"]] || [dic[@"meter_lock"] integerValue] == 0) {
+            else if (self.pushType == ReturnVCTypeOFMeterReading)
+            {
+                if ([BXTGlobal isBlankString:dic[@"meter_id"]] || [dic[@"meter_lock"] integerValue] == 0)
+                {
                     [MYAlertAction showAlertWithTitle:@"请扫描正确的计量表" msg:nil chooseBlock:^(NSInteger buttonIdx) {
-                        if (buttonIdx == 0) {
+                        if (buttonIdx == 0)
+                        {
                             [self.navigationController popViewControllerAnimated:YES];
-                        } else {
+                        }
+                        else
+                        {
                             [self reStartDevice];
                         }
                     } buttonsStatement:@"返回", @"重试", nil];
@@ -223,19 +231,23 @@
                 }
                 BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
                 mrrvc.transID = dic[@"meter_id"];
+                [BXTGlobal shareGlobal].energyType = [dic[@"meter_type"] integerValue];
                 mrrvc.unlocked = YES;
                 mrrvc.delegateSignal = [RACSubject subject];
                 [self.navigationController pushViewController:mrrvc animated:YES];
                 return;
             }
-            else {
+            else
+            {
                 [MYAlertAction showActionSheetWithTitle:nil message:nil chooseBlock:^(NSInteger buttonIdx) {
-                    if (buttonIdx == 1) {
+                    if (buttonIdx == 1)
+                    {
                         BXTEquipmentViewController *epvc = [[BXTEquipmentViewController alloc] initWithDeviceID:dict[@"qr_content"] orderID:nil];
                         epvc.pushType = PushType_Scan;
                         [self.navigationController pushViewController:epvc animated:YES];
                     }
-                    else if (buttonIdx == 2) {
+                    else if (buttonIdx == 2)
+                    {
                         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
                         BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
                         newVC.isNewWorkOrder = YES;
@@ -248,7 +260,8 @@
                         [newVC deviceInfoWithDictionary:finalDict];
                         [self.navigationController pushViewController:newVC animated:YES];
                     }
-                    else {
+                    else
+                    {
                         [self reStartDevice];
                     }
                 } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"查看设备详情", @"设备报修", nil];
@@ -260,14 +273,18 @@
         /** ----  默认ReturnVCTypeOFOther
          002 - 请扫描正确的设备  ---- */
         NSString *titleStr = @"扫描结果无效，请重试";
-        if (self.pushType == ReturnVCTypeOFMeterReadingCreate || self.pushType == ReturnVCTypeOFMeterReading) {
+        if (self.pushType == ReturnVCTypeOFMeterReadingCreate || self.pushType == ReturnVCTypeOFMeterReading)
+        {
             titleStr = @"请扫描正确的设备";
         }
         
         [MYAlertAction showAlertWithTitle:titleStr msg:nil chooseBlock:^(NSInteger buttonIdx) {
-            if (buttonIdx == 0) {
+            if (buttonIdx == 0)
+            {
                 [self.navigationController popViewControllerAnimated:YES];
-            } else {
+            }
+            else
+            {
                 [self reStartDevice];
             }
         } buttonsStatement:@"返回", @"重试", nil];

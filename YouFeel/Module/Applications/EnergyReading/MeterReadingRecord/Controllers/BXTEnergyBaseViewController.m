@@ -26,26 +26,23 @@
 
 @implementation BXTEnergyBaseViewController
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidLoad
 {
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-}
-
-- (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    self.view.backgroundColor = colorWithHexString(ValueFUD(EnergyReadingColorStr));
-    
+    self.view.backgroundColor = colorWithHexString([BXTGlobal shareGlobal].energyColors[[BXTGlobal shareGlobal].energyType - 1]);
     NSArray *array = [BXTGlobal yearAndmonthAndDay];
     self.yearStr = array[0];
-    
     self.yearArray = [[NSMutableArray alloc] init];
     for (int i = 2001; i<=[self.yearStr intValue]; i++)
     {
         [self.yearArray addObject:[NSString stringWithFormat:@"%d", i]];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 #pragma mark -
@@ -148,7 +145,6 @@
     headerView.layer.cornerRadius = 5;
     [bgView addSubview:headerView];
     
-    
     CGFloat headerViewW = headerView.frame.size.width;
     // titleLabel
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, headerViewW, 30)];
@@ -215,7 +211,6 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     self.yearStr = self.yearArray[row];
-    //    NSLog(@"title ------ %@", self.yearStr);
 }
 
 #pragma mark -
@@ -228,7 +223,8 @@
     [newMeterBtn setTitle:titleStr forState:UIControlStateNormal];
     newMeterBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     newMeterBtn.layer.borderWidth = 1;
-    if ([colorStr isEqualToString:@"#FFFFFF"]) {
+    if ([colorStr isEqualToString:@"#FFFFFF"])
+    {
         [newMeterBtn setTitleColor:colorWithHexString(@"#5DAFF9") forState:UIControlStateNormal];
     }
     newMeterBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
@@ -246,7 +242,6 @@
     bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
     bgView.tag = 101;
     [self.view addSubview:bgView];
-    
     
     // headerView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-216-50-50, SCREEN_WIDTH, 50)];
@@ -270,19 +265,22 @@
     timeLabel.textAlignment = NSTextAlignmentRight;
     [headerView addSubview:timeLabel];
     
-    
     // datePicker
     self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216-50, SCREEN_WIDTH, 216)];
     self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     self.datePicker.backgroundColor = colorWithHexString(@"ffffff");
     self.datePicker.maximumDate = [NSDate date];
-    if ([titleLabel.text isEqualToString:@"开始时间"]) {
-        if (self.endDate) {
+    if ([titleLabel.text isEqualToString:@"开始时间"])
+    {
+        if (self.endDate)
+        {
             self.datePicker.maximumDate = self.endDate;
         }
     }
-    if ([titleLabel.text isEqualToString:@"结束时间"]) {
-        if (self.startDate) {
+    if ([titleLabel.text isEqualToString:@"结束时间"])
+    {
+        if (self.startDate)
+        {
             self.datePicker.minimumDate = self.startDate;
         }
     }
@@ -294,7 +292,6 @@
         timeLabel.text = [self weekdayStringFromDate:self.datePicker.date];
     }];
     [bgView addSubview:self.datePicker];
-    
     
     // toolView
     UIView *toolView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 60)];
@@ -309,11 +306,12 @@
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         self.timeStr = timeLabel.text;
-        
-        if ([titleLabel.text isEqualToString:@"开始时间"]) {
+        if ([titleLabel.text isEqualToString:@"开始时间"])
+        {
             self.startDate = self.datePicker.date;
         }
-        if ([titleLabel.text isEqualToString:@"结束时间"]) {
+        if ([titleLabel.text isEqualToString:@"结束时间"])
+        {
             self.endDate = self.datePicker.date;
         }
         
@@ -325,7 +323,8 @@
     [toolView addSubview:self.sureBtn];
 }
 
-- (NSString *)getPickerTypeString:(PickerType)pickerType {
+- (NSString *)getPickerTypeString:(PickerType)pickerType
+{
     NSString *titleStr;
     switch (pickerType) {
         case PickerTypeOFStart: titleStr = @"开始时间"; break;
@@ -381,7 +380,8 @@
 - (UIImage *)returnIconImageWithCheckPriceType:(NSString *)check_price_type
 {
     NSString *imageStr;
-    switch ([check_price_type integerValue]) {
+    switch ([check_price_type integerValue])
+    {
         case 1: imageStr = @"energy_Manual_single"; break;
         case 2: imageStr = @"energy_Manual_Gu_Feng"; break;
         case 3: imageStr = @"energy_Manual_ladder"; break;
@@ -393,19 +393,9 @@
     return [UIImage imageNamed:imageStr];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

@@ -30,6 +30,8 @@
         bxtGlobal.assignOrderIDs = [NSMutableArray array];
         bxtGlobal.numOfPresented = 0;
         bxtGlobal.assignNumber = 0;
+        bxtGlobal.energyColors = @[@"f45b5b", @"1683e2", @"f5c809", @"f1983e"];
+        bxtGlobal.energyType = 1;
     });
     return bxtGlobal;
 }
