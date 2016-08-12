@@ -52,7 +52,7 @@
 {
     [super viewDidLoad];
     [self navigationOwnSetting:@"新建抄表" andRightTitle:@"扫描解锁" andRightImage:nil];
-    self.view.backgroundColor = colorWithHexString(ValueFUD(EnergyReadingColorStr));
+    self.view.backgroundColor = colorWithHexString([BXTGlobal shareGlobal].energyColors[[BXTGlobal shareGlobal].energyType - 1]);
     self.photoVCType = MeterRecordType;
     
     self.writeArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @"", @" ", nil];
@@ -62,7 +62,7 @@
     self.allPhotoArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @"", @" ", nil];
     self.cellTitleArray = @[@"", @"峰段示数：", @"平段示数：", @"谷段示数：", @"尖峰示数：", @"总示数："];
     
-    // BXTPhotoBaseViewController 包括下面3条
+    //BXTPhotoBaseViewController 包括下面3条
     [BXTGlobal shareGlobal].maxPics = 1;
     self.selectPhotos = [NSMutableArray array];
     
@@ -82,7 +82,8 @@
     if (![self.thisValueArray containsObject:@""] && self.thisValueArray.count == 6) {
         
         NSInteger writeValue = 0;
-        for (int i=0; i<self.writeArray.count-1; i++) {
+        for (int i=0; i<self.writeArray.count-1; i++)
+        {
             writeValue += [self.writeArray[i] integerValue];
         }
         
@@ -107,7 +108,7 @@
 {
     // navView
     UIView *navView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
-    navView.backgroundColor = [UIColor clearColor];
+    navView.backgroundColor = colorWithHexString([BXTGlobal shareGlobal].energyColors[[BXTGlobal shareGlobal].energyType - 1]);;
     navView.userInteractionEnabled = YES;
     [self.view addSubview:navView];
     

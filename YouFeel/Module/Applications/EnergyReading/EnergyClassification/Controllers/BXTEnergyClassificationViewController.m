@@ -64,7 +64,7 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"能源抄表" backColor:colorWithHexString(@"f45b5b") rightImage:[UIImage imageNamed:@"scan_energy"]];
-    SaveValueTUD(EnergyReadingColorStr, @"#f45b5b");
+    [BXTGlobal shareGlobal].energyType = 1;
     self.checkType = @"";
     self.priceType = @"";
     self.placeID = @"";
@@ -378,10 +378,7 @@
 - (void)menuButtonClick:(UIButton *)btn
 {
     self.btnTag = btn.tag;
-    
-    NSArray *colorArray = @[@"f45b5b", @"1683e2", @"f5c809", @"f1983e"];
-    SaveValueTUD(EnergyReadingColorStr, colorArray[btn.tag]);
-    
+    [BXTGlobal shareGlobal].energyType = btn.tag + 1;
     self.view.backgroundColor = self.colorArray[btn.tag];
     [self navigationSetting:nil backColor:self.colorArray[btn.tag] rightImage:nil];
     [btn setTitleColor:self.colorArray[btn.tag] forState:UIControlStateNormal];

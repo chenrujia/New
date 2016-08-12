@@ -18,8 +18,6 @@
 #define CellTitleColorStr @"#383838"
 /** ---- cell-content色值 ---- */
 #define CellContentColorStr @"#6D6E6F"
-/** ---- 能源抄表色值 ---- */
-#define EnergyReadingColorStr @"#f45b5b"
 /** ---- 存值 ---- */
 #define SaveValueTUD(key, value) [[NSUserDefaults standardUserDefaults] setObject:value forKey:key]; [[NSUserDefaults standardUserDefaults] synchronize]
 /** ---- 取值 ---- */
@@ -47,6 +45,8 @@
 @property (nonatomic, assign) NSInteger              numOfPresented;
 @property (nonatomic, assign) NSInteger              assignNumber;
 @property (nonatomic, strong) NSString               *userName;
+@property (nonatomic, strong) NSArray                *energyColors;
+@property (nonatomic, assign) NSInteger              energyType;
 @property (nonatomic, strong) UINavigationController *presentNav;
 
 + (BXTGlobal *)shareGlobal;
