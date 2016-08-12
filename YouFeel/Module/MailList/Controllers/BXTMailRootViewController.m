@@ -20,11 +20,9 @@
 
 @interface BXTMailRootViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, MBProgressHUDDelegate>
 
-@property(nonatomic, strong) UISearchBar *searchBar;
-
-@property (strong, nonatomic) UITableView *tableView;
-
-@property (nonatomic, strong) UITableView *tableView_Search;
+@property (nonatomic, strong) UISearchBar    *searchBar;
+@property (strong, nonatomic) UITableView    *tableView;
+@property (nonatomic, strong) UITableView    *tableView_Search;
 @property (nonatomic, strong) NSMutableArray *searchArray;
 
 @end
@@ -59,7 +57,6 @@
     self.view.backgroundColor = colorWithHexString(@"eff3f6");
     
     UIImageView *naviView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KNAVIVIEWHEIGHT)];
-    
     naviView.image = [[UIImage imageNamed:@"Nav_Bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
     
     naviView.userInteractionEnabled = YES;
@@ -71,7 +68,6 @@
     navi_titleLabel.textAlignment = NSTextAlignmentCenter;
     navi_titleLabel.text = title;
     [naviView addSubview:navi_titleLabel];
-    
     
     UIButton *navi_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     navi_leftButton.frame = CGRectMake(6, 20, 44, 44);
@@ -121,15 +117,12 @@
     [self.view addSubview:self.tableView];
     
     [self showTableViewAndHideSearchTableView:YES];
-    
 }
 
 #pragma mark -
 #pragma mark - UISearchBarDelegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    NSLog(@"should begin");
-    
     searchBar.showsCancelButton = YES;
     [self showTableViewAndHideSearchTableView:NO];
     [self.tableView_Search reloadData];
@@ -140,13 +133,11 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     searchBar.text = @"";
-    NSLog(@"did begin");
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
     searchBar.showsCancelButton = NO;
-    NSLog(@"did end");
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -160,21 +151,20 @@
     // 获取存值
     NSArray *listArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
     NSMutableArray *allPersonArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *listDict in listArray) {
-        for (NSDictionary *subListDict in listDict[@"lists"]) {
+    for (NSDictionary *listDict in listArray)
+    {
+        for (NSDictionary *subListDict in listDict[@"lists"])
+        {
             [allPersonArray addObject:subListDict];
         }
     }
     
-    
     NSMutableArray *searchResults = [[NSMutableArray alloc]init];
     if (self.searchBar.text.length>0 && ![ChineseInclude isIncludeChineseInString:self.searchBar.text])
     {
-        
         for (int i=0; i<allPersonArray.count; i++)
         {
             BXTMailUserListSimpleInfo *model = [BXTMailUserListSimpleInfo modelWithDict:allPersonArray[i]];
-            
             if ([ChineseInclude isIncludeChineseInString:model.name])
             {
                 NSString *tempPinYinStr = [PinYinForObjc chineseConvertToPinYin:model.name];
@@ -187,7 +177,8 @@
                 else
                 {
                     NSString *tempPinYinHeadStr = [PinYinForObjc chineseConvertToPinYinHead:model.name]; NSRange titleHeadResult=[tempPinYinHeadStr rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
-                    if (titleHeadResult.length > 0) {
+                    if (titleHeadResult.length > 0)
+                    {
                         [searchResults addObject:allPersonArray[i]];
                     }
                 }
@@ -248,7 +239,8 @@
     {
         static NSString *cellID = @"cellSearch";
         BXTMailListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        if (cell == nil) {
+        if (cell == nil)
+        {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMailListCell" owner:nil options:nil] lastObject];
         }
         
@@ -264,10 +256,10 @@
         return cell;
     }
     
-    
     static NSString *cellID = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
     
@@ -331,11 +323,13 @@
 // 列表和搜索列表显示类
 - (void)showTableViewAndHideSearchTableView:(BOOL)isRight
 {
-    if (isRight) {
+    if (isRight)
+    {
         self.tableView_Search.hidden = YES;
         self.tableView.hidden = NO;
     }
-    else {
+    else
+    {
         self.tableView_Search.hidden = NO;
         self.tableView.hidden = YES;
     }
@@ -389,19 +383,9 @@
     [self.navigationController pushViewController:pivc animated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

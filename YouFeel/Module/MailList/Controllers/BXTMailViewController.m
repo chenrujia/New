@@ -67,7 +67,7 @@
     spaceItem.width = -10;
     self.navigationItem.rightBarButtonItems = @[spaceItem, rightItem];
     self.dataArray = [[NSMutableArray alloc] init];
-    
+    //获取到用户信息后刷新列表
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"ReloadMailList" object:nil] subscribeNext:^(id x) {
         @strongify(self);
         [self.conversationListTableView reloadData];
@@ -96,7 +96,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BXTRepairButtonOther" object:nil];
     
     self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [[RCIMClient sharedRCIMClient] getTotalUnreadCount]];
-    if ([[RCIMClient sharedRCIMClient] getTotalUnreadCount] == 0)
+    if ([[RCIMClient sharedRCIMClient] getTotalUnreadCount] <= 0)
     {
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         self.navigationController.tabBarItem.badgeValue = nil;
