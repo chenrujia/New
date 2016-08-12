@@ -223,7 +223,7 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     if (!isFirst && index == selectIndex)
     {
-        dict[NSForegroundColorAttributeName] = colorWithHexString(@"3cafff"); // 文字颜色
+        dict[NSForegroundColorAttributeName] = colorWithHexString(@"f45b5b"); // 文字颜色
     }
     else
     {

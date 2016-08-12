@@ -46,7 +46,6 @@
     backView.layer.borderWidth = 0.5;
     [self.view addSubview:backView];
     
-    
     // SegmentView
     self.segmentView = [[SegmentView alloc] initWithFrame:CGRectMake(10.f, 10.f, SCREEN_WIDTH - 20.f, 30.f) andTitles:@[@"未读", @"已读"] isWhiteBGColor:1];
     self.segmentView.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
@@ -64,7 +63,8 @@
     currentSrcoller.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:currentSrcoller];
     
-    for (NSInteger i=1; i<3; i++) {
+    for (NSInteger i=1; i<3; i++)
+    {
         BXTMainReadNoticeView *readView = [[BXTMainReadNoticeView alloc] initWithFrame:CGRectMake((i - 1) *SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(backView.frame)) type:i];
         [currentSrcoller addSubview:readView];
     }

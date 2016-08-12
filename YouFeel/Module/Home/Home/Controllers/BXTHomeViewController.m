@@ -551,8 +551,8 @@ typedef NS_ENUM(NSInteger, CellType) {
             userInfo.portraitUri = [dictionary objectForKey:@"pic"];
             [self.usersArray addObject:userInfo];
             [BXTGlobal setUserProperty:self.usersArray withKey:U_USERSARRAY];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMailList" object:nil];
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMailList" object:nil];
     }
     else if (type == Remind_Number && [dic[@"returncode"] integerValue] == 0)
     {

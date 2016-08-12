@@ -47,16 +47,14 @@
         self.dataArray = [[NSMutableArray alloc] init];
         self.currentPage = 1;
         self.readStr = readState;
-        
         [self createUI];
-        
         [self requestNetResourceWithReadState:readState];
         
         @weakify(self);
         [[[NSNotificationCenter defaultCenter] rac_addObserverForName:REFRESHMAINREADNOTICEVIEW object:nil] subscribeNext:^(id x) {
             @strongify(self);
-            
-            if (self.readStr == 2) {
+            if (self.readStr == 2)
+            {
                 self.currentPage = 1;
                 [self.tableView.mj_header beginRefreshing];
             }
@@ -67,8 +65,8 @@
 
 - (void)createUI
 {
-    self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
-    self.tableView.rowHeight = 115;
+    self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+    self.tableView.rowHeight = 80;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.emptyDataSetDelegate = self;
@@ -102,14 +100,9 @@
 
 #pragma mark -
 #pragma mark - tableView代理方法
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return self.dataArray.count;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -123,7 +116,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return 0.1;
     }
     return 10;
@@ -136,8 +130,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     BXTReadNotice *model = self.dataArray[indexPath.section];
-    
     BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
     nivc.titleStr = @"公告详情";
     nivc.urlStr = model.view_url;
@@ -145,17 +139,14 @@
     @weakify(self);
     [nivc.delegateSignal subscribeNext:^(id x) {
         @strongify(self);
-        
-        if (self.readStr == 1) {
+        if (self.readStr == 1)
+        {
             self.currentPage = 1;
             [self.tableView.mj_header beginRefreshing];
-            
             [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHMAINREADNOTICEVIEW object:nil];
         }
     }];
     [[self navigation] pushViewController:nivc animated:YES];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
@@ -165,7 +156,8 @@
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
     
-    if (self.currentPage == 1 && self.dataArray.count != 0) {
+    if (self.currentPage == 1 && self.dataArray.count != 0)
+    {
         [self.dataArray removeAllObjects];
     }
     
