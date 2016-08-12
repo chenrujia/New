@@ -96,6 +96,12 @@
         self.userNameCancel.hidden = YES;
         self.passWord = x;
     }];
+    
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshLoginVCOFUserName" object:nil] subscribeNext:^(id x) {
+        @strongify(self);
+        self.nameTF.text = [BXTGlobal getUserProperty:U_USERNAME];
+    }];
 }
 
 - (void)viewDidLayoutSubviews

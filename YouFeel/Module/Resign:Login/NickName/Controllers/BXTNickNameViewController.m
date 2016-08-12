@@ -108,6 +108,8 @@ static NSString *cellIndentify = @"resignCellIndentify";
         [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
             [self resignFirstResponder];
+            [self.view endEditing:YES];
+            
             if (![BXTGlobal validateUserName:self.nickName])
             {
                 [self showMBP:@"请输入您的真实姓名" withBlock:nil];
@@ -264,16 +266,18 @@ static NSString *cellIndentify = @"resignCellIndentify";
     NSDictionary *dic = response;
     if (type == BranchResign)
     {
-
+        
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
             [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
             [self showMBP:@"注册成功！" withBlock:^(BOOL hidden) {
-                [self showLoadingMBP:@"登录中..."];
-                /**分店登录**/
-                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request branchLogin];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshLoginVCOFUserName" object:nil];
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                //                [self showLoadingMBP:@"登录中..."];
+                //                /**分店登录**/
+                //                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                //                [request branchLogin];
             }];
         }
     }
