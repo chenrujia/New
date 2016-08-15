@@ -197,7 +197,7 @@
         {
             meterTypeBtn.titleLabel.font = [UIFont systemFontOfSize:13.f];
         }
-        [meterTypeBtn setFrame:CGRectMake(i * (CGRectGetWidth(backView.frame)/4.f), CGRectGetMaxY(searchBar.frame), CGRectGetWidth(backView.frame)/4.f, 44.f)];
+        [meterTypeBtn setFrame:CGRectMake(i * (CGRectGetWidth(backView.frame)/4.f), CGRectGetMaxY(searchBar.frame) - 4.f, CGRectGetWidth(backView.frame)/4.f, 44.f)];
         [meterTypeBtn setTitle:titles[i] forState:UIControlStateNormal];
         [meterTypeBtn setTitleColor:colorWithHexString(@"#6E6E6E") forState:UIControlStateNormal];
         [meterTypeBtn setImage:[UIImage imageNamed:images[i]] forState:UIControlStateNormal];
@@ -205,7 +205,7 @@
         [backView addSubview:meterTypeBtn];
     }
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(searchBar.frame) + 44.f, CGRectGetWidth(backView.frame), 0.7f)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(searchBar.frame) + 40.f, CGRectGetWidth(backView.frame), 0.7f)];
     lineView.backgroundColor = colorWithHexString(@"e2e6e8");
     [backView addSubview:lineView];
     
@@ -258,6 +258,7 @@
     self.chooseTableView.tag = tag;
     self.chooseTableView.delegate = self;
     self.chooseTableView.dataSource = self;
+    self.chooseTableView.layer.cornerRadius = 5.f;
     [self.view addSubview:self.chooseTableView];
     
     [UIView animateWithDuration:0.3f animations:^{
