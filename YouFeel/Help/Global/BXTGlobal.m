@@ -76,6 +76,8 @@
     BXTBranchUserInfo *branchUser = [BXTBranchUserInfo mj_objectWithKeyValues:dic];
     [BXTGlobal setUserProperty:branchUser.userID withKey:U_BRANCHUSERID];
     [BXTGlobal setUserProperty:branchUser.permission_keys withKey:PERMISSIONKEYS];
+    [BXTGlobal shareGlobal].isEnergy = branchUser.is_energy == 1;
+    
     BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
     roleInfo.role_id = branchUser.duty_id;
     roleInfo.duty_name = branchUser.duty_name;

@@ -93,6 +93,7 @@
 @property (nonatomic, copy  ) NSString  *department_name;
 @property (nonatomic, copy  ) NSString  *duty_name;
 @property (nonatomic, copy  ) NSString  *permission_keys;
+@property (nonatomic, assign  ) NSInteger is_energy;
 
 @end
 

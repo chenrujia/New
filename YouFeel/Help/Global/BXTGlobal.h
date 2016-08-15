@@ -48,6 +48,7 @@
 @property (nonatomic, strong) NSArray                *energyColors;
 @property (nonatomic, assign) NSInteger              energyType;
 @property (nonatomic, strong) UINavigationController *presentNav;
+@property (nonatomic, assign) BOOL              isEnergy; //Yes有显示抄表权限
 
 + (BXTGlobal *)shareGlobal;
 
