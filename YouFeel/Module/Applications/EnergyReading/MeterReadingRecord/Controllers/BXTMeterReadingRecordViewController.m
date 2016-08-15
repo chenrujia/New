@@ -43,6 +43,9 @@
 @property (nonatomic, copy) NSString *introInfo;
 @property (nonatomic, assign) CGFloat maxLabelY;
 
+/** ---- 是否已经加载一次 ---- */
+@property (nonatomic, assign) BOOL isLaunched;
+
 @end
 
 @implementation BXTMeterReadingRecordViewController
@@ -248,6 +251,9 @@
 
 - (void)initialHisView:(NSInteger)maxNumber
 {
+    if (self.hisView) {
+        [self.hisView removeFromSuperview];
+    }
     self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.filterView_chart.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) lists:self.monthListInfo.lists kwhMeasure:maxNumber kwhNumber:4 statisticsType:MonthType];
     self.hisView.footerView.roundView02.hidden = YES;
     self.hisView.footerView.windView.hidden = YES;
@@ -281,9 +287,16 @@
     self.hisView.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%ld", (long)recordInfo.data.peak_period_amount];
     self.hisView.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%ld", (long)recordInfo.data.flat_section_amount];
     self.hisView.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%ld", (long)recordInfo.data.valley_section_amount];
+    if (![self.monthListInfo.price_type_id isEqualToString:@"2"]) {
+        self.hisView.footerView.downView.hidden = YES;
+        self.hisView.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20.f, 430.f);
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
+    }
     
-    
-    [self showChartView:NO];
+    if (!self.isLaunched) {
+        [self showChartView:NO];
+        self.isLaunched = YES;
+    }
 }
 
 #pragma mark -

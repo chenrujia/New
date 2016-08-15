@@ -49,6 +49,12 @@
         [self.imgNameArray removeObjectAtIndex:5];
         [self.titleNameArray removeObjectAtIndex:5];
     }
+    //如果不包含快捷抄表
+    // is_repair == 2 && is_energy == 1 显示
+    if (![BXTGlobal shareGlobal].isEnergy) {
+        [self.imgNameArray removeObjectAtIndex:3];
+        [self.titleNameArray removeObjectAtIndex:3];
+    }
     //如果不包含其他事物
     if (![permissonKeys containsString:@"9994"])
     {

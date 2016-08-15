@@ -42,32 +42,49 @@
     [self navigationSetting:@"应用" andRightTitle:nil andRightImage:nil];
     
     NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
-    //如果不包含业务统计
+    //如果包含业务统计
     if ([permissonKeys containsString:@"9995"])
     {
-        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源抄表", @"能源统计", @"快捷抄表", @"敬请期待"]];
-        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_metering", @"app_chart", @"app_quick", @"app_symbol"]];
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"敬请期待"]];
+        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_symbol"]];
+        
+        if ([BXTGlobal shareGlobal].isEnergy)
+        {
+            self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源统计", @"敬请期待"]];
+            self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_chart", @"app_symbol"]];
+            
+            
+            if ([BXTGlobal shareGlobal].isRepair)
+            {
+                self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源抄表", @"能源统计", @"快捷抄表", @"敬请期待"]];
+                self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_metering", @"app_chart", @"app_quick", @"app_symbol"]];
+            }
+        }
     }
     else
     {
-        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"能源抄表", @"能源统计", @"快捷抄表", @"敬请期待"]
-                           ];
-        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_metering", @"app_chart", @"app_quick", @"app_symbol"]
-                           ];
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"敬请期待"]];
+        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_symbol"]];
+        
+        if ([BXTGlobal shareGlobal].isRepair && [BXTGlobal shareGlobal].isEnergy)
+        {
+            self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"能源抄表", @"快捷抄表", @"敬请期待"]];
+            self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_metering", @"app_quick", @"app_symbol"]];
+        }
     }
     
-//    [BXTGlobal showLoadingMBP:@"加载中..."];
-//    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-//    dispatch_async(concurrentQueue, ^{
+    [BXTGlobal showLoadingMBP:@"加载中..."];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
         /**广告位图片展示**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request appVCAdvertisement];
-//    });
-//    dispatch_async(concurrentQueue, ^{
-//        /**请求是否显示OA**/
-//        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-//        [request informOFOA];
-//    });
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**请求是否显示OA**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request informOFOA];
+    });
     
     [self createUI];
     NSArray *listArray = [[ANKeyValueTable userDefaultTable] valueWithKey:YMAILLISTSAVE];
@@ -254,13 +271,13 @@
         // 如果不包含业务统计
         if ([permissonKeys containsString:@"9995"])
         {
-            [self.titleArray insertObject:@"OA系统" atIndex:5];
-            [self.imageArray insertObject:@"app_OA" atIndex:5];
+            [self.titleArray insertObject:@"OA系统" atIndex:self.titleArray.count - 1];
+            [self.imageArray insertObject:@"app_OA" atIndex:self.imageArray.count - 1];
         }
         else
         {
-            [self.titleArray insertObject:@"OA系统" atIndex:4];
-            [self.imageArray insertObject:@"app_OA" atIndex:4];
+            [self.titleArray insertObject:@"OA系统" atIndex:self.titleArray.count - 1];
+            [self.imageArray insertObject:@"app_OA" atIndex:self.imageArray.count - 1];
         }
         
         NSDictionary *dict = data[0];

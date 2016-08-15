@@ -11,6 +11,8 @@
 
 @interface BXTHistogramFooterView : UIView
 
+@property (weak, nonatomic) IBOutlet UIView *downView;
+
 /** ---- 总能耗 ---- */
 @property (weak, nonatomic) IBOutlet UILabel *consumptionView;
 /** ---- 峰段 ---- */
