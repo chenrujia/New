@@ -453,6 +453,7 @@
 		96AB06301C1FB48E0038E2AF /* DOPDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AB062D1C1FB48E0038E2AF /* DOPDropDownMenu.m */; };
 		96AC24301CAA45AC001C19F9 /* BXTPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AC242F1CAA45AC001C19F9 /* BXTPhotosView.m */; };
 		96AC24331CAA78F2001C19F9 /* BXTChooseItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AC24321CAA78F2001C19F9 /* BXTChooseItemView.m */; };
+		96B1482C1D61BC190013C2B2 /* NSMutableArray+ErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B1482B1D61BC190013C2B2 /* NSMutableArray+ErrorLog.m */; };
 		96B191CA1CBB8DB100F5F6A8 /* BXTMMProcessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B191C81CBB8DB100F5F6A8 /* BXTMMProcessViewController.m */; };
 		96B191CB1CBB8DB100F5F6A8 /* BXTMMProcessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96B191C91CBB8DB100F5F6A8 /* BXTMMProcessViewController.xib */; };
 		96B191D31CBB952200F5F6A8 /* BXTPhotosTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B191D21CBB952200F5F6A8 /* BXTPhotosTableViewCell.m */; };
@@ -1316,6 +1317,8 @@
 		96AC242F1CAA45AC001C19F9 /* BXTPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTPhotosView.m; sourceTree = "<group>"; };
 		96AC24311CAA78F2001C19F9 /* BXTChooseItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTChooseItemView.h; sourceTree = "<group>"; };
 		96AC24321CAA78F2001C19F9 /* BXTChooseItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChooseItemView.m; sourceTree = "<group>"; };
+		96B1482A1D61BC190013C2B2 /* NSMutableArray+ErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+ErrorLog.h"; sourceTree = "<group>"; };
+		96B1482B1D61BC190013C2B2 /* NSMutableArray+ErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+ErrorLog.m"; sourceTree = "<group>"; };
 		96B191C71CBB8DB100F5F6A8 /* BXTMMProcessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMMProcessViewController.h; sourceTree = "<group>"; };
 		96B191C81CBB8DB100F5F6A8 /* BXTMMProcessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMMProcessViewController.m; sourceTree = "<group>"; };
 		96B191C91CBB8DB100F5F6A8 /* BXTMMProcessViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMMProcessViewController.xib; sourceTree = "<group>"; };
@@ -4405,6 +4408,8 @@
 				9602213D1BC9201400010072 /* UIView+ZXQuartz.m */,
 				9602213E1BC9201400010072 /* UIViewController+DismissKeyboard.h */,
 				9602213F1BC9201400010072 /* UIViewController+DismissKeyboard.m */,
+				96B1482A1D61BC190013C2B2 /* NSMutableArray+ErrorLog.h */,
+				96B1482B1D61BC190013C2B2 /* NSMutableArray+ErrorLog.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -5363,6 +5368,7 @@
 				7818DBDE1C0824D800DC22C6 /* PNCircleChart.m in Sources */,
 				9652ABF61BC90DCC009A666D /* NSString+ANKeyValue.m in Sources */,
 				78AF1A401D50796A00F6C17A /* BXTEnergyTrendHeaderCell.m in Sources */,
+				96B1482C1D61BC190013C2B2 /* NSMutableArray+ErrorLog.m in Sources */,
 				7867DC2D1C4CBA5B000749F1 /* BXTGroupInfo.m in Sources */,
 				78426B631C7C61F500BAE0F4 /* BXTMTCompletionFooter.m in Sources */,
 				78472C4F1D3C6D3600F89BA2 /* BXTMeterReadingListCell.m in Sources */,
