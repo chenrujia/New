@@ -83,7 +83,6 @@
     [footerView addSubview:quitBtn];
 }
 
-
 #pragma mark -
 #pragma mark tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

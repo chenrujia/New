@@ -182,6 +182,7 @@
 		784890D71D3734D700C1106D /* BXTReadNoticeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 784890B31D3734D700C1106D /* BXTReadNoticeCell.m */; };
 		784890D81D3734D700C1106D /* BXTReadNoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 784890B41D3734D700C1106D /* BXTReadNoticeCell.xib */; };
 		784890DB1D373EE300C1106D /* BXTEnergyReadingQuickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 784890DA1D373EE300C1106D /* BXTEnergyReadingQuickViewController.m */; };
+		784B19A21D61D14B0079F27B /* BXTSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782985B21C40E48F00D0837C /* BXTSettingViewController.m */; };
 		784E4F971CA9045700EF2A06 /* BXTMyIntegralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 784E4F961CA9045700EF2A06 /* BXTMyIntegralViewController.m */; };
 		784E4FA51CA90D2700EF2A06 /* BXTMyIntegralFirstCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 784E4FA31CA90D2700EF2A06 /* BXTMyIntegralFirstCell.m */; };
 		784E4FA61CA90D2700EF2A06 /* BXTMyIntegralFirstCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 784E4FA41CA90D2700EF2A06 /* BXTMyIntegralFirstCell.xib */; };
@@ -5704,6 +5705,7 @@
 			files = (
 				7893D88C1C7AA6CD00F042D5 /* BXTStatisticsViewController.m in Sources */,
 				9652AB171BC902DF009A666D /* YouFeelTests.m in Sources */,
+				784B19A21D61D14B0079F27B /* BXTSettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5857,7 +5859,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
@@ -5897,7 +5899,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (LQA7Q4Z2ZQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;

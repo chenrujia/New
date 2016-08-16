@@ -777,7 +777,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  计量表 - 抄表记录，列表
  */
 - (void)energyMeterRecordListsWithAboutID:(NSString *)aboutID
-                                     date:(NSString *)date;
+                                     date:(NSString *)date
+                                     page:(NSInteger)page;
 
 /**
  *  计量表详情

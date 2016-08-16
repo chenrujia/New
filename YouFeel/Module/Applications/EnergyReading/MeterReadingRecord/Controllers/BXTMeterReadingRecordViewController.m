@@ -24,6 +24,7 @@
 #import <math.h>
 #import "BXTEnergyClassificationViewController.h"
 #import "BXTEnergyReadingQuickViewController.h"
+#import "MJRefresh.h"
 
 @interface BXTMeterReadingRecordViewController () <UITableViewDelegate, UITableViewDataSource, BXTDataResponseDelegate>
 
@@ -34,17 +35,18 @@
 @property (nonatomic, strong) BXTMeterReadingFilterOFListView    *filterView_list;
 @property (nonatomic, strong) UITableView                        *tableView;
 @property (nonatomic, strong) NSMutableArray                     *isShowArray;
+@property (nonatomic, strong) NSMutableArray                     *dataArray;
 @property (nonatomic, strong) UIView                             *footerView;
 @property (nonatomic, assign) BOOL                               isHideChart;
 @property (nonatomic, strong) BXTMeterReadingRecordMonthListInfo *monthListInfo;
 @property (nonatomic, strong) BXTMeterReadingRecordListInfo      *listInfo;
-@property (nonatomic, assign) BOOL                               isListsRequest;
 
 @property (nonatomic, copy) NSString *introInfo;
 @property (nonatomic, assign) CGFloat maxLabelY;
 
 /** ---- 是否已经加载一次 ---- */
 @property (nonatomic, assign) BOOL isLaunched;
+@property (nonatomic, assign) NSInteger      currentPage;
 
 @end
 
@@ -54,16 +56,15 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"能源抄表" andRightTitle1:nil andRightImage1:[UIImage imageNamed:@"energy_bar_graph"] andRightTitle2:nil andRightImage2:[UIImage imageNamed:@"energy_consumption"]];
-    self.isShowArray = [[NSMutableArray alloc] init];
-    self.isHideChart = YES;
-    [self createUI];
-    [self getResource];
-}
-
-- (void)getResource
-{
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
     
+    self.isShowArray = [[NSMutableArray alloc] init];
+    self.dataArray = [[NSMutableArray alloc] init];
+    self.isHideChart = YES;
+    self.timeStr = @"";
+    
+    [self createUI];
+    
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         // 计量表 - 抄表记录，月
@@ -73,26 +74,36 @@
     dispatch_async(concurrentQueue, ^{
         // 计量表 - 抄表记录，列表
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterRecordListsWithAboutID:self.transID date:@""];
+        [request energyMeterRecordListsWithAboutID:self.transID date:self.timeStr page:1];
     });
+    
+    
+    self.currentPage = 1;
+    __weak __typeof(self) weakSelf = self;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        weakSelf.currentPage = 1;
+        [weakSelf getListsResource];
+    }];
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.currentPage++;
+        [weakSelf getListsResource];
+    }];
 }
 
-- (void)getResourceShowMonthChartView:(BOOL)showChart
+/** ---- 计量表 - 抄表记录，月 ---- */
+- (void)getMonthListsResource
 {
-    self.isListsRequest = !showChart;
     [BXTGlobal showLoadingMBP:@"数据加载中..."];
-    if (showChart)
-    {
-        // 计量表 - 抄表记录，月
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterRecordMonthListsWithAboutID:self.transID year:self.yearStr];
-    }
-    else
-    {
-        // 计量表 - 抄表记录，列表
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterRecordListsWithAboutID:self.transID date:self.timeStr];
-    }
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request energyMeterRecordMonthListsWithAboutID:self.transID year:self.yearStr];
+}
+
+/** ---- 计量表 - 抄表记录，列表 ---- */
+- (void)getListsResource
+{
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request energyMeterRecordListsWithAboutID:self.transID date:self.timeStr page:self.currentPage];
 }
 
 - (void)navigationLeftButton
@@ -172,7 +183,7 @@
         [[self.commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
             [self.filterView_chart.thisMonthBtn setTitle:self.yearStr forState:UIControlStateNormal];
-            [self getResourceShowMonthChartView:YES];
+            [self getMonthListsResource];
         }];
     }];
     
@@ -183,7 +194,7 @@
         [self.filterView_chart.thisMonthBtn setTitle:self.yearStr forState:UIControlStateNormal];
         self.filterView_chart.nextMonthBtn.enabled = YES;
         self.filterView_chart.nextMonthBtn.alpha = 1.0;
-        [self getResourceShowMonthChartView:YES];
+        [self getMonthListsResource];
     }];
     
     // nextMonthBtn
@@ -191,11 +202,13 @@
         @strongify(self);
         self.yearStr = [self transTimeIsAdd:YES];
         [self.filterView_chart.thisMonthBtn setTitle:self.yearStr forState:UIControlStateNormal];
+        
         if ([self.yearStr integerValue] == [[BXTGlobal yearAndmonthAndDay][0] integerValue]) {
             self.filterView_chart.nextMonthBtn.enabled = NO;
             self.filterView_chart.nextMonthBtn.alpha = 0.4;
-            [self getResourceShowMonthChartView:YES];
         }
+        
+        [self getMonthListsResource];
     }];
     [self.scrollView addSubview:self.filterView_chart];
     
@@ -208,7 +221,9 @@
         [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
             [self.filterView_list.timeBtn setTitle:self.timeStr forState:UIControlStateNormal];
-            [self getResourceShowMonthChartView:NO];
+            
+            self.currentPage = 1;
+            [self getListsResource];
         }];
     }];
     [self.scrollView addSubview:self.filterView_list];
@@ -242,7 +257,9 @@
             @strongify(self);
             self.timeStr = @"";
             [self.filterView_list.timeBtn setTitle:@"年/月/日" forState:UIControlStateNormal];
-            [self getResourceShowMonthChartView:NO];
+            
+            self.currentPage = 1;
+            [self getListsResource];
         }];
         [self.navigationController pushViewController:mrvc animated:YES];
     }];
@@ -273,7 +290,9 @@
             @strongify(self);
             self.timeStr = @"";
             [self.filterView_list.timeBtn setTitle:@"年/月/日" forState:UIControlStateNormal];
-            [self getResourceShowMonthChartView:NO];
+            
+            self.currentPage = 1;
+            [self getListsResource];
         }];
         [self.navigationController pushViewController:mrddvc animated:YES];
     }];
@@ -320,7 +339,7 @@
     BXTMeterReadingTimeCell *cell = [BXTMeterReadingTimeCell cellWithTableView:tableView];
     
     cell.unit = self.listInfo.unit;
-    cell.lists = self.listInfo.lists[indexPath.section];
+    cell.lists = self.dataArray[indexPath.section];
     
     if ([self.isShowArray[indexPath.section] isEqualToString:@"1"])
     {
@@ -364,7 +383,7 @@
     
     view.showViewBtn.tag = section;
     view.unit = self.listInfo.unit;
-    view.lists = self.listInfo.lists[section];
+    view.lists = self.dataArray[section];
     if ([self.isShowArray[section] isEqualToString:@"1"]) {
         view.openImage.image = [UIImage imageNamed:@"energy_open"];
     } else {
@@ -415,12 +434,14 @@
 #pragma mark getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [BXTGlobal hideMBP];
+    
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     
     if (type == EnergyMeterRecordMonthLists && data.count > 0)
     {
-        [BXTGlobal hideMBP];
+        
         [BXTMeterReadingRecordMonthListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"meterReadingID":@"id"};
         }];
@@ -457,32 +478,32 @@
     }
     else if (type == EnergyMeterRecordLists && data.count > 0)
     {
-        if (self.isListsRequest)
-        {
-            [BXTGlobal hideMBP];
-        }
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        
         [BXTMeterReadingRecordListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"meterReadingID":@"id"};
         }];
         [BXTRecordListsInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"listInfoID":@"id"};
         }];
+        
         self.listInfo = [BXTMeterReadingRecordListInfo mj_objectWithKeyValues:data[0]];
         
-        if (self.isShowArray)
-        {
+        if (self.currentPage == 1 && self.isShowArray) {
             [self.isShowArray removeAllObjects];
+            [self.dataArray removeAllObjects];
         }
-        for (int i = 0; i < self.listInfo.lists.count; i++)
-        {
+        
+        for (int i = 0; i < self.listInfo.lists.count; i++) {
             [self.isShowArray addObject:@"0"];
         }
+        [self.dataArray addObjectsFromArray:self.listInfo.lists];
         
         [self.tableView reloadData];
     }
     else if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
     {
-        [BXTGlobal hideMBP];
         [BXTGlobal showText:self.introInfo view:self.view completionBlock:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHTABLEVIEWOFLIST object:nil];
         }];

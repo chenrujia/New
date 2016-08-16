@@ -1285,11 +1285,14 @@
 
 - (void)energyMeterRecordListsWithAboutID:(NSString *)aboutID
                                      date:(NSString *)date
+                                     page:(NSInteger)page
 {
     self.requestType = EnergyMeterRecordLists;
     NSDictionary *dic = @{@"id": aboutID,
                           @"date": date,
-                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
+                          @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"page":[NSString stringWithFormat:@"%ld",(long)page],
+                          @"pagesize":@"10"};
     NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_record_lists",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];
 }
