@@ -19,7 +19,7 @@
 
 @interface BXTProjectAddNewViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,UISearchBarDelegate,BXTDataResponseDelegate,CLLocationManagerDelegate>
 {
-    /** ---- 热门项目 ---- */
+    /** ---- 测试项目 ---- */
     NSMutableArray    *shopsArray;
     /** ---- 附近项目 ---- */
     CLLocationManager *locationManager;
@@ -370,7 +370,7 @@
     else
     {
         if (indexPath.row == 0) {
-            cell.nameLabel.text = @"热门项目";
+            cell.nameLabel.text = @"测试项目";
         } else {
             BXTHeadquartersInfo *company = shopsArray[indexPath.row-1];
             cell.nameLabel.text = company.name;
