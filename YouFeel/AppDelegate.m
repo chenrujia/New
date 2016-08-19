@@ -428,7 +428,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             {
                 [[BXTGlobal shareGlobal].newsOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
                 
-                
                 // 超过10分钟， 不跳转
                 NSInteger timeSp = [[NSDate date] timeIntervalSince1970];
                 NSInteger getTimeSp = [[NSString stringWithFormat:@"%@", taskInfo[@"send_time"]] integerValue];

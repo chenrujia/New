@@ -84,7 +84,7 @@
     detailLabel.textAlignment = NSTextAlignmentCenter;
     detailLabel.textColor = colorWithHexString(@"909497");
     detailLabel.font = [UIFont systemFontOfSize:13.f];
-    detailLabel.text = @"扫描二维码，您的朋友也可以下载优服报修客户端！";
+    detailLabel.text = @"扫描二维码，您的朋友也可以下载优服管理客户端！";
     [backView addSubview:detailLabel];
     
     
