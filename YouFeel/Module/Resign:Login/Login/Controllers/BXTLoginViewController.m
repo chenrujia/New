@@ -23,16 +23,13 @@
 
 @interface BXTLoginViewController ()<BXTDataResponseDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField        *nameTF;
-@property (weak, nonatomic) IBOutlet UITextField        *passwordTF;
+@property (weak, nonatomic) IBOutlet UITextField *nameTF;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTF;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *logo_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *back_top;
-@property (nonatomic ,strong) NSString *userName;
-@property (nonatomic ,strong) NSString *passWord;
 
 - (IBAction)loginAction:(id)sender;
 - (IBAction)loginByWeiXin:(id)sender;
-- (IBAction)cancelAction:(id)sender;
 
 @end
 
@@ -42,6 +39,8 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"ffffff");
+    
+    
     if (IS_IPHONE4)
     {
         self.logo_top.constant = 60.f;
@@ -51,6 +50,7 @@
     {
         self.wxLogin.hidden = YES;
     }
+    
     
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"GotoResignVC" object:nil] subscribeNext:^(id x) {
@@ -66,35 +66,22 @@
         [self loginIn];
     }];
     
+    
     [self.nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
+    [self.passwordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
     if ([BXTGlobal shareGlobal].userName)
     {
         self.nameTF.text = [BXTGlobal shareGlobal].userName;
-        self.userName = [BXTGlobal shareGlobal].userName;
-        [BXTGlobal shareGlobal].userName = nil;
     }
     if ([BXTGlobal getUserProperty:U_USERNAME])
     {
         self.nameTF.text = [BXTGlobal getUserProperty:U_USERNAME];
     }
-    [[self.nameTF.rac_textSignal filter:^BOOL(id value) {
+    [[self.nameTF rac_textSignal] subscribeNext:^(id x) {
         @strongify(self);
-        NSString *text = value;
-        self.userNameCancel.hidden = text.length > 0 ? NO : YES;
-        self.passWordCancel.hidden = YES;
-        return text.length == 11;
-    }] subscribeNext:^(id x) {
-        @strongify(self);
-        self.userName = x;
-    }];
-    
-    [self.passwordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
-    [self.passwordTF.rac_textSignal subscribeNext:^(id x) {
-        @strongify(self);
-        NSString *text = x;
-        self.passWordCancel.hidden = text.length > 0 ? NO : YES;
-        self.userNameCancel.hidden = YES;
-        self.passWord = x;
+        if ([BXTGlobal isBlankString:x]) {
+            self.passwordTF.text = @"";
+        }
     }];
     
     
@@ -149,34 +136,32 @@
 
 - (void)loginIn
 {
-    if ([BXTGlobal validateMobile:self.userName])
+    if ([BXTGlobal validateMobile:self.nameTF.text])
     {
-        if ([BXTGlobal isBlankString:self.passWord])
+        if ([BXTGlobal isBlankString:self.passwordTF.text])
         {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"请填写登录密码" chooseBlock:^(NSInteger buttonIdx) {
-                
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"密码不能为空" chooseBlock:^(NSInteger buttonIdx) {
             } buttonsStatement:@"确定", nil];
-            
             return;
         }
         
         [self showLoadingMBP:@"正在登录..."];
         
-        [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
-        [BXTGlobal setUserProperty:self.passWord withKey:U_PASSWORD];
+        [BXTGlobal setUserProperty:self.nameTF.text withKey:U_USERNAME];
+        [BXTGlobal setUserProperty:self.passwordTF.text withKey:U_PASSWORD];
         
         NSDictionary *userInfoDic;
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
         {
-            userInfoDic = @{@"username":self.userName,
-                            @"password":self.passWord,
+            userInfoDic = @{@"username":self.nameTF.text,
+                            @"password":self.passwordTF.text,
                             @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
                             @"type":@"1"};
         }
         else
         {
-            userInfoDic = @{@"username":self.userName,
-                            @"password":self.passWord,
+            userInfoDic = @{@"username":self.nameTF.text,
+                            @"password":self.passwordTF.text,
                             @"cid":@"",
                             @"type":@"1"};
         }
@@ -186,7 +171,15 @@
     }
     else
     {
-        [self showMBP:@"手机号格式不对" withBlock:nil];
+        if ([BXTGlobal isBlankString:self.nameTF.text])
+        {
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"手机号不能为空" chooseBlock:^(NSInteger buttonIdx) {
+            } buttonsStatement:@"确定", nil];
+            return;
+        }
+        
+        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"手机号格式错误" chooseBlock:^(NSInteger buttonIdx) {
+        } buttonsStatement:@"确定", nil];
     }
 }
 
@@ -220,22 +213,6 @@
             
         } buttonsStatement:@"确定", nil];
     }
-}
-
-- (IBAction)cancelAction:(id)sender
-{
-    UIButton *btn = sender;
-    if (btn.tag == 0)
-    {
-        self.nameTF.text = @"";
-        self.userName = nil;
-    }
-    else
-    {
-        self.passwordTF.text = @"";
-        self.passWord = nil;
-    }
-    btn.hidden = YES;
 }
 
 #pragma mark -

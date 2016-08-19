@@ -13,8 +13,13 @@
 #import <MJRefresh.h>
 #import "BXTEPList.h"
 #import "BXTEquipmentViewController.h"
+#import "BXTGlobal.h"
 
-@interface BXTEquipmentListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
+@interface BXTEquipmentListViewController () <DOPDropDownMenuDelegate, DOPDropDownMenuDataSource, UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate, UISearchBarDelegate>
+
+@property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UIView *alphaView;
+@property (nonatomic, strong) DOPDropDownMenu *menu;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -25,6 +30,9 @@
 
 @property (nonatomic, copy) NSString *order;
 @property (nonatomic, copy) NSString *placeID;
+
+/** ---- 现在的y值 ---- */
+@property (nonatomic, assign) CGFloat scrollViewY;
 
 @end
 
@@ -93,16 +101,24 @@
 #pragma mark - createUI
 - (void)createUI
 {
+    // UISearchBar
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, 55)];
+    self.searchBar.delegate = self;
+    self.searchBar.delegate = self;
+    self.searchBar.placeholder = @"请输入设备编号或名称";
+    [self.view addSubview:self.searchBar];
+    
+    
     // 添加下拉菜单
-    DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, KNAVIVIEWHEIGHT) andHeight:44];
-    menu.delegate = self;
-    menu.dataSource = self;
-    [self.view addSubview:menu];
-    [menu selectDefalutIndexPath];
+    self.menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, CGRectGetMaxY(self.searchBar.frame)) andHeight:44];
+    self.menu.delegate = self;
+    self.menu.dataSource = self;
+    [self.view addSubview:self.menu];
+    [self.menu selectDefalutIndexPath];
     
     
     // UITableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(menu.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(menu.frame)) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.menu.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.menu.frame)) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -116,6 +132,58 @@
         weakSelf.currentPage++;
         [weakSelf getResource];
     }];
+    
+    
+    // alphaView
+    self.alphaView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.searchBar.frame))];
+    self.alphaView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
+    self.alphaView.hidden = YES;
+    [self.view addSubview:self.alphaView];
+}
+
+#pragma mark -
+#pragma mark - UISearchBarDelegate
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    NSLog(@"should begin");
+    searchBar.showsCancelButton = YES;
+    for(UIView *view in  [[[searchBar subviews] objectAtIndex:0] subviews])
+    {
+        if([view isKindOfClass:[NSClassFromString(@"UINavigationButton") class]])
+        {
+            UIButton * cancel =(UIButton *)view;
+            [cancel  setTintColor:[UIColor whiteColor]];
+        }
+    }
+    
+    self.alphaView.hidden = NO;
+    
+    return YES;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    NSLog(@"did begin");
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = NO;
+    NSLog(@"did end");
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    self.alphaView.hidden = YES;
+    [self.view endEditing:YES];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    self.alphaView.hidden = YES;
+    [self.view endEditing:YES];
+    NSLog(@"SearchButtonClicked");
+    [BXTGlobal showText:searchBar.text view:self.view completionBlock:nil];
 }
 
 #pragma mark -
@@ -232,6 +300,12 @@
     [self hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    self.alphaView.hidden = YES;
+    [self.view endEditing:YES];
 }
 
 - (void)didReceiveMemoryWarning {
