@@ -25,12 +25,10 @@
 @interface BXTApplicationsViewController () <BXTDataResponseDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) UICollectionView *itemsCollectionView;
-
-@property (nonatomic, strong) NSMutableArray *titleArray;
-@property (nonatomic, strong) NSMutableArray *imageArray;
-
-@property (nonatomic, strong) UIButton *headImageView;
-@property (nonatomic, copy) NSString *transURL;
+@property (nonatomic, strong) NSMutableArray   *titleArray;
+@property (nonatomic, strong) NSMutableArray   *imageArray;
+@property (nonatomic, strong) UIButton         *headImageView;
+@property (nonatomic, copy  ) NSString         *transURL;
 
 @end
 
@@ -52,7 +50,6 @@
         {
             self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源统计", @"敬请期待"]];
             self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_chart", @"app_symbol"]];
-            
             
             if ([BXTGlobal shareGlobal].isRepair)
             {

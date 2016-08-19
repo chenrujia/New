@@ -900,9 +900,16 @@
     }
     else if (btnInfo.button_key == 5)
     {
-        [BXTGlobal showLoadingMBP:@"加载中..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request startRepair:self.repairDetail.orderID];
+        if (self.repairDetail.orderID)
+        {
+            [BXTGlobal showLoadingMBP:@"加载中..."];
+            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+            [request startRepair:self.repairDetail.orderID];
+        }
+        else
+        {
+            [self showMBP:@"工单信息获取失败，请稍后重试！" withBlock:nil];
+        }
     }
     else if (btnInfo.button_key == 6)
     {
@@ -1070,6 +1077,12 @@
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
             [self requestDetail];
+        }
+        else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
+        {
+            [self showMBP:@"工单已被抢！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
         }
     }
     else if (type == DeleteRepair)

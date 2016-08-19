@@ -56,26 +56,26 @@
 //外层登录Model
 @interface BXTAbroadUserInfo : NSObject
 
-@property (nonatomic, copy) NSString *personal_role;
-@property (nonatomic, copy) NSString *lastLogin;
-@property (nonatomic, copy) NSString *easemob_username;
+@property (nonatomic, copy  ) NSString            *personal_role;
+@property (nonatomic, copy  ) NSString            *lastLogin;
+@property (nonatomic, copy  ) NSString            *easemob_username;
 @property (nonatomic, strong) NSArray<BXTResignedShopInfo *> *my_shop;
-@property (nonatomic, strong) NSDictionary *my_shop_arr;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *im_token;
-@property (nonatomic, copy) NSString *userID;
-@property (nonatomic, copy) NSString *matchs;
-@property (nonatomic, copy) NSString *gender;
-@property (nonatomic, copy) NSString *pic;
-@property (nonatomic, copy) NSString *publisher_role;
-@property (nonatomic, copy) NSString *mobile;
-@property (nonatomic, copy) NSString *is_admin;
-@property (nonatomic, copy) NSString *cid;
-@property (nonatomic, copy) NSString *token;
-@property (nonatomic, copy) NSString *role;
+@property (nonatomic, strong) NSDictionary        *my_shop_arr;
+@property (nonatomic, copy  ) NSString            *name;
+@property (nonatomic, copy  ) NSString            *im_token;
+@property (nonatomic, copy  ) NSString            *userID;
+@property (nonatomic, copy  ) NSString            *matchs;
+@property (nonatomic, copy  ) NSString            *gender;
+@property (nonatomic, copy  ) NSString            *pic;
+@property (nonatomic, copy  ) NSString            *publisher_role;
+@property (nonatomic, copy  ) NSString            *mobile;
+@property (nonatomic, copy  ) NSString            *is_admin;
+@property (nonatomic, copy  ) NSString            *cid;
+@property (nonatomic, copy  ) NSString            *token;
+@property (nonatomic, copy  ) NSString            *role;
 @property (nonatomic, strong) NSArray<NSString *> *shop_ids;
-@property (nonatomic, copy) NSString *is_test;
-@property (nonatomic, copy) NSString *username;
+@property (nonatomic, copy  ) NSString            *is_test;
+@property (nonatomic, copy  ) NSString            *username;
 
 @end
 
@@ -93,7 +93,7 @@
 @property (nonatomic, copy  ) NSString  *department_name;
 @property (nonatomic, copy  ) NSString  *duty_name;
 @property (nonatomic, copy  ) NSString  *permission_keys;
-@property (nonatomic, assign  ) NSInteger is_energy;
+@property (nonatomic, assign) NSInteger is_energy;
 
 @end
 

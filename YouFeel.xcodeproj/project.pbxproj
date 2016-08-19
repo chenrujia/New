@@ -412,6 +412,7 @@
 		9652AC341BC90EC9009A666D /* LocalPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9652AC201BC90EC9009A666D /* LocalPhotoCell.xib */; };
 		9652AC351BC90EC9009A666D /* LocalPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9652AC221BC90EC9009A666D /* LocalPhotoViewController.m */; };
 		9652AC361BC90EC9009A666D /* LocalPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9652AC231BC90EC9009A666D /* LocalPhotoViewController.xib */; };
+		9654CB8E1D6465720085E2F5 /* NSMutableDictionary+ErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 9654CB8D1D6465720085E2F5 /* NSMutableDictionary+ErrorLog.m */; };
 		965F68781CBE219000BF781D /* BXTManTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 965F68761CBE219000BF781D /* BXTManTableViewCell.m */; };
 		965F68791CBE219000BF781D /* BXTManTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965F68771CBE219000BF781D /* BXTManTableViewCell.xib */; };
 		9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */; };
@@ -1251,6 +1252,8 @@
 		9652AC211BC90EC9009A666D /* LocalPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalPhotoViewController.h; sourceTree = "<group>"; };
 		9652AC221BC90EC9009A666D /* LocalPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalPhotoViewController.m; sourceTree = "<group>"; };
 		9652AC231BC90EC9009A666D /* LocalPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocalPhotoViewController.xib; sourceTree = "<group>"; };
+		9654CB8C1D6465720085E2F5 /* NSMutableDictionary+ErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+ErrorLog.h"; sourceTree = "<group>"; };
+		9654CB8D1D6465720085E2F5 /* NSMutableDictionary+ErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+ErrorLog.m"; sourceTree = "<group>"; };
 		965F68751CBE219000BF781D /* BXTManTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTManTableViewCell.h; sourceTree = "<group>"; };
 		965F68761CBE219000BF781D /* BXTManTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTManTableViewCell.m; sourceTree = "<group>"; };
 		965F68771CBE219000BF781D /* BXTManTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTManTableViewCell.xib; sourceTree = "<group>"; };
@@ -4411,6 +4414,8 @@
 				9602213F1BC9201400010072 /* UIViewController+DismissKeyboard.m */,
 				96B1482A1D61BC190013C2B2 /* NSMutableArray+ErrorLog.h */,
 				96B1482B1D61BC190013C2B2 /* NSMutableArray+ErrorLog.m */,
+				9654CB8C1D6465720085E2F5 /* NSMutableDictionary+ErrorLog.h */,
+				9654CB8D1D6465720085E2F5 /* NSMutableDictionary+ErrorLog.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -5688,6 +5693,7 @@
 				7818DBE41C0824D800DC22C6 /* PNPieChart.m in Sources */,
 				78090B291C7DAF47003E1565 /* BXTEPFilterCell.m in Sources */,
 				784890C91D3734D700C1106D /* BXTMeterReadingHeaderView.m in Sources */,
+				9654CB8E1D6465720085E2F5 /* NSMutableDictionary+ErrorLog.m in Sources */,
 				786D37221CBB3A6100D307DB /* BXTStoresListsInfo.m in Sources */,
 				7827D0451C85734F00E9E29E /* BXTMTProfessionHeader.m in Sources */,
 				78352A011CA0DD5E005134B6 /* BXTReaciveOrdersViewController.m in Sources */,

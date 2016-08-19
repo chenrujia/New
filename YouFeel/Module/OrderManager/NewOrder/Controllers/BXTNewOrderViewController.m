@@ -412,12 +412,39 @@
                 [[BXTGlobal shareGlobal].assignOrderIDs removeObject:self.currentOrderID];
             }];
         }
+        else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
+        {
+            [self showMBP:@"工单已被抢！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+                --[BXTGlobal shareGlobal].assignNumber;
+                [[BXTGlobal shareGlobal].assignOrderIDs removeObject:self.currentOrderID];
+            }];
+        }
+        else
+        {
+            [self showMBP:@"接单失败！" withBlock:^(BOOL hidden) {
+                [self.navigationController popViewControllerAnimated:YES];
+                --[BXTGlobal shareGlobal].assignNumber;
+                [[BXTGlobal shareGlobal].assignOrderIDs removeObject:self.currentOrderID];
+            }];
+        }
     }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    if (type == ReaciveOrder)
+    {
+        [self showMBP:@"接单失败！" withBlock:^(BOOL hidden) {
+            [self.navigationController popViewControllerAnimated:YES];
+            --[BXTGlobal shareGlobal].assignNumber;
+            [[BXTGlobal shareGlobal].assignOrderIDs removeObject:self.currentOrderID];
+        }];
+    }
+    else
+    {
+        [self hideMBP];
+    }
 }
 
 - (void)didReceiveMemoryWarning
