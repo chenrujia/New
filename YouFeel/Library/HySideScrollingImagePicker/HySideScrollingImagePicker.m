@@ -350,11 +350,11 @@
                 {
                     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
                     hud.mode = MBProgressHUDModeText;
-                    hud.labelText = @"只能选择1张图片";
+                    hud.label.text = @"只能选择1张图片";
                     hud.margin = 10.f;
                     hud.delegate = self;
                     hud.removeFromSuperViewOnHide = YES;
-                    [hud hide:YES afterDelay:2];
+                    [hud hideAnimated:YES afterDelay:2];
                 }
                 else
                 {
@@ -370,11 +370,11 @@
                 {
                     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
                     hud.mode = MBProgressHUDModeText;
-                    hud.labelText = @"最多选择3张图片";
+                    hud.label.text = @"最多选择3张图片";
                     hud.margin = 10.f;
                     hud.delegate = self;
                     hud.removeFromSuperViewOnHide = YES;
-                    [hud hide:YES afterDelay:2];
+                    [hud hideAnimated:YES afterDelay:2];
                 }
                 else
                 {

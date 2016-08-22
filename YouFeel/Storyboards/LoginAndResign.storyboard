@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VVz-ga-zQn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VVz-ga-zQn">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -394,11 +394,9 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
-                        <outlet property="back_top" destination="a5H-Pw-Vxg" id="Oi2-B8-xUe"/>
                         <outlet property="loginBackView" destination="yU8-CE-RjG" id="SN8-7W-ryp"/>
                         <outlet property="login_back_y" destination="a5H-Pw-Vxg" id="j3s-jp-zzq"/>
                         <outlet property="logoView" destination="f9P-FV-sj4" id="PwB-66-7iZ"/>
-                        <outlet property="logo_top" destination="Z5z-eX-zu1" id="LoY-Bk-GYb"/>
                         <outlet property="logo_y" destination="Z5z-eX-zu1" id="brN-AG-hxI"/>
                         <outlet property="nameTF" destination="nnK-Wu-FVo" id="XBp-ca-p4T"/>
                         <outlet property="passwordTF" destination="ZxQ-b8-mBw" id="HHE-nK-6Ln"/>

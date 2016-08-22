@@ -1527,7 +1527,7 @@
     AppDelegate *app = [AppDelegate appdelegete];
     progressHUD = [MBProgressHUD showHUDAddedTo:app.window animated:YES];
     progressHUD.delegate = self;
-    progressHUD.detailsLabelText = @"正在上传,请稍后...";
+    progressHUD.detailsLabel.text = @"正在上传,请稍后...";
     progressHUD.mode = MBProgressHUDModeDeterminate;
 }
 
@@ -1536,7 +1536,7 @@
     progressHUD.progress = newProgress;
     if (newProgress >= 1.0f)
     {
-        [progressHUD hide:YES];
+        [progressHUD hideAnimated:YES];
     }
 }
 

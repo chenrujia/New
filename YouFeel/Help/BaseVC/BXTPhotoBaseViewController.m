@@ -250,7 +250,6 @@
     browser.enableGrid = NO;
     browser.startOnGrid = NO;
     browser.zoomPhotosToFill = YES;
-    browser.enableSwipeToDismiss = YES;
     [browser setCurrentPhotoIndex:index];
     [self.navigationController pushViewController:browser animated:YES];
     self.navigationController.navigationBar.hidden = NO;
@@ -266,7 +265,6 @@
     browser.enableGrid = NO;
     browser.startOnGrid = NO;
     browser.zoomPhotosToFill = YES;
-    browser.enableSwipeToDismiss = YES;
     [browser setCurrentPhotoIndex:index];
     [self.navigationController pushViewController:browser animated:YES];
     self.navigationController.navigationBar.hidden = NO;

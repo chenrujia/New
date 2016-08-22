@@ -39,7 +39,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = text;
+    hud.label.text = text;
     hud.margin = 10.f;
     hud.removeFromSuperViewOnHide = YES;
 }

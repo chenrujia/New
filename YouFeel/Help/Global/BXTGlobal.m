@@ -373,7 +373,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = text;
+    hud.label.text = text;
     hud.margin = 10.f;
     hud.removeFromSuperViewOnHide = YES;
 }
@@ -383,20 +383,22 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
 }
 
-+ (void)showText:(NSString *)text view:(UIView *)view completionBlock:(void (^)())completion {
++ (void)showText:(NSString *)text view:(UIView *)view completionBlock:(void (^)())completion
+{
     [MBProgressHUD hideHUDForView:view animated:YES];
     MBProgressHUD *showHud = [[MBProgressHUD alloc] initWithView:view];
     [view addSubview:showHud];
-    showHud.labelText = text;
+    showHud.label.text = text;
     showHud.mode = MBProgressHUDModeText;
-    [showHud showAnimated:YES whileExecutingBlock:^{
-        sleep(2.0);
-    } completionBlock:^{
+    
+    double delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [showHud removeFromSuperview];
         if (completion) {
             completion();
         }
-    }];
+    });
 }
 
 + (NSString *)md5:(NSString *)inPutText
