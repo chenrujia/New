@@ -16,16 +16,6 @@
 
 @implementation BXTRepairButton
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-+(void)load
-{
-    [super registerPlusButton];
-}
-
 -(instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame])
@@ -35,6 +25,11 @@
     }
     
     return self;
+}
+
++ (void)load
+{
+    [super registerPlusButton];
 }
 
 #pragma mark -
