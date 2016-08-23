@@ -10,6 +10,7 @@
 #import "BXTHeaderFile.h"
 #import "NSString+URL.h"
 #import "MobClick.h"
+#import "UMessage.h"
 #import "BXTPlaceInfo.h"
 #import "BXTRemindNum.h"
 #import "ANKeyValueTable.h"
@@ -32,6 +33,7 @@ NSString* const NotificationActionOneIdent = @"ACTION_ONE";
 NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 #define RONGCLOUD_IM_APPKEY @"ik1qhw091jstp"
+#define UMENGKEY            @"566e7c1867e58e7160002af5"
 
 @interface AppDelegate ()
 
@@ -121,9 +123,15 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [self receiveNotificationByLaunchingOptions:launchOptions];
     
     // [3]:友盟配置
-    [UMAnalyticsConfig sharedInstance].appKey = @"566e7c1867e58e7160002af5";
+    [UMAnalyticsConfig sharedInstance].appKey = UMENGKEY;
     [UMAnalyticsConfig sharedInstance].ePolicy = BATCH;
     [MobClick startWithConfigure:[UMAnalyticsConfig sharedInstance]];
+    
+    //设置 AppKey 及 LaunchOptions
+    [UMessage startWithAppkey:UMENGKEY launchOptions:launchOptions];
+    
+    //1.3.0版本开始简化初始化过程。如不需要交互式的通知，下面用下面一句话注册通知即可。
+    [UMessage registerForRemoteNotifications];
     
     //统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:19.f];
