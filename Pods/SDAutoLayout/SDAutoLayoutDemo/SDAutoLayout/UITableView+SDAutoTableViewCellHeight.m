@@ -159,6 +159,85 @@
 
 }
 
+- (void)insertNewDataAtTheBeginingOfSection:(NSInteger)section newDataCount:(NSInteger)count
+{
+    NSMutableDictionary *tempHeightCacheDict = [NSMutableDictionary new];
+    NSMutableDictionary *tempFrameCacheDict = [NSMutableDictionary new];
+    for (NSString *key in _cacheDictionary.allKeys) {
+        NSArray *res = [key componentsSeparatedByString:@"-"];
+        long originalSection = [res.firstObject integerValue];
+        long row = [res.lastObject integerValue];
+        if (originalSection == section) {
+            NSNumber *heightCache = _cacheDictionary[key];
+            NSArray *frameCache = _subviewFrameCacheDict[key];
+            NSString *newKey = [NSString stringWithFormat:@"%ld-%ld", originalSection, (row + count)];
+            [tempHeightCacheDict setValue:heightCache forKey:newKey];
+            [tempFrameCacheDict setValue:frameCache forKey:newKey];
+            [_cacheDictionary removeObjectForKey:key];
+            [_subviewFrameCacheDict removeObjectForKey:key];
+        }
+    }
+    [_cacheDictionary addEntriesFromDictionary:tempHeightCacheDict];
+    [_subviewFrameCacheDict addEntriesFromDictionary:tempFrameCacheDict];
+}
+
+- (void)insertNewDataAtIndexPaths:(NSArray *)indexPaths
+{
+    NSMutableDictionary *sectionsdict = [NSMutableDictionary new];
+    for (NSIndexPath *indexPath in indexPaths) {
+        NSString *sectionkey = [@(indexPath.section) stringValue];
+        if (![sectionsdict objectForKey:sectionkey]) {
+            [sectionsdict setValue:[NSMutableArray new] forKey:sectionkey];
+        }
+        NSMutableArray *arr = sectionsdict[sectionkey];
+        [arr addObject:indexPath];
+    }
+    for (NSString *sectionkey in sectionsdict.allKeys) {
+        NSMutableArray *tempHeightCaches = [NSMutableArray new];
+        NSMutableArray *tempFrameCaches = [NSMutableArray new];
+        NSInteger section = [sectionkey integerValue];
+        NSInteger rowCount = [self.modelTableview numberOfRowsInSection:section];
+        if (rowCount <= 0) {
+            continue;
+        } else {
+            for (int i = 0; i < rowCount; i++) {
+                [tempHeightCaches addObject:[NSNull null]];
+                [tempFrameCaches addObject:[NSNull null]];
+            }
+        }
+        
+        for (NSString *key in _cacheDictionary.allKeys) {
+            NSArray *res = [key componentsSeparatedByString:@"-"];
+            long originalSection = [res.firstObject integerValue];
+            long row = [res.lastObject integerValue];
+            if (originalSection == section) {
+                NSNumber *heightCache = _cacheDictionary[key];
+                NSArray *frameCache = _subviewFrameCacheDict[key];
+                [tempHeightCaches setObject:heightCache atIndexedSubscript:row];
+                [tempFrameCaches setObject:frameCache atIndexedSubscript:row];
+                [_cacheDictionary removeObjectForKey:key];
+                [_subviewFrameCacheDict removeObjectForKey:key];
+            }
+        }
+        NSMutableArray *objsToInsert = [NSMutableArray new];
+        NSMutableIndexSet *indexSet = [NSMutableIndexSet new];
+        NSArray *indexPaths = sectionsdict[sectionkey];
+        [indexPaths enumerateObjectsUsingBlock:^(NSIndexPath *obj, NSUInteger idx, BOOL *stop) {
+            [objsToInsert addObject:[NSNull null]];
+            [indexSet addIndex:obj.row];
+        }];
+        [tempHeightCaches insertObjects:objsToInsert atIndexes:indexSet];
+        [tempFrameCaches insertObjects:objsToInsert atIndexes:indexSet];
+        [tempHeightCaches enumerateObjectsUsingBlock:^(NSNumber *heightCache, NSUInteger idx, BOOL *stop) {
+            if (![heightCache isKindOfClass:[NSNull class]]) {
+                NSString *key = [NSString stringWithFormat:@"%zd-%zd", section, idx];
+                [_cacheDictionary setValue:heightCache forKey:key];
+                [_subviewFrameCacheDict setValue:[tempFrameCaches objectAtIndex:idx] forKey:key];
+            }
+        }];
+    }
+}
+
 - (NSNumber *)heightCacheForIndexPath:(NSIndexPath *)indexPath
 {
     /*
@@ -286,7 +365,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        NSArray *selStringsArray = @[@"reloadData", @"reloadRowsAtIndexPaths:withRowAnimation:", @"deleteRowsAtIndexPaths:withRowAnimation:"];
+        NSArray *selStringsArray = @[@"reloadData", @"reloadRowsAtIndexPaths:withRowAnimation:", @"deleteRowsAtIndexPaths:withRowAnimation:", @"insertRowsAtIndexPaths:withRowAnimation:"];
         
         [selStringsArray enumerateObjectsUsingBlock:^(NSString *selString, NSUInteger idx, BOOL *stop) {
             NSString *mySelString = [@"sd_" stringByAppendingString:selString];
@@ -313,7 +392,7 @@
     [self sd_reloadRowsAtIndexPaths:indexPaths withRowAnimation:animation];
 }
 
-- (void)sd_deleteRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation
+- (void)sd_deleteRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation
 {
     for (NSIndexPath *indexPath in indexPaths) {
         [self.cellAutoHeightManager deleteThenResetHeightCache:indexPath];
@@ -321,13 +400,15 @@
     [self sd_deleteRowsAtIndexPaths:indexPaths withRowAnimation:animation];
 }
 
+
+- (void)sd_insertRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation
+{
+    [self.cellAutoHeightManager insertNewDataAtIndexPaths:indexPaths];
+    [self sd_insertRowsAtIndexPaths:indexPaths withRowAnimation:animation];
+}
+
 /*
  * 下一步即将实现的功能
- 
- - (void)sd_insertRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation
- {
- [self sd_insertRowsAtIndexPaths:indexPaths withRowAnimation:animation];
- }
  
  - (void)sd_moveRowAtIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)newIndexPath
  {
@@ -359,6 +440,24 @@
 - (void)reloadDataWithExistedHeightCache
 {
     self.cellAutoHeightManager.shouldKeepHeightCacheWhenReloadingData = YES;
+    [self reloadData];
+}
+
+- (void)reloadDataWithInsertingDataAtTheBeginingOfSection:(NSInteger)section newDataCount:(NSInteger)count
+{
+    self.cellAutoHeightManager.shouldKeepHeightCacheWhenReloadingData = YES;
+    [self.cellAutoHeightManager insertNewDataAtTheBeginingOfSection:section newDataCount:count];
+    [self reloadData];
+}
+
+- (void)reloadDataWithInsertingDataAtTheBeginingOfSections:(NSArray *)sectionNumsArray newDataCounts:(NSArray *)dataCountsArray
+{
+    self.cellAutoHeightManager.shouldKeepHeightCacheWhenReloadingData = YES;
+    [sectionNumsArray enumerateObjectsUsingBlock:^(NSNumber *num, NSUInteger idx, BOOL *stop) {
+        int section = [num intValue];
+        int dataCountForSection = [dataCountsArray[idx] intValue];
+        [self.cellAutoHeightManager insertNewDataAtTheBeginingOfSection:section newDataCount:dataCountForSection];
+    }];
     [self reloadData];
 }
 

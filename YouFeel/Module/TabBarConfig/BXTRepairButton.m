@@ -23,7 +23,7 @@
 
 +(void)load
 {
-    [super registerSubclass];
+    [super registerPlusButton];
 }
 
 -(instancetype)initWithFrame:(CGRect)frame

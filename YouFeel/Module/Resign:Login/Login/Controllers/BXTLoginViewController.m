@@ -25,8 +25,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTF;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTF;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *logo_top;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *back_top;
 
 - (IBAction)loginAction:(id)sender;
 - (IBAction)loginByWeiXin:(id)sender;
@@ -39,18 +37,11 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"ffffff");
-    
-    
-    if (IS_IPHONE4)
-    {
-        self.logo_top.constant = 60.f;
-        self.back_top.constant = 175.f;
-    }
+
     if (![WXApi isWXAppInstalled])
     {
         self.wxLogin.hidden = YES;
     }
-    
     
     @weakify(self);
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"GotoResignVC" object:nil] subscribeNext:^(id x) {
@@ -65,7 +56,6 @@
         @strongify(self);
         [self loginIn];
     }];
-    
     
     [self.nameTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];
     [self.passwordTF setValue:colorWithHexString(@"#96d3ff") forKeyPath:@"_placeholderLabel.textColor"];

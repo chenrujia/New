@@ -17,9 +17,10 @@
   "requires_arc": true,
   "source_files": "LBXScan/*.{h,m}",
   "prefix_header_contents": "#import <Foundation/Foundation.h>",
+  "resources": "LBXScan/assets/*",
   "dependencies": {
     "ZXingObjC": [
-      "~> 3.0"
+
     ]
   }
 }

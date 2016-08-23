@@ -5,6 +5,7 @@ inhibit_all_warnings!
 target 'YouFeel' do
     
     pod 'UMengAnalytics-NO-IDFA'
+    pod 'UMengMessage-NO-IDFA-SUN'
     pod 'AFNetworking'
     pod 'ReactiveCocoa'
     pod 'MJRefresh'

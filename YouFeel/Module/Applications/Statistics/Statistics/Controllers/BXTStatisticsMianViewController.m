@@ -248,7 +248,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = text;
+    hud.label.text = text;
     hud.margin = 10.f;
     hud.delegate = self;
     hud.removeFromSuperViewOnHide = YES;
