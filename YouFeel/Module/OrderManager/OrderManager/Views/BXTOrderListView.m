@@ -176,6 +176,7 @@
                                       tmeStart:@""
                                       timeOver:@""
                                     subgroupID:@""
+                                   subgroupIDs:@""
                                        placeID:@""
                                    repairState:@""
                                          state:@""
@@ -205,6 +206,7 @@
                                   tmeStart:self.filterOfTimeBegain
                                   timeOver:self.filterOfTimeEnd
                                 subgroupID:@""
+                               subgroupIDs:@""
                                    placeID:self.filterOfAreasID
                                repairState:self.filterOfRepairState
                                      state:self.filterOfState

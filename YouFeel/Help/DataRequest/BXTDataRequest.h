@@ -208,6 +208,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
                              tmeStart:(NSString *)timestart // 时间戳的开始时间
                              timeOver:(NSString *)timeover // 时间戳的结束时间
                            subgroupID:(NSString *)subgroup_id // 获取专业分组的工单列表
+                          subgroupIDs:(NSString *)subgroup_ids // 获取专业分组的工单列表
                               placeID:(NSString *)place_id // 获取此位置下面的所有位置的工单
                           repairState:(NSString *)repairstate // 工单状态
                                 state:(NSString *)state // 维修状态 1已修好 2 未修好

@@ -83,6 +83,23 @@
 
 - (void)getResource
 {
+    // self.filterOfGroupID 分组  默认传字符串
+    NSString *subgroupIDs = @"";
+    if ([BXTGlobal isBlankString:self.filterOfGroupID]) {
+        NSMutableArray *array = [[NSMutableArray alloc] init];
+        NSArray *groupIDArray = [[ANKeyValueTable userDefaultTable] valueWithKey:MYSUBGROUPSAVE];
+        for (BXTSubgroupInfo *subgroup in groupIDArray) {
+            [array addObject:subgroup.subgroupID];
+        }
+        subgroupIDs = [array componentsJoinedByString:@","];
+    }
+    
+    // timestart & timeover & timename 三者一起
+    NSString *timeName = @"fault_time";
+    if ([BXTGlobal isBlankString:self.filterOfTimeBegain] || [BXTGlobal isBlankString:self.filterOfTimeEnd]) {
+        timeName = @"";
+    }
+    
     [self showLoadingMBP:@"加载中..."];
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -93,10 +110,11 @@
                                dispatchUid:@""
                               dailyTimeout:self.filterOfStateDaily
                          inspectionTimeout:self.filterOfStateInspection
-                                  timeName:@"fault_time"
+                                  timeName:timeName
                                   tmeStart:self.filterOfTimeBegain
                                   timeOver:self.filterOfTimeEnd
                                 subgroupID:self.filterOfGroupID
+                               subgroupIDs:subgroupIDs
                                    placeID:self.filterOfAreasID
                                repairState:@"1"
                                      state:@""
@@ -112,18 +130,25 @@
 #pragma mark 初始化视图
 - (void)createDOP
 {
+    // 分组
     groupArray = [NSMutableArray arrayWithObjects:@"分组", nil];
-    if ([_taskType integerValue] == 1)
-    {
+    [groupArray addObjectsFromArray:[[ANKeyValueTable userDefaultTable] valueWithKey:MYSUBGROUPSAVE]];
+    
+    // 状态
+    if ([_taskType integerValue] == 1) {
         stateArray = [NSMutableArray arrayWithObjects:@"状态", @"正常工单", @"超时工单", nil];
     }
-    else
-    {
+    else {
         stateArray = [NSMutableArray arrayWithObjects:@"状态", @"未到期", @"即将到期", @"已过期", nil];
     }
+    
+    // 位置
     areasArray = [NSMutableArray arrayWithObjects:@"位置", nil];
     [areasArray addObjectsFromArray:[[ANKeyValueTable userDefaultTable] valueWithKey:YPLACESAVE]];
+    
+    // 时间
     timesArray = [NSMutableArray arrayWithObjects:@"时间",@"今天",@"3天内",@"7天内",@"本月",@"本年", nil];
+    
     
     // 添加下拉菜单
     DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
@@ -158,41 +183,8 @@
 
 - (void)requestData
 {
-    [self showLoadingMBP:@"加载中..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /**获取报修列表**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request listOfRepairOrderWithTaskType:self.taskType
-                                repairListType:OtherList
-                                   faulttypeID:@""
-                                         order:@""
-                                   dispatchUid:@""
-                                  dailyTimeout:@""
-                             inspectionTimeout:@""
-                                      timeName:@"fault_time"
-                                      tmeStart:@""
-                                      timeOver:@""
-                                    subgroupID:@""
-                                       placeID:@""
-                                   repairState:@"1"
-                                         state:@""
-                             faultCarriedState:@""
-                            repairCarriedState:@""
-                                  collectionID:@""
-                                      deviceID:@""
-                                          page:1
-                                    closeState:@"1"];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**请求故障类型列表**/
-        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        [fau_request listOFSubgroupShopID:companyInfo.company_id];
-    });
-    
-    
     self.currentPage = 1;
+    
     __weak __typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
@@ -202,6 +194,8 @@
         weakSelf.currentPage++;
         [weakSelf getResource];
     }];
+    
+    [self.tableView.mj_header beginRefreshing];
 }
 
 #pragma mark -
@@ -455,20 +449,6 @@
             [self.ordersArray addObjectsFromArray:repairs];
         }
         [self.tableView reloadData];
-    }
-    //    else if (type == PlaceLists)
-    //    {
-    //        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-    //            return @{@"placeID": @"id"};
-    //        }];
-    //
-    //    }
-    else if (type == SubgroupLists)
-    {
-        [BXTSubgroupInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"subgroupID":@"id"};
-        }];
-        [groupArray addObjectsFromArray:[BXTSubgroupInfo mj_objectArrayWithKeyValuesArray:data]];
     }
     
 }

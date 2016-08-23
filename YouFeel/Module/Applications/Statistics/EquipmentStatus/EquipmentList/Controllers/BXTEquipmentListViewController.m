@@ -42,7 +42,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self navigationSetting:@"维保设备列表" andRightTitle:@"   筛选" andRightImage:nil];
+    [self navigationSetting:@"设备列表" andRightTitle:@"   筛选" andRightImage:nil];
     
     self.typeArray = [[NSArray alloc] initWithObjects:@"设备编号逆序", @"设备编号正序", nil];
     self.dataArray = [[NSMutableArray alloc] init];
