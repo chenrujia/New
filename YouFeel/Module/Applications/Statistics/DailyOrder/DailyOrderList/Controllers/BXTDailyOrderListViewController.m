@@ -120,6 +120,7 @@
                                   tmeStart:startTime
                                   timeOver:overTime
                                 subgroupID:self.transGroupStr
+                               subgroupIDs:@""
                                    placeID:@""
                                repairState:self.transRepairStateStr
                                      state:self.transStateStr

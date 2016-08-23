@@ -232,6 +232,7 @@
         [BXTResignedShopInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"shopID":@"id"};
         }];
+        
         BXTAbroadUserInfo *abUserInfo = [BXTAbroadUserInfo mj_objectWithKeyValues:userInfoDic];
         
         [BXTGlobal setUserProperty:abUserInfo.gender withKey:U_SEX];
@@ -298,6 +299,12 @@
     else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
     {
         [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"用户名或密码错误，请重试" chooseBlock:^(NSInteger buttonIdx) {
+            
+        } buttonsStatement:@"确定", nil];
+    }
+    else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"026"])
+    {
+        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"手机号未注册" chooseBlock:^(NSInteger buttonIdx) {
             
         } buttonsStatement:@"确定", nil];
     }

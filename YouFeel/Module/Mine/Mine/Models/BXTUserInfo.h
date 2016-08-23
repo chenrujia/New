@@ -94,6 +94,7 @@
 @property (nonatomic, copy  ) NSString  *duty_name;
 @property (nonatomic, copy  ) NSString  *permission_keys;
 @property (nonatomic, assign) NSInteger is_energy;
+@property (nonatomic, strong) NSArray *my_subgroup;
 
 @end
 

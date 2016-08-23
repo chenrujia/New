@@ -15,6 +15,7 @@
 #import "BXTPublicSetting.h"
 #import "CYLTabBarControllerConfig.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "BXTSubgroupInfo.h"
 
 #define USERKEY @"UserInfo"
 
@@ -76,20 +77,27 @@
     BXTBranchUserInfo *branchUser = [BXTBranchUserInfo mj_objectWithKeyValues:dic];
     [BXTGlobal setUserProperty:branchUser.userID withKey:U_BRANCHUSERID];
     [BXTGlobal setUserProperty:branchUser.permission_keys withKey:PERMISSIONKEYS];
+    
+    // Yes是维修员，No是报修者
+    [BXTGlobal shareGlobal].isRepair = branchUser.is_repair == 2;
+    // 显示抄表权限
     [BXTGlobal shareGlobal].isEnergy = branchUser.is_energy == 1;
+    // 处于登录状态
+    [BXTGlobal shareGlobal].isLogin = YES;
+    
+    // 专业分组
+    [BXTSubgroupInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"subgroupID":@"id"};
+    }];
+    NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+    [dataSource addObjectsFromArray:[BXTSubgroupInfo mj_objectArrayWithKeyValuesArray:branchUser.my_subgroup]];
+    [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:MYSUBGROUPSAVE];
+    [[ANKeyValueTable userDefaultTable] synchronize:YES];
     
     BXTPostionInfo *roleInfo = [[BXTPostionInfo alloc] init];
     roleInfo.role_id = branchUser.duty_id;
     roleInfo.duty_name = branchUser.duty_name;
-    if (branchUser.is_repair == 1)
-    {
-        [BXTGlobal shareGlobal].isRepair = NO;
-    }
-    else if (branchUser.is_repair == 2)
-    {
-        [BXTGlobal shareGlobal].isRepair = YES;
-    }
-    [BXTGlobal shareGlobal].isLogin = YES;
+    
     if (isPushToRootVC)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESHYSAVEDSHOPID" object:nil];
@@ -278,7 +286,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSDate *begainDate = [dateFormatter dateFromString:begainTime];
     NSString *filterOfTimeBegain = [NSString stringWithFormat:@"%ld", (long)[begainDate timeIntervalSince1970]];
     NSDate *endDate = [dateFormatter dateFromString:endTime];
-    NSString *filterOfTimeEnd = [NSString stringWithFormat:@"%ld", (long)[endDate timeIntervalSince1970]];
+    NSString *filterOfTimeEnd = [NSString                                                                  stringWithFormat:@"%ld", (long)[endDate timeIntervalSince1970]];
     
     return [NSArray arrayWithObjects:filterOfTimeBegain, filterOfTimeEnd, nil];
 }
@@ -290,12 +298,12 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSInteger year = [components year];
     NSInteger month = [components month];
     
-//    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-//    NSRange range = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[NSDate date]];
-//    NSUInteger numberOfDaysInMonth = range.length;
+    //    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    //    NSRange range = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[NSDate date]];
+    //    NSUInteger numberOfDaysInMonth = range.length;
     
     NSString *startTime = [NSString stringWithFormat:@"%ld-%2.ld-01", (long)year, (long)month];
-//    NSString *endTime = [NSString stringWithFormat:@"%ld-%2.ld-%2.ld",(long)year, (long)month, (unsigned long)numberOfDaysInMonth];
+    //    NSString *endTime = [NSString stringWithFormat:@"%ld-%2.ld-%2.ld",(long)year, (long)month, (unsigned long)numberOfDaysInMonth];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *endTime = [formatter stringFromDate:[NSDate date]];
@@ -313,7 +321,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *endTime = [formatter stringFromDate:[NSDate date]];
-//    NSString *endTime = [NSString stringWithFormat:@"%ld-12-31",(long)year];
+    //    NSString *endTime = [NSString stringWithFormat:@"%ld-12-31",(long)year];
     
     return [NSArray arrayWithObjects:startTime, endTime, nil];
 }

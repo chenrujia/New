@@ -15,6 +15,16 @@
 
 #define SaveImage [UIImage imageNamed:@"Add_button"]
 
+// meter_condition ----  1 二维码扫描   2 NFC扫描   3 拍照
+typedef NS_ENUM(NSInteger, ReadingType) {
+    /** ---- 默认: 扫描 + 拍照 ---- */
+    ReadingTypeOFDefault = 1,
+    /** ---- 需扫描  ---- */
+    ReadingTypeOFScan,
+    /** ---- 需填图 ---- */
+    ReadingTypeOFPicture
+};
+
 @interface BXTMeterReadingViewController () <UITableViewDelegate, UITableViewDataSource, BXTDataResponseDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -43,6 +53,9 @@
 
 /** ----  尖峰值不可操作 ---- */
 @property (nonatomic, assign) BOOL unablePeakValue;
+
+/** ---- 抄表类型 ---- */
+@property (nonatomic, assign) ReadingType typeOFReading;
 
 @end
 
@@ -207,16 +220,30 @@
     }];
     [self.footerView addSubview:cancelBtn];
     
+    // TODO: -----------------  调试  -----------------
     UIButton *commitBtn = [self createButtonWithTitle:@"提交" btnX:SCREEN_WIDTH / 2 + 5  tilteColor:@"#5DAFF9"];
+    
     [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if ([self.meterReadingInfo.meter_condition containsString:@"3"] && [self.allPhotoArray containsObject:@""])
-        {
-            [MYAlertAction showAlertWithTitle:@"请将图片添加完整" msg:nil chooseBlock:^(NSInteger buttonIdx){
-                
-            } buttonsStatement:@"确定", nil];
-            return ;
+        if (self.typeOFReading == ReadingTypeOFDefault) {
+            if ([self.allPhotoArray containsObject:@""]) {
+                [MYAlertAction showAlertWithTitle:@"请将图片添加完整" msg:nil chooseBlock:^(NSInteger buttonIdx){
+                } buttonsStatement:@"确定", nil];
+                return ;
+            }
         }
+        else if (self.typeOFReading == ReadingTypeOFScan) {
+            
+        }
+        else if (self.typeOFReading == ReadingTypeOFPicture) {
+            if ([self.allPhotoArray containsObject:@""]) {
+                [MYAlertAction showAlertWithTitle:@"请将图片添加完整" msg:nil chooseBlock:^(NSInteger buttonIdx){
+                } buttonsStatement:@"确定", nil];
+                return ;
+            }
+        }
+        
+        
         
         for (NSString *num in self.thisNumArray)
         {
@@ -264,7 +291,9 @@
                                       peakSegmentPic:@""];
         }
     }];
+    
     [self.footerView addSubview:commitBtn];
+    
 }
 
 #pragma mark -
@@ -462,10 +491,29 @@
             self.tableView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);
         }
         
-        // meterReadingInfo.meter_condition 三个没有，进来直接解锁
-        if ([self.meterReadingInfo.meter_condition rangeOfString:@"1"].location == NSNotFound && [self.meterReadingInfo.meter_condition rangeOfString:@"2"].location == NSNotFound && [self.meterReadingInfo.meter_condition rangeOfString:@"3"].location == NSNotFound) {
-            self.unlocked = YES;
+        // TODO: -----------------  调试  -----------------
+        
+        // meter_condition ----  1 二维码扫描   2 NFC扫描   3 拍照
+        // 1. meter_condition 默认: 扫描 + 拍照
+        if ([self.meterReadingInfo.meter_condition rangeOfString:@"1"].location != NSNotFound && [self.meterReadingInfo.meter_condition rangeOfString:@"3"].location != NSNotFound) {
+            self.typeOFReading = ReadingTypeOFDefault;
         }
+        // 2. meter_condition 需扫描
+        else if ([self.meterReadingInfo.meter_condition rangeOfString:@"1"].location != NSNotFound) {
+            self.typeOFReading = ReadingTypeOFScan;
+        }
+        // 3. meter_condition 需填图
+        else if ([self.meterReadingInfo.meter_condition rangeOfString:@"3"].location != NSNotFound) {
+            self.typeOFReading = ReadingTypeOFPicture;
+            self.unlocked = YES;
+            [self navigationOwnSetting:@"新建抄表" andRightTitle:nil andRightImage:nil];
+        }
+        // 4. meter_condition 无需 扫描 + 拍照
+        else {
+            self.unlocked = YES;
+            [self navigationOwnSetting:@"新建抄表" andRightTitle:nil andRightImage:nil];
+        }
+        
     }
     else if (type == EnergyMeterRecordFile && [dic[@"returncode"] intValue] == 0)
     {
