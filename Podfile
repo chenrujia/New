@@ -12,7 +12,6 @@ target 'YouFeel' do
     pod 'SDWebImage'
     pod 'DACircularProgress'
     pod 'RongCloudIMKit'
-    pod 'GetuiSDK'
     pod 'IQKeyboardManager'
     pod 'MBProgressHUD'
     pod 'DZNEmptyDataSet'

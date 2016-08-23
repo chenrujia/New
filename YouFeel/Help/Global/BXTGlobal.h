@@ -25,7 +25,7 @@
 /** ---- 刷新列表 ---- */
 #define REFRESHTABLEVIEWOFLIST  @"REFRESHTABLEVIEWOFLIST"
 
-/**弱引用、强引用**/
+/** ---- 弱引用、强引用 ---- **/
 #define LRWeakSelf(type)  __weak typeof(type) weak##type = type;
 #define LRStrongSelf(type)  __strong typeof(type) type = weak##type;
 
@@ -48,7 +48,7 @@
 @property (nonatomic, strong) NSArray                *energyColors;
 @property (nonatomic, assign) NSInteger              energyType;
 @property (nonatomic, strong) UINavigationController *presentNav;
-@property (nonatomic, assign) BOOL              isEnergy; //Yes有显示抄表权限
+@property (nonatomic, assign) BOOL                   isEnergy; //Yes有显示抄表权限
 
 + (BXTGlobal *)shareGlobal;
 
@@ -188,5 +188,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
  *  富文本转化
  */
 + (NSMutableAttributedString *)transToRichLabelOfIndex:(NSInteger)index String:(NSString *)originStr;
+
+- (NSString*)deviceVersion;
 
 @end

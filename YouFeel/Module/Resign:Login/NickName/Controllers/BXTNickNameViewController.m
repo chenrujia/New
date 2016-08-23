@@ -136,7 +136,6 @@ static NSString *cellIndentify = @"resignCellIndentify";
             {
                 passWord = [BXTGlobal getUserProperty:U_PASSWORD];
             }
-            NSString *cid = [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"] ? [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"] : @"";
             
             NSDictionary *userInfoDic;
             if (_isLoginByWX)
@@ -147,7 +146,6 @@ static NSString *cellIndentify = @"resignCellIndentify";
                                 @"gender":self.sex,
                                 @"mailmatch":@"123",
                                 @"roletype":@"1",
-                                @"cid":cid,
                                 @"type":@"3",
                                 @"only_code":[BXTGlobal shareGlobal].openID,
                                 @"flat_id":@"1",
@@ -160,8 +158,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
                                 @"username":userName,
                                 @"gender":self.sex,
                                 @"mailmatch":@"123",
-                                @"roletype":@"1",
-                                @"cid":cid};
+                                @"roletype":@"1"};
             }
             
             BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];

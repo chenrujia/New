@@ -239,7 +239,6 @@
     {
         NSDictionary *userInfoDic = @{@"username":@"",
                                       @"password":@"",
-                                      @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
                                       @"type":@"2",
                                       @"flat_id":@"1",
                                       @"only_code":[BXTGlobal shareGlobal].openID};

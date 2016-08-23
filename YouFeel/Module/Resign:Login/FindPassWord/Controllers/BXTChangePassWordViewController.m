@@ -263,21 +263,9 @@
                 @strongify(self);
                 [BXTGlobal setUserProperty:self.pwStr withKey:U_PASSWORD];
                 
-                NSDictionary *userInfoDic;
-                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
-                {
-                    userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
-                                    @"password":self.pwStr,
-                                    @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
-                                    @"type":@"1"};
-                }
-                else
-                {
-                    userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
-                                    @"password":self.pwStr,
-                                    @"cid":@"",
-                                    @"type":@"1"};
-                }
+                NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
+                                              @"password":self.pwStr,
+                                              @"type":@"1"};
                 
                 BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
                 [dataRequest loginUser:userInfoDic];

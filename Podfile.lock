@@ -20,7 +20,6 @@ PODS:
     - dyci/Injections (= 0.1.6)
   - dyci/Injections (0.1.6)
   - DZNEmptyDataSet (1.8.1)
-  - GetuiSDK (1.4.3)
   - IQKeyboardManager (3.3.7)
   - LBXScan (1.1.2):
     - ZXingObjC
@@ -66,7 +65,6 @@ DEPENDENCIES:
   - DACircularProgress
   - dyci (from `https://github.com/DyCI/dyci-main.git`)
   - DZNEmptyDataSet
-  - GetuiSDK
   - IQKeyboardManager
   - LBXScan (from `https://github.com/MxABC/LBXScan.git`)
   - MBProgressHUD
@@ -108,7 +106,6 @@ SPEC CHECKSUMS:
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   dyci: bf5f4caa4a855a3ca567e2306a4cbba6d9da75e8
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
-  GetuiSDK: aef8bc190dbcb6f595eb93d22f64b3f30b649e97
   IQKeyboardManager: 249c3946acf61345c18b038eb50863fe2793e3a8
   LBXScan: f3b7c69b98d8bf2ac60b4010b55801bfc1f142a4
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
@@ -132,6 +129,6 @@ SPEC CHECKSUMS:
   UMengMessage-NO-IDFA-SUN: a78bd5d4bf39694267499ca738f5a541ac2f49e7
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-PODFILE CHECKSUM: 435d866a8b92354d2c71a29a04cd711f42b170e0
+PODFILE CHECKSUM: 861e6aa1c641e5002349f1e68325faf3cfcff89f
 
 COCOAPODS: 1.0.1

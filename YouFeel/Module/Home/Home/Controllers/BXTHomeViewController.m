@@ -611,13 +611,14 @@ typedef NS_ENUM(NSInteger, CellType) {
     else if (type == ShopConfig && [dic[@"returncode"] integerValue] == 0)
     {
         NSDictionary *infoDict = array[0];
-        if (![BXTGlobal isBlankString:infoDict[@"shop_tel"]])
-        {
-            [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_phone",nil]];
-            [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"项目热线",nil]];
-            self.projPhone = infoDict[@"shop_tel"];
-            [self.currentTableView reloadData];
-        }
+        //TODO: 改成了多个项目热线
+//        if (![BXTGlobal isBlankString:infoDict[@"shop_tel"]])
+//        {
+//            [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_phone",nil]];
+//            [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"项目热线",nil]];
+//            self.projPhone = infoDict[@"shop_tel"];
+//            [self.currentTableView reloadData];
+//        }
     }
 }
 

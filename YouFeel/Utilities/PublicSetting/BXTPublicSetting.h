@@ -17,10 +17,10 @@
 #define VERSIONNUM [IOSSHORTAPPVERSION stringByReplacingOccurrencesOfString:@"." withString:@""]
 
 //  app build版本
-#define IOSAPPVERSION      [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]
+#define IOSAPPVERSION   [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]
 
 //  app 名称
-#define IOSAPPNAME         [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
+#define IOSAPPNAME      [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
 
 //  判断是否是IOS8
 #define IS_IOS_9        ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0 ? YES : NO)
@@ -32,16 +32,16 @@
 #define IS_IOS_7        ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? YES : NO)
 
 //  判断是否是IPHONE4
-#define IS_IPHONE4 ([UIScreen mainScreen].bounds.size.height == 480 ? YES : NO)
+#define IS_IPHONE4      ([UIScreen mainScreen].bounds.size.height == 480 ? YES : NO)
 
 //  判断是否是IPHONE5
-#define IS_IPHONE5 ([UIScreen mainScreen].bounds.size.height >= 568 ? YES : NO)
+#define IS_IPHONE5      ([UIScreen mainScreen].bounds.size.height >= 568 ? YES : NO)
 
 //  判断是否是IPHONE6
-#define IS_IPHONE6 ([UIScreen mainScreen].bounds.size.height >= 667 ? YES : NO)
+#define IS_IPHONE6      ([UIScreen mainScreen].bounds.size.height >= 667 ? YES : NO)
 
 //  判断是否是IPHONE6P
-#define IS_IPHONE6P ([UIScreen mainScreen].bounds.size.height >= 736 ? YES : NO)
+#define IS_IPHONE6P     ([UIScreen mainScreen].bounds.size.height >= 736 ? YES : NO)
 
 //  自适应宽度和高度
 #define SCREEN_WIDTH    [UIScreen mainScreen].bounds.size.width
@@ -78,13 +78,13 @@
 
 //  请求地址
 #define KADMINBASEURL           [NSString stringWithFormat:@"%@/version/%@", @"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port", VERSIONNUM]
-#define KAPIBASEURL              [NSString stringWithFormat:@"%@&version=%@", @"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port", VERSIONNUM]
+#define KAPIBASEURL             [NSString stringWithFormat:@"%@&version=%@", @"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port", VERSIONNUM]
 
-#define YPLACESAVE               @"PlaceSave"
-#define MYSUBGROUPSAVE               @"MySubgroupSave"
-#define YMAILLISTSAVE            @"MailListSave"
-#define YSAVEDSHOPID             @"SavedShopID"
-#define YSAVEDTIME               @"SavedTime"
+#define YPLACESAVE     @"PlaceSave"
+#define MYSUBGROUPSAVE @"MySubgroupSave"
+#define YMAILLISTSAVE  @"MailListSave"
+#define YSAVEDSHOPID   @"SavedShopID"
+#define YSAVEDTIME     @"SavedTime"
 
 //  动态计算高度
 #define MB_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text \
