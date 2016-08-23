@@ -16,5 +16,6 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *last_time;
 @property (nonatomic, copy) NSString *shop_id;
+@property (nonatomic, copy) NSString *duty_name;
 
 @end

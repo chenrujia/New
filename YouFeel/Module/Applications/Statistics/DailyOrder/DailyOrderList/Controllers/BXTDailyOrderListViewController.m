@@ -94,21 +94,6 @@
 {
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    NSString *startTime = self.transTimeArray[0];
-    NSString *endTime = self.transTimeArray[1];
-    NSString *overTime = @"";
-    if (startTime.length > 0)
-    {
-        startTime = [BXTGlobal transTimeStampWithTime:startTime withType:@"yyyy-MM-dd"];
-    }
-    if (endTime.length > 0)
-    {
-        overTime = [BXTGlobal transTimeStampWithTime:endTime withType:@"yyyy-MM-dd HH:mm:ss"];
-        if ([overTime isEqualToString:@"0"])
-        {
-            overTime = [BXTGlobal transTimeStampWithTime:endTime withType:@"yyyy-MM-dd"];
-        }
-    }
     [request listOfRepairOrderWithTaskType:@"1"
                             repairListType:OtherList
                                faulttypeID:@""
@@ -117,8 +102,8 @@
                               dailyTimeout:@""
                          inspectionTimeout:@""
                                   timeName:@"fault_time"
-                                  tmeStart:startTime
-                                  timeOver:overTime
+                                  tmeStart:self.transTimeArray[0]
+                                  timeOver:self.transTimeArray[1]
                                 subgroupID:self.transGroupStr
                                subgroupIDs:@""
                                    placeID:@""

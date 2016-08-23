@@ -32,7 +32,7 @@
     _project = project;
     
     self.titleView.text = project.name;
-    self.stateView.text = [self transVertifyState:project.verify_state];
+    self.stateView.text = [self transVertifyState:project.verify_state dutyName:project.duty_name];
     
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     if ([project.shop_id isEqualToString:companyInfo.company_id]) {
@@ -46,7 +46,7 @@
     
 }
 
-- (NSString *)transVertifyState:(NSString *)state
+- (NSString *)transVertifyState:(NSString *)state dutyName:(NSString *)duty_name
 {
     // verify_state 状态：0未认证 1申请中 2已认证，没有状态3（不通过），如果审核的时候选择了不通过，则将状态直接设置为0
     NSString *stateStr;
@@ -60,7 +60,7 @@
             self.stateView.textColor = colorWithHexString(@"#D2564D");
         } break;
         case 2: {
-            stateStr = @"已认证";
+            stateStr = duty_name;
             self.stateView.textColor = colorWithHexString(@"#5BB0F7");
         } break;
         default: break;

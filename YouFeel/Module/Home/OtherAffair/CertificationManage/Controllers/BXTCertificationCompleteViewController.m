@@ -7,7 +7,6 @@
 //
 
 #import "BXTCertificationCompleteViewController.h"
-#import "BXTProjectInformTitleCell.h"
 #import "BXTProjectInformContentCell.h"
 #import "BXTProjectInformAuthorCell.h"
 #import "BXTProjectInfo.h"
@@ -76,18 +75,15 @@
         return cell;
     }
     
-    BXTProjectInformTitleCell *cell = [BXTProjectInformTitleCell cellWithTableView:tableView];
-    if (indexPath.section == 0)
-    {
-        cell.titleView.text = @"项目名：";
-        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        cell.descView.text = companyInfo.name;
+    
+    static NSString *cellID = @"headerViewCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
-    else if (indexPath.section == 1 && !self.isCompany)
-    {
-        cell.titleView.text = @"常用位置：";
-        cell.descView.text = self.projectInfo.place;
-    }
+    
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+    cell.textLabel.text = [NSString stringWithFormat:@"项目名：%@", companyInfo.name];
     
     return cell;
 }

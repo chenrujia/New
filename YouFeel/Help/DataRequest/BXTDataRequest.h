@@ -456,7 +456,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
 /**
  *  关于我们
  */
-- (void)aboutUs;
+- (void)aboutUsWithNewID:(NSString *)newID;
 
 /**
  *  会话列表用户信息

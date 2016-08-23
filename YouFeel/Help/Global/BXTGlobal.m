@@ -390,6 +390,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     [view addSubview:showHud];
     showHud.label.text = text;
     showHud.mode = MBProgressHUDModeText;
+    [showHud showAnimated:YES];
     
     double delayInSeconds = 2.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);

@@ -77,11 +77,12 @@
 #define KTABBARHEIGHT           44.f
 
 //  请求地址
-#define KADMINBASEURL           [NSString stringWithFormat:@"%@/version/%@", @"http://admin.helloufu.com/?r=port/Get_iPhone_v2_Port", VERSIONNUM]
-#define KAPIBASEURL              [NSString stringWithFormat:@"%@&version=%@", @"http://api.helloufu.com/?c=Port&m=actionGet_iPhone_v2_Port", VERSIONNUM]
+#define KADMINBASEURL           [NSString stringWithFormat:@"%@/version/%@", @"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port", VERSIONNUM]
+#define KAPIBASEURL              [NSString stringWithFormat:@"%@&version=%@", @"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port", VERSIONNUM]
 
 #define YPLACESAVE               @"PlaceSave"
 #define MYSUBGROUPSAVE               @"MySubgroupSave"
+#define AUTHENTICATEUSERARRAY               @"AuthenticateUserArray"
 #define YMAILLISTSAVE            @"MailListSave"
 #define YSAVEDSHOPID             @"SavedShopID"
 #define YSAVEDTIME               @"SavedTime"

@@ -688,9 +688,9 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)aboutUs
+- (void)aboutUsWithNewID:(NSString *)newID
 {
-    NSDictionary *dic = @{@"news_id":@"1"};
+    NSDictionary *dic = @{@"news_id":newID};
     NSString *url = [NSString stringWithFormat:@"%@/opt/news_con/module/news",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }

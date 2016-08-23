@@ -27,6 +27,8 @@
 #import "BXTRepairsListViewController.h"
 #import "UITabBar+badge.h"
 #import "BXTEnergyReadingQuickViewController.h"
+#import "BXTMailListModel.h"
+#import "ANKeyValueTable.h"
 
 #import "BXTEquipmentListViewController.h"
 
@@ -51,7 +53,7 @@ typedef NS_ENUM(NSInteger, CellType) {
 @property (nonatomic, strong) NSMutableArray *logosArray;
 @property (nonatomic, strong) NSMutableArray *usersArray;
 @property (nonatomic, strong) NSMutableArray *adsArray;
-@property (nonatomic, copy  ) NSString       *projPhone;
+@property (nonatomic, strong) NSArray       *projPhoneArray;
 @property (nonatomic, strong) UIView         *redView;
 
 @end
@@ -65,7 +67,6 @@ typedef NS_ENUM(NSInteger, CellType) {
     [self createLogoView];
     [self loginRongCloud];
     
-    self.projPhone = @"";
     self.adsArray = [[NSMutableArray alloc] init];
     self.logosArray = [[NSMutableArray alloc] init];
     NSMutableArray *users = [BXTGlobal getUserProperty:U_USERSARRAY];
@@ -150,9 +151,9 @@ typedef NS_ENUM(NSInteger, CellType) {
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         //商铺列表
-//        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
-//        pivc.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:pivc animated:YES];
+        //        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+        //        pivc.hidesBottomBarWhenPushed = YES;
+        //        [self.navigationController pushViewController:pivc animated:YES];
         
         BXTEquipmentListViewController *pivc = [[BXTEquipmentListViewController alloc] init];
         pivc.hidesBottomBarWhenPushed = YES;
@@ -320,7 +321,16 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (void)projectPhone
 {
-    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", self.projPhone];
+    //    NSMutableArray *nameArray = [[NSMutableArray alloc] init];
+    //    NSMutableArray *phoneArray = [[NSMutableArray alloc] init];
+    //    for (NSDictionary *dict in self.projPhoneArray) {
+    //        [nameArray addObject:dict[@"tel_name"]];
+    //        [phoneArray addObject:dict[@"tel_number"]];
+    //    }
+    //
+    //    NSLog(@"nameArray ---- %@", nameArray);
+    
+    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", @"1379177777"];
     UIWebView *callWeb = [[UIWebView alloc] init];
     [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
     [self.view addSubview:callWeb];
@@ -610,14 +620,25 @@ typedef NS_ENUM(NSInteger, CellType) {
     }
     else if (type == ShopConfig && [dic[@"returncode"] integerValue] == 0)
     {
+        // TODO: -----------------  调试  -----------------
         NSDictionary *infoDict = array[0];
-        if (![BXTGlobal isBlankString:infoDict[@"shop_tel"]])
+        NSArray *shopTelArray = infoDict[@"shop_tel"];
+        if (shopTelArray.count != 0)
         {
             [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_phone",nil]];
             [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"项目热线",nil]];
-            self.projPhone = infoDict[@"shop_tel"];
+            self.projPhoneArray = shopTelArray;
             [self.currentTableView reloadData];
         }
+        
+        // 管理员
+        [BXTMailListModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"userID":@"id"};
+        }];
+        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+        [dataSource addObjectsFromArray:[BXTMailListModel mj_objectArrayWithKeyValuesArray:dic[@"authenticate_user_arr"]]];
+        [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:AUTHENTICATEUSERARRAY];
+        [[ANKeyValueTable userDefaultTable] synchronize:YES];
     }
 }
 

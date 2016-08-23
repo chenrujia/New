@@ -20,6 +20,7 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BXTMailListCell" owner:nil options:nil] lastObject];
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }

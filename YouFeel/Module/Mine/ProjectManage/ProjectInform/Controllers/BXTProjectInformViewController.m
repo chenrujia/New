@@ -7,18 +7,26 @@
 //
 
 #import "BXTProjectInformViewController.h"
-#import "BXTProjectInformTitleCell.h"
 #import "BXTProjectInformContentCell.h"
 #import "BXTProjectInformAuthorCell.h"
 #import "BXTProjectInfo.h"
 #import "BXTProjectCertificationViewController.h"
+#import "BXTAuthenticateUserListInfo.h"
+#import "ANKeyValueTable.h"
+#import "BXTMailListCell.h"
+#import <RongIMKit/RongIMKit.h>
 
 @interface BXTProjectInformViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
-@property (strong, nonatomic) UITableView *currentTableView;
+@property (strong, nonatomic) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *isShowArray;
 @property (strong, nonatomic) NSMutableArray *dataArray;
+/** ---- 管理员数组 ---- */
+@property (nonatomic, strong) NSArray *authorArray;
+
 @property (strong, nonatomic) BXTProjectInfo *projectInfo;
 
+/** ---- 是员工类型 ---- */
 @property (assign, nonatomic) BOOL isCompany;
 
 @end
@@ -28,16 +36,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"项目详情" andRightTitle:nil andRightImage:nil];
-    self.dataArray = [[NSMutableArray alloc] initWithArray:@[@[@"项目名", @"详情"],
-                                                             @[@"常用位置"] ]];
     
-    [self createUI];
+    [self navigationSetting:@"项目详情" andRightTitle:nil andRightImage:nil];
+    
+    
+    self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", @"0", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"项目名", @"联系项目管理员", nil];
+    self.authorArray = [[ANKeyValueTable userDefaultTable] valueWithKey:AUTHENTICATEUSERARRAY];
+    
     
     /** 项目认证详情 **/
     [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
     [dataRequest projectAuthenticationDetailWithApplicantID:@"" shopID:self.transMyProject.shop_id outUserID:@""];
+    
+    
+    [self createUI];
 }
 
 #pragma mark -
@@ -45,10 +59,10 @@
 - (void)createUI
 {
     // tableView
-    self.currentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 70) style:UITableViewStyleGrouped];
-    self.currentTableView.delegate = self;
-    self.currentTableView.dataSource = self;
-    [self.view addSubview:self.currentTableView];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 70) style:UITableViewStyleGrouped];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
     
     // footerView
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 70, SCREEN_WIDTH, 70)];
@@ -124,17 +138,21 @@
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.dataArray.count;
+    return self.isShowArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.dataArray[section] count];
+    if ([self.isShowArray[section] isEqualToString:@"1"])
+    {
+        return  1;
+    }
+    return  0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 1)
+    if (indexPath.section == 0)
     {
         BXTProjectInformContentCell *cell = [BXTProjectInformContentCell cellWithTableView:tableView];
         cell.projectInfo = self.projectInfo;
@@ -144,24 +162,84 @@
         return cell;
     }
     
-    BXTProjectInformTitleCell *cell = [BXTProjectInformTitleCell cellWithTableView:tableView];
-    if (indexPath.section == 0)
-    {
-        cell.titleView.text = @"项目名：";
-        cell.descView.text = self.transMyProject.name;
-    }
-    else if (indexPath.section == 1 && !self.isCompany)
-    {
-        cell.titleView.text = @"常用位置：";
-        cell.descView.text = self.projectInfo.place;
-    }
+    
+    BXTMailListCell *cell = [BXTMailListCell cellWithTableView:tableView];
+    
+    cell.mailListModel = self.authorArray[indexPath.row];
+    
+    @weakify(self);
+    [[cell.messageBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self connectTaWithOutID0:cell.mailListModel];
+    }];
     
     return cell;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 45)];
+        view.backgroundColor = [UIColor whiteColor];
+        
+        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 200, 21)];
+        title.text = self.dataArray[section];
+        title.textColor = colorWithHexString(@"#666666");
+        title.textAlignment = NSTextAlignmentLeft;
+        title.font = [UIFont systemFontOfSize:15];
+        [view addSubview:title];
+        
+        return view;
+    }
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, SCREEN_WIDTH, 45);
+    btn.backgroundColor = [UIColor whiteColor];
+    btn.tag = section;
+    btn.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
+    btn.layer.borderWidth = 0.5;
+    @weakify(self);
+    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        // 改变组的显示状态
+        if ([self.isShowArray[btn.tag] isEqualToString:@"1"])
+        {
+            [self.isShowArray replaceObjectAtIndex:btn.tag withObject:@"0"];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:btn.tag] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else
+        {
+            [self.isShowArray replaceObjectAtIndex:btn.tag withObject:@"1"];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:btn.tag] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }];
+    
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 200, 21)];
+    title.text = self.dataArray[section];
+    title.textColor = colorWithHexString(@"#666666");
+    title.textAlignment = NSTextAlignmentLeft;
+    title.font = [UIFont systemFontOfSize:15];
+    [btn addSubview:title];
+    
+    UIImageView *arrow = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-40, 18.5, 15, 8)];
+    arrow.image = [UIImage imageNamed:@"down_arrow_gray"];
+    if ([self.isShowArray[section] isEqualToString:@"1"])
+    {
+        arrow.image = [UIImage imageNamed:@"up_arrow_gray"];
+    }
+    [btn addSubview:arrow];
+    
+    return btn;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 1)
+    if (indexPath.section == 0)
     {
         if (self.isCompany) {
             return 185;
@@ -169,22 +247,17 @@
         return 100;
     }
     
-    return 50;
+    return 60;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.1;
+    return 45;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 10;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
@@ -203,12 +276,8 @@
         
         // [self.projectInfo.type integerValue] == 1 ? @"物业员工" : @"客户";
         self.isCompany = [self.projectInfo.type integerValue] == 1;
-        if (self.isCompany) {
-            [self.dataArray removeObjectAtIndex:1];
-        }
         
-        
-        [self.currentTableView reloadData];
+        [self.tableView reloadData];
     }
     else if (type == BranchLogin)
     {
@@ -244,6 +313,47 @@
         } break;
         default: break;
     }
+}
+
+- (void)connectTaWithOutID0:(BXTMailListModel *)model
+{
+    RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+    userInfo.userId = model.out_userid;
+    
+    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
+    if ([userInfo.userId isEqualToString:my_userID]) return;
+    
+    userInfo.name = model.name;
+    userInfo.portraitUri = model.head_pic;
+    
+    NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
+    if (usersArray)
+    {
+        NSArray *arrResult = [usersArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.userId = %@",userInfo.userId]];
+        if (arrResult.count)
+        {
+            RCUserInfo *temp_userInfo = arrResult[0];
+            NSInteger index = [usersArray indexOfObject:temp_userInfo];
+            [usersArray replaceObjectAtIndex:index withObject:temp_userInfo];
+        }
+        else
+        {
+            [usersArray addObject:userInfo];
+        }
+    }
+    else
+    {
+        NSMutableArray *array = [NSMutableArray array];
+        [array addObject:userInfo];
+        [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
+    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    conversationVC.conversationType = ConversationType_PRIVATE;
+    conversationVC.targetId = userInfo.userId;
+    conversationVC.title = userInfo.name;
+    [self.navigationController pushViewController:conversationVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

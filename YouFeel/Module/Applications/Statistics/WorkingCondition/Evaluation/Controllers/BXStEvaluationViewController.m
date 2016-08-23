@@ -56,8 +56,8 @@
     int pariseNum = [self.dataDict[@"praise_number"] intValue];
     headerView.doneView.text = [NSString stringWithFormat:@"共完成:%d", downNum];
     headerView.praiseView.text = [NSString stringWithFormat:@"好评:%d", pariseNum];
-    headerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%@%@", self.dataDict[@"percent"], @"%"];
-    headerView.persentView.text = [NSString stringWithFormat:@"%@%@", self.dataDict[@"percent"], @"%"];
+    headerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%.1f%@", [self.dataDict[@"percent"] floatValue], @"%"];
+    headerView.persentView.text = [NSString stringWithFormat:@"%.1f%@", [self.dataDict[@"percent"] floatValue], @"%"];
     
     [headerView.pieChartView clearChart];
     //straightPieChart.isVertical = YES;
@@ -131,7 +131,7 @@
     self.footerView.groupView.text = [NSString stringWithFormat:@"%@", dict[@"subgroup"]];
     self.footerView.doneView.text = [NSString stringWithFormat:@"已评价:%@", dict[@"sum_number"]];
     self.footerView.praiseView.text = [NSString stringWithFormat:@"好评:%@", dict[@"praise_number"]];
-    self.footerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%@%@", dict[@"percent"], @"%"];
+    self.footerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%.1f%@", [self.dataDict[@"percent"] floatValue], @"%"];
 }
 
 #pragma mark -
@@ -192,7 +192,7 @@
     self.footerView.groupView.text = [NSString stringWithFormat:@"%@", dict[@"subgroup"]];
     self.footerView.doneView.text = [NSString stringWithFormat:@"共完成:%@", dict[@"sum_number"]];
     self.footerView.praiseView.text = [NSString stringWithFormat:@"好评:%@", dict[@"praise_number"]];
-    self.footerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%@%@", dict[@"percent"], @"%"];
+    self.footerView.praiseRateView.text = [NSString stringWithFormat:@"好评率:%.1f%@", [dict[@"percent"] floatValue], @"%"];
 }
 
 #pragma mark -

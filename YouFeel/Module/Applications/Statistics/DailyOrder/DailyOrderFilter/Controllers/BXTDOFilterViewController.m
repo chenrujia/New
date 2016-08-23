@@ -443,19 +443,19 @@
     // 全部 - 今天 - 本周 - 本月- 本年
     if ([timeStr integerValue] == 1)
     {
-        return [BXTGlobal dayStartAndEnd];
+        return [BXTGlobal transTimeToWhatWeNeed:[BXTGlobal dayStartAndEnd]];
     }
     else if ([timeStr integerValue] == 2)
     {
-        return [BXTGlobal weekdayStartAndEnd];
+        return [BXTGlobal transTimeToWhatWeNeed:[BXTGlobal weekdayStartAndEnd]];
     }
     else if ([timeStr integerValue] == 3)
     {
-        return [BXTGlobal monthStartAndEnd];
+        return [BXTGlobal transTimeToWhatWeNeed:[BXTGlobal monthStartAndEnd]];
     }
     else if ([timeStr integerValue] == 4)
     {
-        return [BXTGlobal yearStartAndEnd];
+        return [BXTGlobal transTimeToWhatWeNeed:[BXTGlobal yearStartAndEnd]];
     }
     
     return @[@"", @""];

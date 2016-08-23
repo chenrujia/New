@@ -34,7 +34,7 @@
     
     [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request aboutUs];
+    [request aboutUsWithNewID:@"1"];
 }
 
 #pragma mark -
