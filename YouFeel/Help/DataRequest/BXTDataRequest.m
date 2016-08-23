@@ -98,7 +98,10 @@
 {
     self.requestType = BranchLogin;
     NSArray *array = [BXTGlobal getUserProperty:U_SHOPIDS];
-    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID]};;
+    NSString *deviceNum = [[BXTGlobal shareGlobal] deviceVersion];
+    NSDictionary *dic = @{@"out_userid":[BXTGlobal getUserProperty:U_USERID],
+                          @"deviceToken":[AppDelegate appdelegete].device_token,
+                          @"device_num":deviceNum};
     NSString *url = nil;
     if (array && array.count)
     {
@@ -1156,8 +1159,7 @@
                           @"report_timestart": report_timestart,
                           @"object_timestart": object_timestart,
                           @"announcement_timestart": announcement_timestart,
-                          @"notice_timestart": notice_timestart,
-                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"] };
+                          @"notice_timestart": notice_timestart};
     
     NSString *url = [NSString stringWithFormat:@"%@&module=Mydb&opt=remind_number",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];

@@ -115,14 +115,6 @@ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>&#20010;&#25512;&#20113;&#25512;&#36865;&#65292;All Rights Reserved.</string>
-			<key>Title</key>
-			<string>GetuiSDK</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
 			<string>IQKeyboardManager license
 =========================
 

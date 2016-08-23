@@ -50,7 +50,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 {
     SWIZZ_IT;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+    self.device_token = @"hellouf";
     //新的SDK不允许在设置rootViewController之前做过于复杂的操作,So.....坑
     BXTLoadingViewController *myVC = [[BXTLoadingViewController alloc] init];
     self.window.rootViewController = myVC;
@@ -75,23 +75,21 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     if (isLoaded)
     {
         //默认自动登录（普通登录）
-        if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+        if ([BXTGlobal getUserProperty:U_USERNAME] && [BXTGlobal getUserProperty:U_PASSWORD])
         {
             NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
                                           @"password":[BXTGlobal getUserProperty:U_PASSWORD],
-                                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
                                           @"type":@"1"};
             
             BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
             [dataRequest loginUser:userInfoDic];
         }
         //第三方登录
-        else if ([BXTGlobal getUserProperty:U_OPENID] && [[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"])
+        else if ([BXTGlobal getUserProperty:U_OPENID])
         {
             isLoginByWX = YES;
             NSDictionary *userInfoDic = @{@"username":@"",
                                           @"password":@"",
-                                          @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
                                           @"type":@"2",
                                           @"flat_id":@"1",
                                           @"only_code":[BXTGlobal getUserProperty:U_OPENID]};
@@ -113,16 +111,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     
-    // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
-    [self startSdkWith:kAppId appKey:kAppKey appSecret:kAppSecret];
-    
-    // [2]:注册APNS
-    [self registerRemoteNotification];
-    
     // 处理远程通知启动APP
     [self receiveNotificationByLaunchingOptions:launchOptions];
     
-    // [3]:友盟配置
+    // 友盟配置
     [UMAnalyticsConfig sharedInstance].appKey = UMENGKEY;
     [UMAnalyticsConfig sharedInstance].ePolicy = BATCH;
     [MobClick startWithConfigure:[UMAnalyticsConfig sharedInstance]];
@@ -223,55 +215,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [self loadingLoginVC];
 }
 
-/**
- *  注册通知
- */
-- (void)registerRemoteNotification
-{
-    if (IS_IOS_8)
-    {
-        //IOS8 新的通知机制category注册
-        UIMutableUserNotificationAction *action1;
-        action1 = [[UIMutableUserNotificationAction alloc] init];
-        [action1 setActivationMode:UIUserNotificationActivationModeBackground];
-        [action1 setTitle:@"取消"];
-        [action1 setIdentifier:NotificationActionOneIdent];
-        [action1 setDestructive:NO];
-        [action1 setAuthenticationRequired:NO];
-        
-        UIMutableUserNotificationAction *action2;
-        action2 = [[UIMutableUserNotificationAction alloc] init];
-        [action2 setActivationMode:UIUserNotificationActivationModeBackground];
-        [action2 setTitle:@"回复"];
-        [action2 setIdentifier:NotificationActionTwoIdent];
-        [action2 setDestructive:NO];
-        [action2 setAuthenticationRequired:NO];
-        
-        UIMutableUserNotificationCategory *actionCategory;
-        actionCategory = [[UIMutableUserNotificationCategory alloc] init];
-        [actionCategory setIdentifier:NotificationCategoryIdent];
-        [actionCategory setActions:@[action1, action2]
-                        forContext:UIUserNotificationActionContextDefault];
-        
-        NSSet *categories = [NSSet setWithObject:actionCategory];
-        UIUserNotificationType types = (UIUserNotificationTypeAlert|
-                                        UIUserNotificationTypeSound|
-                                        UIUserNotificationTypeBadge);
-        
-        UIUserNotificationSettings *settings;
-        settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-    }
-    else
-    {
-        UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert|
-                                                                       UIRemoteNotificationTypeSound|
-                                                                       UIRemoteNotificationTypeBadge);
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
-    }
-}
-
 /** 自定义：APP被“推送”启动时处理推送消息处理（APP 未启动--》启动）*/
 - (void)receiveNotificationByLaunchingOptions:(NSDictionary *)launchOptions
 {
@@ -288,100 +231,43 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 }
 
 /**
- *  启动SDK ，并设置后台开关和电子围栏开关
- */
-- (void)startSdkWith:(NSString *)appID
-              appKey:(NSString*)appKey
-           appSecret:(NSString *)appSecret
-{
-    //[1-1]:通过 AppId、appKey 、appSecret 启动SDK
-    [GeTuiSdk startSdkWithAppId:appID appKey:appKey appSecret:appSecret delegate:self];
-    //[1-2]:设置是否后台运行开关
-    [GeTuiSdk runBackgroundEnable:YES];
-    //[1-3]:设置地理围栏功能，开启LBS定位服务和是否允许SDK 弹出用户定位请求，请求NSLocationAlwaysUsageDescription权限,如果UserVerify设置为NO，需第三方负责提示用户定位授权。
-    [GeTuiSdk lbsLocationEnable:YES andUserVerify:YES];
-}
-
-/**
  *  向服务器注册DeviceToken
  */
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    device_token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    LogRed(@"deviceToken:%@",device_token);
-    [GeTuiSdk registerDeviceToken:device_token];
-    [[RCIMClient sharedRCIMClient] setDeviceToken:device_token];
+    self.device_token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    LogRed(@"deviceToken:%@",_device_token);
+    [[RCIMClient sharedRCIMClient] setDeviceToken:_device_token];
 }
 
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+- (void)showAlertView:(NSString *)title message:(NSString *)message
 {
-    [GeTuiSdk registerDeviceToken:@""];
-}
-
-/**
- *  个推SDK支持用户设置标签，标示一组标签用户，可以针对标签用户进行推送。
- */
-+ (BOOL)setTags:(NSArray *)tags
-{
-    return [GeTuiSdk setTags:tags];
-}
-
-/**
- *  个推SDK支持绑定别名功能
- */
-- (void)bindAlias:(NSString *)aAlias
-{
-    [GeTuiSdk bindAlias:aAlias];
-}
-
-- (void)unbindAlias:(NSString *)aAlias
-{
-    [GeTuiSdk unbindAlias:aAlias];
-}
-
-#pragma mark -
-#pragma 个推代理
-/**
- *  SDK启动成功返回CID
- */
-- (void)GeTuiSdkDidRegisterClient:(NSString *)clientId  // SDK 返回clientid
-{
-    LogRed(@"clientId:%@",clientId);
-    [[NSUserDefaults standardUserDefaults] setObject:clientId forKey:@"clientId"];
-    if (device_token)
+    if (IS_IOS_8)
     {
-        [GeTuiSdk registerDeviceToken:device_token];
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+        [alertCtr addAction:doneAction];
+        [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
     }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
-/**
- *  SDK收到透传消息回调
- */
-- (void)GeTuiSdkDidReceivePayloadData:(NSData *)payloadData
-                            andTaskId:(NSString *)taskId
-                             andMsgId:(NSString *)msgId
-                           andOffLine:(BOOL)offLine
-                          fromGtAppId:(NSString *)appId
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler
 {
-    NSString *payloadMsg = nil;
-    if (payloadData)
-    {
-        payloadMsg = [[NSString alloc] initWithBytes:payloadData.bytes
-                                              length:payloadData.length
-                                            encoding:NSUTF8StringEncoding];
-    }
+    LogRed(@"通知消息:%@",userInfo);
+//    [UMessage didReceiveRemoteNotification:userInfo];
     
-    NSString *record = [NSString stringWithFormat:@"%ld, %@, %@",(long)++_lastPayloadIndex, [self formateTime:[NSDate date]], payloadMsg];
-    NSRange startRange = [record rangeOfString:@"{"];
-    NSRange endRange = [record rangeOfString:@"}"];
-    
-    NSString *dicStr = [record substringWithRange:NSMakeRange(startRange.location, endRange.location - startRange.location + 1)];
-    NSDictionary *taskInfo = [dicStr JSONValue];
-    LogRed(@"通知消息:%@",taskInfo);
     //如果处于非登录状态，则不处理任何消息。
     if (![BXTGlobal shareGlobal].isLogin) return;
     
+    NSString *taskStr = [userInfo objectForKey:@"notify"];
+    NSDictionary *taskInfo = [taskStr JSONValue];
     NSString *shop_id = [NSString stringWithFormat:@"%@", [taskInfo objectForKey:@"shop_id"]];
     [BXTGlobal shareGlobal].newsShopID = shop_id;
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
@@ -441,6 +327,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                 NSInteger getTimeSp = [[NSString stringWithFormat:@"%@", taskInfo[@"send_time"]] integerValue];
                 if (timeSp - getTimeSp > 600)
                 {
+                    [self showAlertView:@"温馨提示" message:@"您有错过的工单，请前去消息列表查看！"];
                     return;
                 }
                 
@@ -521,60 +408,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewsComing" object:@"1"];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-}
-
-- (void)showAlertView:(NSString *)title message:(NSString *)message
-{
-    if (IS_IOS_8)
-    {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
-        [alertCtr addAction:doneAction];
-        [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
-    }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
-    }
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-}
-
-/**
- *  SDK收到sendMessage消息回调   发送上行消息结果反馈
- */
-- (void)GeTuiSdkDidSendMessage:(NSString *)messageId
-                        result:(int)result
-{
-    
-}
-
-/**
- *  SDK遇到错误回调
- *  个推错误报告，集成步骤发生的任何错误都在这里通知，如果集成后，无法正常收到消息，查看这里的通知。
- */
-- (void)GeTuiSdkDidOccurError:(NSError *)error
-{
-    LogRed(@"error%@",[error localizedDescription]);
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
-    // 处理APNs代码，通过userInfo可以取到推送的信息（包括内容，角标，自定义参数等）。如果需要弹窗等其他操作，则需要自行编码。
-    //NSLog(@"\n>>>[Receive RemoteNotification - Background Fetch]:%@\n\n",userInfo);
     
     completionHandler(UIBackgroundFetchResultNewData);
-}
-
-/**
- *  SDK运行状态通知
- *
- *  SdkStatusStarting // 正在启动
- *  SdkStatusStarted // 启动
- *  SdkStatusStoped // 停止
- */
-- (void)GeTuiSDkDidNotifySdkState:(SdkStatus)aStatus
-{
-    _sdkStatus = aStatus;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -734,12 +569,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     return dateTime;
 }
 
-- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-{
-    [GeTuiSdk resume];  // 恢复个推SDK运行
-    completionHandler(UIBackgroundFetchResultNewData);
-}
-
 /**
  *  网络状态变化。
  *
@@ -782,17 +611,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    [GeTuiSdk resume];  // 恢复个推SDK运行
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // [EXT] APP进入后台时，通知个推SDK进入后台
-    [GeTuiSdk runBackgroundEnable:YES];
 }
 
 #pragma mark -
@@ -910,7 +728,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     isLoginByWX = YES;
                     NSDictionary *userInfoDic = @{@"username":@"",
                                                   @"password":@"",
-                                                  @"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],
                                                   @"type":@"2",
                                                   @"flat_id":@"1",
                                                   @"only_code":openID};
