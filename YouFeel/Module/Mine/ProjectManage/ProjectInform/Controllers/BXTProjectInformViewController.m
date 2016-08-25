@@ -86,32 +86,14 @@
     footerView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:footerView];
     
-    // changeBtn
-    CGFloat btnW = (SCREEN_WIDTH - 2 * 15 - 30) / 2;
-    UIButton *changeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    changeBtn.frame = CGRectMake(15, 10, btnW, 50);
-    [changeBtn setTitle:@"修改信息" forState:UIControlStateNormal];
-    changeBtn.backgroundColor = colorWithHexString(@"#5DAEF9");
-    changeBtn.layer.cornerRadius = 5;
-    @weakify(self);
-    [[changeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        
-        // TODO: -----------------  调试  -----------------
-        BXTProjectCertificationViewController *pcvc = [[BXTProjectCertificationViewController alloc] init];
-        pcvc.transMyProject = self.transMyProject;
-        [self.navigationController pushViewController:pcvc animated:YES];
-    }];
-    [footerView addSubview:changeBtn];
-    
     // switchBtn
     UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    switchBtn.frame = CGRectMake(15 + btnW + 30, 10, btnW, 50);
+    switchBtn.frame = CGRectMake(15, 10, SCREEN_WIDTH - 30, 50);
+    switchBtn.backgroundColor = colorWithHexString(@"#5DAEF9");
     [switchBtn setTitle:@"切换至" forState:UIControlStateNormal];
-    [switchBtn setTitleColor:colorWithHexString(@"#5DAEF9") forState:UIControlStateNormal];
-    switchBtn.layer.borderWidth = 1;
-    switchBtn.layer.borderColor = [colorWithHexString(@"#5DAEF9") CGColor];
+    [switchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     switchBtn.layer.cornerRadius = 5;
+    @weakify(self);
     [[switchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         [self refreshAllInformWithShopID:self.transMyProject.shop_id shopAddress:self.transMyProject.name];
@@ -121,24 +103,6 @@
         [request branchLogin];
     }];
     [footerView addSubview:switchBtn];
-    
-    // verify_state 状态：0未认证 1申请中 2已认证，没有状态3（不通过），如果审核的时候选择了不通过，则将状态直接设置为0
-    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    if ([self.transMyProject.verify_state integerValue] != 2) {
-        changeBtn.frame = CGRectZero;
-        switchBtn.frame = CGRectMake(15, 10, SCREEN_WIDTH - 30, 50);
-        
-        if ([self.transMyProject.shop_id isEqualToString:companyInfo.company_id]) {
-            footerView.frame = CGRectZero;
-        }
-    }
-    else {
-        if ([self.transMyProject.shop_id isEqualToString:companyInfo.company_id]) {
-            changeBtn.frame = CGRectMake(15, 10, SCREEN_WIDTH - 30, 50);
-            switchBtn.frame = CGRectZero;
-        }
-    }
-    
 }
 
 - (void)refreshAllInformWithShopID:(NSString *)shopID shopAddress:(NSString *)shopAddress {

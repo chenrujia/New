@@ -44,9 +44,9 @@
 @interface BXTEYDTListsInfo : NSObject
 
 @property (nonatomic, copy) NSString *energyID;
-@property (nonatomic, copy) NSString *energy_consumption;
+@property (nonatomic, assign) NSInteger energy_consumption;
 @property (nonatomic, copy) NSString *ppath;
-@property (nonatomic, copy) NSString *money;
+@property (nonatomic, assign) NSInteger money;
 @property (nonatomic, assign) NSInteger an_money;
 @property (nonatomic, copy) NSString *an_money_per;
 @property (nonatomic, copy) NSString *an_energy_consumption_per;

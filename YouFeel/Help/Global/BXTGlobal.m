@@ -428,6 +428,15 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
     return AttributedStr;
 }
 
++ (NSString *)transNum:(NSInteger)number
+{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    formatter.numberStyle = kCFNumberFormatterDecimalStyle;
+    NSString *newAmount = [formatter stringFromNumber:[NSNumber numberWithInteger:number]];
+    
+    return newAmount;
+}
+
 - (NSString*)deviceVersion
 {
     struct utsname systemInfo;

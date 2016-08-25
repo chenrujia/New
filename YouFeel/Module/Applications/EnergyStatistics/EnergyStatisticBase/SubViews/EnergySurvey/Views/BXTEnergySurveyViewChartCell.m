@@ -7,6 +7,7 @@
 //
 
 #import "BXTEnergySurveyViewChartCell.h"
+#import "BXTGlobal.h"
 
 @interface BXTEnergySurveyViewChartCell ()
 

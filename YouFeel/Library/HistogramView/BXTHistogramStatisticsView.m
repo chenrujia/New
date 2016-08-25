@@ -41,7 +41,7 @@
             if (s_type == BudgetYearType || s_type == BudgetMonthType) {
                 unitStr = @"元";
             }
-            firstkwhLabel.text = [NSString stringWithFormat:@"  %@\r%ld", unitStr, (long)measure];
+            firstkwhLabel.text = [NSString stringWithFormat:@"  %@\r%@", unitStr, [self transUnitWithSum:measure]];
             [self addSubview:firstkwhLabel];
             
             UILabel *secondkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 70.f, 30.f, 20.f)];
@@ -49,7 +49,7 @@
             secondkwhLabel.font = [UIFont systemFontOfSize:11.f];
             secondkwhLabel.adjustsFontSizeToFitWidth = YES;
             secondkwhLabel.textAlignment = NSTextAlignmentRight;
-            secondkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/6*5];
+            secondkwhLabel.text = [NSString stringWithFormat:@"%@", [self transUnitWithSum:measure/6*5]];
             [self addSubview:secondkwhLabel];
             
             UILabel *thridkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 120.f, 30.f, 20.f)];
@@ -57,7 +57,7 @@
             thridkwhLabel.font = [UIFont systemFontOfSize:11.f];
             thridkwhLabel.adjustsFontSizeToFitWidth = YES;
             thridkwhLabel.textAlignment = NSTextAlignmentRight;
-            thridkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/6*4];
+            thridkwhLabel.text = [NSString stringWithFormat:@"%@", [self transUnitWithSum:measure/6*4]];
             [self addSubview:thridkwhLabel];
             
             UILabel *fourthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 170.f, 30.f, 20.f)];
@@ -65,7 +65,7 @@
             fourthkwhLabel.font = [UIFont systemFontOfSize:11.f];
             fourthkwhLabel.adjustsFontSizeToFitWidth = YES;
             fourthkwhLabel.textAlignment = NSTextAlignmentRight;
-            fourthkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/2];
+            fourthkwhLabel.text = [NSString stringWithFormat:@"%@", [self transUnitWithSum:measure/6*3]];
             [self addSubview:fourthkwhLabel];
             
             UILabel *fifthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 220.f, 30.f, 20.f)];
@@ -73,7 +73,7 @@
             fifthkwhLabel.font = [UIFont systemFontOfSize:11.f];
             fifthkwhLabel.adjustsFontSizeToFitWidth = YES;
             fifthkwhLabel.textAlignment = NSTextAlignmentRight;
-            fifthkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/3];
+            fifthkwhLabel.text = [NSString stringWithFormat:@"%@", [self transUnitWithSum:measure/6*2]];
             [self addSubview:fifthkwhLabel];
             
             UILabel *sixthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 270.f, 30.f, 20.f)];
@@ -81,7 +81,7 @@
             sixthkwhLabel.font = [UIFont systemFontOfSize:11.f];
             sixthkwhLabel.adjustsFontSizeToFitWidth = YES;
             sixthkwhLabel.textAlignment = NSTextAlignmentRight;
-            sixthkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/6];
+            sixthkwhLabel.text = [NSString stringWithFormat:@"%@", [self transUnitWithSum:measure/6*1]];
             [self addSubview:sixthkwhLabel];
             
             UILabel *seventhkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.f, 320.f, 30.f, 20.f)];
@@ -167,7 +167,9 @@
             if (s_type == BudgetYearType || s_type == BudgetMonthType) {
                 unitStr = @"元";
             }
-            firstkwhLabel.text = [NSString stringWithFormat:@"  %@\r%ld", unitStr, (long)measure];
+            firstkwhLabel.text = [NSString stringWithFormat:@"  %@\r%@", unitStr, [self transUnitWithSum:measure]];
+            
+            
             [self addSubview:firstkwhLabel];
             
             UILabel *secondkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 95.f, 35.f, 20.f)];
@@ -175,7 +177,7 @@
             secondkwhLabel.font = [UIFont systemFontOfSize:11.f];
             secondkwhLabel.adjustsFontSizeToFitWidth = YES;
             secondkwhLabel.textAlignment = NSTextAlignmentRight;
-            secondkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/4*3];
+            secondkwhLabel.text = [NSString stringWithFormat:@"%@", [self transUnitWithSum:measure/4*3]];
             [self addSubview:secondkwhLabel];
             
             UILabel *thridkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 170.f, 35.f, 20.f)];
@@ -183,7 +185,7 @@
             thridkwhLabel.font = [UIFont systemFontOfSize:11.f];
             thridkwhLabel.adjustsFontSizeToFitWidth = YES;
             thridkwhLabel.textAlignment = NSTextAlignmentRight;
-            thridkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/2];
+            thridkwhLabel.text = [NSString stringWithFormat:@"%@", [self transUnitWithSum:measure/4*2]];
             [self addSubview:thridkwhLabel];
             
             UILabel *fourthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 245.f, 35.f, 20.f)];
@@ -191,7 +193,7 @@
             fourthkwhLabel.font = [UIFont systemFontOfSize:11.f];
             fourthkwhLabel.adjustsFontSizeToFitWidth = YES;
             fourthkwhLabel.textAlignment = NSTextAlignmentRight;
-            fourthkwhLabel.text = [NSString stringWithFormat:@"%ld",(long)measure/4];
+            fourthkwhLabel.text = [NSString stringWithFormat:@"%@", [self transUnitWithSum:measure/4]];
             [self addSubview:fourthkwhLabel];
             
             UILabel *fifthkwhLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 320.f, 35.f, 20.f)];
@@ -276,6 +278,16 @@
         
     }
     return self;
+}
+
+- (NSString *)transUnitWithSum:(NSInteger)measure
+{
+    NSString *kwhStr = [NSString stringWithFormat:@"%ld", (long)measure];
+    if (measure >= 10000) {
+        kwhStr = [NSString stringWithFormat:@"%ld万", (long)measure / 10000];
+    }
+    
+    return kwhStr;
 }
 
 @end

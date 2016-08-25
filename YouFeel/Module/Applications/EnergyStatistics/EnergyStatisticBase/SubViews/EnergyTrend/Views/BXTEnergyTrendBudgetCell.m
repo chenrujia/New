@@ -7,6 +7,7 @@
 //
 
 #import "BXTEnergyTrendBudgetCell.h"
+#import "BXTGlobal.h"
 
 @implementation BXTEnergyTrendBudgetCell
 
@@ -27,8 +28,8 @@
 {
     _energyTrendInfo = energyTrendInfo;
     
-    self.budgeView.text = [NSString stringWithFormat:@"预算：%@ Kwh", energyTrendInfo.energy_consumption_budget];
-    self.differenceNumView.text = [NSString stringWithFormat:@"差异量：%ld Kwh", (long)energyTrendInfo.energy_consumption_budget_diff];
+    self.budgeView.text = [NSString stringWithFormat:@"预算：%@ Kwh", [BXTGlobal transNum:energyTrendInfo.energy_consumption_budget]];
+    self.differenceNumView.text = [NSString stringWithFormat:@"差异量：%@ Kwh", [BXTGlobal transNum:energyTrendInfo.energy_consumption_budget_diff]];
     self.differenceRateView.text = [NSString stringWithFormat:@"差异率：%@", energyTrendInfo.energy_consumption_budget_diff_per];
 }
 
@@ -36,8 +37,8 @@
 {
     _moneyTrendInfo = moneyTrendInfo;
     
-    self.budgeView.text = [NSString stringWithFormat:@"预算：%@ 元", moneyTrendInfo.money_budget];
-    self.differenceNumView.text = [NSString stringWithFormat:@"差异量：%ld 元", (long)moneyTrendInfo.money_budget_diff];
+    self.budgeView.text = [NSString stringWithFormat:@"预算：%@ 元", [BXTGlobal transNum:moneyTrendInfo.money_budget]];
+    self.differenceNumView.text = [NSString stringWithFormat:@"差异量：%@ 元", [BXTGlobal transNum:moneyTrendInfo.money_budget_diff]];
     self.differenceRateView.text = [NSString stringWithFormat:@"差异率：%@", moneyTrendInfo.money_budget_diff_per];
 }
 

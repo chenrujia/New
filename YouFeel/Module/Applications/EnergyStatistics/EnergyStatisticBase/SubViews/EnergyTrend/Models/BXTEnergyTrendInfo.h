@@ -10,7 +10,7 @@
 
 @interface BXTEnergyTrendInfo : NSObject
 
-@property (nonatomic, copy  ) NSString  *energy_consumption_budget;
+@property (nonatomic, assign) NSInteger energy_consumption_budget;
 @property (nonatomic, assign) NSInteger money;
 @property (nonatomic, assign) NSInteger mom_money;
 @property (nonatomic, copy  ) NSString  *mom_money_per;
@@ -32,7 +32,7 @@
 @property (nonatomic, copy  ) NSString  *humidity;
 @property (nonatomic, assign) NSInteger an_energy_consumption_sign;
 @property (nonatomic, copy  ) NSString  *an_energy_consumption_per;
-@property (nonatomic, copy  ) NSString  *money_budget;
+@property (nonatomic, assign) NSInteger money_budget;
 @property (nonatomic, copy  ) NSString  *energy_consumption_budget_diff_per;
 @property (nonatomic, assign) NSInteger energy_consumption_unit_area;
 @property (nonatomic, copy  ) NSString  *mom_energy_consumption_per;

@@ -452,7 +452,7 @@
         }
         return 125;
     }
-    return 75;
+    return 95;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -657,10 +657,10 @@
             BXTEnergyTrendInfo *recordInfo = self.energyArray[i];
             if (showCost) {
                 max = recordInfo.money > max ? recordInfo.money : max;
-                max = [recordInfo.money_budget integerValue] > max ? [recordInfo.money_budget integerValue] : max;
+                max = recordInfo.money_budget > max ? recordInfo.money_budget : max;
             } else {
                 max = recordInfo.energy_consumption > max ? recordInfo.energy_consumption : max;
-                max = [recordInfo.energy_consumption_budget integerValue] > max ? [recordInfo.energy_consumption_budget integerValue] : max;
+                max = recordInfo.energy_consumption_budget > max ? recordInfo.energy_consumption_budget : max;
             }
         }
         CGFloat fn = max/4.f;

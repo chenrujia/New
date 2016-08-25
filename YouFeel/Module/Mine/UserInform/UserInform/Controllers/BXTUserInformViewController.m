@@ -236,7 +236,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dict = response;
     
     if ([dict[@"returncode"] intValue] == 0 && type == UploadHeadImage)
@@ -245,7 +245,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"HEADERIMAGE" object:nil];
         [self.tableView reloadData];
     }
-    else if ([dict[@"returncode"] intValue] == 0 && type == ModifyUserInform)
+    else if (([dict[@"returncode"] intValue] == 0 || [dict[@"returncode"] intValue] == 11) && type == ModifyUserInform)
     {
         [BXTGlobal setUserProperty:self.sexStr withKey:U_SEX];
         
@@ -267,7 +267,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

@@ -31,8 +31,6 @@
 #import "ANKeyValueTable.h"
 #import "BXTProjectPhoneCell.h"
 
-#import "BXTEquipmentListViewController.h"
-
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
 
@@ -152,26 +150,21 @@ typedef NS_ENUM(NSInteger, CellType) {
     logoImgView.userInteractionEnabled = YES;
     [self.view addSubview:logoImgView];
     
-    //项目列表
+    // 项目列表
     UIButton *branchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     branchBtn.frame = CGRectMake(0, 20, 47, 47);
     [branchBtn setBackgroundImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
     @weakify(self);
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        //商铺列表
-        //        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
-        //        pivc.hidesBottomBarWhenPushed = YES;
-        //        [self.navigationController pushViewController:pivc animated:YES];
-        
-        BXTEquipmentListViewController *pivc = [[BXTEquipmentListViewController alloc] init];
+        // 商铺列表
+        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
         pivc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:pivc animated:YES];
-        
     }];
     [logoImgView addSubview:branchBtn];
     
-    //店名
+    // 店名
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     shop_label = [[RollLabel alloc] initWithFrame:CGRectMake(0, 33, SCREEN_WIDTH-140, 20.f) text:[NSString stringWithFormat:@"   %@", companyInfo.name] font:[UIFont systemFontOfSize:18] textColor:[UIColor whiteColor]];
     shop_label.center = CGPointMake(SCREEN_WIDTH/2.f - 10, shop_label.center.y);
@@ -328,7 +321,6 @@ typedef NS_ENUM(NSInteger, CellType) {
     [self.navigationController pushViewController:myIntegralVC animated:YES];
 }
 
-// TODO: -----------------  调试  -----------------
 - (void)projectPhone
 {
     self.nameArray = [[NSMutableArray alloc] init];
@@ -352,7 +344,7 @@ typedef NS_ENUM(NSInteger, CellType) {
     if (tableViewHeight >= SCREEN_HEIGHT - 100) {
         tableViewHeight = SCREEN_HEIGHT - 100;
     }
-    self.phoneTableView = [[UITableView alloc] initWithFrame:CGRectMake(40, (SCREEN_HEIGHT - tableViewHeight) / 2, SCREEN_WIDTH - 80, tableViewHeight) style:UITableViewStyleGrouped];
+    self.phoneTableView = [[UITableView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 280) / 2, (SCREEN_HEIGHT - tableViewHeight) / 2, 280, tableViewHeight) style:UITableViewStyleGrouped];
     self.phoneTableView.rowHeight = 50;
     self.phoneTableView.delegate = self;
     self.phoneTableView.dataSource = self;
@@ -708,13 +700,15 @@ typedef NS_ENUM(NSInteger, CellType) {
     else if (type == ShopConfig && [dic[@"returncode"] integerValue] == 0)
     {
         NSDictionary *infoDict = array[0];
-        NSArray *shopTelArray = infoDict[@"shop_tel"];
-        if (shopTelArray.count != 0)
-        {
-            [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_phone",nil]];
-            [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"项目热线",nil]];
-            self.projPhoneArray = shopTelArray;
-            [self.currentTableView reloadData];
+        if ([infoDict[@"shop_tel"] isKindOfClass:[NSArray class]]) {
+            NSArray *shopTelArray = infoDict[@"shop_tel"];
+            if (shopTelArray.count != 0)
+            {
+                [self.imgNameArray addObject:[NSMutableArray arrayWithObjects:@"home_phone",nil]];
+                [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"项目热线",nil]];
+                self.projPhoneArray = shopTelArray;
+                [self.currentTableView reloadData];
+            }
         }
         
         // 管理员
