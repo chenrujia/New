@@ -390,7 +390,7 @@
 - (void)authenticationApplyWithShopID:(NSString *)shop_id
                                  type:(NSString *)type
                          departmentID:(NSString *)department_id
-                               dutyID:(NSString *)duty_id
+                             dutyName:(NSString *)duty_name
                            subgroupID:(NSString *)subgroup_id
                       haveSubgroupIDs:(NSString *)have_subgroup_ids
                              storesID:(NSString *)stores_id
@@ -402,7 +402,7 @@
                           @"out_userid": [BXTGlobal getUserProperty:U_USERID],
                           @"type": type,
                           @"department_id": department_id,
-                          @"duty_id": duty_id,
+                          @"duty_name": duty_name,
                           @"subgroup_id": subgroup_id,
                           @"have_subgroup_ids": have_subgroup_ids,
                           @"stores_id": stores_id,
@@ -691,9 +691,18 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)aboutUsWithNewID:(NSString *)newID
+- (void)aboutUs
 {
-    NSDictionary *dic = @{@"news_id":newID};
+    self.requestType = AboutUs;
+    NSDictionary *dic = @{@"news_id":@"1"};
+    NSString *url = [NSString stringWithFormat:@"%@/opt/news_con/module/news",KADMINBASEURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)serviceAgreement
+{
+    self.requestType = ServiceAgreement;
+    NSDictionary *dic = @{@"news_id":@"24"};
     NSString *url = [NSString stringWithFormat:@"%@/opt/news_con/module/news",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }
@@ -791,6 +800,7 @@
                           AreaID:(NSString *)areaID
                          PlaceID:(NSString *)placeID
                         StoresID:(NSString *)storesID
+                      SearchName:(NSString *)search_name
                         Pagesize:(NSString *)pageSize
                             Page:(NSString *)page
 {
@@ -802,6 +812,7 @@
                           @"area_id": areaID,
                           @"many_place_id": placeID,
                           @"stores_id": storesID,
+                          @"search_name": search_name,
                           @"pagesize": pageSize,
                           @"page": page};
     NSString *url = [NSString stringWithFormat:@"%@&module=Statistics&opt=device_list",[BXTGlobal shareGlobal].baseURL];

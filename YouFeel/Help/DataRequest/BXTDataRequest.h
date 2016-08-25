@@ -107,6 +107,8 @@ typedef NS_ENUM(NSInteger, RequestType) {
     EfficiencyDistributionYear = 94,
     EfficiencyTrendMonth = 95,
     EfficiencyTrendYear = 96,
+    AboutUs = 97,
+    ServiceAgreement = 98,
 };
 
 typedef NS_ENUM(NSInteger, RepairListType)
@@ -313,7 +315,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)authenticationApplyWithShopID:(NSString *)shop_id
                                  type:(NSString *)type
                          departmentID:(NSString *)department_id
-                               dutyID:(NSString *)duty_id
+                             dutyName:(NSString *)duty_name
                            subgroupID:(NSString *)subgroup_id
                       haveSubgroupIDs:(NSString *)have_subgroup_ids
                              storesID:(NSString *)stores_id
@@ -456,7 +458,12 @@ typedef NS_ENUM(NSInteger, RepairListType)
 /**
  *  关于我们
  */
-- (void)aboutUsWithNewID:(NSString *)newID;
+- (void)aboutUs;
+
+/**
+ *  服务协议
+ */
+- (void)serviceAgreement;
 
 /**
  *  会话列表用户信息
@@ -518,6 +525,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
                           AreaID:(NSString *)areaID
                          PlaceID:(NSString *)placeID
                         StoresID:(NSString *)storesID
+                      SearchName:(NSString *)search_name
                         Pagesize:(NSString *)pageSize
                             Page:(NSString *)page;
 

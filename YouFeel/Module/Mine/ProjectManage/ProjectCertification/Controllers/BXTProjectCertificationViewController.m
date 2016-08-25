@@ -16,6 +16,7 @@
 #import "ANKeyValueTable.h"
 #import "BXTProjectManageViewController.h"
 #import "BXTChooseListViewController.h"
+#import "BXTChangePositionViewController.h"
 
 @interface BXTProjectCertificationViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -34,21 +35,13 @@
 @property (nonatomic, strong) NSMutableArray *selectArray;
 @property (nonatomic, strong) NSMutableArray *mulitSelectArray;
 @property (nonatomic, assign) int            selectRow;
-@property (nonatomic, assign) NSInteger      showSelectedRow;
 
-/** ---- 身份类型 - 物业员工、客户 ---- */
+/** ---- 身份 - 员工、客户 ---- */
 @property (assign, nonatomic) BOOL isCompanyType;
 /** ---- 职位 - 是否报修者 ---- */
 @property (assign, nonatomic) BOOL isRepairer;
 /** ---- 客户 - 是否选择所属 ---- */
 @property (assign, nonatomic) BOOL isSelectedTheOne;
-
-// 存值参数
-@property (nonatomic, strong) NSMutableArray *positionArray;
-@property (nonatomic, strong) NSMutableArray *positionIDArray;
-@property (nonatomic, strong) NSMutableArray *positionDutyTypeArray;
-@property (nonatomic, strong) NSMutableArray *subgroupArray;
-@property (nonatomic, strong) NSMutableArray *subgroupIDArray;
 
 @end
 
@@ -59,42 +52,23 @@
     [super viewDidLoad];
     [self navigationSetting:@"项目认证" andRightTitle:nil andRightImage:nil];
     
-    self.titleArray = @[@"", @"身份类型"];
+    self.titleArray = @[@"", @"身份"];
     self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"请选择", nil];
     self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"", nil];
     
     self.departmentArray = [[NSMutableArray alloc] init];
-    self.positionArray = [[NSMutableArray alloc] init];
-    self.positionIDArray = [[NSMutableArray alloc] init];
-    self.positionDutyTypeArray = [[NSMutableArray alloc] init];
-    self.subgroupArray = [[NSMutableArray alloc] init];
-    self.subgroupIDArray = [[NSMutableArray alloc] init];
     
     //设置初始值，不要默认选中第0行
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
     [self showLoadingMBP:@"加载中..."];
-    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(concurrentQueue, ^{
-        /**获取专业分组列表**/
-        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request listOFSubgroupShopID:self.transMyProject.shop_id];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**获取职位列表接口**/
-        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request listOFDutyWithDutyType:@""
-                                     shopID:self.transMyProject.shop_id
-                               identityType:@"1"];
-    });
-    dispatch_async(concurrentQueue, ^{
-        /**获取部门列表**/
-        BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [fau_request listOFDepartmentWithPid:@""
-                                      shopID:self.transMyProject.shop_id
-                                identityType:@"1"];
-    });
+    
+    /**获取部门列表**/
+    BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [fau_request listOFDepartmentWithPid:@""
+                                  shopID:self.transMyProject.shop_id
+                            identityType:@"1"];
     
     [self createUI];
 }
@@ -132,26 +106,16 @@
         else
         {
             [self showLoadingMBP:@"加载中..."];
-            BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
             
             if (self.isCompanyType)
             {
-                NSString *subgroupID = @"";
-                NSString *haveSubgroupIDs = @"";
-                if (self.isRepairer)
-                {
-                    subgroupID = self.transArray[4];
-                    haveSubgroupIDs = self.transArray[5];
-                    if ([haveSubgroupIDs isEqualToString:@" "]) {
-                        haveSubgroupIDs = @"";
-                    }
-                }
+                BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
                                                       type:@"1"
                                               departmentID:self.transArray[2]
-                                                    dutyID:self.transArray[3]
-                                                subgroupID:subgroupID
-                                           haveSubgroupIDs:haveSubgroupIDs
+                                                  dutyName:self.transArray[3]
+                                                subgroupID:@""
+                                           haveSubgroupIDs:@""
                                                   storesID:@""
                                               bindPlaceIDs:@""];
             }
@@ -254,57 +218,52 @@
     if (tableView == self.selectTableView)
     {
         NSString *selectRow  = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
-        //单选
-        if (self.showSelectedRow == 1 || self.showSelectedRow == 3 || self.showSelectedRow == 4)
+        //判断数组中有没有被选中行的行号,
+        if ([self.mulitSelectArray containsObject:selectRow])
         {
-            //判断数组中有没有被选中行的行号,
-            if ([self.mulitSelectArray containsObject:selectRow])
-            {
-                [self.mulitSelectArray removeObject:selectRow];
-            }
-            else
-            {
-                if (self.mulitSelectArray.count == 1)
-                {
-                    [self.mulitSelectArray replaceObjectAtIndex:0 withObject:selectRow];
-                }
-                else
-                {
-                    [self.mulitSelectArray addObject:selectRow];
-                }
-            }
+            [self.mulitSelectArray removeObject:selectRow];
         }
-        //多选
         else
         {
-            if ([self.mulitSelectArray containsObject:selectRow])
+            if (self.mulitSelectArray.count == 1)
             {
-                [self.mulitSelectArray removeObject:selectRow];
+                [self.mulitSelectArray replaceObjectAtIndex:0 withObject:selectRow];
             }
             else
             {
                 [self.mulitSelectArray addObject:selectRow];
             }
         }
+        
         [tableView reloadData];
         
         return;
     }
     if (indexPath.section == 1)
     {
-        [self createTableViewWithIndex:indexPath.section];
+        [self createTableView];
     }
     
-    // 物业员工
+    // 员工
     if (self.isCompanyType)
     {
         if (indexPath.section == 2)
         {
             [self pushDepartmentViewController];
         }
-        else if (indexPath.section == 3 || indexPath.section == 4 || indexPath.section == 5)
+        // TODO: -----------------  调试  -----------------
+        else if (indexPath.section == 3)
         {
-            [self createTableViewWithIndex:indexPath.section];
+            BXTChangePositionViewController *cpvc = [[BXTChangePositionViewController alloc] init];
+            cpvc.transPosition = ^(NSString *transPosition) {
+                NSLog(@"transPosition ---- %@", transPosition);
+                
+                [self.transArray replaceObjectAtIndex:3 withObject:transPosition];
+                [self.detailArray replaceObjectAtIndex:3 withObject:transPosition];
+                
+                [self.tableView reloadData];
+            };
+            [self.navigationController pushViewController:cpvc animated:YES];
         }
     }
     else
@@ -385,26 +344,11 @@
 
 #pragma mark -
 #pragma mark - 方法
-- (void)createTableViewWithIndex:(NSInteger)index
+- (void)createTableView
 {
     self.isSelectedTheOne = NO;
-    self.showSelectedRow = index;
-    if (index == 1)
-    {
-        self.selectArray = [[NSMutableArray alloc] initWithObjects:@"物业员工", @"客户", nil];
-    }
-    else if (index == 3)
-    {
-        self.selectArray = self.positionArray;
-    }
-    else if (index == 4)
-    {
-        self.selectArray = self.subgroupArray;
-    }
-    else if (index == 5)
-    {
-        self.selectArray = self.subgroupArray;
-    }
+    
+    self.selectArray = [[NSMutableArray alloc] initWithObjects:@"员工", @"客户", nil];
     
     self.selectBgView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.selectBgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6f];
@@ -436,59 +380,10 @@
     [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        // 选择身份类型  -  改变结构
-        if (index == 1)
+        // 选择身份  -  改变结构
+        if (self.mulitSelectArray.count != 0)
         {
-            if (self.mulitSelectArray.count != 0)
-            {
-                [self adjustStructureTypeOFGroup];
-            }
-        }
-        
-        if (index == 3)
-        {
-            if (self.mulitSelectArray.count != 0)
-            {
-                NSString *selectRow = self.mulitSelectArray[0];
-                [self.detailArray replaceObjectAtIndex:index withObject:self.positionArray[[selectRow integerValue]]];
-                [self.transArray replaceObjectAtIndex:index withObject:self.positionIDArray[[selectRow integerValue]]];
-                
-                // 是否有维修权限
-                BOOL isRepairer = [self.positionDutyTypeArray[[selectRow integerValue]] isEqualToString:@"2"];
-                [self adjustStructureTypeOFPosition:isRepairer];
-            }
-        }
-        else if (index == 4)
-        {
-            if (self.mulitSelectArray.count != 0)
-            {
-                NSString *selectRow = self.mulitSelectArray[0];
-                [self.detailArray replaceObjectAtIndex:index withObject:self.subgroupArray[[selectRow integerValue]]];
-                [self.transArray replaceObjectAtIndex:index withObject:self.subgroupIDArray[[selectRow integerValue]]];
-                [self.tableView reloadData];
-            }
-        }
-        else if (index == 5)
-        {
-            NSString *finalStr =@"";
-            NSString *finalNumStr = @"";
-            for (id object in self.mulitSelectArray)
-            {
-                finalStr = [finalStr stringByAppendingString:[NSString stringWithFormat:@"%@ ", self.selectArray[[object intValue]]]];
-                finalNumStr = [finalNumStr stringByAppendingString:[NSString stringWithFormat:@"%@,", self.subgroupIDArray[[object intValue]]]];
-            }
-            if (finalNumStr.length >= 1)
-            {
-                finalNumStr = [finalNumStr substringToIndex:finalNumStr.length - 1];
-            }
-            
-            // 赋值
-            if (![BXTGlobal isBlankString:finalStr])
-            {
-                [self.detailArray replaceObjectAtIndex:index withObject:finalStr];
-                [self.transArray replaceObjectAtIndex:index withObject:finalNumStr];
-                [self.tableView reloadData];
-            }
+            [self adjustStructureTypeOFGroup];
         }
         
         // 清除
@@ -502,32 +397,6 @@
     [toolView addSubview:sureBtn];
 }
 
-- (void)adjustStructureTypeOFPosition:(BOOL)isRepairer
-{
-    if (isRepairer) {
-        self.isRepairer = YES;
-        if (self.titleArray.count == 4) {
-            self.titleArray = @[@"", @"身份类型", @"部门", @"职位", @"本职专业", @"其他技能"];
-            [self.detailArray addObject:@"请选择"];
-            [self.detailArray addObject:@"请选择"];
-            [self.transArray addObject:@""];
-            [self.transArray addObject:@" "];
-        }
-    }
-    else {
-        self.isRepairer = NO;
-        if (self.titleArray.count == 6) {
-            self.titleArray = @[@"", @"身份类型", @"部门", @"职位"];
-            [self.detailArray removeLastObject];
-            [self.detailArray removeLastObject];
-            [self.transArray removeLastObject];
-            [self.transArray removeLastObject];
-        }
-    }
-    
-    [self.tableView reloadData];
-}
-
 - (void)adjustStructureTypeOFGroup
 {
     self.isRepairer = NO;
@@ -536,14 +405,14 @@
     if ([selected integerValue] == 0)
     {
         self.isCompanyType = YES;
-        self.titleArray = @[@"", @"身份类型", @"部门", @"职位"];
-        self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"物业员工", @"请选择", @"请选择", nil];
-        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"物业员工", @"", @"", nil];
+        self.titleArray = @[@"", @"身份", @"部门", @"职位"];
+        self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"员工", @"请选择", @"请选择", nil];
+        self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"员工", @"", @"", nil];
     }
     else
     {
         self.isCompanyType = NO;
-        self.titleArray = @[@"", @"身份类型", @"所属", @"常用位置"];
+        self.titleArray = @[@"", @"身份", @"所属", @"常用位置(选填)"];
         self.detailArray = [[NSMutableArray alloc] initWithObjects:@"", @"客户", @"请选择", @"请选择", nil];
         self.transArray = [[NSMutableArray alloc]  initWithObjects:self.transMyProject.shop_id, @"客户", @"", @" ", nil];
     }
@@ -560,41 +429,12 @@
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     
-    if (type == SubgroupLists)
-    {
-        NSMutableArray *subgroupArray = [[NSMutableArray alloc] init];
-        [BXTSubgroupInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"subgroupID":@"id"};
-        }];
-        [subgroupArray addObjectsFromArray:[BXTSubgroupInfo mj_objectArrayWithKeyValuesArray:data]];
-        
-        for (BXTSubgroupInfo *subgroupInfo in subgroupArray) {
-            [self.subgroupArray addObject:subgroupInfo.subgroup];
-            [self.subgroupIDArray addObject:subgroupInfo.subgroupID];
-        }
-    }
-    else if (type == DepartmentLists)
+    if (type == DepartmentLists)
     {
         [BXTAllDepartmentInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"departmentID":@"id"};
         }];
         [self.departmentArray addObjectsFromArray:[BXTAllDepartmentInfo mj_objectArrayWithKeyValuesArray:data]];
-    }
-    else if (type == DutyLists)
-    {
-        [BXTPostionInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"role_id":@"id"};
-        }];
-        
-        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
-        [dataSource addObjectsFromArray:[BXTPostionInfo mj_objectArrayWithKeyValuesArray:data]];
-        
-        for (BXTPostionInfo *postion in dataSource)
-        {
-            [self.positionArray addObject:postion.duty_name];
-            [self.positionIDArray addObject:postion.role_id];
-            [self.positionDutyTypeArray addObject:postion.duty_type];
-        }
     }
     else if (type == AuthenticationApply)
     {
@@ -651,7 +491,7 @@
             [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
                                                   type:@"2"
                                           departmentID:@""
-                                                dutyID:@""
+                                              dutyName:@""
                                             subgroupID:@""
                                        haveSubgroupIDs:@""
                                               storesID:self.transArray[2]

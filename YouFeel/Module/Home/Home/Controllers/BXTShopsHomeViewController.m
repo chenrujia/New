@@ -82,36 +82,39 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     
-    NSString *title = self.titleNameArray[indexPath.section][indexPath.row];
-    if ([title isEqualToString:@"日常工单"])
+    if (tableView == self.currentTableView)
     {
-        [self pushNormalOrders];
-    }
-    else if ([title isEqualToString:@"维保工单"])
-    {
-        [self pushMaintenceOrders];
-    }
-    else if ([title isEqualToString:@"我的报修工单"])
-    {
-        [self pushMyOrdersIsRepair:NO];
-    }
-    else if ([title isEqualToString:@"其他事务"])
-    {
-        [self pushOtherAffair];
-    }
-    else if ([title isEqualToString:@"快捷抄表"])
-    {
-        [self pushQuickEnergyReading];
-    }
-    else if ([title isEqualToString:@"业务统计"])
-    {
-        [self pushStatistics];
-    }
-    else if ([title isEqualToString:@"项目热线"])
-    {
-        [self projectPhone];
+        NSString *title = self.titleNameArray[indexPath.section][indexPath.row];
+        if ([title isEqualToString:@"日常工单"])
+        {
+            [self pushNormalOrders];
+        }
+        else if ([title isEqualToString:@"维保工单"])
+        {
+            [self pushMaintenceOrders];
+        }
+        else if ([title isEqualToString:@"我的报修工单"])
+        {
+            [self pushMyOrdersIsRepair:NO];
+        }
+        else if ([title isEqualToString:@"其他事务"])
+        {
+            [self pushOtherAffair];
+        }
+        else if ([title isEqualToString:@"快捷抄表"])
+        {
+            [self pushQuickEnergyReading];
+        }
+        else if ([title isEqualToString:@"业务统计"])
+        {
+            [self pushStatistics];
+        }
+        else if ([title isEqualToString:@"项目热线"])
+        {
+            [self projectPhone];
+        }
     }
 }
 

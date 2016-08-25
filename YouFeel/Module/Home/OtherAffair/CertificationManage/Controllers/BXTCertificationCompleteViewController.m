@@ -130,7 +130,7 @@
         }];
         self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
         
-        // [self.projectInfo.type integerValue] == 1 ? @"物业员工" : @"客户";
+        // [self.projectInfo.type integerValue] == 1 ? @"员工" : @"客户";
         self.isCompany = [self.projectInfo.type integerValue] == 1;
         if (self.isCompany) {
             [self.dataArray removeObjectAtIndex:1];

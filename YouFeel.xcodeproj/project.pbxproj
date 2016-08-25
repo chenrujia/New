@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4F58941ACAEEC27CBD03C15D /* libPods-YouFeelUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53BB9F65ABEE232EFD7E0E18 /* libPods-YouFeelUITests.a */; };
+		780058EE1D6E86F0008324C4 /* BXTProjectPhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 780058EC1D6E86F0008324C4 /* BXTProjectPhoneCell.m */; };
+		780058EF1D6E86F0008324C4 /* BXTProjectPhoneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 780058ED1D6E86F0008324C4 /* BXTProjectPhoneCell.xib */; };
 		78090B121C7DA8C3003E1565 /* BXTMaintenanceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78090B111C7DA8C3003E1565 /* BXTMaintenanceListViewController.m */; };
 		78090B1C1C7DAEEC003E1565 /* BXTMTFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78090B161C7DAEEC003E1565 /* BXTMTFilterViewController.m */; };
 		78090B281C7DAF47003E1565 /* BXTEPFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78090B221C7DAF47003E1565 /* BXTEPFilterViewController.m */; };
@@ -279,6 +281,7 @@
 		786DB5141CB3939F003DA314 /* BXTRankingData.m in Sources */ = {isa = PBXBuildFile; fileRef = 786DB5131CB3939F003DA314 /* BXTRankingData.m */; };
 		78743FDB1D5D731A009FAC07 /* BXTEnergyConsumptionHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78743FD91D5D731A009FAC07 /* BXTEnergyConsumptionHeaderCell.m */; };
 		78743FDC1D5D731A009FAC07 /* BXTEnergyConsumptionHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78743FDA1D5D731A009FAC07 /* BXTEnergyConsumptionHeaderCell.xib */; };
+		787702CF1D6D450D008F88B4 /* BXTChangePositionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 787702CE1D6D450D008F88B4 /* BXTChangePositionViewController.m */; };
 		787B3ACC1CC4DE58002E1A73 /* BXTDailyOrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 787B3ACB1CC4DE58002E1A73 /* BXTDailyOrderListViewController.m */; };
 		787B3ACF1CC4DF0F002E1A73 /* BXTDOFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 787B3ACE1CC4DF0F002E1A73 /* BXTDOFilterViewController.m */; };
 		787CF5421D45AC3A00F903CD /* BXTEnergyReadingFilterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 787CF5411D45AC3A00F903CD /* BXTEnergyReadingFilterInfo.m */; };
@@ -515,6 +518,9 @@
 		0132B0D521EB9161D05D04A4 /* Pods-YouFeelTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouFeelTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YouFeelTests/Pods-YouFeelTests.release.xcconfig"; sourceTree = "<group>"; };
 		4B63B1E675EB5310559AFFBE /* Pods-YouFeelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouFeelTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YouFeelTests/Pods-YouFeelTests.debug.xcconfig"; sourceTree = "<group>"; };
 		53BB9F65ABEE232EFD7E0E18 /* libPods-YouFeelUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YouFeelUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		780058EB1D6E86F0008324C4 /* BXTProjectPhoneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTProjectPhoneCell.h; sourceTree = "<group>"; };
+		780058EC1D6E86F0008324C4 /* BXTProjectPhoneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTProjectPhoneCell.m; sourceTree = "<group>"; };
+		780058ED1D6E86F0008324C4 /* BXTProjectPhoneCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTProjectPhoneCell.xib; sourceTree = "<group>"; };
 		78090B101C7DA8C3003E1565 /* BXTMaintenanceListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenanceListViewController.h; sourceTree = "<group>"; };
 		78090B111C7DA8C3003E1565 /* BXTMaintenanceListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMaintenanceListViewController.m; sourceTree = "<group>"; };
 		78090B151C7DAEEC003E1565 /* BXTMTFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMTFilterViewController.h; sourceTree = "<group>"; };
@@ -1006,6 +1012,8 @@
 		78743FD81D5D731A009FAC07 /* BXTEnergyConsumptionHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyConsumptionHeaderCell.h; sourceTree = "<group>"; };
 		78743FD91D5D731A009FAC07 /* BXTEnergyConsumptionHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyConsumptionHeaderCell.m; sourceTree = "<group>"; };
 		78743FDA1D5D731A009FAC07 /* BXTEnergyConsumptionHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEnergyConsumptionHeaderCell.xib; sourceTree = "<group>"; };
+		787702CD1D6D450D008F88B4 /* BXTChangePositionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTChangePositionViewController.h; sourceTree = "<group>"; };
+		787702CE1D6D450D008F88B4 /* BXTChangePositionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTChangePositionViewController.m; sourceTree = "<group>"; };
 		787B3ACA1CC4DE58002E1A73 /* BXTDailyOrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDailyOrderListViewController.h; sourceTree = "<group>"; };
 		787B3ACB1CC4DE58002E1A73 /* BXTDailyOrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDailyOrderListViewController.m; sourceTree = "<group>"; };
 		787B3ACD1CC4DF0F002E1A73 /* BXTDOFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDOFilterViewController.h; sourceTree = "<group>"; };
@@ -2902,6 +2910,9 @@
 				7867DC241C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m */,
 				7867DC251C4CBA5B000749F1 /* BXTHomeTableViewCell.h */,
 				7867DC261C4CBA5B000749F1 /* BXTHomeTableViewCell.m */,
+				780058EB1D6E86F0008324C4 /* BXTProjectPhoneCell.h */,
+				780058EC1D6E86F0008324C4 /* BXTProjectPhoneCell.m */,
+				780058ED1D6E86F0008324C4 /* BXTProjectPhoneCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4213,6 +4224,8 @@
 			children = (
 				78EFEED41CAE550D0011F9E9 /* BXTProjectCertificationViewController.h */,
 				78EFEED51CAE550D0011F9E9 /* BXTProjectCertificationViewController.m */,
+				787702CD1D6D450D008F88B4 /* BXTChangePositionViewController.h */,
+				787702CE1D6D450D008F88B4 /* BXTChangePositionViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -5132,6 +5145,7 @@
 				969701F71C881C590048391F /* BXTInfoNotesTableViewCell.xib in Resources */,
 				7893D8E91C7ADA8000F042D5 /* BXTStEvaluationFooter.xib in Resources */,
 				78426B601C7C61DE00BAE0F4 /* BXTMTCompletionFooter.xib in Resources */,
+				780058EF1D6E86F0008324C4 /* BXTProjectPhoneCell.xib in Resources */,
 				9690366C1CBF2E850036A33A /* BXTMenViewController.xib in Resources */,
 				784862A81CCA1EC200F3BD69 /* BXTWorkLoadShowView.xib in Resources */,
 				967ADE521CEC489C00841FAA /* README.txt in Resources */,
@@ -5454,6 +5468,7 @@
 				7818DBEA1C0824D800DC22C6 /* PNScatterChartDataItem.m in Sources */,
 				78E657071D49F54200AA3ECD /* BXTEnergyStatisticBaseView.m in Sources */,
 				964DE5EC1CA8F8A10064D5D6 /* NSDate+Helper.m in Sources */,
+				787702CF1D6D450D008F88B4 /* BXTChangePositionViewController.m in Sources */,
 				9652AB401BC9070E009A666D /* BXTBaseViewController.m in Sources */,
 				7867DD821C4CBEA1000749F1 /* BXTOrderManagerViewController.m in Sources */,
 				7867DC2A1C4CBA5B000749F1 /* BXTRepairHomeViewController.m in Sources */,
@@ -5690,6 +5705,7 @@
 				784890C91D3734D700C1106D /* BXTMeterReadingHeaderView.m in Sources */,
 				9654CB8E1D6465720085E2F5 /* NSMutableDictionary+ErrorLog.m in Sources */,
 				786D37221CBB3A6100D307DB /* BXTStoresListsInfo.m in Sources */,
+				780058EE1D6E86F0008324C4 /* BXTProjectPhoneCell.m in Sources */,
 				7827D0451C85734F00E9E29E /* BXTMTProfessionHeader.m in Sources */,
 				78352A011CA0DD5E005134B6 /* BXTReaciveOrdersViewController.m in Sources */,
 				7867DCCE1C4CBCAC000749F1 /* BXTNickNameViewController.m in Sources */,

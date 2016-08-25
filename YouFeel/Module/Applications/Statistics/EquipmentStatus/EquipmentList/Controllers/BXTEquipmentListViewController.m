@@ -31,8 +31,8 @@
 @property (nonatomic, copy) NSString *order;
 @property (nonatomic, copy) NSString *placeID;
 
-/** ---- 现在的y值 ---- */
-@property (nonatomic, assign) CGFloat scrollViewY;
+/** ---- 向上返回按钮 ---- */
+@property (nonatomic, strong) UIButton *upBtn;
 
 @end
 
@@ -84,7 +84,7 @@
 
 - (void)getResource
 {
-    [self showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statisticsEPListWithTime:self.date
                                 State:self.state
@@ -93,6 +93,7 @@
                                AreaID:@""
                               PlaceID:self.placeID
                              StoresID:@""
+                           SearchName:@""
                              Pagesize:@"5"
                                  Page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
@@ -139,6 +140,19 @@
     self.alphaView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
     self.alphaView.hidden = YES;
     [self.view addSubview:self.alphaView];
+    
+    
+    // upBtn
+    self.upBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.upBtn.frame = CGRectMake(SCREEN_WIDTH - 60, SCREEN_HEIGHT, 50, 50);
+    [self.upBtn setImage:[UIImage imageNamed:@"up_icon"] forState:UIControlStateNormal];
+    @weakify(self);
+    [[self.upBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }];
+    [self.view addSubview:self.upBtn];
 }
 
 #pragma mark -
@@ -261,10 +275,32 @@
 }
 
 #pragma mark -
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        self.upBtn.frame = CGRectMake(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60, 38, 38);
+    }];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //Table Top
+    CGPoint localPoint = self.tableView.contentOffset;
+    
+    if(localPoint.y <= 0){
+        [UIView animateWithDuration:0.5 animations:^{
+            self.upBtn.frame = CGRectMake(SCREEN_WIDTH - 60, SCREEN_HEIGHT, 38, 38);
+        }];
+        return;
+    }
+}
+
+#pragma mark -
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
@@ -297,7 +333,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
 }

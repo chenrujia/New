@@ -15,6 +15,8 @@
 #import "ANKeyValueTable.h"
 #import "BXTMailListCell.h"
 #import <RongIMKit/RongIMKit.h>
+#import "MYAlertAction.h"
+#import "BXTPersonInfromViewController.h"
 
 @interface BXTProjectInformViewController () <UITableViewDataSource, UITableViewDelegate, BXTDataResponseDelegate>
 
@@ -33,6 +35,18 @@
 
 @implementation BXTProjectInformViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -40,10 +54,13 @@
     [self navigationSetting:@"项目详情" andRightTitle:nil andRightImage:nil];
     
     
-    self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", @"0", nil];
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"项目名", @"联系项目管理员", nil];
+    self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
+    self.dataArray = [[NSMutableArray alloc] initWithObjects:@"项目名", nil];
     self.authorArray = [[ANKeyValueTable userDefaultTable] valueWithKey:AUTHENTICATEUSERARRAY];
-    
+    if (self.authorArray.count != 0) {
+        [self.isShowArray addObject:@"0"];
+        [self.dataArray addObject:@"联系项目管理员"];
+    }
     
     /** 项目认证详情 **/
     [self showLoadingMBP:@"加载中..."];
@@ -234,6 +251,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 1) {
+        BXTMailListModel *mailListModel = self.authorArray[indexPath.row];
+        
+        BXTPersonInfromViewController *pivc = [[BXTPersonInfromViewController alloc] init];
+        pivc.userID = mailListModel.userID;
+        pivc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:pivc animated:YES];
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -241,7 +267,12 @@
 {
     if (indexPath.section == 0)
     {
+        // 员工类型
         if (self.isCompany) {
+            // 没有专业组
+            if ([self.projectInfo.subgroup isEqualToString:@""]) {
+                return 130;
+            }
             return 185;
         }
         return 100;
@@ -274,7 +305,7 @@
         }];
         self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
         
-        // [self.projectInfo.type integerValue] == 1 ? @"物业员工" : @"客户";
+        // [self.projectInfo.type integerValue] == 1 ? @"员工" : @"客户";
         self.isCompany = [self.projectInfo.type integerValue] == 1;
         
         [self.tableView reloadData];
@@ -321,7 +352,12 @@
     userInfo.userId = model.out_userid;
     
     NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
-    if ([userInfo.userId isEqualToString:my_userID]) return;
+    if ([userInfo.userId isEqualToString:my_userID]) {
+        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"不能与自己通话" chooseBlock:^(NSInteger buttonIdx) {
+            
+        } buttonsStatement:@"确定", nil];
+        return;
+    }
     
     userInfo.name = model.name;
     userInfo.portraitUri = model.head_pic;
