@@ -7,6 +7,7 @@
 //
 
 #import "BXTReadNoticeCell.h"
+#import "BXTPublicSetting.h"
 #import "BXTGlobal.h"
 
 @implementation BXTReadNoticeCell

@@ -39,35 +39,45 @@
     [super viewDidLoad];
     [self navigationSetting:@"应用" andRightTitle:nil andRightImage:nil];
     
-    NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
+    NSString *power = [BXTGlobal getUserProperty:U_POWER];
+    
     //如果包含业务统计
-    if ([permissonKeys containsString:@"9995"])
+    if ([power containsString:@"40101"] || [power containsString:@"40102"] || [power containsString:@"40103"] ||
+        [power containsString:@"40201"] || [power containsString:@"40202"] || [power containsString:@"40203"] ||
+        [power containsString:@"40300"] || [power containsString:@"40403"] || [power containsString:@"40404"])
     {
-        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"敬请期待"]];
-        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_symbol"]];
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"业务统计", @"敬请期待"]];
+        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_statistics", @"app_symbol"]];
         
-        if ([BXTGlobal shareGlobal].isEnergy)
+        if ([power containsString:@"80700"])
         {
-            self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源统计", @"敬请期待"]];
-            self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_chart", @"app_symbol"]];
+            self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"业务统计", @"能源统计", @"敬请期待"]];
+            self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_statistics", @"app_chart", @"app_symbol"]];
             
             if ([BXTGlobal shareGlobal].isRepair)
             {
-                self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"业务统计", @"能源抄表", @"能源统计", @"快捷抄表", @"敬请期待"]];
-                self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_statistics", @"app_metering", @"app_chart", @"app_quick", @"app_symbol"]];
+                self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"业务统计", @"能源抄表", @"能源统计", @"快捷抄表", @"敬请期待"]];
+                self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_statistics", @"app_metering", @"app_chart", @"app_quick", @"app_symbol"]];
             }
         }
     }
     else
     {
-        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"敬请期待"]];
-        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_symbol"]];
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"敬请期待"]];
+        self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_symbol"]];
         
-        if ([BXTGlobal shareGlobal].isRepair && [BXTGlobal shareGlobal].isEnergy)
+        if ([power containsString:@"80601"])
         {
-            self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"项目公告", @"能源抄表", @"快捷抄表", @"敬请期待"]];
-            self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_book", @"app_metering", @"app_quick", @"app_symbol"]];
+            self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"能源抄表", @"快捷抄表", @"敬请期待"]];
+            self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_metering", @"app_quick", @"app_symbol"]];
         }
+    }
+    
+    //如果包含项目公告
+    if ([power containsString:@"50100"])
+    {
+        [self.titleArray insertObject:@"项目公告" atIndex:0];
+        [self.imageArray insertObject:@"app_book" atIndex:0];
     }
     
     [BXTGlobal showLoadingMBP:@"加载中..."];
@@ -224,9 +234,7 @@
     }
     else if ([title isEqualToString:@"酒店入住率"])
     {
-        [BXTGlobal showText:@"功能完善中..." view:self.view completionBlock:^{
-            
-        }];
+        [BXTGlobal showText:@"功能完善中..." view:self.view completionBlock:nil];
     }
     
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
@@ -261,18 +269,8 @@
             return;
         }
         
-        NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
-        // 如果不包含业务统计
-        if ([permissonKeys containsString:@"9995"])
-        {
-            [self.titleArray insertObject:@"OA系统" atIndex:self.titleArray.count - 1];
-            [self.imageArray insertObject:@"app_OA" atIndex:self.imageArray.count - 1];
-        }
-        else
-        {
-            [self.titleArray insertObject:@"OA系统" atIndex:self.titleArray.count - 1];
-            [self.imageArray insertObject:@"app_OA" atIndex:self.imageArray.count - 1];
-        }
+        [self.titleArray insertObject:@"OA系统" atIndex:self.titleArray.count - 1];
+        [self.imageArray insertObject:@"app_OA" atIndex:self.imageArray.count - 1];
         
         NSDictionary *dict = data[0];
         self.transURL = [NSString stringWithFormat:@"%@", dict[@"other_login_url"]];

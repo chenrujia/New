@@ -8,6 +8,7 @@
 
 #import "BXTEquipmentInformCell.h"
 #import "BXTGlobal.h"
+#import "BXTPublicSetting.h"
 
 @implementation BXTEquipmentInformCell
 

@@ -80,12 +80,29 @@
 #define KADMINBASEURL           [NSString stringWithFormat:@"%@/version/%@", @"http://admin.51bxt.com/?r=port/Get_iPhone_v2_Port", VERSIONNUM]
 #define KAPIBASEURL             [NSString stringWithFormat:@"%@&version=%@", @"http://api.51bxt.com/?c=Port&m=actionGet_iPhone_v2_Port", VERSIONNUM]
 
-#define YPLACESAVE               @"PlaceSave"
-#define MYSUBGROUPSAVE               @"MySubgroupSave"
-#define AUTHENTICATEUSERARRAY               @"AuthenticateUserArray"
-#define YMAILLISTSAVE            @"MailListSave"
-#define YSAVEDSHOPID             @"SavedShopID"
-#define YSAVEDTIME               @"SavedTime"
+#define YPLACESAVE            @"PlaceSave"
+#define MYSUBGROUPSAVE        @"MySubgroupSave"
+#define AUTHENTICATEUSERARRAY @"AuthenticateUserArray"
+#define YMAILLISTSAVE         @"MailListSave"
+#define YSAVEDSHOPID          @"SavedShopID"
+#define YSAVEDTIME            @"SavedTime"
+
+/** ---- 背景色 ---- */
+#define NavColorStr @"#00B1FF"
+/** ---- cell-title色值 ---- */
+#define CellTitleColorStr @"#383838"
+/** ---- cell-content色值 ---- */
+#define CellContentColorStr @"#6D6E6F"
+/** ---- 存值 ---- */
+#define SaveValueTUD(key, value) [[NSUserDefaults standardUserDefaults] setObject:value forKey:key]; [[NSUserDefaults standardUserDefaults] synchronize]
+/** ---- 取值 ---- */
+#define ValueFUD(key) [[NSUserDefaults standardUserDefaults] objectForKey:key]
+/** ---- 刷新列表 ---- */
+#define REFRESHTABLEVIEWOFLIST  @"REFRESHTABLEVIEWOFLIST"
+
+/** ---- 弱引用、强引用 ---- **/
+#define LRWeakSelf(type)  __weak typeof(type) weak##type = type;
+#define LRStrongSelf(type)  __strong typeof(type) type = weak##type;
 
 //  动态计算高度
 #define MB_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text \

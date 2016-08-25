@@ -188,7 +188,9 @@
         self.dayListInfo = [BXTMeterReadingRecordDayListInfo mj_objectWithKeyValues:data[0]];
         
         //如果是自动阶梯，则隐藏新建抄表
-        if ([self.dayListInfo.check_type isEqualToString:@"2"])
+        NSString *power = [BXTGlobal getUserProperty:U_POWER];
+        if (([self.dayListInfo.check_type isEqualToString:@"1"] && ![power containsString:@"80604"]) ||
+            [self.dayListInfo.check_type isEqualToString:@"2"])
         {
             [self.footerView removeFromSuperview];
             self.scrollView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);

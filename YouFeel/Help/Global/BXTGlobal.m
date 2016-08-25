@@ -77,12 +77,10 @@
     }];
     BXTBranchUserInfo *branchUser = [BXTBranchUserInfo mj_objectWithKeyValues:dic];
     [BXTGlobal setUserProperty:branchUser.userID withKey:U_BRANCHUSERID];
-    [BXTGlobal setUserProperty:branchUser.permission_keys withKey:PERMISSIONKEYS];
+    [BXTGlobal setUserProperty:branchUser.power withKey:U_POWER];
     
     // Yes是维修员，No是报修者
     [BXTGlobal shareGlobal].isRepair = branchUser.is_repair == 2;
-    // 显示抄表权限
-    [BXTGlobal shareGlobal].isEnergy = branchUser.is_energy == 1;
     // 处于登录状态
     [BXTGlobal shareGlobal].isLogin = YES;
     

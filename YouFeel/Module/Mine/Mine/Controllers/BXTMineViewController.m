@@ -237,8 +237,8 @@
         BXTMineInfo *mineInfo = [BXTMineInfo mj_objectWithKeyValues:data[0]];
         
         NSString *bindingWeixin = [NSString stringWithFormat:@"%ld", (long)mineInfo.binding_weixin];
-        SaveValueTUD(BINDINGWEIXIN, bindingWeixin);
-        SaveValueTUD(USEREMAIL, mineInfo.email);
+        SaveValueTUD(U_BINDINGWEIXIN, bindingWeixin);
+        SaveValueTUD(U_USEREMAIL, mineInfo.email);
         
         self.downView.mineInfo =  mineInfo;
     }

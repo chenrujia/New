@@ -268,7 +268,8 @@
 
 - (void)initialHisView:(NSInteger)maxNumber
 {
-    if (self.hisView) {
+    if (self.hisView)
+    {
         [self.hisView removeFromSuperview];
     }
     self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.filterView_chart.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) lists:self.monthListInfo.lists kwhMeasure:maxNumber kwhNumber:4 statisticsType:MonthType];
@@ -298,7 +299,6 @@
     }];
     [self.scrollView addSubview:self.hisView];
     
-    
     // 默认值
     BXTRecordMonthListsInfo *recordInfo = self.monthListInfo.lists[self.monthListInfo.lists.count - 1];
     self.hisView.footerView.consumptionView.text = [NSString stringWithFormat:@"总能耗：%ld", (long)recordInfo.data.use_amount];
@@ -306,13 +306,16 @@
     self.hisView.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%ld", (long)recordInfo.data.peak_period_amount];
     self.hisView.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%ld", (long)recordInfo.data.flat_section_amount];
     self.hisView.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%ld", (long)recordInfo.data.valley_section_amount];
-    if (![self.monthListInfo.price_type_id isEqualToString:@"2"]) {
+    
+    if (![self.monthListInfo.price_type_id isEqualToString:@"2"])
+    {
         self.hisView.footerView.downView.hidden = YES;
         self.hisView.frame = CGRectMake(10, CGRectGetMaxY(self.headerView.frame) + 10, SCREEN_WIDTH - 20.f, 430.f);
         self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.hisView.frame) + 10);
     }
     
-    if (!self.isLaunched) {
+    if (!self.isLaunched)
+    {
         [self showChartView:NO];
         self.isLaunched = YES;
     }
@@ -384,9 +387,12 @@
     view.showViewBtn.tag = section;
     view.unit = self.listInfo.unit;
     view.lists = self.dataArray[section];
-    if ([self.isShowArray[section] isEqualToString:@"1"]) {
+    if ([self.isShowArray[section] isEqualToString:@"1"])
+    {
         view.openImage.image = [UIImage imageNamed:@"energy_open"];
-    } else {
+    }
+    else
+    {
         view.openImage.image = [UIImage imageNamed:@"energy_close"];
     }
     
@@ -490,7 +496,8 @@
         
         self.listInfo = [BXTMeterReadingRecordListInfo mj_objectWithKeyValues:data[0]];
         
-        if (self.currentPage == 1 && self.isShowArray) {
+        if (self.currentPage == 1 && self.isShowArray)
+        {
             [self.isShowArray removeAllObjects];
             [self.dataArray removeAllObjects];
         }
@@ -551,7 +558,6 @@
         [request energyMeterFavoriteAddWithAboutID:self.monthListInfo.meterReadingID delIDs:@""];
     }];
     
-    
     // 2. self.headerView 赋值
     NSString *imageStr = [self.monthListInfo.is_collect isEqualToString:@"1"] ? @"energy_favourite_star" : @"energy_favourite_unstar";
     [self.headerView.starView setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];
@@ -559,7 +565,6 @@
     self.headerView.titleView.text = [NSString stringWithFormat:@"%@", self.monthListInfo.meter_name];
     self.headerView.codeView.text = [NSString stringWithFormat:@"编号：%@", self.monthListInfo.code_number];
     self.headerView.rateView.text = [NSString stringWithFormat:@"倍率：%@", self.monthListInfo.rate];
-    
     
     // 3. 显示footer值
     // 1> 能源节点
@@ -570,27 +575,31 @@
     self.maxLabelY = CGRectGetMaxY(setPlaceLabel.frame);
     
     // 3> 服务位置
-    if (![BXTGlobal isBlankString:self.monthListInfo.server_area]) {
+    if (![BXTGlobal isBlankString:self.monthListInfo.server_area])
+    {
         UILabel *servicePlaceLabel =  [self createLabelWithTitle:@"服务位置：" content:self.monthListInfo.server_area labelY:CGRectGetMaxY(setPlaceLabel.frame) + 5];
         self.maxLabelY = CGRectGetMaxY(servicePlaceLabel.frame);
-        
-        if (![BXTGlobal isBlankString:self.monthListInfo.desc]) {
+        if (![BXTGlobal isBlankString:self.monthListInfo.desc])
+        {
             // 4> 范围说明
             UILabel *rangeIntroLabel =  [self createLabelWithTitle:@"范围说明：" content:self.monthListInfo.desc labelY:CGRectGetMaxY(servicePlaceLabel.frame) + 5];
             self.maxLabelY = CGRectGetMaxY(rangeIntroLabel.frame);
         }
     }
-    else {
-        if (![BXTGlobal isBlankString:self.monthListInfo.desc]) {
+    else
+    {
+        if (![BXTGlobal isBlankString:self.monthListInfo.desc])
+        {
             // 4> 范围说明
             UILabel *rangeIntroLabel =  [self createLabelWithTitle:@"范围说明：" content:self.monthListInfo.desc labelY:CGRectGetMaxY(setPlaceLabel.frame) + 5];
             self.maxLabelY = CGRectGetMaxY(rangeIntroLabel.frame);
         }
     }
     
-    
     // 4. check_type: 1-手动   2-自动(隐藏提交按钮)
-    if ([self.monthListInfo.check_type isEqualToString:@"2"])
+    NSString *power = [BXTGlobal getUserProperty:U_POWER];
+    if (([self.monthListInfo.check_type isEqualToString:@"1"] && ![power containsString:@"80604"]) ||
+        [self.monthListInfo.check_type isEqualToString:@"2"])
     {
         [self.footerView removeFromSuperview];
         self.scrollView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);

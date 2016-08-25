@@ -38,27 +38,32 @@
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"其他事务",nil]];
     [self.titleNameArray addObject:[NSMutableArray arrayWithObjects:@"业务统计",nil]];
     
-    NSString *permissonKeys = [BXTGlobal getUserProperty:PERMISSIONKEYS];
+    NSString *power = [BXTGlobal getUserProperty:U_POWER];
+    
     //如果不包含业务统计
-    if (![permissonKeys containsString:@"9995"])
+    if (![power containsString:@"40101"] && ![power containsString:@"40102"] && ![power containsString:@"40103"] &&
+        ![power containsString:@"40201"] && ![power containsString:@"40202"] && ![power containsString:@"40203"] &&
+        ![power containsString:@"40300"] && ![power containsString:@"40403"] && ![power containsString:@"40404"])
     {
         [self.imgNameArray removeObjectAtIndex:3];
         [self.titleNameArray removeObjectAtIndex:3];
     }
+    
     //如果不包含其他事物
-    if (![permissonKeys containsString:@"9994"])
+    if (![power containsString:@"10305"])
     {
         [self.imgNameArray removeObjectAtIndex:2];
         [self.titleNameArray removeObjectAtIndex:2];
     }
+    
     //如果日常工单和维保工单都不包含
-    if (![permissonKeys containsString:@"9991"] && ![permissonKeys containsString:@"9992"])
+    if (![power containsString:@"10301"] && ![power containsString:@"30201"])
     {
         [self.imgNameArray removeObjectAtIndex:0];
         [self.titleNameArray removeObjectAtIndex:0];
     }
     //如果不包含维保工单
-    else if ([permissonKeys containsString:@"9991"] && ![permissonKeys containsString:@"9992"])
+    else if ([power containsString:@"10301"] && ![power containsString:@"30201"])
     {
         NSMutableArray *imageNameArray = self.imgNameArray[0];
         [imageNameArray removeObjectAtIndex:1];
@@ -66,18 +71,13 @@
         [titleNameArray removeObjectAtIndex:1];
     }
     //如果不包含日常工单
-    else if (![permissonKeys containsString:@"9991"] && [permissonKeys containsString:@"9992"])
+    else if (![power containsString:@"10301"] && [power containsString:@"30201"])
     {
         NSMutableArray *imageNameArray = self.imgNameArray[0];
         [imageNameArray removeObjectAtIndex:0];
         NSMutableArray *titleNameArray = self.titleNameArray[0];
         [titleNameArray removeObjectAtIndex:0];
     }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
