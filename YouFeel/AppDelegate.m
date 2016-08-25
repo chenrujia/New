@@ -41,11 +41,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 
 @implementation AppDelegate
 
-+ (AppDelegate *)appdelegete
-{
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     SWIZZ_IT;
@@ -111,9 +106,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     
-    // 处理远程通知启动APP
-    [self receiveNotificationByLaunchingOptions:launchOptions];
-    
     // 友盟配置
     [UMAnalyticsConfig sharedInstance].appKey = UMENGKEY;
     [UMAnalyticsConfig sharedInstance].ePolicy = BATCH;
@@ -150,6 +142,32 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }];
     
     return YES;
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    self.device_token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    LogRed(@"deviceToken:%@",_device_token);
+    [[RCIMClient sharedRCIMClient] setDeviceToken:_device_token];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler
+{
+    LogRed(@"通知消息1:%@",userInfo);
+    
+    /****  UIApplicationStateInactive就是第二次调用推送唤醒函数  ****/
+    if(application.applicationState != UIApplicationStateInactive)
+    {
+        [self handleNotification:userInfo];
+    }
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
++ (AppDelegate *)appdelegete
+{
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 - (void)logUser
@@ -215,54 +233,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [self loadingLoginVC];
 }
 
-/** 自定义：APP被“推送”启动时处理推送消息处理（APP 未启动--》启动）*/
-- (void)receiveNotificationByLaunchingOptions:(NSDictionary *)launchOptions
+- (void)handleNotification:(NSDictionary *)userInfo
 {
-    if (!launchOptions) return;
-    /*
-     通过“远程推送”启动APP
-     UIApplicationLaunchOptionsRemoteNotificationKey 远程推送Key
-     */
-    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (userInfo)
-    {
-        LogRed(@"\n>>>[Launching RemoteNotification]:%@",userInfo);
-    }
-}
-
-/**
- *  向服务器注册DeviceToken
- */
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
-{
-    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    self.device_token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    LogRed(@"deviceToken:%@",_device_token);
-    [[RCIMClient sharedRCIMClient] setDeviceToken:_device_token];
-}
-
-- (void)showAlertView:(NSString *)title message:(NSString *)message
-{
-    if (IS_IOS_8)
-    {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
-        [alertCtr addAction:doneAction];
-        [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
-    }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
-    }
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler
-{
-    LogRed(@"通知消息:%@",userInfo);
-//    [UMessage didReceiveRemoteNotification:userInfo];
-    
     //如果处于非登录状态，则不处理任何消息。
     if (![BXTGlobal shareGlobal].isLogin) return;
     
@@ -408,8 +380,23 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewsComing" object:@"1"];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    
-    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)showAlertView:(NSString *)title message:(NSString *)message
+{
+    if (IS_IOS_8)
+    {
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+        [alertCtr addAction:doneAction];
+        [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
