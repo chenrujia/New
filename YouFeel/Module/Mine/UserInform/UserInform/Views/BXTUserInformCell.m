@@ -7,6 +7,7 @@
 //
 
 #import "BXTUserInformCell.h"
+#import "BXTPublicSetting.h"
 #import "BXTGlobal.h"
 
 @implementation BXTUserInformCell

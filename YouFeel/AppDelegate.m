@@ -132,8 +132,9 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     //设置接收消息代理
     [RCIM sharedRCIM].receiveMessageDelegate=self;
     
+    //配置Fabric
     [Fabric with:@[CrashlyticsKit]];
-    [self logUser];
+    [self logFabricUser];
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"REFRESHYSAVEDSHOPID" object:nil] subscribeNext:^(id x) {
         /**位置列表**/
@@ -156,12 +157,15 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 {
     LogRed(@"通知消息1:%@",userInfo);
     
-    /****  UIApplicationStateInactive就是第二次调用推送唤醒函数  ****/
+    /****  
+     UIApplicationStateActive,活动在前台
+     UIApplicationStateInactive,从后台跳入前台（仅仅是代表点击消息进入，而不是点击icon进入）
+     UIApplicationStateBackground运行在后台
+     ****/
     if(application.applicationState != UIApplicationStateInactive)
     {
         [self handleNotification:userInfo];
     }
-    
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
@@ -170,7 +174,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
-- (void)logUser
+- (void)logFabricUser
 {
     [CrashlyticsKit setUserIdentifier:@"3c933117c36927bea8ff4f1ab41c48630db1a41f"];
     [CrashlyticsKit setUserEmail:@"hellouf@163.com"];
@@ -274,11 +278,10 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             }];
             [alertCtr addAction:doneAction];
             [self.window.rootViewController presentViewController:alertCtr animated:YES completion:nil];
-            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您确定要取消此工单?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"您有来自%@的新消息，是否立即查看？",shop_name] message:nil delegate:self cancelButtonTitle:@"稍后查看" otherButtonTitles:@"立即查看",nil];
             [alert show];
         }
         return;
@@ -379,7 +382,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewsComing" object:@"1"];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)showAlertView:(NSString *)title message:(NSString *)message
@@ -396,7 +398,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
     }
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -517,7 +518,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     else if (type == BindingUser && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [BXTGlobal showText:@"绑定微信号成功" view:self.window completionBlock:nil];
-        SaveValueTUD(BINDINGWEIXIN, @"2");
+        SaveValueTUD(U_BINDINGWEIXIN, @"2");
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"BindingWeixinNotify" object:nil];
     }

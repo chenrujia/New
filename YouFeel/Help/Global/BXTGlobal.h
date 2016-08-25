@@ -12,23 +12,6 @@
 #import "BXTPostionInfo.h"
 #import "BXTHeadquartersInfo.h"
 
-/** ---- 背景色 ---- */
-#define NavColorStr @"#00B1FF"
-/** ---- cell-title色值 ---- */
-#define CellTitleColorStr @"#383838"
-/** ---- cell-content色值 ---- */
-#define CellContentColorStr @"#6D6E6F"
-/** ---- 存值 ---- */
-#define SaveValueTUD(key, value) [[NSUserDefaults standardUserDefaults] setObject:value forKey:key]; [[NSUserDefaults standardUserDefaults] synchronize]
-/** ---- 取值 ---- */
-#define ValueFUD(key) [[NSUserDefaults standardUserDefaults] objectForKey:key]
-/** ---- 刷新列表 ---- */
-#define REFRESHTABLEVIEWOFLIST  @"REFRESHTABLEVIEWOFLIST"
-
-/** ---- 弱引用、强引用 ---- **/
-#define LRWeakSelf(type)  __weak typeof(type) weak##type = type;
-#define LRStrongSelf(type)  __strong typeof(type) type = weak##type;
-
 @interface BXTGlobal : NSObject
 
 @property (nonatomic ,assign) NSInteger              maxPics;
@@ -48,7 +31,6 @@
 @property (nonatomic, strong) NSArray                *energyColors;
 @property (nonatomic, assign) NSInteger              energyType;
 @property (nonatomic, strong) UINavigationController *presentNav;
-@property (nonatomic, assign) BOOL                   isEnergy; //Yes有显示抄表权限
 
 + (BXTGlobal *)shareGlobal;
 

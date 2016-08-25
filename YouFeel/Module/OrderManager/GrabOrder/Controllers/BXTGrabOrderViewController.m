@@ -35,7 +35,6 @@
 {
     [super viewDidLoad];
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     ++[BXTGlobal shareGlobal].numOfPresented;
     [self initialSubviews];
     

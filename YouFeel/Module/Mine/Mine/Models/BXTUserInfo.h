@@ -9,25 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "BXTHeadquartersInfo.h"
 
-#define U_USERNAME     @"userName"
-#define U_PASSWORD     @"passWord"
-#define U_NAME         @"name"
-#define U_SEX          @"sex"
-#define U_COMPANY      @"company"
-#define U_SHOP         @"shopInfo"
-#define U_USERID       @"userID"
-#define U_BRANCHUSERID @"branchUserID"
-#define U_SHOPIDS      @"shopIdsArray"
-#define U_MOBILE       @"mobileNumber"
-#define U_HEADERIMAGE  @"headerImage"
-#define U_MYSHOP       @"my_shop"
-#define U_IMTOKEN      @"im_token"
-#define U_USERSARRAY   @"usersArray"
-#define U_TOKEN        @"token"
-#define U_OPENID       @"openID"
-#define USEREMAIL      @"email"
-#define BINDINGWEIXIN     @"binding_weixin"
-#define PERMISSIONKEYS @"permission_keys"
+#define U_USERNAME      @"userName"
+#define U_PASSWORD      @"passWord"
+#define U_NAME          @"name"
+#define U_SEX           @"sex"
+#define U_COMPANY       @"company"
+#define U_SHOP          @"shopInfo"
+#define U_USERID        @"userID"
+#define U_BRANCHUSERID  @"branchUserID"
+#define U_SHOPIDS       @"shopIdsArray"
+#define U_MOBILE        @"mobileNumber"
+#define U_HEADERIMAGE   @"headerImage"
+#define U_MYSHOP        @"my_shop"
+#define U_IMTOKEN       @"im_token"
+#define U_USERSARRAY    @"usersArray"
+#define U_TOKEN         @"token"
+#define U_OPENID        @"openID"
+#define U_USEREMAIL     @"email"
+#define U_POWER         @"power"
+#define U_BINDINGWEIXIN @"binding_weixin"
 
 //存储用的Model
 @class BXTResignedShopInfo;
@@ -49,7 +49,7 @@
 @property (nonatomic ,strong) NSMutableArray      *usersArray;
 @property (nonatomic, copy  ) NSString            *token;
 @property (nonatomic, copy  ) NSString            *openID;
-@property (nonatomic, copy  ) NSString            *permission_keys;
+@property (nonatomic, copy  ) NSString            *power;
 
 @end
 
@@ -92,9 +92,8 @@
 @property (nonatomic, copy  ) NSString  *subgroup_id;
 @property (nonatomic, copy  ) NSString  *department_name;
 @property (nonatomic, copy  ) NSString  *duty_name;
-@property (nonatomic, copy  ) NSString  *permission_keys;
-@property (nonatomic, assign) NSInteger is_energy;
-@property (nonatomic, strong) NSArray *my_subgroup;
+@property (nonatomic, copy  ) NSString  *power;
+@property (nonatomic, strong) NSArray   *my_subgroup;
 
 @end
 

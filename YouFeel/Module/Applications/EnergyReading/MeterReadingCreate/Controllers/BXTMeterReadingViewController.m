@@ -492,28 +492,30 @@ typedef NS_ENUM(NSInteger, ReadingType) {
         }
         
         // TODO: -----------------  调试  -----------------
-        
         // meter_condition ----  1 二维码扫描   2 NFC扫描   3 拍照
         // 1. meter_condition 默认: 扫描 + 拍照
-        if ([self.meterReadingInfo.meter_condition rangeOfString:@"1"].location != NSNotFound && [self.meterReadingInfo.meter_condition rangeOfString:@"3"].location != NSNotFound) {
+        if ([self.meterReadingInfo.meter_condition rangeOfString:@"1"].location != NSNotFound && [self.meterReadingInfo.meter_condition rangeOfString:@"3"].location != NSNotFound)
+        {
             self.typeOFReading = ReadingTypeOFDefault;
         }
         // 2. meter_condition 需扫描
-        else if ([self.meterReadingInfo.meter_condition rangeOfString:@"1"].location != NSNotFound) {
+        else if ([self.meterReadingInfo.meter_condition rangeOfString:@"1"].location != NSNotFound)
+        {
             self.typeOFReading = ReadingTypeOFScan;
         }
         // 3. meter_condition 需填图
-        else if ([self.meterReadingInfo.meter_condition rangeOfString:@"3"].location != NSNotFound) {
+        else if ([self.meterReadingInfo.meter_condition rangeOfString:@"3"].location != NSNotFound)
+        {
             self.typeOFReading = ReadingTypeOFPicture;
             self.unlocked = YES;
             [self navigationOwnSetting:@"新建抄表" andRightTitle:nil andRightImage:nil];
         }
         // 4. meter_condition 无需 扫描 + 拍照
-        else {
+        else
+        {
             self.unlocked = YES;
             [self navigationOwnSetting:@"新建抄表" andRightTitle:nil andRightImage:nil];
         }
-        
     }
     else if (type == EnergyMeterRecordFile && [dic[@"returncode"] intValue] == 0)
     {

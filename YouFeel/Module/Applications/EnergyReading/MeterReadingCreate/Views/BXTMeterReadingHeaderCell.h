@@ -11,15 +11,13 @@
 
 @interface BXTMeterReadingHeaderCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIView *bgView;
-
+@property (weak, nonatomic) IBOutlet UIView      *bgView;
+@property (weak, nonatomic) IBOutlet UILabel     *titleView;
+@property (weak, nonatomic) IBOutlet UILabel     *codeView;
+@property (weak, nonatomic) IBOutlet UILabel     *rateView;
+@property (weak, nonatomic) IBOutlet UILabel     *stateView;
+@property (weak, nonatomic) IBOutlet UILabel     *lastTimeView;
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
-@property (weak, nonatomic) IBOutlet UILabel *titleView;
-@property (weak, nonatomic) IBOutlet UILabel *codeView;
-@property (weak, nonatomic) IBOutlet UILabel *rateView;
-@property (weak, nonatomic) IBOutlet UILabel *stateView;
-@property (weak, nonatomic) IBOutlet UILabel *lastTimeView;
-
 @property (weak, nonatomic) IBOutlet UIImageView *firstImage;
 @property (weak, nonatomic) IBOutlet UIImageView *secondImage;
 
