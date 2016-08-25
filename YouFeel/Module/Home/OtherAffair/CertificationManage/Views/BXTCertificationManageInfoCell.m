@@ -27,7 +27,7 @@
 {
     _projectInfo = projectInfo;
     
-    self.typeView.text = [projectInfo.type integerValue] == 1 ? @"物业员工" : @"客户";
+    self.typeView.text = [projectInfo.type integerValue] == 1 ? @"员工" : @"客户";
     self.departmentView.text = projectInfo.department;
     self.positionView.text = projectInfo.duty_name;
     self.groupView.text = projectInfo.subgroup;

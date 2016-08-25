@@ -94,7 +94,7 @@
 
 - (void)getResource
 {
-    [self showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statisticsInspectionTaskListWithStartTime:self.startTime
                                                endTime:self.endTime
@@ -209,7 +209,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
@@ -242,7 +242,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
 }

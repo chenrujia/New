@@ -119,7 +119,7 @@
     self.detailName.font = [UIFont systemFontOfSize:15.f];
     [self.view addSubview:self.detailName];
     
-    //身份类型
+    //身份
     self.identifyName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.detailName.frame), CGRectGetMinY(self.headImgView.frame) + 50.f, 160.f, 20)];
     self.identifyName.font = [UIFont systemFontOfSize:15.f];
     self.identifyName.userInteractionEnabled = YES;

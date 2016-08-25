@@ -10,6 +10,7 @@
 #import "BXTHeaderForVC.h"
 #import "BXTDataRequest.h"
 #import "UIImageView+WebCache.h"
+#import "BXTNoticeInformViewController.h"
 
 @interface BXTAboutUsViewController ()<UITableViewDataSource,UITableViewDelegate,BXTDataResponseDelegate>
 
@@ -19,6 +20,9 @@
 @property (nonatomic, strong) NSArray *dataArray;
 
 @property (nonatomic ,strong) NSDictionary *infoDic;
+
+/** ---- 服务协议url ---- */
+@property (nonatomic, copy) NSString *transUrl;
 
 @end
 
@@ -33,8 +37,17 @@
     [self createUI];
     
     [self showLoadingMBP:@"加载中..."];
-    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request aboutUsWithNewID:@"1"];
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        // 关于我们
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request aboutUs];
+    });
+    dispatch_async(concurrentQueue, ^{
+        // 服务协议
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request serviceAgreement];
+    });
 }
 
 #pragma mark -
@@ -139,7 +152,10 @@
         [self loadingGuideView];
     }
     if (indexPath.section == 2) {
-        
+        BXTNoticeInformViewController *nivc = [[BXTNoticeInformViewController alloc] init];
+        nivc.titleStr = @"服务协议";
+        nivc.urlStr = self.transUrl;
+        [self.navigationController pushViewController:nivc animated:YES];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -150,14 +166,24 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+    if (type == AboutUs && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
+        [self hideMBP];
+        
         NSArray *array = [dic objectForKey:@"data"];
         self.infoDic = array[0];
         
         [self.tableView reloadData];
     }
-    [self hideMBP];
+    else if (type == ServiceAgreement && [[dic objectForKey:@"returncode"] integerValue] == 0)
+    {
+        NSArray *array = [dic objectForKey:@"data"];
+        NSDictionary *subDict = array[0];
+        self.transUrl = subDict[@"url"];
+        
+        [self.tableView reloadData];
+    }
+    
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

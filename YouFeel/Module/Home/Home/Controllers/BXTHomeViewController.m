@@ -29,6 +29,7 @@
 #import "BXTEnergyReadingQuickViewController.h"
 #import "BXTMailListModel.h"
 #import "ANKeyValueTable.h"
+#import "BXTProjectPhoneCell.h"
 
 #import "BXTEquipmentListViewController.h"
 
@@ -45,16 +46,24 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 @interface BXTHomeViewController ()<BXTDataResponseDelegate, SDCycleScrollViewDelegate>
 {
-    BOOL              isConfigInfoSuccess;
-    UIButton          *messageBtn;
+    BOOL isConfigInfoSuccess;
+    UIButton *messageBtn;
     SDCycleScrollView *cycleScrollView;
 }
 
 @property (nonatomic, strong) NSMutableArray *logosArray;
 @property (nonatomic, strong) NSMutableArray *usersArray;
 @property (nonatomic, strong) NSMutableArray *adsArray;
-@property (nonatomic, strong) NSArray       *projPhoneArray;
-@property (nonatomic, strong) UIView         *redView;
+@property (nonatomic, strong) NSArray *projPhoneArray;
+@property (nonatomic, strong) UIView *redView;
+
+@property (nonatomic, strong) UITableView *phoneTableView;
+
+// 电话背景
+@property (nonatomic, strong) UIButton *phoneBgView;
+
+@property (nonatomic, strong) NSMutableArray *nameArray;
+@property (nonatomic, strong) NSMutableArray *phoneArray;
 
 @end
 
@@ -319,21 +328,36 @@ typedef NS_ENUM(NSInteger, CellType) {
     [self.navigationController pushViewController:myIntegralVC animated:YES];
 }
 
+// TODO: -----------------  调试  -----------------
 - (void)projectPhone
 {
-    //    NSMutableArray *nameArray = [[NSMutableArray alloc] init];
-    //    NSMutableArray *phoneArray = [[NSMutableArray alloc] init];
-    //    for (NSDictionary *dict in self.projPhoneArray) {
-    //        [nameArray addObject:dict[@"tel_name"]];
-    //        [phoneArray addObject:dict[@"tel_number"]];
-    //    }
-    //
-    //    NSLog(@"nameArray ---- %@", nameArray);
+    self.nameArray = [[NSMutableArray alloc] init];
+    self.phoneArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *dict in self.projPhoneArray) {
+        [self.nameArray addObject:[NSString stringWithFormat:@"%@ - %@", dict[@"tel_name"], dict[@"tel_number"]]];
+        [self.phoneArray addObject:dict[@"tel_number"]];
+    }
     
-    NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", @"1379177777"];
-    UIWebView *callWeb = [[UIWebView alloc] init];
-    [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
-    [self.view addSubview:callWeb];
+    
+    self.phoneBgView = [[UIButton alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.frame];
+    self.phoneBgView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.6];
+    @weakify(self);
+    [[self.phoneBgView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.phoneBgView removeFromSuperview];
+    }];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.phoneBgView];
+    
+    CGFloat tableViewHeight = 50 * self.phoneArray.count + 55;
+    if (tableViewHeight >= SCREEN_HEIGHT - 100) {
+        tableViewHeight = SCREEN_HEIGHT - 100;
+    }
+    self.phoneTableView = [[UITableView alloc] initWithFrame:CGRectMake(40, (SCREEN_HEIGHT - tableViewHeight) / 2, SCREEN_WIDTH - 80, tableViewHeight) style:UITableViewStyleGrouped];
+    self.phoneTableView.rowHeight = 50;
+    self.phoneTableView.delegate = self;
+    self.phoneTableView.dataSource = self;
+    self.phoneTableView.layer.cornerRadius = 10;
+    [self.phoneBgView addSubview:self.phoneTableView];
 }
 
 #pragma mark - SDCycleScrollViewDelegate
@@ -351,6 +375,10 @@ typedef NS_ENUM(NSInteger, CellType) {
 #pragma mark UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (tableView == self.phoneTableView) {
+        return 0.1f;
+    }
+    
     if (section == 0)
     {
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
@@ -366,6 +394,10 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    if (tableView == self.phoneTableView) {
+        return [UIView new];
+    }
+    
     if (section == 0)
     {
         CGFloat scale = 123.f/320.f;
@@ -421,21 +453,62 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (tableView == self.phoneTableView) {
+        return 60.f;
+    }
     return 10.f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (tableView == self.phoneTableView) {
+        CGSize size = self.phoneTableView.frame.size;
+        
+        UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        cancelBtn.frame = CGRectMake(0, size.height - 55, size.width, 55);
+        cancelBtn.backgroundColor = [UIColor whiteColor];
+        [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [cancelBtn setTitleColor:colorWithHexString(@"#6DA9E8") forState:UIControlStateNormal];
+        @weakify(self);
+        [[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [self.phoneBgView removeFromSuperview];
+        }];
+        
+        return cancelBtn;
+    }
+    
+    return [UIView new];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (tableView == self.phoneTableView) {
+        return 1;
+    }
+    
     return self.titleNameArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (tableView == self.phoneTableView) {
+        return self.phoneArray.count;
+    }
+    
     return [self.titleNameArray[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.phoneTableView) {
+        BXTProjectPhoneCell *cell = [BXTProjectPhoneCell cellWithTableView:tableView];
+        
+        cell.titleView.text = self.nameArray[indexPath.row];
+        
+        return cell;
+    }
+    
     BXTHomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomeCell" forIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.numberLabel.hidden = YES;
@@ -499,6 +572,20 @@ typedef NS_ENUM(NSInteger, CellType) {
         cell.numberLabel.hidden = NO;
         cell.numberLabel.text = [BXTRemindNum sharedManager].objectNum;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.phoneTableView) {
+        [self.phoneBgView removeFromSuperview];
+        
+        NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", self.phoneArray[indexPath.row]];
+        UIWebView *callWeb = [[UIWebView alloc] init];
+        [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
+        [self.view addSubview:callWeb];
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
@@ -620,7 +707,6 @@ typedef NS_ENUM(NSInteger, CellType) {
     }
     else if (type == ShopConfig && [dic[@"returncode"] integerValue] == 0)
     {
-        // TODO: -----------------  调试  -----------------
         NSDictionary *infoDict = array[0];
         NSArray *shopTelArray = infoDict[@"shop_tel"];
         if (shopTelArray.count != 0)
