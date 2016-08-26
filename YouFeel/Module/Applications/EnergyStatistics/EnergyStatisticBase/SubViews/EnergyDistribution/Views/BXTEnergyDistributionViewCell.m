@@ -41,6 +41,8 @@
     self.similarNumView.text = [NSString stringWithFormat:@"%@", energyListInfo.an_energy_consumption_per];
 }
 
+
+
 - (void)setMoneyListInfo:(BXTEYDTListsInfo *)moneyListInfo
 {
     _moneyListInfo = moneyListInfo;

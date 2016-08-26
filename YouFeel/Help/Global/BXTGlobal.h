@@ -176,6 +176,6 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
 /**
  *  数字格式化
  */
-+ (NSString *)transNum:(NSInteger)number;
++ (NSString *)transNum:(double)number;
 
 @end

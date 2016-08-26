@@ -47,8 +47,8 @@
         ![power containsString:@"40201"] && ![power containsString:@"40202"] && ![power containsString:@"40203"] &&
         ![power containsString:@"40300"] && ![power containsString:@"40403"] && ![power containsString:@"40404"])
     {
-        [self.imgNameArray removeObjectAtIndex:5];
-        [self.titleNameArray removeObjectAtIndex:5];
+        [self.imgNameArray removeObjectAtIndex:4];
+        [self.titleNameArray removeObjectAtIndex:4];
     }
     
     //如果不包含其他事物

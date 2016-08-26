@@ -32,13 +32,13 @@
 {
     _totalInfo = totalInfo;
     
-    self.moneyView.text = [NSString stringWithFormat:@"金额: %.2f 元", totalInfo.money];
+    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", [BXTGlobal transNum:totalInfo.money]];
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %.2f 元", totalInfo.mom_money];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %@ 元", [BXTGlobal transNum:totalInfo.mom_money]];
     self.circleImageView.image = [self judgeImage:totalInfo.mom_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", totalInfo.mom];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %.2f 元", totalInfo.an_money];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %@ 元", [BXTGlobal transNum:totalInfo.an_money]];
     self.similarImageView.image = [self judgeImage:totalInfo.an_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", totalInfo.an];
 }

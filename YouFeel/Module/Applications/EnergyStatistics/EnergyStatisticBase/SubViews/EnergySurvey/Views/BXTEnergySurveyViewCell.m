@@ -32,14 +32,14 @@
     
     self.roundView.backgroundColor = colorWithHexString(@"#E99390");
     self.typeView.text = @"电能";
-    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", eleInfo.money];
-    self.rateView.text = [NSString stringWithFormat:@"比例: %.2f%%", eleInfo.per];
+    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", [BXTGlobal transNum:eleInfo.money]];
+    self.rateView.text = [NSString stringWithFormat:@"比例: %@%%", [BXTGlobal transNum:eleInfo.per]];
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %.2f 元", eleInfo.mom_money];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %@ 元", [BXTGlobal transNum:eleInfo.mom_money]];
     self.circleImageView.image = [self judgeImage:eleInfo.mom_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", eleInfo.mom];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %.2f 元", eleInfo.an_money];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %@ 元", [BXTGlobal transNum:eleInfo.an_money]];
     self.similarImageView.image = [self judgeImage:eleInfo.an_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", eleInfo.an];
 }
@@ -50,14 +50,14 @@
     
     self.roundView.backgroundColor = colorWithHexString(@"#6DA9E8");
     self.typeView.text = @"水";
-    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", watInfo.money];
-    self.rateView.text = [NSString stringWithFormat:@"比例: %.2f%%", watInfo.per];
+    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", [BXTGlobal transNum:watInfo.money]];
+    self.rateView.text = [NSString stringWithFormat:@"比例: %@%%", [BXTGlobal transNum:watInfo.per]];
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %.2f 元", watInfo.mom_money];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %@ 元", [BXTGlobal transNum:watInfo.mom_money]];
     self.circleImageView.image = [self judgeImage:watInfo.mom_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", watInfo.mom];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %.2f 元", watInfo.an_money];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %@ 元", [BXTGlobal transNum:watInfo.an_money]];
     self.similarImageView.image = [self judgeImage:watInfo.an_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", watInfo.an];
 }
@@ -68,14 +68,14 @@
     
     self.roundView.backgroundColor = colorWithHexString(@"#FBF56B");
     self.typeView.text = @"燃气";
-    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", theInfo.money];
-    self.rateView.text = [NSString stringWithFormat:@"比例: %.2f%%", theInfo.per];
+    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", [BXTGlobal transNum:theInfo.money]];
+    self.rateView.text = [NSString stringWithFormat:@"比例: %@%%", [BXTGlobal transNum:theInfo.per]];
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %.2f 元", theInfo.mom_money];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %@ 元", [BXTGlobal transNum:theInfo.mom_money]];
     self.circleImageView.image = [self judgeImage:theInfo.mom_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", theInfo.mom];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %.2f 元", theInfo.an_money];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %@ 元", [BXTGlobal transNum:theInfo.an_money]];
     self.similarImageView.image = [self judgeImage:theInfo.an_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", theInfo.an];
 }
@@ -86,14 +86,14 @@
     
     self.roundView.backgroundColor = colorWithHexString(@"#F2B56F");
     self.typeView.text = @"热能";
-    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", gasInfo.money];
-    self.rateView.text = [NSString stringWithFormat:@"比例: %.2f%%", gasInfo.per];
+    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", [BXTGlobal transNum:gasInfo.money]];
+    self.rateView.text = [NSString stringWithFormat:@"比例: %@%%", [BXTGlobal transNum:gasInfo.per]];
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %.2f 元", gasInfo.mom_money];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %@ 元", [BXTGlobal transNum:gasInfo.mom_money]];
     self.circleImageView.image = [self judgeImage:gasInfo.mom_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", gasInfo.mom];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %.2f 元", gasInfo.an_money];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %@ 元", [BXTGlobal transNum:gasInfo.an_money]];
     self.similarImageView.image = [self judgeImage:gasInfo.an_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", gasInfo.an];
 }

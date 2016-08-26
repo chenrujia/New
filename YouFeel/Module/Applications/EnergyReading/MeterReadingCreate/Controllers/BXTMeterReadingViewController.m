@@ -220,7 +220,6 @@ typedef NS_ENUM(NSInteger, ReadingType) {
     }];
     [self.footerView addSubview:cancelBtn];
     
-    // TODO: -----------------  调试  -----------------
     UIButton *commitBtn = [self createButtonWithTitle:@"提交" btnX:SCREEN_WIDTH / 2 + 5  tilteColor:@"#5DAFF9"];
     
     [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -355,12 +354,13 @@ typedef NS_ENUM(NSInteger, ReadingType) {
         NSString *thisValueStr = @"";
         NSString *thisNumStr = @"";
         if (![BXTGlobal isBlankString:text] && cell.NumTextField.tag == indexPath.section + 100) {
-            NSInteger thisValue = [text integerValue] * [self.meterReadingInfo.rate integerValue];
-            NSInteger thisNum = thisValue - [cell.lastValueView.text integerValue];
-            thisValueStr = [NSString stringWithFormat:@"%ld", (long)thisValue];
-            thisNumStr = [NSString stringWithFormat:@"%ld", (long)thisNum];
-            cell.thisValueView.text = [NSString stringWithFormat:@"%ld %@", (long)thisValue, self.meterReadingInfo.unit];
-            cell.thisNumView.text = [NSString stringWithFormat:@"%ld %@", (long)thisNum, self.meterReadingInfo.unit];
+            double thisValue = [self removeOtherChar:text] * [self.meterReadingInfo.rate integerValue];
+            double thisNum = thisValue - [self removeOtherChar:cell.lastValueView.text];
+            thisValueStr = [BXTGlobal transNum:thisValue];
+            thisNumStr = [BXTGlobal transNum:thisNum];
+            
+            cell.thisValueView.text = [NSString stringWithFormat:@"%@ %@", thisValueStr, self.meterReadingInfo.unit];
+            cell.thisNumView.text = [NSString stringWithFormat:@"%@ %@", thisNumStr, self.meterReadingInfo.unit];
         }
         else
         { // 原因：总示数不变，其余textfield清除不会清空，
@@ -491,7 +491,6 @@ typedef NS_ENUM(NSInteger, ReadingType) {
             self.tableView.frame = CGRectMake(0, KNAVIVIEWHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - KNAVIVIEWHEIGHT);
         }
         
-        // TODO: -----------------  调试  -----------------
         // meter_condition ----  1 二维码扫描   2 NFC扫描   3 拍照
         // 1. meter_condition 默认: 扫描 + 拍照
         if ([self.meterReadingInfo.meter_condition rangeOfString:@"1"].location != NSNotFound && [self.meterReadingInfo.meter_condition rangeOfString:@"3"].location != NSNotFound)
@@ -559,14 +558,19 @@ typedef NS_ENUM(NSInteger, ReadingType) {
     return newMeterBtn;
 }
 
-- (NSString *)transToString:(NSInteger)sender
+- (NSString *)transToString:(double)sender
 {
-    return [NSString stringWithFormat:@"%ld", (long)sender];
+    return [NSString stringWithFormat:@"%@", [BXTGlobal transNum:sender]];
 }
 
 - (NSString *)transUnitString:(NSString *)sender
 {
     return [NSString stringWithFormat:@"%@ %@", sender, self.meterReadingInfo.unit];
+}
+
+- (double)removeOtherChar:(NSString *)numStr
+{
+    return [[numStr stringByReplacingOccurrencesOfString:@"," withString:@""] doubleValue];
 }
 
 - (void)didReceiveMemoryWarning

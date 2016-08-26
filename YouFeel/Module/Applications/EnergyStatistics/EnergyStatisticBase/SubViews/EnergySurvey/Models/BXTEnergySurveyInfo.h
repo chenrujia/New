@@ -27,65 +27,65 @@
 
 @interface BXTEySyEleInfo : NSObject
 
-@property (nonatomic, assign) CGFloat an_money;
-@property (nonatomic, assign) NSInteger an_sign;
+@property (nonatomic, assign) double an_money;
+@property (nonatomic, assign) double an_sign;
 @property (nonatomic, copy) NSString *mom;
-@property (nonatomic, assign) CGFloat mom_money;
+@property (nonatomic, assign) double mom_money;
 @property (nonatomic, copy) NSString *an;
-@property (nonatomic, assign) NSInteger mom_sign;
-@property (nonatomic, copy) NSString *money;
-@property (nonatomic, assign) CGFloat per;
+@property (nonatomic, assign) double mom_sign;
+@property (nonatomic, assign) double money;
+@property (nonatomic, assign) double per;
 
 @end
 
 @interface BXTEySyTheInfo : NSObject
 
-@property (nonatomic, assign) CGFloat an_money;
-@property (nonatomic, assign) NSInteger an_sign;
+@property (nonatomic, assign) double an_money;
+@property (nonatomic, assign) double an_sign;
 @property (nonatomic, copy) NSString *mom;
-@property (nonatomic, assign) CGFloat mom_money;
+@property (nonatomic, assign) double mom_money;
 @property (nonatomic, copy) NSString *an;
-@property (nonatomic, assign) NSInteger mom_sign;
-@property (nonatomic, copy) NSString *money;
-@property (nonatomic, assign) CGFloat per;
+@property (nonatomic, assign) double mom_sign;
+@property (nonatomic, assign) double money;
+@property (nonatomic, assign) double per;
 
 @end
 
 @interface BXTEySyGasInfo : NSObject
 
-@property (nonatomic, assign) CGFloat an_money;
-@property (nonatomic, assign) NSInteger an_sign;
+@property (nonatomic, assign) double an_money;
+@property (nonatomic, assign) double an_sign;
 @property (nonatomic, copy) NSString *mom;
-@property (nonatomic, assign) CGFloat mom_money;
+@property (nonatomic, assign) double mom_money;
 @property (nonatomic, copy) NSString *an;
-@property (nonatomic, assign) NSInteger mom_sign;
-@property (nonatomic, copy) NSString *money;
-@property (nonatomic, assign) CGFloat per;
+@property (nonatomic, assign) double mom_sign;
+@property (nonatomic, assign) double money;
+@property (nonatomic, assign) double per;
 
 @end
 
 @interface BXTEySyTotalInfo : NSObject
 
-@property (nonatomic, assign) CGFloat an_money;
-@property (nonatomic, assign) NSInteger an_sign;
+@property (nonatomic, assign) double an_money;
+@property (nonatomic, assign) double an_sign;
 @property (nonatomic, copy) NSString *mom;
-@property (nonatomic, assign) CGFloat mom_money;
+@property (nonatomic, assign) double mom_money;
 @property (nonatomic, copy) NSString *an;
-@property (nonatomic, assign) NSInteger mom_sign;
-@property (nonatomic, assign) CGFloat money;
+@property (nonatomic, assign) double mom_sign;
+@property (nonatomic, assign) double money;
 
 @end
 
 @interface BXTEySyWatInfo : NSObject
 
-@property (nonatomic, assign) CGFloat an_money;
-@property (nonatomic, assign) NSInteger an_sign;
+@property (nonatomic, assign) double an_money;
+@property (nonatomic, assign) double an_sign;
 @property (nonatomic, copy) NSString *mom;
-@property (nonatomic, assign) CGFloat mom_money;
+@property (nonatomic, assign) double mom_money;
 @property (nonatomic, copy) NSString *an;
-@property (nonatomic, assign) NSInteger mom_sign;
-@property (nonatomic, copy) NSString *money;
-@property (nonatomic, assign) CGFloat per;
+@property (nonatomic, assign) double mom_sign;
+@property (nonatomic, assign) double money;
+@property (nonatomic, assign) double per;
 
 @end
 
