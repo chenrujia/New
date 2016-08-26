@@ -30,7 +30,7 @@
 #import "BXTMailListModel.h"
 #import "ANKeyValueTable.h"
 #import "BXTProjectPhoneCell.h"
-
+#import "AppDelegate.h"
 #import "BXTEquipmentListViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
@@ -54,14 +54,10 @@ typedef NS_ENUM(NSInteger, CellType) {
 @property (nonatomic, strong) NSMutableArray *logosArray;
 @property (nonatomic, strong) NSMutableArray *usersArray;
 @property (nonatomic, strong) NSMutableArray *adsArray;
-@property (nonatomic, strong) NSArray *projPhoneArray;
-@property (nonatomic, strong) UIView *redView;
-
-@property (nonatomic, strong) UITableView *phoneTableView;
-
-// 电话背景
-@property (nonatomic, strong) UIButton *phoneBgView;
-
+@property (nonatomic, strong) NSArray        *projPhoneArray;
+@property (nonatomic, strong) UIView         *redView;
+@property (nonatomic, strong) UITableView    *phoneTableView;
+@property (nonatomic, strong) UIButton       *phoneBgView;// 电话背景
 @property (nonatomic, strong) NSMutableArray *nameArray;
 @property (nonatomic, strong) NSMutableArray *phoneArray;
 
@@ -98,6 +94,14 @@ typedef NS_ENUM(NSInteger, CellType) {
         /**请求维保列表**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request shopConfig];
+    });
+    
+    [AppDelegate appdelegete].isGetIn = YES;
+
+    double delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"HandleRemoteNotification" object:nil];
     });
 }
 
@@ -394,7 +398,8 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (tableView == self.phoneTableView) {
+    if (tableView == self.phoneTableView)
+    {
         return [UIView new];
     }
     
@@ -441,7 +446,8 @@ typedef NS_ENUM(NSInteger, CellType) {
         }];
         
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        if ([companyInfo.company_id isEqualToString:@"4"]) {
+        if ([companyInfo.company_id isEqualToString:@"4"])
+        {
             [bgView addSubview:button];
         }
         
@@ -453,7 +459,8 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (tableView == self.phoneTableView) {
+    if (tableView == self.phoneTableView)
+    {
         return 60.f;
     }
     return 10.f;
@@ -461,7 +468,8 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (tableView == self.phoneTableView) {
+    if (tableView == self.phoneTableView)
+    {
         CGSize size = self.phoneTableView.frame.size;
         
         UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -483,7 +491,8 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (tableView == self.phoneTableView) {
+    if (tableView == self.phoneTableView)
+    {
         return 1;
     }
     
@@ -492,7 +501,8 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == self.phoneTableView) {
+    if (tableView == self.phoneTableView)
+    {
         return self.phoneArray.count;
     }
     
@@ -501,9 +511,9 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.phoneTableView) {
+    if (tableView == self.phoneTableView)
+    {
         BXTProjectPhoneCell *cell = [BXTProjectPhoneCell cellWithTableView:tableView];
-        
         cell.titleView.text = self.nameArray[indexPath.row];
         
         return cell;
@@ -576,7 +586,8 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.phoneTableView) {
+    if (tableView == self.phoneTableView)
+    {
         [self.phoneBgView removeFromSuperview];
         
         NSString *phone = [[NSMutableString alloc] initWithFormat:@"tel:%@", self.phoneArray[indexPath.row]];

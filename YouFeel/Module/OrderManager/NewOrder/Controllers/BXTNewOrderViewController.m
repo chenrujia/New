@@ -231,19 +231,6 @@
 
 #pragma mark -
 #pragma mark 事件
-- (void)navigationLeftButton
-{
-    if (self.isVoice)
-    {
-        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID viewControllerType:AssignVCType];
-        [self.navigationController pushViewController:rejectVC animated:YES];
-    }
-    else
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
-
 - (void)connectTa
 {
     BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];

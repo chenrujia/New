@@ -46,6 +46,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     SWIZZ_IT;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.device_token = @"hellouf";
+    self.infoArray = [NSMutableArray array];
     //新的SDK不允许在设置rootViewController之前做过于复杂的操作,So.....坑
     BXTLoadingViewController *myVC = [[BXTLoadingViewController alloc] init];
     self.window.rootViewController = myVC;
@@ -58,13 +59,6 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     
     //注册APP_ID
     [WXApi registerApp:APP_ID];
-    
-    // token验证失败 - 退出登录
-    @weakify(self);
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"VERIFY_TOKEN_FAIL" object:nil] subscribeNext:^(id x) {
-        @strongify(self);
-        [self loadingLoginVC];
-    }];
     
     BOOL isLoaded = [[NSUserDefaults standardUserDefaults] boolForKey:@"LoadedGuideView"];
     if (isLoaded)
@@ -122,11 +116,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSDictionary *textAttributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor whiteColor]};
     [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:RCKitDispatchMessageNotification object:nil] subscribeNext:^(id x) {
-        [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
-    }];
-    
+
     //设置会话列表头像和会话界面头像
     [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
     //设置接收消息代理
@@ -136,12 +126,8 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [Fabric with:@[CrashlyticsKit]];
     [self logFabricUser];
     
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"REFRESHYSAVEDSHOPID" object:nil] subscribeNext:^(id x) {
-        /**位置列表**/
-        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlaceIsAllPlace];
-    }];
-    
+    [self addNotification];
+
     return YES;
 }
 
@@ -157,14 +143,24 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 {
     LogRed(@"通知消息1:%@",userInfo);
     
-    /****  
+    /**
      UIApplicationStateActive,活动在前台
      UIApplicationStateInactive,从后台跳入前台（仅仅是代表点击消息进入，而不是点击icon进入）
      UIApplicationStateBackground运行在后台
-     ****/
-    if(application.applicationState != UIApplicationStateInactive)
+     **/
+    if (self.isGetIn)
     {
-        [self handleNotification:userInfo];
+        if(application.applicationState != UIApplicationStateInactive)
+        {
+            [self handleNotification:userInfo];
+        }
+    }
+    else
+    {
+        if(application.applicationState == UIApplicationStateInactive)
+        {
+            [self.infoArray addObject:userInfo];
+        }
     }
     completionHandler(UIBackgroundFetchResultNewData);
 }
@@ -172,6 +168,35 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 + (AppDelegate *)appdelegete
 {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
+- (void)addNotification
+{
+    // token验证失败 - 退出登录
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"VERIFY_TOKEN_FAIL" object:nil] subscribeNext:^(id x) {
+        [self loadingLoginVC];
+    }];
+    
+    // 处理远程通知
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"HandleRemoteNotification" object:nil] subscribeNext:^(id x) {
+        if (self.infoArray.count)
+        {
+            for (NSDictionary *infoDic in self.infoArray)
+            {
+                [self handleNotification:infoDic];
+            }
+            [self.infoArray removeAllObjects];
+        }
+    }];
+    
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:RCKitDispatchMessageNotification object:nil] subscribeNext:^(id x) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
+    }];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"REFRESHYSAVEDSHOPID" object:nil] subscribeNext:^(id x) {
+        /**位置列表**/
+        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [location_request listOFPlaceIsAllPlace];
+    }];
 }
 
 - (void)logFabricUser
@@ -240,7 +265,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)handleNotification:(NSDictionary *)userInfo
 {
     //如果处于非登录状态，则不处理任何消息。
-    if (![BXTGlobal shareGlobal].isLogin) return;
+//    if (![BXTGlobal shareGlobal].isLogin) return;
     
     NSString *taskStr = [userInfo objectForKey:@"notify"];
     NSDictionary *taskInfo = [taskStr JSONValue];

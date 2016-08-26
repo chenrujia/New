@@ -116,14 +116,15 @@
 - (void)createUI
 {
     // UIImageView
-    self.headImageView = [[UIButton alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, valueForDevice(240, 145, 123, 123))];
+    CGFloat scale = 123.f/320.f;
+    self.headImageView = [[UIButton alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_WIDTH * scale)];
     [self.view addSubview:self.headImageView];
     
     // UICollectionView
     UICollectionViewFlowLayout *flowLayout= [[UICollectionViewFlowLayout alloc]init];
     flowLayout.minimumLineSpacing = 0.f;
     flowLayout.minimumInteritemSpacing = 0.f;
-    self.itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64 + valueForDevice(240, 145, 123, 123), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.headImageView.frame) - 50) collectionViewLayout:flowLayout];
+    self.itemsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64 + SCREEN_WIDTH * scale, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.headImageView.frame) - 50) collectionViewLayout:flowLayout];
     self.itemsCollectionView.backgroundColor = colorWithHexString(@"eff3f5");
     [self.itemsCollectionView registerClass:[BXTHomeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
     self.itemsCollectionView.showsVerticalScrollIndicator = NO;
