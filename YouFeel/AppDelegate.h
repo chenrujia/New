@@ -19,13 +19,15 @@
 {
     BOOL     isLoginByWX;
 }
-@property (strong, nonatomic) UIWindow  *window;
-@property (nonatomic, strong) NSString  *device_token;
-@property (assign, nonatomic) NSInteger lastPayloadIndex;
-@property (strong, nonatomic) NSString  *access_token;
-@property (strong, nonatomic) NSString  *openid;
-@property (strong, nonatomic) NSString  *nickname;// 用户昵称
-@property (strong, nonatomic) NSString  *headimgurl;// 用户头像地址
+@property (strong, nonatomic) UIWindow       *window;
+@property (nonatomic, strong) NSString       *device_token;
+@property (assign, nonatomic) NSInteger      lastPayloadIndex;
+@property (strong, nonatomic) NSString       *access_token;
+@property (strong, nonatomic) NSString       *openid;
+@property (strong, nonatomic) NSString       *nickname;// 用户昵称
+@property (strong, nonatomic) NSString       *headimgurl;// 用户头像地址
+@property (nonatomic, assign) BOOL           isGetIn;//用于远程推送时的判断
+@property (nonatomic, strong) NSMutableArray *infoArray;
 
 + (AppDelegate *)appdelegete;
 
