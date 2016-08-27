@@ -37,7 +37,7 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = colorWithHexString(@"ffffff");
-
+    
     if (![WXApi isWXAppInstalled])
     {
         self.wxLogin.hidden = YES;
@@ -130,8 +130,7 @@
     {
         if ([BXTGlobal isBlankString:self.passwordTF.text])
         {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"密码不能为空" chooseBlock:^(NSInteger buttonIdx) {
-            } buttonsStatement:@"确定", nil];
+            [self showMBP:@"密码不能为空" withBlock:nil];
             return;
         }
         
@@ -151,13 +150,11 @@
     {
         if ([BXTGlobal isBlankString:self.nameTF.text])
         {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"手机号不能为空" chooseBlock:^(NSInteger buttonIdx) {
-            } buttonsStatement:@"确定", nil];
+            [self showMBP:@"手机号不能为空" withBlock:nil];
             return;
         }
         
-        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"手机号格式错误" chooseBlock:^(NSInteger buttonIdx) {
-        } buttonsStatement:@"确定", nil];
+        [self showMBP:@"手机号格式错误" withBlock:nil];
     }
 }
 
@@ -276,15 +273,11 @@
     }
     else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
     {
-        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"用户名或密码错误，请重试" chooseBlock:^(NSInteger buttonIdx) {
-            
-        } buttonsStatement:@"确定", nil];
+        [self showMBP:@"用户名或密码错误，请重试" withBlock:nil];
     }
     else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"026"])
     {
-        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"手机号未注册" chooseBlock:^(NSInteger buttonIdx) {
-            
-        } buttonsStatement:@"确定", nil];
+        [self showMBP:@"手机号未注册" withBlock:nil];
     }
     else if (type == BranchLogin)
     {
@@ -299,7 +292,7 @@
         }
         else
         {
-            [BXTGlobal showText:@"登录失败，请仔细检查！" view:self.view completionBlock:nil];
+            [self showMBP:@"登录失败，请仔细检查！" withBlock:nil];
         }
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])

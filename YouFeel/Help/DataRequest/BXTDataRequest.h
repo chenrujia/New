@@ -416,8 +416,10 @@ typedef NS_ENUM(NSInteger, RepairListType)
 
 /**
  *  获取验证码
+ *  1. 注册用户  2. 找回密码  3. 修改密码
  */
-- (void)mobileVerCode:(NSString *)mobile;
+- (void)mobileVerCode:(NSString *)mobile
+                 type:(NSString *)type;
 
 /**
  *  用户详情

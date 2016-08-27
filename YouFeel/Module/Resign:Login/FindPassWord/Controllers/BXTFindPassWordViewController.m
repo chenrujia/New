@@ -129,11 +129,9 @@
         cell.textField.placeholder = @"请输入有效的手机号码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         @weakify(self);
-        [[cell.textField.rac_textSignal filter:^BOOL(NSString *text) {
-            return text.length == 11;
-        }] subscribeNext:^(NSString *text) {
+        [cell.textField.rac_textSignal subscribeNext:^(id x) {
             @strongify(self);
-            self.userName = text;
+            self.userName = x;
         }];
         cell.codeButton.hidden = YES;
     }
@@ -154,13 +152,18 @@
             if ([BXTGlobal validateMobile:self.userName])
             {
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request mobileVerCode:self.userName];
+                [request mobileVerCode:self.userName type:@"2"];
                 self.codeBtn.userInteractionEnabled = NO;
                 [self.codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
             }
             else
             {
-                [self showMBP:@"手机号格式不对" withBlock:nil];
+                if ([BXTGlobal isBlankString:self.userName]) {
+                    [self showMBP:@"手机号不能为空" withBlock:nil];
+                }
+                else {
+                    [self showMBP:@"手机号格式错误" withBlock:nil];
+                }
             }
         }];
     }
@@ -177,9 +180,10 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     NSDictionary *dic = response;
-    if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+    
+    if (type == FindPassword)
     {
-        if (type == FindPassword)
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             NSArray *data = [dic objectForKey:@"data"];
             NSDictionary *dictionary = data[0];
@@ -191,14 +195,22 @@
         }
         else
         {
-            [self updateTime];
+            [self showMBP:@"验证码输入有误！" withBlock:nil];
         }
     }
-    else
+    else if (type == GetVerificationCode)
     {
-        if (type == FindPassword)
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
-            [self showMBP:@"验证码输入有误！" withBlock:nil];
+            [self updateTime];
+        }
+        else if ([[dic objectForKey:@"returncode"] isEqualToString:@"026"])
+        {
+            __weak typeof(self) weakSelf = self;
+            [BXTGlobal showText:@"手机号还未注册" view:self.view completionBlock:^{
+                weakSelf.codeBtn.userInteractionEnabled = YES;
+                [weakSelf.codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            }];
         }
     }
 }
@@ -244,13 +256,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
