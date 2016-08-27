@@ -30,6 +30,7 @@
 #import "BXTMailListModel.h"
 #import "ANKeyValueTable.h"
 #import "BXTProjectPhoneCell.h"
+#import "AppDelegate.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
