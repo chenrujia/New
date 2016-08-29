@@ -69,7 +69,7 @@
             
             // 请求
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request mobileVerCode:self.phoneTextField.text];
+            [request mobileVerCode:self.phoneTextField.text type:@"3"];
             self.getCodeBtn.userInteractionEnabled = NO;
             [self.getCodeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         }

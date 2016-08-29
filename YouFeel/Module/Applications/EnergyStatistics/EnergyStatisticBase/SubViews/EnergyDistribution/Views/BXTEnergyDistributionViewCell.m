@@ -29,31 +29,33 @@
     _energyListInfo = energyListInfo;
     
     self.typeView.text = energyListInfo.name;
-    self.moneyView.text = [NSString stringWithFormat:@"能耗量: %@ %@", energyListInfo.energy_consumption, self.unit];
+    self.moneyView.text = [NSString stringWithFormat:@"能耗量: %@ %@", [BXTGlobal transNum:energyListInfo.energy_consumption], self.unit];
     self.rateView.text = [NSString stringWithFormat:@"比例: %.2f%%", energyListInfo.energy_consumption_per];
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %ld %@", (long)energyListInfo.mom_energy_consumption, self.unit];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %@ %@", [BXTGlobal transNum:energyListInfo.mom_energy_consumption], self.unit];
     self.circleImageView.image = [self judgeImage:energyListInfo.mom_energy_consumption_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", energyListInfo.mom_energy_consumption_per];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %ld %@", (long)energyListInfo.an_energy_consumption, self.unit];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %@ %@", [BXTGlobal transNum:energyListInfo.an_energy_consumption], self.unit];
     self.similarImageView.image = [self judgeImage:energyListInfo.an_energy_consumption_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", energyListInfo.an_energy_consumption_per];
 }
+
+
 
 - (void)setMoneyListInfo:(BXTEYDTListsInfo *)moneyListInfo
 {
     _moneyListInfo = moneyListInfo;
     
     self.typeView.text = moneyListInfo.name;
-    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", moneyListInfo.money];
+    self.moneyView.text = [NSString stringWithFormat:@"金额: %@ 元", [BXTGlobal transNum:moneyListInfo.money]];
     self.rateView.text = [NSString stringWithFormat:@"比例: %.2f%%", moneyListInfo.money_per];
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %ld 元", (long)moneyListInfo.mom_money];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %@ 元", [BXTGlobal transNum:moneyListInfo.mom_money]];
     self.circleImageView.image = [self judgeImage:moneyListInfo.mom_money_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", moneyListInfo.mom_money_per];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %ld 元", (long)moneyListInfo.an_money];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %@ 元", [BXTGlobal transNum:moneyListInfo.an_money]];
     self.similarImageView.image = [self judgeImage:moneyListInfo.an_money_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", moneyListInfo.an_money_per];
 }
@@ -81,7 +83,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

@@ -39,17 +39,17 @@
 
 @interface BXTMeterReadingLastList : NSObject
 
-@property (nonatomic, assign) NSInteger peak_period_num;
-@property (nonatomic, assign) NSInteger peak_period_amount;
-@property (nonatomic, assign) NSInteger total_num;
-@property (nonatomic, assign) NSInteger valley_section_num;
-@property (nonatomic, assign) NSInteger use_amount;
-@property (nonatomic, assign) NSInteger valley_section_amount;
+@property (nonatomic, assign) double peak_period_num;
+@property (nonatomic, assign) double peak_period_amount;
+@property (nonatomic, assign) double total_num;
+@property (nonatomic, assign) double valley_section_num;
+@property (nonatomic, assign) double use_amount;
+@property (nonatomic, assign) double valley_section_amount;
 @property (nonatomic, copy) NSString *create_time;
-@property (nonatomic, assign) NSInteger peak_segment_amount;
-@property (nonatomic, assign) NSInteger flat_section_amount;
-@property (nonatomic, assign) NSInteger peak_segment_num;
-@property (nonatomic, assign) NSInteger flat_section_num;
+@property (nonatomic, assign) double peak_segment_amount;
+@property (nonatomic, assign) double flat_section_amount;
+@property (nonatomic, assign) double peak_segment_num;
+@property (nonatomic, assign) double flat_section_num;
 @property (nonatomic, copy) NSString *peak_segment_pic;
 
 @end

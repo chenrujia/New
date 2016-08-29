@@ -7,6 +7,7 @@
 //
 
 #import "BXTEnergyTrendCell.h"
+#import "BXTGlobal.h"
 
 @implementation BXTEnergyTrendCell
 
@@ -27,38 +28,38 @@
 {
     _energyTrendInfo = energyTrendInfo;
     
-    self.consumptionView.text = [NSString stringWithFormat:@"总能耗：%ld Kwh", (long)energyTrendInfo.energy_consumption];
-    self.unitConsumptionView.text = [NSString stringWithFormat:@"单位面积能耗：%ld Kwh", (long)energyTrendInfo.energy_consumption_unit_area];
+    self.consumptionView.text = [NSString stringWithFormat:@"总能耗：%@ Kwh", [BXTGlobal transNum:energyTrendInfo.energy_consumption]];
+    self.unitConsumptionView.text = [NSString stringWithFormat:@"单位面积能耗：%@ Kwh", [BXTGlobal transNum:energyTrendInfo.energy_consumption_unit_area]];
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %ld Kwh", (long)energyTrendInfo.mom_energy_consumption];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %@ Kwh", [BXTGlobal transNum:energyTrendInfo.mom_energy_consumption]];
     self.circleImageView.image = [self judgeImage:energyTrendInfo.mom_energy_consumption_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", energyTrendInfo.mom_energy_consumption_per];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %ld Kwh", (long)energyTrendInfo.an_energy_consumption];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %@ Kwh", [BXTGlobal transNum:energyTrendInfo.an_energy_consumption]];
     self.similarImageView.image = [self judgeImage:energyTrendInfo.an_energy_consumption_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", energyTrendInfo.an_energy_consumption_per];
     
-    self.trueNumView.text = [NSString stringWithFormat:@"绝对能耗: %ld Kwh", (long)energyTrendInfo.true_energy_consumption];
-    self.statisticErrorView.text = [NSString stringWithFormat:@"统计误差: %ld", (long)energyTrendInfo.true_energy_consumption_diff];
+    self.trueNumView.text = [NSString stringWithFormat:@"绝对能耗: %@ Kwh", [BXTGlobal transNum:energyTrendInfo.true_energy_consumption]];
+    self.statisticErrorView.text = [NSString stringWithFormat:@"统计误差: %@", [BXTGlobal transNum:energyTrendInfo.true_energy_consumption_diff]];
 }
 
 - (void)setMoneyTrendInfo:(BXTEnergyTrendInfo *)moneyTrendInfo
 {
     _moneyTrendInfo = moneyTrendInfo;
     
-    self.consumptionView.text = [NSString stringWithFormat:@"总费用：%ld 元", (long)moneyTrendInfo.money];
-    self.unitConsumptionView.text = [NSString stringWithFormat:@"单位面积费用：%ld 元", (long)moneyTrendInfo.money_unit_area];
+    self.consumptionView.text = [NSString stringWithFormat:@"总费用：%@ 元", [BXTGlobal transNum:moneyTrendInfo.money]];
+    self.unitConsumptionView.text = [NSString stringWithFormat:@"单位面积费用：%@ 元", [BXTGlobal transNum:moneyTrendInfo.money_unit_area]];
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %ld 元", (long)moneyTrendInfo.mom_money];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %@ 元", [BXTGlobal transNum:moneyTrendInfo.mom_money]];
     self.circleImageView.image = [self judgeImage:moneyTrendInfo.mom_money_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", moneyTrendInfo.mom_money_per];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %.ld 元", (long)moneyTrendInfo.an_money];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %@ 元", [BXTGlobal transNum:moneyTrendInfo.an_money]];
     self.similarImageView.image = [self judgeImage:moneyTrendInfo.an_money_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", moneyTrendInfo.an_money_per];
     
-    self.trueNumView.text = [NSString stringWithFormat:@"绝对费用: %ld 元", (long)moneyTrendInfo.true_money];
-    self.statisticErrorView.text = [NSString stringWithFormat:@"统计误差: %ld", (long)moneyTrendInfo.true_money_diff];
+    self.trueNumView.text = [NSString stringWithFormat:@"绝对费用: %@ 元", [BXTGlobal transNum:moneyTrendInfo.true_money]];
+    self.statisticErrorView.text = [NSString stringWithFormat:@"统计误差: %@", [BXTGlobal transNum:moneyTrendInfo.true_money_diff]];
 }
 
 #pragma mark -

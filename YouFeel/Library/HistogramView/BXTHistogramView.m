@@ -85,8 +85,8 @@
                     [energyArray addObject:@[@(trendInfo.energy_consumption),@(0),@(0),@(0),@(0)]];
                 }
                 
-                [moneyBudgetArray addObject:trendInfo.money_budget];
-                [energyBudgetArray addObject:trendInfo.energy_consumption_budget];
+                [moneyBudgetArray addObject:[NSString stringWithFormat:@"%f", trendInfo.money_budget]];
+                [energyBudgetArray addObject:[NSString stringWithFormat:@"%f", trendInfo.energy_consumption_budget]];
             }
             self.moneyArray = moneyBudgetArray;
             self.energyArray = energyBudgetArray;

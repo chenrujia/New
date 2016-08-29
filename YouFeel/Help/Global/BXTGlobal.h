@@ -173,4 +173,9 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
 
 - (NSString*)deviceVersion;
 
+/**
+ *  数字格式化
+ */
++ (NSString *)transNum:(double)number;
+
 @end

@@ -46,13 +46,13 @@
 
 @interface BXTSubRecordMonthDataInfo : NSObject
 
-@property (nonatomic, assign) NSInteger peak_period_amount;
-@property (nonatomic, assign) NSInteger use_amount;
-@property (nonatomic, assign) NSInteger flat_section_amount;
-@property (nonatomic, assign) NSInteger valley_section_amount;
-@property (nonatomic, assign) NSInteger peak_segment_amount;
-@property (nonatomic, assign) NSInteger temperature;
-@property (nonatomic, assign) NSInteger humidity;
+@property (nonatomic, assign) double peak_period_amount;
+@property (nonatomic, assign) double use_amount;
+@property (nonatomic, assign) double flat_section_amount;
+@property (nonatomic, assign) double valley_section_amount;
+@property (nonatomic, assign) double peak_segment_amount;
+@property (nonatomic, assign) double temperature;
+@property (nonatomic, assign) double humidity;
 
 @end
 

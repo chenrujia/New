@@ -33,6 +33,8 @@
 
 /** ---- 向上返回按钮 ---- */
 @property (nonatomic, strong) UIButton *upBtn;
+/** ---- 搜索词 ---- */
+@property (nonatomic, copy) NSString *searchName;
 
 @end
 
@@ -58,6 +60,7 @@
         self.typeID = @"";
     }
     self.placeID = @"";
+    self.searchName = @"";
     
     [self createUI];
 }
@@ -93,7 +96,7 @@
                                AreaID:@""
                               PlaceID:self.placeID
                              StoresID:@""
-                           SearchName:@""
+                           SearchName:self.searchName
                              Pagesize:@"5"
                                  Page:[NSString stringWithFormat:@"%ld", (long)self.currentPage]];
 }
@@ -190,6 +193,10 @@
 {
     self.alphaView.hidden = YES;
     [self.view endEditing:YES];
+    
+    self.currentPage = 1;
+    self.searchName = @"";
+    [self getResource];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -197,7 +204,10 @@
     self.alphaView.hidden = YES;
     [self.view endEditing:YES];
     NSLog(@"SearchButtonClicked");
-    [BXTGlobal showText:searchBar.text view:self.view completionBlock:nil];
+    
+    self.currentPage = 1;
+    self.searchName = searchBar.text;
+    [self getResource];
 }
 
 #pragma mark -

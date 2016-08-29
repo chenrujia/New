@@ -619,9 +619,11 @@
 }
 
 - (void)mobileVerCode:(NSString *)mobile
+                 type:(NSString *)type
 {
     self.requestType = GetVerificationCode;
-    NSDictionary *dic = @{@"mobile":mobile};
+    NSDictionary *dic = @{@"mobile":mobile,
+                          @"type":type};
     NSString *url = [NSString stringWithFormat:@"%@/opt/get_verification_code/module/Means",KADMINBASEURL];
     [self postRequest:url withParameters:dic];
 }

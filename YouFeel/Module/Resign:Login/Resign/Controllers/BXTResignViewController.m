@@ -170,10 +170,7 @@
         cell.textField.placeholder = @"请输入有效的手机号码";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         @weakify(self);
-        [[cell.textField.rac_textSignal filter:^BOOL(id value) {
-            NSString *str = value;
-            return str.length == 11;
-        }] subscribeNext:^(id x) {
+        [cell.textField.rac_textSignal subscribeNext:^(id x) {
             @strongify(self);
             self.userName = x;
         }];
@@ -188,17 +185,24 @@
         @weakify(self);
         [[cell.codeButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
+            [self.view endEditing:YES];
+            
             if ([BXTGlobal validateMobile:self.userName])
             {
                 [self showLoadingMBP:@"正在获取..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                [request mobileVerCode:self.userName];
+                [request mobileVerCode:self.userName type:@"1"];
                 self.codeBtn.userInteractionEnabled = NO;
                 [self.codeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
             }
             else
             {
-                [self showMBP:@"手机号格式不对" withBlock:nil];
+                if ([BXTGlobal isBlankString:self.userName]) {
+                    [self showMBP:@"手机号不能为空" withBlock:nil];
+                }
+                else {
+                    [self showMBP:@"手机号格式错误" withBlock:nil];
+                }
             }
         }];
         self.codeBtn = cell.codeButton;
@@ -331,10 +335,19 @@
             [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
-    else if (type == GetVerificationCode && [[dic objectForKey:@"returncode"] integerValue] == 0)
+    else if (type == GetVerificationCode)
     {
-        self.returncode = [NSString stringWithFormat:@"%@", [dic objectForKey:@"verification_code"]];
-        [self updateTime];
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0) {
+            self.returncode = [NSString stringWithFormat:@"%@", [dic objectForKey:@"verification_code"]];
+            [self updateTime];
+        }
+        else if ([[dic objectForKey:@"returncode"] integerValue] == 006) {
+            __weak typeof(self) weakSelf = self;
+            [BXTGlobal showText:@"手机号已注册，请直接登陆" view:self.view completionBlock:^{
+                weakSelf.codeBtn.userInteractionEnabled = YES;
+                [weakSelf.codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            }];
+        }
     }
     else if (type == PlaceLists && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {

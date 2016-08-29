@@ -39,11 +39,11 @@
 
 @interface CalculateInfo : NSObject
 
-@property (nonatomic, assign) NSInteger flat_section_num;
-@property (nonatomic, assign) NSInteger valley_section_num;
-@property (nonatomic, assign) NSInteger peak_period_num;
-@property (nonatomic, assign) NSInteger total_num;
-@property (nonatomic, assign) NSInteger peak_segment_num;
+@property (nonatomic, assign) double flat_section_num;
+@property (nonatomic, assign) double valley_section_num;
+@property (nonatomic, assign) double peak_period_num;
+@property (nonatomic, assign) double total_num;
+@property (nonatomic, assign) double peak_segment_num;
 
 @end
 

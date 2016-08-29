@@ -301,11 +301,11 @@
     
     // 默认值
     BXTRecordMonthListsInfo *recordInfo = self.monthListInfo.lists[self.monthListInfo.lists.count - 1];
-    self.hisView.footerView.consumptionView.text = [NSString stringWithFormat:@"总能耗：%ld", (long)recordInfo.data.use_amount];
-    self.hisView.footerView.peakNumView.text = [NSString stringWithFormat:@"尖峰量：%ld", (long)recordInfo.data.peak_segment_amount];
-    self.hisView.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%ld", (long)recordInfo.data.peak_period_amount];
-    self.hisView.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%ld", (long)recordInfo.data.flat_section_amount];
-    self.hisView.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%ld", (long)recordInfo.data.valley_section_amount];
+    self.hisView.footerView.consumptionView.text = [NSString stringWithFormat:@"总能耗：%@", [BXTGlobal transNum:recordInfo.data.use_amount]];
+    self.hisView.footerView.peakNumView.text = [NSString stringWithFormat:@"尖峰量：%@", [BXTGlobal transNum:recordInfo.data.peak_segment_amount]];
+    self.hisView.footerView.apexNumView.text = [NSString stringWithFormat:@"峰段量：%@", [BXTGlobal transNum:recordInfo.data.peak_period_amount]];
+    self.hisView.footerView.levelNumView.text = [NSString stringWithFormat:@"平段量：%@", [BXTGlobal transNum:recordInfo.data.flat_section_amount]];
+    self.hisView.footerView.valleyNumView.text = [NSString stringWithFormat:@"谷段量：%@", [BXTGlobal transNum:recordInfo.data.valley_section_amount]];
     
     if (![self.monthListInfo.price_type_id isEqualToString:@"2"])
     {

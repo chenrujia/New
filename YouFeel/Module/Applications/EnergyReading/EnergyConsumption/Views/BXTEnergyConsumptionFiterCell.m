@@ -29,11 +29,11 @@
 {
     _consumpInfo = consumpInfo;
     
-    self.sumValueView.text = [NSString stringWithFormat:@"%ld %@", (long)consumpInfo.calc.total_num, self.consumpInfo.unit];
-    self.peakValueView.text = [NSString stringWithFormat:@"%ld %@", (long)consumpInfo.calc.peak_segment_num, self.consumpInfo.unit];
-    self.apexValueView.text = [NSString stringWithFormat:@"%ld %@", (long)consumpInfo.calc.peak_period_num, self.consumpInfo.unit];
-    self.levelValueView.text = [NSString stringWithFormat:@"%ld %@", (long)consumpInfo.calc.flat_section_num, self.consumpInfo.unit];
-    self.valleyValueView.text = [NSString stringWithFormat:@"%ld %@", (long)consumpInfo.calc.valley_section_num, self.consumpInfo.unit];
+    self.sumValueView.text = [NSString stringWithFormat:@"%@ %@", [BXTGlobal transNum:30.21999], self.consumpInfo.unit];
+    self.peakValueView.text = [NSString stringWithFormat:@"%@ %@", [BXTGlobal transNum:consumpInfo.calc.peak_segment_num], self.consumpInfo.unit];
+    self.apexValueView.text = [NSString stringWithFormat:@"%@ %@", [BXTGlobal transNum:consumpInfo.calc.peak_period_num], self.consumpInfo.unit];
+    self.levelValueView.text = [NSString stringWithFormat:@"%@ %@", [BXTGlobal transNum:consumpInfo.calc.flat_section_num], self.consumpInfo.unit];
+    self.valleyValueView.text = [NSString stringWithFormat:@"%@ %@", [BXTGlobal transNum:consumpInfo.calc.valley_section_num], self.consumpInfo.unit];
 }
 
 - (void)awakeFromNib {
