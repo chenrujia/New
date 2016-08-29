@@ -11,7 +11,6 @@
 #import <RongIMKit/RongIMKit.h>
 #import "BXTRepairDetailInfo.h"
 
-
 #define ImageWidth      73.3f
 #define ImageHeight     73.3f
 #define StateViewHeight 60.f

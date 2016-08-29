@@ -420,6 +420,7 @@
 		9660CEE11C437E2E00176DDE /* BXTMaintenanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9660CEDF1C437E2E00176DDE /* BXTMaintenanceViewController.m */; };
 		9660CEE21C437E2E00176DDE /* BXTMaintenanceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9660CEE01C437E2E00176DDE /* BXTMaintenanceViewController.xib */; };
 		9662659A1C3A6E8A001113FF /* AboutOrder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 966265991C3A6E8A001113FF /* AboutOrder.storyboard */; };
+		966BC05E1D7164D80083CEE9 /* BXTGrabUserConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = 966BC05D1D7164D80083CEE9 /* BXTGrabUserConfigView.m */; };
 		96704FBC1CB63EFB00696788 /* BXTButtonInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96704FBB1CB63EFB00696788 /* BXTButtonInfo.m */; };
 		9671BB501C1ED29F00D90BFF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AABA331BE0765A0071B6FA /* libc++.tbd */; };
 		9671BB521C1ED3AB00D90BFF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 960223111BC922DB00010072 /* libsqlite3.tbd */; };
@@ -1268,6 +1269,8 @@
 		9660CEE01C437E2E00176DDE /* BXTMaintenanceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMaintenanceViewController.xib; sourceTree = "<group>"; };
 		966265991C3A6E8A001113FF /* AboutOrder.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutOrder.storyboard; sourceTree = "<group>"; };
 		96649B061CA3D25C00084656 /* BXTNewWorkOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTNewWorkOrderViewController.h; sourceTree = "<group>"; };
+		966BC05C1D7164D80083CEE9 /* BXTGrabUserConfigView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTGrabUserConfigView.h; sourceTree = "<group>"; };
+		966BC05D1D7164D80083CEE9 /* BXTGrabUserConfigView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTGrabUserConfigView.m; sourceTree = "<group>"; };
 		96704FBA1CB63EFB00696788 /* BXTButtonInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTButtonInfo.h; sourceTree = "<group>"; };
 		96704FBB1CB63EFB00696788 /* BXTButtonInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTButtonInfo.m; sourceTree = "<group>"; };
 		9677FDF21C9FEED4009FAAFE /* BXTMailListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMailListViewController.m; sourceTree = "<group>"; };
@@ -3228,6 +3231,8 @@
 			children = (
 				7867DD3E1C4CBEA1000749F1 /* MDRadialProgressView.h */,
 				7867DD3F1C4CBEA1000749F1 /* MDRadialProgressView.m */,
+				966BC05C1D7164D80083CEE9 /* BXTGrabUserConfigView.h */,
+				966BC05D1D7164D80083CEE9 /* BXTGrabUserConfigView.m */,
 				7867DD441C4CBEA1000749F1 /* WZFlashButton.h */,
 				7867DD451C4CBEA1000749F1 /* WZFlashButton.m */,
 			);
@@ -5544,6 +5549,7 @@
 				967C3D451C461EE50078F1D6 /* BXTMaintenceProjectTableViewCell.m in Sources */,
 				7867DD711C4CBEA1000749F1 /* BXTAddOtherManTableViewCell.m in Sources */,
 				78EFEEF11CAE6CCE0011F9E9 /* BXTProjectInformAuthorCell.m in Sources */,
+				966BC05E1D7164D80083CEE9 /* BXTGrabUserConfigView.m in Sources */,
 				78EFEEEC1CAE6CBF0011F9E9 /* BXTProjectInformContentCell.m in Sources */,
 				783DDA5D1C3FD45C0035B927 /* BXTQRBaseViewController.m in Sources */,
 				96D3D5041CA4DE74009F91EB /* BXTAttributeView.m in Sources */,
