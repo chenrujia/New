@@ -11,5 +11,6 @@
 @interface BXTMeterReadingFilterOFListView : UIView
 
 @property (weak, nonatomic) IBOutlet UIButton *timeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *resetBtn;
 
 @end

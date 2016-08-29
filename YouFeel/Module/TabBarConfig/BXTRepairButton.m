@@ -13,6 +13,7 @@
 #import "BXTProjectManageViewController.h"
 #import "CYLTabBarController.h"
 #import "BXTNewWorkOrderViewController.h"
+#import "MYAlertAction.h"
 
 @implementation BXTRepairButton
 
@@ -41,16 +42,33 @@
     [button setImage:[UIImage imageNamed:@"Tab_Repair_Select"] forState:UIControlStateHighlighted];
     [button sizeToFit];
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        UINavigationController *nav;
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
-        newVC.isNewWorkOrder = YES;
-        nav = [[UINavigationController alloc] initWithRootViewController:newVC];
         
-        [BXTGlobal shareGlobal].presentNav = nav;
-        [nav setEnableBackGesture:YES];
-        nav.navigationBarHidden = YES;
-        [[AppDelegate appdelegete].window.rootViewController presentViewController:nav animated:YES completion:nil];
+        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+        if ([companyInfo.company_id isEqualToString:@"4"] || [companyInfo.company_id isEqualToString:@"10"])
+        {
+            __weak typeof(self) weakSelf = self;
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"现在处于测试项目，\r报修后不会有维修员进行接单维修" chooseBlock:^(NSInteger buttonIdx) {
+                if (buttonIdx == 0)
+                {
+                    [weakSelf pushNewWorkOrderVC];
+                }
+                else if (buttonIdx == 1)
+                {
+                    CYLTabBarController *tempVC = (CYLTabBarController *)[AppDelegate appdelegete].window.rootViewController;
+                    UINavigationController *nav = (UINavigationController *)[tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
+                    
+                    BXTProjectManageViewController *pmvc = [[BXTProjectManageViewController alloc] init];
+                    pmvc.hidesBottomBarWhenPushed = YES;
+                    [nav pushViewController:pmvc animated:YES];
+                    
+                }
+            } buttonsStatement:@"继续测试", @"选择项目", nil];
+            return ;
+        }
+        else
+        {
+            [self pushNewWorkOrderVC];
+        }
     }];
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTRepairButton" object:nil] subscribeNext:^(id x) {
@@ -64,6 +82,20 @@
     }];
     
     return button;
+}
+
++ (void)pushNewWorkOrderVC
+{
+    UINavigationController *nav;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+    BXTNewWorkOrderViewController *newVC = (BXTNewWorkOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewWorkOrderViewController"];
+    newVC.isNewWorkOrder = YES;
+    nav = [[UINavigationController alloc] initWithRootViewController:newVC];
+    
+    [BXTGlobal shareGlobal].presentNav = nav;
+    [nav setEnableBackGesture:YES];
+    nav.navigationBarHidden = YES;
+    [[AppDelegate appdelegete].window.rootViewController presentViewController:nav animated:YES completion:nil];
 }
 
 + (CGFloat)multiplerInCenterY

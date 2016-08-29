@@ -20,6 +20,8 @@
     self.timeBtn.layer.borderColor = [colorWithHexString(@"#5DAFF9") CGColor];
     self.timeBtn.layer.borderWidth = 1;
     self.timeBtn.layer.cornerRadius = 5;
+    
+    self.resetBtn.hidden = YES;
 }
 
 
