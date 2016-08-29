@@ -13,6 +13,7 @@
 #import "BXTHeadquartersInfo.h"
 #import "PinYinForObjc.h"
 #import "BXTProjectCertificationViewController.h"
+#import "BXTProjectManageViewController.h"
 #import "UIScrollView+EmptyDataSet.h"
 
 #define NavBarHeight 120.f
@@ -502,7 +503,26 @@
                     projCfVC.transMyProject = myProject;
                     [self.navigationController pushViewController:projCfVC animated:YES];
                 }
+                else {
+                    NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
+                    if (shopsIDArray.count != 0) {
+                        BXTProjectManageViewController *pmVC = [[BXTProjectManageViewController alloc] init];
+                        [self.navigationController pushViewController:pmVC animated:YES];
+                    }
+                    else {  // 只有一个项目 - 直接跳到本项目
+                        [self refreshAllInformWithShopID:self.headquartersInfo.company_id shopAddress:self.headquartersInfo.name];
+                        
+                        /**请求分店位置**/
+                        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                        [request branchLogin];
+                    }
+                }
             } buttonsStatement:@"以后再说", @"现在就去", nil];
+        }
+        else if ([dic[@"returncode"] integerValue] == 6) {
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"项目已添加" chooseBlock:^(NSInteger buttonIdx) {
+                
+            } buttonsStatement:@"确定", nil];
         }
     }
     else
