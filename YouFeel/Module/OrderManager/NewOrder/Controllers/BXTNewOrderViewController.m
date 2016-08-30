@@ -12,65 +12,38 @@
 #import "BXTRepairDetailInfo.h"
 #import "BXTRejectOrderViewController.h"
 
-#define ImageWidth 73.3f
-#define ImageHeight 73.3f
+#define DispatchBackViewHeight 60.f
+#define BottomButtonHeight 50.f
+#define FaultImageWidth (SCREEN_WIDTH - 15.f - 15.f - 20.f - 20.f)/3.f
 
 @interface BXTNewOrderViewController ()<BXTDataResponseDelegate>
 {
     AVAudioPlayer       *player;
 }
 
-@property (nonatomic, strong) UIImageView    *headImgView;
-@property (nonatomic, strong) UILabel        *repairerName;
-@property (nonatomic, strong) UILabel        *detailName;
-@property (nonatomic, strong) UILabel        *identifyName;
-@property (nonatomic, strong) UILabel        *orderType;
-@property (nonatomic, strong) UILabel        *repairID;
-@property (nonatomic, strong) UILabel        *timeLabel;
-@property (nonatomic, strong) UILabel        *placeLabel;
-@property (nonatomic, strong) UILabel        *faultType;
-@property (nonatomic, strong) UILabel        *cause;
-@property (nonatomic ,strong) NSString       *currentOrderID;
-@property (nonatomic ,strong) NSMutableArray *manIDArray;
-@property (nonatomic, assign) BOOL           isVoice;
+@property (nonatomic, strong) NSString *currentOrderID;
 
 @end
 
 @implementation BXTNewOrderViewController
 
-- (instancetype)initWithIsVoice:(BOOL)isVoice
-{
-    self = [super init];
-    if (self)
-    {
-        self.isVoice = isVoice;
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self navigationSetting:@"新工单" andRightTitle:@"" andRightImage:nil];
+    [self navigationSetting:@"新工单指派" andRightTitle:@"" andRightImage:nil];
 
-    self.manIDArray = [NSMutableArray array];
-    if (self.isVoice)
-    {
-        player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
-        player.volume = 0.8f;
-        player.numberOfLoops = -1;
-        [self afterTime];
-    }
-    [self createSubviews];
+    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
+    player.volume = 0.8f;
+    player.numberOfLoops = -1;
     
+    ++[BXTGlobal shareGlobal].assignNumber;
+
     /**获取详情**/
     [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    ++[BXTGlobal shareGlobal].assignNumber;
     NSInteger index = [BXTGlobal shareGlobal].assignNumber;
     self.currentOrderID = [[BXTGlobal shareGlobal].assignOrderIDs objectAtIndex:index - 1];
     [request repairDetail:[NSString stringWithFormat:@"%@",self.currentOrderID]];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -101,180 +74,6 @@
 }
 
 #pragma mark -
-#pragma mark 初始化视图
-- (void)createSubviews
-{
-    //头像
-    self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, KNAVIVIEWHEIGHT + 12.f, ImageWidth, ImageHeight)];
-    self.headImgView.image = [UIImage imageNamed:@"polaroid"];
-    [self.view addSubview:self.headImgView];
-    
-    //报修人姓名
-    self.repairerName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.headImgView.frame) + 10.f, CGRectGetMinY(self.headImgView.frame) + 5.f, 160.f, 20)];
-    self.repairerName.font = [UIFont systemFontOfSize:16.f];
-    [self.view addSubview:self.repairerName];
-    
-    //维修员分组
-    self.detailName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.repairerName.frame), CGRectGetMinY(self.headImgView.frame) + 28.f, 160.f, 20)];
-    self.detailName.font = [UIFont systemFontOfSize:15.f];
-    [self.view addSubview:self.detailName];
-    
-    //身份
-    self.identifyName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.detailName.frame), CGRectGetMinY(self.headImgView.frame) + 50.f, 160.f, 20)];
-    self.identifyName.font = [UIFont systemFontOfSize:15.f];
-    self.identifyName.userInteractionEnabled = YES;
-    [self.view addSubview:self.identifyName];
-    
-    UIButton *connetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    connetBtn.frame = CGRectMake(SCREEN_WIDTH - 83.3f - 15.f, KNAVIVIEWHEIGHT + 30.f, 83.3f, 40.f);
-    [connetBtn setTitle:@"联系Ta" forState:UIControlStateNormal];
-    connetBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-    [connetBtn setTitleColor:colorWithHexString(@"3bafff") forState:UIControlStateNormal];
-    connetBtn.layer.borderColor = colorWithHexString(@"3bafff").CGColor;
-    connetBtn.layer.borderWidth = 1.f;
-    connetBtn.layer.cornerRadius = 4.f;
-    [connetBtn addTarget:self action:@selector(connectTa) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:connetBtn];
-    
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.headImgView.frame) + 12.f, SCREEN_WIDTH - 30.f, 1.f)];
-    line.backgroundColor = colorWithHexString(@"e2e6e8");
-    [self.view addSubview:line];
-    
-    //工单编号
-    self.repairID = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(line.frame) + 15.f, SCREEN_WIDTH - 30.f, 20)];
-    self.repairID.textColor = colorWithHexString(@"000000");
-    self.repairID.font = [UIFont systemFontOfSize:17.f];
-    self.repairID.text = @"工单号:";
-    [self.view addSubview:self.repairID];
-    
-    //工单所属部门
-    self.orderType = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 50.f - 15.f, CGRectGetMaxY(line.frame) + 12.f, 40.f, 20.f)];
-    self.orderType.textColor = colorWithHexString(@"ffffff");
-    self.orderType.backgroundColor = colorWithHexString(@"AFB3BB");
-    self.orderType.layer.cornerRadius = 2.f;
-    self.orderType.layer.masksToBounds = YES;
-    self.orderType.font = [UIFont systemFontOfSize:16.f];
-    self.orderType.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:self.orderType];
-    
-    //时间
-    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.repairID.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
-    self.timeLabel.textColor = colorWithHexString(@"000000");
-    self.timeLabel.font = [UIFont systemFontOfSize:17.f];
-    self.timeLabel.text = @"报修时间:";
-    [self.view addSubview:self.timeLabel];
-    
-    //报修位置
-    self.placeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.timeLabel.frame) + 10.f, SCREEN_WIDTH - 30.f, 20)];
-    self.placeLabel.textColor = colorWithHexString(@"000000");
-    self.placeLabel.font = [UIFont systemFontOfSize:17.f];
-    self.placeLabel.text = @"位置:";
-    self.placeLabel.numberOfLines = 0;
-    self.placeLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    [self.view addSubview:self.placeLabel];
-    
-    //故障类型
-    self.faultType = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.placeLabel.frame) + 10.f, CGRectGetWidth(self.faultType.frame), 20)];
-    self.faultType.textColor = colorWithHexString(@"000000");
-    self.faultType.font = [UIFont systemFontOfSize:17.f];
-    self.faultType.text = @"故障类型:";
-    self.faultType.numberOfLines = 0;
-    self.faultType.lineBreakMode = NSLineBreakByWordWrapping;
-    [self.view addSubview:self.faultType];
-    
-    //报修内容
-    self.cause = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.faultType.frame) + 10.f, CGRectGetWidth(self.faultType.frame), 20)];
-    self.cause.textColor = colorWithHexString(@"000000");
-    self.cause.font = [UIFont systemFontOfSize:17.f];
-    self.cause.text = @"故障描述:";
-    self.cause.numberOfLines = 0;
-    self.cause.lineBreakMode = NSLineBreakByWordWrapping;
-    [self.view addSubview:self.cause];
-    
-    CGFloat bv_height = IS_IPHONE6 ? 80.f : 70.f;
-    CGFloat grab_height = IS_IPHONE6 ? 50.f : 40.f;
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - bv_height, SCREEN_WIDTH, bv_height)];
-    backView.backgroundColor = colorWithHexString(@"ffffff");
-    
-    UIButton *rejectBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [rejectBtn setFrame:CGRectMake(20.f, 15.f, (SCREEN_WIDTH - 60.f)/2.f, grab_height)];
-    [rejectBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
-    [rejectBtn setBackgroundColor:colorWithHexString(@"ffffff")];
-    rejectBtn.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    rejectBtn.layer.borderWidth = 1.f;
-    rejectBtn.layer.cornerRadius = 4.f;
-    [rejectBtn setTitle:@"我不接" forState:UIControlStateNormal];
-    @weakify(self);
-    [[rejectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID viewControllerType:AssignVCType];
-        [self.navigationController pushViewController:rejectVC animated:YES];
-    }];
-    [backView addSubview:rejectBtn];
-    
-    UIButton *grabOrderBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [grabOrderBtn setFrame:CGRectMake(CGRectGetMaxX(rejectBtn.frame) + 20.f, 15.f, (SCREEN_WIDTH - 60.f)/2.f, grab_height)];
-    [grabOrderBtn setBackgroundColor:colorWithHexString(@"3cafff")];
-    [grabOrderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [grabOrderBtn setTitle:@"我要接" forState:UIControlStateNormal];
-    grabOrderBtn.layer.cornerRadius = 4.f;
-    [[grabOrderBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self showLoadingMBP:@"请稍候..."];
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request reaciveDispatchedOrderID:self.repairDetail.orderID];
-    }];
-    [backView addSubview:grabOrderBtn];
-    
-    [self.view addSubview:backView];
-}
-
-#pragma mark -
-#pragma mark 事件
-- (void)connectTa
-{
-    BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];
-    RCUserInfo *userInfo = [[RCUserInfo alloc] init];
-    userInfo.userId = repairPerson.out_userid;
-    
-    NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
-    if ([userInfo.userId isEqualToString:my_userID]) return;
-    
-    userInfo.name = repairPerson.name;
-    userInfo.portraitUri = repairPerson.head_pic;
-    
-    NSMutableArray *usersArray = [BXTGlobal getUserProperty:U_USERSARRAY];
-    if (usersArray)
-    {
-        NSArray *arrResult = [usersArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.userId = %@",userInfo.userId]];
-        if (arrResult.count)
-        {
-            RCUserInfo *temp_userInfo = arrResult[0];
-            NSInteger index = [usersArray indexOfObject:temp_userInfo];
-            [usersArray replaceObjectAtIndex:index withObject:temp_userInfo];
-        }
-        else
-        {
-            [usersArray addObject:userInfo];
-        }
-    }
-    else
-    {
-        NSMutableArray *array = [NSMutableArray array];
-        [array addObject:userInfo];
-        [BXTGlobal setUserProperty:array withKey:U_USERSARRAY];
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"HaveConnact" object:nil];
-    [[BXTGlobal shareGlobal] enableForIQKeyBoard:NO];
-    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
-    conversationVC.conversationType = ConversationType_PRIVATE;
-    conversationVC.targetId = userInfo.userId;
-    conversationVC.title = userInfo.name;
-    self.navigationController.navigationBar.hidden = NO;
-    [self.navigationController pushViewController:conversationVC animated:YES];
-}
-
-#pragma mark -
 #pragma mark 闹铃
 - (void)afterTime
 {
@@ -296,6 +95,31 @@
     dispatch_resume(_time);
 }
 
+- (IBAction)rejectOrder:(id)sender
+{
+    BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.currentOrderID viewControllerType:AssignVCType];
+    [self.navigationController pushViewController:rejectVC animated:YES];
+}
+
+- (IBAction)reaciveOrder:(id)sender
+{
+    [self showLoadingMBP:@"请稍候..."];
+    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    [request reaciveDispatchedOrderID:self.repairDetail.orderID];
+}
+
+- (void)addTapToImageView:(UIImageView *)imageView
+{
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
+    [imageView addGestureRecognizer:tapGR];
+    @weakify(self);
+    [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        self.mwPhotosArray = [self containAllPhotos:self.repairDetail.fault_pic];
+        [self loadMWPhotoBrowser:imageView.tag];
+    }];
+}
+
 #pragma mark -
 #pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
@@ -305,6 +129,8 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count > 0)
     {
+        [self afterTime];
+
         NSDictionary *dictionary = data[0];
         [BXTRepairDetailInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"orderID":@"id"};
@@ -324,68 +150,167 @@
         [BXTFaultPicInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"picID":@"id"};
         }];
-        self.repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
         
-        BXTRepairPersonInfo *repairPerson = self.repairDetail.fault_user_arr[0];
-        NSString *headURL = repairPerson.head_pic;
-        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-        self.repairerName.text = repairPerson.name;
-        self.detailName.text = repairPerson.department_name;
-        self.identifyName.text = repairPerson.duty_name;
-        self.repairID.text = [NSString stringWithFormat:@"工单号:%@",self.repairDetail.orderid];
-        self.timeLabel.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
-       
-        self.orderType.text = [self.repairDetail.task_type intValue] == 1 ? @"日常" : @"维保";
-        self.orderType.backgroundColor = [self.repairDetail.task_type intValue] == 1 ? colorWithHexString(@"#F0B660") : colorWithHexString(@"#7EC86E");
+        BXTRepairDetailInfo *repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
+        self.repairDetail = repairDetail;
         
-        //根据位置的长度动态调整placeLabel的高度
-        NSString *place_str = [NSString stringWithFormat:@"位置:%@",self.repairDetail.place_name];
-        CGSize place_size = MB_MULTILINE_TEXTSIZE(place_str, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
-        self.placeLabel.frame = CGRectMake(15.f, CGRectGetMaxY(self.timeLabel.frame) + 10.f, SCREEN_WIDTH - 30.f, place_size.height);
-        self.placeLabel.text = place_str;
+        // 指派人信息
+        BXTMaintenanceManInfo *dispathPerson = self.repairDetail.dispatch_ower_arr[0];
+        NSString *headURL = dispathPerson.head_pic;
+        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:headURL]];
+        self.dispathName.text = dispathPerson.name;
+        self.departmentName.text = dispathPerson.department_name;
+        UIFont *font = [UIFont systemFontOfSize:17.f];
+        CGSize jobSize = MB_MULTILINE_TEXTSIZE(dispathPerson.duty_name, font, CGSizeMake(200, 20), NSLineBreakByWordWrapping);
+        self.job_width.constant = jobSize.width + 15;
+        [self.jobName layoutIfNeeded];
+        self.jobName.text = dispathPerson.duty_name;
 
-        //根据故障类型的长度动态调整faultType的高度
-        NSString *faultType_str = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
-        CGSize faultType_size = MB_MULTILINE_TEXTSIZE(faultType_str, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
-        self.faultType.frame = CGRectMake(15.f, CGRectGetMaxY(self.placeLabel.frame) + 10.f, CGRectGetWidth(self.placeLabel.frame), faultType_size.height);
-        self.faultType.text = faultType_str;
+        // 报修人信息
+        BXTRepairPersonInfo *repairPerson = repairDetail.fault_user_arr[0];
+        NSString *repairHeadURL = repairPerson.head_pic;
+        [self.repairHeadImgView sd_setImageWithURL:[NSURL URLWithString:repairHeadURL]];
+        self.repairNameLabel.text = repairPerson.name;
+        self.departmentNameLabel.text = repairPerson.department_name;
+        UIFont *jobFont = [UIFont systemFontOfSize:17.f];
+        CGSize job_size = MB_MULTILINE_TEXTSIZE(repairPerson.duty_name, jobFont, CGSizeMake(200, 20), NSLineBreakByWordWrapping);
+        self.job_name_width.constant = job_size.width + 15;
+        [self.jobNameLabel layoutIfNeeded];
+        self.jobNameLabel.text = repairPerson.duty_name;
         
-        //根据报修内容的长度动态调整cause的高度
-        NSString *cause_str = [NSString stringWithFormat:@"报修内容:%@",self.repairDetail.cause];
-        CGSize cause_size = MB_MULTILINE_TEXTSIZE(cause_str, [UIFont systemFontOfSize:17.f], CGSizeMake(SCREEN_WIDTH - 30.f, 500), NSLineBreakByWordWrapping);
-        self.cause.frame = CGRectMake(15.f, CGRectGetMaxY(self.faultType.frame) + 10.f, CGRectGetWidth(self.faultType.frame), cause_size.height);
-        self.cause.text = cause_str;
+        // 工单号
+        self.orderNumberLabel.text = repairDetail.orderid;
         
-        NSArray *imgArray = [self containAllArray];
-        if (imgArray.count > 0)
+        // 报单时间
+        NSArray *timesArray = [repairDetail.fault_time_name componentsSeparatedByString:@" "];
+        self.repairTimeLabel.text = timesArray[0];
+        self.hoursLabel.text = timesArray[1];
+        
+        // 是否预约
+        self.appointmentImgView.hidden = [repairDetail.is_appointment isEqualToString:@"1"] ? NO : YES;
+        
+        // 位置
+        self.placeLabel.text = repairDetail.place_name;
+        [self.view layoutIfNeeded];
+        self.second_view_height.constant = CGRectGetMaxY(self.placeLabel.frame) + 15.f;
+        [self.second_bg_view layoutIfNeeded];
+        
+        // 故障类型
+        self.faultTypeLabel.text = repairDetail.faulttype_name;
+        
+        // 故障描述
+        self.repairContent.text = repairDetail.cause;
+        [self.view layoutIfNeeded];
+        
+        // 故障图片
+        NSArray *imgArray = repairDetail.fault_pic;
+        if (imgArray.count)
         {
-            NSInteger i = 0;
-            UIScrollView *imagesScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cause.frame) + 20.f, SCREEN_WIDTH, ImageHeight)];
-            imagesScrollView.contentSize = CGSizeMake((ImageWidth + 25) * imgArray.count + 25.f, ImageHeight);
-            [imagesScrollView setShowsHorizontalScrollIndicator:NO];
-            for (BXTFaultPicInfo *picInfo in imgArray)
+            UIImageView *imageViewOne = nil;
+            if (imgArray.count == 1)
             {
-                if (picInfo.photo_file)
-                {
-                    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(25.f * (i + 1) + ImageWidth * i, 0, ImageWidth, ImageHeight)];
-                    imgView.userInteractionEnabled = YES;
-                    imgView.layer.masksToBounds = YES;
-                    imgView.contentMode = UIViewContentModeScaleAspectFill;
-                    [imgView sd_setImageWithURL:[NSURL URLWithString:picInfo.photo_file]];
-                    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
-                    @weakify(self);
-                    [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
-                        @strongify(self);
-                        self.mwPhotosArray = [self containAllPhotosForMWPhotoBrowser];
-                        [self loadMWPhotoBrowserForDetail:i withFaultPicCount:self.repairDetail.fault_pic.count withFixedPicCount:self.repairDetail.fixed_pic.count withEvaluationPicCount:self.repairDetail.evaluation_pic.count];
-                    }];
-                    [imgView addGestureRecognizer:tapGR];
-                    [imagesScrollView addSubview:imgView];
-                    i++;
-                }
+                BXTFaultPicInfo *faultPic = repairDetail.fault_pic[0];
+                
+                imageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f, FaultImageWidth, FaultImageWidth)];
+                imageViewOne.tag = 0;
+                imageViewOne.layer.masksToBounds = YES;
+                imageViewOne.userInteractionEnabled = YES;
+                imageViewOne.contentMode = UIViewContentModeScaleAspectFill;
+                [imageViewOne sd_setImageWithURL:[NSURL URLWithString:faultPic.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                [self.third_bg_view addSubview:imageViewOne];
+                
+                [self addTapToImageView:imageViewOne];
             }
-            [self.view addSubview:imagesScrollView];
+            else if (imgArray.count == 2)
+            {
+                BXTFaultPicInfo *faultPicOne = repairDetail.fault_pic[0];
+                BXTFaultPicInfo *faultPicTwo = repairDetail.fault_pic[1];
+                
+                imageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f, FaultImageWidth, FaultImageWidth)];
+                imageViewOne.tag = 0;
+                imageViewOne.layer.masksToBounds = YES;
+                imageViewOne.userInteractionEnabled = YES;
+                imageViewOne.contentMode = UIViewContentModeScaleAspectFill;
+                [imageViewOne sd_setImageWithURL:[NSURL URLWithString:faultPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                [self.third_bg_view addSubview:imageViewOne];
+                
+                UIImageView *imageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageViewOne.frame) + 20.f, CGRectGetMaxY(self.lineView.frame) + 15.f, FaultImageWidth, FaultImageWidth)];
+                imageViewTwo.tag = 1;
+                imageViewTwo.layer.masksToBounds = YES;
+                imageViewTwo.userInteractionEnabled = YES;
+                imageViewTwo.contentMode = UIViewContentModeScaleAspectFill;
+                [imageViewTwo sd_setImageWithURL:[NSURL URLWithString:faultPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                [self.third_bg_view addSubview:imageViewTwo];
+                
+                [self addTapToImageView:imageViewOne];
+                [self addTapToImageView:imageViewTwo];
+            }
+            else
+            {
+                BXTFaultPicInfo *faultPicOne = repairDetail.fault_pic[0];
+                BXTFaultPicInfo *faultPicTwo = repairDetail.fault_pic[1];
+                BXTFaultPicInfo *faultPicThree = repairDetail.fault_pic[2];
+                
+                imageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f, FaultImageWidth, FaultImageWidth)];
+                imageViewOne.tag = 0;
+                imageViewOne.layer.masksToBounds = YES;
+                imageViewOne.userInteractionEnabled = YES;
+                imageViewOne.contentMode = UIViewContentModeScaleAspectFill;
+                [imageViewOne sd_setImageWithURL:[NSURL URLWithString:faultPicOne.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                [self.third_bg_view addSubview:imageViewOne];
+                
+                UIImageView *imageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageViewOne.frame) + 20.f, CGRectGetMaxY(self.lineView.frame) + 15.f, FaultImageWidth, FaultImageWidth)];
+                imageViewTwo.tag = 1;
+                imageViewTwo.layer.masksToBounds = YES;
+                imageViewTwo.userInteractionEnabled = YES;
+                imageViewTwo.contentMode = UIViewContentModeScaleAspectFill;
+                [imageViewTwo sd_setImageWithURL:[NSURL URLWithString:faultPicTwo.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                [self.third_bg_view addSubview:imageViewTwo];
+                
+                UIImageView *imageViewThree = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageViewTwo.frame) + 20.f, CGRectGetMaxY(self.lineView.frame) + 15.f, FaultImageWidth, FaultImageWidth)];
+                imageViewThree.tag = 2;
+                imageViewThree.layer.masksToBounds = YES;
+                imageViewThree.userInteractionEnabled = YES;
+                imageViewThree.contentMode = UIViewContentModeScaleAspectFill;
+                [imageViewThree sd_setImageWithURL:[NSURL URLWithString:faultPicThree.photo_thumb_file] placeholderImage:[UIImage imageNamed:@"polaroid"]];
+                [self.third_bg_view addSubview:imageViewThree];
+                
+                [self addTapToImageView:imageViewOne];
+                [self addTapToImageView:imageViewTwo];
+                [self addTapToImageView:imageViewThree];
+            }
+            
+            if (CGRectGetMinY(self.third_bg_view.frame) + CGRectGetMaxY(imageViewOne.frame) + 20.f < SCREEN_HEIGHT - KNAVIVIEWHEIGHT - DispatchBackViewHeight - BottomButtonHeight)
+            {
+                self.third_view_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - DispatchBackViewHeight - BottomButtonHeight - CGRectGetMinY(self.third_bg_view.frame);
+            }
+            else
+            {
+                self.third_view_height.constant = CGRectGetMaxY(imageViewOne.frame) + 20.f;
+            }
         }
+        else
+        {
+            if (CGRectGetMinY(self.third_bg_view.frame) + CGRectGetMaxY(self.lineView.frame) + 20.f < SCREEN_HEIGHT - KNAVIVIEWHEIGHT - DispatchBackViewHeight - BottomButtonHeight)
+            {
+                self.third_view_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - DispatchBackViewHeight - BottomButtonHeight - CGRectGetMinY(self.third_bg_view.frame);
+            }
+            else
+            {
+                self.third_view_height.constant = CGRectGetMaxY(self.lineView.frame) + 20.f;
+            }
+        }
+        [self.third_bg_view layoutIfNeeded];
+        
+        if (CGRectGetMaxY(self.third_bg_view.frame) > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - DispatchBackViewHeight - BottomButtonHeight)
+        {
+            self.content_height.constant = CGRectGetMaxY(self.third_bg_view.frame);
+        }
+        else
+        {
+            self.content_height.constant = SCREEN_HEIGHT - KNAVIVIEWHEIGHT - DispatchBackViewHeight - BottomButtonHeight;
+        }
+        [self.contentView layoutIfNeeded];
     }
     else if (type == ReaciveOrder)
     {

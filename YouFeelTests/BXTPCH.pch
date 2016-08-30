@@ -13,6 +13,7 @@
 #import <ReactiveCocoa/RACEXTScope.h>
 #import "CGRectPositioning.h"
 #import "NSMutableArray+ErrorLog.h"
+#import "CALayer+Additions.h"
 
 typedef NS_ENUM(NSInteger, BXTRefreshType) {
     RefreshDown,

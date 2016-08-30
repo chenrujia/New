@@ -60,6 +60,28 @@
 }
 
 #pragma mark -
+#pragma mark 闹铃
+- (void)afterTime
+{
+    [player play];
+    __block NSInteger count = 20;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(_time, ^{
+        count--;
+        if (count <= 0)
+        {
+            dispatch_source_cancel(_time);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [player stop];
+            });
+        }
+    });
+    dispatch_resume(_time);
+}
+
+#pragma mark -
 #pragma mark 事件
 - (IBAction)grabOrder:(id)sender
 {
@@ -102,7 +124,7 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count != 0)
     {
-        [player play];
+        [self afterTime];
         NSDictionary *dictionary = data[0];
         [BXTRepairDetailInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"orderID":@"id"};
@@ -132,8 +154,6 @@
         [self.headImgView sd_setImageWithURL:[NSURL URLWithString:headURL]];
         self.repairName.text = repairPerson.name;
         self.departmantName.text = repairPerson.department_name;
-        self.jobName.layer.borderWidth = 1.f;
-        self.jobName.layer.borderColor = colorWithHexString(@"0DADFE").CGColor;
         UIFont *font = [UIFont systemFontOfSize:17.f];
         CGSize jobSize = MB_MULTILINE_TEXTSIZE(repairPerson.duty_name, font, CGSizeMake(200, 20), NSLineBreakByWordWrapping);
         self.job_width.constant = jobSize.width + 15;

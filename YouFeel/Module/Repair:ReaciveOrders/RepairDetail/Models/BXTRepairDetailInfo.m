@@ -14,6 +14,7 @@
 {
     return @{@"repair_user_arr":[BXTMaintenanceManInfo class],
              @"dispatch_user_arr":[BXTMaintenanceManInfo class],
+             @"dispatch_ower_arr":[BXTMaintenanceManInfo class],
              @"fault_pic":[BXTFaultPicInfo class],
              @"fixed_pic":[BXTFaultPicInfo class],
              @"evaluation_pic":[BXTFaultPicInfo class],
