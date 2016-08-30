@@ -261,48 +261,64 @@ static NSString *cellIndentify = @"resignCellIndentify";
 {
     [self hideMBP];
     NSDictionary *dic = response;
-    if (type == BranchResign)
+    
+    if ([[dic objectForKey:@"state"] integerValue] == 1)
     {
-        
-        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
-        {
-            NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
-            [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
-            [self showMBP:@"注册成功！" withBlock:^(BOOL hidden) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshLoginVCOFUserName" object:nil];
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                //                [self showLoadingMBP:@"登录中..."];
-                //                /**分店登录**/
-                //                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-                //                [request branchLogin];
-            }];
-        }
+        NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
+        [BXTGlobal setUserProperty:userID withKey:U_USERID];
+        // 注册成功
+        [self showMBP:@"注册成功，请登录账户！" withBlock:^(BOOL hidden) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshLoginVCOFUserName" object:nil];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }];
     }
-    else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    else if ([[dic objectForKey:@"returncode"] integerValue] == 6)
     {
-        NSArray *data = [dic objectForKey:@"data"];
-        if (data.count > 0)
-        {
-            NSDictionary *userInfo = data[0];
-            [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
-        }
+        [self showMBP:@"该手机号已注册，请直接登陆" withBlock:nil];
     }
-    else
-    {
-        if ([[dic objectForKey:@"state"] integerValue] == 1)
-        {
-            NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
-            [BXTGlobal setUserProperty:userID withKey:U_USERID];
-            //执行分店注册
-            [self showLoadingMBP:@"请稍候..."];
-            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-            [request branchResign];
-        }
-        else if ([[dic objectForKey:@"returncode"] integerValue] == 6)
-        {
-            [self showMBP:@"该手机号已注册，请直接登陆" withBlock:nil];
-        }
-    }
+    
+    //    if (type == BranchResign)
+    //    {
+    //
+    //        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+    //        {
+    //            NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
+    //            [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
+    //            [self showMBP:@"注册成功！" withBlock:^(BOOL hidden) {
+    //                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshLoginVCOFUserName" object:nil];
+    //                [self.navigationController popToRootViewControllerAnimated:YES];
+    //                //                [self showLoadingMBP:@"登录中..."];
+    //                //                /**分店登录**/
+    //                //                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    //                //                [request branchLogin];
+    //            }];
+    //        }
+    //    }
+    //    else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    //    {
+    //        NSArray *data = [dic objectForKey:@"data"];
+    //        if (data.count > 0)
+    //        {
+    //            NSDictionary *userInfo = data[0];
+    //            [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
+    //        }
+    //    }
+    //    else
+    //    {
+    //        if ([[dic objectForKey:@"state"] integerValue] == 1)
+    //        {
+    //            NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
+    //            [BXTGlobal setUserProperty:userID withKey:U_USERID];
+    //            //执行分店注册
+    //            [self showLoadingMBP:@"请稍候..."];
+    //            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+    //            [request branchResign];
+    //        }
+    //        else if ([[dic objectForKey:@"returncode"] integerValue] == 6)
+    //        {
+    //            [self showMBP:@"该手机号已注册，请直接登陆" withBlock:nil];
+    //        }
+    //    }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

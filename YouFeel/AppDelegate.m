@@ -116,7 +116,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     NSDictionary *textAttributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor whiteColor]};
     [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-
+    
     //设置会话列表头像和会话界面头像
     [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
     //设置接收消息代理
@@ -127,7 +127,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     [self logFabricUser];
     
     [self addNotification];
-
+    
     return YES;
 }
 
@@ -265,7 +265,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 - (void)handleNotification:(NSDictionary *)userInfo
 {
     //如果处于非登录状态，则不处理任何消息。
-//    if (![BXTGlobal shareGlobal].isLogin) return;
+    //    if (![BXTGlobal shareGlobal].isLogin) return;
     
     NSString *taskStr = [userInfo objectForKey:@"notify"];
     NSDictionary *taskInfo = [taskStr JSONValue];
@@ -522,24 +522,21 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
             [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
-    else if (type == PlaceLists && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
+    else if (type == PlaceLists)
     {
-        NSArray *data = [dic objectForKey:@"data"];
-        [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"placeID":@"id"};
-        }];
-        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
-        [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
-        [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
-        [[ANKeyValueTable userDefaultTable] synchronize:YES];
-        NSTimeInterval nowTime = [[NSDate date] timeIntervalSince1970];
-        NSInteger now = nowTime;
-        [[ANKeyValueTable userDefaultTable] setValue:[NSNumber numberWithInteger:now] withKey:YSAVEDTIME];
-    }
-    else if (type == PlaceLists && ![[dic objectForKey:@"returncode"] isEqualToString:@"0"])
-    {
-        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlaceIsAllPlace];
+        if ([[dic objectForKey:@"returncode"] isEqualToString:@"0"]) {
+            NSArray *data = [dic objectForKey:@"data"];
+            [BXTPlaceInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+                return @{@"placeID":@"id"};
+            }];
+            NSMutableArray *dataSource = [[NSMutableArray alloc] init];
+            [dataSource addObjectsFromArray:[BXTPlaceInfo mj_objectArrayWithKeyValuesArray:data]];
+            [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:YPLACESAVE];
+            [[ANKeyValueTable userDefaultTable] synchronize:YES];
+            NSTimeInterval nowTime = [[NSDate date] timeIntervalSince1970];
+            NSInteger now = nowTime;
+            [[ANKeyValueTable userDefaultTable] setValue:[NSNumber numberWithInteger:now] withKey:YSAVEDTIME];
+        }
     }
     else if (type == BindingUser && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {

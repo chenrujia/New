@@ -25,13 +25,23 @@
                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tGr-HS-F9S">
+                    <rect key="frame" x="305" y="0.0" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="5Lc-4Q-wpS"/>
+                    </constraints>
+                    <state key="normal" image="cancelImage"/>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="SKn-fs-86n" secondAttribute="trailing" constant="10" id="0Mt-TS-jyw"/>
                 <constraint firstAttribute="bottom" secondItem="SKn-fs-86n" secondAttribute="bottom" constant="10" id="39X-GE-WW9"/>
+                <constraint firstAttribute="bottom" secondItem="tGr-HS-F9S" secondAttribute="bottom" id="7qQ-2B-8i1"/>
                 <constraint firstItem="mt1-iB-Laa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="Mya-TC-xMY"/>
+                <constraint firstAttribute="trailing" secondItem="tGr-HS-F9S" secondAttribute="trailing" id="OOp-Eu-kzs"/>
                 <constraint firstAttribute="bottom" secondItem="mt1-iB-Laa" secondAttribute="bottom" constant="14" id="bcd-65-CPr"/>
+                <constraint firstItem="tGr-HS-F9S" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mB6-7P-YbY"/>
                 <constraint firstItem="SKn-fs-86n" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="sG5-i4-9D8"/>
                 <constraint firstItem="mt1-iB-Laa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="14" id="sJy-hn-Cc6"/>
                 <constraint firstItem="SKn-fs-86n" firstAttribute="leading" secondItem="mt1-iB-Laa" secondAttribute="trailing" id="vRd-Fd-aQq"/>
@@ -39,8 +49,12 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="resetBtn" destination="tGr-HS-F9S" id="Bz8-rk-ejp"/>
                 <outlet property="timeBtn" destination="SKn-fs-86n" id="WJd-WE-3jc"/>
             </connections>
         </view>
     </objects>
+    <resources>
+        <image name="cancelImage" width="30" height="30"/>
+    </resources>
 </document>

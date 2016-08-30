@@ -292,7 +292,7 @@
         }
         else
         {
-            [self showMBP:@"登录失败，请仔细检查！" withBlock:nil];
+            [self showMBP:@"用户名或密码错误，请重试" withBlock:nil];
         }
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
@@ -313,11 +313,6 @@
         NSTimeInterval nowTime = [[NSDate date] timeIntervalSince1970];
         NSInteger now = nowTime;
         [[ANKeyValueTable userDefaultTable] setValue:[NSNumber numberWithInteger:now] withKey:YSAVEDTIME];
-    }
-    else if (type == PlaceLists && ![[dic objectForKey:@"returncode"] isEqualToString:@"0"])
-    {
-        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlaceIsAllPlace];
     }
 }
 

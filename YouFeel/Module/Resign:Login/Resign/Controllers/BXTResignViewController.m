@@ -363,11 +363,6 @@
         NSInteger now = nowTime;
         [[ANKeyValueTable userDefaultTable] setValue:[NSNumber numberWithInteger:now] withKey:YSAVEDTIME];
     }
-    else if (type == PlaceLists && ![[dic objectForKey:@"returncode"] isEqualToString:@"0"])
-    {
-        BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [location_request listOFPlaceIsAllPlace];
-    }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

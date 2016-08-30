@@ -48,6 +48,8 @@
 @property (nonatomic, assign) BOOL isLaunched;
 @property (nonatomic, assign) NSInteger      currentPage;
 
+@property (nonatomic, strong) UILabel *noneLabel;
+
 @end
 
 @implementation BXTMeterReadingRecordViewController
@@ -220,8 +222,24 @@
         [self createDatePickerWithType:PickerTypeOFRange];
         [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            [self.filterView_list.timeBtn setTitle:self.timeStr forState:UIControlStateNormal];
             
+            if (![BXTGlobal isBlankString:self.timeStr]) {
+                self.filterView_list.resetBtn.hidden = NO;
+                __block int count = 0;
+                [[self.filterView_list.resetBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                    @strongify(self);
+                    self.filterView_list.resetBtn.hidden = YES;
+                    [self.filterView_list.timeBtn setTitle:@"年/月/日" forState:UIControlStateNormal];
+                    self.timeStr = @"";
+                    self.currentPage = 1;
+                    if (count == 0) {
+                        count++;
+                        [self getListsResource];
+                    }
+                }];
+            }
+            
+            [self.filterView_list.timeBtn setTitle:self.timeStr forState:UIControlStateNormal];
             self.currentPage = 1;
             [self getListsResource];
         }];
@@ -506,6 +524,15 @@
             [self.isShowArray addObject:@"0"];
         }
         [self.dataArray addObjectsFromArray:self.listInfo.lists];
+        
+        if (self.isShowArray.count == 0) {
+            self.noneLabel = [[UILabel alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 120) / 2, CGRectGetMaxY(self.filterView_list.frame) + 120, 120, 30)];
+            self.noneLabel.text = @"本日没有数据";
+            [self.scrollView addSubview:self.noneLabel];
+        }
+        else if (self.noneLabel) {
+            [self.noneLabel removeFromSuperview];
+        }
         
         [self.tableView reloadData];
     }
