@@ -15,6 +15,10 @@
 @property (weak, nonatomic) IBOutlet UIView      *first_bg_view;
 @property (weak, nonatomic) IBOutlet UIView      *second_bg_view;
 @property (weak, nonatomic) IBOutlet UIView      *third_bg_view;
+@property (weak, nonatomic) IBOutlet UIImageView *headImgView;
+@property (weak, nonatomic) IBOutlet UILabel     *repairName;
+@property (weak, nonatomic) IBOutlet UILabel     *departmantName;
+@property (weak, nonatomic) IBOutlet UILabel     *jobName;
 @property (weak, nonatomic) IBOutlet UIView      *lineView;
 @property (weak, nonatomic) IBOutlet UILabel     *orderNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *repairTimeLabel;
@@ -28,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *content_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *second_view_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *third_view_height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *job_width;
 
 - (IBAction)grabOrder:(id)sender;
 

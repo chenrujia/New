@@ -331,35 +331,37 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     return;
                 }
                 
-//                BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
-//                grabOrderVC.hidesBottomBarWhenPushed = YES;
-//                
-//                // 工单数 > 实时抢单页面数 -> 跳转
-//                BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
-//                if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&
-//                    [BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
-//                {
-//                    if ([BXTGlobal shareGlobal].presentNav)
-//                    {
-//                        [[BXTGlobal shareGlobal].presentNav pushViewController:grabOrderVC animated:YES];
-//                    }
-//                    else if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
-//                    {
-//                        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
-//                        [nav pushViewController:grabOrderVC animated:YES];
-//                    }
-//                    else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
-//                    {
-//                        CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
-//                        UINavigationController *nav = (UINavigationController *)[tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
-//                        [nav pushViewController:grabOrderVC animated:YES];
-//                    }
-//                }
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+                BXTGrabOrderViewController *grabOrderVC = (BXTGrabOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTGrabOrderViewController"];
+                grabOrderVC.hidesBottomBarWhenPushed = YES;
+                
+                // 工单数 > 实时抢单页面数 -> 跳转
+                BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
+                if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&
+                    [BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
+                {
+                    if ([BXTGlobal shareGlobal].presentNav)
+                    {
+                        [[BXTGlobal shareGlobal].presentNav pushViewController:grabOrderVC animated:YES];
+                    }
+                    else if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
+                    {
+                        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+                        [nav pushViewController:grabOrderVC animated:YES];
+                    }
+                    else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
+                    {
+                        CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
+                        UINavigationController *nav = (UINavigationController *)[tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
+                        [nav pushViewController:grabOrderVC animated:YES];
+                    }
+                }
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 5)//收到派工或者维修邀请
             {
                 [[BXTGlobal shareGlobal].assignOrderIDs addObject:[taskInfo objectForKey:@"about_id"]];
-                BXTNewOrderViewController *newOrderVC = [[BXTNewOrderViewController alloc] initWithIsVoice:YES];
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+                BXTNewOrderViewController *newOrderVC = (BXTNewOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewOrderViewController"];
                 newOrderVC.hidesBottomBarWhenPushed = YES;
                 if ([BXTGlobal shareGlobal].assignOrderIDs.count > [BXTGlobal shareGlobal].assignNumber)
                 {

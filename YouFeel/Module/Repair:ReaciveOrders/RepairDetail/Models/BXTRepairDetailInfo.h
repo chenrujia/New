@@ -42,6 +42,7 @@
 @property (nonatomic, copy  ) NSString                         *evaluation_notes;
 @property (nonatomic, copy  ) NSString                         *evaluation_time_name;
 @property (nonatomic, strong) NSArray<BXTMaintenanceManInfo *> *dispatch_user_arr;
+@property (nonatomic, strong) NSArray<BXTMaintenanceManInfo *> *dispatch_ower_arr;
 @property (nonatomic, copy  ) NSString                         *repairstate_name;
 @property (nonatomic, strong) BXTInstructionInfo               *instructions_info;
 @property (nonatomic, strong) BXTPraiseInfo                    *praise;
@@ -70,11 +71,12 @@
 
 @property (nonatomic, copy) NSString *mobile;
 @property (nonatomic, copy) NSString *mmID;
-@property (nonatomic, copy) NSString *role;
+@property (nonatomic, copy) NSString *role_name;
+@property (nonatomic, copy) NSString *duty_name;
 @property (nonatomic, copy) NSString *head_pic;
 @property (nonatomic, copy) NSString *log_content;
 @property (nonatomic, copy) NSString *out_userid;
-@property (nonatomic, copy) NSString *department;
+@property (nonatomic, copy) NSString *department_name;
 @property (nonatomic, copy) NSString *name;
 
 @end

@@ -9,7 +9,6 @@
 #import "BXTGrabOrderViewController.h"
 #import "BXTHeaderForVC.h"
 #import "BXTDataRequest.h"
-#import "BXTGrabUserConfigView.h"
 #import "BXTRepairDetailInfo.h"
 #import "UIImageView+WebCache.h"
 
@@ -23,9 +22,6 @@
 }
 
 @property (nonatomic, strong) NSString              *orderID;
-@property (nonatomic, strong) BXTGrabUserConfigView *nameView;
-@property (nonatomic, strong) BXTGrabUserConfigView *departmentView;
-@property (nonatomic, strong) BXTGrabUserConfigView *jobView;
 
 @end
 
@@ -36,7 +32,6 @@
     [super viewDidLoad];
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self initialSubviews];
     
     ++[BXTGlobal shareGlobal].numOfPresented;
     
@@ -64,43 +59,26 @@
     }
 }
 
-- (void)addTapToImageView:(UIImageView *)imageView
-{
-    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
-    [imageView addGestureRecognizer:tapGR];
-    @weakify(self);
-    [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
-        @strongify(self);
-        self.mwPhotosArray = [self containAllPhotos:self.repairDetail.fault_pic];
-        [self loadMWPhotoBrowser:imageView.tag];
-    }];
-}
-
 #pragma mark -
-#pragma mark 初始化视图
-- (void)initialSubviews
+#pragma mark 闹铃
+- (void)afterTime
 {
-    self.nameView = [[BXTGrabUserConfigView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/3.f, 47.f) imageSize:CGSizeMake(31.f, 31.f) imageName:@"polaroid"];
-    self.nameView.iconImgView.layer.masksToBounds = YES;
-    self.nameView.iconImgView.layer.cornerRadius = 15.5f;
-    self.nameView.contentLabel.text = @"高录扬";
-    [self.first_bg_view addSubview:self.nameView];
-    
-    UIView *lineOne = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.nameView.frame) - 1.f, 8, 1.f, 31.f)];
-    lineOne.backgroundColor = colorWithHexString(@"e2e6e8");
-    [self.first_bg_view addSubview:lineOne];
-    
-    self.departmentView = [[BXTGrabUserConfigView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.nameView.frame), 0, SCREEN_WIDTH/3.f, 47.f) imageSize:CGSizeMake(22.f, 22.f) imageName:@"icon_Rectangle"];
-    self.departmentView.contentLabel.text = @"电气组";
-    [self.first_bg_view addSubview:self.departmentView];
-    
-    UIView *lineTwo = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.departmentView.frame) - 1.f, 8, 1.f, 31.f)];
-    lineTwo.backgroundColor = colorWithHexString(@"e2e6e8");
-    [self.first_bg_view addSubview:lineTwo];
-    
-    self.jobView = [[BXTGrabUserConfigView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.departmentView.frame), 0, SCREEN_WIDTH/3.f, 47.f) imageSize:CGSizeMake(24.f, 24.f) imageName:@"icon_job"];
-    self.jobView.contentLabel.text = @"维修员";
-    [self.first_bg_view addSubview:self.jobView];
+    [player play];
+    __block NSInteger count = 20;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _time = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_time, dispatch_walltime(NULL, 3), 1.0 * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(_time, ^{
+        count--;
+        if (count <= 0)
+        {
+            dispatch_source_cancel(_time);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [player stop];
+            });
+        }
+    });
+    dispatch_resume(_time);
 }
 
 #pragma mark -
@@ -125,6 +103,18 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)addTapToImageView:(UIImageView *)imageView
+{
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
+    [imageView addGestureRecognizer:tapGR];
+    @weakify(self);
+    [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        self.mwPhotosArray = [self containAllPhotos:self.repairDetail.fault_pic];
+        [self loadMWPhotoBrowser:imageView.tag];
+    }];
+}
+
 #pragma mark -
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
@@ -134,7 +124,7 @@
     NSArray *data = [dic objectForKey:@"data"];
     if (type == RepairDetail && data.count != 0)
     {
-        [player play];
+        [self afterTime];
         NSDictionary *dictionary = data[0];
         [BXTRepairDetailInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"orderID":@"id"};
@@ -161,11 +151,15 @@
         // 报修人信息
         BXTRepairPersonInfo *repairPerson = repairDetail.fault_user_arr[0];
         NSString *headURL = repairPerson.head_pic;
-        [self.nameView.iconImgView sd_setImageWithURL:[NSURL URLWithString:headURL] placeholderImage:[UIImage imageNamed:@"polaroid"]];
-        self.nameView.contentLabel.text = repairPerson.name;
-        self.departmentView.contentLabel.text = repairPerson.department_name;
-        self.jobView.contentLabel.text = repairPerson.duty_name;
-        
+        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:headURL]];
+        self.repairName.text = repairPerson.name;
+        self.departmantName.text = repairPerson.department_name;
+        UIFont *font = [UIFont systemFontOfSize:17.f];
+        CGSize jobSize = MB_MULTILINE_TEXTSIZE(repairPerson.duty_name, font, CGSizeMake(200, 20), NSLineBreakByWordWrapping);
+        self.job_width.constant = jobSize.width + 15;
+        [self.jobName layoutIfNeeded];
+        self.jobName.text = repairPerson.duty_name;
+
         // 工单号
         self.orderNumberLabel.text = repairDetail.orderid;
         
