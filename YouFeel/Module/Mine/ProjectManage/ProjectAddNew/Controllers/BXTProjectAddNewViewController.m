@@ -42,6 +42,9 @@
 // 点击添加新项目
 @property (strong, nonatomic) BXTHeadquartersInfo *headquartersInfo;
 
+// 点击的项目
+@property (strong, nonatomic) BXTHeadquartersInfo *selectedCompany;
+
 @end
 
 @implementation BXTProjectAddNewViewController
@@ -417,13 +420,20 @@
 
 - (void)transStateOfAuthorityWithInform:(BXTHeadquartersInfo *)company
 {
+    self.selectedCompany = company;
+    
     NSArray *shopsIDArray = [BXTGlobal getUserProperty:U_SHOPIDS];
+    // 是否已添加项目
     if ([shopsIDArray containsObject:company.company_id]) {
-        [self refreshAllInformWithShopID:company.company_id shopAddress:company.name];
-        
-        /**请求分店位置**/
-        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request branchLogin];
+        [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"该项目已经添加，是否进入？" chooseBlock:^(NSInteger buttonIdx) {
+            if (buttonIdx == 1) {
+                [self refreshAllInformWithShopID:company.company_id shopAddress:company.name];
+                
+                /**请求分店位置**/
+                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                [request branchLogin];
+            }
+        } buttonsStatement:@"取消", @"确定", nil];
     }
     else {
         self.headquartersInfo = company;
@@ -520,9 +530,15 @@
             } buttonsStatement:@"以后再说", @"现在就去", nil];
         }
         else if ([dic[@"returncode"] integerValue] == 6) {
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"项目已添加" chooseBlock:^(NSInteger buttonIdx) {
-                
-            } buttonsStatement:@"确定", nil];
+            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"该项目已经添加，是否进入？" chooseBlock:^(NSInteger buttonIdx) {
+                if (buttonIdx == 1) {
+                    [self refreshAllInformWithShopID:self.selectedCompany.company_id shopAddress:self.selectedCompany.name];
+                    
+                    /**请求分店位置**/
+                    BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+                    [request branchLogin];
+                }
+            } buttonsStatement:@"取消", @"确定", nil];
         }
     }
     else

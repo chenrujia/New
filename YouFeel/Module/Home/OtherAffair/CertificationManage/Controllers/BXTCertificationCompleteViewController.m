@@ -27,6 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // 认证审批
     [self navigationSetting:@"项目详情" andRightTitle:nil andRightImage:nil];
     self.dataArray = [[NSMutableArray alloc] initWithArray:@[@[@"项目名", @"详情"],
                                                              @[@"常用位置"] ]];
@@ -93,6 +95,13 @@
     if (indexPath.section == 0 && indexPath.row == 1)
     {
         if (self.isCompany) {
+            // 没有专业组
+            if ([self.projectInfo.subgroup isEqualToString:@""]) {
+                return 130;
+            }
+            if ([self.projectInfo.extra_subgroup isEqualToString:@""]) {
+                return 155;
+            }
             return 185;
         }
         return 100;

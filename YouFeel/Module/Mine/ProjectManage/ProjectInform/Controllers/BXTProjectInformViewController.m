@@ -237,6 +237,9 @@
             if ([self.projectInfo.subgroup isEqualToString:@""]) {
                 return 130;
             }
+            if ([self.projectInfo.extra_subgroup isEqualToString:@""]) {
+                return 155;
+            }
             return 185;
         }
         return 100;
