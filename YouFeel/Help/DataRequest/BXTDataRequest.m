@@ -323,12 +323,8 @@
 {
     self.requestType = UserShopLists;
     
-    NSDictionary *dic = @{@"out_userid": [BXTGlobal getUserProperty:U_USERID]};
-    
-    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=my_shop_lists&shop_id=%@", KAPIBASEURL, companyInfo.company_id];
-    
-    [self postRequest:url withParameters:dic];
+    NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/user_shop_lists&user_id=%@", KADMINBASEURL, [BXTGlobal getUserProperty:U_USERID]];
+    [self postRequest:url withParameters:nil];
 }
 
 - (void)projectAuthenticationDetailWithApplicantID:(NSString *)applicantID
