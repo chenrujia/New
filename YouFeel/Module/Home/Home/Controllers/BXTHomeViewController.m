@@ -32,6 +32,8 @@
 #import "BXTProjectPhoneCell.h"
 #import "AppDelegate.h"
 
+#import "BXTGrabOrderViewController.h"
+
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
 
