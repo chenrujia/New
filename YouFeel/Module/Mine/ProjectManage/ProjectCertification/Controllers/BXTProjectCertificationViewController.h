@@ -8,7 +8,6 @@
 
 #import "BXTBaseViewController.h"
 #import "BXTMyProject.h"
-#import "BXTProjectInfo.h"
 
 @interface BXTProjectCertificationViewController : BXTBaseViewController
 

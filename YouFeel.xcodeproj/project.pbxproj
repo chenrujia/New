@@ -70,7 +70,6 @@
 		7823D20A1C3231A000E3641C /* MYAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2051C3231A000E3641C /* MYAlertAction.m */; };
 		7823D20B1C3231A000E3641C /* UIActionSheet+BlockT.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2071C3231A000E3641C /* UIActionSheet+BlockT.m */; };
 		7823D20C1C3231A000E3641C /* UIAlertView+BlockT.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823D2091C3231A000E3641C /* UIAlertView+BlockT.m */; };
-		782561FF1D758E5000262C07 /* BXTProjectInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 782561FE1D758E5000262C07 /* BXTProjectInfo.m */; };
 		7826C77E1CB5079D0026EF7A /* BXTMyProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7826C77D1CB5079D0026EF7A /* BXTMyProject.m */; };
 		782762741CB7572E0095FF10 /* BXTAllDepartmentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 782762731CB7572E0095FF10 /* BXTAllDepartmentInfo.m */; };
 		7827D0451C85734F00E9E29E /* BXTMTProfessionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7827D0441C85734F00E9E29E /* BXTMTProfessionHeader.m */; };
@@ -95,6 +94,7 @@
 		782ACDD31D767FEB00304852 /* BXTOtherAffairCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 782ACDCD1D767FEB00304852 /* BXTOtherAffairCell.m */; };
 		782ACDD41D767FEB00304852 /* BXTOtherAffairCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782ACDCE1D767FEB00304852 /* BXTOtherAffairCell.xib */; };
 		782ACDD51D767FEB00304852 /* BXTOtherAffairView.m in Sources */ = {isa = PBXBuildFile; fileRef = 782ACDD01D767FEB00304852 /* BXTOtherAffairView.m */; };
+		782ACDD81D7683E500304852 /* BXTProjectInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 782ACDD71D7683E500304852 /* BXTProjectInfo.m */; };
 		782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AD4D41C5A12BD00A1C4D8 /* DES3Util.m */; };
 		782AD4D91C5A12BD00A1C4D8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AD4D61C5A12BD00A1C4D8 /* GTMBase64.m */; };
 		782BCBDD1D028799003C5E12 /* RollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 782BCBDC1D028799003C5E12 /* RollLabel.m */; };
@@ -631,8 +631,6 @@
 		7823D2071C3231A000E3641C /* UIActionSheet+BlockT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+BlockT.m"; sourceTree = "<group>"; };
 		7823D2081C3231A000E3641C /* UIAlertView+BlockT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+BlockT.h"; sourceTree = "<group>"; };
 		7823D2091C3231A000E3641C /* UIAlertView+BlockT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+BlockT.m"; sourceTree = "<group>"; };
-		782561FD1D758E5000262C07 /* BXTProjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTProjectInfo.h; sourceTree = "<group>"; };
-		782561FE1D758E5000262C07 /* BXTProjectInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTProjectInfo.m; sourceTree = "<group>"; };
 		7826C77C1CB5079D0026EF7A /* BXTMyProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMyProject.h; sourceTree = "<group>"; };
 		7826C77D1CB5079D0026EF7A /* BXTMyProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMyProject.m; sourceTree = "<group>"; };
 		782762721CB7572E0095FF10 /* BXTAllDepartmentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAllDepartmentInfo.h; sourceTree = "<group>"; };
@@ -676,6 +674,8 @@
 		782ACDCE1D767FEB00304852 /* BXTOtherAffairCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTOtherAffairCell.xib; sourceTree = "<group>"; };
 		782ACDCF1D767FEB00304852 /* BXTOtherAffairView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTOtherAffairView.h; sourceTree = "<group>"; };
 		782ACDD01D767FEB00304852 /* BXTOtherAffairView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOtherAffairView.m; sourceTree = "<group>"; };
+		782ACDD61D7683E500304852 /* BXTProjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTProjectInfo.h; sourceTree = "<group>"; };
+		782ACDD71D7683E500304852 /* BXTProjectInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTProjectInfo.m; sourceTree = "<group>"; };
 		782AD4D31C5A12BD00A1C4D8 /* DES3Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DES3Util.h; sourceTree = "<group>"; };
 		782AD4D41C5A12BD00A1C4D8 /* DES3Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DES3Util.m; sourceTree = "<group>"; };
 		782AD4D51C5A12BD00A1C4D8 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
@@ -4247,8 +4247,8 @@
 			children = (
 				7826C77C1CB5079D0026EF7A /* BXTMyProject.h */,
 				7826C77D1CB5079D0026EF7A /* BXTMyProject.m */,
-				782561FD1D758E5000262C07 /* BXTProjectInfo.h */,
-				782561FE1D758E5000262C07 /* BXTProjectInfo.m */,
+				782ACDD61D7683E500304852 /* BXTProjectInfo.h */,
+				782ACDD71D7683E500304852 /* BXTProjectInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5413,6 +5413,7 @@
 				782ACDD21D767FEB00304852 /* BXTOtherAffair.m in Sources */,
 				7837A5AA1CAD4196000A1986 /* BXTUserInformViewController.m in Sources */,
 				78644F6B1C575D5600D2C4C5 /* BXTDeviceListInfo.m in Sources */,
+				782ACDD81D7683E500304852 /* BXTProjectInfo.m in Sources */,
 				7837A5B61CAD4520000A1986 /* BXTChangePhoneViewController.m in Sources */,
 				968F89BC1CA52A010023D306 /* BXTSearchItemViewController.m in Sources */,
 				7867DD791C4CBEA1000749F1 /* BXTMaintenanceProcessTableViewCell.m in Sources */,
@@ -5601,7 +5602,6 @@
 				783DDA4C1C3FB4A50035B927 /* NSString+PinYin4Cocoa.m in Sources */,
 				781EF2091C3D382C0027FE72 /* BXTEquipmentBaseView.m in Sources */,
 				7823C8A41C7EFCD100E2858B /* BXTEquipmentState.m in Sources */,
-				782561FF1D758E5000262C07 /* BXTProjectInfo.m in Sources */,
 				786DB5111CB35C42003DA314 /* BXTMyIntegralData.m in Sources */,
 				7867DCCC1C4CBCAC000749F1 /* BXTFindPassWordViewController.m in Sources */,
 				7818DBE81C0824D800DC22C6 /* PNScatterChart.m in Sources */,
