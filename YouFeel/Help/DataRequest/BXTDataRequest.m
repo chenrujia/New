@@ -1321,6 +1321,8 @@
                          flatSectionPic:(NSString *)flat_section_pic
                        valleySectionPic:(NSString *)valley_section_pic
                          peakSegmentPic:(NSString *)peak_segment_pic
+                        remainingEnergy:(NSString *)remaining_energy
+                         remainingMoney:(NSString *)remaining_money
 {
     self.requestType = EnergyMeterRecordAdd;
     NSDictionary *dic = @{@"id": aboutID,
@@ -1334,6 +1336,8 @@
                           @"flat_section_pic": flat_section_pic,
                           @"valley_section_pic": valley_section_pic,
                           @"peak_segment_pic": peak_segment_pic,
+                          @"remaining_energy": remaining_energy,
+                          @"remaining_money": remaining_money,
                           @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_record_add",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];

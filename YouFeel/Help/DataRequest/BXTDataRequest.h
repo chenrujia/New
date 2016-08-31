@@ -806,7 +806,9 @@ typedef NS_ENUM(NSInteger, RepairListType)
                           peakPeriodPic:(NSString *)peak_period_pic
                          flatSectionPic:(NSString *)flat_section_pic
                        valleySectionPic:(NSString *)valley_section_pic
-                         peakSegmentPic:(NSString *)peak_segment_pic;
+                         peakSegmentPic:(NSString *)peak_segment_pic
+                        remainingEnergy:(NSString *)remaining_energy
+                         remainingMoney:(NSString *)remaining_money;
 
 /**
  *  计量表 - 能耗计算

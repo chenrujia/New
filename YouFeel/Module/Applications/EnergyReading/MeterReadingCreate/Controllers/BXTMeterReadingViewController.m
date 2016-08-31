@@ -12,6 +12,7 @@
 #import "BXTQRCodeViewController.h"
 #import "BXTMeterReadingInfo.h"
 #import "MYAlertAction.h"
+#import "BXTMeterPrepaymentCell.h"
 
 #define SaveImage [UIImage imageNamed:@"Add_button"]
 
@@ -57,6 +58,11 @@ typedef NS_ENUM(NSInteger, ReadingType) {
 /** ---- 抄表类型 ---- */
 @property (nonatomic, assign) ReadingType typeOFReading;
 
+/** ---- 剩余总量 ---- */
+@property (nonatomic, copy) NSString *surplusSum;
+/** ---- 剩余金额 ---- */
+@property (nonatomic, copy) NSString *surplusMoney;
+
 @end
 
 @implementation BXTMeterReadingViewController
@@ -74,6 +80,8 @@ typedef NS_ENUM(NSInteger, ReadingType) {
     self.allImageArray = [[NSMutableArray alloc] initWithObjects:SaveImage, SaveImage, SaveImage, SaveImage,  SaveImage, SaveImage, nil];
     self.allPhotoArray = [[NSMutableArray alloc] initWithObjects:@"0", @"", @"", @"", @"", @" ", nil];
     self.cellTitleArray = @[@"", @"峰段示数：", @"平段示数：", @"谷段示数：", @"尖峰示数：", @"总示数："];
+    self.surplusSum = @"";
+    self.surplusMoney = @"";
     
     //BXTPhotoBaseViewController 包括下面3条
     [BXTGlobal shareGlobal].maxPics = 1;
@@ -224,25 +232,13 @@ typedef NS_ENUM(NSInteger, ReadingType) {
     
     [[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if (self.typeOFReading == ReadingTypeOFDefault) {
+        if (self.typeOFReading == ReadingTypeOFDefault || self.typeOFReading == ReadingTypeOFPicture) {
             if ([self.allPhotoArray containsObject:@""]) {
                 [MYAlertAction showAlertWithTitle:@"请将图片添加完整" msg:nil chooseBlock:^(NSInteger buttonIdx){
                 } buttonsStatement:@"确定", nil];
                 return ;
             }
         }
-        else if (self.typeOFReading == ReadingTypeOFScan) {
-            
-        }
-        else if (self.typeOFReading == ReadingTypeOFPicture) {
-            if ([self.allPhotoArray containsObject:@""]) {
-                [MYAlertAction showAlertWithTitle:@"请将图片添加完整" msg:nil chooseBlock:^(NSInteger buttonIdx){
-                } buttonsStatement:@"确定", nil];
-                return ;
-            }
-        }
-        
-        
         
         for (NSString *num in self.thisNumArray)
         {
@@ -273,7 +269,9 @@ typedef NS_ENUM(NSInteger, ReadingType) {
                                        peakPeriodPic:self.allPhotoArray[1]
                                       flatSectionPic:self.allPhotoArray[2]
                                     valleySectionPic:self.allPhotoArray[3]
-                                      peakSegmentPic:self.allPhotoArray[4]];
+                                      peakSegmentPic:self.allPhotoArray[4]
+                                     remainingEnergy:self.surplusSum
+                                      remainingMoney:self.surplusMoney];
         }
         else
         {
@@ -287,7 +285,9 @@ typedef NS_ENUM(NSInteger, ReadingType) {
                                        peakPeriodPic:@""
                                       flatSectionPic:@""
                                     valleySectionPic:@""
-                                      peakSegmentPic:@""];
+                                      peakSegmentPic:@""
+                                     remainingEnergy:self.surplusSum
+                                      remainingMoney:self.surplusMoney];
         }
     }];
     
@@ -299,7 +299,8 @@ typedef NS_ENUM(NSInteger, ReadingType) {
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.thisValueArray.count;
+    // 预付费：0否 1是
+    return self.thisValueArray.count + [self.meterReadingInfo.prepayment integerValue];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -317,6 +318,27 @@ typedef NS_ENUM(NSInteger, ReadingType) {
         
         return cell;
     }
+    
+    
+    if (indexPath.section == self.thisValueArray.count)
+    {
+        BXTMeterPrepaymentCell *cell = [BXTMeterPrepaymentCell cellWithTableView:tableView];
+        
+        @weakify(self);
+        [cell.numTextField.rac_textSignal subscribeNext:^(id x) {
+            @strongify(self);
+            double showNum = [x doubleValue] * [self.meterReadingInfo.rate integerValue];
+            self.surplusSum = [BXTGlobal transNum:showNum];
+            cell.sumLabel.text = [NSString stringWithFormat:@"%@ Kwh", self.surplusSum];
+        }];
+        [cell.moneyTextField.rac_textSignal subscribeNext:^(id x) {
+            @strongify(self);
+            self.surplusMoney = [BXTGlobal transNum:[x doubleValue]];
+        }];
+        
+        return cell;
+    }
+    
     
     BXTMeterReadingListCell *cell = [BXTMeterReadingListCell cellWithTableView:tableView];
     
@@ -383,6 +405,9 @@ typedef NS_ENUM(NSInteger, ReadingType) {
     if (indexPath.section == 0)
     {
         return 110;
+    }
+    if (indexPath.section == self.thisValueArray.count) {
+        return 150;
     }
     return 175;
 }

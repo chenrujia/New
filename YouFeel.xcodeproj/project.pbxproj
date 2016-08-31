@@ -95,6 +95,8 @@
 		782ACDD41D767FEB00304852 /* BXTOtherAffairCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782ACDCE1D767FEB00304852 /* BXTOtherAffairCell.xib */; };
 		782ACDD51D767FEB00304852 /* BXTOtherAffairView.m in Sources */ = {isa = PBXBuildFile; fileRef = 782ACDD01D767FEB00304852 /* BXTOtherAffairView.m */; };
 		782ACDD81D7683E500304852 /* BXTProjectInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 782ACDD71D7683E500304852 /* BXTProjectInfo.m */; };
+		782ACDF01D76B0E800304852 /* BXTMeterPrepaymentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 782ACDEE1D76B0E800304852 /* BXTMeterPrepaymentCell.m */; };
+		782ACDF11D76B0E800304852 /* BXTMeterPrepaymentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782ACDEF1D76B0E800304852 /* BXTMeterPrepaymentCell.xib */; };
 		782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AD4D41C5A12BD00A1C4D8 /* DES3Util.m */; };
 		782AD4D91C5A12BD00A1C4D8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AD4D61C5A12BD00A1C4D8 /* GTMBase64.m */; };
 		782BCBDD1D028799003C5E12 /* RollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 782BCBDC1D028799003C5E12 /* RollLabel.m */; };
@@ -676,6 +678,9 @@
 		782ACDD01D767FEB00304852 /* BXTOtherAffairView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOtherAffairView.m; sourceTree = "<group>"; };
 		782ACDD61D7683E500304852 /* BXTProjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTProjectInfo.h; sourceTree = "<group>"; };
 		782ACDD71D7683E500304852 /* BXTProjectInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTProjectInfo.m; sourceTree = "<group>"; };
+		782ACDED1D76B0E800304852 /* BXTMeterPrepaymentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMeterPrepaymentCell.h; sourceTree = "<group>"; };
+		782ACDEE1D76B0E800304852 /* BXTMeterPrepaymentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTMeterPrepaymentCell.m; sourceTree = "<group>"; };
+		782ACDEF1D76B0E800304852 /* BXTMeterPrepaymentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMeterPrepaymentCell.xib; sourceTree = "<group>"; };
 		782AD4D31C5A12BD00A1C4D8 /* DES3Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DES3Util.h; sourceTree = "<group>"; };
 		782AD4D41C5A12BD00A1C4D8 /* DES3Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DES3Util.m; sourceTree = "<group>"; };
 		782AD4D51C5A12BD00A1C4D8 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
@@ -2341,6 +2346,9 @@
 				78472C481D3C6D3600F89BA2 /* BXTMeterReadingListCell.h */,
 				78472C491D3C6D3600F89BA2 /* BXTMeterReadingListCell.m */,
 				78472C4A1D3C6D3600F89BA2 /* BXTMeterReadingListCell.xib */,
+				782ACDED1D76B0E800304852 /* BXTMeterPrepaymentCell.h */,
+				782ACDEE1D76B0E800304852 /* BXTMeterPrepaymentCell.m */,
+				782ACDEF1D76B0E800304852 /* BXTMeterPrepaymentCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -5051,6 +5059,7 @@
 				78E657041D49E86800AA3ECD /* BXTEnergyStatisticFilterView.xib in Resources */,
 				964E6F0A1C3276300081DEBB /* LoginAndResign.storyboard in Resources */,
 				78426B5E1C7C4C4C00BAE0F4 /* BXTMTCompletionHeader.xib in Resources */,
+				782ACDF11D76B0E800304852 /* BXTMeterPrepaymentCell.xib in Resources */,
 				96EB27BA1CAB6C4200FB2084 /* BXTItemTableViewCell.xib in Resources */,
 				78472C4E1D3C6D3600F89BA2 /* BXTMeterReadingHeaderCell.xib in Resources */,
 				784890C61D3734D700C1106D /* BXTMeterReadingDailyDetailFilterView.xib in Resources */,
@@ -5338,6 +5347,7 @@
 				78FFB9731CB5F5F000309339 /* BXTDepartmentInfo.m in Sources */,
 				78426B551C7C404900BAE0F4 /* BXTMTPlanHeaderView.m in Sources */,
 				7867DC2F1C4CBA5B000749F1 /* BXTHomeCollectionViewCell.m in Sources */,
+				782ACDF01D76B0E800304852 /* BXTMeterPrepaymentCell.m in Sources */,
 				787CF5451D45EC8800F903CD /* CYLTabBarControllerConfig.m in Sources */,
 				96C684931BE76B4B0038A342 /* AssetsLibraryD.m in Sources */,
 				7837A5AB1CAD4196000A1986 /* BXTUserInformCell.m in Sources */,

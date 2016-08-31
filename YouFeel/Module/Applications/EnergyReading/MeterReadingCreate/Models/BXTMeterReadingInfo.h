@@ -32,6 +32,7 @@
 @property (nonatomic, copy) NSString *unit;
 @property (nonatomic, copy) NSString *is_peak_segment;
 @property (nonatomic, copy) NSString *state_name;
+@property (nonatomic, copy) NSString *prepayment;
 
 @property (nonatomic, strong) BXTMeterReadingLastList *last;
 

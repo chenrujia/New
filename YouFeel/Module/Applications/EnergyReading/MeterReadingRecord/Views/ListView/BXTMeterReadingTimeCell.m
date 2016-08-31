@@ -28,7 +28,7 @@
 - (void)setLists:(BXTRecordListsInfo *)lists
 {
     _lists = lists;
-        
+    
     self.peakValueView.text = [NSString stringWithFormat:@"%@ %@", lists.peak_segment_num, self.unit];
     self.peakNumView.text = [NSString stringWithFormat:@"%@ %@", lists.peak_segment_amount, self.unit];
     
@@ -40,6 +40,9 @@
     
     self.valleyValueView.text = [NSString stringWithFormat:@"%@ %@", lists.valley_section_num, self.unit];
     self.valleyNumView.text = [NSString stringWithFormat:@"%@ %@", lists.valley_section_amount, self.unit];
+    
+    self.surplusSumLabel.text = [NSString stringWithFormat:@"%@ %@", lists.remaining_energy, self.unit];
+    self.surplusMoneyLabel.text = [NSString stringWithFormat:@"%@ 元", lists.remaining_money];
     
     self.temperatureView.text = [NSString stringWithFormat:@"%.0f℃", [lists.temperature floatValue]];
     self.humidityView.text = [NSString stringWithFormat:@"%@%%", lists.humidity];
