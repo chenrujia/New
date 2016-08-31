@@ -327,31 +327,6 @@
     [self postRequest:url withParameters:nil];
 }
 
-- (void)projectAuthenticationDetailWithApplicantID:(NSString *)applicantID
-                                            shopID:(NSString *)shopID
-                                         outUserID:(NSString *)outUserID
-{
-    self.requestType = AuthenticationDetail;
-    
-    // 认证审批 -- 默认项目详情
-    if ([BXTGlobal isBlankString:shopID])
-    {
-        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        shopID = companyInfo.company_id;
-    }
-    if ([BXTGlobal isBlankString:outUserID]) {
-        outUserID = [BXTGlobal getUserProperty:U_USERID];
-    }
-    
-    NSDictionary *dic = @{@"id": applicantID,
-                          @"shop_id": shopID,
-                          @"out_userid": outUserID};
-    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
-    
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_detail",urlLast];
-    [self postRequest:url withParameters:dic];
-}
-
 - (void)projectAuthenticationVerifyWithApplicantID:(NSString *)applicantID
                                          affairsID:(NSString *)affairs_id
                                           isVerify:(NSString *)is_verify
@@ -987,11 +962,15 @@
 }
 
 - (void)mailListOfOnePersonWithID:(NSString *)userID
+                        outUserID:(NSString *)out_userid
+                           shopID:(NSString *)shop_id
 {
     self.requestType = UserInfo;
     
-    NSDictionary *dic = @{@"id": userID};
-    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=user_info",[BXTGlobal shareGlobal].baseURL];
+    NSDictionary *dic = @{@"id": userID,
+                          @"out_userid": out_userid};
+    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shop_id, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=user_info", urlLast];
     [self postRequest:url withParameters:dic];
 }
 

@@ -9,7 +9,6 @@
 #import "BXTProjectInformViewController.h"
 #import "BXTProjectInformContentCell.h"
 #import "BXTProjectInformAuthorCell.h"
-#import "BXTProjectInfo.h"
 #import "BXTProjectCertificationViewController.h"
 #import "BXTAuthenticateUserListInfo.h"
 #import "ANKeyValueTable.h"
@@ -24,9 +23,9 @@
 @property (nonatomic, strong) NSMutableArray *isShowArray;
 @property (strong, nonatomic) NSMutableArray *dataArray;
 /** ---- 管理员数组 ---- */
-@property (nonatomic, strong) NSArray *authorArray;
+@property (nonatomic, strong) NSMutableArray *authorArray;
 
-@property (strong, nonatomic) BXTProjectInfo *projectInfo;
+@property (strong, nonatomic) BXTPersonInform *projectInfo;
 
 /** ---- 是员工类型 ---- */
 @property (assign, nonatomic) BOOL isCompany;
@@ -51,22 +50,26 @@
 {
     [super viewDidLoad];
     
+    // 项目管理进
     [self navigationSetting:@"项目详情" andRightTitle:nil andRightImage:nil];
-    
     
     self.isShowArray = [[NSMutableArray alloc] initWithObjects:@"1", nil];
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"项目名", nil];
-    self.authorArray = [[ANKeyValueTable userDefaultTable] valueWithKey:AUTHENTICATEUSERARRAY];
-    if (self.authorArray.count != 0) {
-        [self.isShowArray addObject:@"0"];
-        [self.dataArray addObject:@"联系项目管理员"];
-    }
+    self.authorArray = [[NSMutableArray alloc] init];
     
-    /** 项目认证详情 **/
     [self showLoadingMBP:@"加载中..."];
-    BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
-    [dataRequest projectAuthenticationDetailWithApplicantID:@"" shopID:self.transMyProject.shop_id outUserID:@""];
     
+    dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(concurrentQueue, ^{
+        /** 项目认证详情 **/
+        BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
+        [dataRequest mailListOfOnePersonWithID:@"" outUserID:self.transMyProject.user_id shopID:self.transMyProject.shop_id];
+    });
+    dispatch_async(concurrentQueue, ^{
+        /**店铺信息**/
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request shopConfig];
+    });
     
     [self createUI];
 }
@@ -234,10 +237,10 @@
         // 员工类型
         if (self.isCompany) {
             // 没有专业组
-            if ([self.projectInfo.subgroup isEqualToString:@""]) {
+            if ([self.projectInfo.subgroup_name isEqualToString:@""]) {
                 return 130;
             }
-            if ([self.projectInfo.extra_subgroup isEqualToString:@""]) {
+            if ([self.projectInfo.have_subgroup_name isEqualToString:@""]) {
                 return 155;
             }
             return 185;
@@ -265,17 +268,15 @@
     [self hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (type == AuthenticationDetail && [dic[@"returncode"] integerValue] == 0)
+    if (type == UserInfo && data.count > 0)
     {
-        [BXTProjectInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"projectID": @"id"};
+        [BXTPersonInform mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"personID":@"id"};
         }];
-        self.projectInfo = [BXTProjectInfo mj_objectWithKeyValues:data[0]];
+        self.projectInfo  = [BXTPersonInform mj_objectWithKeyValues:data[0]];
         
         // [self.projectInfo.type integerValue] == 1 ? @"员工" : @"客户";
-        self.isCompany = [self.projectInfo.type integerValue] == 1;
-        
-        [self.tableView reloadData];
+        self.isCompany = self.projectInfo.type == 1;
     }
     else if (type == BranchLogin)
     {
@@ -286,6 +287,21 @@
             [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
+    else  if (type == ShopConfig && [dic[@"returncode"] integerValue] == 0)
+    {
+        // 管理员
+        [BXTMailListModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"userID":@"id"};
+        }];
+        [self.authorArray addObjectsFromArray:[BXTMailListModel mj_objectArrayWithKeyValuesArray:dic[@"authenticate_user_arr"]]];
+        
+        if (self.authorArray.count != 0) {
+            [self.isShowArray addObject:@"0"];
+            [self.dataArray addObject:@"联系项目管理员"];
+        }
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

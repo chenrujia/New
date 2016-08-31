@@ -46,9 +46,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // 通讯录 联系人信息
+    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
     [self showLoadingMBP:@"数据加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-    [request mailListOfOnePersonWithID:self.userID];
+    [request mailListOfOnePersonWithID:self.userID outUserID:@"" shopID:companyInfo.company_id];
     
     [self createHeaderView];
     [self createFooterView];
@@ -195,7 +198,7 @@
         [callWeb loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:phone]]];
         [self.view addSubview:callWeb];
     }
-   
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -207,13 +210,13 @@
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    if (data.count > 0)
+    if (type == UserInfo && data.count > 0)
     {
         NSDictionary *infoDict = data[0];
         [BXTPersonInform mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"personID":@"id"};
         }];
-       self.informModel  = [BXTPersonInform mj_objectWithKeyValues:infoDict];
+        self.informModel  = [BXTPersonInform mj_objectWithKeyValues:infoDict];
         // 完善信息
         [iconView sd_setImageWithURL:[NSURL URLWithString:self.informModel.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
         nameLabel.text = self.informModel.name;

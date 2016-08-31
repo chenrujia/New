@@ -90,7 +90,7 @@ typedef NS_ENUM(NSInteger, CellType) {
         [request advertisementPages];
     });
     dispatch_async(concurrentQueue, ^{
-        /**请求维保列表**/
+        /**店铺信息**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request shopConfig];
     });
@@ -721,15 +721,6 @@ typedef NS_ENUM(NSInteger, CellType) {
                 [self.currentTableView reloadData];
             }
         }
-        
-        // 管理员
-        [BXTMailListModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"userID":@"id"};
-        }];
-        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
-        [dataSource addObjectsFromArray:[BXTMailListModel mj_objectArrayWithKeyValuesArray:dic[@"authenticate_user_arr"]]];
-        [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:AUTHENTICATEUSERARRAY];
-        [[ANKeyValueTable userDefaultTable] synchronize:YES];
     }
 }
 
