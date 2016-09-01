@@ -66,7 +66,6 @@ typedef NS_ENUM(NSInteger, RequestType) {
     Ads_Pics = 53,
     Remind_Number = 54,
     UserShopLists = 55,
-    AuthenticationDetail = 56,
     HandlePermission = 57,
     DepartmentLists = 58,
     DutyLists = 59,
@@ -286,15 +285,6 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  我的项目列表
  */
 - (void)listOFUserShopLists;
-
-/**
- *  项目认证详情
- *  applicantID - 认证审批人的ID
- *  shopID - 项目详情ID   两者取其一
- */
-- (void)projectAuthenticationDetailWithApplicantID:(NSString *)applicantID
-                                            shopID:(NSString *)shopID
-                                         outUserID:(NSString *)outUserID;
 
 /**
  *  项目认证审核
@@ -629,9 +619,11 @@ typedef NS_ENUM(NSInteger, RepairListType)
 - (void)mailListOfUserListWithShopIDs:(NSString *)shopIDs;
 
 /**
- *  个人信息
+ *  个人信息 - 只有项目管理进入的详情用out_userid 其他userID
  */
-- (void)mailListOfOnePersonWithID:(NSString *)userID;
+- (void)mailListOfOnePersonWithID:(NSString *)userID
+                        outUserID:(NSString *)out_userid
+                           shopID:(NSString *)shop_id;
 
 /**
  *  解析二维码内容
@@ -814,7 +806,9 @@ typedef NS_ENUM(NSInteger, RepairListType)
                           peakPeriodPic:(NSString *)peak_period_pic
                          flatSectionPic:(NSString *)flat_section_pic
                        valleySectionPic:(NSString *)valley_section_pic
-                         peakSegmentPic:(NSString *)peak_segment_pic;
+                         peakSegmentPic:(NSString *)peak_segment_pic
+                        remainingEnergy:(NSString *)remaining_energy
+                         remainingMoney:(NSString *)remaining_money;
 
 /**
  *  计量表 - 能耗计算

@@ -26,6 +26,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *valleyValueView;
 @property (weak, nonatomic) IBOutlet UILabel *valleyNumView;
 
+/** ---- 预付费 ---- */
+@property (weak, nonatomic) IBOutlet UILabel *surplusSumLabel;
+@property (weak, nonatomic) IBOutlet UILabel *surplusMoneyLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *temperatureView;
 @property (weak, nonatomic) IBOutlet UILabel *humidityView;
 @property (weak, nonatomic) IBOutlet UILabel *windForceView;

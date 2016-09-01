@@ -35,6 +35,7 @@
 @property (nonatomic, copy) NSString *rate;
 @property (nonatomic, copy) NSString *measurement_path_name;
 @property (nonatomic, copy) NSString *is_collect;
+@property (nonatomic, copy) NSString *prepayment;
 
 @end
 
@@ -66,6 +67,9 @@
 @property (nonatomic, copy) NSString *temperature;
 @property (nonatomic, copy) NSString *humidity;
 @property (nonatomic, copy) NSString *wind_force;
+
+@property (nonatomic, copy) NSString *remaining_energy;
+@property (nonatomic, copy) NSString *remaining_money;
 
 @end
 

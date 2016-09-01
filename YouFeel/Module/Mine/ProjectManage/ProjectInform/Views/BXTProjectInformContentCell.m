@@ -25,29 +25,29 @@
     return cell;
 }
 
-- (void)setProjectInfo:(BXTProjectInfo *)projectInfo
+- (void)setProjectInfo:(BXTPersonInform *)projectInfo
 {
     _projectInfo = projectInfo;
     
-    self.typeView.text = [projectInfo.type integerValue] == 1 ? @"员工" : @"客户";
-    self.apartmentView.text = projectInfo.department;
+    self.typeView.text = projectInfo.type == 1 ? @"员工" : @"客户";
+    self.apartmentView.text = projectInfo.department_name;
     
-    if ([projectInfo.type integerValue] == 1) {
+    if (projectInfo.type == 1) {
         self.positionTitleView.text = @"职位：";
         self.professionTitleView.text = @"专业组：";
         self.skillTitleView.text = @"专业技能：";
         self.positionView.text = projectInfo.duty_name;
-        self.professionView.text = projectInfo.subgroup;
-        self.skillView.text = projectInfo.extra_subgroup;
+        self.professionView.text = projectInfo.subgroup_name;
+        self.skillView.text = projectInfo.have_subgroup_name;
         
         if ([projectInfo.duty_name isEqualToString:@""]) {
             self.positionView.text = @"暂无";
         }
-        if ([projectInfo.subgroup isEqualToString:@""]) {
+        if ([projectInfo.subgroup_name isEqualToString:@""]) {
             self.professionTitleView.hidden = YES;
             self.professionView.hidden = YES;
         }
-        if ([projectInfo.extra_subgroup isEqualToString:@""]) {
+        if ([projectInfo.have_subgroup_name isEqualToString:@""]) {
             self.skillTitleView.hidden = YES;
             self.skillView.hidden = YES;
         }

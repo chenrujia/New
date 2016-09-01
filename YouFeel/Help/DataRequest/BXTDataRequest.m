@@ -323,37 +323,8 @@
 {
     self.requestType = UserShopLists;
     
-    NSDictionary *dic = @{@"out_userid": [BXTGlobal getUserProperty:U_USERID]};
-    
-    BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=my_shop_lists&shop_id=%@", KAPIBASEURL, companyInfo.company_id];
-    
-    [self postRequest:url withParameters:dic];
-}
-
-- (void)projectAuthenticationDetailWithApplicantID:(NSString *)applicantID
-                                            shopID:(NSString *)shopID
-                                         outUserID:(NSString *)outUserID
-{
-    self.requestType = AuthenticationDetail;
-    
-    // 认证审批 -- 默认项目详情
-    if ([BXTGlobal isBlankString:shopID])
-    {
-        BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-        shopID = companyInfo.company_id;
-    }
-    if ([BXTGlobal isBlankString:outUserID]) {
-        outUserID = [BXTGlobal getUserProperty:U_USERID];
-    }
-    
-    NSDictionary *dic = @{@"id": applicantID,
-                          @"shop_id": shopID,
-                          @"out_userid": outUserID};
-    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shopID, [BXTGlobal getUserProperty:U_TOKEN]];
-    
-    NSString *url = [NSString stringWithFormat:@"%@&module=Hqdb&opt=authentication_detail",urlLast];
-    [self postRequest:url withParameters:dic];
+    NSString *url = [NSString stringWithFormat:@"%@/module/Shops/opt/user_shop_lists&user_id=%@", KADMINBASEURL, [BXTGlobal getUserProperty:U_USERID]];
+    [self postRequest:url withParameters:nil];
 }
 
 - (void)projectAuthenticationVerifyWithApplicantID:(NSString *)applicantID
@@ -991,11 +962,15 @@
 }
 
 - (void)mailListOfOnePersonWithID:(NSString *)userID
+                        outUserID:(NSString *)out_userid
+                           shopID:(NSString *)shop_id
 {
     self.requestType = UserInfo;
     
-    NSDictionary *dic = @{@"id": userID};
-    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=user_info",[BXTGlobal shareGlobal].baseURL];
+    NSDictionary *dic = @{@"id": userID,
+                          @"out_userid": out_userid};
+    NSString *urlLast = [NSString stringWithFormat:@"%@&shop_id=%@&token=%@",KAPIBASEURL, shop_id, [BXTGlobal getUserProperty:U_TOKEN]];
+    NSString *url = [NSString stringWithFormat:@"%@&module=user&opt=user_info", urlLast];
     [self postRequest:url withParameters:dic];
 }
 
@@ -1346,6 +1321,8 @@
                          flatSectionPic:(NSString *)flat_section_pic
                        valleySectionPic:(NSString *)valley_section_pic
                          peakSegmentPic:(NSString *)peak_segment_pic
+                        remainingEnergy:(NSString *)remaining_energy
+                         remainingMoney:(NSString *)remaining_money
 {
     self.requestType = EnergyMeterRecordAdd;
     NSDictionary *dic = @{@"id": aboutID,
@@ -1359,6 +1336,8 @@
                           @"flat_section_pic": flat_section_pic,
                           @"valley_section_pic": valley_section_pic,
                           @"peak_segment_pic": peak_segment_pic,
+                          @"remaining_energy": remaining_energy,
+                          @"remaining_money": remaining_money,
                           @"user_id": [BXTGlobal getUserProperty:U_BRANCHUSERID]};
     NSString *url = [NSString stringWithFormat:@"%@&module=energy&opt=meter_record_add",[BXTGlobal shareGlobal].baseURL];
     [self postRequest:url withParameters:dic];

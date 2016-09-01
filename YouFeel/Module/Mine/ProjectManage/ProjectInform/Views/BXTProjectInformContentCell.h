@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BXTProjectInfo.h"
+#import "BXTPersonInform.h"
 
 @interface BXTProjectInformContentCell : UITableViewCell
 
@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *professionTitleView;
 @property (weak, nonatomic) IBOutlet UILabel *skillTitleView;
 
-@property (strong, nonatomic) BXTProjectInfo *projectInfo;
+@property (strong, nonatomic) BXTPersonInform *projectInfo;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

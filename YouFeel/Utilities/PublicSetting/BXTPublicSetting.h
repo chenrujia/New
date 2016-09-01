@@ -82,7 +82,6 @@
 
 #define YPLACESAVE            @"PlaceSave"
 #define MYSUBGROUPSAVE        @"MySubgroupSave"
-#define AUTHENTICATEUSERARRAY @"AuthenticateUserArray"
 #define YMAILLISTSAVE         @"MailListSave"
 #define YSAVEDSHOPID          @"SavedShopID"
 #define YSAVEDTIME            @"SavedTime"

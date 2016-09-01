@@ -90,13 +90,13 @@ typedef NS_ENUM(NSInteger, CellType) {
         [request advertisementPages];
     });
     dispatch_async(concurrentQueue, ^{
-        /**请求维保列表**/
+        /**店铺信息**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request shopConfig];
     });
     
     [AppDelegate appdelegete].isGetIn = YES;
-
+    
     double delayInSeconds = 2.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -721,15 +721,6 @@ typedef NS_ENUM(NSInteger, CellType) {
                 [self.currentTableView reloadData];
             }
         }
-        
-        // 管理员
-        [BXTMailListModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-            return @{@"userID":@"id"};
-        }];
-        NSMutableArray *dataSource = [[NSMutableArray alloc] init];
-        [dataSource addObjectsFromArray:[BXTMailListModel mj_objectArrayWithKeyValuesArray:dic[@"authenticate_user_arr"]]];
-        [[ANKeyValueTable userDefaultTable] setValue:dataSource withKey:AUTHENTICATEUSERARRAY];
-        [[ANKeyValueTable userDefaultTable] synchronize:YES];
     }
 }
 

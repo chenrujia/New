@@ -48,11 +48,11 @@
         {
             __weak typeof(self) weakSelf = self;
             [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"现在处于测试项目，\r报修后不会有维修员进行接单维修" chooseBlock:^(NSInteger buttonIdx) {
-                if (buttonIdx == 0)
+                if (buttonIdx == 1)
                 {
                     [weakSelf pushNewWorkOrderVC];
                 }
-                else if (buttonIdx == 1)
+                else if (buttonIdx == 2)
                 {
                     CYLTabBarController *tempVC = (CYLTabBarController *)[AppDelegate appdelegete].window.rootViewController;
                     UINavigationController *nav = (UINavigationController *)[tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
@@ -62,7 +62,7 @@
                     [nav pushViewController:pmvc animated:YES];
                     
                 }
-            } buttonsStatement:@"继续测试", @"选择项目", nil];
+            } buttonsStatement:@"取消", @"继续测试", @"选择项目", nil];
             return ;
         }
         else
