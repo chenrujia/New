@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class BXTReportInfo,BXTPraiseInfo,BXTRepairPersonInfo,BXTProgressInfo,BXTFaultPicInfo,BXTDeviceMMListInfo,BXTAdsNameInfo,BXTMaintenanceManInfo,BXTInstructionInfo;
+
 @interface BXTRepairDetailInfo : NSObject
 
 @property (nonatomic, copy  ) NSString                         *fault_id;
@@ -46,6 +47,8 @@
 @property (nonatomic, copy  ) NSString                         *repairstate_name;
 @property (nonatomic, strong) BXTInstructionInfo               *instructions_info;
 @property (nonatomic, strong) BXTPraiseInfo                    *praise;
+@property (nonatomic, strong) NSArray<BXTRepairPersonInfo *>   *evaluation_user_arr;
+@property (nonatomic, strong) NSArray<BXTRepairPersonInfo *>   *confirm_user_arr;
 
 @end
 
@@ -54,7 +57,10 @@
 @property (nonatomic, copy) NSString *real_repairstate_name;
 @property (nonatomic, copy) NSString *real_faulttype_name;
 @property (nonatomic, copy) NSString *end_time_name;
+@property (nonatomic, copy) NSString *accept_time_name;
+@property (nonatomic, copy) NSString *start_time_name;
 @property (nonatomic, copy) NSString *real_place_name;
+@property (nonatomic, copy) NSString *labor_time_name;
 @property (nonatomic, copy) NSString *workprocess;
 
 @end

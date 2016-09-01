@@ -23,6 +23,8 @@
              @"progress":[BXTProgressInfo class],
              @"report":[BXTReportInfo class],
              @"praise":[BXTPraiseInfo class],
+             @"evaluation_user_arr":[BXTRepairPersonInfo class],
+             @"confirm_user_arr":[BXTRepairPersonInfo class],
              @"instructions_info":[BXTInstructionInfo class]};
 }
 

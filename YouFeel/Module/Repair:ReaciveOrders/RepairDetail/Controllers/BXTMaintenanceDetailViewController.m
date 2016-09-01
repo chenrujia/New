@@ -295,8 +295,8 @@
     self.endTime.text = [NSString stringWithFormat:@"结束时间：%@",self.repairDetail.report.end_time_name];
     if ([self.repairDetail.task_type integerValue] == 2)
     {
-        self.maintencePlace.text = [NSString stringWithFormat:@"维保位置：%@",self.repairDetail.report.real_place_name];
-        self.doneFaultType.text = [NSString stringWithFormat:@"维保项目：%@",self.repairDetail.report.real_faulttype_name];
+        self.end_time_top.constant = 12.f;
+        self.done_state_top.constant = 8.f;
         self.doneState.text = [NSString stringWithFormat:@"维保状态：%@",self.repairDetail.report.real_repairstate_name];
         self.doneNotes.text = [NSString stringWithFormat:@"维保记录：%@",self.repairDetail.report.workprocess];
         [self.view layoutIfNeeded];
@@ -305,8 +305,9 @@
     }
     else
     {
-        self.maintencePlace.text = [NSString stringWithFormat:@"维修位置：%@",self.repairDetail.report.real_place_name];
-        self.doneFaultType.text = [NSString stringWithFormat:@"故障类型：%@",self.repairDetail.report.real_faulttype_name];
+        self.reaciveOrderTime.text = [NSString stringWithFormat:@"接单时间：%@",self.repairDetail.report.accept_time_name];
+        self.comeTime.text = [NSString stringWithFormat:@"到场时间：%@",self.repairDetail.report.start_time_name];
+        self.consumeTime.text = [NSString stringWithFormat:@"工单耗时：%@",self.repairDetail.report.labor_time_name];
         self.doneState.text = [NSString stringWithFormat:@"维修状态：%@",self.repairDetail.report.real_repairstate_name];
         self.doneNotes.text = [NSString stringWithFormat:@"维修记录：%@",self.repairDetail.report.workprocess];
         if (self.repairDetail.instructions_info.opt_content.length > 0)
@@ -424,7 +425,7 @@
     {
         UIImage *dot = [UIImage imageNamed:@"star_selected"];
         UIImage *star = [UIImage imageNamed:@"star"];
-        AMRatingControl *imagesRatingControl = [[AMRatingControl alloc] initWithLocation:CGPointMake(130, 44 + 40 * i)
+        AMRatingControl *imagesRatingControl = [[AMRatingControl alloc] initWithLocation:CGPointMake(130, 123 + 40 * i)
                                                                               emptyImage:dot
                                                                               solidImage:star
                                                                             andMaxRating:5];
@@ -433,9 +434,19 @@
         imagesRatingControl.userInteractionEnabled = NO;
         [self.ninthBV addSubview:imagesRatingControl];
     }
+    if (self.repairDetail.confirm_user_arr.count)
+    {
+        BXTRepairPersonInfo *confirmationPersonInfo = self.repairDetail.confirm_user_arr[0];
+        self.confirmationPerson.text = [NSString stringWithFormat:@"确认人：%@",confirmationPersonInfo.name];
+    }
+    if (self.repairDetail.evaluation_user_arr.count)
+    {
+        BXTRepairPersonInfo *evaluationPersonInfo = self.repairDetail.evaluation_user_arr[0];
+        self.criticPerson.text = [NSString stringWithFormat:@"评论人：%@",evaluationPersonInfo.name];
+    }
     self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
     [self.contentScrollView layoutIfNeeded];
-    self.evaluateNotes.text = self.repairDetail.evaluation_notes;
+    self.evaluateNotes.text = [NSString stringWithFormat:@"评论内容：%@",self.repairDetail.evaluation_notes];
     [self.contentView layoutIfNeeded];
     self.ninth_bv_height.constant = CGRectGetMaxY(self.evaluateNotes.frame) + 10.f;
     [self.view layoutIfNeeded];
