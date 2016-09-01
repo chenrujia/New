@@ -155,7 +155,7 @@
     }
     if (indexPath.section == 0)
     {
-        NSArray *titleArray = @[@"反应速度",@"专业水平",@"服务态度"];
+        NSArray *titleArray = @[@"响应速度",@"服务态度",@"维修质量"];
         for (NSInteger i = 0; i < 3; i++)
         {
             UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.f, 25 + 60 * i, 80.f, 20.f)];
