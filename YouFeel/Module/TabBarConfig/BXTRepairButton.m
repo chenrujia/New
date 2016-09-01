@@ -14,6 +14,11 @@
 #import "CYLTabBarController.h"
 #import "BXTNewWorkOrderViewController.h"
 #import "MYAlertAction.h"
+#import "YQAlertView.h"
+
+@interface BXTRepairButton ()
+
+@end
 
 @implementation BXTRepairButton
 
@@ -46,23 +51,8 @@
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
         if ([companyInfo.company_id isEqualToString:@"4"] || [companyInfo.company_id isEqualToString:@"10"])
         {
-            __weak typeof(self) weakSelf = self;
-            [MYAlertAction showAlertWithTitle:@"温馨提示" msg:@"现在处于测试项目，\r报修后不会有维修员进行接单维修" chooseBlock:^(NSInteger buttonIdx) {
-                if (buttonIdx == 1)
-                {
-                    [weakSelf pushNewWorkOrderVC];
-                }
-                else if (buttonIdx == 2)
-                {
-                    CYLTabBarController *tempVC = (CYLTabBarController *)[AppDelegate appdelegete].window.rootViewController;
-                    UINavigationController *nav = (UINavigationController *)[tempVC.viewControllers objectAtIndex:tempVC.selectedIndex];
-                    
-                    BXTProjectManageViewController *pmvc = [[BXTProjectManageViewController alloc] init];
-                    pmvc.hidesBottomBarWhenPushed = YES;
-                    [nav pushViewController:pmvc animated:YES];
-                    
-                }
-            } buttonsStatement:@"取消", @"继续测试", @"选择项目", nil];
+            YQAlertView *alertView = [[YQAlertView alloc] initWithTitle:@"退出登录" message:@"现在处于测试项目，\r报修后不会有维修员进行接单维修" delegate:nil buttonTitles:@"继续测试", @"选择项目", nil];
+            [alertView Show];
             return ;
         }
         else
