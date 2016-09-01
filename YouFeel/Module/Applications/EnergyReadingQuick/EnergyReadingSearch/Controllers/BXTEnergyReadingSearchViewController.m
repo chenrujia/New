@@ -133,9 +133,9 @@
     [self.view endEditing:YES];
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    if ([BXTGlobal isBlankString:searchText])
+    if ([BXTGlobal isBlankString:searchBar.text])
     {
         if (self.dataArray.count != 0)
         {
@@ -145,7 +145,7 @@
         
         return;
     }
-    [self getResourceWithPushType:self.transPushType SearchName:searchText];
+    [self getResourceWithPushType:self.transPushType SearchName:searchBar.text];
 }
 
 #pragma mark -
