@@ -94,12 +94,13 @@
             }];
         }
     }
+    [BXTGlobal hideMBP];
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [BXTGlobal hideMBP];
     [self.failSubject sendNext:nil];
+    [BXTGlobal hideMBP];
 }
 
 @end

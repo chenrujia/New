@@ -90,9 +90,12 @@
         self.r_p_job_width = jobSize.width + 10;
         self.r_p_jobName = repairPerson.duty_name;
         NSArray *timesArray = [_orderDetail.fault_time_name componentsSeparatedByString:@" "];
-        self.r_p_yearMonth = timesArray[0];
-        self.r_p_hours = timesArray[1];
-        self.appointmentHidden = [_orderDetail.is_appointment isEqualToString:@"1"] ? NO : YES;
+        NSRange range = [_orderDetail.fault_time_name rangeOfString:timesArray[1]];
+        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:_orderDetail.fault_time_name];
+        [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"44b2fe") range:range];
+        self.r_p_time = attributeStr;
+        
+        self.appointmentHidden = [_orderDetail.is_appointment isEqualToString:@"2"] ? NO : YES;
         
         [self.refreshSubject sendNext:nil];
     }

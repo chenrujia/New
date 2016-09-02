@@ -21,7 +21,6 @@
 @property (weak, nonatomic) IBOutlet UIView      *lineView;
 @property (weak, nonatomic) IBOutlet UILabel     *orderNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *repairTimeLabel;
-@property (weak, nonatomic) IBOutlet UILabel     *hoursTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *placeLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *faultTypeLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *repairContentLabel;

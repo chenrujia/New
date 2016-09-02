@@ -8,8 +8,6 @@
 
 #import "BXTGrabOrderViewController.h"
 #import "BXTHeaderForVC.h"
-#import "BXTDataRequest.h"
-#import "BXTRepairDetailInfo.h"
 #import "UIImageView+WebCache.h"
 #import "BXTOrderDetailViewModel.h"
 
@@ -47,8 +45,7 @@
         self.orderNumberLabel.text = self.orderDetailViewModel.orderDetail.orderid;
         
         // 报单时间
-        self.repairTimeLabel.text = self.orderDetailViewModel.r_p_yearMonth;
-        self.hoursTimeLabel.text = self.orderDetailViewModel.r_p_hours;
+        self.repairTimeLabel.attributedText = self.orderDetailViewModel.r_p_time;
         
         // 是否预约
         self.appointmentImgView.hidden = self.orderDetailViewModel.appointmentHidden;
@@ -75,7 +72,7 @@
             {
                 BXTFaultPicInfo *faultPic = self.orderDetailViewModel.orderDetail.fault_pic[0];
                 
-                imageViewOne = [self initalImageView:CGPointMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPic tag:0];
+                imageViewOne = [self initalImageView:CGPointMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPic imageViewTag:0];
                 [self.third_bg_view addSubview:imageViewOne];
             }
             else if (imgArray.count == 2)
@@ -83,10 +80,10 @@
                 BXTFaultPicInfo *faultPicOne = self.orderDetailViewModel.orderDetail.fault_pic[0];
                 BXTFaultPicInfo *faultPicTwo = self.orderDetailViewModel.orderDetail.fault_pic[1];
                 
-                imageViewOne = [self initalImageView:CGPointMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicOne tag:0];
+                imageViewOne = [self initalImageView:CGPointMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicOne imageViewTag:0];
                 [self.third_bg_view addSubview:imageViewOne];
                 
-                UIImageView *imageViewTwo = [self initalImageView:CGPointMake(CGRectGetMaxX(imageViewOne.frame) + 20.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicTwo tag:1];
+                UIImageView *imageViewTwo = [self initalImageView:CGPointMake(CGRectGetMaxX(imageViewOne.frame) + 20.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicTwo imageViewTag:1];
                 [self.third_bg_view addSubview:imageViewTwo];
             }
             else
@@ -95,13 +92,13 @@
                 BXTFaultPicInfo *faultPicTwo = self.orderDetailViewModel.orderDetail.fault_pic[1];
                 BXTFaultPicInfo *faultPicThree = self.orderDetailViewModel.orderDetail.fault_pic[2];
                 
-                imageViewOne = [self initalImageView:CGPointMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicOne tag:0];
+                imageViewOne = [self initalImageView:CGPointMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicOne imageViewTag:0];
                 [self.third_bg_view addSubview:imageViewOne];
                 
-                UIImageView *imageViewTwo = [self initalImageView:CGPointMake(CGRectGetMaxX(imageViewOne.frame) + 20.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicTwo tag:1];
+                UIImageView *imageViewTwo = [self initalImageView:CGPointMake(CGRectGetMaxX(imageViewOne.frame) + 20.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicTwo imageViewTag:1];
                 [self.third_bg_view addSubview:imageViewTwo];
                 
-                UIImageView *imageViewThree = [self initalImageView:CGPointMake(CGRectGetMaxX(imageViewTwo.frame) + 20.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicThree tag:2];
+                UIImageView *imageViewThree = [self initalImageView:CGPointMake(CGRectGetMaxX(imageViewTwo.frame) + 20.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicThree imageViewTag:2];
                 [self.third_bg_view addSubview:imageViewThree];
             }
             
@@ -125,7 +122,7 @@
                 self.third_view_height.constant = CGRectGetMaxY(self.lineView.frame) + 20.f;
             }
         }
-        [self.third_bg_view layoutIfNeeded];
+        [self.view layoutIfNeeded];
         
         if (CGRectGetMaxY(self.third_bg_view.frame) > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - GrabButtonHeight)
         {
@@ -149,7 +146,7 @@
     }
 }
 
-- (UIImageView *)initalImageView:(CGPoint)point faultPicInfo:(BXTFaultPicInfo *)picInfo tag:(NSInteger)tag
+- (UIImageView *)initalImageView:(CGPoint)point faultPicInfo:(BXTFaultPicInfo *)picInfo imageViewTag:(NSInteger)tag
 {
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(point.x, point.y, FaultImageWidth, FaultImageWidth)];
     imageView.tag = tag;
@@ -160,6 +157,18 @@
     [self addTapToImageView:imageView];
     
     return imageView;
+}
+
+- (void)addTapToImageView:(UIImageView *)imageView
+{
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
+    [imageView addGestureRecognizer:tapGR];
+    @weakify(self);
+    [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        self.mwPhotosArray = [self containAllPhotos:self.orderDetailViewModel.orderDetail.fault_pic];
+        [self loadMWPhotoBrowser:imageView.tag];
+    }];
 }
 
 #pragma mark -
@@ -179,19 +188,6 @@
     [[BXTGlobal shareGlobal].newsOrderIDs removeObject:self.orderDetailViewModel.orderID];
     --[BXTGlobal shareGlobal].numOfPresented;
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)addTapToImageView:(UIImageView *)imageView
-{
-    //!!!: 点击大图展示不出来！！！！！！！！！！！
-    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] init];
-    [imageView addGestureRecognizer:tapGR];
-    @weakify(self);
-    [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
-        @strongify(self);
-        self.mwPhotosArray = [self containAllPhotos:self.repairDetail.fault_pic];
-        [self loadMWPhotoBrowser:imageView.tag];
-    }];
 }
 
 - (void)didReceiveMemoryWarning
