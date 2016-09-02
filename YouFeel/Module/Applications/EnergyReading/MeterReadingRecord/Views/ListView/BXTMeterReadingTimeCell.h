@@ -27,6 +27,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *valleyNumView;
 
 /** ---- 预付费 ---- */
+@property (weak, nonatomic) IBOutlet UIView *lineView;
+@property (weak, nonatomic) IBOutlet UILabel *surplusSumTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *surplusMoneyTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *surplusSumLabel;
 @property (weak, nonatomic) IBOutlet UILabel *surplusMoneyLabel;
 
@@ -34,7 +37,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *humidityView;
 @property (weak, nonatomic) IBOutlet UILabel *windForceView;
 
-@property (nonatomic, copy) NSString *unit;
+@property (nonatomic, copy) BXTMeterReadingRecordListInfo *info;
+;
 @property (nonatomic, strong) BXTRecordListsInfo *lists;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
