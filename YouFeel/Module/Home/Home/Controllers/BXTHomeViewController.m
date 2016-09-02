@@ -167,7 +167,7 @@ typedef NS_ENUM(NSInteger, CellType) {
 //        pivc.hidesBottomBarWhenPushed = YES;
 //        [self.navigationController pushViewController:pivc animated:YES];
         
-        [[BXTGlobal shareGlobal].newsOrderIDs addObject:@"198"];
+        [[BXTGlobal shareGlobal].newsOrderIDs addObject:@"202"];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
         BXTGrabOrderViewController *grabOrderVC = (BXTGrabOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTGrabOrderViewController"];
         grabOrderVC.hidesBottomBarWhenPushed = YES;

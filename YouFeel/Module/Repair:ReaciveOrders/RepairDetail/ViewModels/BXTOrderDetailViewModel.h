@@ -29,8 +29,7 @@
 @property (nonatomic, strong) NSString            *r_p_departmantName;
 @property (nonatomic, strong) NSString            *r_p_jobName;
 @property (nonatomic, assign) CGFloat             r_p_job_width;
-@property (nonatomic, strong) NSString            *r_p_yearMonth;
-@property (nonatomic, strong) NSString            *r_p_hours;
+@property (nonatomic, strong) NSAttributedString  *r_p_time;
 @property (nonatomic, assign) BOOL                appointmentHidden;
 
 // 接单
