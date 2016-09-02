@@ -291,6 +291,7 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
         if (!isHave) return;
         if (IS_IOS_8)
         {
+            //!!!: 点立即查看会崩溃！！！！！！！！！！
             UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"您有来自%@的新消息，是否立即查看？",shop_name] message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"稍后查看" style:UIAlertActionStyleCancel handler:nil];
             [alertCtr addAction:cancelAction];
@@ -331,31 +332,31 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
                     return;
                 }
                 
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-                BXTGrabOrderViewController *grabOrderVC = (BXTGrabOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTGrabOrderViewController"];
-                grabOrderVC.hidesBottomBarWhenPushed = YES;
-                
-                // 工单数 > 实时抢单页面数 -> 跳转
-                BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
-                if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&
-                    [BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
-                {
-                    if ([BXTGlobal shareGlobal].presentNav)
-                    {
-                        [[BXTGlobal shareGlobal].presentNav pushViewController:grabOrderVC animated:YES];
-                    }
-                    else if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
-                    {
-                        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
-                        [nav pushViewController:grabOrderVC animated:YES];
-                    }
-                    else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
-                    {
-                        CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
-                        UINavigationController *nav = (UINavigationController *)[tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
-                        [nav pushViewController:grabOrderVC animated:YES];
-                    }
-                }
+//                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+//                BXTGrabOrderViewController *grabOrderVC = (BXTGrabOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTGrabOrderViewController"];
+//                grabOrderVC.hidesBottomBarWhenPushed = YES;
+//                
+//                // 工单数 > 实时抢单页面数 -> 跳转
+//                BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
+//                if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&
+//                    [BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
+//                {
+//                    if ([BXTGlobal shareGlobal].presentNav)
+//                    {
+//                        [[BXTGlobal shareGlobal].presentNav pushViewController:grabOrderVC animated:YES];
+//                    }
+//                    else if ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
+//                    {
+//                        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+//                        [nav pushViewController:grabOrderVC animated:YES];
+//                    }
+//                    else if ([self.window.rootViewController isKindOfClass:[CYLTabBarController class]])
+//                    {
+//                        CYLTabBarController *tabbarC = (CYLTabBarController *)self.window.rootViewController;
+//                        UINavigationController *nav = (UINavigationController *)[tabbarC.viewControllers objectAtIndex:[tabbarC selectedIndex]];
+//                        [nav pushViewController:grabOrderVC animated:YES];
+//                    }
+//                }
             }
             else if ([[taskInfo objectForKey:@"event_type"] integerValue] == 5)//收到派工或者维修邀请
             {

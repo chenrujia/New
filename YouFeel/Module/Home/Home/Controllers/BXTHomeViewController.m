@@ -31,6 +31,7 @@
 #import "ANKeyValueTable.h"
 #import "BXTProjectPhoneCell.h"
 #import "AppDelegate.h"
+#import "BXTGrabOrderViewController.h"
 
 #define DefualtBackColor colorWithHexString(@"ffffff")
 #define SelectBackColor [UIColor grayColor]
@@ -162,9 +163,15 @@ typedef NS_ENUM(NSInteger, CellType) {
     @weakify(self);
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
-        pivc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:pivc animated:YES];
+//        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+//        pivc.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:pivc animated:YES];
+        
+        [[BXTGlobal shareGlobal].newsOrderIDs addObject:@"198"];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTGrabOrderViewController *grabOrderVC = (BXTGrabOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTGrabOrderViewController"];
+        grabOrderVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:grabOrderVC animated:YES];
     }];
     [logoImgView addSubview:branchBtn];
     

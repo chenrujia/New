@@ -69,11 +69,6 @@
         self.state = @"2";
         self.maintenanceState = @"已修好";
         self.mmLog = notes;
-        self.faultTypeID = faultTypeID;
-        BXTFaultInfo *faultInfo = [[BXTFaultInfo alloc] init];
-        faultInfo.faulttype = faultTypeName;
-        faultInfo.fault_id = faultTypeID;
-        self.choosedFaultInfo = faultInfo;
         
         if (![BXTGlobal isBlankString:placeID])
         {

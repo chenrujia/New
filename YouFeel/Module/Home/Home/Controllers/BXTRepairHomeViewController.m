@@ -59,13 +59,13 @@
     }
     
     //如果日常工单和维保工单都不包含
-    if (![power containsString:@"10301"] && ![power containsString:@"30201"])
+    if (![power containsString:@"10200"] && ![power containsString:@"30201"])
     {
         [self.imgNameArray removeObjectAtIndex:0];
         [self.titleNameArray removeObjectAtIndex:0];
     }
     //如果不包含维保工单
-    else if ([power containsString:@"10301"] && ![power containsString:@"30201"])
+    else if ([power containsString:@"10200"] && ![power containsString:@"30201"])
     {
         NSMutableArray *imageNameArray = self.imgNameArray[0];
         [imageNameArray removeObjectAtIndex:1];
@@ -73,7 +73,7 @@
         [titleNameArray removeObjectAtIndex:1];
     }
     //如果不包含日常工单
-    else if (![power containsString:@"10301"] && [power containsString:@"30201"])
+    else if (![power containsString:@"10200"] && [power containsString:@"30201"])
     {
         NSMutableArray *imageNameArray = self.imgNameArray[0];
         [imageNameArray removeObjectAtIndex:0];

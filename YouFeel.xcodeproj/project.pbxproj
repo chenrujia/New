@@ -365,6 +365,8 @@
 		9602214B1BC9201400010072 /* UIView+ZXQuartz.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602213D1BC9201400010072 /* UIView+ZXQuartz.m */; };
 		9602214C1BC9201400010072 /* UIViewController+DismissKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 9602213F1BC9201400010072 /* UIViewController+DismissKeyboard.m */; };
 		9607A3C51BE0BC0F000A6C5B /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9607A3C41BE0BC0F000A6C5B /* Emoji.plist */; };
+		96113B9C1D781C87001BEEDA /* BXTOrderDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96113B9B1D781C87001BEEDA /* BXTOrderDetailViewModel.m */; };
+		96113B9F1D781E27001BEEDA /* BXTOrderDetailDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96113B9E1D781E27001BEEDA /* BXTOrderDetailDataManager.m */; };
 		961B8CF21C857FF7003035F9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961B8CF11C857FF7003035F9 /* CoreTelephony.framework */; };
 		961B8CF41C858001003035F9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961B8CF31C858001003035F9 /* SystemConfiguration.framework */; };
 		9634156A1C44E62C00B28C53 /* BXTMaintenanceBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963415681C44E62C00B28C53 /* BXTMaintenanceBookViewController.m */; };
@@ -1166,6 +1168,10 @@
 		960221441BC9201400010072 /* BXTPublicSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTPublicSetting.h; sourceTree = "<group>"; };
 		960223111BC922DB00010072 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		9607A3C41BE0BC0F000A6C5B /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
+		96113B9A1D781C87001BEEDA /* BXTOrderDetailViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTOrderDetailViewModel.h; sourceTree = "<group>"; };
+		96113B9B1D781C87001BEEDA /* BXTOrderDetailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOrderDetailViewModel.m; sourceTree = "<group>"; };
+		96113B9D1D781E27001BEEDA /* BXTOrderDetailDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTOrderDetailDataManager.h; sourceTree = "<group>"; };
+		96113B9E1D781E27001BEEDA /* BXTOrderDetailDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOrderDetailDataManager.m; sourceTree = "<group>"; };
 		961B8CF11C857FF7003035F9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		961B8CF31C858001003035F9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		963415671C44E62C00B28C53 /* BXTMaintenanceBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTMaintenanceBookViewController.h; sourceTree = "<group>"; };
@@ -3396,7 +3402,9 @@
 			isa = PBXGroup;
 			children = (
 				7867DD991C4CBEE9000749F1 /* Controllers */,
+				96113B981D781C09001BEEDA /* DataManager */,
 				7867DDA21C4CBEE9000749F1 /* Models */,
+				96113B991D781C09001BEEDA /* ViewModels */,
 				7867DDA51C4CBEE9000749F1 /* Views */,
 			);
 			path = RepairDetail;
@@ -4408,6 +4416,24 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		96113B981D781C09001BEEDA /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				96113B9D1D781E27001BEEDA /* BXTOrderDetailDataManager.h */,
+				96113B9E1D781E27001BEEDA /* BXTOrderDetailDataManager.m */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		96113B991D781C09001BEEDA /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				96113B9A1D781C87001BEEDA /* BXTOrderDetailViewModel.h */,
+				96113B9B1D781C87001BEEDA /* BXTOrderDetailViewModel.m */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		964E6F081C3275BC0081DEBB /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -5399,6 +5425,7 @@
 				9602214C1BC9201400010072 /* UIViewController+DismissKeyboard.m in Sources */,
 				78FFB9971CB5F77B00309339 /* CCLocationManager.m in Sources */,
 				78624F2E1D2B8C830024215F /* BXTHistogramFooterView.m in Sources */,
+				96113B9C1D781C87001BEEDA /* BXTOrderDetailViewModel.m in Sources */,
 				7867DDB21C4CBEE9000749F1 /* BXTDrawView.m in Sources */,
 				782985B31C40E48F00D0837C /* BXTSettingViewController.m in Sources */,
 				7867A0DE1D4EF3B600A0D4F6 /* BXTEnergySurveyViewChartCell.m in Sources */,
@@ -5602,6 +5629,7 @@
 				7867DD771C4CBEA1000749F1 /* WZFlashButton.m in Sources */,
 				784890B51D3734D700C1106D /* BXTEnergyClassificationViewController.m in Sources */,
 				784862A31CCA10DF00F3BD69 /* BXTWorkloadViewController.m in Sources */,
+				96113B9F1D781E27001BEEDA /* BXTOrderDetailDataManager.m in Sources */,
 				78C55A681C47339700FFEB37 /* BXTEquipmentData.m in Sources */,
 				7851A0301CA3C60900255B8A /* BXTMainTableViewCell.m in Sources */,
 				9652ABF11BC90DCC009A666D /* ANKeyValueTable.m in Sources */,
