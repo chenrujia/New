@@ -505,7 +505,7 @@
         {
             [self loadFixedPic];
             //有评价内容
-            if (self.repairDetail.evaluation_notes.length > 0 && self.sceneType == MyRepairType)
+            if (self.repairDetail.evaluation_user_arr.count > 0 && self.sceneType == MyRepairType)
             {
                 [self loadEvaluationContent];
                 //有评价图片
@@ -530,7 +530,7 @@
         else
         {
             //有评价内容
-            if (self.repairDetail.evaluation_notes.length > 0 && self.sceneType == MyRepairType)
+            if (self.repairDetail.evaluation_user_arr.count > 0 && self.sceneType == MyRepairType)
             {
                 self.ninth_top.constant = 12.f;
                 [self.ninthBV layoutIfNeeded];
@@ -863,7 +863,7 @@
     [self loadMaintenanceReports];
     //维修后图片相关
     [self loadFixedPic];
-    if (self.sceneType == MyRepairType)
+    if (self.repairDetail.evaluation_user_arr.count > 0 && self.sceneType == MyRepairType)
     {
         //评价相关
         [self loadEvaluationContent];
