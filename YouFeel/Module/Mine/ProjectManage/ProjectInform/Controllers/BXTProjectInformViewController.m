@@ -57,7 +57,7 @@
     self.dataArray = [[NSMutableArray alloc] initWithObjects:@"项目名", nil];
     self.authorArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
@@ -87,7 +87,9 @@
     // footerView
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 70, SCREEN_WIDTH, 70)];
     footerView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:footerView];
+    if (!self.hiddenChangeBtn) {
+        [self.view addSubview:footerView];
+    }
     
     // switchBtn
     UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -265,7 +267,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == UserInfo && data.count > 0)
@@ -306,7 +308,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)transVertifyState:(NSString *)state Cell:(BXTProjectInformContentCell *)cell

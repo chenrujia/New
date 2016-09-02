@@ -16,7 +16,7 @@
 #import "AppDelegate.h"
 #import "BXTRemindNum.h"
 #import "BXTMaintenanceDetailViewController.h"
-#import "BXTProjectManageViewController.h"
+#import "BXTProjectInformViewController.h"
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTNewOrderViewController.h"
 #import "BXTGlobal.h"
@@ -213,12 +213,25 @@
     BXTMessageInfo *messageInfo = self.dataArray[indexPath.row];
     if ([messageInfo.notice_type integerValue] == 1)
     {
-        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
-        [self.navigationController pushViewController:pivc animated:YES];
+        // 1.1 认证通过 1.2 认证未通过 1.3 有新的审核消息
+        // 只有1.1有反应
+        if ([messageInfo.event_type isEqualToString:@"1"])
+        {
+            BXTMyProject *myProjectInform = [[BXTMyProject alloc] init];
+            BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
+            myProjectInform.shop_id = companyInfo.company_id;
+            myProjectInform.user_id = messageInfo.about_id;
+            myProjectInform.verify_state = @"2";
+            
+            BXTProjectInformViewController *pivc = [[BXTProjectInformViewController alloc] init];
+            pivc.hiddenChangeBtn = YES;
+            pivc.transMyProject = myProjectInform;
+            [self.navigationController pushViewController:pivc animated:YES];
+        }
     }
     else if ([messageInfo.notice_type integerValue] == 2)
     {
-        //2.1 用户上传了一条新的工单 2.2 已接单通知 2.3 已到场通知 2.4 已修完通知 2.5 被指派工单通知 2.6 客户确认通知 2.7 指派驳回通知 2.8 工单取消通知 2.9 客户驳回通知 2.10 超时工单通知 2.11 默认评价 2.12新维保的通知 2.13 维保将要过期 2.14已过期维保通知
+        // 2.1 用户上传了一条新的工单 2.2 已接单通知 2.3 已到场通知 2.4 已修完通知 2.5 被指派工单通知 2.6 客户确认通知 2.7 指派驳回通知 2.8 工单取消通知 2.9 客户驳回通知 2.10 超时工单通知 2.11 默认评价 2.12新维保的通知 2.13 维保将要过期 2.14已过期维保通知
         if ([messageInfo.event_type isEqualToString:@"1"] || [messageInfo.event_type isEqualToString:@"10"])
         {
             //日常工单

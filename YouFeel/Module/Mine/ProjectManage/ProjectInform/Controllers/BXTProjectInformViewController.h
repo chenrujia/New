@@ -12,5 +12,7 @@
 @interface BXTProjectInformViewController : BXTBaseViewController
 
 @property (strong, nonatomic) BXTMyProject *transMyProject;
+/** ---- 隐藏切换按钮，默认显示 ---- */
+@property (nonatomic, assign) BOOL hiddenChangeBtn;
 
 @end
