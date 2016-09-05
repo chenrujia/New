@@ -169,9 +169,9 @@ typedef NS_ENUM(NSInteger, CellType) {
         
         [[BXTGlobal shareGlobal].newsOrderIDs addObject:@"202"];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTGrabOrderViewController *grabOrderVC = (BXTGrabOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTGrabOrderViewController"];
-        grabOrderVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:grabOrderVC animated:YES];
+        BXTGrabOrderViewController *newOrderVC = (BXTGrabOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTGrabOrderViewController"];
+        newOrderVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:newOrderVC animated:YES];
     }];
     [logoImgView addSubview:branchBtn];
     

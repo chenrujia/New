@@ -12,7 +12,7 @@
 #import "BXTRepairDetailInfo.h"
 #import "BXTRejectOrderViewController.h"
 
-#define DispatchBackViewHeight 60.f
+#define DispatchBackViewHeight 70.f
 #define BottomButtonHeight 50.f
 #define FaultImageWidth (SCREEN_WIDTH - 15.f - 15.f - 20.f - 20.f)/3.f
 
@@ -174,7 +174,7 @@
         self.departmentNameLabel.text = repairPerson.department_name;
         UIFont *jobFont = [UIFont systemFontOfSize:17.f];
         CGSize job_size = MB_MULTILINE_TEXTSIZE(repairPerson.duty_name, jobFont, CGSizeMake(200, 20), NSLineBreakByWordWrapping);
-        self.job_name_width.constant = job_size.width + 15;
+        self.job_name_width.constant = job_size.width + 10;
         [self.jobNameLabel layoutIfNeeded];
         self.jobNameLabel.text = repairPerson.duty_name;
         
@@ -189,7 +189,7 @@
         self.repairTimeLabel.attributedText = attributeStr;
         
         // 是否预约
-        self.appointmentImgView.hidden = [repairDetail.is_appointment isEqualToString:@"1"] ? NO : YES;
+        self.appointmentImgView.hidden = [repairDetail.is_appointment isEqualToString:@"2"] ? NO : YES;
         
         // 位置
         self.placeLabel.text = repairDetail.place_name;
@@ -302,7 +302,7 @@
                 self.third_view_height.constant = CGRectGetMaxY(self.lineView.frame) + 20.f;
             }
         }
-        [self.third_bg_view layoutIfNeeded];
+        [self.view layoutIfNeeded];
         
         if (CGRectGetMaxY(self.third_bg_view.frame) > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - DispatchBackViewHeight - BottomButtonHeight)
         {

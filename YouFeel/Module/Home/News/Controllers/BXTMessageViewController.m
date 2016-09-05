@@ -219,7 +219,7 @@
     else if ([messageInfo.notice_type integerValue] == 2)
     {
         //2.1 用户上传了一条新的工单 2.2 已接单通知 2.3 已到场通知 2.4 已修完通知 2.5 被指派工单通知 2.6 客户确认通知 2.7 指派驳回通知 2.8 工单取消通知 2.9 客户驳回通知 2.10 超时工单通知 2.11 默认评价 2.12新维保的通知 2.13 维保将要过期 2.14已过期维保通知
-        if ([messageInfo.event_type isEqualToString:@"1"] || [messageInfo.event_type isEqualToString:@"10"])
+        if ([messageInfo.event_type isEqualToString:@"10"])
         {
             //日常工单
             [BXTRemindNum sharedManager].timeStart_Daily = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
