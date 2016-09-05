@@ -51,7 +51,7 @@
         BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
         if ([companyInfo.company_id isEqualToString:@"4"] || [companyInfo.company_id isEqualToString:@"10"])
         {
-            YQAlertView *alertView = [[YQAlertView alloc] initWithTitle:@"退出登录" message:@"现在处于测试项目，\r报修后不会有维修员进行接单维修" delegate:nil buttonTitles:@"继续测试", @"选择项目", nil];
+            YQAlertView *alertView = [[YQAlertView alloc] initWithTitle:@"温馨提示" message:@"现在处于测试项目，\r报修后不会有维修员进行接单维修" delegate:nil buttonTitles:@"继续测试", @"选择项目", nil];
             [alertView Show];
             return ;
         }

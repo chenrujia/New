@@ -91,15 +91,20 @@
         @weakify(self);
         [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
+            if (![BXTGlobal validatePassword:self.pwAgainStr]) {
+                [BXTGlobal showText:@"密码长度为6~32位，请检查密码" view:self.view completionBlock:nil];
+                return ;
+            }
+            
             if ([self.pwStr isEqual:self.pwAgainStr])
             {
-                [self showLoadingMBP:@"正在更改，请稍候..."];
+                [BXTGlobal showLoadingMBP:@"正在更改，请稍候..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request changePassWord:self.pwStr andWithID:self.pw_ID andWithKey:self.pw_Key];
             }
             else
             {
-                [self showMBP:@"两次输入不一致！" withBlock:nil];
+                [BXTGlobal showText:@"两次输入不一致！" view:self.view completionBlock:nil];
             }
         }];
         [view addSubview:nextTapBtn];
@@ -163,7 +168,7 @@
 #pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
@@ -271,7 +276,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     if (type == PlaceLists)
     {
         BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];
