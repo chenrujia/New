@@ -45,6 +45,9 @@
 // 点击的项目
 @property (strong, nonatomic) BXTHeadquartersInfo *selectedCompany;
 
+/** ---- 添加过定位的项目 ---- */
+@property (nonatomic, assign) BOOL hasFull;
+
 @end
 
 @implementation BXTProjectAddNewViewController
@@ -486,14 +489,20 @@
             [[BXTGlobal shareGlobal] branchLoginWithDic:userInfo isPushToRootVC:YES];
         }
     }
-    else if (type == LocationShop)
+    else if (type == LocationShop && [dic[@"returncode"] intValue] == 0)
     {
         [locationShopsArray removeAllObjects];
         [BXTHeadquartersInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
             return @{@"company_id":@"id"};
         }];
         [locationShopsArray addObjectsFromArray:[BXTHeadquartersInfo mj_objectArrayWithKeyValuesArray:array]];
-        [self.allPersonArray addObjectsFromArray:array];
+        
+        if (array.count != 0 && !self.hasFull) {
+            self.hasFull = YES;
+            [self.allPersonArray addObjectsFromArray:array];
+             NSLog(@"--------- ------------ ----------- ");
+        }
+
     }
     else if (type == ListOFAllShops)
     {

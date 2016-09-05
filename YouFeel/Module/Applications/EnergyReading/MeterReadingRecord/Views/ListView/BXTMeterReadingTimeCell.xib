@@ -50,16 +50,6 @@
                                 <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="峰段值：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Vs-0B-eo0">
-                                <rect key="frame" x="10" y="55" width="60" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="7U4-fx-bAD"/>
-                                    <constraint firstAttribute="width" constant="60" id="R3p-OH-mbe"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="平段值：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIu-FQ-EUQ">
                                 <rect key="frame" x="10" y="105" width="60" height="20"/>
                                 <constraints>
@@ -309,6 +299,16 @@
                                 <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="峰段值：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Vs-0B-eo0">
+                                <rect key="frame" x="10" y="55" width="60" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="7U4-fx-bAD"/>
+                                    <constraint firstAttribute="width" constant="60" id="R3p-OH-mbe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -357,6 +357,7 @@
                             <constraint firstItem="Z0E-qK-ibR" firstAttribute="leading" secondItem="L4F-yf-ykk" secondAttribute="trailing" id="aLQ-Dh-Me7"/>
                             <constraint firstAttribute="trailing" secondItem="HPQ-xV-db3" secondAttribute="trailing" constant="10" id="ayl-Hq-5rW"/>
                             <constraint firstItem="pyD-B8-xih" firstAttribute="leading" secondItem="PUv-iU-YF0" secondAttribute="trailing" id="bV9-fV-2Dx"/>
+                            <constraint firstItem="go2-sz-re3" firstAttribute="top" secondItem="hsm-qE-m6I" secondAttribute="bottom" constant="8.5" id="ctb-nG-4FN"/>
                             <constraint firstItem="iZD-mr-hSf" firstAttribute="top" secondItem="xdI-Lc-3mn" secondAttribute="bottom" constant="5" id="dM9-ku-WzS"/>
                             <constraint firstItem="zzA-Mq-qve" firstAttribute="top" secondItem="xWX-tt-REx" secondAttribute="bottom" constant="5" id="dSr-nm-u7P"/>
                             <constraint firstItem="eYC-oG-jfd" firstAttribute="leading" secondItem="iS4-gj-pJz" secondAttribute="leading" constant="10" id="ddn-cB-FSl"/>
@@ -388,6 +389,11 @@
                             <constraint firstAttribute="trailing" secondItem="xWX-tt-REx" secondAttribute="trailing" constant="10" id="z2O-jl-WMm"/>
                             <constraint firstItem="fq7-rU-jZr" firstAttribute="leading" secondItem="iS4-gj-pJz" secondAttribute="leading" constant="10" id="zXc-Z6-xYH"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="SUC-7X-h3z"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <constraints>
@@ -407,10 +413,13 @@
                 <outlet property="humidityView" destination="qxz-7o-acQ" id="5BG-Us-NrL"/>
                 <outlet property="levelNumView" destination="xWX-tt-REx" id="bM5-Zb-KLZ"/>
                 <outlet property="levelValueView" destination="mHZ-xL-baW" id="AcL-rD-6So"/>
+                <outlet property="lineView" destination="go2-sz-re3" id="fpD-tx-QOc"/>
                 <outlet property="peakNumView" destination="Wr7-Hl-6x8" id="IgL-Oz-pAF"/>
                 <outlet property="peakValueView" destination="CKK-ik-ZvG" id="aEk-RR-8Yj"/>
                 <outlet property="surplusMoneyLabel" destination="Z0E-qK-ibR" id="Lus-0f-7zS"/>
+                <outlet property="surplusMoneyTitleLabel" destination="L4F-yf-ykk" id="gCW-yL-gXf"/>
                 <outlet property="surplusSumLabel" destination="OMa-a9-gSs" id="67o-rK-IGB"/>
+                <outlet property="surplusSumTitleLabel" destination="8tT-Hc-67P" id="D99-JS-8SL"/>
                 <outlet property="temperatureView" destination="pyD-B8-xih" id="aqB-ai-HJu"/>
                 <outlet property="valleyNumView" destination="hsm-qE-m6I" id="DcM-9x-Wki"/>
                 <outlet property="valleyValueView" destination="zzA-Mq-qve" id="5o9-Et-Pwh"/>

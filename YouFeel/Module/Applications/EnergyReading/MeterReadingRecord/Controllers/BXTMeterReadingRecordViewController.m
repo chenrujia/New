@@ -359,13 +359,13 @@
 {
     BXTMeterReadingTimeCell *cell = [BXTMeterReadingTimeCell cellWithTableView:tableView];
     
-    cell.unit = self.listInfo.unit;
+    cell.info = self.listInfo;
     cell.lists = self.dataArray[indexPath.section];
     
     if ([self.isShowArray[indexPath.section] isEqualToString:@"1"])
     {
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
-        CGRect rect = CGRectMake(0, 0, cell.footerView.frame.size.width, 305);
+        CGRect rect = CGRectMake(0, 0, cell.footerView.frame.size.width, [self returnSubCellHeightAtIndexPath:indexPath]);
         maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
         cell.footerView.layer.mask = maskLayer;
     }
@@ -375,7 +375,25 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 305;
+    return [self returnSubCellHeightAtIndexPath:indexPath];
+}
+
+- (CGFloat)returnSubCellHeightAtIndexPath:(NSIndexPath *)indexPath
+{
+    // 预付费：0否 1是
+    if ([self.listInfo.prepayment isEqualToString:@"1"]) {
+        BXTRecordListsInfo *lists = self.dataArray[indexPath.section];
+        if ([lists.remaining_energy integerValue] != 0 && [lists.remaining_money integerValue] != 0) {
+            return 305;
+        }
+        else if ([lists.remaining_energy integerValue] != 0) {
+            return 280;
+        }
+        else if ([lists.remaining_money integerValue] != 0) {
+            return 280;
+        }
+    }
+    return 245;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

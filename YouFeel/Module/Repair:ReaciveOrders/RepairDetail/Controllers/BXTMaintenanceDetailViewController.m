@@ -150,7 +150,7 @@
 
 - (void)navigationLeftButton
 {
-    if (self.sceneType == OtherAffairType)
+    if (self.sceneType == OtherAffairType || self.sceneType == MyRepairType)
     {
         if (self.delegateSignal && self.isNeedRefresh)
         {
@@ -1106,6 +1106,8 @@
     }
     else if (type == IsSure && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+        
         [self requestDetail];
     }
     else if (type == EndMaintenceOrder)

@@ -588,7 +588,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
             __weak typeof(self) weakSelf = self;
-            [self showMBP:@"更改成功！" withBlock:^(BOOL hidden) {
+            [self showMBP:@"提交成功！" withBlock:^(BOOL hidden) {
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }];
         }
