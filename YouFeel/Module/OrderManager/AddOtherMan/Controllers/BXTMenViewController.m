@@ -43,6 +43,16 @@ static const CGFloat UserBackViewSpace = 20.f;
         self.repairID = orderID;
         self.repairUserArray = repairUserArray;
         self.dispatchUserArray = [NSMutableArray arrayWithArray:dispatchUserArray];
+        
+        // 去除自己
+        BXTMaintenanceManInfo *selfInfo = self.repairUserArray[0];
+        for (int i = 0; i < self.dispatchUserArray.count; i++) {
+            BXTMaintenanceManInfo *otherInfo = self.dispatchUserArray[i];
+            if ([selfInfo.mmID isEqualToString:otherInfo.mmID]) {
+                [self.dispatchUserArray removeObjectAtIndex:i];
+            }
+        }
+        
         self.manIDArray = [NSMutableArray array];
         self.groupsArray = [NSMutableArray array];
         self.markArray = [NSMutableArray array];
@@ -81,7 +91,7 @@ static const CGFloat UserBackViewSpace = 20.f;
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:range];
         self.choosedLabel.attributedText = attributeStr;
     }
-
+    
     if (peoplesCount > 0)
     {
         CGFloat length = 10 + (UserBackViewWidth + UserBackViewSpace) * (peoplesCount - 1) + UserBackViewWidth + 10;
@@ -158,7 +168,7 @@ static const CGFloat UserBackViewSpace = 20.f;
     NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:str];
     [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"3cafff") range:range];
     self.choosedLabel.attributedText = attributeStr;
-
+    
     UIView *subView = [self.scrollerView viewWithTag:btn.tag];
     [subView removeFromSuperview];
     for (UIView *view in self.scrollerView.subviews)
@@ -189,7 +199,7 @@ static const CGFloat UserBackViewSpace = 20.f;
             self.scrollerView.contentSize = CGSizeMake(SCREEN_WIDTH, 0);
         }
     }
-
+    
     BXTMaintenanceManInfo *deleteManInfo = self.peoplesArray[btn.tag - 1];
     BOOL isFind = NO;
     NSInteger section = 0;
@@ -210,7 +220,7 @@ static const CGFloat UserBackViewSpace = 20.f;
         }
     }
     [self.dispatchUserArray removeObject:deleteManInfo];
-
+    
     if (isFind)
     {
         NSMutableArray *tempCheckArray = self.checkArray[section];

@@ -585,6 +585,8 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (tableView == self.phoneTableView)
     {
         [self.phoneBgView removeFromSuperview];
@@ -595,7 +597,6 @@ typedef NS_ENUM(NSInteger, CellType) {
         [self.view addSubview:callWeb];
     }
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
