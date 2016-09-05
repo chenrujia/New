@@ -27,8 +27,22 @@
     [super viewDidLoad];
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     self.view.backgroundColor = [UIColor whiteColor];
-   
-    // 绘制视图
+    
+    [self bindingViewModel];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (self.orderDetailViewModel.player)
+    {
+        [self.orderDetailViewModel.player stop];
+    }
+}
+
+- (void)bindingViewModel
+{
+    // VC绑定VM
     BXTOrderDetailViewModel *viewModel = [[BXTOrderDetailViewModel alloc] init];
     @weakify(self);
     [viewModel.refreshSubject subscribeNext:^(id x) {
@@ -44,11 +58,16 @@
         // 工单号
         self.orderNumberLabel.text = self.orderDetailViewModel.orderDetail.orderid;
         
-        // 报单时间
-        self.repairTimeLabel.attributedText = self.orderDetailViewModel.r_p_time;
-        
         // 是否预约
         self.appointmentImgView.hidden = self.orderDetailViewModel.appointmentHidden;
+        
+        // 报单时间
+        if (self.orderDetailViewModel.appointmentHidden)
+        {
+            self.time_right.constant = 20.f;
+            [self.repairTimeLabel layoutIfNeeded];
+        }
+        self.repairTimeLabel.attributedText = self.orderDetailViewModel.r_p_time;
         
         // 位置
         self.placeLabel.text = self.orderDetailViewModel.orderDetail.place_name;
@@ -135,15 +154,6 @@
         [self.contentView layoutIfNeeded];
     }];
     self.orderDetailViewModel = viewModel;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    if (self.orderDetailViewModel.player)
-    {
-        [self.orderDetailViewModel.player stop];
-    }
 }
 
 - (UIImageView *)initalImageView:(CGPoint)point faultPicInfo:(BXTFaultPicInfo *)picInfo imageViewTag:(NSInteger)tag

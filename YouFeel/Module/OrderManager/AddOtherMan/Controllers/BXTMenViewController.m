@@ -45,11 +45,16 @@ static const CGFloat UserBackViewSpace = 20.f;
         self.dispatchUserArray = [NSMutableArray arrayWithArray:dispatchUserArray];
         
         // 去除自己
-        BXTMaintenanceManInfo *selfInfo = self.repairUserArray[0];
-        for (int i = 0; i < self.dispatchUserArray.count; i++) {
-            BXTMaintenanceManInfo *otherInfo = self.dispatchUserArray[i];
-            if ([selfInfo.mmID isEqualToString:otherInfo.mmID]) {
-                [self.dispatchUserArray removeObjectAtIndex:i];
+        if (self.repairUserArray.count)
+        {
+            BXTMaintenanceManInfo *selfInfo = self.repairUserArray[0];
+            for (int i = 0; i < self.dispatchUserArray.count; i++)
+            {
+                BXTMaintenanceManInfo *otherInfo = self.dispatchUserArray[i];
+                if ([selfInfo.mmID isEqualToString:otherInfo.mmID])
+                {
+                    [self.dispatchUserArray removeObjectAtIndex:i];
+                }
             }
         }
         
@@ -58,6 +63,7 @@ static const CGFloat UserBackViewSpace = 20.f;
         self.markArray = [NSMutableArray array];
         self.checkArray = [NSMutableArray array];
     }
+    
     return self;
 }
 

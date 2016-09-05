@@ -42,9 +42,10 @@
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
+    [BXTGlobal hideMBP];
+
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
-    
     if (type == RepairDetail && data.count)
     {
         NSDictionary *dictionary = data[0];
@@ -94,7 +95,6 @@
             }];
         }
     }
-    [BXTGlobal hideMBP];
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type

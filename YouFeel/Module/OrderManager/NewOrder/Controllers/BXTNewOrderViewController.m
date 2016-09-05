@@ -181,15 +181,21 @@
         // 工单号
         self.orderNumberLabel.text = repairDetail.orderid;
         
+        // 是否预约
+        BOOL isHidden = [repairDetail.is_appointment isEqualToString:@"2"] ? NO : YES;
+        self.appointmentImgView.hidden = isHidden;
+        
         // 报单时间
+        if (isHidden)
+        {
+            self.time_right.constant = 20.f;
+            [self.repairTimeLabel layoutIfNeeded];
+        }
         NSArray *timesArray = [repairDetail.fault_time_name componentsSeparatedByString:@" "];
         NSRange range = [repairDetail.fault_time_name rangeOfString:timesArray[1]];
         NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:repairDetail.fault_time_name];
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"44b2fe") range:range];
         self.repairTimeLabel.attributedText = attributeStr;
-        
-        // 是否预约
-        self.appointmentImgView.hidden = [repairDetail.is_appointment isEqualToString:@"2"] ? NO : YES;
         
         // 位置
         self.placeLabel.text = repairDetail.place_name;
