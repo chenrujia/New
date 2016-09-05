@@ -7,16 +7,19 @@
 //
 
 #import "BXTHomeViewController.h"
-#import "BXTHomeCollectionViewCell.h"
-#import "BXTMessageViewController.h"
+#import "BXTMailListModel.h"
+#import "ANKeyValueTable.h"
+#import "BXTProjectPhoneCell.h"
+#import "AppDelegate.h"
+#import "UITabBar+badge.h"
+#import "BXTAdsInform.h"
 #import "BXTHeaderFile.h"
-#import "BXTGroupInfo.h"
 #import "BXTDataRequest.h"
 #import "BXTHomeTableViewCell.h"
-#import "BXTQRCodeViewController.h"
 #import "SDCycleScrollView.h"
+#import "BXTMessageViewController.h"
+#import "BXTQRCodeViewController.h"
 #import "BXTProjectManageViewController.h"
-#import "BXTAdsInform.h"
 #import "BXTNoticeInformViewController.h"
 #import "BXTOrderManagerViewController.h"
 #import "BXTOtherAffairViewController.h"
@@ -24,17 +27,10 @@
 #import "BXTExaminationViewController.h"
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTMyIntegralViewController.h"
-#import "BXTRepairsListViewController.h"
-#import "UITabBar+badge.h"
 #import "BXTEnergyReadingQuickViewController.h"
-#import "BXTMailListModel.h"
-#import "ANKeyValueTable.h"
-#import "BXTProjectPhoneCell.h"
-#import "AppDelegate.h"
-#import "BXTGrabOrderViewController.h"
 
-#define DefualtBackColor colorWithHexString(@"ffffff")
-#define SelectBackColor [UIColor grayColor]
+#define DefualtBackColor         colorWithHexString(@"ffffff")
+#define SelectBackColor          [UIColor grayColor]
 
 typedef NS_ENUM(NSInteger, CellType) {
     CellType_DailyOrder = 1,
@@ -163,15 +159,9 @@ typedef NS_ENUM(NSInteger, CellType) {
     @weakify(self);
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-//        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
-//        pivc.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:pivc animated:YES];
-        
-        [[BXTGlobal shareGlobal].newsOrderIDs addObject:@"202"];
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
-        BXTGrabOrderViewController *newOrderVC = (BXTGrabOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTGrabOrderViewController"];
-        newOrderVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:newOrderVC animated:YES];
+        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+        pivc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:pivc animated:YES];
     }];
     [logoImgView addSubview:branchBtn];
     

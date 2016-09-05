@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *second_view_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *third_view_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *job_width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *time_right;
 
 - (IBAction)grabOrder:(id)sender;
 

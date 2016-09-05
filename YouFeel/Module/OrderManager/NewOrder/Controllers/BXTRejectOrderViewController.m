@@ -26,14 +26,15 @@
         self.vcType = type;
         self.currentOrderID = orderID;
     }
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    if (!self.affairID) {
+    if (!self.affairID)
+    {
         self.affairID = @"";
     }
     

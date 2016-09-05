@@ -37,6 +37,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *third_view_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *job_width;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *job_name_width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *time_right;
+
 - (IBAction)rejectOrder:(id)sender;
 - (IBAction)reaciveOrder:(id)sender;
 
