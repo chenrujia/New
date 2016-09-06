@@ -82,32 +82,6 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if ([BXTGlobal shareGlobal].newsOrderIDs.count > 0)
-    {
-        for (NSInteger i = 0; i < [BXTGlobal shareGlobal].newsOrderIDs.count; i++)
-        {
-            sleep(1);
-            [self comingNewRepairs];
-        }
-    }
-}
-
-- (void)comingNewRepairs
-{
-    // 工单数 > 实时抢单页面数 -> 跳转
-    BXTHeadquartersInfo *company = [BXTGlobal getUserProperty:U_COMPANY];
-    if ([company.company_id isEqualToString:[BXTGlobal shareGlobal].newsShopID] &&
-        [BXTGlobal shareGlobal].newsOrderIDs.count > [BXTGlobal shareGlobal].numOfPresented)
-    {
-        BXTGrabOrderViewController *grabOrderVC = [[BXTGrabOrderViewController alloc] init];
-        grabOrderVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:grabOrderVC animated:YES];
-    }
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];

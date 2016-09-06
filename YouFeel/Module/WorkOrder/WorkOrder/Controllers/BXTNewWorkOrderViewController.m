@@ -549,7 +549,14 @@ static CGFloat const ChooseViewHeight  = 328.f;
 #pragma mark AttributeViewDelegate
 - (void)attributeViewSelectType:(BXTOrderTypeInfo *)selectType
 {
-    self.selectOrderInfo = selectType;
+    if (self.selectOrderInfo && [selectType.orderTypeID isEqualToString:self.selectOrderInfo.orderTypeID])
+    {
+        self.selectOrderInfo = nil;
+    }
+    else
+    {
+        self.selectOrderInfo = selectType;
+    }
     self.selectFaultInfo = nil;
     if ([self.selectOrderInfo.faulttype isEqualToString:@"紧急"])
     {
