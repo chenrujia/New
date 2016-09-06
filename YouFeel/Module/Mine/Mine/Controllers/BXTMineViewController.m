@@ -105,7 +105,6 @@
         [self.headImgView sd_setImageWithURL:[NSURL URLWithString:[BXTGlobal getUserProperty:U_HEADERIMAGE]] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     }];
     
-    
 }
 
 - (void)createLogoView
