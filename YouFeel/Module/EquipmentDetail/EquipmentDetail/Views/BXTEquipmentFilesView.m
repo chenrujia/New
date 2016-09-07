@@ -139,7 +139,7 @@
             {
                 if (isFirst && ValueFUD(@"OPERATINGDESC"))
                 {
-                    BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] initWithSafetyGuidelines:maintenceInfo.operating_condition_content];
+                    BXTStandardViewController *sdvc = [[BXTStandardViewController alloc] initWithSafetyGuidelines:maintenceInfo.operating_condition_content maintence:maintenceInfo deviceID:self.deviceID deviceStateList:self.deviceStates];
                     [[self navigation] pushViewController:sdvc animated:YES];
                     isFirst = NO;
                 }

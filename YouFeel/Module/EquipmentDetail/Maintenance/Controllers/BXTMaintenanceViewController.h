@@ -29,4 +29,7 @@
                 deviceStateList:(NSArray *)states
                safetyGuidelines:(NSString *)safety;
 
+/** ---- 跳转到列表页面 ---- */
+@property (nonatomic, assign) BOOL popToRootVC;
+
 @end

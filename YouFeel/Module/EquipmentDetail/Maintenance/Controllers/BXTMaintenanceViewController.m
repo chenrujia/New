@@ -15,6 +15,7 @@
 #import "SDWebImageManager.h"
 #import "BXTDeviceStateViewController.h"
 #import "UIImageView+WebCache.h"
+#import "BXTEquipmentViewController.h"
 
 @interface BXTMaintenanceViewController ()<BXTDataResponseDelegate,CLLocationManagerDelegate>
 {
@@ -148,6 +149,20 @@
                                  andDesc:self.instruction];
         }
     }];
+}
+
+- (void)navigationLeftButton
+{
+    if (self.popToRootVC) {
+        for (UIViewController *temp in self.navigationController.viewControllers) {
+            if ([temp isKindOfClass:[BXTEquipmentViewController class]]) {
+                [self.navigationController popToViewController:temp animated:YES];
+            }
+        }
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)locationPoint
@@ -364,7 +379,7 @@
     //安全指引
     if (indexPath.section == 0)
     {
-        BXTStandardViewController *standardVC = [[BXTStandardViewController alloc] initWithSafetyGuidelines:self.safetyGuidelines];
+        BXTStandardViewController *standardVC = [[BXTStandardViewController alloc] initWithSafetyGuidelines:self.safetyGuidelines maintence:nil deviceID:@"" deviceStateList:nil];
         [self.navigationController pushViewController:standardVC animated:YES];
     }
     else if (indexPath.section == 1)
