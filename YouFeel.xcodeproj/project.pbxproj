@@ -449,6 +449,7 @@
 		969701F71C881C590048391F /* BXTInfoNotesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969701F51C881C590048391F /* BXTInfoNotesTableViewCell.xib */; };
 		96A4E1F41D59B35B00ADF29E /* LSCoreToolCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A4E1F31D59B35B00ADF29E /* LSCoreToolCenter.m */; };
 		96A787871CBC9A39007510A4 /* BXTSpecialOrderInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A787861CBC9A39007510A4 /* BXTSpecialOrderInfo.m */; };
+		96A9F5B11D7FE567005D68C7 /* UIView+ObtainVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A9F5B01D7FE567005D68C7 /* UIView+ObtainVC.m */; };
 		96AABA541BE0BB220071B6FA /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96AABA4F1BE0BB220071B6FA /* RongCloudKit.strings */; };
 		96AABA551BE0BB220071B6FA /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96AABA521BE0BB220071B6FA /* RongCloudKit.strings */; };
 		96AB062E1C1FB48E0038E2AF /* icon_chose_arrow_nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96AB06291C1FB48E0038E2AF /* icon_chose_arrow_nor@2x.png */; };
@@ -1315,6 +1316,8 @@
 		96A4E1F31D59B35B00ADF29E /* LSCoreToolCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSCoreToolCenter.m; sourceTree = "<group>"; };
 		96A787851CBC9A39007510A4 /* BXTSpecialOrderInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTSpecialOrderInfo.h; sourceTree = "<group>"; };
 		96A787861CBC9A39007510A4 /* BXTSpecialOrderInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTSpecialOrderInfo.m; sourceTree = "<group>"; };
+		96A9F5AF1D7FE567005D68C7 /* UIView+ObtainVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ObtainVC.h"; sourceTree = "<group>"; };
+		96A9F5B01D7FE567005D68C7 /* UIView+ObtainVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ObtainVC.m"; sourceTree = "<group>"; };
 		96AABA331BE0765A0071B6FA /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		96AABA501BE0BB220071B6FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = RongCloudKit.strings; sourceTree = "<group>"; };
 		96AABA531BE0BB220071B6FA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = RongCloudKit.strings; sourceTree = "<group>"; };
@@ -4380,6 +4383,8 @@
 				960221391BC9201400010072 /* UINavigationController+YRBackGesture.m */,
 				9602213A1BC9201400010072 /* UIView+Nav.h */,
 				9602213B1BC9201400010072 /* UIView+Nav.m */,
+				96A9F5AF1D7FE567005D68C7 /* UIView+ObtainVC.h */,
+				96A9F5B01D7FE567005D68C7 /* UIView+ObtainVC.m */,
 				964DE5EA1CA8F8A10064D5D6 /* NSDate+Helper.h */,
 				964DE5EB1CA8F8A10064D5D6 /* NSDate+Helper.m */,
 				9602213C1BC9201400010072 /* UIView+ZXQuartz.h */,
@@ -5334,6 +5339,7 @@
 				968A58651CB3A1FF009A60D8 /* BXTMessageInfo.m in Sources */,
 				783710181C4503CA00A8D5EE /* BXTPersonInform.m in Sources */,
 				784890B91D3734D700C1106D /* BXTMenuItemButton.m in Sources */,
+				96A9F5B11D7FE567005D68C7 /* UIView+ObtainVC.m in Sources */,
 				782D6BC31C0D6CFC00E1828F /* SPBarChartData.m in Sources */,
 				9652ABEE1BC90DCC009A666D /* ANKeyValueCache.m in Sources */,
 				9652ABEF1BC90DCC009A666D /* ANKeyValueData.m in Sources */,
@@ -5780,8 +5786,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -5805,7 +5811,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wno-objc-designated-initializers";
@@ -5829,8 +5835,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -5846,7 +5852,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -5861,8 +5867,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
@@ -5881,7 +5887,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				SWIFT_OBJC_BRIDGING_HEADER = "YouFeel/YouFeel-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5896,8 +5902,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
@@ -5915,7 +5921,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f54b6a03-dd2a-4799-95ce-cfe9370e98c5";
+				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
 				SWIFT_OBJC_BRIDGING_HEADER = "YouFeel/YouFeel-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";

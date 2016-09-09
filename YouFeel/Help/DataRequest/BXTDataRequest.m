@@ -485,6 +485,17 @@
     [self postRequest:url withParameters:dic];
 }
 
+- (void)repairDetail:(NSString *)repairID success:(DataRequeseSuccess)successBlock fail:(DataRequeseFail)failBlock
+{
+    _successBlock = successBlock;
+    _failBlock = failBlock;
+    
+    self.requestType = RepairDetail;
+    NSDictionary *dic = @{@"id":repairID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=repair_con",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
 - (void)handlePermission:(NSString *)workorderID
                  sceneID:(NSString *)sceneID
 {
@@ -1439,14 +1450,28 @@
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [response JSONValue];
         LogBlue(@"\n\n---------------------response---------------------> of type:%ld    \n\n%@\n\n<---------------------response---------------------\n\n",(long)self.requestType,response);
-        [self.delegate requestResponseData:dictionary requeseType:self.requestType];
+        if (_successBlock)
+        {
+            _successBlock(self.requestType,dictionary);
+        }
+        else
+        {
+            [self.delegate requestResponseData:dictionary requeseType:self.requestType];
+        }
         // token验证失败
         if ([[NSString stringWithFormat:@"%@", dictionary[@"returncode"]] isEqualToString:@"037"])
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"VERIFY_TOKEN_FAIL" object:nil];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self.delegate requestError:error requeseType:_requestType];
+        if (_failBlock)
+        {
+            _failBlock(self.requestType,error);
+        }
+        else
+        {
+            [self.delegate requestError:error requeseType:_requestType];
+        }
         LogBlue(@"type>>>>>:%ld    error:%@",(long)self.requestType,error);
     }];
 }

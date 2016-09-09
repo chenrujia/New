@@ -421,6 +421,7 @@
             [subview removeFromSuperview];
         }
     }
+    BXTPraiseInfo *praise = self.repairDetail.praise;
     for (NSInteger i = 0; i < 3; i++)
     {
         UIImage *dot = [UIImage imageNamed:@"star_selected"];
@@ -430,7 +431,18 @@
                                                                               solidImage:star
                                                                             andMaxRating:5];
         imagesRatingControl.tag = 10 + i;
-        imagesRatingControl.rating = 5;
+        if (i == 0)
+        {
+            imagesRatingControl.rating = praise.speed;
+        }
+        else if (i == 1)
+        {
+            imagesRatingControl.rating = praise.professional;
+        }
+        else if (i == 2)
+        {
+            imagesRatingControl.rating = praise.serve;
+        }
         imagesRatingControl.userInteractionEnabled = NO;
         [self.ninthBV addSubview:imagesRatingControl];
     }
@@ -505,7 +517,7 @@
         {
             [self loadFixedPic];
             //有评价内容
-            if (self.repairDetail.evaluation_user_arr.count > 0 && self.sceneType == MyRepairType)
+            if (self.repairDetail.evaluation_user_arr.count > 0 && (self.sceneType == MyRepairType || self.sceneType == AllOrderType))
             {
                 [self loadEvaluationContent];
                 //有评价图片
@@ -530,7 +542,7 @@
         else
         {
             //有评价内容
-            if (self.repairDetail.evaluation_user_arr.count > 0 && self.sceneType == MyRepairType)
+            if (self.repairDetail.evaluation_user_arr.count > 0 && (self.sceneType == MyRepairType || self.sceneType == AllOrderType))
             {
                 self.ninth_top.constant = 12.f;
                 [self.ninthBV layoutIfNeeded];
@@ -863,7 +875,7 @@
     [self loadMaintenanceReports];
     //维修后图片相关
     [self loadFixedPic];
-    if (self.repairDetail.evaluation_user_arr.count > 0 && self.sceneType == MyRepairType)
+    if (self.repairDetail.evaluation_user_arr.count > 0 && (self.sceneType == MyRepairType || self.sceneType == AllOrderType))
     {
         //评价相关
         [self loadEvaluationContent];

@@ -117,6 +117,9 @@ typedef NS_ENUM(NSInteger, RepairListType)
     OtherList//日常工单或维保工单
 };
 
+typedef void(^DataRequeseSuccess)(RequestType type,id data);
+typedef void(^DataRequeseFail)(RequestType type,NSError *error);
+
 @protocol BXTDataResponseDelegate <NSObject>
 
 - (void)requestResponseData:(id)response
@@ -130,8 +133,11 @@ typedef NS_ENUM(NSInteger, RepairListType)
 {
     MBProgressHUD *progressHUD;
 }
-@property (nonatomic ,assign) RequestType requestType;
-@property (nonatomic ,weak) id <BXTDataResponseDelegate> delegate;
+
+@property (nonatomic ,assign) RequestType             requestType;
+@property (nonatomic, copy  ) DataRequeseSuccess      successBlock;
+@property (nonatomic, copy  ) DataRequeseFail         failBlock;
+@property (nonatomic ,weak  ) id <BXTDataResponseDelegate> delegate;
 
 - (instancetype)initWithDelegate:(id <BXTDataResponseDelegate>)delegate;
 
@@ -350,6 +356,7 @@ typedef NS_ENUM(NSInteger, RepairListType)
  *  工单详情
  */
 - (void)repairDetail:(NSString *)repairID;
+- (void)repairDetail:(NSString *)repairID success:(DataRequeseSuccess)successBlock fail:(DataRequeseFail)failBlock;
 
 /**
  *  控制操作按钮显示
