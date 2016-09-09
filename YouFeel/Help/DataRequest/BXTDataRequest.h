@@ -117,8 +117,8 @@ typedef NS_ENUM(NSInteger, RepairListType)
     OtherList//日常工单或维保工单
 };
 
-typedef void(^DataRequeseSuccess)(RequestType type,id data);
-typedef void(^DataRequeseFail)(RequestType type,NSError *error);
+typedef void(^DataRequestSuccess)(RequestType type,id response);
+typedef void(^DataRequestFail)(RequestType type,NSError *error);
 
 @protocol BXTDataResponseDelegate <NSObject>
 
@@ -135,8 +135,8 @@ typedef void(^DataRequeseFail)(RequestType type,NSError *error);
 }
 
 @property (nonatomic ,assign) RequestType             requestType;
-@property (nonatomic, copy  ) DataRequeseSuccess      successBlock;
-@property (nonatomic, copy  ) DataRequeseFail         failBlock;
+@property (nonatomic, copy  ) DataRequestSuccess      successBlock;
+@property (nonatomic, copy  ) DataRequestFail         failBlock;
 @property (nonatomic ,weak  ) id <BXTDataResponseDelegate> delegate;
 
 - (instancetype)initWithDelegate:(id <BXTDataResponseDelegate>)delegate;
@@ -356,7 +356,7 @@ typedef void(^DataRequeseFail)(RequestType type,NSError *error);
  *  工单详情
  */
 - (void)repairDetail:(NSString *)repairID;
-- (void)repairDetail:(NSString *)repairID success:(DataRequeseSuccess)successBlock fail:(DataRequeseFail)failBlock;
+- (void)repairDetail:(NSString *)repairID success:(DataRequestSuccess)successBlock fail:(DataRequestFail)failBlock;
 
 /**
  *  控制操作按钮显示
@@ -377,6 +377,7 @@ typedef void(^DataRequeseFail)(RequestType type,NSError *error);
  *  接单
  */
 - (void)reaciveOrderID:(NSString *)repairID;
+- (void)reaciveOrderID:(NSString *)repairID success:(DataRequestSuccess)successBlock fail:(DataRequestFail)failBlock;
 
 /**
  *  接指派过来的工单

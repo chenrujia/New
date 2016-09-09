@@ -485,10 +485,10 @@
     [self postRequest:url withParameters:dic];
 }
 
-- (void)repairDetail:(NSString *)repairID success:(DataRequeseSuccess)successBlock fail:(DataRequeseFail)failBlock
+- (void)repairDetail:(NSString *)repairID success:(DataRequestSuccess)successBlock fail:(DataRequestFail)failBlock
 {
-    _successBlock = successBlock;
-    _failBlock = failBlock;
+    self.successBlock = successBlock;
+    self.failBlock = failBlock;
     
     self.requestType = RepairDetail;
     NSDictionary *dic = @{@"id":repairID};
@@ -526,6 +526,18 @@
 
 - (void)reaciveOrderID:(NSString *)repairID
 {
+    self.requestType = ReaciveOrder;
+    NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
+                          @"workorder_id":repairID};
+    NSString *url = [NSString stringWithFormat:@"%@&module=Repair&opt=accept_workorder",[BXTGlobal shareGlobal].baseURL];
+    [self postRequest:url withParameters:dic];
+}
+
+- (void)reaciveOrderID:(NSString *)repairID success:(DataRequestSuccess)successBlock fail:(DataRequestFail)failBlock
+{
+    self.successBlock = successBlock;
+    self.failBlock = failBlock;
+    
     self.requestType = ReaciveOrder;
     NSDictionary *dic = @{@"user_id":[BXTGlobal getUserProperty:U_BRANCHUSERID],
                           @"workorder_id":repairID};

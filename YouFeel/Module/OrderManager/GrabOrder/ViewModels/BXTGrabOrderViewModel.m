@@ -1,79 +1,86 @@
 //
-//  BXTOrderDetailViewModel.m
+//  BXTGrabOrderViewModel.m
 //  YouFeel
 //
-//  Created by Jason on 16/9/1.
+//  Created by Jason on 16/9/9.
 //  Copyright © 2016年 Jason. All rights reserved.
 //
 
-#import "BXTOrderDetailViewModel.h"
-#import "BXTOrderDetailDataManager.h"
+#import "BXTGrabOrderViewModel.h"
 #import "BXTHeaderFile.h"
+#import "MJExtension.h"
 
-@interface BXTOrderDetailViewModel ()
-
-@property (nonatomic, strong) BXTOrderDetailDataManager *orderDetailManager;
-@property (nonatomic, strong) BXTOrderDetailDataManager *acceptOrderManager;
-
-@end
-
-@implementation BXTOrderDetailViewModel
+@implementation BXTGrabOrderViewModel
 
 - (instancetype)init
 {
-    self = [super init];
-    if (self)
+    if (self = [super init])
     {
-        self.refreshSubject = [RACSubject subject];
-        
         // 配置铃声
         self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sound" ofType:@"wav"]] error:nil];
         self.player.volume = 0.8f;
         self.player.numberOfLoops = -1;
         
-        // 请求工单详情
         ++[BXTGlobal shareGlobal].numOfPresented;
         NSInteger index = [BXTGlobal shareGlobal].numOfPresented - 1;
         if ([BXTGlobal shareGlobal].newsOrderIDs.count - 1 >= index)
         {
             self.orderID = [[BXTGlobal shareGlobal].newsOrderIDs objectAtIndex:index];
-            BXTOrderDetailDataManager *dataManager = [[BXTOrderDetailDataManager alloc] initWithOrderID:self.orderID requestType:OrderDetailType];
-            @weakify(self);
-            [dataManager.successSubject subscribeNext:^(BXTRepairDetailInfo *info) {
-                @strongify(self);
-                self.orderDetail = info;
-                [self afterTime];
-            }];
-            [dataManager.failSubject subscribeNext:^(id x) {
-                
-            }];
-            
-            self.orderDetailManager = dataManager;
+            [self initialBind];
         }
     }
     return self;
 }
 
-#pragma mark -
-#pragma mark 接单请求
-- (void)acceptOrder
+- (void)initialBind
 {
-    if (!_backSubject)
-    {
-        self.backSubject = [RACSubject subject];
-    }
-    
-    BXTOrderDetailDataManager *dataManager = [[BXTOrderDetailDataManager alloc] initWithOrderID:self.orderID requestType:AcceptOrderType];
+    // 工单详情
     @weakify(self);
-    [dataManager.successSubject subscribeNext:^(id x) {
-        @strongify(self);
-        [self.backSubject sendNext:nil];
-    }];
-    [dataManager.failSubject subscribeNext:^(id x) {
-        
+	RACCommand *detailCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+
+        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+            @strongify(self);
+            BXTDataRequest *request = [[BXTDataRequest alloc] init];
+            [request repairDetail:self.orderID success:^(RequestType type, id response) {
+                NSDictionary *dic = (NSDictionary *)response;
+                NSArray *data = [dic objectForKey:@"data"];
+                NSDictionary *dictionary = data[0];
+                BXTRepairDetailInfo *repairDetail = [BXTRepairDetailInfo mj_objectWithKeyValues:dictionary];
+                self.orderDetail = repairDetail;
+                [self afterTime];
+                
+                [subscriber sendNext:nil];
+                [subscriber sendCompleted];
+            } fail:^(RequestType type, NSError *error) {
+                [subscriber sendError:error];
+            }];
+            
+            return nil;
+            
+        }];
     }];
     
-    self.acceptOrderManager = dataManager;
+    self.detailRequestCommand = detailCommand;
+    
+    // 接单
+    RACCommand *grabCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+
+        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+           @strongify(self);
+            BXTDataRequest *request = [[BXTDataRequest alloc] init];
+            [request reaciveOrderID:self.orderID success:^(RequestType type, id response) {
+                NSDictionary *dic = (NSDictionary *)response;
+                [subscriber sendNext:dic];
+                [subscriber sendCompleted];
+            } fail:^(RequestType type, NSError *error) {
+                [subscriber sendError:error];
+            }];
+            
+            return nil;
+        }];
+    }];
+    
+    self.grabOrderCommand = grabCommand;
 }
 
 - (void)setOrderDetail:(BXTRepairDetailInfo *)orderDetail
@@ -94,10 +101,7 @@
         NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:_orderDetail.fault_time_name];
         [attributeStr addAttribute:NSForegroundColorAttributeName value:colorWithHexString(@"44b2fe") range:range];
         self.r_p_time = attributeStr;
-        
         self.appointmentHidden = [_orderDetail.is_appointment isEqualToString:@"2"] ? NO : YES;
-        
-        [self.refreshSubject sendNext:nil];
     }
 }
 

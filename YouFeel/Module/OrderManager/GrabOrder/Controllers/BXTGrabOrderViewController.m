@@ -9,95 +9,95 @@
 #import "BXTGrabOrderViewController.h"
 #import "BXTHeaderForVC.h"
 #import "UIImageView+WebCache.h"
-#import "BXTOrderDetailViewModel.h"
+#import "BXTGrabOrderViewModel.h"
 
 #define GrabButtonHeight 98.f
 #define FaultImageWidth (SCREEN_WIDTH - 15.f - 15.f - 20.f - 20.f)/3.f
 
 @interface BXTGrabOrderViewController ()
 
-@property (nonatomic, strong) BXTOrderDetailViewModel *orderDetailViewModel;
+@property (nonatomic, strong) BXTGrabOrderViewModel *grabOrderViewModel;
 
 @end
 
 @implementation BXTGrabOrderViewController
+
+- (BXTGrabOrderViewModel *)grabOrderViewModel
+{
+    if (_grabOrderViewModel == nil)
+    {
+        _grabOrderViewModel = [[BXTGrabOrderViewModel alloc] init];
+    }
+    
+    return _grabOrderViewModel;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self navigationSetting:@"实时抢单" andRightTitle:nil andRightImage:nil];
     self.view.backgroundColor = [UIColor whiteColor];
-    
     [self bindingViewModel];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if (self.orderDetailViewModel.player)
+    if (self.grabOrderViewModel.player)
     {
-        [self.orderDetailViewModel.player stop];
+        [self.grabOrderViewModel.player stop];
     }
 }
 
 - (void)bindingViewModel
 {
-    // VC绑定VM
-    BXTOrderDetailViewModel *viewModel = [[BXTOrderDetailViewModel alloc] init];
     @weakify(self);
-    [viewModel.refreshSubject subscribeNext:^(id x) {
+    [[self.grabOrderViewModel.detailRequestCommand execute:nil] subscribeNext:^(id x) {
         @strongify(self);
         // 报修人信息
-        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:self.orderDetailViewModel.r_p_headURL]];
-        self.repairName.text = self.orderDetailViewModel.r_p_name;
-        self.departmantName.text = self.orderDetailViewModel.r_p_departmantName;
-        self.job_width.constant = self.orderDetailViewModel.r_p_job_width;
+        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:self.grabOrderViewModel.r_p_headURL]];
+        self.repairName.text = self.grabOrderViewModel.r_p_name;
+        self.departmantName.text = self.grabOrderViewModel.r_p_departmantName;
+        self.job_width.constant = self.grabOrderViewModel.r_p_job_width;
         [self.jobName layoutIfNeeded];
-        self.jobName.text = self.orderDetailViewModel.r_p_jobName;
-        
+        self.jobName.text = self.grabOrderViewModel.r_p_jobName;
         // 工单号
-        self.orderNumberLabel.text = self.orderDetailViewModel.orderDetail.orderid;
-        
+        self.orderNumberLabel.text = self.grabOrderViewModel.orderDetail.orderid;
         // 是否预约
-        self.appointmentImgView.hidden = self.orderDetailViewModel.appointmentHidden;
-        
+        self.appointmentImgView.hidden = self.grabOrderViewModel.appointmentHidden;
         // 报单时间
-        if (self.orderDetailViewModel.appointmentHidden)
+        if (self.grabOrderViewModel.appointmentHidden)
         {
             self.time_right.constant = 20.f;
             [self.repairTimeLabel layoutIfNeeded];
         }
-        self.repairTimeLabel.attributedText = self.orderDetailViewModel.r_p_time;
-        
+        self.repairTimeLabel.attributedText = self.grabOrderViewModel.r_p_time;
         // 位置
-        self.placeLabel.text = self.orderDetailViewModel.orderDetail.place_name;
+        self.placeLabel.text = self.grabOrderViewModel.orderDetail.place_name;
         [self.view layoutIfNeeded];
         self.second_view_height.constant = CGRectGetMaxY(self.placeLabel.frame) + 15.f;
         [self.second_bg_view layoutIfNeeded];
-        
         // 故障类型
-        self.faultTypeLabel.text = self.orderDetailViewModel.orderDetail.faulttype_name;
-        
+        self.faultTypeLabel.text = self.grabOrderViewModel.orderDetail.faulttype_name;
         // 故障描述
-        self.repairContentLabel.text = self.orderDetailViewModel.orderDetail.cause;
+        self.repairContentLabel.text = self.grabOrderViewModel.orderDetail.cause;
         [self.view layoutIfNeeded];
-        
         // 故障图片
-        NSArray *imgArray = self.orderDetailViewModel.orderDetail.fault_pic;
+        NSArray *imgArray = self.grabOrderViewModel.orderDetail.fault_pic;
         if (imgArray.count)
         {
             UIImageView *imageViewOne = nil;
             if (imgArray.count == 1)
             {
-                BXTFaultPicInfo *faultPic = self.orderDetailViewModel.orderDetail.fault_pic[0];
+                BXTFaultPicInfo *faultPic = self.grabOrderViewModel.orderDetail.fault_pic[0];
                 
                 imageViewOne = [self initalImageView:CGPointMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPic imageViewTag:0];
                 [self.third_bg_view addSubview:imageViewOne];
             }
             else if (imgArray.count == 2)
             {
-                BXTFaultPicInfo *faultPicOne = self.orderDetailViewModel.orderDetail.fault_pic[0];
-                BXTFaultPicInfo *faultPicTwo = self.orderDetailViewModel.orderDetail.fault_pic[1];
+                BXTFaultPicInfo *faultPicOne = self.grabOrderViewModel.orderDetail.fault_pic[0];
+                BXTFaultPicInfo *faultPicTwo = self.grabOrderViewModel.orderDetail.fault_pic[1];
                 
                 imageViewOne = [self initalImageView:CGPointMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicOne imageViewTag:0];
                 [self.third_bg_view addSubview:imageViewOne];
@@ -107,9 +107,9 @@
             }
             else
             {
-                BXTFaultPicInfo *faultPicOne = self.orderDetailViewModel.orderDetail.fault_pic[0];
-                BXTFaultPicInfo *faultPicTwo = self.orderDetailViewModel.orderDetail.fault_pic[1];
-                BXTFaultPicInfo *faultPicThree = self.orderDetailViewModel.orderDetail.fault_pic[2];
+                BXTFaultPicInfo *faultPicOne = self.grabOrderViewModel.orderDetail.fault_pic[0];
+                BXTFaultPicInfo *faultPicTwo = self.grabOrderViewModel.orderDetail.fault_pic[1];
+                BXTFaultPicInfo *faultPicThree = self.grabOrderViewModel.orderDetail.fault_pic[2];
                 
                 imageViewOne = [self initalImageView:CGPointMake(15.f, CGRectGetMaxY(self.lineView.frame) + 15.f) faultPicInfo:faultPicOne imageViewTag:0];
                 [self.third_bg_view addSubview:imageViewOne];
@@ -153,7 +153,6 @@
         }
         [self.contentView layoutIfNeeded];
     }];
-    self.orderDetailViewModel = viewModel;
 }
 
 - (UIImageView *)initalImageView:(CGPoint)point faultPicInfo:(BXTFaultPicInfo *)picInfo imageViewTag:(NSInteger)tag
@@ -176,7 +175,7 @@
     @weakify(self);
     [[tapGR rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
-        self.mwPhotosArray = [self containAllPhotos:self.orderDetailViewModel.orderDetail.fault_pic];
+        self.mwPhotosArray = [self containAllPhotos:self.grabOrderViewModel.orderDetail.fault_pic];
         [self loadMWPhotoBrowser:imageView.tag];
     }];
 }
@@ -185,17 +184,36 @@
 #pragma mark 抢单
 - (IBAction)grabOrder:(id)sender
 {
-    [self.orderDetailViewModel acceptOrder];
     @weakify(self);
-    [self.orderDetailViewModel.backSubject subscribeNext:^(id x) {
+    [[self.grabOrderViewModel.grabOrderCommand execute:nil] subscribeNext:^(id x) {
         @strongify(self);
-        [self navigationLeftButton];
+        NSDictionary *dic = x;
+        UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+        if ([[dic objectForKey:@"returncode"] integerValue] == 0)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
+            [BXTGlobal showText:@"抢单成功！" view:window completionBlock:^{
+                [self navigationLeftButton];
+            }];
+        }
+        else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
+        {
+            [BXTGlobal showText:@"工单已被抢！" view:window completionBlock:^{
+                [self navigationLeftButton];
+            }];
+        }
+        else if ([[dic objectForKey:@"returncode"] isEqualToString:@"002"])
+        {
+            [BXTGlobal showText:@"抢单失败，工单已取消！" view:window completionBlock:^{
+                [self navigationLeftButton];
+            }];
+        }
     }];
 }
 
 - (void)navigationLeftButton
 {
-    [[BXTGlobal shareGlobal].newsOrderIDs removeObject:self.orderDetailViewModel.orderID];
+    [[BXTGlobal shareGlobal].newsOrderIDs removeObject:self.grabOrderViewModel.orderID];
     --[BXTGlobal shareGlobal].numOfPresented;
     [self.navigationController popViewControllerAnimated:YES];
 }
