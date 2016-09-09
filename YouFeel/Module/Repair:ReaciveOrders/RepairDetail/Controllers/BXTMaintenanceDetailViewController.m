@@ -910,7 +910,7 @@
     {
         [self cancelTheRepair];
     }
-    else if (btnInfo.button_key == 2 || btnInfo.button_key == 12)
+    else if (btnInfo.button_key == 2)
     {
         [BXTGlobal showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -975,6 +975,12 @@
     {
         BXTRejectOrderViewController *rejectVC = [[BXTRejectOrderViewController alloc] initWithOrderID:self.repairDetail.orderID viewControllerType:AssignVCType];
         [self.navigationController pushViewController:rejectVC animated:YES];
+    }
+    else if (btnInfo.button_key == 12)
+    {
+        [BXTGlobal showLoadingMBP:@"加载中..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request reaciveDispatchedOrderID:self.repairDetail.orderID];
     }
 }
 

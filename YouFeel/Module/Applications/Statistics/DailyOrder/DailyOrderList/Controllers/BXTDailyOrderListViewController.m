@@ -92,7 +92,7 @@
 
 - (void)getResource
 {
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOfRepairOrderWithTaskType:@"1"
                             repairListType:OtherList

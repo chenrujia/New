@@ -56,7 +56,7 @@
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"数据加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**专业分组**/

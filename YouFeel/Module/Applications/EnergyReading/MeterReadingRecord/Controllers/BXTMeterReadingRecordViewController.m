@@ -66,7 +66,7 @@
     
     [self createUI];
     
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         // 计量表 - 抄表记录，月
@@ -95,7 +95,7 @@
 /** ---- 计量表 - 抄表记录，月 ---- */
 - (void)getMonthListsResource
 {
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request energyMeterRecordMonthListsWithAboutID:self.transID year:self.yearStr];
 }
@@ -103,7 +103,7 @@
 /** ---- 计量表 - 抄表记录，列表 ---- */
 - (void)getListsResource
 {
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request energyMeterRecordListsWithAboutID:self.transID date:self.timeStr page:self.currentPage];
 }
@@ -598,7 +598,7 @@
         [self.headerView.starView setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];
         is_collect = !is_collect;
         
-        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        [BXTGlobal showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeterFavoriteAddWithAboutID:self.monthListInfo.meterReadingID delIDs:@""];
     }];

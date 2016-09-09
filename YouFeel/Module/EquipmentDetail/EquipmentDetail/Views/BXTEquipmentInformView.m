@@ -62,7 +62,7 @@
         [[self navigation] pushViewController:newVC animated:YES];
     }];
     
-    [self showLoadingMBP:@"数据加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request equipmentInformation:self.deviceID];
     

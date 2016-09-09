@@ -53,7 +53,7 @@
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"数据加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     /**设备类型**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request deviceTypeList];

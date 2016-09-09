@@ -73,7 +73,7 @@
         [self.conversationListTableView reloadData];
     }];
     
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     /** 通讯录列表 **/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request mailListOfAllPerson];

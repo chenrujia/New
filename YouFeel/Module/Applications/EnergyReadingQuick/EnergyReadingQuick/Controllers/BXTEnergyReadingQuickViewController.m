@@ -283,7 +283,7 @@
         // 收藏按钮设置
         self.introInfo = [cell.listInfo.is_collect integerValue] == 1 ? @"取消收藏成功" : @"收藏成功";
         
-        [self showLoadingMBP:@"数据加载中..."];
+        [self showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeterFavoriteAddWithAboutID:cell.listInfo.energyMeterID delIDs:@""];
     }];

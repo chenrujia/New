@@ -115,7 +115,7 @@
     self.showInfoID = @"1";
     
     
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
@@ -144,7 +144,7 @@
 - (void)getResourceOnlyList
 {
     if (self.selectedBtn != 0) {
-        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        [BXTGlobal showLoadingMBP:@"加载中..."];
     }
     if (self.vcType == ViewControllerTypeOFYear) {
         // 建筑能效概况 - 年统计
@@ -344,7 +344,7 @@
             [self.showInfoArray replaceObjectAtIndex:0 withObject:showStr];
             self.showInfoID = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
             
-            [BXTGlobal showLoadingMBP:@"数据加载中..."];
+            [BXTGlobal showLoadingMBP:@"加载中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request energyMeasuremenLevelListsWithType:[NSString stringWithFormat:@"%ld", (long)indexPath.row + 1]];
         }

@@ -60,6 +60,19 @@
         }];
     }];
     
+    [[detailCommand.executing skip:1] subscribeNext:^(id x) {
+        if ([x boolValue] == YES)
+        {
+            // 正在执行
+            [BXTGlobal showLoadingMBP:@"加载中..."];
+        }
+        else
+        {
+            // 执行完成
+            [BXTGlobal hideMBP];
+        }
+    }];
+    
     self.detailRequestCommand = detailCommand;
     
     // 接单
@@ -78,6 +91,14 @@
             
             return nil;
         }];
+    }];
+    
+    [[grabCommand.executing skip:1] subscribeNext:^(id x) {
+        if ([x boolValue] == YES)
+        {
+            // 正在执行
+            [BXTGlobal showLoadingMBP:@"加载中..."];
+        }
     }];
     
     self.grabOrderCommand = grabCommand;

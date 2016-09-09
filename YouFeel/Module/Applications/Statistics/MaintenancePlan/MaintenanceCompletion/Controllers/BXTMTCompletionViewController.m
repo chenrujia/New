@@ -33,7 +33,7 @@
     
     self.dateStr = @"";
     
-    [self showLoadingMBP:@"数据加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     /**饼状图**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statisticsMTCompleteWithDate:@"" Subgroup:@"" FaulttypeType:@""];
@@ -191,7 +191,7 @@
         
         self.dateStr = [self transTimeWithDate:selectedDate];
         
-        [self showLoadingMBP:@"数据加载中..."];
+        [self showLoadingMBP:@"加载中..."];
         /**饼状图**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statisticsMTCompleteWithDate:[self transTimeWithDate:selectedDate] Subgroup:@"" FaulttypeType:@""];

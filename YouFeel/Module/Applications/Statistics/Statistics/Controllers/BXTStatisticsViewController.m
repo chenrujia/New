@@ -39,7 +39,7 @@
     self.MTPlanArray = [[NSMutableArray alloc] init];
     self.EPStateArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"数据加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request inspectionPlanOverview];
     

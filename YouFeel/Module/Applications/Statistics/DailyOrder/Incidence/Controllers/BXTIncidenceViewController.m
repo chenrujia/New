@@ -37,7 +37,7 @@
 {
     NSArray *finalTimeArray = [BXTGlobal transTimeToWhatWeNeed:timeArray];
     
-    [self showLoadingMBP:@"数据加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statisticsFaulttypeWithTimeStart:finalTimeArray[0] timeEnd:finalTimeArray[1]];
 }
