@@ -463,7 +463,6 @@
     }
     else if (btn.tag == 3)
     {
-        //TODO: 这里有问题，记得用算法处理！！！
         switch (self.btnTag) {
             case 0: [self initialPlaceOrFilter:electricView.energyFilterArray isFilter:YES]; break;
             case 1: [self initialPlaceOrFilter:waterView.energyFilterArray isFilter:YES]; break;
