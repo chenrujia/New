@@ -168,7 +168,7 @@
     
     if (type == OtherAffairLists)
     {
-        if (self.currentPage == 1 && self.self.dataArray.count != 0)
+        if (self.currentPage == 1 && self.dataArray.count != 0)
         {
             [self.dataArray removeAllObjects];
         }
