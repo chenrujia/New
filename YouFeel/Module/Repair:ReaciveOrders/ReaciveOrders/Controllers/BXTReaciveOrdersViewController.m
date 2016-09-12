@@ -93,6 +93,7 @@
         }
         subgroupIDs = [array componentsJoinedByString:@","];
     }
+
     
     // timestart & timeover & timename 三者一起
     NSString *timeName = @"fault_time";
