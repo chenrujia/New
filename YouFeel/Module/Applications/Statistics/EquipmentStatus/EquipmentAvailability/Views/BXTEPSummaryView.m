@@ -38,7 +38,7 @@
     self.roundView3.layer.cornerRadius = 5;
     self.roundView4.layer.cornerRadius = 5;
     
-    //    [self showLoadingMBP:@"数据加载中..."];
+    //    [self showLoadingMBP:@"加载中..."];
     
     
     /**饼状图**/

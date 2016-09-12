@@ -65,7 +65,7 @@
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     
     /**专业分组**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];

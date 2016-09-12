@@ -148,7 +148,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4);
 + (NSArray *)yearAndmonthAndDay;
 
 /**
- *  数据加载中...
+ *  加载中...
  */
 + (void)showLoadingMBP:(NSString *)text;
 /**

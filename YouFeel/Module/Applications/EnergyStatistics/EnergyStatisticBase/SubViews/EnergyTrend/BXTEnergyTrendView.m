@@ -134,7 +134,7 @@
     
     // TODO: -----------------  月统计 - ViewControllerTypeOFYear -----------------
     // TODO: -----------------  年统计 - ViewControllerTypeOFNone -----------------
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
@@ -160,15 +160,18 @@
 {
     self.selectedFirstIndex = 0;
     self.selectedSecondIndex = 0;
-    if (self.selectedBtn != 0) {
-        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    if (self.selectedBtn != 0)
+    {
+        [BXTGlobal showLoadingMBP:@"加载中..."];
     }
-    if (self.vcType == ViewControllerTypeOFNone) {
+    if (self.vcType == ViewControllerTypeOFNone)
+    {
         // 建筑能效概况 - 年统计
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request efficiencyTrendYearWithDate:@"" ppath:self.showInfoID];
     }
-    else {
+    else
+    {
         // 建筑能效概况 - 月统计
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request efficiencyTrendMonthWithDate:self.timeStr ppath:self.showInfoID];
@@ -464,7 +467,7 @@
             [self.showInfoArray replaceObjectAtIndex:0 withObject:showStr];
             self.showInfoID = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
             
-            [BXTGlobal showLoadingMBP:@"数据加载中..."];
+            [BXTGlobal showLoadingMBP:@"加载中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request energyMeasuremenLevelListsWithType:[NSString stringWithFormat:@"%ld", (long)indexPath.row + 1]];
         }

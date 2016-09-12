@@ -42,7 +42,7 @@
     }
     
     /**饼状图**/
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statisticsMTCompleteWithDate:@"" Subgroup:self.transSubgroupID FaulttypeType:self.transFaulttypeTypeID];
     

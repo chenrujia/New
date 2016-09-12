@@ -54,7 +54,7 @@ static CGFloat const maxTitleScale = 1.3;
     self.subgroupIDArray = [[NSMutableArray alloc] init];
     self.isFirst = YES;
     
-    [self showLoadingMBP:@"数据加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     
     if (!self.isSystemPush)
     {

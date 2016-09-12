@@ -96,7 +96,7 @@
 
 - (void)requestDatasource
 {
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     
     //获取能源列表数据
     BXTDataRequest *dataRequest = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -121,7 +121,7 @@
         // 收藏按钮设置
         self.introInfo = [cell.listInfo.is_collect integerValue] == 1 ? @"取消收藏成功" : @"收藏成功";
         
-        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        [BXTGlobal showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeterFavoriteAddWithAboutID:cell.listInfo.energyMeterID delIDs:@""];
     }];

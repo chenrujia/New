@@ -87,7 +87,7 @@ typedef NS_ENUM(NSInteger, ReadingType) {
     [BXTGlobal shareGlobal].maxPics = 1;
     self.selectPhotos = [NSMutableArray array];
     
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     /**新建抄表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request energyMeterDetailWithID:self.transID];
@@ -250,7 +250,7 @@ typedef NS_ENUM(NSInteger, ReadingType) {
             }
         }
         
-        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        [BXTGlobal showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         if (self.thisValueArray.count == 6)
         {

@@ -85,7 +85,7 @@
         NSString *nowTime = [NSString stringWithFormat:@"%@-%02ld", year, (long)[month integerValue]];
         
         // 建筑能效概况 - 月统计
-        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        [BXTGlobal showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request efficiencySurveyMonthWithDate:nowTime];
     }

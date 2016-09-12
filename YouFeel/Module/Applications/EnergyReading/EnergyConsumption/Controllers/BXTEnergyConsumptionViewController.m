@@ -46,7 +46,7 @@
 #pragma mark - getResource
 - (void)getResource
 {
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request energyMeterRecordCalculateWithAboutID:self.transID
                                          startTime:self.startTimeStr

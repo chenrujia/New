@@ -49,7 +49,7 @@
     
     // 通讯录 联系人信息
     BXTHeadquartersInfo *companyInfo = [BXTGlobal getUserProperty:U_COMPANY];
-    [self showLoadingMBP:@"数据加载中..."];
+    [self showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request mailListOfOnePersonWithID:self.userID outUserID:@"" shopID:companyInfo.company_id];
     

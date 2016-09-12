@@ -40,7 +40,7 @@
     NSString *monthStr = [self.showTimeStr substringWithRange:NSMakeRange(5, self.showTimeStr.length - 6)];
     NSString *timeStr = [NSString stringWithFormat:@"%@-%@", yearStr, monthStr];
     
-    [BXTGlobal showLoadingMBP:@"数据加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request energyMeterRecordDayListsWithAboutID:self.transID date:timeStr];
 }
