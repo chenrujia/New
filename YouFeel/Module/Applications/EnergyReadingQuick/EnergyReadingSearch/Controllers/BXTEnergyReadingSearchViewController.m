@@ -13,6 +13,7 @@
 #import "BXTEnergyMeterListInfo.h"
 #import "BXTEnergyRecordTableViewCell.h"
 #import "BXTMeterReadingRecordViewController.h"
+#import <MJRefresh.h>
 
 @interface BXTEnergyReadingSearchViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, UISearchBarDelegate, BXTDataResponseDelegate>
 
@@ -23,6 +24,8 @@
 
 @property (nonatomic, copy  ) NSString        *introInfo;
 @property (nonatomic, copy) NSString *searchText;
+
+@property (nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -54,11 +57,10 @@
     if (pushType == SearchPushTypeOFQuick)
     {
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
-        [request energyMeterFavoriteListsWithType:@"" checkType:@"" page:1 searchName:searchName];
+        [request energyMeterFavoriteListsWithType:@"" checkType:@"" page:self.currentPage searchName:searchName];
     }
     else
     {
-        //!!!: 分页处理，1是固定值
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeterListsWithType:[NSString stringWithFormat:@"%ld", (long)pushType]
                                 checkType:@""
@@ -66,7 +68,7 @@
                                   placeID:@""
                           measurementPath:@""
                                searchName:searchName
-                                     page:1];
+                                     page:self.currentPage];
         
     }
 }
@@ -151,7 +153,18 @@
     
     self.searchText = searchBar.text;
     
-    [self getResourceWithPushType:self.transPushType SearchName:searchBar.text];
+    self.currentPage = 1;
+    __weak __typeof(self) weakSelf = self;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        weakSelf.currentPage = 1;
+        [weakSelf getResourceWithPushType:self.transPushType SearchName:searchBar.text];
+    }];
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.currentPage++;
+        [weakSelf getResourceWithPushType:self.transPushType SearchName:searchBar.text];
+    }];
+    
+    [self.tableView.mj_header beginRefreshing];
 }
 
 #pragma mark -
@@ -240,12 +253,15 @@
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
+    
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     
     if (type == MeterFavoriteLists || type == EnergyMeterLists)
     {
-        if (self.dataArray.count != 0)
+        if (self.currentPage == 1 && self.dataArray.count != 0)
         {
             [self.dataArray removeAllObjects];
         }
@@ -262,7 +278,8 @@
             if (weakSelf.delegateSignal) {
                 [weakSelf.delegateSignal sendNext:nil];
             }
-            [weakSelf getResourceWithPushType:self.transPushType SearchName:self.searchText];
+            weakSelf.currentPage = 1;
+            [weakSelf.tableView.mj_header beginRefreshing];
         }];
     }
     
@@ -272,6 +289,8 @@
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning
