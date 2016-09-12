@@ -28,6 +28,7 @@
 #import "BXTReaciveOrdersViewController.h"
 #import "BXTMyIntegralViewController.h"
 #import "BXTEnergyReadingQuickViewController.h"
+#import "BXTNewOrderViewController.h"
 
 #define DefualtBackColor         colorWithHexString(@"ffffff")
 #define SelectBackColor          [UIColor grayColor]
@@ -159,9 +160,15 @@ typedef NS_ENUM(NSInteger, CellType) {
     @weakify(self);
     [[branchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
-        pivc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:pivc animated:YES];
+//        BXTProjectManageViewController *pivc = [[BXTProjectManageViewController alloc] init];
+//        pivc.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:pivc animated:YES];
+        
+        [[BXTGlobal shareGlobal].assignOrderIDs addObject:@"303"];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AboutOrder" bundle:nil];
+        BXTNewOrderViewController *newOrderVC = (BXTNewOrderViewController *)[storyboard instantiateViewControllerWithIdentifier:@"BXTNewOrderViewController"];
+        newOrderVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:newOrderVC animated:YES];
     }];
     [logoImgView addSubview:branchBtn];
     

@@ -373,6 +373,7 @@
 		9634156B1C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963415691C44E62C00B28C53 /* BXTMaintenanceBookViewController.xib */; };
 		9634156F1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9634156D1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m */; };
 		963415701C44F03500B28C53 /* BXTDeviceInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9634156E1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.xib */; };
+		963D18D81D86933300E6273D /* BXTAssignOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 963D18D71D86933300E6273D /* BXTAssignOrderViewModel.m */; };
 		964C4AC21C157C0800E6C8C4 /* ImageResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 964C4AC11C157C0800E6C8C4 /* ImageResources.bundle */; };
 		964C4AC41C157C7B00E6C8C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 964C4AC31C157C7B00E6C8C4 /* Assets.xcassets */; };
 		964DE5E41CA8DEB90064D5D6 /* libobjc.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 964DE5E31CA8DEB90064D5D6 /* libobjc.tbd */; };
@@ -1181,6 +1182,8 @@
 		9634156C1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceInfoTableViewCell.h; sourceTree = "<group>"; };
 		9634156D1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceInfoTableViewCell.m; sourceTree = "<group>"; };
 		9634156E1C44F03500B28C53 /* BXTDeviceInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTDeviceInfoTableViewCell.xib; sourceTree = "<group>"; };
+		963D18D61D86933300E6273D /* BXTAssignOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTAssignOrderViewModel.h; sourceTree = "<group>"; };
+		963D18D71D86933300E6273D /* BXTAssignOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTAssignOrderViewModel.m; sourceTree = "<group>"; };
 		964C4AC11C157C0800E6C8C4 /* ImageResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ImageResources.bundle; sourceTree = "<group>"; };
 		964C4AC31C157C7B00E6C8C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		964DE5E31CA8DEB90064D5D6 /* libobjc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libobjc.tbd; path = usr/lib/libobjc.tbd; sourceTree = SDKROOT; };
@@ -3306,6 +3309,7 @@
 			isa = PBXGroup;
 			children = (
 				7867DD5F1C4CBEA1000749F1 /* Controllers */,
+				963D18D51D8692EF00E6273D /* ViewModels */,
 			);
 			path = NewOrder;
 			sourceTree = "<group>";
@@ -4446,6 +4450,15 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		963D18D51D8692EF00E6273D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				963D18D61D86933300E6273D /* BXTAssignOrderViewModel.h */,
+				963D18D71D86933300E6273D /* BXTAssignOrderViewModel.m */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		964E6F081C3275BC0081DEBB /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -5488,6 +5501,7 @@
 				7818DBE01C0824D800DC22C6 /* PNGenericChart.m in Sources */,
 				784177DE1CDC977900CCA953 /* UITabBar+badge.m in Sources */,
 				7893D8A11C7AA8CC00F042D5 /* BXTStatisticsForthView.m in Sources */,
+				963D18D81D86933300E6273D /* BXTAssignOrderViewModel.m in Sources */,
 				782F387E1D5AC17400CEBC46 /* BXTEnergyDistributionViewCell.m in Sources */,
 				7867DC961C4CBB47000749F1 /* MYPieElement.m in Sources */,
 				782AD4D81C5A12BD00A1C4D8 /* DES3Util.m in Sources */,

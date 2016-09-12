@@ -383,6 +383,7 @@ typedef void(^DataRequestFail)(RequestType type,NSError *error);
  *  接指派过来的工单
  */
 - (void)reaciveDispatchedOrderID:(NSString *)repairID;
+- (void)reaciveDispatchedOrderID:(NSString *)repairID success:(DataRequestSuccess)successBlock fail:(DataRequestFail)failBlock;
 
 /**
  *  派工or增员
