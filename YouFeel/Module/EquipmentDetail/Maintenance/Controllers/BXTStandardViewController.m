@@ -7,22 +7,34 @@
 //
 
 #import "BXTStandardViewController.h"
+#import "BXTMaintenanceViewController.h"
 
 @interface BXTStandardViewController ()
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, copy  ) NSString     *safetyGuidelines;
 
+@property (nonatomic, strong) BXTDeviceMaintenceInfo *maintence;
+/** ---- devID为空 ---- */
+@property (nonatomic, copy) NSString *devID;
+@property (nonatomic, strong) NSArray *states;
+
 @end
 
 @implementation BXTStandardViewController
 
 - (instancetype)initWithSafetyGuidelines:(NSString *)safety
+                               maintence:(BXTDeviceMaintenceInfo *)maintence
+                                deviceID:(NSString *)devID
+                         deviceStateList:(NSArray *)states
 {
     self = [super init];
     if (self)
     {
         self.safetyGuidelines = safety;
+        self.maintence = maintence;
+        self.devID = devID;
+        self.states = states;
     }
     
     return self;
@@ -49,7 +61,17 @@
     @weakify(self);
     [[readBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self.navigationController popViewControllerAnimated:YES];
+        if ([self.devID isEqualToString:@""])
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else
+        {
+            BXTMaintenanceViewController *mainVC = [[BXTMaintenanceViewController alloc] initWithNibName:@"BXTMaintenanceViewController" bundle:nil maintence:self.maintence deviceID:self.devID deviceStateList:self.states safetyGuidelines:self.safetyGuidelines];
+            mainVC.isUpdate = NO;
+            mainVC.popToRootVC = YES;
+            [self.navigationController pushViewController:mainVC animated:YES];
+        }
     }];
     [self.view addSubview:readBtn];
     

@@ -123,7 +123,7 @@
     }
     
     BXTEquipmentInformCell *cell = [BXTEquipmentInformCell cellWithTableView:tableView];
-    NSString *title = [NSString stringWithFormat:@"%@:", self.titleArray[indexPath.section][indexPath.row]];
+    NSString *title = [NSString stringWithFormat:@"%@：", self.titleArray[indexPath.section][indexPath.row]];
     CGSize title_size = MB_MULTILINE_TEXTSIZE(title, [UIFont boldSystemFontOfSize:15.f], CGSizeMake(1000.f, 100.f), NSLineBreakByWordWrapping);
     cell.title_width.constant = title_size.width;
     [cell.contentView layoutIfNeeded];

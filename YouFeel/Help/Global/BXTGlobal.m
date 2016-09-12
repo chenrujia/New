@@ -370,6 +370,7 @@ CGFloat valueForDevice(CGFloat v1,CGFloat v2,CGFloat v3,CGFloat v4)
 
 + (void)showLoadingMBP:(NSString *)text
 {
+    [BXTGlobal hideMBP];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.label.text = text;

@@ -21,6 +21,9 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, assign) NSInteger      transPushType;
 
+@property (nonatomic, copy  ) NSString        *introInfo;
+@property (nonatomic, copy) NSString *searchText;
+
 @end
 
 @implementation BXTEnergyReadingSearchViewController
@@ -145,6 +148,9 @@
         
         return;
     }
+    
+    self.searchText = searchBar.text;
+    
     [self getResourceWithPushType:self.transPushType SearchName:searchBar.text];
 }
 
@@ -178,6 +184,16 @@
 {
     BXTEnergyRecordTableViewCell *cell = [BXTEnergyRecordTableViewCell cellWithTableView:tableView];
     cell.listInfo = self.dataArray[indexPath.row];
+    @weakify(self);
+    [[cell.starView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        // 收藏按钮设置
+        self.introInfo = [cell.listInfo.is_collect integerValue] == 1 ? @"取消收藏成功" : @"收藏成功";
+        
+        [BXTGlobal showLoadingMBP:@"数据加载中..."];
+        BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
+        [request energyMeterFavoriteAddWithAboutID:cell.listInfo.energyMeterID delIDs:@""];
+    }];
     
     return cell;
 }
@@ -185,7 +201,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     BXTMeterReadingRecordViewController *mrrvc = [[BXTMeterReadingRecordViewController alloc] init];
     BXTEnergyMeterListInfo *listInfo = self.dataArray[indexPath.row];
     mrrvc.transID = listInfo.energyMeterID;
@@ -227,15 +243,28 @@
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     
-    if (self.dataArray.count != 0)
+    if (type == MeterFavoriteLists || type == EnergyMeterLists)
     {
-        [self.dataArray removeAllObjects];
+        if (self.dataArray.count != 0)
+        {
+            [self.dataArray removeAllObjects];
+        }
+        
+        [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+            return @{@"energyMeterID":@"id"};
+        }];
+        [self.dataArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
     }
-    
-    [BXTEnergyMeterListInfo mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
-        return @{@"energyMeterID":@"id"};
-    }];
-    [self.dataArray addObjectsFromArray:[BXTEnergyMeterListInfo mj_objectArrayWithKeyValuesArray:data]];
+    else if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
+    {
+        __weak __typeof(self) weakSelf = self;
+        [BXTGlobal showText:self.introInfo view:self.view completionBlock:^{
+            if (weakSelf.delegateSignal) {
+                [weakSelf.delegateSignal sendNext:nil];
+            }
+            [weakSelf getResourceWithPushType:self.transPushType SearchName:self.searchText];
+        }];
+    }
     
     [self.tableView reloadData];
 }

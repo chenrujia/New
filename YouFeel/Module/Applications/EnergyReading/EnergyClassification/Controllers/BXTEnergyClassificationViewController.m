@@ -174,6 +174,10 @@
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BXTEnergyReadingSearchViewController *erqsvc = [[BXTEnergyReadingSearchViewController alloc] initWithSearchPushType:self.btnTag + 1];
+        erqsvc.delegateSignal = [RACSubject subject];
+        [erqsvc.delegateSignal subscribeNext:^(id x) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHTABLEVIEWOFLIST object:nil];
+        }];
         [self.navigationController pushViewController:erqsvc animated:YES];
     }];
     [searchBar addSubview:searchBtn];

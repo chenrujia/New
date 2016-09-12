@@ -20,4 +20,6 @@ typedef NS_ENUM(NSInteger, SearchPushType) {
 
 - (instancetype)initWithSearchPushType:(SearchPushType)pushType;
 
+@property (nonatomic, strong) RACSubject *delegateSignal;
+
 @end
