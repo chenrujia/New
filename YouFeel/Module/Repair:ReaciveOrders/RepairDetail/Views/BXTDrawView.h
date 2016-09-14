@@ -10,12 +10,11 @@
 
 @interface BXTDrawView : UIView
 
-@property (nonatomic, strong) NSArray *progress;
-@property (nonatomic ,assign) BOOL    isShow;
-@property (nonatomic, assign) CGFloat fontSize;
+@property (nonatomic, strong) NSArray        *progress;
+@property (nonatomic, assign) CGFloat        fontSize;
+@property (nonatomic, strong) NSMutableArray *colorsArray;
 
 - (instancetype)initWithFrame:(CGRect)frame
-                 withProgress:(NSArray *)progresses
-                  isShowState:(BOOL)show;
+                 withProgress:(NSArray *)progresses;
 
 @end

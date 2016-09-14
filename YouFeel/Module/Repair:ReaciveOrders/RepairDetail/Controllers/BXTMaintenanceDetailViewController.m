@@ -700,8 +700,8 @@
     self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
     [self.contentScrollView layoutIfNeeded];
     //状态相关
-    self.orderState.text = self.repairDetail.repairstate_name;
-    BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 34, SCREEN_WIDTH, StateViewHeight) withProgress:self.repairDetail.progress isShowState:NO];
+    self.evaluatedImgView.hidden = self.repairDetail.evaluation_user_arr.count > 0 ? NO : YES;
+    BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 34, SCREEN_WIDTH, StateViewHeight) withProgress:self.repairDetail.progress];
     [self.firstBV addSubview:drawView];
     
     //各种赋值
@@ -723,12 +723,16 @@
     }
     self.orderStyle.text = [self.repairDetail.task_type intValue] == 1 ? @"日常" : @"维保";
     self.orderStyle.backgroundColor = [self.repairDetail.task_type intValue] == 1 ? colorWithHexString(@"#F0B660") : colorWithHexString(@"#7EC86E");
-    self.departmentName.text = [NSString stringWithFormat:@"部门：%@",repairPerson.department_name];
-    self.positionName.text = [NSString stringWithFormat:@"职位：%@",repairPerson.duty_name];
+    self.departmentName.text = repairPerson.department_name;
+    UIFont *font = [UIFont systemFontOfSize:17.f];
+    CGSize jobSize = MB_MULTILINE_TEXTSIZE(repairPerson.duty_name, font, CGSizeMake(200, 20), NSLineBreakByWordWrapping);
+    self.position_width.constant = jobSize.width + 10;
+    [self.positionName layoutIfNeeded];
+    self.positionName.text = repairPerson.duty_name;
     self.repairID.text = [NSString stringWithFormat:@"工单编号:%@",self.repairDetail.orderid];
     if ([self.repairDetail.task_type integerValue] == 2)
     {
-        self.repairPerson.text = @"计划人:";
+        self.repairPerson.text = @"计划人";
         self.repairUsers.text = @"维保员:";
         self.maintenceRecord.text = @"维保报告:";
         self.repairTime.text = [NSString stringWithFormat:@"时间范围:%@",self.repairDetail.fault_time_name];
@@ -738,7 +742,7 @@
     }
     else
     {
-        self.repairPerson.text = @"报修人:";
+        self.repairPerson.text = @"报单人";
         self.repairUsers.text = @"维修员:";
         self.maintenceRecord.text = @"维修报告:";
         self.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];

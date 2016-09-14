@@ -20,6 +20,18 @@
     [content drawInRect:rect withAttributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
 }
 
+- (void)drawImageInSize:(CGSize)size position:(CGPoint)position imageName:(NSString *)name
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CALayer *layer = [CALayer layer];
+    layer.contents = (__bridge id _Nullable)([UIImage imageNamed:name].CGImage);
+    layer.bounds = CGRectMake(0, 0, size.width, size.height);
+    layer.position = position;
+
+    [layer drawInContext:context];
+}
+
 //矩形
 -(void)drawRectangle:(CGRect)rect
 {
