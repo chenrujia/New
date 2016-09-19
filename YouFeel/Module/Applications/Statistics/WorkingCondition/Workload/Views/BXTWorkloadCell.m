@@ -12,6 +12,7 @@
 @implementation BXTWorkloadCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 
 }

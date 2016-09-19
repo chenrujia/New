@@ -11,6 +11,7 @@
 @implementation BXTEPFilterCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

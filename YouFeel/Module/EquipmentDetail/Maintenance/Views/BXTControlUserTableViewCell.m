@@ -14,6 +14,8 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     self.connactTa.layer.cornerRadius = 4.f;
     self.connactTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
     self.connactTa.layer.borderWidth = 1;

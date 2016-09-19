@@ -12,6 +12,7 @@
 @implementation BXTStatisticsCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     //self.detailView.text = [NSString stringWithFormat:@"当前有新版本v%@", IOSAPPVERSION];

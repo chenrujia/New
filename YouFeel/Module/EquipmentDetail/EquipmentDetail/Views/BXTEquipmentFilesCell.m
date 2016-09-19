@@ -43,6 +43,8 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     self.typeView.layer.borderWidth = 0.5;
     self.typeView.layer.borderColor = [colorWithHexString(@"#d9d9d9") CGColor];
     self.typeView.layer.cornerRadius = 5;

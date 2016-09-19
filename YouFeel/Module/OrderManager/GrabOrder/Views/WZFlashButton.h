@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, WZFlashButtonType) {
     WZFlashButtonTypeOuter = 1
 };
 
-@interface WZFlashButton : UIView
+@interface WZFlashButton : UIView <CAAnimationDelegate>
 
 @property (nonatomic, assign) WZFlashButtonType buttonType;
 @property (nonatomic, copy) WZFlashButtonDidClickBlock clickBlock;

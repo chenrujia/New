@@ -14,6 +14,8 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     self.imageOne.layer.masksToBounds = YES;
     self.imageTwo.layer.masksToBounds = YES;
     self.imageThree.layer.masksToBounds = YES;

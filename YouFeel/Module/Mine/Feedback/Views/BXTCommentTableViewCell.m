@@ -13,6 +13,8 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     UIImage *image = [UIImage imageNamed:@"ConversationBack"];
     //端盖:用来指定图片中的哪一部分不用拉伸。
     CGFloat top = 15; // 顶端盖高度

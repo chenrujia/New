@@ -11,6 +11,7 @@
 @implementation BXTEPHeaderView
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.image1.layer.cornerRadius = 5;
     self.image2.layer.cornerRadius = 5;

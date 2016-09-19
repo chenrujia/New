@@ -11,6 +11,7 @@
 @implementation BXTItemTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

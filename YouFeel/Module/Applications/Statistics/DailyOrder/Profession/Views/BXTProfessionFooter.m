@@ -12,6 +12,7 @@
 @implementation BXTProfessionFooter
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.roundView.layer.cornerRadius = 5;
     self.roundView1.layer.cornerRadius = 5;

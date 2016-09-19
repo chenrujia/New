@@ -12,6 +12,7 @@
 @implementation BXTStEvaluationFooter
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.roundView.layer.cornerRadius = 5;
     self.roundView.backgroundColor = colorWithHexString(@"#0C88CE");

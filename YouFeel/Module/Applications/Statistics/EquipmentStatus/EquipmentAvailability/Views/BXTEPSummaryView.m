@@ -29,6 +29,7 @@
 @implementation BXTEPSummaryView
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     NSLog(@"dfaasdfadsfasd");

@@ -33,7 +33,7 @@ typedef enum ShowTitles
 }ShowTitle;
 
 @class PieElement;
-@interface PieLayer : CALayer
+@interface PieLayer : CALayer <CAAnimationDelegate>
 
 @property (nonatomic, strong, readonly) NSArray* values;
 - (void)addValues:(NSArray*)addingNewValues animated:(BOOL)animated;

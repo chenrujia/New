@@ -20,6 +20,8 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+    
     [self startUpSettings];
 }
 

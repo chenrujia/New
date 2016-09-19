@@ -26,6 +26,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     self.titleView.font = [UIFont systemFontOfSize:17];

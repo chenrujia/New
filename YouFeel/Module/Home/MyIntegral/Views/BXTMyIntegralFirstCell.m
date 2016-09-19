@@ -24,6 +24,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     [self.sameMonthBtn setImage:[UIImage imageNamed:@"select_triangle"] forState:UIControlStateNormal];

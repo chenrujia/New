@@ -11,6 +11,7 @@
 @implementation BXTMTCompletionFooter
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.imageView1.layer.cornerRadius = 5;
     self.imageView2.layer.cornerRadius = 5;

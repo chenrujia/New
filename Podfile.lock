@@ -42,13 +42,13 @@ PODS:
   - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
   - RKNotificationHub (2.0.4)
-  - RongCloudIMKit (2.7.0)
+  - RongCloudIMKit (2.7.2)
   - SDAutoLayout (2.1.7)
   - SDCycleScrollView (1.65):
     - SDWebImage (~> 3.7)
-  - SDWebImage (3.8.1):
-    - SDWebImage/Core (= 3.8.1)
-  - SDWebImage/Core (3.8.1)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
   - SKSTableView (0.0.2)
   - Toast (3.0)
   - UITableView+FDTemplateLayoutCell_Bell (1.5.0)
@@ -117,10 +117,10 @@ SPEC CHECKSUMS:
   PSTCollectionView: 6749df92885353521f55279a7ce2b293762e2be4
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   RKNotificationHub: 3765424499139c3d3885b681bb0837f072d12ae6
-  RongCloudIMKit: 2602b151b0411b28c1c371155e1b24d9dfc08d51
+  RongCloudIMKit: 9dcdee89da511bf1fa375ac0646754783cdb9c9e
   SDAutoLayout: e9b36d04b8c0b504762a04d76fbbe5108944297a
   SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
-  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SKSTableView: f552b4847d0f11425891420473c3e041a7743a06
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
   UITableView+FDTemplateLayoutCell_Bell: ee65b057dbbe937bb6764f33d4ca6910d05a0efd

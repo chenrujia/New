@@ -394,19 +394,19 @@
 // 时间戳转换成 2015年11月27日 星期五 格式
 - (NSString*)weekdayStringFromDate:(NSDate*)inputDate
 {
-    NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
-    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-    [calendar setTimeZone: timeZone];
-    NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-    NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
+//    NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
+//    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
+//    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+//    [calendar setTimeZone: timeZone];
+//    NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+//    NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
     
     
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
     [formatter1 setDateFormat:@"yyyy-MM-dd"];
     NSString *dateStr = [formatter1 stringFromDate:inputDate];
     
-    NSLog(@"%@ - %@", theComponents, weekdays);
+//    NSLog(@"%@ - %@", theComponents, weekdays);
     //return [NSString stringWithFormat:@"%@ %@", dateStr, weekStr];
     return dateStr;
 }

@@ -11,6 +11,7 @@
 @implementation BXTMessageTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

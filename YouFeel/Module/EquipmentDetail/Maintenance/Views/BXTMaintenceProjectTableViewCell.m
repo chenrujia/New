@@ -11,6 +11,7 @@
 @implementation BXTMaintenceProjectTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

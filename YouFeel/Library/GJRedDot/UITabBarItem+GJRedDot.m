@@ -108,12 +108,14 @@ static UIImage* gj_createImage(UIColor *color, CGSize size, CGFloat roundSize) {
         [self.nextResponder addSubview:self.customView];
     }
     if (!self.redDotView.superview) {
-        [self.nextResponder addSubview:self.redDotView];
+        // TODO: -----------------  调试1  -----------------
+//        [self.nextResponder addSubview:self.redDotView];
     }
     
     [self _refreshHiddenState];
     [self _refreshDotViewPosition];
 }
+
 
 - (void)_refreshHiddenState {
     self.redDotView.hidden = !(!self.customView && self.isShowRedDot && !self.badgeValue);

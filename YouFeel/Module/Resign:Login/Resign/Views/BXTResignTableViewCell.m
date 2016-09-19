@@ -13,6 +13,8 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     _codeButton.layer.masksToBounds = YES;
     _codeButton.layer.cornerRadius = 4.f;
     _codeButton.layer.borderWidth = 1.f;

@@ -11,6 +11,7 @@
 @implementation BXTMTStatisticsCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

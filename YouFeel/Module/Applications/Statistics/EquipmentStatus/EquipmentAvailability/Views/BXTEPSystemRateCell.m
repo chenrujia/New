@@ -33,6 +33,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     self.roundView.layer.cornerRadius = 5;

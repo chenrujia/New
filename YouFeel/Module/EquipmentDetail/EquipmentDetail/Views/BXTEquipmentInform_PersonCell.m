@@ -52,6 +52,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     self.iconView.layer.cornerRadius = self.iconView.frame.size.width/2;

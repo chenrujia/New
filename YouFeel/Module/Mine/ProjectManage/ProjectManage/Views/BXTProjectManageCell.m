@@ -69,6 +69,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     self.switchBtn.layer.borderWidth = 1;

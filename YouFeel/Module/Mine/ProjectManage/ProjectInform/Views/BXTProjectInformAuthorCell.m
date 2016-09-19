@@ -37,6 +37,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     self.connectBtn.layer.borderWidth = 1;

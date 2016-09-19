@@ -13,6 +13,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
     
     self.pointView.layer.cornerRadius = 10.25;
     self.pointView.layer.masksToBounds = YES;

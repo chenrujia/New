@@ -71,6 +71,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     self.orderTypeView.layer.cornerRadius = 2.f;

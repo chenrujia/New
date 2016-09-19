@@ -8,195 +8,136 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>1</integer>
 		</dict>
 		<key>CYLTabBarController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
 		</dict>
 		<key>DACircularProgress.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>3</integer>
 		</dict>
 		<key>DZNEmptyDataSet.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>5</integer>
 		</dict>
 		<key>IQKeyboardManager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>6</integer>
 		</dict>
 		<key>LBXScan.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>7</integer>
 		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>8</integer>
 		</dict>
 		<key>MJExtension.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>9</integer>
 		</dict>
 		<key>MJRefresh.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>10</integer>
-		</dict>
-		<key>MWPhotoBrowser-MWPhotoBrowser.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>12</integer>
 		</dict>
 		<key>MWPhotoBrowser.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>11</integer>
 		</dict>
 		<key>NSDate-Escort.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>13</integer>
 		</dict>
 		<key>ObjectiveSugar.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>14</integer>
 		</dict>
 		<key>PSTCollectionView.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>28</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-YouFeel.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>15</integer>
 		</dict>
 		<key>Pods-YouFeelTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>16</integer>
 		</dict>
 		<key>Pods-YouFeelUITests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>17</integer>
 		</dict>
 		<key>RKNotificationHub.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>19</integer>
 		</dict>
 		<key>ReactiveCocoa.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>18</integer>
 		</dict>
 		<key>SDAutoLayout.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>20</integer>
 		</dict>
 		<key>SDCycleScrollView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>21</integer>
 		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>22</integer>
 		</dict>
 		<key>SKSTableView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>23</integer>
 		</dict>
 		<key>Toast.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>24</integer>
 		</dict>
 		<key>UITableView+FDTemplateLayoutCell_Bell.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>25</integer>
 		</dict>
 		<key>UIViewController+Swizzled.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>26</integer>
 		</dict>
 		<key>ZXingObjC.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>27</integer>
 		</dict>
 		<key>dyci.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>4</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -206,17 +147,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>09846A0F46988573DAEDDD6B55466BEA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>0C1D89EAE68EF4D4ABEDB611EC44AAB0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>170BCB19C954141ABB19203CA479F877</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -231,17 +162,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>33B1A46CFCCD9167E829D284E60362C2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>35A276F9BF6DC3AA0F2756920CB1FAD3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4813CC5AB37CDEF110320E1CCA3F58B8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -271,17 +192,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5813251FEA21E4AEE97385709F1912DE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>625225DB194C2C53ADE11A7065063055</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>66F174A7B8008CF3D831A5FDAEC8D1D7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -297,11 +208,6 @@
 			<true/>
 		</dict>
 		<key>736E57AD5AEFAAF68D47AE4E8FCB8F68</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>90EA80C5302A123452ABD5B5B1C1D92A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -322,16 +228,6 @@
 			<true/>
 		</dict>
 		<key>9EAB3E42EF957541E6C3C76D35FD008E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A2869BDEEC601CE70804BF5CB06AB1E9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A6927FAB2837095225331C4B7308391A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -366,27 +262,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D8B1F83D19BD380C1F5B2AAB6DC50248</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DE3B07ED7FF04F506B0C5E00F4973589</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>DF6F7652F764FA182B29490F108D0011</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E2FE87384A67337831E53490EEA8BF11</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E8087290EA31A8333054D41773594841</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -397,11 +273,6 @@
 			<true/>
 		</dict>
 		<key>FD19E400D97E11F116685857B18FCF17</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FE2F1D7B9D9FCEA148517E4657B243F4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

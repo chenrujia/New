@@ -670,8 +670,8 @@
 		7829DDAA1CABB66600255469 /* BXTMineDownView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTMineDownView.xib; sourceTree = "<group>"; };
 		7829DDB41CABDF3F00255469 /* BXTRepairsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTRepairsListViewController.h; sourceTree = "<group>"; };
 		7829DDB51CABDF3F00255469 /* BXTRepairsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTRepairsListViewController.m; sourceTree = "<group>"; };
-		782ACDC61D767FEB00304852 /* BXTOtherAffairViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTOtherAffairViewController.h; sourceTree = "<group>"; };
-		782ACDC71D767FEB00304852 /* BXTOtherAffairViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOtherAffairViewController.m; sourceTree = "<group>"; };
+		782ACDC61D767FEB00304852 /* BXTOtherAffairViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BXTOtherAffairViewController.h; path = Controllers/BXTOtherAffairViewController.h; sourceTree = "<group>"; };
+		782ACDC71D767FEB00304852 /* BXTOtherAffairViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BXTOtherAffairViewController.m; path = Controllers/BXTOtherAffairViewController.m; sourceTree = "<group>"; };
 		782ACDC91D767FEB00304852 /* BXTOtherAffair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTOtherAffair.h; sourceTree = "<group>"; };
 		782ACDCA1D767FEB00304852 /* BXTOtherAffair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTOtherAffair.m; sourceTree = "<group>"; };
 		782ACDCC1D767FEB00304852 /* BXTOtherAffairCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTOtherAffairCell.h; sourceTree = "<group>"; };
@@ -1955,8 +1955,6 @@
 		782ACDC51D767FEB00304852 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				782ACDC61D767FEB00304852 /* BXTOtherAffairViewController.h */,
-				782ACDC71D767FEB00304852 /* BXTOtherAffairViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3465,6 +3463,8 @@
 			isa = PBXGroup;
 			children = (
 				782ACDC51D767FEB00304852 /* Controllers */,
+				782ACDC61D767FEB00304852 /* BXTOtherAffairViewController.h */,
+				782ACDC71D767FEB00304852 /* BXTOtherAffairViewController.m */,
 				782ACDC81D767FEB00304852 /* Models */,
 				782ACDCB1D767FEB00304852 /* Views */,
 			);
@@ -5022,6 +5022,8 @@
 					9652AAFE1BC902DF009A666D = {
 						CreatedOnToolsVersion = 7.0.1;
 						DevelopmentTeam = 8LG72256D7;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -5033,11 +5035,14 @@
 					};
 					9652AB111BC902DF009A666D = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = 8LG72256D7;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 9652AAFE1BC902DF009A666D;
 					};
 					9652AB1C1BC902DF009A666D = {
 						CreatedOnToolsVersion = 7.0.1;
-						TestTargetID = 9652AAFE1BC902DF009A666D;
+						DevelopmentTeam = 8LG72256D7;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -5781,7 +5786,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -5805,7 +5810,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "2a9f94e8-c10f-48f5-932d-5f604baf3e69";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "-Wno-objc-designated-initializers";
@@ -5830,7 +5835,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Use Full Technology (Beijing) Co., Ltd. (8LG72256D7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -5846,7 +5851,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "2a9f94e8-c10f-48f5-932d-5f604baf3e69";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -5862,8 +5867,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8LG72256D7;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5881,9 +5887,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "YouFeel/YouFeel-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -5897,8 +5905,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8LG72256D7;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5915,8 +5924,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youfeel.yfgl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "YouFeel/YouFeel-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -5928,12 +5939,14 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8LG72256D7;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = YouFeelTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hxt.YouFeelTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YouFeel.app/YouFeel";
 			};
 			name = Debug;
@@ -5944,11 +5957,13 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gao LuYang (5QDDT92F45)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8LG72256D7;
 				INFOPLIST_FILE = YouFeelTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hxt.YouFeelTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a222c29-5f30-49a2-8a7d-94fd7fffa41e";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YouFeel.app/YouFeel";
 			};
 			name = Release;
@@ -5957,12 +5972,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A4D602E761631412172D5E98 /* Pods-YouFeelUITests.debug.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8LG72256D7;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = YouFeelUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hxt.YouFeelUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = YouFeel;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				USES_XCTRUNNER = YES;
 			};
 			name = Debug;
@@ -5971,11 +5989,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD945795A8A5A74613666410 /* Pods-YouFeelUITests.release.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8LG72256D7;
 				INFOPLIST_FILE = YouFeelUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hxt.YouFeelUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = YouFeel;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				USES_XCTRUNNER = YES;
 			};
 			name = Release;

@@ -54,7 +54,7 @@
             self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"业务统计", @"能源统计", @"敬请期待"]];
             self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_statistics", @"app_chart", @"app_symbol"]];
             
-            if ([BXTGlobal shareGlobal].isRepair)
+            if ([power containsString:@"80601"])
             {
                 self.titleArray = [[NSMutableArray alloc] initWithArray:@[@"业务统计", @"能源抄表", @"能源统计", @"快捷抄表", @"敬请期待"]];
                 self.imageArray = [[NSMutableArray alloc] initWithArray:@[@"app_statistics", @"app_metering", @"app_chart", @"app_quick", @"app_symbol"]];

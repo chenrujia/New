@@ -11,6 +11,7 @@
 @implementation BXTMTCompletionHeader
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.roundView1.layer.cornerRadius = 5;
     self.roundView2.layer.cornerRadius = 5;

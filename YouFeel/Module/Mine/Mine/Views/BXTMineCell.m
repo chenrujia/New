@@ -25,6 +25,8 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     self.iconView.frame = CGRectMake(15, 15, 30, 30);
     self.titleView.font = [UIFont systemFontOfSize:17];
 }

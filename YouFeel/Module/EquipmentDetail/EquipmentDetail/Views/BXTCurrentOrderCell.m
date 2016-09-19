@@ -49,6 +49,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     self.groupView.layer.borderWidth = 0.5;

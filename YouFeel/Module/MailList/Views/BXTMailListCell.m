@@ -62,6 +62,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     
     self.iconView.layer.cornerRadius = 20;

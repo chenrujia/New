@@ -11,6 +11,7 @@
 @implementation BXTInfoNotesTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 
