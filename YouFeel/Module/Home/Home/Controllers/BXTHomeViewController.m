@@ -42,8 +42,8 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 @interface BXTHomeViewController ()<BXTDataResponseDelegate, SDCycleScrollViewDelegate>
 {
-    BOOL isConfigInfoSuccess;
-    UIButton *messageBtn;
+    BOOL              isConfigInfoSuccess;
+    UIButton          *messageBtn;
     SDCycleScrollView *cycleScrollView;
 }
 

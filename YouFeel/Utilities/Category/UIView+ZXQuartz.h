@@ -12,16 +12,24 @@
 
 //写字
 - (void)drawTextInRect:(CGRect)rect Contents:(NSString *)content contentFont:(UIFont *)font contentColor:(UIColor *)color;
+
+//画图片
+- (void)drawImageInSize:(CGSize)size position:(CGPoint)position imageName:(NSString *)name;
+
 //矩形
 - (void)drawRectangle:(CGRect)rect;
+
 //圆角矩形
 - (void)drawRectangle:(CGRect)rect withRadius:(float)radius;
+
 //画多边形
 //pointArray = @[[NSValue valueWithCGPoint:CGPointMake(200, 400)]];
 - (void)drawPolygon:(NSArray *)pointArray;
+
 //圆形
 - (void)drawCircleWithCenter:(CGPoint)center
                      radius:(float)radius;
+
 //曲线
 - (void)drawCurveFrom:(CGPoint)startPoint
                   to:(CGPoint)endPoint
@@ -34,6 +42,7 @@
               startAngle:(float)startAngle
                 endAngle:(float)endAngle
                clockwise:(BOOL)clockwise;
+
 //扇形
 - (void)drawSectorFromCenter:(CGPoint)center
                      radius:(float)radius
@@ -52,9 +61,6 @@ pointArray = @[[NSValue valueWithCGPoint:CGPointMake(200, 400)]];
  */
 - (void)drawLines:(NSArray *)pointArray;
 
-
-
 - (CGMutablePathRef)pathwithFrame:(CGRect)frame withRadius:(float)radius;
-
 
 @end

@@ -41,12 +41,12 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UIView       *contentView;
 @property (weak, nonatomic) IBOutlet UIImageView  *headImgView;
+@property (weak, nonatomic) IBOutlet UIImageView *evaluatedImgView;
 @property (weak, nonatomic) IBOutlet UILabel      *repairerName;
 @property (weak, nonatomic) IBOutlet UILabel      *departmentName;
 @property (weak, nonatomic) IBOutlet UILabel      *positionName;
 @property (weak, nonatomic) IBOutlet UIButton     *connectTa;
 @property (weak, nonatomic) IBOutlet UILabel      *orderType;
-@property (weak, nonatomic) IBOutlet UILabel      *orderState;
 @property (weak, nonatomic) IBOutlet UILabel      *repairPerson;
 @property (weak, nonatomic) IBOutlet UILabel      *repairUsers;
 @property (weak, nonatomic) IBOutlet UILabel      *maintenceRecord;
@@ -91,6 +91,7 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UIScrollView *mmScroller;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scroller_bottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *time_width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *position_width;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *first_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fifth_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sixth_top;

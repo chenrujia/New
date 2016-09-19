@@ -21,7 +21,6 @@
 @property (weak, nonatomic) IBOutlet UILabel     *jobNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *orderNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *repairTimeLabel;
-@property (weak, nonatomic) IBOutlet UILabel     *hoursLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *placeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *appointmentImgView;
 @property (weak, nonatomic) IBOutlet UIView      *lineView;
@@ -30,7 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel     *departmentName;
 @property (weak, nonatomic) IBOutlet UILabel     *jobName;
 @property (weak, nonatomic) IBOutlet UILabel     *faultTypeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *repairContent;
+@property (weak, nonatomic) IBOutlet UILabel     *repairContent;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *content_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *second_view_height;
