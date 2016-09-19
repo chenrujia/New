@@ -65,6 +65,8 @@
         [tabBarController setViewControllers:@[homeNav,mailNav,applicationsNav,settingNav]];
         [[self class] customizeTabBarAppearance];
         
+        tabBarController.tabBarHeight = 50;
+        
         _tabBarController = tabBarController;
     }
     return _tabBarController;
