@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BXTRepairDetailInfo.h"
-@import AVFoundation.AVAudioPlayer;
+#import <AVFoundation/AVFoundation.h>
 
 @interface BXTAssignOrderViewModel : NSObject
 
