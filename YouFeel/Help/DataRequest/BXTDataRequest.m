@@ -1462,8 +1462,8 @@
     {
         url = [self encryptTheURL:url dict:parameters];
     }
-    LogRed(@"url......%ld\n%@",(long)self.requestType, url);
-    LogRed(@"post参数值.....\n%@", [self dictionaryToJson:parameters]);
+    NSLog(@"url......%ld\n%@",(long)self.requestType, url);
+    NSLog(@"post参数值.....\n%@", [self dictionaryToJson:parameters]);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -1474,7 +1474,7 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [response JSONValue];
-        LogBlue(@"\n\n---------------------response---------------------> of type:%ld    \n\n%@\n\n<---------------------response---------------------\n\n",(long)self.requestType,response);
+        NSLog(@"\n\n---------------------response---------------------> of type:%ld    \n\n%@\n\n<---------------------response---------------------\n\n",(long)self.requestType,response);
         if (_successBlock)
         {
             _successBlock(self.requestType,dictionary);
@@ -1497,7 +1497,7 @@
         {
             [self.delegate requestError:error requeseType:_requestType];
         }
-        LogBlue(@"type>>>>>:%ld    error:%@",(long)self.requestType,error);
+        NSLog(@"type>>>>>:%ld    error:%@",(long)self.requestType,error);
     }];
 }
 
@@ -1509,8 +1509,8 @@
     {
         url = [self encryptTheURL:url dict:parameters];
     }
-    LogRed(@"url......%@",url);
-    LogRed(@"post参数值.....\n%@", [self dictionaryToJson:parameters]);
+    NSLog(@"url......%@",url);
+    NSLog(@"post参数值.....\n%@", [self dictionaryToJson:parameters]);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置请求格式
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -1534,7 +1534,7 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *result = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *dictionary = [result JSONValue];
-        LogBlue(@"\n\n---------------------response---------------------> of type:%ld    \n\n%@\n\n<---------------------response---------------------\n\n",(long)self.requestType,dictionary);
+        NSLog(@"\n\n---------------------response---------------------> of type:%ld    \n\n%@\n\n<---------------------response---------------------\n\n",(long)self.requestType,dictionary);
         [self.delegate requestResponseData:dictionary requeseType:self.requestType];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self.delegate requestError:error requeseType:self.requestType];
@@ -1543,7 +1543,7 @@
 
 - (void)getRequest:(NSString *)url
 {
-    LogRed(@"%@",url);
+    NSLog(@"%@",url);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     // 设置返回格式
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -1551,7 +1551,7 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        LogBlue(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
+        NSLog(@"\n\n---------------------response--------------------->\n\n%@\n\n<---------------------response---------------------\n\n", response);
         NSDictionary *dictionary = [response JSONValue];
         [_delegate requestResponseData:dictionary requeseType:_requestType];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

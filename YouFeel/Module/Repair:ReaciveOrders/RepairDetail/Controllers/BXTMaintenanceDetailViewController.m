@@ -70,9 +70,6 @@
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
     self.btnArray = buttons;
     isFirst = YES;
-    self.connectTa.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    self.connectTa.layer.borderWidth = 1.f;
-    self.connectTa.layer.cornerRadius = 4.f;
     
     //联系他
     @weakify(self);
@@ -83,8 +80,6 @@
                                @"UserName":repairPerson.name,
                                @"HeadPic":repairPerson.head_pic}];
     }];
-    self.orderType.layer.masksToBounds = YES;
-    self.orderType.layer.cornerRadius = 3.f;
     self.manIDArray = [[NSMutableArray alloc] init];
     
     //点击头像
@@ -225,7 +220,7 @@
 {
     //设备列表相关
     NSInteger deviceCount = self.repairDetail.device_lists.count;
-    CGFloat secondHeight = 32.f + 63.f * deviceCount;
+    CGFloat secondHeight = 39.f + 63.f * deviceCount;
     if (deviceCount)
     {
         self.fifthBV.hidden = NO;
@@ -233,7 +228,7 @@
         for (UIView *subview in _fifthBV.subviews)
         {
             //设备列表（label）以及其下面的线（view）
-            if (subview.tag == 1)
+            if (subview.tag == 1 || subview.tag == 2 || subview.tag == 3)
             {
                 continue;
             }
@@ -247,7 +242,7 @@
             UIView *deviceView = [self deviceLists:i comingFromDeviceInfo:self.isComingFromDeviceInfo isLast:isLast];
             [self.fifthBV addSubview:deviceView];
         }
-        CGFloat space = self.fouthBV.hidden ? 24.f : 159.f;
+        CGFloat space = self.fouthBV.hidden ? 24.f : 146.f;
         self.sixth_top.constant = space + secondHeight;
         [self.sixthBV layoutIfNeeded];
     }
@@ -460,7 +455,6 @@
     [self.contentScrollView layoutIfNeeded];
     self.evaluateNotes.text = [NSString stringWithFormat:@"评论内容：%@",self.repairDetail.evaluation_notes];
     [self.contentView layoutIfNeeded];
-    self.ninth_bv_height.constant = CGRectGetMaxY(self.evaluateNotes.frame) + 10.f;
     [self.view layoutIfNeeded];
 }
 
@@ -468,6 +462,11 @@
 {
     //评价图片相关
     self.tenthBV.hidden = NO;
+    if (self.repairDetail.evaluation_pic.count == 0)
+    {
+        self.tenth_bv_height.constant = CGRectGetMaxY(self.evaluateNotes.frame) + 10.f;
+        return;
+    }
     switch (self.repairDetail.evaluation_pic.count)
     {
         case 1:
@@ -504,6 +503,7 @@
             self.tenthBV.hidden = YES;
             break;
     }
+    self.tenth_bv_height.constant = CGRectGetMaxY(self.evaluateNotes.frame) + 81.f + 10.f;
 }
 
 - (void)loadAllOthers
@@ -520,17 +520,8 @@
             if (self.repairDetail.evaluation_user_arr.count > 0 && (self.sceneType == MyRepairType || self.sceneType == AllOrderType))
             {
                 [self loadEvaluationContent];
-                //有评价图片
-                if (self.repairDetail.evaluation_pic.count)
-                {
-                    [self loadEvaluationPic];
-                    self.content_height.constant = CGRectGetMaxY(self.tenthBV.frame) + 12.f;
-                }
-                else
-                {
-                    self.tenthBV.hidden = YES;
-                    self.content_height.constant = CGRectGetMaxY(self.ninthBV.frame) + 12.f;
-                }
+                [self loadEvaluationPic];
+                self.content_height.constant = CGRectGetMaxY(self.tenthBV.frame) + 12.f;
             }
             else
             {
@@ -547,17 +538,8 @@
                 self.ninth_top.constant = 12.f;
                 [self.ninthBV layoutIfNeeded];
                 [self loadEvaluationContent];
-                //有评价图片
-                if (self.repairDetail.evaluation_pic.count)
-                {
-                    [self loadEvaluationPic];
-                    self.content_height.constant = CGRectGetMaxY(self.tenthBV.frame)+ 10.f + 12.f;
-                }
-                else
-                {
-                    self.tenthBV.hidden = YES;
-                    self.content_height.constant = CGRectGetMaxY(self.ninthBV.frame)+ 10.f + 12.f;
-                }
+                [self loadEvaluationPic];
+                self.content_height.constant = CGRectGetMaxY(self.tenthBV.frame)+ 10.f + 12.f;
             }
             else
             {
@@ -721,8 +703,10 @@
     {
         self.time_width.constant = 290.f;
     }
-    self.orderStyle.text = [self.repairDetail.task_type intValue] == 1 ? @"日常" : @"维保";
-    self.orderStyle.backgroundColor = [self.repairDetail.task_type intValue] == 1 ? colorWithHexString(@"#F0B660") : colorWithHexString(@"#7EC86E");
+    if ([self.repairDetail.task_type intValue] == 2)
+    {
+        self.orderType.image = [UIImage imageNamed:@"Detail_maintenance"];
+    }
     self.departmentName.text = repairPerson.department_name;
     UIFont *font = [UIFont systemFontOfSize:17.f];
     CGSize jobSize = MB_MULTILINE_TEXTSIZE(repairPerson.duty_name, font, CGSizeMake(200, 20), NSLineBreakByWordWrapping);
@@ -745,10 +729,10 @@
         self.repairPerson.text = @"报单人";
         self.repairUsers.text = @"维修员:";
         self.maintenceRecord.text = @"维修报告:";
-        self.repairTime.text = [NSString stringWithFormat:@"报修时间:%@",self.repairDetail.fault_time_name];
-        self.place.text = [NSString stringWithFormat:@"报修位置:%@",self.repairDetail.place_name];
+        self.repairTime.text = [NSString stringWithFormat:@"报单时间:%@",self.repairDetail.fault_time_name];
+        self.place.text = [NSString stringWithFormat:@"报单位置:%@",self.repairDetail.place_name];
         self.faultType.text = [NSString stringWithFormat:@"故障类型:%@",self.repairDetail.faulttype_name];
-        self.cause.text = [NSString stringWithFormat:@"故障描述:%@",self.repairDetail.cause];
+        self.cause.text = [NSString stringWithFormat:@"报单内容:%@",self.repairDetail.cause];
     }
     [self.contentView layoutIfNeeded];
     self.first_bv_height.constant = CGRectGetMaxY(self.cause.frame) + 10.f;
@@ -797,7 +781,7 @@
         self.tenthBV.hidden = YES;
         //设备列表相关
         [self loadDeviceList];
-        self.fifth_top.constant = 12.f;
+        self.fifth_top.constant = 5.f;
         [self.fifthBV layoutIfNeeded];
         [self updateContentConstant:self.fifthBV];
         return;
@@ -824,7 +808,7 @@
     {
         self.fouthBV.hidden = YES;
         self.fifthBV.hidden = YES;
-        self.sixth_top.constant = 12.f;
+        self.sixth_top.constant = 5.f;
         [self.sixthBV layoutIfNeeded];
         //维修员相关
         [self loadMMList];
@@ -837,7 +821,7 @@
              self.repairDetail.repair_user_arr.count)
     {
         self.fifthBV.hidden = YES;
-        self.sixth_top.constant = 147.f;
+        self.sixth_top.constant = 146.f;
         [self.sixthBV layoutIfNeeded];
         //维修员相关
         [self loadMMList];
@@ -850,12 +834,13 @@
              self.repairDetail.repair_user_arr.count)
     {
         self.fouthBV.hidden = YES;
-        self.fifth_top.constant = 12.f;
+        self.fifth_top.constant = 5.f;
         [self.fifthBV layoutIfNeeded];
         //设备列表相关
         [self loadDeviceList];
         [self loadMMList];
         [self loadAllOthers];
+        [self.contentView layoutIfNeeded];
         return;
     }
     else if (self.repairDetail.fault_pic.count &&

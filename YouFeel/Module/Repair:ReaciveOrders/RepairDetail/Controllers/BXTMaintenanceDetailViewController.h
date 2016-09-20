@@ -46,7 +46,7 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UILabel      *departmentName;
 @property (weak, nonatomic) IBOutlet UILabel      *positionName;
 @property (weak, nonatomic) IBOutlet UIButton     *connectTa;
-@property (weak, nonatomic) IBOutlet UILabel      *orderType;
+@property (weak, nonatomic) IBOutlet UIImageView  *orderType;
 @property (weak, nonatomic) IBOutlet UILabel      *repairPerson;
 @property (weak, nonatomic) IBOutlet UILabel      *repairUsers;
 @property (weak, nonatomic) IBOutlet UILabel      *maintenceRecord;
@@ -77,7 +77,6 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet UILabel      *criticPerson;
 
 @property (weak, nonatomic) IBOutlet UILabel      *evaluateNotes;
-@property (weak, nonatomic) IBOutlet UILabel      *orderStyle;
 @property (weak, nonatomic) IBOutlet UIImageView  *alarm;
 @property (weak, nonatomic) IBOutlet UIImageView  *faultPicOne;
 @property (weak, nonatomic) IBOutlet UIImageView  *faultPicTwo;
@@ -100,7 +99,7 @@ typedef NS_ENUM (NSInteger, SceneType)
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *first_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fifth_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *seventh_bv_height;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *ninth_bv_height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tenth_bv_height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *end_time_top;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *done_state_top;
 

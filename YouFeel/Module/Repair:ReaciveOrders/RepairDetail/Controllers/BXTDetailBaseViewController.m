@@ -196,9 +196,12 @@
     UIImageView *userImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 64, 64)];
     userImgView.center = CGPointMake(mmBackWidth/2.f, 32.f);
     userImgView.tag = i;
+    userImgView.layer.masksToBounds = YES;
+    userImgView.layer.cornerRadius = 32.f;
     [userImgView sd_setImageWithURL:[NSURL URLWithString:userInfo.head_pic] placeholderImage:[UIImage imageNamed:@"polaroid"]];
     userImgView.userInteractionEnabled = YES;
     [userBack addSubview:userImgView];
+    
     //点击头像
     @weakify(self);
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
@@ -211,24 +214,11 @@
     }];
     [userImgView addGestureRecognizer:tapGesture];
     
-    //姓名
-    UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(userImgView.frame) + 8.f, mmBackWidth, 20)];
-    userName.textColor = colorWithHexString(@"000000");
-    userName.textAlignment = NSTextAlignmentCenter;
-    userName.font = [UIFont systemFontOfSize:16.f];
-    userName.text = userInfo.name;
-    [userBack addSubview:userName];
-    
     //联系Ta
     UIButton *contact = [UIButton buttonWithType:UIButtonTypeCustom];
-    contact.layer.borderColor = colorWithHexString(@"3cafff").CGColor;
-    contact.layer.borderWidth = 1.f;
-    contact.layer.cornerRadius = 4.f;
-    [contact setFrame:CGRectMake(0, CGRectGetMaxY(userName.frame) + 8, 76.f, 30.f)];
+    [contact setFrame:CGRectMake(0, CGRectGetMaxY(userImgView.frame) - 20.f, 91.f, 40.f)];
     [contact setCenter:CGPointMake(mmBackWidth/2.f, contact.center.y)];
-    [contact setTitle:@"联系Ta" forState:UIControlStateNormal];
-    contact.titleLabel.font = [UIFont systemFontOfSize:16];
-    [contact setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+    [contact setImage:[UIImage imageNamed:@"Detail_Contact_me"] forState:UIControlStateNormal];
     [[contact rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         BXTMaintenanceManInfo *mainManInfo = self.repairDetail.repair_user_arr[i];
@@ -238,6 +228,14 @@
     }];
     [userBack addSubview:contact];
     
+    //姓名
+    UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(contact.frame), mmBackWidth, 20)];
+    userName.textColor = colorWithHexString(@"4a4a4a");
+    userName.textAlignment = NSTextAlignmentCenter;
+    userName.font = [UIFont systemFontOfSize:16.f];
+    userName.text = userInfo.name;
+    [userBack addSubview:userName];
+    
     return userBack;
 }
 
@@ -246,23 +244,23 @@
     BXTDeviceMMListInfo *deviceMMInfo = _repairDetail.device_lists[i];
     CGFloat height = 63.f;
     //以设备列表下面那条线为基准
-    CGFloat y = 30.f;
+    CGFloat y = 37.f;
     UIView *deviceBackView = [[UIView alloc] initWithFrame:CGRectMake(0, y + i * height, SCREEN_WIDTH, height)];
     
     UILabel *deviceName = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 8.f, SCREEN_WIDTH - 108.f, 20)];
-    deviceName.textColor = colorWithHexString(@"000000");
+    deviceName.textColor = colorWithHexString(@"4A4A4A");
     deviceName.numberOfLines = 0;
     deviceName.lineBreakMode = NSLineBreakByWordWrapping;
     deviceName.font = [UIFont systemFontOfSize:16.f];
-    deviceName.text = deviceMMInfo.name;
+    deviceName.text = [NSString stringWithFormat:@"名称:        %@",deviceMMInfo.name];
     [deviceBackView addSubview:deviceName];
     
     UILabel *deviceNumber = [[UILabel alloc] initWithFrame:CGRectMake(15.f, CGRectGetMaxY(deviceName.frame) + 8.f, SCREEN_WIDTH - 108.f, 20)];
-    deviceNumber.textColor = colorWithHexString(@"000000");
+    deviceNumber.textColor = colorWithHexString(@"4A4A4A");
     deviceNumber.numberOfLines = 0;
     deviceNumber.lineBreakMode = NSLineBreakByWordWrapping;
     deviceNumber.font = [UIFont systemFontOfSize:16.f];
-    deviceNumber.text = deviceMMInfo.code_number;
+    deviceNumber.text = [NSString stringWithFormat:@"编号:        %@",deviceMMInfo.code_number];
     [deviceBackView addSubview:deviceNumber];
     
     if (!isComing)
