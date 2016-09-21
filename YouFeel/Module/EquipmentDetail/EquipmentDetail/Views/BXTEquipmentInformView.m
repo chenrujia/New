@@ -257,7 +257,7 @@
     if (type == Device_Con && data.count > 0 && [dic[@"returncode"] integerValue] == 0)
     {
         NSDictionary *dataDict = data[0];
-        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@[@"设备名称", @"设备编号"],  @[@"设备型号", @"设备分类", @"设备品牌", @"安装位置", @"服务区域", @"接管日期", @"启用日期"], @[@"品牌", @"厂家", @"地址", @"联系人", @"联系电话"], @[@"设备参数"], @[@"负责人"], @[@"状态记录"]]];
+        self.titleArray = [[NSMutableArray alloc] initWithArray:@[@[@"设备名称", @"设备编号"],  @[@"设备型号", @"设备分类", @"设备品牌", @"安装位置", @"服务区域", @"接管日期", @"启用日期"], @[@"品牌", @"厂家", @"地址", @"联系人  ", @"联系电话"], @[@"设备参数"], @[@"负责人"], @[@"状态记录"]]];
         self.equipmentModel = [BXTEquipmentData modelObjectWithDictionary:dataDict];
         
         // section == 0

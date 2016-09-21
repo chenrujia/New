@@ -251,7 +251,6 @@
         {
             [self pushDepartmentViewController];
         }
-        // TODO: -----------------  调试  -----------------
         else if (indexPath.section == 3)
         {
             BXTChangePositionViewController *cpvc = [[BXTChangePositionViewController alloc] init];

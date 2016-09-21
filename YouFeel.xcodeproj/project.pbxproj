@@ -479,16 +479,6 @@
 		96D5C5C91CED951100222943 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D5C5C71CED951100222943 /* Fabric.framework */; };
 		96D5C5CA1CED951100222943 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D5C5C81CED951100222943 /* Crashlytics.framework */; };
 		96D850C31C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D850C21C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m */; };
-		96E6F5721D124F91006FB64E /* GJDeallocBlockExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E6F55F1D124F91006FB64E /* GJDeallocBlockExecutor.m */; };
-		96E6F5731D124F91006FB64E /* NSObject+GJDeallocBlockExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E6F5611D124F91006FB64E /* NSObject+GJDeallocBlockExecutor.m */; };
-		96E6F5741D124F91006FB64E /* GJRedDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E6F5631D124F91006FB64E /* GJRedDot.m */; };
-		96E6F5751D124F91006FB64E /* GJRedDotInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E6F5651D124F91006FB64E /* GJRedDotInfo.m */; };
-		96E6F5761D124F91006FB64E /* GJRedDotManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E6F5671D124F91006FB64E /* GJRedDotManager.m */; };
-		96E6F5771D124F91006FB64E /* GJRedDotModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E6F5691D124F91006FB64E /* GJRedDotModel.m */; };
-		96E6F5781D124F91006FB64E /* NSObject+GJRedDotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E6F56D1D124F91006FB64E /* NSObject+GJRedDotHandler.m */; };
-		96E6F5791D124F91006FB64E /* UITabBarItem+GJRedDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E6F56F1D124F91006FB64E /* UITabBarItem+GJRedDot.m */; };
-		96E6F57A1D124F91006FB64E /* UIView+GJRedDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E6F5711D124F91006FB64E /* UIView+GJRedDot.m */; };
-		96E6F57D1D124FE4006FB64E /* GJRedDotRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E6F57C1D124FE4006FB64E /* GJRedDotRegister.m */; };
 		96EB27B91CAB6C4200FB2084 /* BXTItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EB27B71CAB6C4200FB2084 /* BXTItemTableViewCell.m */; };
 		96EB27BA1CAB6C4200FB2084 /* BXTItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EB27B81CAB6C4200FB2084 /* BXTItemTableViewCell.xib */; };
 		96EBFCD11CA63C3700F93AB0 /* BXTPlaceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EBFCCF1CA63C3700F93AB0 /* BXTPlaceTableViewCell.m */; };
@@ -1084,6 +1074,7 @@
 		78AF1A3D1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyTrendHeaderCell.h; sourceTree = "<group>"; };
 		78AF1A3E1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyTrendHeaderCell.m; sourceTree = "<group>"; };
 		78AF1A3F1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEnergyTrendHeaderCell.xib; sourceTree = "<group>"; };
+		78BD14EF1D922F4E002010C8 /* YouFeel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YouFeel.entitlements; sourceTree = "<group>"; };
 		78C55A571C47339700FFEB37 /* BXTCurrentOrderData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCurrentOrderData.h; sourceTree = "<group>"; };
 		78C55A581C47339700FFEB37 /* BXTCurrentOrderData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCurrentOrderData.m; sourceTree = "<group>"; };
 		78C55A5C1C47339700FFEB37 /* BXTEquipmentControlUserArr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEquipmentControlUserArr.h; sourceTree = "<group>"; };
@@ -1372,28 +1363,6 @@
 		96D5C5C81CED951100222943 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		96D850C11C8D76C7007B9666 /* BXTDeviceMaintenceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTDeviceMaintenceInfo.h; sourceTree = "<group>"; };
 		96D850C21C8D76C7007B9666 /* BXTDeviceMaintenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTDeviceMaintenceInfo.m; sourceTree = "<group>"; };
-		96E6F55E1D124F91006FB64E /* GJDeallocBlockExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJDeallocBlockExecutor.h; sourceTree = "<group>"; };
-		96E6F55F1D124F91006FB64E /* GJDeallocBlockExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJDeallocBlockExecutor.m; sourceTree = "<group>"; };
-		96E6F5601D124F91006FB64E /* NSObject+GJDeallocBlockExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+GJDeallocBlockExecutor.h"; sourceTree = "<group>"; };
-		96E6F5611D124F91006FB64E /* NSObject+GJDeallocBlockExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+GJDeallocBlockExecutor.m"; sourceTree = "<group>"; };
-		96E6F5621D124F91006FB64E /* GJRedDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJRedDot.h; sourceTree = "<group>"; };
-		96E6F5631D124F91006FB64E /* GJRedDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJRedDot.m; sourceTree = "<group>"; };
-		96E6F5641D124F91006FB64E /* GJRedDotInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJRedDotInfo.h; sourceTree = "<group>"; };
-		96E6F5651D124F91006FB64E /* GJRedDotInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJRedDotInfo.m; sourceTree = "<group>"; };
-		96E6F5661D124F91006FB64E /* GJRedDotManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJRedDotManager.h; sourceTree = "<group>"; };
-		96E6F5671D124F91006FB64E /* GJRedDotManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJRedDotManager.m; sourceTree = "<group>"; };
-		96E6F5681D124F91006FB64E /* GJRedDotModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJRedDotModel.h; sourceTree = "<group>"; };
-		96E6F5691D124F91006FB64E /* GJRedDotModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJRedDotModel.m; sourceTree = "<group>"; };
-		96E6F56A1D124F91006FB64E /* GJRedDotModelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJRedDotModelProtocol.h; sourceTree = "<group>"; };
-		96E6F56B1D124F91006FB64E /* GJRedDotProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJRedDotProtocol.h; sourceTree = "<group>"; };
-		96E6F56C1D124F91006FB64E /* NSObject+GJRedDotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+GJRedDotHandler.h"; sourceTree = "<group>"; };
-		96E6F56D1D124F91006FB64E /* NSObject+GJRedDotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+GJRedDotHandler.m"; sourceTree = "<group>"; };
-		96E6F56E1D124F91006FB64E /* UITabBarItem+GJRedDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarItem+GJRedDot.h"; sourceTree = "<group>"; };
-		96E6F56F1D124F91006FB64E /* UITabBarItem+GJRedDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarItem+GJRedDot.m"; sourceTree = "<group>"; };
-		96E6F5701D124F91006FB64E /* UIView+GJRedDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+GJRedDot.h"; sourceTree = "<group>"; };
-		96E6F5711D124F91006FB64E /* UIView+GJRedDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+GJRedDot.m"; sourceTree = "<group>"; };
-		96E6F57B1D124FE4006FB64E /* GJRedDotRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJRedDotRegister.h; sourceTree = "<group>"; };
-		96E6F57C1D124FE4006FB64E /* GJRedDotRegister.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJRedDotRegister.m; sourceTree = "<group>"; };
 		96EB27B61CAB6C4200FB2084 /* BXTItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTItemTableViewCell.h; sourceTree = "<group>"; };
 		96EB27B71CAB6C4200FB2084 /* BXTItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTItemTableViewCell.m; sourceTree = "<group>"; };
 		96EB27B81CAB6C4200FB2084 /* BXTItemTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTItemTableViewCell.xib; sourceTree = "<group>"; };
@@ -4498,6 +4467,7 @@
 		9652AB011BC902DF009A666D /* YouFeel */ = {
 			isa = PBXGroup;
 			children = (
+				78BD14EF1D922F4E002010C8 /* YouFeel.entitlements */,
 				9652AB051BC902DF009A666D /* AppDelegate.h */,
 				9652AB061BC902DF009A666D /* AppDelegate.m */,
 				9652AB2F1BC9069B009A666D /* Help */,
@@ -4570,7 +4540,6 @@
 			isa = PBXGroup;
 			children = (
 				78624F1F1D2B83F20024215F /* HistogramView */,
-				96E6F55C1D124F91006FB64E /* GJRedDot */,
 				782BCBDA1D028799003C5E12 /* RollLabel */,
 				96BDF18C1C8579FE00CEDA58 /* WeiXin */,
 				782AD4D21C5A12BD00A1C4D8 /* DES3Util */,
@@ -4925,43 +4894,6 @@
 			path = TabBarConfig;
 			sourceTree = "<group>";
 		};
-		96E6F55C1D124F91006FB64E /* GJRedDot */ = {
-			isa = PBXGroup;
-			children = (
-				96E6F55D1D124F91006FB64E /* GJDeallocBlockExecutor */,
-				96E6F5621D124F91006FB64E /* GJRedDot.h */,
-				96E6F5631D124F91006FB64E /* GJRedDot.m */,
-				96E6F5641D124F91006FB64E /* GJRedDotInfo.h */,
-				96E6F5651D124F91006FB64E /* GJRedDotInfo.m */,
-				96E6F57B1D124FE4006FB64E /* GJRedDotRegister.h */,
-				96E6F57C1D124FE4006FB64E /* GJRedDotRegister.m */,
-				96E6F5661D124F91006FB64E /* GJRedDotManager.h */,
-				96E6F5671D124F91006FB64E /* GJRedDotManager.m */,
-				96E6F5681D124F91006FB64E /* GJRedDotModel.h */,
-				96E6F5691D124F91006FB64E /* GJRedDotModel.m */,
-				96E6F56A1D124F91006FB64E /* GJRedDotModelProtocol.h */,
-				96E6F56B1D124F91006FB64E /* GJRedDotProtocol.h */,
-				96E6F56C1D124F91006FB64E /* NSObject+GJRedDotHandler.h */,
-				96E6F56D1D124F91006FB64E /* NSObject+GJRedDotHandler.m */,
-				96E6F56E1D124F91006FB64E /* UITabBarItem+GJRedDot.h */,
-				96E6F56F1D124F91006FB64E /* UITabBarItem+GJRedDot.m */,
-				96E6F5701D124F91006FB64E /* UIView+GJRedDot.h */,
-				96E6F5711D124F91006FB64E /* UIView+GJRedDot.m */,
-			);
-			path = GJRedDot;
-			sourceTree = "<group>";
-		};
-		96E6F55D1D124F91006FB64E /* GJDeallocBlockExecutor */ = {
-			isa = PBXGroup;
-			children = (
-				96E6F55E1D124F91006FB64E /* GJDeallocBlockExecutor.h */,
-				96E6F55F1D124F91006FB64E /* GJDeallocBlockExecutor.m */,
-				96E6F5601D124F91006FB64E /* NSObject+GJDeallocBlockExecutor.h */,
-				96E6F5611D124F91006FB64E /* NSObject+GJDeallocBlockExecutor.m */,
-			);
-			path = GJDeallocBlockExecutor;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -5048,6 +4980,9 @@
 							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
 							};
 						};
 					};
@@ -5369,7 +5304,6 @@
 				7867DC271C4CBA5B000749F1 /* BXTCustomerServiceViewController.m in Sources */,
 				96A787871CBC9A39007510A4 /* BXTSpecialOrderInfo.m in Sources */,
 				96AB06301C1FB48E0038E2AF /* DOPDropDownMenu.m in Sources */,
-				96E6F5771D124F91006FB64E /* GJRedDotModel.m in Sources */,
 				784890D41D3734D700C1106D /* BXTNoticeListViewController.m in Sources */,
 				7867DC301C4CBA5B000749F1 /* BXTHomeTableViewCell.m in Sources */,
 				782D6BC41C0D6CFC00E1828F /* SPChartUtil.m in Sources */,
@@ -5385,9 +5319,7 @@
 				9652AB071BC902DF009A666D /* AppDelegate.m in Sources */,
 				7867DC2E1C4CBA5B000749F1 /* BXTRemindNum.m in Sources */,
 				784E4FA51CA90D2700EF2A06 /* BXTMyIntegralFirstCell.m in Sources */,
-				96E6F5751D124F91006FB64E /* GJRedDotInfo.m in Sources */,
 				78EFEED31CAE54F80011F9E9 /* BXTProjectInformViewController.m in Sources */,
-				96E6F5741D124F91006FB64E /* GJRedDot.m in Sources */,
 				96C9DF9B1CCB1AF100ECF726 /* BXTEvaluationViewController.m in Sources */,
 				783DDA4B1C3FB4A50035B927 /* HanyuPinyinOutputFormat.m in Sources */,
 				7818DBDE1C0824D800DC22C6 /* PNCircleChart.m in Sources */,
@@ -5400,7 +5332,6 @@
 				9652ABF71BC90DCC009A666D /* UIImage+ANKeyValue.m in Sources */,
 				784890CF1D3734D700C1106D /* BXTMeterReadingTimeCell.m in Sources */,
 				7818DBE71C0824D800DC22C6 /* PNRadarChartDataItem.m in Sources */,
-				96E6F57D1D124FE4006FB64E /* GJRedDotRegister.m in Sources */,
 				7893D9081C7AE62900F042D5 /* BXTMTCompletionViewController.m in Sources */,
 				964DE5F01CA930490064D5D6 /* UIView+Extnesion.m in Sources */,
 				781EF20D1C3D382C0027FE72 /* BXTEquipmentInformCell.m in Sources */,
@@ -5441,7 +5372,6 @@
 				7827D0521C8578BA00E9E29E /* BXTMTProfessionBaseViewController.m in Sources */,
 				7893D8EA1C7ADA8000F042D5 /* BXTStEvaluationHeader.m in Sources */,
 				784890D11D3734D700C1106D /* BXTMeterReadingTimeView.m in Sources */,
-				96E6F5721D124F91006FB64E /* GJDeallocBlockExecutor.m in Sources */,
 				7818DBDF1C0824D800DC22C6 /* PNColor.m in Sources */,
 				9652AB421BC9070E009A666D /* BXTDataRequest.m in Sources */,
 				9652AC331BC90EC9009A666D /* LocalPhotoCell.m in Sources */,
@@ -5564,7 +5494,6 @@
 				9696B72F1C900BE500272076 /* BXTCommentTableViewCell.m in Sources */,
 				784890CD1D3734D700C1106D /* BXTMeterReadingFilterOFListView.m in Sources */,
 				78EFEECF1CAE49C30011F9E9 /* BXTProjectManageCell.m in Sources */,
-				96E6F5731D124F91006FB64E /* NSObject+GJDeallocBlockExecutor.m in Sources */,
 				968ED8E61CD9EC2800A76269 /* BXTNewOrderViewController.m in Sources */,
 				7867DD811C4CBEA1000749F1 /* BXTRejectOrderViewController.m in Sources */,
 				783836851CC5D38300C349E6 /* BXTRepairStateInfo.m in Sources */,
@@ -5574,7 +5503,6 @@
 				783831601CCE075E002C2FB6 /* BXTMineInfo.m in Sources */,
 				78EFEED61CAE550D0011F9E9 /* BXTProjectCertificationViewController.m in Sources */,
 				9652AC351BC90EC9009A666D /* LocalPhotoViewController.m in Sources */,
-				96E6F57A1D124F91006FB64E /* UIView+GJRedDot.m in Sources */,
 				969701F21C88109D0048391F /* BXTDeviceStateViewController.m in Sources */,
 				78328DE71D3F7AF30066AF0C /* BXTMeterReadingRecordDayListInfo.m in Sources */,
 				9652AB461BC90791009A666D /* AssetHelper.m in Sources */,
@@ -5623,14 +5551,12 @@
 				965F68781CBE219000BF781D /* BXTManTableViewCell.m in Sources */,
 				781D86541CBF784900F01EF7 /* BXTMailRootInfo.m in Sources */,
 				788FACF21CEF135000F142A4 /* BXTPlaceListInfo.m in Sources */,
-				96E6F5781D124F91006FB64E /* NSObject+GJRedDotHandler.m in Sources */,
 				7840FF451D52DB7F00DEAFA4 /* BXTEnergyTrendHiddenCell.m in Sources */,
 				7893D9141C7AE80C00F042D5 /* BXTEPAvailabilityViewController.m in Sources */,
 				78E6572F1D4A270800AA3ECD /* BXTEnergyTrendView.m in Sources */,
 				9652ABEC1BC90DCC009A666D /* NSData+CommonCrypto.m in Sources */,
 				9652ABF51BC90DCC009A666D /* NSData+ANKeyValue.m in Sources */,
 				7844D32F1CC0878100EC2D5D /* BXTMailUserListSimpleInfo.m in Sources */,
-				96E6F5791D124F91006FB64E /* UITabBarItem+GJRedDot.m in Sources */,
 				78E6572D1D4A270800AA3ECD /* BXTEnergyDistributionView.m in Sources */,
 				9602214A1BC9201400010072 /* UIView+Nav.m in Sources */,
 				9652ABF31BC90DCC009A666D /* ANPersistentData.m in Sources */,
@@ -5674,7 +5600,6 @@
 				9652ABF11BC90DCC009A666D /* ANKeyValueTable.m in Sources */,
 				78EFEECB1CAE24B20011F9E9 /* BXTProjectManageViewController.m in Sources */,
 				787B3ACC1CC4DE58002E1A73 /* BXTDailyOrderListViewController.m in Sources */,
-				96E6F5761D124F91006FB64E /* GJRedDotManager.m in Sources */,
 				78743FDB1D5D731A009FAC07 /* BXTEnergyConsumptionHeaderCell.m in Sources */,
 				783DDA4C1C3FB4A50035B927 /* NSString+PinYin4Cocoa.m in Sources */,
 				781EF2091C3D382C0027FE72 /* BXTEquipmentBaseView.m in Sources */,
@@ -5894,6 +5819,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = YouFeel/YouFeel.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
@@ -5932,6 +5858,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = YouFeel/YouFeel.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;

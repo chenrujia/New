@@ -169,7 +169,7 @@
         view.backgroundColor = [UIColor whiteColor];
         
         UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 200, 21)];
-        title.text = self.dataArray[section];
+        title.text = [NSString stringWithFormat:@"%@：%@", self.dataArray[section], self.transMyProject.name];
         title.textColor = colorWithHexString(@"#666666");
         title.textAlignment = NSTextAlignmentLeft;
         title.font = [UIFont systemFontOfSize:15];
