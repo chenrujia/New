@@ -75,7 +75,7 @@
 
 - (void)loadDataSoure
 {
-    [self showLoadingMBP:@"请稍等..."];
+    [BXTGlobal showLoadingMBP:@"请稍等..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request feedbackCommentList];
 }
@@ -227,7 +227,7 @@
 #pragma mark - BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == UserInfo)
@@ -257,7 +257,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

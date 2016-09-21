@@ -59,11 +59,11 @@
         @strongify(self);
         if ([self.feedbackStr isEqualToString:@"请输入您的反馈意见（500字以内）"])
         {
-            [self showMBP:@"请输入您宝贵的意见" withBlock:nil];
+            [BXTGlobal showText:@"请输入您宝贵的意见" completionBlock:nil];
         }
         else
         {
-            [self showLoadingMBP:@"提交中..."];
+            [BXTGlobal showLoadingMBP:@"提交中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request feedback:self.feedbackStr];
         }
@@ -97,7 +97,9 @@
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestFeeback" object:nil];
-        [self showMBP:@"感谢您宝贵的意见！" withBlock:^(BOOL hidden) {
+        @weakify(self);
+        [BXTGlobal showText:@"感谢您宝贵的意见！" completionBlock:^{
+            @strongify(self);
             [self.navigationController popToRootViewControllerAnimated:YES];
         }];
     }
@@ -105,7 +107,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

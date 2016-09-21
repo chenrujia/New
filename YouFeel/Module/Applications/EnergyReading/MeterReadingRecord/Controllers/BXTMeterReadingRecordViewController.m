@@ -365,7 +365,7 @@
     if ([self.isShowArray[indexPath.section] isEqualToString:@"1"])
     {
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
-        CGRect rect = CGRectMake(0, 0, cell.footerView.frame.size.width, [self returnSubCellHeightAtIndexPath:indexPath]);
+        CGRect rect = CGRectMake(0, 0, SCREEN_WIDTH - 86, [self returnSubCellHeightAtIndexPath:indexPath]);
         maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
         cell.footerView.layer.mask = maskLayer;
     }
@@ -437,7 +437,7 @@
         // headerView
         view.showView.layer.masksToBounds = YES;
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
-        CGRect rect = CGRectMake(0, 0, view.showView.frame.size.width, 80);
+        CGRect rect = CGRectMake(0, 0, SCREEN_WIDTH - 86, 80);
         maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0f, 10.0f}].CGPath;
         view.showView.layer.mask = maskLayer;
     }
@@ -556,7 +556,7 @@
     }
     else if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
     {
-        [BXTGlobal showText:self.introInfo view:self.view completionBlock:^{
+        [BXTGlobal showText:self.introInfo completionBlock:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:REFRESHTABLEVIEWOFLIST object:nil];
         }];
     }

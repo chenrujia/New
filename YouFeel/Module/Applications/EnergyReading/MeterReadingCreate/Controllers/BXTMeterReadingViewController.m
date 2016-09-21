@@ -102,17 +102,19 @@ typedef NS_ENUM(NSInteger, ReadingType) {
     // 总示数计算
     if (![self.thisValueArray containsObject:@""] && self.thisValueArray.count == 6) {
         
-        NSInteger writeValue = 0;
+        double writeValue = 0;
         for (int i=0; i<self.writeArray.count-1; i++)
         {
-            writeValue += [self.writeArray[i] integerValue];
+            writeValue += [self removeOtherChar:self.writeArray[i]] * [self.meterReadingInfo.rate doubleValue];
         }
         
-        NSInteger thisValue = [self.writeArray[5] integerValue] * [self.meterReadingInfo.rate integerValue];
-        NSInteger thisNum = thisValue - [self.lastValueArray[5] integerValue];
-        [self.writeArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", (long)writeValue]];
-        [self.thisValueArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", (long)thisValue]];
-        [self.thisNumArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%ld", (long)thisNum]];
+        double thisValue = [self removeOtherChar:self.writeArray[5]] * [self.meterReadingInfo.rate doubleValue];
+        double thisNum = thisValue - [self removeOtherChar:self.lastValueArray[5]];
+        [self.writeArray replaceObjectAtIndex:5 withObject:[BXTGlobal transNum:writeValue]];
+        [self.thisValueArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%.2f", thisValue]];
+        [self.thisNumArray replaceObjectAtIndex:5 withObject:[NSString stringWithFormat:@"%.2f", thisNum]];
+        
+        NSLog(@"%f, %f, %f", thisValue, thisNum, writeValue);
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -189,14 +191,16 @@ typedef NS_ENUM(NSInteger, ReadingType) {
             @strongify(self);
             if ([self.transID isEqualToString:transID])
             {
-                [BXTGlobal showText:@"设备解锁成功" view:self.view completionBlock:^{
+                @weakify(self);
+                [BXTGlobal showText:@"设备解锁成功" completionBlock:^{
+                    @strongify(self);
                     self.unlocked = YES;
                     [self.tableView reloadData];
                 }];
             }
             else
             {
-                [BXTGlobal showText:@"设备不正确，请重试" view:self.view completionBlock:nil];
+                [BXTGlobal showText:@"设备不正确，请重试" completionBlock:nil];
             }
         }];
         [self.navigationController pushViewController:qrcVC animated:YES];
@@ -498,7 +502,7 @@ typedef NS_ENUM(NSInteger, ReadingType) {
                                    [self transToString:lastList.peak_period_num],
                                    [self transToString:lastList.flat_section_num],
                                    [self transToString:lastList.valley_section_num],
-                                   [self transToString:lastList.peak_segment_num ],
+                                   [self transToString:lastList.peak_segment_num],
                                    [self transToString:lastList.total_num], nil];
             self.thisNumArray = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", nil];
             
@@ -552,7 +556,9 @@ typedef NS_ENUM(NSInteger, ReadingType) {
     }
     else if (type == EnergyMeterRecordAdd && [dic[@"returncode"] intValue] == 0)
     {
-        [BXTGlobal showText:@"新建抄表成功" view:self.view completionBlock:^{
+        @weakify(self);
+        [BXTGlobal showText:@"新建抄表成功" completionBlock:^{
+            @strongify(self);
             if (self.delegateSignal)
             {
                 [self.delegateSignal sendNext:nil];

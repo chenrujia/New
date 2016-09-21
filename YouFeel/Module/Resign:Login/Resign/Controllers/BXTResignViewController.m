@@ -99,26 +99,26 @@
             @strongify(self);
             if (![BXTGlobal validateMobile:self.userName])
             {
-                [self showMBP:@"手机号格式不对" withBlock:nil];
+                [BXTGlobal showText:@"手机号格式不对" completionBlock:nil];
             }
             else if (![BXTGlobal validateCAPTCHA:self.codeNumber])
             {
-                [self showMBP:@"请输入正确4位验证码" withBlock:nil];
+                [BXTGlobal showText:@"请输入正确4位验证码" completionBlock:nil];
             }
             else if (![self.codeNumber isEqualToString:self.returncode])
             {
-                [self showMBP:@"验证码不正确" withBlock:nil];
+                [BXTGlobal showText:@"验证码不正确" completionBlock:nil];
             }
             else if (!_isLoginByWX && ![BXTGlobal validatePassword:self.passWord])
             {
-                [self showMBP:@"请输入至少6位密码，仅限英文、数字" withBlock:nil];
+                [BXTGlobal showText:@"请输入至少6位密码，仅限英文、数字" completionBlock:nil];
             }
             else
             {
                 [BXTGlobal setUserProperty:self.userName withKey:U_USERNAME];
                 if (self.isLoginByWX)
                 {
-                    [self showLoadingMBP:@"请稍后..."];
+                    [BXTGlobal showLoadingMBP:@"请稍后..."];
                     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                     NSDictionary *dic = @{@"only_code":[BXTGlobal shareGlobal].openID,
                                           @"mobile":self.userName,
@@ -189,7 +189,7 @@
             
             if ([BXTGlobal validateMobile:self.userName])
             {
-                [self showLoadingMBP:@"正在获取..."];
+                [BXTGlobal showLoadingMBP:@"正在获取..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request mobileVerCode:self.userName type:@"1"];
                 self.codeBtn.userInteractionEnabled = NO;
@@ -198,10 +198,10 @@
             else
             {
                 if ([BXTGlobal isBlankString:self.userName]) {
-                    [self showMBP:@"手机号不能为空" withBlock:nil];
+                    [BXTGlobal showText:@"手机号不能为空" completionBlock:nil];
                 }
                 else {
-                    [self showMBP:@"手机号格式错误" withBlock:nil];
+                    [BXTGlobal showText:@"手机号格式错误" completionBlock:nil];
                 }
             }
         }];
@@ -236,7 +236,7 @@
 - (void)requestResponseData:(id)response
                 requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     NSLog(@"%@",dic);
     if (type == BindingUser && [[dic objectForKey:@"returncode"] integerValue] == 0)
@@ -257,11 +257,11 @@
     }
     else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"004"])
     {
-        [self showMBP:@"该手机已经绑定了其他微信号，请更换手机号" withBlock:nil];
+        [BXTGlobal showText:@"该手机已经绑定了其他微信号，请更换手机号" completionBlock:nil];
     }
     else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"014"])
     {
-        [self showMBP:@"该手机号已绑定其他微信账户" withBlock:nil];
+        [BXTGlobal showText:@"该手机号已绑定其他微信账户" completionBlock:nil];
     }
     else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
@@ -342,10 +342,11 @@
             [self updateTime];
         }
         else if ([[dic objectForKey:@"returncode"] integerValue] == 006) {
-            __weak typeof(self) weakSelf = self;
-            [BXTGlobal showText:@"手机号已注册，请直接登陆" view:self.view completionBlock:^{
-                weakSelf.codeBtn.userInteractionEnabled = YES;
-                [weakSelf.codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            @weakify(self);
+            [BXTGlobal showText:@"手机号已注册，请直接登陆" completionBlock:^{
+                @strongify(self);
+                self.codeBtn.userInteractionEnabled = YES;
+                [self.codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             }];
         }
     }
@@ -367,7 +368,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     if (type == PlaceLists)
     {
         BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];

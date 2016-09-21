@@ -174,7 +174,9 @@
     }
     else if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
     {
-        [BXTGlobal showText:self.introInfo view:self completionBlock:^{
+        @weakify(self);
+        [BXTGlobal showText:self.introInfo completionBlock:^{
+            @strongify(self);
             [self requestDatasource];
         }];
     }

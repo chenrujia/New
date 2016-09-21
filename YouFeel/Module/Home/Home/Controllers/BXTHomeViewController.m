@@ -624,7 +624,7 @@ typedef NS_ENUM(NSInteger, CellType) {
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     NSDictionary *dic = response;
     NSArray *array = [dic objectForKey:@"data"];
@@ -724,7 +724,7 @@ typedef NS_ENUM(NSInteger, CellType) {
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     if (!isConfigInfoSuccess)
     {
         NSMutableArray *arriveArray = [[NSMutableArray alloc] initWithObjects:@"10", @"20", nil];

@@ -62,7 +62,7 @@
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     
     /**获取部门列表**/
     BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
@@ -105,7 +105,7 @@
         }
         else
         {
-            [self showLoadingMBP:@"加载中..."];
+            [BXTGlobal showLoadingMBP:@"加载中..."];
             
             if (self.isCompanyType)
             {
@@ -423,7 +423,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
@@ -439,7 +439,9 @@
     {
         if ([dic[@"returncode"] integerValue] == 0)
         {
-            [BXTGlobal showText:@"项目认证申请成功" view:self.view completionBlock:^{
+            @weakify(self);
+            [BXTGlobal showText:@"项目认证申请成功" completionBlock:^{
+                @strongify(self);
                 if ([BXTGlobal shareGlobal].isLogin)
                 {
                     for (UIViewController *temp in self.navigationController.viewControllers)
@@ -469,7 +471,9 @@
     {
         if ([dic[@"returncode"] integerValue] == 0)
         {
-            [BXTGlobal showText:@"项目认证修改成功" view:self.view completionBlock:^{
+            @weakify(self);
+            [BXTGlobal showText:@"项目认证修改成功" completionBlock:^{
+                @strongify(self);
                 for (UIViewController *temp in self.navigationController.viewControllers)
                 {
                     if ([temp isKindOfClass:[BXTProjectManageViewController class]])
@@ -484,8 +488,10 @@
     }
     else if (type == ModifyBindPlace && [dic[@"returncode"] integerValue] == 0)
     {
-        [BXTGlobal showText:@"常用位置绑定成功" view:self.view completionBlock:^{
-            [self showLoadingMBP:@"加载中..."];
+        @weakify(self);
+        [BXTGlobal showText:@"常用位置绑定成功" completionBlock:^{
+            @strongify(self);
+            [BXTGlobal showLoadingMBP:@"加载中..."];
             BXTDataRequest *fau_request = [[BXTDataRequest alloc] initWithDelegate:self];
             [fau_request authenticationApplyWithShopID:self.transMyProject.shop_id
                                                   type:@"2"
@@ -502,7 +508,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

@@ -54,7 +54,7 @@ static CGFloat const maxTitleScale = 1.3;
     self.subgroupIDArray = [[NSMutableArray alloc] init];
     self.isFirst = YES;
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     
     if (!self.isSystemPush)
     {
@@ -284,7 +284,7 @@ static CGFloat const maxTitleScale = 1.3;
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
@@ -319,7 +319,7 @@ static CGFloat const maxTitleScale = 1.3;
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

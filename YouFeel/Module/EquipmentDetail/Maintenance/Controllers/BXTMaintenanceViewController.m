@@ -120,7 +120,7 @@
             }
         }
         NSString *jsonStr = [self dataToJsonString:dictionary];
-        [self showLoadingMBP:@"正在上传..."];
+        [BXTGlobal showLoadingMBP:@"正在上传..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         if (self.isUpdate)
         {
@@ -442,7 +442,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
@@ -463,7 +463,7 @@
                     [alertCtr addAction:cancelAction];
                     UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"直接提交" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                         @strongify(self);
-                        [self showLoadingMBP:@"加载中..."];
+                        [BXTGlobal showLoadingMBP:@"加载中..."];
                         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                         [request endMaintenceOrder:self.maintenceInfo.maintenceID];
                     }];
@@ -484,7 +484,7 @@
                         }
                         else if ([x integerValue] == 1)
                         {
-                            [self showLoadingMBP:@"加载中..."];
+                            [BXTGlobal showLoadingMBP:@"加载中..."];
                             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                             [request endMaintenceOrder:self.maintenceInfo.maintenceID];
                         }
@@ -495,7 +495,9 @@
             else
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-                [self showMBP:@"新建维保作业成功！" withBlock:^(BOOL hidden) {
+                @weakify(self);
+                [BXTGlobal showText:@"新建维保作业成功！" completionBlock:^{
+                    @strongify(self);
                     [self.navigationController popViewControllerAnimated:YES];
                 }];
             }
@@ -503,27 +505,31 @@
         else if (type == Update_Inspection)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshTable" object:nil];
-            [self showMBP:@"更新维保作业成功！" withBlock:^(BOOL hidden) {
+            @weakify(self);
+            [BXTGlobal showText:@"更新维保作业成功！" completionBlock:^{
+                @strongify(self);
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         }
         else if (type == EndMaintenceOrder)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-            [self showMBP:@"维保任务已结束！" withBlock:^(BOOL hidden) {
+            @weakify(self);
+            [BXTGlobal showText:@"维保任务已结束！" completionBlock:^{
+                @strongify(self);
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         }
     }
     else if ([[dic objectForKey:@"returncode"] isEqual:@"006"])
     {
-        [self showMBP:@"此次作业已经提交，不得重复提交！" withBlock:nil];
+        [BXTGlobal showText:@"此次作业已经提交，不得重复提交！" completionBlock:nil];
     }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

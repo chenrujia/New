@@ -141,7 +141,7 @@
                     // 清除缓存
                     [[SDImageCache sharedImageCache] clearDisk];
                     
-                    [BXTGlobal showText:@"清除成功" view:self.view completionBlock:nil];
+                    [BXTGlobal showText:@"清除成功" completionBlock:nil];
                 }
             } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"确定", nil];
         }
@@ -154,7 +154,7 @@
                     NSArray *conversationArray = @[[NSNumber numberWithInteger:ConversationType_PRIVATE]];
                     [[RCIMClient sharedRCIMClient] clearConversations:conversationArray];
                     
-                    [BXTGlobal showText:@"清除成功" view:self.view completionBlock:nil];
+                    [BXTGlobal showText:@"清除成功" completionBlock:nil];
                 }
             } cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitle:@"确定", nil];
         }
@@ -205,7 +205,7 @@
 
 - (void)vertifyPassword:(NSString *)textStr
 {
-    [self showLoadingMBP:@"正在验证中..."];
+    [BXTGlobal showLoadingMBP:@"正在验证中..."];
     
     NSDictionary *userInfoDic = @{@"username":[BXTGlobal getUserProperty:U_USERNAME],
                                   @"password":textStr,
@@ -219,12 +219,14 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     NSDictionary *dic = response;
     if (type == LoginType && [dic[@"returncode"] intValue] == 0)
     {
-        [BXTGlobal showText:@"验证成功" view:self.view completionBlock:^{
+        @weakify(self);
+        [BXTGlobal showText:@"验证成功" completionBlock:^{
+            @strongify(self);
             // 重置密码
             NSString *userID = [BXTGlobal getUserProperty:U_USERID];
             NSString *username = [BXTGlobal getUserProperty:U_USERNAME];
@@ -238,13 +240,13 @@
     }
     else
     {
-        [BXTGlobal showText:@"密码错误，请重试" view:self.view completionBlock:nil];
+        [BXTGlobal showText:@"密码错误，请重试" completionBlock:nil];
     }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

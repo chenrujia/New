@@ -16,7 +16,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <state key="normal" title="年/月/日"/>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="时间范围：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mt1-iB-Laa">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="时间范围:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mt1-iB-Laa">
                     <constraints>
                         <constraint firstAttribute="width" constant="75" id="tML-t2-gB4"/>
                     </constraints>

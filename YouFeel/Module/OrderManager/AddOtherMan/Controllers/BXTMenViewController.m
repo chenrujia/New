@@ -118,7 +118,7 @@ static const CGFloat UserBackViewSpace = 20.f;
         }
     }
     
-    [self showLoadingMBP:@"请稍候..."];
+    [BXTGlobal showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request maintenanceManList];
 }
@@ -160,7 +160,7 @@ static const CGFloat UserBackViewSpace = 20.f;
         [self.manIDArray addObject:manInfo.mmID];
     }
     NSString *data = [self.manIDArray componentsJoinedByString:@","];
-    [self showLoadingMBP:@"请稍候..."];
+    [BXTGlobal showLoadingMBP:@"请稍候..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request dispatchingMan:self.repairID andMans:data];
 }
@@ -370,7 +370,7 @@ static const CGFloat UserBackViewSpace = 20.f;
 
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == ManList)
@@ -420,7 +420,9 @@ static const CGFloat UserBackViewSpace = 20.f;
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-            [self showMBP:@"操作成功！" withBlock:^(BOOL hidden) {
+            @weakify(self);
+            [BXTGlobal showText:@"操作成功！" completionBlock:^{
+                @strongify(self);
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         }
@@ -429,7 +431,7 @@ static const CGFloat UserBackViewSpace = 20.f;
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

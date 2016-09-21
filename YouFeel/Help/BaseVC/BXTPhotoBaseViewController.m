@@ -438,7 +438,7 @@
             [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
             if (self.photoVCType == SettingVCType)
             {
-                [self showLoadingMBP:@"正在上传..."];
+                [BXTGlobal showLoadingMBP:@"正在上传..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request uploadHeaderImage:headImage];
             }
@@ -468,7 +468,7 @@
                  [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
                  if (self.photoVCType == SettingVCType)
                  {
-                     [self showLoadingMBP:@"正在上传..."];
+                     [BXTGlobal showLoadingMBP:@"正在上传..."];
                      BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                      [request uploadHeaderImage:img];
                  }
@@ -532,7 +532,7 @@
 #pragma mark MLImageCropDelegate
 - (void)cropImage:(UIImage*)cropImage forOriginalImage:(UIImage*)originalImage
 {
-    [self showLoadingMBP:@"正在上传..."];
+    [BXTGlobal showLoadingMBP:@"正在上传..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request uploadHeaderImage:cropImage];
 }
@@ -541,12 +541,12 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

@@ -504,18 +504,18 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
     }
     else if (type == BindingUser && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
-        [BXTGlobal showText:@"绑定微信号成功" view:self.window completionBlock:nil];
+        [BXTGlobal showText:@"绑定微信号成功" completionBlock:nil];
         SaveValueTUD(U_BINDINGWEIXIN, @"2");
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"BindingWeixinNotify" object:nil];
     }
     else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"004"])
     {
-        [BXTGlobal showText:@"该手机已经绑定了其他微信号，请更换手机号" view:self.window completionBlock:nil];
+        [BXTGlobal showText:@"该手机已经绑定了其他微信号，请更换手机号" completionBlock:nil];
     }
     else if (type == BindingUser && [[dic objectForKey:@"returncode"] isEqualToString:@"014"])
     {
-        [BXTGlobal showText:@"该手机号已绑定其他微信账户" view:self.window completionBlock:nil];
+        [BXTGlobal showText:@"该手机号已绑定其他微信账户" completionBlock:nil];
     }
     else
     {

@@ -107,7 +107,7 @@
         @weakify(self);
         [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
-            [self showLoadingMBP:@"正在提交..."];
+            [BXTGlobal showLoadingMBP:@"正在提交..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request evaluateRepair:self.rateArray
                     evaluationNotes:self.notes
@@ -252,24 +252,24 @@
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
-        [self hideMBP];
+        [BXTGlobal hideMBP];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
         @weakify(self);
-        [self showMBP:@"评价成功！" withBlock:^(BOOL hidden) {
+        [BXTGlobal showText:@"评价成功！" completionBlock:^{
             @strongify(self);
             [self.navigationController popViewControllerAnimated:YES];
         }];
     }
     else
     {
-        [self hideMBP];
+        [BXTGlobal hideMBP];
     }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

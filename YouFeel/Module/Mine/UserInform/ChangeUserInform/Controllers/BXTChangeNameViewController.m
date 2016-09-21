@@ -58,13 +58,15 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     NSDictionary *dic = response;
     
     if (type == ModifyUserInform && [dic[@"returncode"] integerValue] == 0)
     {
-        [BXTGlobal showText:@"修改成功" view:self.view completionBlock:^{
+        @weakify(self);
+        [BXTGlobal showText:@"修改成功" completionBlock:^{
+            @strongify(self);
             [BXTGlobal setUserProperty:self.textField.text withKey:U_NAME];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeNameSuccess" object:nil];
@@ -76,7 +78,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

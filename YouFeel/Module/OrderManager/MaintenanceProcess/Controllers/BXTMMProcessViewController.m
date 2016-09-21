@@ -133,7 +133,7 @@
     backView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
     backView.tag = 101;
     [self.view addSubview:backView];
-
+    
     if (section == 2 && self.number)
     {
         [self boxViewWithType:OrderDeviceStateView andTitle:@"设备状态" andData:self.deviceStateArray];
@@ -166,31 +166,31 @@
 {
     if (!self.choosedPlaceInfo)
     {
-        [self showMBP:@"请您确定维修位置" withBlock:nil];
+        [BXTGlobal showText:@"请您确定维修位置" completionBlock:nil];
         return;
     }
     else if (self.deviceInfo && !self.choosedStateInfo)
     {
-        [self showMBP:@"请您确定设备状态" withBlock:nil];
+        [BXTGlobal showText:@"请您确定设备状态" completionBlock:nil];
         return;
     }
     else if (!self.choosedFaultInfo)
     {
-        [self showMBP:@"请您确定故障类型" withBlock:nil];
+        [BXTGlobal showText:@"请您确定故障类型" completionBlock:nil];
         return;
     }
     else if ([self.state isEqualToString:@"1"] && !self.choosedReasonInfo)
     {
-        [self showMBP:@"请您确定未完成原因" withBlock:nil];
+        [BXTGlobal showText:@"请您确定未完成原因" completionBlock:nil];
         return;
     }
     else if (self.number && !self.choosedStateInfo)
     {
-        [self showMBP:@"请您确定设备状态" withBlock:nil];
+        [BXTGlobal showText:@"请您确定设备状态" completionBlock:nil];
         return;
     }
     
-    [self showLoadingMBP:@"请稍后..."];
+    [BXTGlobal showLoadingMBP:@"请稍后..."];
     /**提交维修中状态**/
     NSString *deviceState = nil;
     if (self.choosedStateInfo)
@@ -565,7 +565,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == FaultType)
@@ -595,18 +595,20 @@
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-            __weak typeof(self) weakSelf = self;
-            [self showMBP:@"提交成功！" withBlock:^(BOOL hidden) {
-                [weakSelf.navigationController popViewControllerAnimated:YES];
+            @weakify(self);
+            [BXTGlobal showText:@"提交成功！" completionBlock:^{
+                @strongify(self);
+                [self.navigationController popViewControllerAnimated:YES];
             }];
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-            __weak typeof(self) weakSelf = self;
-            [self showMBP:@"工单已被处理！" withBlock:^(BOOL hidden) {
-                [weakSelf.navigationController popViewControllerAnimated:YES];
+            @weakify(self);
+            [BXTGlobal showText:@"工单已被处理！" completionBlock:^{
+                @strongify(self);
+                [self.navigationController popViewControllerAnimated:YES];
             }];
         }
     }
@@ -614,7 +616,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

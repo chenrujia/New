@@ -172,7 +172,7 @@
 
 - (void)showNextVCWithScanResult:(LBXScanResult*)strResult
 {
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request scanResultWithContent:strResult.strScanned];
 }
@@ -181,7 +181,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSLog(@"扫描结果：%@",dic);
     NSArray *data = [dic objectForKey:@"data"];
@@ -293,7 +293,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 @end

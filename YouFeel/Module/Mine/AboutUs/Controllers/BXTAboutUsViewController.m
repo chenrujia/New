@@ -36,7 +36,7 @@
     
     [self createUI];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         // 关于我们
@@ -168,7 +168,7 @@
     NSDictionary *dic = response;
     if (type == AboutUs && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
-        [self hideMBP];
+        [BXTGlobal hideMBP];
         
         NSArray *array = [dic objectForKey:@"data"];
         self.infoDic = array[0];
@@ -188,7 +188,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 #pragma mark -

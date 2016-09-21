@@ -130,11 +130,11 @@
     {
         if ([BXTGlobal isBlankString:self.passwordTF.text])
         {
-            [self showMBP:@"密码不能为空" withBlock:nil];
+            [BXTGlobal showText:@"密码不能为空" completionBlock:nil];
             return;
         }
         
-        [self showLoadingMBP:@"正在登录..."];
+        [BXTGlobal showLoadingMBP:@"正在登录..."];
         
         [BXTGlobal setUserProperty:self.nameTF.text withKey:U_USERNAME];
         [BXTGlobal setUserProperty:self.passwordTF.text withKey:U_PASSWORD];
@@ -150,11 +150,11 @@
     {
         if ([BXTGlobal isBlankString:self.nameTF.text])
         {
-            [self showMBP:@"手机号不能为空" withBlock:nil];
+            [BXTGlobal showText:@"手机号不能为空" completionBlock:nil];
             return;
         }
         
-        [self showMBP:@"手机号格式错误" withBlock:nil];
+        [BXTGlobal showText:@"手机号格式错误" completionBlock:nil];
     }
 }
 
@@ -195,7 +195,7 @@
 - (void)requestResponseData:(id)response
                 requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"0"])
     {
@@ -273,11 +273,11 @@
     }
     else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
     {
-        [self showMBP:@"用户名或密码错误，请重试" withBlock:nil];
+        [BXTGlobal showText:@"用户名或密码错误，请重试" completionBlock:nil];
     }
     else if (type == LoginType && [[dic objectForKey:@"returncode"] isEqualToString:@"026"])
     {
-        [self showMBP:@"手机号未注册" withBlock:nil];
+        [BXTGlobal showText:@"手机号未注册" completionBlock:nil];
     }
     else if (type == BranchLogin)
     {
@@ -292,7 +292,7 @@
         }
         else
         {
-            [self showMBP:@"用户名或密码错误，请重试" withBlock:nil];
+            [BXTGlobal showText:@"用户名或密码错误，请重试" completionBlock:nil];
         }
     }
     else if (type == BranchLogin && [[dic objectForKey:@"returncode"] isEqualToString:@"002"])
@@ -318,7 +318,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     if (type == PlaceLists)
     {
         BXTDataRequest *location_request = [[BXTDataRequest alloc] initWithDelegate:self];

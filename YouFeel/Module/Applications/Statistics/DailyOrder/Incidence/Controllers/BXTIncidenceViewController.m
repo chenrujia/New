@@ -37,7 +37,7 @@
 {
     NSArray *finalTimeArray = [BXTGlobal transTimeToWhatWeNeed:timeArray];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statisticsFaulttypeWithTimeStart:finalTimeArray[0] timeEnd:finalTimeArray[1]];
 }
@@ -186,7 +186,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     if (self.bciv)
     {
         [self.bciv removeFromSuperview];
@@ -202,7 +202,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

@@ -273,13 +273,14 @@
     }
     else if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
     {
-        __weak __typeof(self) weakSelf = self;
-        [BXTGlobal showText:self.introInfo view:self.view completionBlock:^{
-            if (weakSelf.delegateSignal) {
-                [weakSelf.delegateSignal sendNext:nil];
+        @weakify(self);
+        [BXTGlobal showText:self.introInfo completionBlock:^{
+            @strongify(self);
+            if (self.delegateSignal) {
+                [self.delegateSignal sendNext:nil];
             }
-            weakSelf.currentPage = 1;
-            [weakSelf.tableView.mj_header beginRefreshing];
+            self.currentPage = 1;
+            [self.tableView.mj_header beginRefreshing];
         }];
     }
     

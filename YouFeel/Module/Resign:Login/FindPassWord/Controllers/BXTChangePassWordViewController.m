@@ -92,7 +92,7 @@
         [[nextTapBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self);
             if (![BXTGlobal validatePassword:self.pwAgainStr]) {
-                [BXTGlobal showText:@"密码长度为6~32位，请检查密码" view:self.view completionBlock:nil];
+                [BXTGlobal showText:@"密码长度为6~32位，请检查密码" completionBlock:nil];
                 return ;
             }
             
@@ -104,7 +104,7 @@
             }
             else
             {
-                [BXTGlobal showText:@"两次输入不一致！" view:self.view completionBlock:nil];
+                [BXTGlobal showText:@"两次输入不一致！" completionBlock:nil];
             }
         }];
         [view addSubview:nextTapBtn];
@@ -259,7 +259,7 @@
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             @weakify(self);
-            [self showMBP:@"重设密码成功！" withBlock:^(BOOL hidden) {
+            [BXTGlobal showText:@"重设密码成功！" completionBlock:^{
                 @strongify(self);
                 [BXTGlobal setUserProperty:self.pwStr withKey:U_PASSWORD];
                 

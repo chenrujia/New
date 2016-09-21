@@ -112,17 +112,17 @@ static NSString *cellIndentify = @"resignCellIndentify";
             
             if (![BXTGlobal validateUserName:self.nickName])
             {
-                [self showMBP:@"请输入您的真实姓名" withBlock:nil];
+                [BXTGlobal showText:@"请输入您的真实姓名" completionBlock:nil];
                 return;
             }
             else if (_isLoginByWX && ![BXTGlobal validatePassword:self.passWord])
             {
-                [self showMBP:@"请输入至少6位密码，仅限英文、数字" withBlock:nil];
+                [BXTGlobal showText:@"请输入至少6位密码，仅限英文、数字" completionBlock:nil];
                 return;
             }
             
             [BXTGlobal setUserProperty:@[] withKey:U_MYSHOP];
-            [self showLoadingMBP:@"注册中..."];
+            [BXTGlobal showLoadingMBP:@"注册中..."];
             [BXTGlobal setUserProperty:self.nickName withKey:U_NAME];
             [BXTGlobal setUserProperty:self.sex withKey:U_SEX];
             
@@ -259,7 +259,7 @@ static NSString *cellIndentify = @"resignCellIndentify";
 - (void)requestResponseData:(id)response
                 requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     
     if ([[dic objectForKey:@"state"] integerValue] == 1)
@@ -267,14 +267,16 @@ static NSString *cellIndentify = @"resignCellIndentify";
         NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
         [BXTGlobal setUserProperty:userID withKey:U_USERID];
         // 注册成功
-        [self showMBP:@"注册成功，请登录账户！" withBlock:^(BOOL hidden) {
+        @weakify(self);
+        [BXTGlobal showText:@"注册成功，请登录账户！" completionBlock:^{
+            @strongify(self);
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshLoginVCOFUserName" object:nil];
             [self.navigationController popToRootViewControllerAnimated:YES];
         }];
     }
     else if ([[dic objectForKey:@"returncode"] integerValue] == 6)
     {
-        [self showMBP:@"该手机号已注册，请直接登陆" withBlock:nil];
+        [BXTGlobal showText:@"该手机号已注册，请直接登陆" completionBlock:nil];
     }
     
     //    if (type == BranchResign)
@@ -284,10 +286,10 @@ static NSString *cellIndentify = @"resignCellIndentify";
     //        {
     //            NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
     //            [BXTGlobal setUserProperty:userID withKey:U_BRANCHUSERID];
-    //            [self showMBP:@"注册成功！" withBlock:^(BOOL hidden) {
+    //            [BXTGlobal showText:@"注册成功！" completionBlock:^{
     //                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshLoginVCOFUserName" object:nil];
     //                [self.navigationController popToRootViewControllerAnimated:YES];
-    //                //                [self showLoadingMBP:@"登录中..."];
+    //                //                [BXTGlobal showLoadingMBP:@"登录中..."];
     //                //                /**分店登录**/
     //                //                BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     //                //                [request branchLogin];
@@ -310,20 +312,20 @@ static NSString *cellIndentify = @"resignCellIndentify";
     //            NSString *userID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"finish_id"]];
     //            [BXTGlobal setUserProperty:userID withKey:U_USERID];
     //            //执行分店注册
-    //            [self showLoadingMBP:@"请稍候..."];
+    //            [BXTGlobal showLoadingMBP:@"请稍候..."];
     //            BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     //            [request branchResign];
     //        }
     //        else if ([[dic objectForKey:@"returncode"] integerValue] == 6)
     //        {
-    //            [self showMBP:@"该手机号已注册，请直接登陆" withBlock:nil];
+    //            [BXTGlobal showText:@"该手机号已注册，请直接登陆" completionBlock:nil];
     //        }
     //    }
 }
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

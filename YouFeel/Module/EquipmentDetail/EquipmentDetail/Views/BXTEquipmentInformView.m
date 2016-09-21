@@ -62,7 +62,7 @@
         [[self navigation] pushViewController:newVC animated:YES];
     }];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request equipmentInformation:self.deviceID];
     
@@ -250,7 +250,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
@@ -328,7 +328,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 #pragma mark -
@@ -341,7 +341,7 @@
     NSString *my_userID = [BXTGlobal getUserProperty:U_USERID];
     if ([userInfo.userId isEqualToString:my_userID])
     {
-        [BXTGlobal showText:@"温馨提示：不可与自己对话" view:self completionBlock:nil];
+        [BXTGlobal showText:@"温馨提示：不可与自己对话" completionBlock:nil];
         return ;
     }
     userInfo.name = model.name;

@@ -91,7 +91,7 @@
         
         if (self.notes.length)
         {
-            [self showLoadingMBP:@"请稍候..."];
+            [BXTGlobal showLoadingMBP:@"请稍候..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             if (self.vcType == ExamineVCType)
             {
@@ -110,15 +110,15 @@
         {
             if (self.vcType == ExamineVCType)
             {
-                [self showMBP:@"关闭工单原因不能为空" withBlock:nil];
+                [BXTGlobal showText:@"关闭工单原因不能为空" completionBlock:nil];
             }
             else if (self.vcType == AssignVCType)
             {
-                [self showMBP:@"拒接原因不能为空"  withBlock:nil];
+                [BXTGlobal showText:@"拒接原因不能为空"  completionBlock:nil];
             }
             else if (self.vcType == RejectType)
             {
-                [self showMBP:@"驳回原因不能为空" withBlock:nil];
+                [BXTGlobal showText:@"驳回原因不能为空" completionBlock:nil];
             }
         }
     }];
@@ -185,19 +185,23 @@
 #pragma mark BXTDataRequestDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     if ([[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         if (self.vcType == ExamineVCType)
         {
-            [self showMBP:@"已关闭" withBlock:^(BOOL hidden) {
+            @weakify(self);
+            [BXTGlobal showText:@"已关闭" completionBlock:^{
+                @strongify(self);
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }];
         }
         else if (self.vcType == AssignVCType)
         {
-            [self showMBP:@"已拒接" withBlock:^(BOOL hidden) {
+            @weakify(self);
+            [BXTGlobal showText:@"已拒接" completionBlock:^{
+                @strongify(self);
                 [self.navigationController popToRootViewControllerAnimated:YES];
                 --[BXTGlobal shareGlobal].assignNumber;
                 [[BXTGlobal shareGlobal].assignOrderIDs removeObject:self.currentOrderID];
@@ -206,7 +210,9 @@
         else if (self.vcType == RejectType)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-            [self showMBP:@"已驳回" withBlock:^(BOOL hidden) {
+            @weakify(self);
+            [BXTGlobal showText:@"已驳回" completionBlock:^{
+                @strongify(self);
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }];
         }
@@ -215,7 +221,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

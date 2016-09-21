@@ -104,7 +104,7 @@
 #pragma mark getResource
 - (void)getResource
 {
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request energyMeterFavoriteListsWithType:self.typeStr checkType:self.checkTypeStr page:self.currentPage searchName:@""];
 }
@@ -205,7 +205,7 @@
                 }
                 NSString *idsStr = [idsArray componentsJoinedByString:@","];
                 // TODO: -----------------  调试  -----------------
-                [self showLoadingMBP:@"删除中..."];
+                [BXTGlobal showLoadingMBP:@"删除中..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request energyMeterFavoriteAddWithAboutID:@"" delIDs:idsStr];
             }
@@ -290,7 +290,7 @@
         // 收藏按钮设置
         self.introInfo = [cell.listInfo.is_collect integerValue] == 1 ? @"取消收藏成功" : @"收藏成功";
         
-        [self showLoadingMBP:@"加载中..."];
+        [BXTGlobal showLoadingMBP:@"加载中..."];
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request energyMeterFavoriteAddWithAboutID:cell.listInfo.energyMeterID delIDs:@""];
     }];
@@ -346,7 +346,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
     
@@ -369,16 +369,18 @@
     }
     else if (type == MeterFavoriteAdd && [dic[@"returncode"] integerValue] == 0)
     {
-        __weak __typeof(self) weakSelf = self;
-        [BXTGlobal showText:self.introInfo view:self.view completionBlock:^{
-            [weakSelf getResource];
+        @weakify(self);
+        [BXTGlobal showText:self.introInfo completionBlock:^{
+            @strongify(self);
+            [self getResource];
         }];
     }
     else if (type == MeterFavoriteDel && [dic[@"returncode"] integerValue] == 0)
     {
-        __weak __typeof(self) weakSelf = self;
-        [BXTGlobal showText:@"删除抄表成功" view:self.view completionBlock:^{
-            [weakSelf getResource];
+        @weakify(self);
+        [BXTGlobal showText:@"删除抄表成功" completionBlock:^{
+            @strongify(self);
+            [self getResource];
             [self changeSelectedState:YES];
         }];
     }
@@ -386,7 +388,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
 }

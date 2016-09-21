@@ -292,7 +292,7 @@
             self.selectedBtn = 4;
             [self reloadDataWithIndexOFSelectedRow:self.selectedBtn];
             if (self.selectArray.count == 0) {
-                [BXTGlobal showText:@"租区无数据" view:self completionBlock:^{
+                [BXTGlobal showText:@"租区无数据" completionBlock:^{
                     return ;
                 }];
             } else {
