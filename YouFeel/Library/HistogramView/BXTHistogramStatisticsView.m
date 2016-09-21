@@ -24,7 +24,7 @@
         scrollView.bounces = NO;
         if (50 * datasource.count > sco_width)
         {
-            [scrollView se tContentOffset:CGPointMake(50 * datasource.count - sco_width, 0)];
+            [scrollView setContentOffset:CGPointMake(50 * datasource.count - sco_width, 0)];
         }
         [self addSubview:scrollView];
         
