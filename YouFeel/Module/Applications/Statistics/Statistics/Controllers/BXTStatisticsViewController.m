@@ -39,7 +39,7 @@
     self.MTPlanArray = [[NSMutableArray alloc] init];
     self.EPStateArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request inspectionPlanOverview];
     
@@ -145,7 +145,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     NSDictionary *dic = (NSDictionary *)response;
     if (type == InspectionPlanOverview && [[NSString stringWithFormat:@"%@", dic[@"returncode"]] integerValue] == 0)
@@ -170,7 +170,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     [self createUI];
 }

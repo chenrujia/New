@@ -52,7 +52,7 @@
 
 - (void)getResource
 {
-    [self showLoadingMBP:@"请稍等..."];
+    [BXTGlobal showLoadingMBP:@"请稍等..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOFUserShopLists];
 }
@@ -183,7 +183,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     NSDictionary *dic = response;
     NSArray *data = [dic objectForKey:@"data"];
@@ -231,7 +231,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

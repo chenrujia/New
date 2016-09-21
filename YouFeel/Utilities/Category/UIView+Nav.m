@@ -8,7 +8,6 @@
 
 #import "UIView+Nav.h"
 #import "AppDelegate.h"
-#import "MBProgressHUD.h"
 #import "BXTGlobal.h"
 #import "CYLTabBarController.h"
 
@@ -33,20 +32,6 @@
     }
     
     return nav;
-}
-
-- (void)showLoadingMBP:(NSString *)text
-{
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.label.text = text;
-    hud.margin = 10.f;
-    hud.removeFromSuperViewOnHide = YES;
-}
-
-- (void)hideTheMBP
-{
-    [MBProgressHUD hideHUDForView:self animated:YES];
 }
 
 @end

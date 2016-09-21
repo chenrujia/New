@@ -39,7 +39,7 @@
     self.roundView3.layer.cornerRadius = 5;
     self.roundView4.layer.cornerRadius = 5;
     
-    //    [self showLoadingMBP:@"加载中..."];
+    //    [BXTGlobal showLoadingMBP:@"加载中..."];
     
     
     /**饼状图**/
@@ -133,7 +133,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    //    [self hideMBP];
+    //    [BXTGlobal hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = dic[@"data"];
     if (type == Device_AvailableStatics && data.count > 0)
@@ -145,7 +145,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    //    [self hideMBP];
+    //    [BXTGlobal hideMBP];
 }
 
 - (UINavigationController *)navigation

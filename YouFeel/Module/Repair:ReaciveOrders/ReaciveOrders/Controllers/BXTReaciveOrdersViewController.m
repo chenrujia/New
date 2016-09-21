@@ -101,7 +101,7 @@
         timeName = @"";
     }
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOfRepairOrderWithTaskType:self.taskType
@@ -436,7 +436,7 @@
     
     if (type == RepairList)
     {
-        [self hideMBP];
+        [BXTGlobal hideMBP];
         if (self.currentPage == 1 && self.ordersArray.count > 0)
         {
             [self.ordersArray removeAllObjects];
@@ -456,7 +456,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
 }

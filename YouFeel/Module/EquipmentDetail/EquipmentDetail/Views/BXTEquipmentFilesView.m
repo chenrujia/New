@@ -59,7 +59,7 @@
     }];
     
     [self createUI];
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     [self requestData];
 }
 
@@ -161,7 +161,7 @@
 
 - (void)getResource
 {
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     
     if (self.choosTimeArray.count == 0)
@@ -251,7 +251,7 @@
         {
             [self.choosTimeArray removeAllObjects];
             
-            [self showLoadingMBP:@"加载中..."];
+            [BXTGlobal showLoadingMBP:@"加载中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] deviceID:self.deviceID timestart:@"" timeover:@""];
         }
@@ -263,7 +263,7 @@
             [tfvc.delegateSignal subscribeNext:^(NSArray *timeArray) {
                 @strongify(self);
                 self.choosTimeArray = [[NSMutableArray alloc] initWithArray:timeArray];
-                [self showLoadingMBP:@"加载中..."];
+                [BXTGlobal showLoadingMBP:@"加载中..."];
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request inspectionRecordListWithPagesize:@"5" page:[NSString stringWithFormat:@"%ld", (long)self.currentPage] deviceID:self.deviceID timestart:timeArray[0] timeover:timeArray[1]];
             }];
@@ -328,7 +328,7 @@
 #pragma mark getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Inspection_Record_List)
@@ -386,7 +386,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 @end

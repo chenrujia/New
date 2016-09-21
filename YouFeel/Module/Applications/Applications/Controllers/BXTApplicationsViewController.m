@@ -235,7 +235,7 @@
     }
     else if ([title isEqualToString:@"酒店入住率"])
     {
-        [BXTGlobal showText:@"功能完善中..." view:self.view completionBlock:nil];
+        [BXTGlobal showText:@"功能完善中..." completionBlock:nil];
     }
     
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
@@ -283,7 +283,7 @@
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
-    [BXTGlobal showText:@"请求失败，请重试" view:self.view completionBlock:nil];
+    [BXTGlobal showText:@"请求失败，请重试" completionBlock:nil];
 }
 
 - (void)didReceiveMemoryWarning

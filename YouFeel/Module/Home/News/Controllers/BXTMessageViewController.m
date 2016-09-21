@@ -137,7 +137,7 @@
                 
                 NSString *idsStr = [idsArray componentsJoinedByString:@","];
                 
-                [self showLoadingMBP:@"删除中..."];
+                [BXTGlobal showLoadingMBP:@"删除中..."];
                 /**获取消息**/
                 BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
                 [request deleteNewsWithIDs:idsStr];
@@ -177,7 +177,7 @@
 #pragma mark - getResource
 - (void)getResource
 {
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     /**获取消息**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request newsListWithPage:self.currentPage];
@@ -295,7 +295,7 @@
 #pragma mark 请求返回代理
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
     
@@ -341,7 +341,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
 }

@@ -53,7 +53,7 @@
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     /**设备类型**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request deviceTypeList];
@@ -87,7 +87,8 @@
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
+        [BXTGlobal showText:@"填写完成" completionBlock:^{
+            @strongify(self);
             if (self.delegateSignal) {
                 [self.delegateSignal sendNext:self.transArray];
                 [self.navigationController popViewControllerAnimated:YES];
@@ -455,7 +456,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
@@ -473,7 +474,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

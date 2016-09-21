@@ -187,7 +187,7 @@
 {
     NSArray *finalTimeArray = [BXTGlobal transTimeToWhatWeNeed:timeArray];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statisticsWorkloadWithTimeStart:finalTimeArray[0] timeEnd:finalTimeArray[1] Type:self.typeStr];
 }
@@ -362,7 +362,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
     if (type == Statistics_Workload && data.count > 0)
@@ -378,7 +378,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

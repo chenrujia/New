@@ -920,14 +920,14 @@
         }
         else
         {
-            [self showMBP:@"工单信息获取失败，请稍后重试！" withBlock:nil];
+            [BXTGlobal showText:@"工单信息获取失败，请稍后重试！" completionBlock:nil];
         }
     }
     else if (btnInfo.button_key == 6)
     {
         if ([self.repairDetail.task_type integerValue] == 2)
         {
-            [self showLoadingMBP:@"加载中..."];
+            [BXTGlobal showLoadingMBP:@"加载中..."];
             BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
             [request endMaintenceOrder:self.repairDetail.orderID];
         }
@@ -1013,7 +1013,7 @@
     }
     else
     {
-        [self showMBP:@"此工单正在进行中，不允许删除!" withBlock:nil];
+        [BXTGlobal showText:@"此工单正在进行中，不允许删除!" completionBlock:nil];
     }
 }
 
@@ -1098,7 +1098,9 @@
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
         {
-            [self showMBP:@"工单已被抢！" withBlock:^(BOOL hidden) {
+            @weakify(self);
+            [BXTGlobal showText:@"工单已被抢！" completionBlock:^{
+                @strongify(self);
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         }
@@ -1120,7 +1122,9 @@
     else if (type == EndMaintenceOrder)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-        [self showMBP:@"维保任务已结束！" withBlock:^(BOOL hidden) {
+        @weakify(self);
+        [BXTGlobal showText:@"维保任务已结束！" completionBlock:^{
+            @strongify(self);
             [self.navigationController popViewControllerAnimated:YES];
         }];
     }

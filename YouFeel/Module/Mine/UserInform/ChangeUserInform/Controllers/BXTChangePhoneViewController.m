@@ -37,11 +37,11 @@
     [self.view endEditing:YES];
     
     if (![BXTGlobal validateMobile:self.phoneTextField.text]) {
-        [self showMBP:@"请输入有效的手机号" withBlock:nil];
+        [BXTGlobal showText:@"请输入有效的手机号" completionBlock:nil];
         return;
     }
     if ([BXTGlobal isBlankString:self.messageTextField.text] || ![self.messageTextField.text isEqualToString:self.codeStr]) {
-        [self showMBP:@"请输入正确的验证码" withBlock:nil];
+        [BXTGlobal showText:@"请输入正确的验证码" completionBlock:nil];
         return;
     }
     
@@ -74,7 +74,7 @@
             [self.getCodeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         }
         else {
-            [self showMBP:@"请输入有效的手机号" withBlock:nil];
+            [BXTGlobal showText:@"请输入有效的手机号" completionBlock:nil];
         }
     }];
 }
@@ -86,23 +86,22 @@
     NSDictionary *dic = response;
     if ([dic[@"returncode"] integerValue] == 0 && type == GetVerificationCode)
     {
-        [BXTGlobal showText:@"验证码发送成功" view:self.view completionBlock:nil];
+        [BXTGlobal showText:@"验证码发送成功" completionBlock:nil];
         self.codeStr = [NSString stringWithFormat:@"%@", dic[@"verification_code"]];
     }
     else if (type == GetVerificationCode)
     {
         if ([dic[@"returncode"] integerValue] == 0)
         {
-            [BXTGlobal showText:@"手机号修改成功" view:self.view completionBlock:^{
-                
+            @weakify(self);
+            [BXTGlobal showText:@"手机号修改成功" completionBlock:^{
+                @strongify(self);
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         }
         else if ([dic[@"returncode"] integerValue] == 006)
         {
-            [BXTGlobal showText:@"此手机号已被占用，请尝试找回密码" view:self.view completionBlock:^{
-                
-            }];
+            [BXTGlobal showText:@"此手机号已被占用，请尝试找回密码" completionBlock:nil];
         }
     }
     

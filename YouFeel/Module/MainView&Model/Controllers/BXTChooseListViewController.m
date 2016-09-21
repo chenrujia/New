@@ -55,7 +55,7 @@
     
     [self createUI];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     /**请求分店位置**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
   
@@ -380,7 +380,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     NSArray *array = [dic objectForKey:@"data"];
     
@@ -412,7 +412,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 #pragma mark -

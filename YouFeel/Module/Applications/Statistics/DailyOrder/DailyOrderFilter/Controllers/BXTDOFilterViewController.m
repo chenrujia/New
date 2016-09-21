@@ -56,7 +56,7 @@
     self.selectRow = -1;
     self.mulitSelectArray = [[NSMutableArray alloc] init];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(concurrentQueue, ^{
         /**专业分组**/
@@ -111,7 +111,9 @@
         }
         else
         {
-            [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
+            @weakify(self);
+            [BXTGlobal showText:@"填写完成" completionBlock:^{
+                @strongify(self);
                 if (self.delegateSignal)
                 {
                     [self.delegateSignal sendNext:self.transArray];
@@ -376,7 +378,7 @@
 #pragma mark getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = [dic objectForKey:@"data"];
@@ -463,7 +465,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning

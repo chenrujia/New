@@ -163,7 +163,7 @@
         {
             if (self.selectPhotos.count >= 1)
             {
-                [self showMBP:@"只能选择1张图片" withBlock:nil];
+                [BXTGlobal showText:@"只能选择1张图片" completionBlock:nil];
                 return;
             }
         }
@@ -171,7 +171,7 @@
         {
             if (self.selectPhotos.count >= 3)
             {
-                [self showMBP:@"最多选择3张图片" withBlock:nil];
+                [BXTGlobal showText:@"最多选择3张图片" completionBlock:nil];
                 return;
             }
         }

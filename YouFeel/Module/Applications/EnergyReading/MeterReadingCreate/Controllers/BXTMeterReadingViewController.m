@@ -189,14 +189,16 @@ typedef NS_ENUM(NSInteger, ReadingType) {
             @strongify(self);
             if ([self.transID isEqualToString:transID])
             {
-                [BXTGlobal showText:@"设备解锁成功" view:self.view completionBlock:^{
+                @weakify(self);
+                [BXTGlobal showText:@"设备解锁成功" completionBlock:^{
+                    @strongify(self);
                     self.unlocked = YES;
                     [self.tableView reloadData];
                 }];
             }
             else
             {
-                [BXTGlobal showText:@"设备不正确，请重试" view:self.view completionBlock:nil];
+                [BXTGlobal showText:@"设备不正确，请重试" completionBlock:nil];
             }
         }];
         [self.navigationController pushViewController:qrcVC animated:YES];
@@ -552,7 +554,9 @@ typedef NS_ENUM(NSInteger, ReadingType) {
     }
     else if (type == EnergyMeterRecordAdd && [dic[@"returncode"] intValue] == 0)
     {
-        [BXTGlobal showText:@"新建抄表成功" view:self.view completionBlock:^{
+        @weakify(self);
+        [BXTGlobal showText:@"新建抄表成功" completionBlock:^{
+            @strongify(self);
             if (self.delegateSignal)
             {
                 [self.delegateSignal sendNext:nil];

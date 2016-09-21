@@ -249,14 +249,16 @@
     {
         [BXTGlobal setUserProperty:self.sexStr withKey:U_SEX];
         
-        [BXTGlobal showText:@"修改信息成功" view:self.view completionBlock:^{
+        @weakify(self);
+        [BXTGlobal showText:@"修改信息成功" completionBlock:^{
+            @strongify(self);
             [self refreshDetailArray];
             [self.tableView reloadData];
         }];
     }
     if ([dict[@"returncode"] intValue] == 0 && type == UnBundingUser)
     {
-        [BXTGlobal showText:@"微信解绑成功" view:self.view completionBlock:nil];
+        [BXTGlobal showText:@"微信解绑成功" completionBlock:nil];
         SaveValueTUD(U_BINDINGWEIXIN, @"1");
         
         [self refreshDetailArray];

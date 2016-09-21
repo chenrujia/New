@@ -33,7 +33,7 @@
     
     self.dateStr = @"";
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     /**饼状图**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request statisticsMTCompleteWithDate:@"" Subgroup:@"" FaulttypeType:@""];
@@ -191,7 +191,7 @@
         
         self.dateStr = [self transTimeWithDate:selectedDate];
         
-        [self showLoadingMBP:@"加载中..."];
+        [BXTGlobal showLoadingMBP:@"加载中..."];
         /**饼状图**/
         BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
         [request statisticsMTCompleteWithDate:[self transTimeWithDate:selectedDate] Subgroup:@"" FaulttypeType:@""];
@@ -203,7 +203,7 @@
 #pragma mark - getDataResource
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = (NSDictionary *)response;
     NSArray *data = dic[@"data"];
     if (type == Statistics_MTComplete && data.count > 0)
@@ -217,7 +217,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

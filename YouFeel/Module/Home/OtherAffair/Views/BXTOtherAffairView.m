@@ -80,7 +80,7 @@
 
 - (void)getResource
 {
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     /**获取报修列表**/
     BXTDataRequest *request = [[BXTDataRequest alloc] initWithDelegate:self];
     [request listOFOtherAffairWithHandleState:self.stateStr page:self.currentPage];
@@ -158,7 +158,7 @@
 #pragma mark 请求返回代理
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideTheMBP];
+    [BXTGlobal hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
     
@@ -188,7 +188,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideTheMBP];
+    [BXTGlobal hideMBP];
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
 }

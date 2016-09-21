@@ -683,7 +683,9 @@ static CGFloat const ChooseViewHeight  = 328.f;
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestRepairList" object:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshDeviceCurrentOrders" object:nil];
-            [self showMBP:@"新工单已创建！" withBlock:^(BOOL hidden) {
+            @weakify(self);
+            [BXTGlobal showText:@"新工单已创建！" completionBlock:^{
+                @strongify(self);
                 if ([BXTGlobal shareGlobal].presentNav)
                 {
                     [self dismissViewControllerAnimated:YES completion:^{

@@ -94,7 +94,7 @@
             }
             else
             {
-                [self showMBP:@"手机号格式不对" withBlock:nil];
+                [BXTGlobal showText:@"手机号格式不对" completionBlock:nil];
             }
         }];
         [view addSubview:nextTapBtn];
@@ -159,10 +159,10 @@
             else
             {
                 if ([BXTGlobal isBlankString:self.userName]) {
-                    [self showMBP:@"手机号不能为空" withBlock:nil];
+                    [BXTGlobal showText:@"手机号不能为空" completionBlock:nil];
                 }
                 else {
-                    [self showMBP:@"手机号格式错误" withBlock:nil];
+                    [BXTGlobal showText:@"手机号格式错误" completionBlock:nil];
                 }
             }
         }];
@@ -195,7 +195,7 @@
         }
         else
         {
-            [self showMBP:@"验证码输入有误！" withBlock:nil];
+            [BXTGlobal showText:@"验证码输入有误！" completionBlock:nil];
         }
     }
     else if (type == GetVerificationCode)
@@ -206,10 +206,11 @@
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"026"])
         {
-            __weak typeof(self) weakSelf = self;
-            [BXTGlobal showText:@"手机号还未注册" view:self.view completionBlock:^{
-                weakSelf.codeBtn.userInteractionEnabled = YES;
-                [weakSelf.codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
+            @weakify(self);
+            [BXTGlobal showText:@"手机号还未注册" completionBlock:^{
+                @strongify(self);
+                self.codeBtn.userInteractionEnabled = YES;
+                [self.codeBtn setTitleColor:colorWithHexString(@"3cafff") forState:UIControlStateNormal];
             }];
         }
     }

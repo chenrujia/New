@@ -51,7 +51,7 @@
     timeStr = [timeStr stringByReplacingOccurrencesOfString:@"月" withString:@""];
     
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     /**积分排名列表**/
     BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [dep_request listOFIntegralRankingWithDate:timeStr];
@@ -176,7 +176,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     
     if (type == IntegarlRanking)
@@ -189,7 +189,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

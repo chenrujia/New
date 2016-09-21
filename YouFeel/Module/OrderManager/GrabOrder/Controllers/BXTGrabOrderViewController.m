@@ -188,23 +188,28 @@
     [[self.grabOrderViewModel.grabOrderCommand execute:nil] subscribeNext:^(id x) {
         @strongify(self);
         NSDictionary *dic = x;
-        UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
-            [BXTGlobal showText:@"抢单成功！" view:window completionBlock:^{
+            @weakify(self);
+            [BXTGlobal showText:@"抢单成功！" completionBlock:^{
+                @strongify(self);
                 [self navigationLeftButton];
             }];
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
         {
-            [BXTGlobal showText:@"工单已被抢！" view:window completionBlock:^{
+            @weakify(self);
+            [BXTGlobal showText:@"工单已被抢！" completionBlock:^{
+                @strongify(self);
                 [self navigationLeftButton];
             }];
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"002"])
         {
-            [BXTGlobal showText:@"抢单失败，工单已取消！" view:window completionBlock:^{
+            @weakify(self);
+            [BXTGlobal showText:@"抢单失败，工单已取消！" completionBlock:^{
+                @strongify(self);
                 [self navigationLeftButton];
             }];
         }

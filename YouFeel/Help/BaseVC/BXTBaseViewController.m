@@ -8,10 +8,9 @@
 
 #import "BXTBaseViewController.h"
 #import "BXTHeaderFile.h"
-#import "MBProgressHUD.h"
 #import "BXTProjectManageViewController.h"
 
-@interface BXTBaseViewController () <MBProgressHUDDelegate>
+@interface BXTBaseViewController ()
 
 @property (nonatomic, strong) UIView *navBackView;
 
@@ -136,47 +135,8 @@
     
 }
 
-- (void)showMBP:(NSString *)text withBlock:(HaveHidden)block
-{
-    //把其余的都隐藏了
-    [self hideMBP];
-    _havedHidden = block;
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeText;
-    hud.label.text = text;
-    hud.margin = 10.f;
-    hud.delegate = self;
-    hud.removeFromSuperViewOnHide = YES;
-    [self performSelector:@selector(hideMBP) withObject:nil afterDelay:2.f];
-}
-
-- (void)showLoadingMBP:(NSString *)text
-{
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.label.text = text;
-    hud.margin = 10.f;
-    hud.delegate = self;
-    hud.removeFromSuperViewOnHide = YES;
-}
-
-- (void)hideMBP
-{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    if (_havedHidden)
-    {
-        _havedHidden(YES);
-        _havedHidden = nil;
-    }
-}
-
 #pragma mark -
-#pragma mark MBProgressHUDDelegate
-- (void)hudWasHidden:(MBProgressHUD *)hud
-{
-    [hud removeFromSuperview];
-}
-
+#pragma mark - dataToJsonString
 - (NSString *)dataToJsonString:(id)object
 {
     NSString *jsonString = nil;

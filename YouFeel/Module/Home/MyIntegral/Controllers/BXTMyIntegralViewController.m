@@ -58,7 +58,7 @@
     NSString *timeStr = [self.timeStr stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
     timeStr = [timeStr stringByReplacingOccurrencesOfString:@"月" withString:@""];
     
-    [self showLoadingMBP:@"加载中..."];
+    [BXTGlobal showLoadingMBP:@"加载中..."];
     /**获取我的积分**/
     BXTDataRequest *dep_request = [[BXTDataRequest alloc] initWithDelegate:self];
     [dep_request listOFMyIntegralWithDate:timeStr];
@@ -201,7 +201,7 @@
 #pragma mark BXTDataResponseDelegate
 - (void)requestResponseData:(id)response requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
     NSDictionary *dic = response;
     
     if (type == MyIntegral)
@@ -214,7 +214,7 @@
 
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
-    [self hideMBP];
+    [BXTGlobal hideMBP];
 }
 
 - (void)didReceiveMemoryWarning {

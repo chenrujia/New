@@ -101,7 +101,8 @@
     [[doneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         
-        [BXTGlobal showText:@"填写完成" view:self.view completionBlock:^{
+        [BXTGlobal showText:@"填写完成" completionBlock:^{
+            @strongify(self);
             if (self.delegateSignal) {
                 [self.delegateSignal sendNext:self.transArray];
                 [self.navigationController popViewControllerAnimated:YES];
@@ -479,7 +480,9 @@
 {
     [BXTGlobal hideMBP];
     
-    [self showMBP:@"请求数据失败，请返回重试" withBlock:^(BOOL hidden) {
+    @weakify(self);
+    [BXTGlobal showText:@"请求数据失败，请返回重试" completionBlock:^{
+        @strongify(self);
         [self.navigationController popViewControllerAnimated:YES];
     }];
     
