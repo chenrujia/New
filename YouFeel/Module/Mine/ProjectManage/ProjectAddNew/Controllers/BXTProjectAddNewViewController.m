@@ -54,7 +54,7 @@
 
 - (void)dealloc
 {
-    LogBlue(@"Header界面释放了！！！！！！");
+    NSLog(@"Header界面释放了！！！！！！");
 }
 
 - (instancetype)initWithType:(BOOL)push

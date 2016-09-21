@@ -135,14 +135,13 @@ NSString* const NotificationActionTwoIdent = @"ACTION_TWO";
 {
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     self.device_token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    LogRed(@"deviceToken:%@",_device_token);
+    NSLog(@"deviceToken:%@",_device_token);
     [[RCIMClient sharedRCIMClient] setDeviceToken:_device_token];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler
 {
-    LogRed(@"通知消息1:%@",userInfo);
-    
+    NSLog(@"通知消息1:%@",userInfo);
     /**
      UIApplicationStateActive,活动在前台
      UIApplicationStateInactive,从后台跳入前台（仅仅是代表点击消息进入，而不是点击icon进入）

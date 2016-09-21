@@ -233,6 +233,8 @@ static CGFloat const ChooseViewHeight  = 328.f;
 
 - (void)updateContentView
 {
+    [self.view layoutIfNeeded];
+
     UIView *subview = nil;
     if (self.urgentBV.hidden)
     {
@@ -258,6 +260,7 @@ static CGFloat const ChooseViewHeight  = 328.f;
         [self.photosBV layoutIfNeeded];
         subview = self.photosBV;
     }
+    NSLog(@"subview.frame:%@", NSStringFromCGRect(subview.frame));
     
     if (CGRectGetMaxY(subview.frame) + 20.f > SCREEN_HEIGHT - KNAVIVIEWHEIGHT - 68.f)
     {

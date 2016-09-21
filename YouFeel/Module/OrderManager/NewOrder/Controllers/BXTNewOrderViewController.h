@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *appointmentImgView;
 @property (weak, nonatomic) IBOutlet UIView      *lineView;
 @property (weak, nonatomic) IBOutlet UIImageView *headImgView;
+@property (weak, nonatomic) IBOutlet UIImageView *urgentImgView;
 @property (weak, nonatomic) IBOutlet UILabel     *dispathName;
 @property (weak, nonatomic) IBOutlet UILabel     *departmentName;
 @property (weak, nonatomic) IBOutlet UILabel     *jobName;

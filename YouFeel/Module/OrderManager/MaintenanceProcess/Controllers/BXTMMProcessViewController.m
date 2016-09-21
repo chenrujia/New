@@ -50,6 +50,7 @@
                        repairID:(NSString *)repairID
                         placeID:(NSString *)placeID
                       placeName:(NSString *)placeName
+                  faulttype_pid:(NSString *)pid
                     faultTypeID:(NSString *)faultTypeID
                   faultTypeName:(NSString *)faultTypeName
                  maintenceNotes:(NSString *)notes
@@ -64,6 +65,13 @@
         {
             self.deviceInfo = devices[0];
             self.number = 2;
+        }
+        if ([pid integerValue] > 0 && faultTypeName.length > 0)
+        {
+            BXTFaultInfo *faultInfo = [[BXTFaultInfo alloc] init];
+            faultInfo.fault_id = faultTypeID;
+            faultInfo.faulttype = faultTypeName;
+            self.choosedFaultInfo = faultInfo;
         }
         isDone = YES;
         self.state = @"2";

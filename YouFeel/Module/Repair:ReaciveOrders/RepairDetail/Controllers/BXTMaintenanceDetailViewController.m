@@ -242,7 +242,7 @@
             UIView *deviceView = [self deviceLists:i comingFromDeviceInfo:self.isComingFromDeviceInfo isLast:isLast];
             [self.fifthBV addSubview:deviceView];
         }
-        CGFloat space = self.fouthBV.hidden ? 24.f : 146.f;
+        CGFloat space = self.fouthBV.hidden ? 10.f : 146.f;
         self.sixth_top.constant = space + secondHeight;
         [self.sixthBV layoutIfNeeded];
     }
@@ -509,7 +509,7 @@
 - (void)loadAllOthers
 {
     //有维修报告
-    if ([self.repairDetail.repairstate integerValue] > 3)
+    if ([self.repairDetail.repairstate integerValue] > 3 && [self.repairDetail.task_type integerValue] == 1)
     {
         [self loadMaintenanceReports];
         //有维修后图片
@@ -701,10 +701,11 @@
     }
     if ([self.repairDetail.task_type integerValue] == 2)
     {
-        self.time_width.constant = 290.f;
+        self.time_width.constant = 300.f;
     }
     if ([self.repairDetail.task_type intValue] == 2)
     {
+        self.orderType.backgroundColor = colorWithHexString(@"56C54F");
         self.orderType.text = @"维保";
     }
     self.departmentName.text = repairPerson.department_name;
@@ -861,7 +862,10 @@
     //维修员相关
     [self loadMMList];
     //维修报告相关
-    [self loadMaintenanceReports];
+    if ([self.repairDetail.task_type integerValue] == 1)
+    {
+        [self loadMaintenanceReports];
+    }
     //维修后图片相关
     [self loadFixedPic];
     if (self.repairDetail.evaluation_user_arr.count > 0 && (self.sceneType == MyRepairType || self.sceneType == AllOrderType))
@@ -1031,6 +1035,7 @@
                                                                                        repairID:self.repairDetail.orderID
                                                                                         placeID:self.repairDetail.place_id
                                                                                       placeName:self.repairDetail.place_name
+                                                                                  faulttype_pid:self.repairDetail.faulttype_pid
                                                                                     faultTypeID:self.repairDetail.faulttype_id
                                                                                   faultTypeName:self.repairDetail.faulttype_name
                                                                                  maintenceNotes:mmLog
