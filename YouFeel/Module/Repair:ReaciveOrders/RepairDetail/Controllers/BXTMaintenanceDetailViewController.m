@@ -682,7 +682,7 @@
     self.scroller_bottom.constant = isHaveButtons ? YBottomBackHeight : 0.f;
     [self.contentScrollView layoutIfNeeded];
     //状态相关
-    self.evaluatedImgView.hidden = self.repairDetail.evaluation_user_arr.count > 0 ? NO : YES;
+    self.orderState.text = self.repairDetail.repairstate_name;
     BXTDrawView *drawView = [[BXTDrawView alloc] initWithFrame:CGRectMake(0, 34, SCREEN_WIDTH, StateViewHeight) withProgress:self.repairDetail.progress];
     [self.firstBV addSubview:drawView];
     
@@ -705,7 +705,7 @@
     }
     if ([self.repairDetail.task_type intValue] == 2)
     {
-        self.orderType.image = [UIImage imageNamed:@"Detail_maintenance"];
+        self.orderType.text = @"维保";
     }
     self.departmentName.text = repairPerson.department_name;
     UIFont *font = [UIFont systemFontOfSize:17.f];
@@ -1094,7 +1094,7 @@
         if ([[dic objectForKey:@"returncode"] integerValue] == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReaciveOrderSuccess" object:nil];
-            [self requestDetail];
+            [self.navigationController popViewControllerAnimated:YES];
         }
         else if ([[dic objectForKey:@"returncode"] isEqualToString:@"041"])
         {

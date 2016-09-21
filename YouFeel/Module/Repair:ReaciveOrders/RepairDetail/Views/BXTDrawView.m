@@ -11,6 +11,8 @@
 #import "BXTRepairDetailInfo.h"
 #import "UIView+ZXQuartz.h"
 
+#define YLineWidth 6.f
+
 @implementation BXTDrawView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -35,7 +37,7 @@
     CGFloat x = 40.f;
     CGFloat y = 20.f;
     //最下面那个灰色长条
-    [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(rect.size.width - x, y) withLineWidth:10.f];
+    [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(rect.size.width - x, y) withLineWidth:YLineWidth];
     
     UIColor *greenColor = colorWithHexString(@"45b2fe");
     [greenColor setStroke];
@@ -72,7 +74,7 @@
     else if (progressTwo.state && !progressThree.state)
     {
         [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
-        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
+        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:YLineWidth];
         [[UIColor whiteColor] setFill];
         [self drawCircleWithCenter:CGPointMake(x + space, y) radius:13.f];
         [greenColor setFill];
@@ -92,9 +94,9 @@
     else if (progressThree.state && !progressFour.state)
     {
         [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
-        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
+        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:YLineWidth];
         [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
-        [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:10.f];
+        [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:YLineWidth];
         [[UIColor whiteColor] setFill];
         [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:13.f];
         [greenColor setFill];
@@ -113,11 +115,11 @@
     else if (progressFour.state && !progressFive.state)
     {
         [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
-        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
+        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:YLineWidth];
         [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
-        [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:10.f];
+        [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:YLineWidth];
         [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
-        [self drawLineFrom:CGPointMake(x + space * 2, y) to:CGPointMake(x + space * 3, y) withLineWidth:10.f];
+        [self drawLineFrom:CGPointMake(x + space * 2, y) to:CGPointMake(x + space * 3, y) withLineWidth:YLineWidth];
         [[UIColor whiteColor] setFill];
         [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:13.f];
         [greenColor setFill];
@@ -135,13 +137,13 @@
     else if (progressFive.state)
     {
         [self drawCircleWithCenter:CGPointMake(x, y) radius:10.f];
-        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:10.f];
+        [self drawLineFrom:CGPointMake(x, y) to:CGPointMake(x + space, y) withLineWidth:YLineWidth];
         [self drawCircleWithCenter:CGPointMake(x + space, y) radius:10.f];
-        [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:10.f];
+        [self drawLineFrom:CGPointMake(x + space, y) to:CGPointMake(x + space * 2, y) withLineWidth:YLineWidth];
         [self drawCircleWithCenter:CGPointMake(x + space * 2, y) radius:10.f];
-        [self drawLineFrom:CGPointMake(x + space * 2, y) to:CGPointMake(x + space * 3, y) withLineWidth:10.f];
+        [self drawLineFrom:CGPointMake(x + space * 2, y) to:CGPointMake(x + space * 3, y) withLineWidth:YLineWidth];
         [self drawCircleWithCenter:CGPointMake(x + space * 3, y) radius:10.f];
-        [self drawLineFrom:CGPointMake(x + space * 3, y) to:CGPointMake(x + space * 4, y) withLineWidth:10.f];
+        [self drawLineFrom:CGPointMake(x + space * 3, y) to:CGPointMake(x + space * 4, y) withLineWidth:YLineWidth];
         [[UIColor whiteColor] setFill];
         [self drawCircleWithCenter:CGPointMake(x + space * 4, y) radius:13.f];
         [greenColor setFill];
