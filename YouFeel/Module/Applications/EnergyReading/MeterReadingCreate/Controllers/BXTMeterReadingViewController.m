@@ -260,23 +260,23 @@ typedef NS_ENUM(NSInteger, ReadingType) {
             }
             
             [request energyMeterRecordAddWithAboutID:self.transID
-                                            totalNum:self.thisValueArray[5]
-                                       peakPeriodNum:self.thisValueArray[1]
-                                      flatSectionNum:self.thisValueArray[2]
-                                    valleySectionNum:self.thisValueArray[3]
-                                      peakSegmentNum:self.thisValueArray[4]
+                                            totalNum:[self returnOnlyNumber:self.thisValueArray[5]]
+                                       peakPeriodNum:[self returnOnlyNumber:self.thisValueArray[1]]
+                                      flatSectionNum:[self returnOnlyNumber:self.thisValueArray[2]]
+                                    valleySectionNum:[self returnOnlyNumber:self.thisValueArray[3]]
+                                      peakSegmentNum:[self returnOnlyNumber:self.thisValueArray[4]]
                                             totalPic:@""
                                        peakPeriodPic:self.allPhotoArray[1]
                                       flatSectionPic:self.allPhotoArray[2]
                                     valleySectionPic:self.allPhotoArray[3]
                                       peakSegmentPic:self.allPhotoArray[4]
-                                     remainingEnergy:self.surplusSum
-                                      remainingMoney:self.surplusMoney];
+                                     remainingEnergy:[self returnOnlyNumber:self.surplusSum]
+                                      remainingMoney:[self returnOnlyNumber:self.surplusMoney]];
         }
         else
         {
             [request energyMeterRecordAddWithAboutID:self.transID
-                                            totalNum:self.thisValueArray[1]
+                                            totalNum:[self returnOnlyNumber:self.thisValueArray[1]]
                                        peakPeriodNum:@""
                                       flatSectionNum:@""
                                     valleySectionNum:@""
@@ -286,8 +286,8 @@ typedef NS_ENUM(NSInteger, ReadingType) {
                                       flatSectionPic:@""
                                     valleySectionPic:@""
                                       peakSegmentPic:@""
-                                     remainingEnergy:self.surplusSum
-                                      remainingMoney:self.surplusMoney];
+                                     remainingEnergy:[self returnOnlyNumber:self.surplusSum]
+                                      remainingMoney:[self returnOnlyNumber:self.surplusMoney]];
         }
     }];
     
@@ -596,6 +596,11 @@ typedef NS_ENUM(NSInteger, ReadingType) {
 - (double)removeOtherChar:(NSString *)numStr
 {
     return [[numStr stringByReplacingOccurrencesOfString:@"," withString:@""] doubleValue];
+}
+
+- (NSString *)returnOnlyNumber:(NSString *)numStr
+{
+    return [numStr stringByReplacingOccurrencesOfString:@"," withString:@""];
 }
 
 - (void)didReceiveMemoryWarning

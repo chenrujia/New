@@ -1074,6 +1074,7 @@
 		78AF1A3D1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEnergyTrendHeaderCell.h; sourceTree = "<group>"; };
 		78AF1A3E1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTEnergyTrendHeaderCell.m; sourceTree = "<group>"; };
 		78AF1A3F1D50796A00F6C17A /* BXTEnergyTrendHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXTEnergyTrendHeaderCell.xib; sourceTree = "<group>"; };
+		78BD14EF1D922F4E002010C8 /* YouFeel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YouFeel.entitlements; sourceTree = "<group>"; };
 		78C55A571C47339700FFEB37 /* BXTCurrentOrderData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTCurrentOrderData.h; sourceTree = "<group>"; };
 		78C55A581C47339700FFEB37 /* BXTCurrentOrderData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXTCurrentOrderData.m; sourceTree = "<group>"; };
 		78C55A5C1C47339700FFEB37 /* BXTEquipmentControlUserArr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXTEquipmentControlUserArr.h; sourceTree = "<group>"; };
@@ -4466,6 +4467,7 @@
 		9652AB011BC902DF009A666D /* YouFeel */ = {
 			isa = PBXGroup;
 			children = (
+				78BD14EF1D922F4E002010C8 /* YouFeel.entitlements */,
 				9652AB051BC902DF009A666D /* AppDelegate.h */,
 				9652AB061BC902DF009A666D /* AppDelegate.m */,
 				9652AB2F1BC9069B009A666D /* Help */,
@@ -4978,6 +4980,9 @@
 							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
 							};
 						};
 					};
@@ -5814,6 +5819,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = YouFeel/YouFeel.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
@@ -5852,6 +5858,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = YouFeel/YouFeel.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;

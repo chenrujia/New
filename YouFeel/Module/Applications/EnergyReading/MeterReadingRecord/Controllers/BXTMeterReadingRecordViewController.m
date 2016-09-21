@@ -654,7 +654,7 @@
 
 - (UILabel *)createLabelWithTitle:(NSString *)titleStr content:(NSString *)content labelY:(CGFloat)labelY
 {
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, labelY, 70, 17)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, labelY, 75, 17)];
     titleLabel.text = titleStr;
     titleLabel.font = [UIFont systemFontOfSize:14];
     [self.headerView.bgFooterView addSubview:titleLabel];
