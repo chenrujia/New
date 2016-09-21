@@ -2,6 +2,34 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSVideoSubscriberAccountUsageDescription</key>
+	<string>APP需要您的同意才能访问电视资源</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>APP需要您的同意才能访问语音识别</string>
+	<key>NSSiriUsageDescription</key>
+	<string>APP需要您的同意才能访问Siri</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>APP需要您的同意才能访问提醒事项</string>
+	<key>kTCCServiceMediaLibrary</key>
+	<string>APP需要您的同意才能访问音乐</string>
+	<key>NSMotionUsageDescription</key>
+	<string>APP需要您的同意才能访问运动与健康</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>APP需要您的同意才能访问麦克风</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>APP需要您的同意才能访问多媒体</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>APP需要您的同意才能使用时访问地址</string>
+	<key>NSHomeKitUsageDescription</key>
+	<string>APP需要您的同意才能访问家庭</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>APP需要您的同意才能访问健康更新</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>APP需要您的同意才能访问健康分享</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>APP需要您的同意才能访问日历</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>APP需要您的同意才能访问蓝牙</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -66,15 +94,19 @@
 	<string>APP需要您的同意才能始终访问位置</string>
 	<key>NSLocationUsageDescription</key>
 	<string>APP需要您的同意才能访问位置</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>APP需要您的同意才能访问相册</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
+		<string>bluetooth-central</string>
+		<string>bluetooth-peripheral</string>
+		<string>external-accessory</string>
+		<string>fetch</string>
 		<string>location</string>
+		<string>newsstand-content</string>
 		<string>remote-notification</string>
+		<string>voip</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
