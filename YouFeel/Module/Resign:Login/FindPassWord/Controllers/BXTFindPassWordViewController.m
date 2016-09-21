@@ -24,7 +24,7 @@
 
 - (void)dealloc
 {
-    LogBlue(@"找回密码界面释放了！！！！！！");
+    NSLog(@"找回密码界面释放了！！！！！！");
 }
 
 - (void)viewDidLoad

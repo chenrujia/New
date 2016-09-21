@@ -72,6 +72,7 @@
             [self.repairTimeLabel layoutIfNeeded];
         }
         self.repairTimeLabel.attributedText = self.grabOrderViewModel.r_p_time;
+        self.urgentImgView.hidden = [self.grabOrderViewModel.orderDetail.timeout_state integerValue] == 5 ? NO : YES;
         // 位置
         self.placeLabel.text = self.grabOrderViewModel.orderDetail.place_name;
         [self.view layoutIfNeeded];

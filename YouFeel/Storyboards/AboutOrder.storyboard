@@ -5165,6 +5165,7 @@
                         <outlet property="third_bg_view" destination="f72-DY-rni" id="p73-YN-FOl"/>
                         <outlet property="third_view_height" destination="vba-yk-XDG" id="08f-KX-lrT"/>
                         <outlet property="time_right" destination="qpL-F8-g9t" id="KrO-xy-Dvm"/>
+                        <outlet property="urgentImgView" destination="gJK-GU-7VZ" id="pC6-30-uXf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="se6-Bv-1gf" userLabel="First Responder" sceneMemberID="firstResponder"/>

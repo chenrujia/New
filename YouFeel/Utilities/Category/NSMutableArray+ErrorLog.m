@@ -12,7 +12,7 @@
 
 @implementation NSMutableArray (ErrorLog)
 
-+(void)load
++ (void)load
 {
     //交换方法（防错措施）
     Method originAddMethod = class_getInstanceMethod(NSClassFromString(@"__NSArrayM"), @selector(addObject:));

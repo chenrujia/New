@@ -18,6 +18,7 @@
                        repairID:(NSString *)repairID
                         placeID:(NSString *)placeID
                       placeName:(NSString *)placeName
+                  faulttype_pid:(NSString *)pid
                     faultTypeID:(NSString *)faultTypeID
                   faultTypeName:(NSString *)faultTypeName
                  maintenceNotes:(NSString *)notes

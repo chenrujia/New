@@ -30,7 +30,8 @@
 @property (nonatomic, strong) NSArray<BXTMaintenanceManInfo *> *repair_user_arr;
 @property (nonatomic, copy  ) NSString                         *orderid;
 @property (nonatomic, copy  ) NSString                         *is_appointment;
-@property (nonatomic, copy)   NSString                         *faulttype_id;
+@property (nonatomic, copy  ) NSString                         *faulttype_pid;
+@property (nonatomic, copy  ) NSString                         *faulttype_id;
 @property (nonatomic, copy  ) NSString                         *faulttype_name;
 @property (nonatomic, copy  ) NSString                         *department_id;
 @property (nonatomic, copy  ) NSString                         *orderID;
@@ -40,6 +41,7 @@
 @property (nonatomic, copy  ) NSString                         *fault_time_name;
 @property (nonatomic, copy  ) NSString                         *subgroup_name;
 @property (nonatomic, copy  ) NSString                         *task_type;
+@property (nonatomic, copy  ) NSString                         *timeout_state;
 @property (nonatomic, copy  ) NSString                         *evaluation_notes;
 @property (nonatomic, copy  ) NSString                         *evaluation_time_name;
 @property (nonatomic, strong) NSArray<BXTMaintenanceManInfo *> *dispatch_user_arr;

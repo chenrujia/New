@@ -238,7 +238,7 @@
 {
     [BXTGlobal hideMBP];
     NSDictionary *dic = response;
-    LogRed(@"%@",dic);
+    NSLog(@"%@",dic);
     if (type == BindingUser && [[dic objectForKey:@"returncode"] integerValue] == 0)
     {
         NSDictionary *userInfoDic = @{@"username":@"",
