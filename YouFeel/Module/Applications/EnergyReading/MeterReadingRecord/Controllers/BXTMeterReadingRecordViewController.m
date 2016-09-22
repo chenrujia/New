@@ -290,7 +290,7 @@
     {
         [self.hisView removeFromSuperview];
     }
-    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.filterView_chart.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) lists:self.monthListInfo.lists kwhMeasure:maxNumber kwhNumber:4 statisticsType:MonthType];
+    self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.filterView_chart.frame) + 10, SCREEN_WIDTH - 20.f, 470.f) lists:self.monthListInfo.lists kwhMeasure:maxNumber kwhNumber:4 statisticsType:MonthType unit:self.monthListInfo.unit];
     self.hisView.footerView.roundView02.hidden = YES;
     self.hisView.footerView.windView.hidden = YES;
     self.hisView.backgroundColor = [UIColor whiteColor];

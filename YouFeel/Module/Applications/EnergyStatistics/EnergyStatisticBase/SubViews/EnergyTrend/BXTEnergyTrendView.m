@@ -50,6 +50,8 @@
 ///** ---- 显示逻辑 ---- */
 @property (nonatomic, copy) NSString *showInfoStr;
 
+@property (nonatomic, copy) NSString *unitStr;
+
 @end
 
 @implementation BXTEnergyTrendView
@@ -237,20 +239,20 @@
         
         if (self.vcType == ViewControllerTypeOFNone) {
             if (self.showCost) {
-                self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:BudgetYearType];
+                self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:BudgetYearType unit:self.unitStr];
             }
             else {
-                self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:EnergyYearType];
+                self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:EnergyYearType unit:self.unitStr];
             }
             cell.timeView.text = [NSString stringWithFormat:@"时间：%@年", trendInfo.year];
         }
         else {
             
             if (self.showCost) {
-                self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:BudgetMonthType];
+                self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:BudgetMonthType unit:self.unitStr];
             }
             else {
-                self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:EnergyMonthType];
+                self.hisView = [[BXTHistogramStatisticsView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20.f, 370) lists:self.energyArray kwhMeasure:self.inn kwhNumber:4 statisticsType:EnergyMonthType unit:self.unitStr];
             }
             cell.timeView.text = [NSString stringWithFormat:@"时间：%@年%@月", trendInfo.year, trendInfo.month];
         }
@@ -508,6 +510,7 @@
     NSArray *data = dic[@"data"];
     if (type == EfficiencyTrendMonth)
     {
+        self.unitStr = dic[@"unit"];
         self.energyArray = [[NSMutableArray alloc] init];
         [self.energyArray addObjectsFromArray:[BXTEnergyTrendInfo mj_objectArrayWithKeyValuesArray:data]];
         
@@ -515,6 +518,7 @@
     }
     else if (type == EfficiencyTrendYear)
     {
+        self.unitStr = dic[@"unit"];
         self.energyArray = [[NSMutableArray alloc] init];
         [self.energyArray addObjectsFromArray:[BXTEnergyTrendInfo mj_objectArrayWithKeyValuesArray:data]];
         

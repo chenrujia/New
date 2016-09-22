@@ -16,6 +16,7 @@
 #import "BXTDeviceStateViewController.h"
 #import "UIImageView+WebCache.h"
 #import "BXTEquipmentViewController.h"
+#import "BXTMaintenanceDetailViewController.h"
 
 @interface BXTMaintenanceViewController ()<BXTDataResponseDelegate,CLLocationManagerDelegate>
 {
@@ -448,7 +449,6 @@
     {
         if (type == Add_Inspection)
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshTable" object:nil];
             if ([[dic objectForKey:@"last_state"] integerValue] == 2)
             {
                 if (IS_IOS_8)
@@ -457,8 +457,7 @@
                     @weakify(self);
                     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"稍后提交" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                         @strongify(self);
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-                        [self.navigationController popViewControllerAnimated:YES];
+                        [self popToBXTEquipmentViewController];
                     }];
                     [alertCtr addAction:cancelAction];
                     UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"直接提交" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -479,8 +478,7 @@
                         @strongify(self);
                         if ([x integerValue] == 0)
                         {
-                            [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
-                            [self.navigationController popViewControllerAnimated:YES];
+                            [self popToBXTEquipmentViewController];
                         }
                         else if ([x integerValue] == 1)
                         {
@@ -494,30 +492,27 @@
             }
             else
             {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
                 @weakify(self);
                 [BXTGlobal showText:@"新建维保作业成功！" completionBlock:^{
                     @strongify(self);
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [self popToBXTEquipmentViewController];
                 }];
             }
         }
         else if (type == Update_Inspection)
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshTable" object:nil];
             @weakify(self);
             [BXTGlobal showText:@"更新维保作业成功！" completionBlock:^{
                 @strongify(self);
-                [self.navigationController popViewControllerAnimated:YES];
+                [self popToBXTEquipmentViewController];
             }];
         }
         else if (type == EndMaintenceOrder)
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
             @weakify(self);
             [BXTGlobal showText:@"维保任务已结束！" completionBlock:^{
                 @strongify(self);
-                [self.navigationController popViewControllerAnimated:YES];
+                [self popToBXTEquipmentViewController];
             }];
         }
     }
@@ -530,6 +525,16 @@
 - (void)requestError:(NSError *)error requeseType:(RequestType)type
 {
     [BXTGlobal hideMBP];
+}
+
+- (void)popToBXTEquipmentViewController
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"RequestDetail" object:nil];
+    for (UIViewController *temp in self.navigationController.viewControllers) {
+        if ([temp isKindOfClass:[BXTMaintenanceDetailViewController class]]) {
+            [self.navigationController popToViewController:temp animated:YES];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning

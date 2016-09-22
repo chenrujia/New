@@ -49,14 +49,6 @@
     self.titleArray = @[@"全部", @"时间范围"];
     self.dataArray = [[NSMutableArray alloc] init];
     self.maintencesArray = [[NSMutableArray alloc] init];
-    @weakify(self);
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshTable" object:nil] subscribeNext:^(id x) {
-        @strongify(self);
-        self.currentPage = 1;
-        [self.dataArray removeAllObjects];
-        [self.maintencesArray removeAllObjects];
-        [self requestData];
-    }];
     
     [self createUI];
     [BXTGlobal showLoadingMBP:@"加载中..."];

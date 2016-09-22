@@ -11,7 +11,7 @@
 
 @implementation BXTHistogramStatisticsView
 
-- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number statisticsType:(StatisticsType)s_type
+- (instancetype)initWithFrame:(CGRect)frame lists:(NSArray *)datasource kwhMeasure:(NSInteger)measure kwhNumber:(NSInteger)number statisticsType:(StatisticsType)s_type unit:(NSString *)unit
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -24,7 +24,7 @@
         scrollView.bounces = NO;
         if (50 * datasource.count > sco_width)
         {
-            [scrollView se tContentOffset:CGPointMake(50 * datasource.count - sco_width, 0)];
+            [scrollView setContentOffset:CGPointMake(50 * datasource.count - sco_width, 0)];
         }
         [self addSubview:scrollView];
         
@@ -37,7 +37,7 @@
             firstkwhLabel.numberOfLines = 0;
             firstkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             firstkwhLabel.font = [UIFont systemFontOfSize:11.f];
-            NSString *unitStr = @"Kwh";
+            NSString *unitStr = unit;
             if (s_type == BudgetYearType || s_type == BudgetMonthType) {
                 unitStr = @"元";
             }
@@ -163,7 +163,7 @@
             firstkwhLabel.numberOfLines = 0;
             firstkwhLabel.textColor = colorWithHexString(@"6D6E6F");
             firstkwhLabel.font = [UIFont systemFontOfSize:11.f];
-            NSString *unitStr = @"Kwh";
+            NSString *unitStr = unit;
             if (s_type == BudgetYearType || s_type == BudgetMonthType) {
                 unitStr = @"元";
             }

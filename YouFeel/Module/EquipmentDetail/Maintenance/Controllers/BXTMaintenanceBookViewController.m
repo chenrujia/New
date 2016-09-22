@@ -50,11 +50,6 @@
     [super viewDidLoad];
     [self navigationSetting:@"维保作业书" andRightTitle:nil andRightImage:nil];
     [self.currentTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
-    @weakify(self);
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"RefreshTable" object:nil] subscribeNext:^(id x) {
-        @strongify(self);
-        [self requestDate];
-    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
