@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *differenceNumView;
 @property (weak, nonatomic) IBOutlet UILabel *differenceRateView;
 
+@property (nonatomic, copy) NSString *unitStr;
+
 @property (nonatomic, strong) BXTEnergyTrendInfo *energyTrendInfo;
 @property (nonatomic, strong) BXTEnergyTrendInfo *moneyTrendInfo;
 

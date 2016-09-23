@@ -28,18 +28,18 @@
 {
     _energyTrendInfo = energyTrendInfo;
     
-    self.consumptionView.text = [NSString stringWithFormat:@"总能耗：%@ Kwh", [BXTGlobal transNum:energyTrendInfo.energy_consumption]];
-    self.unitConsumptionView.text = [NSString stringWithFormat:@"单位面积能耗：%@ Kwh", [BXTGlobal transNum:energyTrendInfo.energy_consumption_unit_area]];
+    self.consumptionView.text = [NSString stringWithFormat:@"总能耗：%@ %@", [BXTGlobal transNum:energyTrendInfo.energy_consumption], self.unitStr];
+    self.unitConsumptionView.text = [NSString stringWithFormat:@"单位面积能耗：%@ %@", [BXTGlobal transNum:energyTrendInfo.energy_consumption_unit_area], self.unitStr];
     
-    self.circleView.text = [NSString stringWithFormat:@"环比: %@ Kwh", [BXTGlobal transNum:energyTrendInfo.mom_energy_consumption]];
+    self.circleView.text = [NSString stringWithFormat:@"环比: %@ %@", [BXTGlobal transNum:energyTrendInfo.mom_energy_consumption], self.unitStr];
     self.circleImageView.image = [self judgeImage:energyTrendInfo.mom_energy_consumption_sign];
     self.circleNumView.text = [NSString stringWithFormat:@"%@", energyTrendInfo.mom_energy_consumption_per];
     
-    self.similarView.text = [NSString stringWithFormat:@"同比: %@ Kwh", [BXTGlobal transNum:energyTrendInfo.an_energy_consumption]];
+    self.similarView.text = [NSString stringWithFormat:@"同比: %@ %@", [BXTGlobal transNum:energyTrendInfo.an_energy_consumption], self.unitStr];
     self.similarImageView.image = [self judgeImage:energyTrendInfo.an_energy_consumption_sign];
     self.similarNumView.text = [NSString stringWithFormat:@"%@", energyTrendInfo.an_energy_consumption_per];
     
-    self.trueNumView.text = [NSString stringWithFormat:@"绝对能耗: %@ Kwh", [BXTGlobal transNum:energyTrendInfo.true_energy_consumption]];
+    self.trueNumView.text = [NSString stringWithFormat:@"绝对能耗: %@ %@", [BXTGlobal transNum:energyTrendInfo.true_energy_consumption], self.unitStr];
     self.statisticErrorView.text = [NSString stringWithFormat:@"统计误差: %@", [BXTGlobal transNum:energyTrendInfo.true_energy_consumption_diff]];
 }
 

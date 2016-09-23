@@ -26,6 +26,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *trueNumView;
 @property (weak, nonatomic) IBOutlet UILabel *statisticErrorView;
 
+@property (nonatomic, copy) NSString *unitStr;
+
 @property (nonatomic, strong) BXTEnergyTrendInfo *energyTrendInfo;
 @property (nonatomic, strong) BXTEnergyTrendInfo *moneyTrendInfo;
 

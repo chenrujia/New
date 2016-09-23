@@ -96,9 +96,6 @@
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.vcType == ViewControllerTypeOFYear) {
-        return self.chartDataArray.count;
-    }
     return self.dataArray.count;
 }
 

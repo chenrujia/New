@@ -570,7 +570,11 @@
         cell.sumShowView.text = [NSString stringWithFormat:@"总金额\r%ld元", (long)self.edInfo.total.money];
     }
     else {
-        cell.sumShowView.text = [NSString stringWithFormat:@"总能耗\r%ldKwh", (long)self.edInfo.total.energy_consumption];
+        NSString *unitStr = self.edInfo.unit;
+        if (!self.edInfo.unit) {
+            unitStr = @"";
+        }
+        cell.sumShowView.text = [NSString stringWithFormat:@"总能耗\r%ld%@", (long)self.edInfo.total.energy_consumption, unitStr];
     }
     
     

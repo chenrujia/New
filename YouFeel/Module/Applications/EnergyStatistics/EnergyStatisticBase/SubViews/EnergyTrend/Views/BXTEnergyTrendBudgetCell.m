@@ -28,8 +28,8 @@
 {
     _energyTrendInfo = energyTrendInfo;
     
-    self.budgeView.text = [NSString stringWithFormat:@"预算：%@ Kwh", [BXTGlobal transNum:energyTrendInfo.energy_consumption_budget]];
-    self.differenceNumView.text = [NSString stringWithFormat:@"差异量：%@ Kwh", [BXTGlobal transNum:energyTrendInfo.energy_consumption_budget_diff]];
+    self.budgeView.text = [NSString stringWithFormat:@"预算：%@ %@", [BXTGlobal transNum:energyTrendInfo.energy_consumption_budget], self.unitStr];
+    self.differenceNumView.text = [NSString stringWithFormat:@"差异量：%@ %@", [BXTGlobal transNum:energyTrendInfo.energy_consumption_budget_diff], self.unitStr];
     self.differenceRateView.text = [NSString stringWithFormat:@"差异率：%@", energyTrendInfo.energy_consumption_budget_diff_per];
 }
 

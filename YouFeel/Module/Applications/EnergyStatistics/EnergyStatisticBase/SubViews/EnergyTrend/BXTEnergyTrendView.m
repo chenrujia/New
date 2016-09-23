@@ -18,6 +18,9 @@
 
 @interface BXTEnergyTrendView () <BXTDataResponseDelegate>
 
+/** ---- 初始过HSView ---- */
+@property (nonatomic, assign) BOOL notInitHSView;
+
 @property (nonatomic, strong) BXTHistogramStatisticsView *hisView;
 @property (nonatomic, strong) NSMutableArray *energyArray;
 @property (nonatomic, assign) NSInteger inn;
@@ -105,6 +108,8 @@
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"BXTHistogramViewSelectIndex" object:nil] subscribeNext:^(NSNotification *notify) {
         @strongify(self);
+        
+        self.notInitHSView = YES;
         
         NSDictionary *dict = [notify userInfo];
         StatisticsType statisticsType = [dict[@"s_type"] integerValue];
@@ -222,10 +227,20 @@
     
     BXTEnergyTrendInfo *trendInfo;
     if (self.vcType == ViewControllerTypeOFNone) {
-        trendInfo = self.energyArray[self.selectedSecondIndex];
+        if (self.notInitHSView) {
+            trendInfo = self.energyArray[self.selectedSecondIndex];
+        } else {
+            trendInfo = self.energyArray[self.energyArray.count - 1];
+        }
+        
     }
     else {
-        trendInfo = self.energyArray[self.selectedFirstIndex];
+        if (self.notInitHSView) {
+            trendInfo = self.energyArray[self.selectedFirstIndex];
+        } else {
+            trendInfo = self.energyArray[self.energyArray.count - 1];
+        }
+        
     }
     
     if (indexPath.section == 0)
@@ -355,6 +370,8 @@
         if (self.selectedBtn >= 3) {
             BXTEnergyTrendHiddenCell *cell = [BXTEnergyTrendHiddenCell cellWithTableView:tableView];
             
+            cell.unitStr = self.unitStr;
+            
             if (self.vcType == ViewControllerTypeOFNone) {
                 cell.similarView.hidden = YES;
                 cell.similarImageView.hidden = YES;
@@ -384,6 +401,7 @@
         
         BXTEnergyTrendCell *cell = [BXTEnergyTrendCell cellWithTableView:tableView];
         
+        cell.unitStr = self.unitStr;
         if (self.selectedBtn == 3 && [self.showInfoArray[3] isEqualToString:@">公区"]) {
             cell.trueNumView.hidden = NO;
             cell.statisticErrorView.hidden = NO;
@@ -409,6 +427,7 @@
     
     BXTEnergyTrendBudgetCell *cell = [BXTEnergyTrendBudgetCell cellWithTableView:tableView];
     
+    cell.unitStr = self.unitStr;
     if (self.showCost) {
         cell.moneyTrendInfo = trendInfo;
     } else {
